@@ -8,7 +8,7 @@ ainda nao e a versao do trabalho, vou seguir adaptando conforme o vasco vence
 */
 
 
-typedef unsigned char Key;//so a informacao
+typedef char* Key;//palavra
 typedef unsigned char Index;
 typedef unsigned char Dib;//death in bits?????
 //define o tipo do no da arvore
