@@ -124,7 +124,7 @@ patTree createInternalNode( int i, patTree *left, patTree *right){
     p->Node.internalNode.index = i; //armazena o index de diferenca
     return p;
 }
-patTree createExternalNode(Key k, patTree left, patTree right){
+patTree createExternalNode(Key k) {
     patTree p;
     p = (patTree)malloc(sizeof(patNode));
     if (p == NULL) {
@@ -132,7 +132,7 @@ patTree createExternalNode(Key k, patTree left, patTree right){
         exit(EXIT_FAILURE);
     }
     p->nt = external;
-    p->Node.externalNodeData.key = strdup(k); //duplica a string pra arranjar memoria sla
+    p->Node.externalNodeData.key = strdup(k); // Duplicate the string to manage memory
     if (p->Node.externalNodeData.key == NULL) {
         perror("Failed to duplicate key string");
         exit(EXIT_FAILURE);
@@ -179,33 +179,36 @@ patTree search(Key k, patTree t){
 insere uma nova chave k na árvore, criando nós internos e externos conforme necessário,
  usando o bit na posição i como ponto de divisão.
 */
-patTree insertBetween( Key k, patTree *t, int i){
+patTree insertBetween( Key k, patTree *t, Index i, int idDocNew, int qtdeNew){
     patTree p;
+    p = createExternalNode(k);//cria um novo no externo 
     if(isExternal(*t) || i < (*t)->Node.internalNode.index){
-        //cria um novo no externo 
-        p = createExternalNode(k);
+        
         if (bit(i,k) == 1){
-            return (createInternalNode(i,t, &p));
+            return (createInternalNode(i,*t, p));
         }else{
-            return (createInternalNode(i, &p, t));
+            return (createInternalNode(i, p, *t));
         }
     }else{
         if(bit((*t)->Node.internalNode.index, k) == 1){
-            (*t)->Node.internalNode.right = insertBetween(k,&(*t)->Node.internalNode.right, i);
+            (*t)->Node.internalNode.right = insertBetween(k,&(*t)->Node.internalNode.right, i, idDocNew, qtdeNew);
         }else{
-            (*t)->Node.internalNode.left = insertBetween(k,&(*t)->Node.internalNode.left, i);
+            (*t)->Node.internalNode.left = insertBetween(k,&(*t)->Node.internalNode.left, i, idDocNew, qtdeNew);
         }
         return (*t);
     }
 }
 
-patTree insert(Key k, patTree *t){
+patTree insert(Key k, patTree *t, int idDoc){
     patTree p;
-    int i;
+    Index i;
     if (*t == NULL){
-        return (createExternalNode(k));
+        p = createExternalNode(k);
+        addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), 1, idDoc);
+        return p;
     }else{
         p = *t;
+        //percorrer a arvore ate achar o potencial no externo
         while(!isExternal(p)){
             if(bit(p->Node.internalNode.index, k) == 1){
                 p = p->Node.internalNode.right;
@@ -215,13 +218,34 @@ patTree insert(Key k, patTree *t){
         }
     }
     //apos achar o primeiro bit que difere
-    i = 1;
-    while((i <= D) & (bit((int)i,k) == bit((int)i, p->Node.key)))i++;
-    if (i > D){
-        printf("Error, already in tree\n");
-        return (*t);
-    }else{
-        return (insertBetween(k,t,i));
+    //comparar 'k' com a chave em 'p'
+    if (strcmp(k, p->Node.externalNodeData.key) == 0){
+        //a chave ja existe na arvore, so atualiza sua lista de ocorrencias
+        //adiciona ou atualiza a ocorrencia do current idDoc em 1
+        addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), 1, idDoc);
     }
+
+    //se as chaves forem diferentes, encontra o primeiro bit que difere
+    i = 1;
+    //iterar sobre o numero maximo de bits das duas palavras para nao ficar num loop
+    //infinito de comparacoes de prefixos iguais, colocar aqui o limite sendo
+    // D * (max_len_k > max_len_p_key ? max_len_k : max_len_p_key)
+    int max_len_k = strlen(k);
+    int max_len_p_key = strlen(p->Node.externalNodeData.key);
+    int max_possible_bits = D * (max_len_k > max_len_p_key ? max_len_k : max_len_p_key);
+
+     while ((i <= max_possible_bits) && (bit(i, k) == bit(i, p->Node.externalNodeData.key))) {
+        i++;
+    }
+
+
+    // If i exceeds max_possible_bits, it means one string is a prefix of another or they are identical (already handled by strcmp)
+    // The `strcmp` check above handles identical strings. If `i > max_possible_bits`, it indicates an issue or a prefix case
+    // where one string ends before a differing bit is found. The current `bit` function returns 0 for bits beyond string length.
+    // This implicitly handles prefixes by treating the shorter string as padded with zeros.
+    // Therefore, if `i` goes beyond the length of both keys (padded with zeros), it implies they are identical after padding,
+    // which should ideally have been caught by the `strcmp` earlier.
+    // If we reach here, `i` is the index of the first differing bit.
+    return (insertBetween(k, t, i, idDoc, 1)); // Pass 1 for initial occurrence in new external node
 }
 
