@@ -3,6 +3,7 @@
 #include "leitor.h"
 #include "processador.h"
 
+
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Uso: %s entrada.txt\n", argv[0]);
