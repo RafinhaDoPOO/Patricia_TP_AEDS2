@@ -47,7 +47,7 @@ occurenceList* createOcurrenceNode(int qtde, int idDoc);
 void addOrUpdateOccurence(occurenceList** head, int qtde, int idDoc);
 Dib bit(Index i, Key k);
 short isExternal(patTree p);
-patTree createInternalNode(int i, patTree* left, patTree* right);
+patTree createInternalNode(int i, patTree left, patTree right);
 patTree createExternalNode(Key k);
 patTree search(Key k, patTree t);
 patTree insertBetween(Key k, patTree* t, Index i, int idDocNew, int qtdeNew);
