@@ -10,7 +10,7 @@ ainda nao e a versao do trabalho, vou seguir adaptando conforme o vasco vence
 
 
 typedef char* Key;//palavra
-typedef unsigned char Index;
+typedef unsigned int Index;
 typedef unsigned char Dib;//death in bits?????
 //define o tipo do no da arvore
 typedef enum {
@@ -111,7 +111,7 @@ short isExternal (patTree p){
     return (p->nt == external);
 }
 
-patTree createInternalNode( int i, patTree *left, patTree *right){
+patTree createInternalNode( int i, patTree left, patTree right){
      patTree p;
     p = (patTree)malloc(sizeof(patNode));
     if (p == NULL) {
@@ -149,7 +149,7 @@ patTree search(Key k, patTree t){
     
     if (isExternal(t)){
         if(strcmp(k, t->Node.externalNodeData.key) == 0){
-            print("Found\n");
+            printf("Found\n");
             //printando as ocorrencias pra verificar
             occurenceList* current = t->Node.externalNodeData.occurences;
             printf("Occurrences");
@@ -168,9 +168,9 @@ patTree search(Key k, patTree t){
     if (bit(t->Node.internalNode.index, k) == 0){
         //extrai o bit da posicao indicada pelo indice do no interno
         //0 esquerda e 1 direita
-        search(k, t->Node.internalNode.left);
+        return search(k, t->Node.internalNode.left);
     }else{
-        search(k, t->Node.internalNode.right);
+        return search(k, t->Node.internalNode.right);
     }
     return NULL;
 }
@@ -182,6 +182,7 @@ insere uma nova chave k na árvore, criando nós internos e externos conforme ne
 patTree insertBetween( Key k, patTree *t, Index i, int idDocNew, int qtdeNew){
     patTree p;
     p = createExternalNode(k);//cria um novo no externo 
+    addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), qtdeNew, idDocNew);
     if(isExternal(*t) || i < (*t)->Node.internalNode.index){
         
         if (bit(i,k) == 1){
@@ -223,6 +224,7 @@ patTree insert(Key k, patTree *t, int idDoc){
         //a chave ja existe na arvore, so atualiza sua lista de ocorrencias
         //adiciona ou atualiza a ocorrencia do current idDoc em 1
         addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), 1, idDoc);
+        return *t;
     }
 
     //se as chaves forem diferentes, encontra o primeiro bit que difere
