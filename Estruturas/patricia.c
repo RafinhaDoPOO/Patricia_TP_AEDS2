@@ -1,86 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "patricia.h"
 #define D 8 // aparentemente para ler a palavra de 8 bits
 /*
 Implementação da estrutura do ziviani por partes para concretizar as ideias
 ainda nao e a versao do trabalho, vou seguir adaptando conforme o vasco vence
 */
 
-
-typedef char* Key;//palavra
-typedef unsigned int Index;
-typedef unsigned char Dib;//death in bits?????
-//define o tipo do no da arvore
-typedef enum {
-    internal,
-    external
-}nodeType;
-
-//estruturas para o id invertido
-//struct for <qtde,idDoc> pair
-
-typedef struct Occurence{
-    int qtde;
-    int idDoc;
-}occurence;
-
-//lista encadeada de ocorrencias
-typedef struct occurenceList {
-    occurence data;
-    struct occurenceList* next;
-}occurenceList;
-
-
-typedef struct patNode* patTree;
-typedef struct patNode{
-    nodeType nt;
-    union {
-        struct{
-            Index index;
-            patTree left, right;
-        }internalNode;
-        struct{
-            occurenceList* occurences;// lista  de  <qtde, idDoc> para esta palavra
-            Key key;
-        }externalNodeData;
-    }Node;
-}patNode;
-
-occurenceList* createOcurrenceNode(int qtde, int idDoc){
-    occurenceList* newNode = (occurenceList*)malloc(sizeof(occurenceList));
-    if(newNode == NULL){
-        perror("failed to allocate memory to occurencelist node");
-        exit(EXIT_FAILURE);
-    }
-    newNode->data.qtde = qtde;
-    newNode->data.idDoc = idDoc;
-    newNode->next = NULL;
-    return newNode;
-}
-void addOrUpdateOccurence( occurenceList** head,int qtde,int idDoc){
-
-    occurenceList* current = *head;
-    occurenceList* prev = NULL;
-
-    while(current != NULL && current->data.idDoc < idDoc){
-        prev = current;
-        current = current->next;
-    }
-    if (current != NULL && current->data.idDoc  == idDoc){
-        current->data.qtde += qtde; // atualiza quantidade se o iddoc ja existir
-    }else{
-        occurenceList* newNode = createOcurrenceNode(qtde,idDoc);
-        if( prev == NULL){
-            newNode->next = *head;//insere no comeco
-            *head = newNode;
-        }else{
-            newNode->next = current;//insere no meio ou final
-            prev->next = newNode;
-        }
-    }
-}
 //retorna o iesimo  da chave k a partir da esquerda
 Dib bit(Index i, Key k){
     int c;
@@ -250,4 +177,3 @@ patTree insert(Key k, patTree *t, int idDoc){
     // If we reach here, `i` is the index of the first differing bit.
     return (insertBetween(k, t, i, idDoc, 1)); // Pass 1 for initial occurrence in new external node
 }
-
