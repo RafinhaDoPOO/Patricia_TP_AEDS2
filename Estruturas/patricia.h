@@ -40,7 +40,7 @@ ArvorePat construir_indice_patricia(ListaArquivos* lista);
 
 short isExternal(ArvorePat p);
 
-ArvorePat createnoInterno(int i, ArvorePat left, ArvorePat right);
+ArvorePat criarnoInterno(int i, ArvorePat left, ArvorePat right);
 ArvorePat criarnoExterno(Dado k);
 ArvorePat search(Dado k, ArvorePat t);
 ArvorePat insertBetween(Dado k, ArvorePat* t, Index i, int idDocNew, int qtdeNew);

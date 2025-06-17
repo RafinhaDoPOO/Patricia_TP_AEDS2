@@ -1,179 +1,268 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "patricia.h"
-#define D 8 // aparentemente para ler a palavra de 8 bits
-/*
-Implementação da estrutura do ziviani por partes para concretizar as ideias
-ainda nao e a versao do trabalho, vou seguir adaptando conforme o vasco vence
-*/
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-//retorna o iesimo  da chave k a partir da esquerda
-Dib bit(Index i, Key k){
-    int c;
-    if(i == 0){
-        return 0;
+// Retorna o i-ésimo bit do texto da palavra (const char*)
+Dib bit(Index i, const char* texto_palavra) {
+    if (i == 0) {
+        return 0; // Índice de bit inválido ou sem efeito
     }
-     // Determine which character the bit 'i' falls into
-    // char_index is 0-based
-    int char_index = (i - 1) / D; // D is bits per char (e.g., 8)
 
-    // Determine which bit within that character (0-based from MSB)
+    // Determina qual caractere o bit 'i' pertence (base 0)
+    int char_index = (i - 1) / D;
+
+    // Determina qual bit dentro desse caractere (base 0 do MSB)
     int bit_in_char_index = (i - 1) % D;
 
-    // Check if we've gone past the end of the string
-    // If the char_index is beyond the string length, consider the bit to be 0
-    if (char_index >= strlen(k)) {
-        return 0; // Effectively padding with zeros for shorter keys
+    // Se o índice do caractere está além do comprimento da string, consideramos o bit como 0
+    if (char_index >= strlen(texto_palavra)) {
+        return 0; // Implica que strings mais curtas são "acolchoadas" com zeros
     }
 
-    unsigned char c = k[char_index];
+    unsigned char caractere = texto_palavra[char_index];
 
-    // Shift to get the desired bit at the least significant position
-    // (D - 1 - bit_in_char_index) gives the number of shifts needed from the MSB side
-    return (c >> (D - 1 - bit_in_char_index)) & 1;
+    // Desloca o bit desejado para a posição menos significativa e isola-o
+    return (caractere >> (D - 1 - bit_in_char_index)) & 1;
 }
 
-short isExternal (patTree p){
-    return (p->nt == external);
+// Verifica se um nó é externo
+short ehExterno(ArvorePat p) {
+    return (p->nt == externo); 
 }
 
-patTree createInternalNode( int i, patTree left, patTree right){
-     patTree p;
-    p = (patTree)malloc(sizeof(patNode));
+// Cria um nó interno
+ArvorePat criarNoInterno(Index i, ArvorePat esq, ArvorePat dir) { 
+    ArvorePat p = (ArvorePat)malloc(sizeof(NoPatricia)); // Usando o novo nome da struct
     if (p == NULL) {
-        perror("Failed to allocate memory for internal node");
+        perror("Falha ao alocar memória para o nó interno");
         exit(EXIT_FAILURE);
     }
-    p->nt = internal;
-    p->Node.internalNode.left = left; // arrmazena subarvore a esq
-    p->Node.internalNode.right = right; // mema coisa com a direita
-    p->Node.internalNode.index = i; //armazena o index de diferenca
+    p->nt = interno; // Usando o novo nome do enumerador
+    p->No.noInterno.index = i;
+    p->No.noInterno.esq = esq; // Atribui filho esquerdo
+    p->No.noInterno.dir = dir; // Atribui filho direito
     return p;
 }
-patTree createExternalNode(Key k) {
-    patTree p;
-    p = (patTree)malloc(sizeof(patNode));
+
+// Cria um nó externo
+ArvorePat criarNoExterno(Palavra* palavra_dado) { // Agora recebe um Palavra*
+    ArvorePat p = (ArvorePat)malloc(sizeof(NoPatricia)); // Usando o novo nome da struct
     if (p == NULL) {
-        perror("Failed to allocate memory for external node");
+        perror("Falha ao alocar memória para o nó externo");
         exit(EXIT_FAILURE);
     }
-    p->nt = external;
-    p->Node.externalNodeData.key = strdup(k); // Duplicate the string to manage memory
-    if (p->Node.externalNodeData.key == NULL) {
-        perror("Failed to duplicate key string");
-        exit(EXIT_FAILURE);
-    }
-    p->Node.externalNodeData.occurences = NULL; // Initialize to empty list
+    p->nt = externo; // Usando o novo nome do enumerador
+    p->No.NoExterno.palavra = palavra_dado; // Armazena o ponteiro para Palavra
     return p;
 }
-//aguenta agora comparacao entre strings e pode returnar o no externo
-patTree search(Key k, patTree t){
 
-    if(t == NULL){
-        return NULL;//nao encontrado
-    }
-    
-    if (isExternal(t)){
-        if(strcmp(k, t->Node.externalNodeData.key) == 0){
-            printf("Found\n");
-            //printando as ocorrencias pra verificar
-            occurenceList* current = t->Node.externalNodeData.occurences;
-            printf("Occurrences");
-            while (current != NULL){
-                printf("<%d, %d>", current->data.qtde,current->data.idDoc);
-                current = current->next;
-            }
-            printf("\n");
-            return t;//retorna o no externo encontrado
-        }
-        else{
-        printf("Not found\n");
-        return NULL;
-        }
-    }
-    if (bit(t->Node.internalNode.index, k) == 0){
-        //extrai o bit da posicao indicada pelo indice do no interno
-        //0 esquerda e 1 direita
-        return search(k, t->Node.internalNode.left);
-    }else{
-        return search(k, t->Node.internalNode.right);
-    }
-    return NULL;
-}
+// Insere um novo nó na árvore entre caminhos existentes (Função auxiliar interna)
+ ArvorePat inserirEntre(ArvorePat* t, Palavra* nova_palavra_dado, Index i, const char* texto_palavra_para_bit) {
+    // texto_palavra_para_bit é a string da nova palavra usada para comparações de bits
+    ArvorePat NovoNoExterno = criarNoExterno(nova_palavra_dado); // Cria o novo nó externo com a Palavra*
 
-/*
-insere uma nova chave k na árvore, criando nós internos e externos conforme necessário,
- usando o bit na posição i como ponto de divisão.
-*/
-patTree insertBetween( Key k, patTree *t, Index i, int idDocNew, int qtdeNew){
-    patTree p;
-    p = createExternalNode(k);//cria um novo no externo 
-    addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), qtdeNew, idDocNew);
-    if(isExternal(*t) || i < (*t)->Node.internalNode.index){
-        
-        if (bit(i,k) == 1){
-            return (createInternalNode(i,*t, p));
-        }else{
-            return (createInternalNode(i, p, *t));
+    if (ehExterno(*t) || i < (*t)->No.noInterno.index) {
+        // Se *t é um nó externo ou o índice 'i' é menor que o índice do nó interno atual,
+        // então este é o ponto onde a nova palavra se bifurca.
+        if (bit(i, texto_palavra_para_bit) == 1) { // Usa o texto da nova palavra para o bit
+            return criarNoInterno(i, *t, NovoNoExterno); // Cria um novo nó interno, colocando *t e o NovoNoExterno
+        } else {
+            return criarNoInterno(i, NovoNoExterno, *t);
         }
-    }else{
-        if(bit((*t)->Node.internalNode.index, k) == 1){
-            (*t)->Node.internalNode.right = insertBetween(k,&(*t)->Node.internalNode.right, i, idDocNew, qtdeNew);
-        }else{
-            (*t)->Node.internalNode.left = insertBetween(k,&(*t)->Node.internalNode.left, i, idDocNew, qtdeNew);
+    } else {
+        // Continua a descida na árvore, pois o ponto de bifurcação está mais abaixo
+        if (bit((*t)->No.noInterno.index, texto_palavra_para_bit) == 1) { // Usa o texto da nova palavra para o bit
+            (*t)->No.noInterno.dir = inserirEntre(&(*t)->No.noInterno.dir, nova_palavra_dado, i, texto_palavra_para_bit);
+        } else {
+            (*t)->No.noInterno.esq = inserirEntre(&(*t)->No.noInterno.esq, nova_palavra_dado, i, texto_palavra_para_bit);
         }
-        return (*t);
+        return *t; // Retorna o nó interno atual
     }
 }
 
-patTree insert(Key k, patTree *t, int idDoc){
-    patTree p;
+// Insere uma palavra na árvore Patricia e atualiza suas ocorrências (Função pública)
+// Recebe o texto da palavra e o id do documento.
+ArvorePat inserir(ArvorePat* t, const char* texto_palavra, int idDoc) {
+    ArvorePat p;
     Index i;
-    if (*t == NULL){
-        p = createExternalNode(k);
-        addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), 1, idDoc);
-        return p;
-    }else{
+
+    if (*t == NULL) {
+        // Árvore vazia, a palavra é a primeira a ser inserida.
+        // Cria a estrutura Palavra e adiciona a primeira ocorrência.
+        Palavra* nova_palavra = (Palavra*)malloc(sizeof(Palavra));
+        if (nova_palavra == NULL) {
+            perror("Falha ao alocar memoria para Palavra");
+            exit(EXIT_FAILURE);
+        }
+        nova_palavra->texto = strdup(texto_palavra);
+        if (nova_palavra->texto == NULL) {
+            perror("Falha ao duplicar texto da Palavra");
+            free(nova_palavra); // Libera a estrutura Palavra se strdup falhar
+            exit(EXIT_FAILURE);
+        }
+        nova_palavra->ocorrencias = NULL; // Inicializa a lista de ocorrências vazia
+        adicionar_ocorrencia(nova_palavra, idDoc);
+        //adicionar_ocorrencia_a_palavra(nova_palavra, idDoc); // Adiciona a primeira ocorrência
+        return criarNoExterno(nova_palavra); // Retorna o novo nó externo como a raiz
+    } else {
         p = *t;
-        //percorrer a arvore ate achar o potencial no externo
-        while(!isExternal(p)){
-            if(bit(p->Node.internalNode.index, k) == 1){
-                p = p->Node.internalNode.right;
-            }else{
-                p = p->Node.internalNode.left;
+        // Percorrer a árvore até encontrar um nó externo ou um ponto de divergência.
+        while (!ehExterno(p)) {
+            if (bit(p->No.noInterno.index, texto_palavra) == 1) { // Usa o texto da palavra para comparação de bit
+                p = p->No.noInterno.dir;
+            } else {
+                p = p->No.noInterno.esq;
             }
         }
     }
-    //apos achar o primeiro bit que difere
-    //comparar 'k' com a chave em 'p'
-    if (strcmp(k, p->Node.externalNodeData.key) == 0){
-        //a chave ja existe na arvore, so atualiza sua lista de ocorrencias
-        //adiciona ou atualiza a ocorrencia do current idDoc em 1
-        addOrUpdateOccurence(&(p->Node.externalNodeData.occurences), 1, idDoc);
-        return *t;
+
+    // Após encontrar um nó externo 't', comparar o texto da nova palavra com a chave armazenada em 'p'.
+    if (strcmp(texto_palavra, p->No.NoExterno.palavra->texto) == 0) {
+        // A palavra já existe na árvore. Apenas atualiza sua lista de ocorrências.
+        adicionar_ocorrencia(p->No.NoExterno.palavra, idDoc);
+        return *t; // Retorna a raiz da árvore sem modificá-la (o *t original)
     }
 
-    //se as chaves forem diferentes, encontra o primeiro bit que difere
+    // Se as palavras são diferentes, encontra o primeiro bit que difere.
     i = 1;
-    //iterar sobre o numero maximo de bits das duas palavras para nao ficar num loop
-    //infinito de comparacoes de prefixos iguais, colocar aqui o limite sendo
-    // D * (max_len_k > max_len_p_key ? max_len_k : max_len_p_key)
-    int max_len_k = strlen(k);
-    int max_len_p_key = strlen(p->Node.externalNodeData.key);
-    int max_possible_bits = D * (max_len_k > max_len_p_key ? max_len_k : max_len_p_key);
+    // O limite máximo de bits é baseado no comprimento da string mais longa entre as duas palavras.
+    int max_len_nova = strlen(texto_palavra);
+    int max_len_existente = strlen(p->No.NoExterno.palavra->texto);
+    int max_bits_possiveis = D * (max_len_nova > max_len_existente ? max_len_nova : max_len_existente);
 
-     while ((i <= max_possible_bits) && (bit(i, k) == bit(i, p->Node.externalNodeData.key))) {
+    while ((i <= max_bits_possiveis) && (bit(i, texto_palavra) == bit(i, p->No.NoExterno.palavra->texto))) {
         i++;
     }
 
+    // 'i' é o índice do primeiro bit diferente. Uma nova 'Palavra' precisa ser criada para o nó externo.
+    Palavra* nova_palavra_dado = (Palavra*)malloc(sizeof(Palavra));
+    if (nova_palavra_dado == NULL) { perror("Falha ao alocar memoria para Palavra (nova)"); exit(EXIT_FAILURE); }
+    nova_palavra_dado->texto = strdup(texto_palavra);
+    if (nova_palavra_dado->texto == NULL) {
+        perror("Falha ao duplicar texto da Palavra (nova)");
+        free(nova_palavra_dado);
+        exit(EXIT_FAILURE);
+    }
+    nova_palavra_dado->ocorrencias = NULL; // Inicializa a lista de ocorrências vazia
 
-    // If i exceeds max_possible_bits, it means one string is a prefix of another or they are identical (already handled by strcmp)
-    // The `strcmp` check above handles identical strings. If `i > max_possible_bits`, it indicates an issue or a prefix case
-    // where one string ends before a differing bit is found. The current `bit` function returns 0 for bits beyond string length.
-    // This implicitly handles prefixes by treating the shorter string as padded with zeros.
-    // Therefore, if `i` goes beyond the length of both keys (padded with zeros), it implies they are identical after padding,
-    // which should ideally have been caught by the `strcmp` earlier.
-    // If we reach here, `i` is the index of the first differing bit.
-    return (insertBetween(k, t, i, idDoc, 1)); // Pass 1 for initial occurrence in new external node
+    adicionar_ocorrencia(nova_palavra_dado, idDoc); // Adiciona a primeira ocorrência
+
+    // Chamar inserirEntre para adicionar o novo nó na posição correta da árvore.
+    return inserirEntre(t, nova_palavra_dado, i, texto_palavra);
 }
+//-----------------------------------------------------------------------------------------------------//
+
+// Implementação da função para construir o índice Patricia
+// Esta função irá orquestrar a leitura dos arquivos e inserção das palavras
+ArvorePat construir_indice_patricia(ListaArquivos* lista) {
+    ArvorePat raiz_patricia = NULL;
+
+    if (lista == NULL) {
+        fprintf(stderr, "Erro: Lista de arquivos nula para construção do índice Patricia.\n");
+        return NULL;
+    }
+
+    printf("Iniciando construção do índice Patricia para %d documentos...\n", lista->quantidade); // lista->n do leitor.h
+
+    // Itera sobre a lista de documentos para indexá-los
+    for (int i = 0; i < lista->quantidade; i++) { // Assumindo que 'i' é o idDoc (0-based)
+        const char* nome_arquivo_doc = &(lista->arquivos[i]);
+
+        FILE* doc_file = fopen(nome_arquivo_doc, "r");
+        if (doc_file == NULL) {
+            perror("Erro ao abrir arquivo de documento para indexacao Patricia");
+            continue; // Pula para o próximo arquivo se não conseguir abrir
+        }
+
+        char palavra_buffer[256]; // Buffer para armazenar palavras
+        int char_lido;
+        int j = 0;
+
+        printf("  Processando documento: %s (ID: %d)\n", nome_arquivo_doc, i);
+
+        while ((char_lido = fgetc(doc_file)) != EOF) {
+            if (isalnum((unsigned char)char_lido)) { // Se for letra ou número
+                palavra_buffer[j++] = tolower((unsigned char)char_lido); // Converte para minúscula
+                if (j >= sizeof(palavra_buffer) - 1) { // Previne estouro de buffer
+                    palavra_buffer[j] = '\0';
+                    raiz_patricia = inserir(&raiz_patricia, palavra_buffer, i);
+                    j = 0; // Reinicia o buffer
+                }
+            } else { // Se não for alfanumérico (espaço, pontuação, etc.)
+                if (j > 0) { // Se houver uma palavra no buffer
+                    palavra_buffer[j] = '\0'; // Termina a palavra
+                    raiz_patricia = inserir(&raiz_patricia, palavra_buffer, i);
+                    j = 0; // Reinicia o buffer
+                }
+            }
+        }
+        // Processa a última palavra do arquivo, se houver
+        if (j > 0) {
+            palavra_buffer[j] = '\0';
+            raiz_patricia = inserir(&raiz_patricia, palavra_buffer, i);
+        }
+
+        fclose(doc_file);
+    }
+    printf("Construção do índice Patricia finalizada com sucesso.\n");
+    return raiz_patricia;
+}
+
+// Busca uma palavra na árvore e retorna a estrutura Palavra* se encontrada (Função pública)
+Palavra* buscar_palavra(ArvorePat arvore, const char* texto_palavra) {
+    if (arvore == NULL) {
+        return NULL; // Árvore vazia ou palavra não encontrada
+    }
+
+    ArvorePat p = arvore;
+    while (!ehExterno(p)) {
+        // O 'bit' deve comparar o 'texto_palavra' com base no 'index' do nó interno.
+        if (bit(p->No.noInterno.index, texto_palavra) == 1) {
+            p = p->No.noInterno.dir;
+        } else {
+            p = p->No.noInterno.esq;
+        }
+    }
+
+    // Chegou a um nó externo, verifica se é a palavra desejada
+    if (strcmp(texto_palavra, p->No.NoExterno.palavra->texto) == 0) {
+        return p->No.NoExterno.palavra; // Retorna a Palavra* encontrada
+    } else {
+        return NULL; // Palavra não encontrada
+    }
+}
+
+// --- Funções de Liberação de Memória ---
+
+// Libera a memória da lista de ocorrências de uma Palavra
+static void liberarOcorrenciasDaPalavra(Ocorrencia* ocorrencias) {
+    Ocorrencia* atual = ocorrencias;
+    while (atual != NULL) {
+        Ocorrencia* proximo = atual->prox;
+        free(atual);
+        atual = proximo;
+    }
+}
+
+// Libera toda a árvore Patricia (Função pública)
+void liberar_indice_patricia(ArvorePat arvore) {
+    if (arvore == NULL) {
+        return;
+    }
+
+    if (ehExterno(arvore)) {
+        // Se é um nó externo, libera a Palavra* e sua lista de ocorrências
+        if (arvore->No.NoExterno.palavra != NULL) {
+            free(arvore->No.NoExterno.palavra->texto); // Libera o texto da Palavra
+            liberarOcorrenciasDaPalavra(arvore->No.NoExterno.palavra->ocorrencias); // Libera a lista de ocorrências
+            free(arvore->No.NoExterno.palavra); // Libera a própria estrutura Palavra
+        }
+    } else {
+        // Se é um nó interno, libera recursivamente os filhos
+        liberar_indice_patricia(arvore->No.noInterno.esq);
+        liberar_indice_patricia(arvore->No.noInterno.dir);
+    }
+    free(arvore); // Libera o próprio nó (interno ou externo)
+}
+

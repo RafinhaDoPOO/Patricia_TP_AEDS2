@@ -15,5 +15,6 @@ typedef struct Palavra {
 } Palavra;
 
 
+void adicionar_ocorrencia(Palavra* palavra, int idDoc);
 
 #endif
