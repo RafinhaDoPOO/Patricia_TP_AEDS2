@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include "hash.h"
 #include "processador.h"
-#define tam 100
 
 int funcaoHash(char *palavra) {   //devolve o indice que a palavra sera armazenada na tabela hash
     unsigned long hash = 0;  // acumula o valor calculado a partir dos caracteres da palavra 
@@ -17,30 +16,95 @@ int funcaoHash(char *palavra) {   //devolve o indice que a palavra sera armazena
     return hash % TAM_HASH;
 }
 
+void construir_indice_hash(HashTable* ht, ListaArquivos* lista) {
+    if (!ht || !lista) return;
 
-void inserirPalavra(HashTable *ht, char *palavra, int idDoc) { //insere palavra na tabela hash
+    for (int i = 0; i < lista->quantidade; i++) {
+        const char* conteudo = lista->arquivos[i].conteudo;
 
-    normalizar_palavra(palavra);
-
-    int indice = funcaoHash(palavra); // ve em qual posiçao da tabela a palvara deve ser inserida
-    HashItem *atual = ht->tabela[tam]; //percorre a lista de intens na posiçao encontrada 
-
-    while (atual != NULL) { // verifica se a palavra ja existe 
-        if (strcmp(atual->palavra, palavra) == 0) { //se a palavra ja esta na tabela \/
-            adicionar_ocorrencia(&(atual->listaOcorrencias), idDoc);  //                atualizar ou criar a ocorrência correspondente ao idDoc
-            return;
+        if (!conteudo || strcmp(conteudo, "erro ao ler arquivo") == 0) {
+            fprintf(stderr, "Aviso: Pulando arquivo %s por erro de leitura.\n", lista->arquivos[i].nome);
+            continue;
         }
-        atual = atual->prox; // se nao encontrou, avança para o próximo item da lista
+
+        char* conteudo_copia = strdup(conteudo);
+        if (!conteudo_copia) {
+            fprintf(stderr, "Erro de alocação de memória para cópia do conteúdo.\n");
+            continue;
+        }
+
+        char* palavra_token = strtok(conteudo_copia, " \t\n\r.,;:!?()[]{}<>");
+
+        while (palavra_token != NULL) {
+            normalizar_palavra(palavra_token);
+
+            if (strlen(palavra_token) > 0) {
+                inserirPalavra(ht, palavra_token, i);
+            }
+
+            palavra_token = strtok(NULL, " \t\n\r.,;:!?()[]{}<>");
+        }
+
+        free(conteudo_copia);
+    }
+}
+
+
+// Coloque esta função corrigida em seu arquivo hash.c
+
+void inserirPalavra(HashTable *ht, char *palavra, int idDoc) {
+    // A normalização não é necessária aqui se já for feita antes, 
+    // mas vamos manter para garantir.
+    // normalizar_palavra(palavra); // A sua função construir_indice_hash já faz isso.
+
+    int indice = funcaoHash(palavra);
+    HashItem *item_atual = ht->tabela[indice];
+
+    // 1. Procura se a palavra já existe na tabela hash
+    while (item_atual != NULL) {
+        if (strcmp(item_atual->palavra, palavra) == 0) {
+            // A PALAVRA JÁ EXISTE. Agora, atualize as ocorrências.
+            Ocorrencia *ocorrencia_atual = item_atual->listaOcorrencias;
+            while (ocorrencia_atual != NULL) {
+                if (ocorrencia_atual->idDoc == idDoc) {
+                    // Ocorrência para este documento já existe, só incrementa a quantidade.
+                    ocorrencia_atual->qtd++;
+                    return; // Termina a função
+                }
+                ocorrencia_atual = ocorrencia_atual->prox;
+            }
+
+            // Se saiu do loop, é porque a palavra existe, mas não neste documento.
+            // Cria uma nova ocorrência para este idDoc.
+            Ocorrencia *nova_ocorrencia = malloc(sizeof(Ocorrencia));
+            nova_ocorrencia->idDoc = idDoc;
+            nova_ocorrencia->qtd = 1;
+            nova_ocorrencia->peso = 0.0; // O peso é calculado depois
+            nova_ocorrencia->prox = item_atual->listaOcorrencias; // Adiciona no início da lista
+            item_atual->listaOcorrencias = nova_ocorrencia;
+            return; // Termina a função
+        }
+        item_atual = item_atual->prox;
     }
 
-    // Palavra não encontrada ->cria novo HashItem
-    HashItem *novo = malloc(sizeof(HashItem));
-    novo->palavra = strdup(palavra); // copia a string
-    novo->listaOcorrencias = NULL; // inicializa a lista de ocorrências como vazia
-    novo->prox = ht->tabela[indice]; //Insere o novo item no início da lista no índice correspondente da tabela
-    ht->tabela[indice] = novo;
+    // 2. Se a palavra não foi encontrada, cria um novo HashItem
+    HashItem *novo_item = malloc(sizeof(HashItem));
+    novo_item->palavra = strdup(palavra);
+    novo_item->listaOcorrencias = NULL; // A lista começa vazia
 
-    inserirOcorrencia(&(novo->listaOcorrencias), idDoc); //registra a primeira ocorrencia
+    // Cria a primeira ocorrência para este novo item
+    Ocorrencia *primeira_ocorrencia = malloc(sizeof(Ocorrencia));
+    primeira_ocorrencia->idDoc = idDoc;
+    primeira_ocorrencia->qtd = 1;
+    primeira_ocorrencia->peso = 0.0;
+    primeira_ocorrencia->prox = NULL; // É o único na lista por enquanto
+
+    // Atribui a lista de ocorrências ao novo item
+    novo_item->listaOcorrencias = primeira_ocorrencia;
+
+    // Insere o novo item no início da lista de colisão da tabela hash
+    novo_item->prox = ht->tabela[indice];
+    ht->tabela[indice] = novo_item;
 }
 
 
@@ -99,5 +163,28 @@ void imprimirIndiceHash(HashTable *ht) {
 
     free(lista);
 }
+
+
+Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra) {
+    if (!ht || !palavra) return NULL;
+
+    int indice = funcaoHash((char*)palavra);
+    HashItem* item = ht->tabela[indice];
+
+    while (item != NULL) {
+        if (strcmp(item->palavra, palavra) == 0) {
+            // Converte listaOcorrencias (tipo Ocorrencia*) para Palavra (simula)
+            // Como seu HashItem não tem Palavra*, mas só palavra + ocorrencias,
+            // vamos construir uma estrutura Palavra temporária para compatibilidade:
+            Palavra* p = malloc(sizeof(Palavra));
+            p->texto = item->palavra;
+            p->ocorrencias = item->listaOcorrencias;
+            return p;
+        }
+        item = item->prox;
+    }
+    return NULL;
+}
+
 
 

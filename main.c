@@ -4,6 +4,9 @@
 #include "leitor.h"
 #include "patricia.h"
 #include "processador.h"
+#include "hash.h"
+#include <ctype.h>
+#include <math.h>
 
 /*
  * ===================================================================
@@ -11,45 +14,49 @@
  * ===================================================================
  */
 
-/**
- * @brief Percorre a árvore recursivamente e chama a função `calcular_relevancia`
- * (do seu processador.c) para cada palavra.
- *
- * Esta função é chamada UMA ÚNICA VEZ, logo após o índice ser construído.
- *
- * @param no O nó atual da árvore.
- * @param lista A lista de arquivos, necessária para o cálculo do IDF.
- */
 void percorrer_e_calcular_relevancia(ArvorePat no, ListaArquivos* lista) {
-    if (no == NULL) {
-        return;
-    }
-
+    if (no == NULL) return;
     if (no->nt == externo) {
-        // Encontrou uma folha (palavra), chama a sua função já existente.
         calcular_relevancia(no->No.NoExterno.palavra, lista);
     } else {
-        // Se não é folha, continua a busca nos filhos.
         percorrer_e_calcular_relevancia(no->No.noInterno.esq, lista);
         percorrer_e_calcular_relevancia(no->No.noInterno.dir, lista);
     }
 }
 
+void calcular_relevancia_hash(HashTable* ht, ListaArquivos* lista) {
+    if (!ht || !lista) return;
+
+    for (int i = 0; i < TAM_HASH; i++) {
+        HashItem* item = ht->tabela[i];
+        while (item) {
+            Palavra temp_palavra;
+            temp_palavra.texto = item->palavra;
+            temp_palavra.ocorrencias = item->listaOcorrencias;
+
+            calcular_relevancia(&temp_palavra, lista);
+
+            item = item->prox;
+        }
+    }
+}
+
 /**
- * @brief Percorre a árvore e APENAS imprime o conteúdo, pois a relevância
- * já foi calculada e armazenada.
+ * Busca palavra na hash.
+ * Retorna um ponteiro para uma palavra temporária (com lista de ocorrências da hash),
+ * ou NULL se não encontrar.
  *
- * @param no O nó atual da árvore.
- * @param lista A lista de arquivos para obter os nomes dos documentos.
+ * Atenção: A palavra retornada deve ser liberada após uso.
  */
+
 
 /*
  * ===================================================================
  * FUNÇÃO PRINCIPAL
  * ===================================================================
  */
+
 int main(int argc, char *argv[]) {
-    // --- PASSO 1: Leitura, Construção e Cálculo ÚNICO ---
     if (argc < 2) {
         printf("ERRO: Forneca o arquivo de entrada como argumento.\n");
         printf("Uso: %s entrada.txt\n", argv[0]);
@@ -58,33 +65,42 @@ int main(int argc, char *argv[]) {
 
     printf("1. Lendo arquivos de '%s'...\n", argv[1]);
     ListaArquivos* lista = ler_arq_entrada(argv[1]);
-    if (!lista) { return 1; }
+    if (!lista) return 1;
     ler_conteudo_arquivos(lista);
 
+    // Construção Patricia
     printf("2. Construindo o indice Patricia...\n");
-    ArvorePat indice = construir_indice_patricia(lista);
-    if (!indice) {
+    ArvorePat indice_patricia = construir_indice_patricia(lista);
+    if (!indice_patricia) {
         liberar_lista(lista);
         return 1;
     }
-    
-    // --- OTIMIZAÇÃO PRINCIPAL ---
-    // A relevância de todas as palavras é calculada aqui, uma única vez.
-    printf("3. Calculando relevancia (TF-IDF) para todo o indice...\n");
-    percorrer_e_calcular_relevancia(indice, lista);
-    printf("   ... Calculos finalizados. Sistema pronto!\n");
+    printf("3. Calculando relevancia (TF-IDF) para todo o indice Patricia...\n");
+    percorrer_e_calcular_relevancia(indice_patricia, lista);
 
-    // --- PASSO 2: Menu Interativo ---
+    // Construção Hash
+    printf("4. Construindo o indice Hash...\n");
+    HashTable ht;
+    for (int i = 0; i < TAM_HASH; i++) {
+        ht.tabela[i] = NULL;  // inicializa tabela hash
+    }
+    construir_indice_hash(&ht, lista);
+    printf("5. Calculando relevancia (TF-IDF) para o indice Hash...\n");
+    calcular_relevancia_hash(&ht, lista);
+
     int opcao;
     char palavra_busca[256];
-    do{
-        printf("\n================ MENU =================\n");
-        printf("1. Imprimir indice completo\n");
-        printf("2. Buscar por uma palavra\n");
-        printf("3. Sair\n");
-        printf("=======================================\n");
+
+    do {
+        printf("\n========== MENU ==========\n");
+        printf("1. Imprimir indice Patricia completo\n");
+        printf("2. Imprimir indice Hash completo\n");
+        printf("3. Buscar palavra na Patricia\n");
+        printf("4. Buscar palavra na Hash\n");
+        printf("5. Sair\n");
+        printf("==========================\n");
         printf("Escolha uma opcao: ");
-        
+
         if (scanf("%d", &opcao) != 1) {
             while (getchar() != '\n');
             opcao = 0;
@@ -93,48 +109,77 @@ int main(int argc, char *argv[]) {
 
         switch (opcao) {
             case 1:
-                printf("\n--- Indice Completo com Relevancia Pre-calculada ---\n");
-                imprimir_patricia(indice, lista);
+                printf("\n--- Indice Patricia ---\n");
+                imprimir_patricia(indice_patricia, lista);
                 break;
 
             case 2:
-                printf("Digite a palavra para buscar: ");
+                printf("\n--- Indice Hash ---\n");
+                imprimirIndiceHash(&ht);
+                break;
+
+            case 3:
+                printf("Digite a palavra para buscar na Patricia: ");
                 fgets(palavra_busca, sizeof(palavra_busca), stdin);
                 palavra_busca[strcspn(palavra_busca, "\n")] = '\0';
-
                 if (strlen(palavra_busca) > 0) {
                     normalizar_palavra(palavra_busca);
-                    Palavra *resultado = buscar_palavra(indice, palavra_busca);
-
+                    Palavra *resultado = buscar_palavra(indice_patricia, palavra_busca);
                     if (resultado) {
-                        printf("\nPalavra '%s' encontrada:\n", resultado->texto);
+                        printf("Palavra '%s' encontrada na Patricia:\n", resultado->texto);
                         Ocorrencia *oc = resultado->ocorrencias;
                         while (oc) {
-                            // Apenas exibe o peso que já foi calculado.
                             printf(" -> Em %s (ID %d) | Qtd: %d | Peso: %.4f\n",
-                                   lista->arquivos[oc->idDoc].nome, oc->idDoc, oc->qtd, oc->peso);
+                                lista->arquivos[oc->idDoc].nome, oc->idDoc, oc->qtd, oc->peso);
                             oc = oc->prox;
                         }
                     } else {
-                        printf("\nPalavra '%s' nao encontrada no indice.\n", palavra_busca);
+                        printf("Palavra '%s' nao encontrada na Patricia.\n", palavra_busca);
                     }
                 }
                 break;
 
-            case 3:
+            case 4:
+                printf("Digite a palavra para buscar na Hash: ");
+                fgets(palavra_busca, sizeof(palavra_busca), stdin);
+                palavra_busca[strcspn(palavra_busca, "\n")] = '\0';
+                if (strlen(palavra_busca) > 0) {
+                    normalizar_palavra(palavra_busca);
+                    Palavra* resultado = buscar_palavra_hash(&ht, palavra_busca);
+                    if (resultado) {
+                        printf("Palavra '%s' encontrada na Hash:\n", resultado->texto);
+                        Ocorrencia *oc = resultado->ocorrencias;
+                        while (oc) {
+                            printf(" -> Em %s (ID %d) | Qtd: %d | Peso: %.4f\n",
+                                lista->arquivos[oc->idDoc].nome, oc->idDoc, oc->qtd, oc->peso);
+                            oc = oc->prox;
+                        }
+                        free(resultado->texto);
+                        free(resultado);
+                    } else {
+                        printf("Palavra '%s' nao encontrada na Hash.\n", palavra_busca);
+                    }
+                }
+                break;
+
+            case 5:
                 printf("Encerrando o programa...\n");
                 break;
 
             default:
                 printf("Opcao invalida! Tente novamente.\n");
+                break;
         }
-    } while (opcao != 3);
+    } while (opcao != 5);
 
-    // --- PASSO 3: Liberar Memória ---
     printf("Liberando memoria...\n");
-    liberar_indice_patricia(indice);
+    liberar_indice_patricia(indice_patricia);
     liberar_lista(lista);
-    printf("Programa finalizado.\n");
 
+    // ATENÇÃO: Você precisa implementar função para liberar a tabela hash,
+    // para evitar vazamento de memória!
+    // liberarHashTable(&ht);
+
+    printf("Programa finalizado.\n");
     return 0;
 }

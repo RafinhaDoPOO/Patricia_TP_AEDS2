@@ -22,7 +22,7 @@ typedef struct {
 int funcaoHash(char *palavra);
 void inserirPalavra(HashTable *ht, char *palavra, int idDoc);
 void imprimirIndiceHash(HashTable *ht);
-
-
+void construir_indice_hash(HashTable* ht, ListaArquivos* lista);
+Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra);
 
 #endif
