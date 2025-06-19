@@ -8,19 +8,15 @@
 #include <ctype.h>
 #include <math.h>
 
-/*
- * ===================================================================
- * FUNÇÕES AUXILIARES
- * ===================================================================
- */
+//funcoes auxiliares
 
-void percorrer_e_calcular_relevancia(ArvorePat no, ListaArquivos* lista) {
+void calcular_relevancia_patricia(ArvorePat no, ListaArquivos* lista) {
     if (no == NULL) return;
     if (no->nt == externo) {
         calcular_relevancia(no->No.NoExterno.palavra, lista);
     } else {
-        percorrer_e_calcular_relevancia(no->No.noInterno.esq, lista);
-        percorrer_e_calcular_relevancia(no->No.noInterno.dir, lista);
+        calcular_relevancia_patricia(no->No.noInterno.esq, lista);
+        calcular_relevancia_patricia(no->No.noInterno.dir, lista);
     }
 }
 
@@ -41,20 +37,7 @@ void calcular_relevancia_hash(HashTable* ht, ListaArquivos* lista) {
     }
 }
 
-/**
- * Busca palavra na hash.
- * Retorna um ponteiro para uma palavra temporária (com lista de ocorrências da hash),
- * ou NULL se não encontrar.
- *
- * Atenção: A palavra retornada deve ser liberada após uso.
- */
 
-
-/*
- * ===================================================================
- * FUNÇÃO PRINCIPAL
- * ===================================================================
- */
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -76,7 +59,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     printf("3. Calculando relevancia (TF-IDF) para todo o indice Patricia...\n");
-    percorrer_e_calcular_relevancia(indice_patricia, lista);
+    calcular_relevancia_patricia(indice_patricia, lista);
 
     // Construção Hash
     printf("4. Construindo o indice Hash...\n");
@@ -176,9 +159,6 @@ int main(int argc, char *argv[]) {
     liberar_indice_patricia(indice_patricia);
     liberar_lista(lista);
 
-    // ATENÇÃO: Você precisa implementar função para liberar a tabela hash,
-    // para evitar vazamento de memória!
-    // liberarHashTable(&ht);
 
     printf("Programa finalizado.\n");
     return 0;
