@@ -3,6 +3,11 @@
 
 #include "processador.h"
 
+int comparacoes_patricia_insercao ;
+int comparacoes_patricia_busca ; 
+
+
+
 #define D 8 // Bits em um caractere
 
 typedef enum {
