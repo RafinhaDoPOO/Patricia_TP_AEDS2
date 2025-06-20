@@ -1,7 +1,10 @@
 #ifndef HASH_H
 #define HASH_H
-#define TAM_HASH 1429  // tamanho pensado para carga=0.7 (pode ser que eu aletre esse valor futuramente)
+#define TAM_HASH 1429  // tamanho pensado para carga=0.7 (pode ser que eu altere esse valor futuramente)
 #include "processador.h"
+
+int comparacoes_hash_insercao ;
+int comparacoes_hash_busca ; 
 
 typedef struct {
     char *palavra;
