@@ -5,6 +5,11 @@
 #include "hash.h"
 #include "processador.h"
 
+// Contadores globais de desempenho 
+int comparacoes_hash_insercao = 0;
+int comparacoes_hash_busca = 0; 
+
+
 int funcaoHash(char *palavra) {   //devolve o indice que a palavra sera armazenada na tabela hash
     unsigned long hash = 0;  // acumula o valor calculado a partir dos caracteres da palavra 
     int c;   // variavel para guradar o valor do caracter atual
@@ -58,10 +63,13 @@ void inserirPalavra(HashTable *ht, char *palavra, int idDoc) {
     // normalizar_palavra(palavra); // A sua função construir_indice_hash já faz isso.
 
     int indice = funcaoHash(palavra);
+
     HashItem *item_atual = ht->tabela[indice];
 
     // 1. Procura se a palavra já existe na tabela hash
     while (item_atual != NULL) {
+        comparacoes_hash_insercao++;  //  Conta cada comparação feita
+
         if (strcmp(item_atual->palavra, palavra) == 0) {
             // A PALAVRA JÁ EXISTE. Agora, atualize as ocorrências.
             Ocorrencia *ocorrencia_atual = item_atual->listaOcorrencias;
@@ -169,9 +177,12 @@ Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra) {
     if (!ht || !palavra) return NULL;
 
     int indice = funcaoHash((char*)palavra);
+
     HashItem* item = ht->tabela[indice];
 
     while (item != NULL) {
+            comparacoes_hash_busca++;  // Conta cada comparação feita
+
         if (strcmp(item->palavra, palavra) == 0) {
             // Converte listaOcorrencias (tipo Ocorrencia*) para Palavra (simula)
             // Como seu HashItem não tem Palavra*, mas só palavra + ocorrencias,
@@ -185,6 +196,5 @@ Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra) {
     }
     return NULL;
 }
-
 
 
