@@ -3,6 +3,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+int comparacoes_patricia_insercao = 0;
+int comparacoes_patricia_busca = 0;
+
+
+
 // Retorna o i-ésimo bit do texto da palavra (const char*)
 Dib bit(Index i, const char* texto_palavra) {
     if (i == 0) {
@@ -109,6 +114,8 @@ ArvorePat inserir(ArvorePat* t, const char* texto_palavra, int idDoc) {
         p = *t;
         // Percorrer a árvore até encontrar um nó externo ou um ponto de divergência.
         while (!ehExterno(p)) {
+            comparacoes_patricia_insercao++; // comparando bit para decidir caminho, logo +1
+
             if (bit(p->No.noInterno.index, texto_palavra) == 1) { // Usa o texto da palavra para comparação de bit
                 p = p->No.noInterno.dir;
             } else {
@@ -116,6 +123,8 @@ ArvorePat inserir(ArvorePat* t, const char* texto_palavra, int idDoc) {
             }
         }
     }
+
+    comparacoes_patricia_insercao++; // comparando strings no nó externo (comparaçao em relaçao ao if abaixo, sempre vai comparar se a palavra ja existe)
 
     // Após encontrar um nó externo 't', comparar o texto da nova palavra com a chave armazenada em 'p'.
     if (strcmp(texto_palavra, p->No.NoExterno.palavra->texto) == 0) {
@@ -132,6 +141,8 @@ ArvorePat inserir(ArvorePat* t, const char* texto_palavra, int idDoc) {
     int max_bits_possiveis = D * (max_len_nova > max_len_existente ? max_len_nova : max_len_existente);
 
     while ((i <= max_bits_possiveis) && (bit(i, texto_palavra) == bit(i, p->No.NoExterno.palavra->texto))) {
+        comparacoes_patricia_insercao++; // comparando bit a bit para encontrar divergencia
+
         i++;
     }
 
@@ -220,9 +231,11 @@ Palavra* buscar_palavra(ArvorePat arvore, const char* texto_palavra) {
     }
 
     ArvorePat p = arvore;
+
     // Navega pela árvore seguindo os bits da palavra buscada
     while (p->nt == interno) {
-        // Usa o índice do nó interno para saber qual bit da palavra testar
+        comparacoes_patricia_busca++; // comparação de bit
+
         if (bit(p->No.noInterno.index, texto_palavra) == 1) {
             p = p->No.noInterno.dir;
         } else {
@@ -230,14 +243,16 @@ Palavra* buscar_palavra(ArvorePat arvore, const char* texto_palavra) {
         }
     }
 
-    // Ao chegar em um nó externo (folha), compara a string completa
-    // para garantir que é a palavra correta e não apenas uma com prefixo comum.
+    // Compara o texto no nó externo (seja sucesso ou não)
+    comparacoes_patricia_busca++; // comparação de string
+
     if (strcmp(texto_palavra, p->No.NoExterno.palavra->texto) == 0) {
-        return p->No.NoExterno.palavra; // Palavra encontrada! Retorna o ponteiro para ela.
+        return p->No.NoExterno.palavra; // Palavra encontrada!
     } else {
-        return NULL; // A palavra na folha não é a que buscamos.
+        return NULL; // Palavra não encontrada
     }
 }
+
 // --- FUNÇÃO PARA LIBERAR O ÍNDICE (VERSÃO CORRIGIDA) ---
 void liberar_indice_patricia(ArvorePat arvore) {
     if (arvore == NULL) return;
@@ -254,4 +269,3 @@ void liberar_indice_patricia(ArvorePat arvore) {
     }
     free(arvore);
 }
-
