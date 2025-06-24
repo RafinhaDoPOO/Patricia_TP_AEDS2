@@ -26,6 +26,7 @@ int funcaoHash(char *palavra);
 void inserirPalavra(HashTable *ht, char *palavra, int idDoc);
 void imprimirIndiceHash(HashTable *ht);
 void construir_indice_hash(HashTable* ht, ListaArquivos* lista);
+void imprimirHash_ordemInsercao(HashTable *ht);
 Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra);
 
 #endif
