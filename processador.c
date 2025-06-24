@@ -22,7 +22,9 @@ void adicionar_ocorrencia(Palavra* palavra, int idDoc) {
     if (!palavra) return;
 
     Ocorrencia* atual = palavra->ocorrencias;
-    while (atual) {
+
+    // Verifica se já existe ocorrência para o mesmo documento
+    while (atual != NULL) {
         if (atual->idDoc == idDoc) {
             atual->qtd++;
             return;
@@ -30,16 +32,25 @@ void adicionar_ocorrencia(Palavra* palavra, int idDoc) {
         atual = atual->prox;
     }
 
+    // Se não existe, cria nova ocorrência
     Ocorrencia* nova = malloc(sizeof(Ocorrencia));
     if (!nova) {
-        perror("Falha ao alocar memoria para Ocorrencia");
+        perror("Falha ao alocar memória para Ocorrencia");
         exit(EXIT_FAILURE);
     }
     nova->idDoc = idDoc;
     nova->qtd = 1;
     nova->peso = 0.0;
-    nova->prox = palavra->ocorrencias;
-    palavra->ocorrencias = nova;
+    nova->prox = NULL;
+
+    // Insere na lista ordenada por idDoc
+    Ocorrencia** ptr = &palavra->ocorrencias;
+    while (*ptr != NULL && (*ptr)->idDoc < idDoc) {
+        ptr = &(*ptr)->prox;
+    }
+
+    nova->prox = *ptr;
+    *ptr = nova;
 }
 
 // Calcula e armazena a relevância (TF-IDF) para cada ocorrência de uma palavra.
