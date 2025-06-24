@@ -88,8 +88,13 @@ void inserirPalavra(HashTable *ht, char *palavra, int idDoc) {
             nova_ocorrencia->idDoc = idDoc;
             nova_ocorrencia->qtd = 1;
             nova_ocorrencia->peso = 0.0; // O peso é calculado depois
-            nova_ocorrencia->prox = item_atual->listaOcorrencias; // Adiciona no início da lista
-            item_atual->listaOcorrencias = nova_ocorrencia;
+            Ocorrencia** ptr = &item_atual->listaOcorrencias;
+            while (*ptr != NULL && (*ptr)->idDoc < idDoc) {
+                ptr = &(*ptr)->prox;
+            }
+            nova_ocorrencia->prox = *ptr;
+            *ptr = nova_ocorrencia;
+
             return; // Termina a função
         }
         item_atual = item_atual->prox;
@@ -122,6 +127,25 @@ int compararPalavras(const void *a, const void *b) { //funçao auxiliar para ord
     EntradaOrdenada *eb = (EntradaOrdenada *)b;
     return strcmp(ea->palavra, eb->palavra);
 }
+
+void imprimirHash_ordemInsercao(HashTable *ht) {
+    for (int i = 0; i < TAM_HASH; i++) {
+        HashItem *item = ht->tabela[i];
+        if (!item) continue;
+        while (item) {
+            printf(" %s: ", item->palavra);
+            Ocorrencia *oc = item->listaOcorrencias;
+            while (oc) {
+                printf("<%d,%d> ", oc->qtd, oc->idDoc);
+                oc = oc->prox;
+            }
+            printf("\n");
+            item = item->prox;
+        }
+    }
+    printf("\n");  // espaço antes da próxima visualização
+}
+
 
 void imprimirIndiceHash(HashTable *ht) {
     // 1: conta quantas palavras existem
