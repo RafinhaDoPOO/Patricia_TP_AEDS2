@@ -6,7 +6,7 @@
 int comparacoes_hash_insercao ;
 int comparacoes_hash_busca ; 
 
-typedef struct {
+typedef struct { // struct auxiliar para funçao imprimir
     char *palavra;
     Ocorrencia *ocorrencias;
 } EntradaOrdenada;
