@@ -172,7 +172,7 @@ ArvorePat construir_indice_patricia(ListaArquivos* lista) {
         return NULL;
     }
 
-    printf("Iniciando construção do índice Patricia para %d documentos...\n", lista->quantidade);
+    printf("Iniciando construcao do índice Patricia para %d documentos...\n", lista->quantidade);
 
     for (int i = 0; i < lista->quantidade; i++) {
         const char* nome_arquivo = lista->arquivos[i].nome;
