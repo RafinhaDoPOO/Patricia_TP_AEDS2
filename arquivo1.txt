@@ -1,1 +1,12 @@
-Gabriel gabriel la longe HaVIa
+ Abstract. As we move towards new decentralized application solutions, we can
+ observe a growing number of smart contracts on blockchain networks, ranging
+ from more straightforward implementations to more complex and valuable ones.
+ However, this significant increase brings along a concerning amount of vulne
+rable contracts, susceptible to attacks from malicious actors aiming to steal
+ resources or cause application failures. This paper aims to provide documenta
+tion on detecting the main vulnerabilities in Solidity and present an automated
+ detection solution that utilizes static analysis techniques to identify vulnerabili
+ties in large datasets of smart contracts. Based on this, performance tests and
+ comparisons were conducted with the leading current tools in the smart contract
+ verification field, In these experiments, our tool achieved good results in terms
+ of both execution time and detection capability compared to the others.

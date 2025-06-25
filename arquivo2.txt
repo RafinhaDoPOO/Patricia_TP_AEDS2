@@ -1,1 +1,2 @@
-Gabriel gabriel Gabriel
+Abstract
+This study used a Convolutional Neural Network (CNN) NasNet Mobile to identify productive and drought-resistant eucalyptus crosses by analyzing their leaves. The dataset, after data augmentation, comprised 17,790 images divided into 4 classes. The final test was conducted in 3 stages. Stage I involved testing the number of dense layers, Stage II focused on dropout and L2 regularization, and Stage III performed k-fold cross-validation with k = 10. For cross-validation, the best model achieved an accuracy of 82.69% in training, 63.96% in validation, and 56.70% with test images.

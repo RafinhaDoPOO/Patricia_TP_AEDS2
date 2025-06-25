@@ -1,0 +1,11 @@
+Abstract. In the last years studies on security solutions to smart homes, trans
+portation systems and even cities have been developed. In this scenario, cri
+minal data have became increasly important. Although occurences from police
+ databases are frequently used, many times the most ordinary crimes end up not
+ being registered by them. The goal of this work is to present a method to extract
+ criminal data from Sao Paulo city portuguese Twitter posts. The majority of
+ related work found perform automatic extractions for english texts. When por
+tuguese is considered, the accurancy is frequently not presented and the final
+ dataset is small. In this work, the final dataset has 1,333 labeled tweets, which
+ were compared to a police database, highlighting information similarities but
+ also possibilities for complementation.

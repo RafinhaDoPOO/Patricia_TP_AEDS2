@@ -1,0 +1,9 @@
+Abstract. Computational tools focused on education enviroment has been stu
+died and used more and more every day, and many studies point that it’s very
+ important that those tools get tested, to guarantee the quality of them. This
+ article aims testing the usability of UFV Virtual Labs’ simulation module, a vir
+tual laboratory of natural sciences and their technologies, by using MEEGA+
+ method. According to the users responses to a questionnaire, it was possible to
+ analyse the simulations, and the game was classified as a good game according
+ to MEEGA+ scale. However accessibility and operability had worse results
+ than the other dimensions used on the evaluation.
