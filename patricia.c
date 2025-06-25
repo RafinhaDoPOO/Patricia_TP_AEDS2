@@ -253,7 +253,7 @@ Palavra* buscar_palavra(ArvorePat arvore, const char* texto_palavra) {
     }
 }
 
-// --- FUNÇÃO PARA LIBERAR O ÍNDICE (VERSÃO CORRIGIDA) ---
+//_________________________________________________________________________--
 void liberar_indice_patricia(ArvorePat arvore) {
     if (arvore == NULL) return;
 

@@ -1,0 +1,9 @@
+Como compilar o projeto
+
+pelo makefile:
+
+make
+
+./programa entrada.txt
+
+

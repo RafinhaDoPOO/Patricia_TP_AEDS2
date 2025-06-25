@@ -8,7 +8,7 @@
 #include "processador.h"
 #include "menu.h"
 
-// Funcoes auxiliares 
+// Funcoes auxiliares para busca e relevancia______________________________________________
 void calcular_relevancia_patricia(ArvorePat no, ListaArquivos* lista) {
     if (no == NULL) return;
     if (no->nt == externo) {
@@ -35,7 +35,7 @@ void calcular_relevancia_hash(HashTable* ht, ListaArquivos* lista) {
         }
     }
 }
-
+//______________________________________________________________________________________
 void inicializar_sistema(const char *arquivo_entrada) {
     printf("1. Lendo arquivos de '%s'...\n", arquivo_entrada);
     ListaArquivos* lista = ler_arq_entrada(arquivo_entrada);
@@ -77,7 +77,7 @@ void inicializar_sistema(const char *arquivo_entrada) {
     printf("Programa finalizado.\n");
 }
 
-
+//__________________________________________________________________________
 
 void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht) {
     int opcao, subop;

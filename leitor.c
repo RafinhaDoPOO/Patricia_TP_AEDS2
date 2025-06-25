@@ -96,7 +96,7 @@ void ler_conteudo_arquivos(ListaArquivos *lista) {
         fclose(arquivo);
     }
 }
-
+//________________________________________________________________________________
 void printar_conteudo_arquivos(const ListaArquivos *lista) {
     if (!lista) return;
 
