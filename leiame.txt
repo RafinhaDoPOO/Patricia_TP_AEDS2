@@ -1,9 +1,27 @@
-Como compilar o projeto
+TUTORIAL DE USO DO PROGRAMA
 
-pelo makefile:
+Para compilar e executar o programa, você precisa de:
 
-make
+- Um compilador C (como GCC)
+- Terminal ou console (cmd, PowerShell, Linux ou Git Bash)
+- Sistema com suporte a ANSI C (Windows, Linux ou Mac)
+
+COMPILAÇÃO
+Para compilar o programa, você pode seguir dois caminhos diferentes especificados abaixo:
+
+1. Acesse o terminal na pasta do projeto e digite:
+
+    gcc src/*.c -Iinclude -o programa
+
+Isso irá gerar um executável chamado `programa`.
+
+1.1. Para rodar o programa, digite no terminal:
 
 ./programa entrada.txt
 
 
+2. Acesse o terminal na pasta do projeto e digite o comando:
+            make
+
+2.1. Em seguida digite o comando :
+          make run
