@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+//#include <ctype.h>
 #include <math.h>
 #include "processador.h"
 
-// Normaliza uma palavra: remove caracteres não alfanuméricos e converte para minúsculas.
+/* Normaliza uma palavra: remove caracteres não alfanuméricos e converte para minúsculas. Remover para o tratamento ficar separado.
 void normalizar_palavra(char* palavra) {
     if (!palavra) return;
     int i, j = 0;
@@ -15,7 +15,7 @@ void normalizar_palavra(char* palavra) {
         }
     }
     palavra[j] = '\0';
-}
+} */
 
 // Adiciona ou atualiza uma ocorrência para uma palavra em um determinado documento.
 void adicionar_ocorrencia(Palavra* palavra, int idDoc) {
