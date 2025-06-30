@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+# include "processador.h"
 int comparacoes_patricia_insercao = 0;
 int comparacoes_patricia_busca = 0;
 

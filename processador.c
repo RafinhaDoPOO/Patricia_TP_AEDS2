@@ -5,17 +5,68 @@
 #include <math.h>
 #include "processador.h"
 
-// Normaliza uma palavra: remove caracteres não alfanuméricos e converte para minúsculas.
-void normalizar_palavra(char* palavra) {
-    if (!palavra) return;
-    int i, j = 0;
-    for (i = 0; palavra[i] != '\0'; i++) {
-        if (isalnum((unsigned char)palavra[i])) {
-            palavra[j++] = tolower((unsigned char)palavra[i]);
+#include <ctype.h>
+#include <string.h>
+#include <stdio.h>
+
+// Função: normaliza a palavra, transformando letras com acento em sem acento,
+// cedilha vira c, e mantém apenas letras a–z em minúsculo.
+void normalizar_palavra(char *palavra) {
+    int i = 0, j = 0;
+    size_t len = strlen(palavra);
+
+    while (i < (int)len) {
+        unsigned char c = (unsigned char) palavra[i];
+
+        // Trata cedilha em UTF-8: ç = 0xC3 0xA7, Ç = 0xC3 0x87
+        if ((unsigned char)palavra[i] == 0xC3 &&
+            (i + 1 < (int)len) &&
+            ((unsigned char)palavra[i + 1] == 0xA7 || (unsigned char)palavra[i + 1] == 0x87)) {
+            palavra[j++] = 'c';
+            i += 2;
+            continue;
         }
+
+        // Acentos mais comuns (ex: á é 0xC3 0xA1) — vamos mapear manualmente
+        if ((unsigned char)palavra[i] == 0xC3 && (i + 1 < (int)len)) {
+            unsigned char next = (unsigned char)palavra[i + 1];
+            switch (next) {
+                case 0xA0: case 0xA1: case 0xA2: case 0xA3: case 0xA4:  // à á â ã ä
+                case 0x80: case 0x81: case 0x82: case 0x83: case 0x84:  // À Á Â Ã Ä
+                    palavra[j++] = 'a'; break;
+                case 0xA8: case 0xA9: case 0xAA: case 0xAB:             // è é ê ë
+                case 0x88: case 0x89: case 0x8A: case 0x8B:             // È É Ê Ë
+                    palavra[j++] = 'e'; break;
+                case 0xAC: case 0xAD: case 0xAE: case 0xAF:             // ì í î ï
+                case 0x8C: case 0x8D: case 0x8E: case 0x8F:             // Ì Í Î Ï
+                    palavra[j++] = 'i'; break;
+                case 0xB2: case 0xB3: case 0xB4: case 0xB5: case 0xB6:  // ò ó ô õ ö
+                case 0x92: case 0x93: case 0x94: case 0x95: case 0x96:  // Ò Ó Ô Õ Ö
+                    palavra[j++] = 'o'; break;
+                case 0xB9: case 0xBA: case 0xBB: case 0xBC:             // ù ú û ü
+                case 0x99: case 0x9A: case 0x9B: case 0x9C:             // Ù Ú Û Ü
+                    palavra[j++] = 'u'; break;
+                default:
+                    // não reconhecido, ignora o par
+                    break;
+            }
+            i += 2;
+            continue;
+        }
+
+        // ASCII normal (ex: letras, números, pontuação)
+        char lower = (char) tolower(c);
+        if (lower >= 'a' && lower <= 'z') {
+            palavra[j++] = lower;
+        }
+
+        i++;
     }
+
     palavra[j] = '\0';
+
 }
+
 
 // Adiciona ou atualiza uma ocorrência para uma palavra em um determinado documento.
 void adicionar_ocorrencia(Palavra* palavra, int idDoc) {

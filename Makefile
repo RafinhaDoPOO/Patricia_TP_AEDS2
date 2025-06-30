@@ -8,8 +8,7 @@ CFLAGS = -Wall -Wextra -std=c99
 TARGET = programa
 
 # All C source files in your project
-SRCS = hash.c leitor.c main.c menu.c patricia.c processador.c
-
+SRCS = hash.c leitor.c main.c menu.c patricia.c processador.c 
 # Automatically generate object file names from source files
 OBJS = $(SRCS:.c=.o)
 
@@ -26,3 +25,6 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET) entrada.txt

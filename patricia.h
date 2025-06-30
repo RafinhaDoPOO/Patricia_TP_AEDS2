@@ -8,7 +8,7 @@ int comparacoes_patricia_busca ;
 
 
 
-#define D 8 // Bits em um caractere
+#define D 13 // Bits em um caractere
 
 typedef enum {
     interno,

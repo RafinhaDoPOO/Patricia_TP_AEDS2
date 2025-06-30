@@ -200,6 +200,7 @@ void imprimirIndiceHash(HashTable *ht) {
 Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra) {
     if (!ht || !palavra) return NULL;
 
+
     int indice = funcaoHash((char*)palavra);
 
     HashItem* item = ht->tabela[indice];
@@ -220,5 +221,3 @@ Palavra* buscar_palavra_hash(HashTable* ht, const char* palavra) {
     }
     return NULL;
 }
-
-

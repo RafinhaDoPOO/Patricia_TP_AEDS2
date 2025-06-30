@@ -39,14 +39,17 @@ void calcular_relevancia_hash(HashTable* ht, ListaArquivos* lista) {
 void inicializar_sistema(const char *arquivo_entrada) {
     printf("1. Lendo arquivos de '%s'...\n", arquivo_entrada);
     ListaArquivos* lista = ler_arq_entrada(arquivo_entrada);
+    
     if (!lista) {
         fprintf(stderr, "Erro ao carregar lista de arquivos.\n");
         return;
     }
     ler_conteudo_arquivos(lista);
 
+
+
     // Construção da Patricia
-    printf("2. Construindo o índice Patricia...\n");
+    printf("2. Construindo o indice Patricia...\n");
     comparacoes_patricia_insercao = 0;
     ArvorePat indice_patricia = construir_indice_patricia(lista);
     if (!indice_patricia) {
@@ -54,7 +57,7 @@ void inicializar_sistema(const char *arquivo_entrada) {
         return;
     }
 
-    printf("3. Calculando relevância (TF-IDF) Patricia...\n");
+    printf("3. Calculando relevancia (TF-IDF) Patricia...\n");
     calcular_relevancia_patricia(indice_patricia, lista);
 
     // Construção da Hash
@@ -64,14 +67,14 @@ void inicializar_sistema(const char *arquivo_entrada) {
     comparacoes_hash_insercao = 0;
     construir_indice_hash(&ht, lista);
 
-    printf("5. Calculando relevância (TF-IDF) Hash...\n");
+    printf("5. Calculando relevancia (TF-IDF) Hash...\n");
     calcular_relevancia_hash(&ht, lista);
 
     // Menu principal
     exibir_menu(lista, indice_patricia, &ht);
 
     // Liberação de memória
-    printf("Liberando memória...\n");
+    printf("Liberando memoria...\n");
     liberar_indice_patricia(indice_patricia);
     liberar_lista(lista);
     printf("Programa finalizado.\n");
@@ -108,7 +111,8 @@ void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht)
                 if (subop == 1) {
                     printf("\n--- Indice Patricia ---\n");
                     imprimir_patricia(indice_patricia, lista);
-                } else if (subop == 2) {
+                } 
+                else if (subop == 2) {
                     printf("\nHash: 1) Ordenado   2) Sem ordenacao\n");
                     printf("Escolha o modo de impressao: ");
                     scanf("%d", &subop);
@@ -131,6 +135,10 @@ void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht)
             case 2:
                 printf("\n1) Patricia   2) Hash\nEscolha estrutura para buscar: ");
                 scanf("%d", &subop);
+                if (subop != 1 && subop != 2) {
+                    printf("Opcao invalida!\n");
+                    break;
+                }
                 while (getchar() != '\n');
                 printf("Digite a palavra: ");
                 fgets(palavra_busca, sizeof(palavra_busca), stdin);
@@ -142,7 +150,6 @@ void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht)
                 normalizar_palavra(palavra_busca);
 
                 if (subop == 1) {
-                    comparacoes_patricia_busca = 0;
                     Palavra *res_p = buscar_palavra(indice_patricia, palavra_busca);
                     if (res_p) {
                         printf("Encontrado na Patricia:\n");
@@ -154,8 +161,8 @@ void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht)
                     } else {
                         printf("Nao encontrado na Patricia.\n");
                     }
-                } else if (subop == 2) {
-                    comparacoes_hash_busca = 0;
+                }
+                else if (subop == 2) {
                     Palavra *res_h = buscar_palavra_hash(ht, palavra_busca);
                     if (res_h) {
                         printf("Encontrado na Hash:\n");
@@ -169,7 +176,8 @@ void exibir_menu(ListaArquivos* lista, ArvorePat indice_patricia, HashTable* ht)
                     } else {
                         printf("Nao encontrado na Hash.\n");
                     }
-                } else {
+                }
+                else {
                     printf("Opcao invalida!\n");
                 }
                 break;
