@@ -1,0 +1,665 @@
+﻿OTIMIZAÇÃO MULTIOBJETIVO BASEADA EM ENSINO E
+APRENDIZAGEM APLICADA À VERSÃO ROBUSTA DO PROBLEMA
+
+DA VIGA EM SEÇÃO I
+
+Marcos Amaral Mendonça
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcos.a.mendonca@ufv.br
+
+Marcus Henrique Soares Mendes
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcus.mendes@ufv.br
+
+RESUMO
+A presença de incertezas, como as paramétricas, em problemas de otimização pode fazer
+
+com que soluções nominais se tornem inviáveis. Neste artigo é proposto um algoritmo baseado
+na meta-heurı́stica Otimização baseada em Ensino e Aprendizagem (TLBO) que resolve a versão
+robusta do Problema da Viga em Seção I (PVSI), levando em consideração tal tipo de incerteza. A
+implementação possui um algoritmo não robusto chamado NMOTLBO que obtém as soluções que
+desconsideram incertezas (soluções nominais), e um algoritmo robusto com a aplicação de duas
+técnicas para lidar com incertezas, o WCSA (RMOTLBO-WCSA) e o WCE (RMOTLBO-WCE).
+Os experimentos mostram que as soluções nominais, quando na presença de incertezas, possuem
+uma piora drástica nos valores de suas funções objetivos. Além disso, os resultados indicam, por
+meio das métricas Hipervolume e IGD que as soluções robustas encontradas são melhores do que
+as soluções nominais quando submetidas aos piores casos de incertezas.
+
+PALAVRAS CHAVE. Otimização baseada em Ensino e Aprendizagem, Otimização Multiob-
+jetivo, Otimização Robusta.
+
+Área Principal: MH - Meta-heurı́sticas
+
+ABSTRACT
+The presence of uncertainties, such as parametric ones, in optimization problems can
+
+cause nominal solutions to become infeasible. In this paper we propose an algorithm based on the
+metaheuristic Teaching-learning-based optimization (TLBO) that solves the robust version of the
+I-Beam Problem, taking into account this type of uncertainty. The implementation has a non-robust
+algorithm called NMOTLBO that obtains solutions that disregard uncertainties (nominal solutions),
+and a robust algorithm with the application of two uncertainty techniques, the WCSA (RMOTLBO-
+WCSA) and the WCE (RMOTLBO-WCE). The experiments show that nominal solutions, when in
+the presence of uncertainties, have a drastic deterioration in the values of their objective functions.
+In addition, the results indicate that through the Hypervolume and IGD metrics the robust solutions
+found are better than the nominal solutions when subjected to the worst cases of uncertainties.
+
+KEYWORDS. Teaching-learning-based optimization. Multi-objective optimization. Robust
+optimization.
+
+Main Area: MH - Metaheuristics
+
+
+
+1. Introdução
+Problemas de otimização, principalmente na área de engenharia, estão sujeitos a incerte-
+
+zas, as quais podem ser associadas a imprecisões nas medidas das variáveis de decisão, mudanças
+nas condições do ambiente, entre outros. Deste modo, uma solução que desconsidera as incertezas
+(solução nominal) ótima encontrada para um dado problema pode acabar se tornando completa-
+mente sem sentido na prática [Ben-Tal et al., 2009].
+
+Neste cenário, tem-se então a formulação de problemas robustos, e a resolução deste tipo
+de problema acaba se resumindo a encontrar soluções que, apesar de estarem sujeitas a pequenas
+incertezas, mantenham-se factı́veis para o nı́vel de incerteza especificado no modelo e boas em
+termos de desempenho.
+
+O problema da Viga em Seção I [Coello e Christiansen, 1998] é um problema multi-
+objetivo, conhecido na área da engenharia e se enquadra perfeitamente no contexto de problemas
+robustos. Quanto à questão deste problema na literatura, no trabalho de Rao et al. [2011] o Problema
+da Viga em Seção I é solucionado pelos algoritmos evolutivos (NSGA-II, MOPSO-CD, RM-MEDA
+e MOTLBO), porém sem levar em consideração a incerteza relacionada ao problema. E no trabalho
+de Mendes [2013], uma formulação robusta do Problema da Viga em Seção I é proposta e resolvida
+por meio do algoritmo Interval Robust Multi-Objective Evolutionary Algorithm - Minimax.
+
+Em vista disso, o objetivo geral deste trabalho visa resolver a versão robusta do problema
+da viga em seção I utilizando a meta-heurı́stica Otimização baseada em Ensino e Aprendizagem
+(TLBO - Teaching-Learning-Based Optimization) [Rao et al., 2011], levando em consideração o
+pior caso das incertezas inerentes ao problema.
+
+Na Seção 2, será apresentada a formulação matemática do Problema da Viga em Seção I;
+a Seção 3 apresenta a meta-heurı́stica Otimização baseada em Ensino e Aprendizagem; a Seção 4
+apresenta conceitos de incerteza e robustez; na Seção 5 será apresentada a versão multiobjetivo da
+meta-heurı́stica TLBO; a Seção 6 apresenta as metodologias aplicadas; na Seção 7 apresentam-se
+os experimentos e resultados; e na Seção 8 tem-se a conclusão.
+2. Problema da Viga em Seção I
+
+O Problema da Viga em Seção I (PVSI) ilustrado pela Figura 1 e extraı́do de [Coello
+e Christiansen, 1998], é um problema multiobjetivo conhecido na área da engenharia. O PVSI
+consiste em encontrar as dimensões x = [x1, x2, x3, x4] para uma viga em seção I de modo a
+minimizar a área da seção transversal (Equação 1) e o deslocamento estático máximo (Equação 2),
+respeitando-se a restrição de projeto relacionada às cargas P e Q (Equação 3).
+
+Figura 1: Viga em Seção I [Coello e Christiansen, 1998]
+
+
+
+A formulação matemática da versão robusta do problema da viga é dada abaixo, as
+variáveis de decisão x são dadas em centı́metros, a função objetivo relacionada à área da seção trans-
+versal é dada em centı́metros quadrados e o deslocamento estático máximo é dado em centı́metros.
+A variável p que está relacionada a cada variável de decisão na formulação matemática, diz respeito
+à incerteza especificada para este problema.
+
+x1 ∈ [10; 80], x2 ∈ [10; 50], x3 ∈ [0, 9; 5], x4 ∈ [0, 9; 5], p ∈ [−1; 1]
+
+f1(x, p) = 2(x2 + p)(x4 + p) + (x3 + p)((x1 + p)− 2(x4 + p)) (1)
+
+f 00
+2(x, p) = 60.0 2)
+
+(x3+p)((x1+p)−(x4+p))3+2(x2+p)(x4+p)[4(x4+p)2+3(x1+p)((x1+p)− (
+2(x4+p))]
+
+g(x, p) = − 180.000(x1+p)
+(x 2
+
+3+p)((x1+p)−(x4+p))3+2(x2+p)(x4+p)[4(x4+p) +3(x1+p)((x1+p)−2(x4+p))]
+(3)
+
++16− 15.000(x2+p) ≥ 0
+((x1+p)−2(x 3
+
+4+p))(x3+p) +2(x4+p)(x2+p)3
+
+3. Otimização baseada em Ensino e Aprendizagem (TLBO)
+Em 2011 foi proposta a meta-heurı́stica Otimização Baseada em Ensino e Aprendizagem
+
+[Rao et al., 2011], essa meta-heurı́stica assim como várias outras presentes na literatura se inspira
+na natureza. A TLBO é recomendada para problemas de design mecânico, os quais utilizam um
+conjunto de soluções que compõem uma população para avançar em direção da solução global. A
+principal caracterı́stica deste método em relação aos demais, é que este não necessita de parâmetros
+a serem configurados, diferentemente dos algoritmos genéticos que, por exemplo, demandam a taxa
+de cruzamento, a probabilidade de mutação, entre outros parâmetros.
+
+Na TLBO a população é considerada uma turma de alunos onde cada aluno representa
+uma solução e, analogamente, cada variável de decisão é considerada como um assunto ou conteúdo
+passado em sala de aula. O método é dividido em duas etapas: a primeira etapa é chamada de Fase
+de Ensino e consiste nos alunos adquirirem conhecimento através de um professor previamente es-
+colhido antes de cada iteração do método, e a segunda etapa é chamada de Fase de Aprendizagem na
+qual os alunos, após adquirirem conhecimento com o professor, irão interagir entre si seja por meio
+de estudo em grupo ou discussões para elevarem seu nı́vel de conhecimento. A Figura 2 apresenta
+o fluxograma que demonstra o funcionamento básico da meta-heurı́stica Otimização Baseada em
+Ensino e Aprendizagem proposto por Rao et al. [2011].
+
+Na Fase de Ensino, a escolha do professor é feita selecionando-se o melhor aluno (solução)
+da turma, levando em consideração o valor da fitness do mesmo. Os únicos dois valores que devem
+ser informados a princı́pio para o algoritmo, são a quantidade de soluções e a quantidade máxima
+de avaliações da fitness, que implica diretamente no critério de parada do algoritmo.
+4. Incerteza e Robustez
+
+No que diz respeito à robustez, o trabalho de Perny et al. [2006] diz que o termo robusto
+está sendo empregado para caracterizar uma estratégia flexı́vel, solução prudente ou até mesmo uma
+conclusão estável. Porém, na literatura, há vários conceitos relacionados à incerteza e robustez, o
+que faz com que não tenhamos uma uniformidade de conceitos.
+
+Beyer e Sendhoff [2007] definem quatro tipos de incertezas no âmbito de otimização de
+projeto robusto:
+
+A. Mudança do ambiente: envolve a variação de temperatura, umidade, alterações nas proprieda-
+des dos materiais.
+
+
+
+Inicializa o número de estudantes (NP ), critério de parada (FES)
+
+Calcula a média de cada variável de decisão
+
+Identifica a melhor solução (Professor)
+
+Modifica a solução com base na melhor solução
+Xnovo = Xvelho + rand(XProfessor − (TF )média)
+
+A nova
+não solução sim
+
+Rejeita é melhor Aceita
+do que a
+existente?
+
+Seleciona duas soluções Xi e Xj aleatoriamente
+
+sim Xi é não
+melhor
+
+que Xj?
+
+Xnovo = Xvelho + rand(Xi −Xj) Xnovo = Xvelho + rand(Xj −Xi)
+
+A nova
+não solução sim
+
+Rejeita é melhor Aceita
+do que a
+existente?
+
+O critério
+de parada não
+
+foi
+satisfeito?
+
+sim
+
+Valor final das soluções
+
+Figura 2: Fluxograma TLBO [Rao et al., 2011]
+
+B. Tolerância de produção: considerada como uma perturbação nas variáveis de decisão do pro-
+blema.
+
+C. Incertezas nas saı́das do sistema: relacionadas a erros de simulação nos modelos originais.
+
+D. Incerteza de Viabilidade: estão diretamente relacionadas às restrições do problema.
+
+E ainda segundo Beyer e Sendhoff [2007] as incertezas podem ser quantificadas de três
+formas diferentes:
+
+1. Incerteza Probabilı́stica: é conhecido a priori a probabilidade de que uma incerteza esteja em
+determinada faixa de valores [Dubois e Prade, 2009].
+
+2. Incerteza Determinı́stica: a incerteza pode assumir um valor definido em um intervalo fe-
+chado.
+
+3. Incerteza Possibilı́stica: é definido um intervalo nebuloso (fuzzy set) em que a incerteza pode
+oscilar.
+
+
+
+Por isso, até doze conceitos de robustez podem ser encontrados em problemas reais, o que
+faz fortalecer que projetos apresentem os conceitos de robustez em sua modelagem.
+
+Neste trabalho, as incertezas são consideradas do tipo determinı́stico, pois assumem um
+valor definido em um intervalo fechado conforme proposto na formulação matemática do problema,
+e representam variações das medidas da Viga em Seção I, variações estas que podem ocorrer em
+virtude de erros de medida ou condições do tempo, por exemplo.
+5. Otimização Multiobjetivo baseada em Ensino e Aprendizagem
+
+Na implementação da meta-heurı́stica utilizada como base foram utilizados alguns con-
+ceitos recorrentes de problemas multiobjetivos. O conceito de Classificação de não Dominância
+(Nondominated Sorting) foi utilizado para selecionar as melhores soluções. O conceito de Distância
+de Multidão (Crowding Distance) também foi utilizado para a escolha do professor (solução) em
+relação à população. A seguir, cada conceito será melhor detalhado.
+5.1. Classificação de não Dominância
+
+Este conceito é utilizado para determinar qual solução é melhor em termos de fitness
+quando se compara duas soluções. Segundo o trabalho de Deb et al. [2000], para encontrar a
+classificação de não-dominância de uma população é necessário calcular duas variáveis para cada
+solução: ni, o número de soluções que dominam a solução i, e Si, o conjunto de soluções que a
+solução i domina.
+
+A partir disso, para cada solução i com ni = 0, é visitada cada solução j que compõe
+o conjunto S e é feito uma redução em uma unidade a variável ni desta solução j. Após este
+passo, todas as soluções presentes no conjunto S em que a variável ni se tornar zero, estas soluções
+são identificadas como pertencentes à segunda frente e são adicionadas à um conjunto P . Este
+procedimento é continuado para as soluções presentes em P para obtenção da terceira frente e
+assim por diante.
+
+Ao final do procedimento serão obtidas todas as frentes para esse conjunto de soluções
+que compõe a população. A primeira frente também é conhecida como frente de pareto, e as
+soluções que pertencem a esta frente são não-dominadas entre si e dominam outras soluções de
+outras frentes.
+5.2. Distância de Multidão
+
+A Distância de Multidão [Deb et al., 2000] é usada para verificar a densidade de soluções
+nas proximidades de uma dada solução na população. Para calcular esta densidade é necessária a
+ordenação da função objetivo 1 de modo crescente de todas as soluções que pertencem à mesma
+frente.
+
+Na sequência, os valores extremos (menor e maior valor de função objetivo) recebem um
+valor de distância infinito, e todas as outras soluções recebem um valor de distância igual à diferença
+normalizada absoluta nos valores de função de duas soluções adjacentes. Depois esse processo é
+repetido para cada função objetivo presente no problema multiobjetivo. Ao final desses cálculos
+para cada função objetivo, a distância de multidão de uma solução é dada como a soma dos valores
+de distâncias individuais correspondentes a cada objetivo.
+
+Este conceito de distância de multidão é usado em dois momentos, conforme será mos-
+trado no pseudocódigo da próxima seção. O primeiro momento é quando necessita-se selecionar
+um professor (solução) na população, neste momento, qualquer solução que pertence à primeira
+frente (frente de pareto) é uma boa solução candidata pelo fato das soluções serem não dominadas
+entre si. Porém, apenas uma solução deve ser escolhida e, deste modo, é escolhida a solução que
+possuir maior distância de multidão, pelo fato da mesma representar uma área mais esparsa nas suas
+proximidades.
+
+E o segundo momento ocorre quando é necessário selecionar apenas metade da população
+para continuar o processo de otimização, e neste momento, o primeiro critério a ser analisado entre
+as soluções é a classificação de não dominância. Caso haja o contexto em que deve ser esco-
+lhida algumas soluções de uma mesma frente (soluções não dominadas), as soluções com menores
+
+
+
+distâncias de multidão devem ser escolhidas para deixarem a população, pelo fato daquela região já
+estar bem representada por outras soluções.
+5.3. Pseudocódigo
+
+A meta-heurı́stica Otimização Multiobjetivo baseada em Ensino e Aprendizagem (MO-
+TLBO) proposta por Zou et al. [2013], é uma extensão da meta-heurı́stica Otimização baseada em
+Ensino e Aprendizagem (TLBO) [Rao et al., 2011]. A diferença entre ambas, é que o MOTLBO lida
+com problemas multiobjetivos e necessita de conceitos especiais para avaliação das mesmas. No
+Algoritmo 1 é mostrado o pseudocódigo desta meta-heurı́stica. A fase de ensino está representada
+entre as linhas 6 e 17; e a fase de aprendizagem está delimitada pelas linhas 18 e 33.
+
+Algoritmo 1: Otimização Multiobjetivo baseada em Ensino e Aprendizagem
+1 Inicializa os valores NP e FES
+2 Gera aleatoriamente NP soluções
+3 Avalia as NP soluções
+4 enquanto não se atinge o critério de parada faça
+5 Seleciona a centroide das soluções não dominadas como Média
+6 para NP soluções faça
+7 Seleciona Professor (nondominated sorting, crowding distance)
+8 Ui = Xi + rand * (Professor - (1 + rand * Média))
+9 Avalia o individuo trial Ui
+
+10 se Ui domina Xi então
+11 Troca Xi por Ui
+12 senão
+13 se Ui e Xi não se dominam então
+14 Seleciona aleatoriamente entre Xi e Ui
+15 senão
+16 fim
+17 fim
+18 para NP soluções faça
+19 Seleciona aleatoriamente dois indivı́duos de NP , Vi e Xi (target)
+20 se Vi domina Xi então
+21 Ui = Xi + (Xi - Vi)
+22 senão
+23 Ui = Xi + (Vi - Xi)
+24 fim
+25 Avalia o individuo trial Ui
+26 se Ui domina Xi então
+27 Troca Xi por Ui
+28 senão
+29 se Ui e Xi não se dominam então
+30 Seleciona aleatoriamente entre Xi e Ui
+31 senão
+32 fim
+33 fim
+34 Seleciona NP soluções (nondominated sorting, crowding distance) das 2NP
+
+soluções na população
+35 fim
+36 Exibe as soluções
+
+5.4. Tratamento de Restrições
+O tratamento de restrições utilizado para a meta-heurı́stica Otimização Multiobjetivo ba-
+
+seado em Ensino e Aprendizagem é o método proposto por Deb [2000]. Esse método compara duas
+soluções e faz a seleção de qual solução deve permanecer na população, com base nas três regras
+heurı́sticas:
+
+• Se uma solução é viável e a outra é inviável, então a solução viável é escolhida.
+
+• Se ambas as soluções são inviáveis, então a solução que tem a menor violação de restrição é
+escolhida.
+
+• Se ambas as soluções são viáveis, então a solução não dominada é escolhida e, caso ambas
+pertençam à mesma frente, a escolha é feita aleatoriamente.
+
+Este método é aplicado durante as fases de ensino e aprendizagem, mais precisamente
+após a geração do indivı́duo Ui nas linhas 10 e 26 do Algoritmo 1. As duas soluções a serem
+comparadas são as soluções Ui e Xi em ambos os casos.
+
+
+
+6. Metodologia
+A meta-heurı́stica Otimização Multiobjetivo baseada em Ensino e Aprendizagem imple-
+
+mentada conforme o pseudocódigo do Algoritmo 1, é capaz de gerar três tipos de resultados distin-
+tos. O primeiro deles é a implementação NMOTLBO não robusta (versão nominal) que desconsi-
+dera as incertezas do problema, desse modo as variáveis p presentes na formulação matemática do
+Problema da Viga em Seção I são iguais a zero.
+
+O segundo tipo chamado de RMOTLBO-WCSA, é o pior caso por amostragem, proposto
+por Soares et al. [2009]. O terceiro tipo de resultado é a aplicação do método de estimativa do pior
+caso de incerteza (worst case estimation), proposto por Steiner et al. [2004], cuja implementação é o
+RMOTLBO-WCE. Os dois últimos tipos de resultados são gerados através de uma implementação
+robusta.
+
+Ambas as implementações robustas, são aplicadas à população de soluções através de
+métodos especı́ficos, que fazem a perturbação de todas as soluções da população após a avaliação
+das soluções, identificado após a linha 3 do Algoritmo 1, e também após a avaliação dos indivı́duos
+Ui gerados, que ocorre após as linhas 9 e 25. Dessa forma a população no decorrer de todo o
+processo de otimização, sempre trabalha com soluções robustas.
+
+6.1. Pior Caso por Amostragem
+O Pior Caso por Amostragem ou também chamado de WCSA (worst case scenario appro-
+
+ximation) é uma metodologia proposta por Soares et al. [2009]. Nesta metodologia é considerado
+um conjunto de amostras e, para cada solução presente na população, essas amostras de incertezas
+são aplicadas na variável p presente na formulação matemática do problema.
+
+Figura 3: WCSA de uma solução x0 com base no conjunto de amostras P [Soares et al., 2009]
+
+Tendo como base este conjunto de soluções robustas que dizem respeito a uma única
+solução, que antes era nominal, agora deve-se selecionar a pior solução robusta com base no critério
+de não dominância entre as soluções para substituir a solução nominal inicial. E caso duas ou mais
+soluções sejam não-dominadas entre si como é o caso da Figura 3, a nova solução que irá compor a
+população terá valores de função objetivo com base na projeção da solução que contém o pior valor
+de função objetivo 1, e pela solução que contém o pior valor de função objetivo 2.
+
+6.2. Estimativa do Pior Caso de Incerteza
+Segundo Steiner et al. [2004], a estimativa do pior caso de incerteza (worst case estima-
+
+tion) ocorrerá em um dos vértices do domı́nio U , desde que a função em análise seja monotônica
+para todas as variáveis de decisão ou convexa.
+
+Porém, dependendo da dimensão n do problema a ser otimizado, a avaliação de 2n
+
+vértices para cada função objetivo se torna completamente inviável do ponto de vista computa-
+cional. Portanto, cabe estimar qual o vértice que determina o pior caso de incerteza através do
+cálculo das Equações 4 e 5, com custo computacional apenas de 2n + 1 avaliações [Steiner et al.,
+2004].
+
+
+
+Figura 4: Função convexa definida em U(x0) [Steiner et al., 2004]
+
+fwci(x0, P ) = max[(fi(x0,p∗), fi(x0))]|
+
+ 
+ sign(fi(x0, p − fi(x0, p ))∆
+
+1 1
+
+ 1) ∆j = pj , se sign(fi(x0, pj)− fi(x0, p )) > 0
+
+ sign(f j
+
+ i(x0, p2)− fi(x0, p ))∆ 
+p∗ 2 2 
+
+= . 
+.  , (4) ∆j = p , caso contrário. (5)
+. j
+
+sign(f j = 1, 2, ..., np.i(x0, pn )− fi(x0, p ))∆
+p n np
+
+p
+
+p∗ ∈ P, i = 1, 2, ..., nf
+
+E mesmo que a função não seja convexa, nem monotônica em U , não se pode dizer com
+certeza se este método irá encontrar o pior caso de incerteza em um dos vértices, mas mesmo assim,
+ele pode ser utilizado como uma heurı́stica de estimativa do pior caso de incerteza [Sabioni, 2017].
+
+7. Experimentos e Resultados
+Para realização dos experimentos e testes foi utilizado um processador Intel(R) Core(TM)
+
+i3-2328M, 2.20GHz com 8 GB de RAM. O algoritmo foi implementado no MOEA Framework, que
+é uma biblioteca Java de código aberto para desenvolvimento de algoritmos evolutivos multiobjeti-
+vos, e está disponı́vel em www.moeaframework.org.
+
+Para cada experimento, foram feitas 30 execuções usando-se 100 indivı́duos (NP) cons-
+tituindo uma população, e 10000 avaliações (FES) da função objetivo como número máximo de
+iterações. Para cada experimento realizado, o tempo para obter uma frente de pareto é em média
+4,4 segundos e, foram utilizados NP igual a 100 e FES igual a 10000, pois usando valores maiores
+do que esses, os resultados obtidos se mantinham estagnados sem melhora significativa.
+
+O primeiro resultado obtido aplicando-se a meta-heurı́stica Otimização Multiobjetivo ba-
+seada em Ensino e Aprendizagem, foi a obtenção da fronteira de pareto nominal por meio do
+NMOTLBO, composta por soluções que desconsideram a incerteza do problema. Na sequência,
+foi encontrada a fronteira de pareto robusta para o pior caso por amostragem (RMOTLBO-WCSA)
+com 20 amostras, composta por soluções que levam em consideração a incerteza especificada para
+o problema.
+
+Por fim, as soluções nominais encontradas foram aplicadas à uma amostra de 20 incertezas
+aleatórias com o intuito de descobrir qual seria o comportamento dessas soluções com as outras
+frentes encontradas. Este último caso é chamado de soluções nominais perturbadas e o resultado é
+exibido na Figura 5, que por sinal teve o eixo y representado em escala logarı́tmica para que todas
+as soluções pudessem ser representadas.
+
+Outro método abordado foi a estimativa de pior caso de incerteza (worst case estimation)
+proposta por Steiner et al. [2004], com a implementação RMOTLBO-WCE. As soluções encon-
+tradas para esta estimativa de pior caso de incerteza utilizaram 5 amostras de incertezas, e estão
+representadas na Figura 6, sendo comparadas com a fronteira de pareto robusta para o pior caso
+de amostragem (RMOTLBO-WCSA), com 20 amostras e com a solução nominal (NMOTLBO),
+ambas obtidas e mostradas na Figura 5.
+
+Neste trabalho, duas métricas de desempenho foram usadas para melhor analisar as fren-
+tes encontradas, Hypervolume (HV) e Inverted Generational Distance (IGD). A métrica HV calcula
+
+
+
+Figura 5: Gráfico representando as Soluções Nominais (NMOTLBO), Soluções pertencentes ao Pior Caso
+por Amostragem (RMOTLBO-WCSA) e Soluções Nominais Perturbadas
+
+Figura 6: Gráfico representando as Soluções Nominais (NMOTLBO), Soluções pertencentes ao Pior Caso
+por Amostragem (RMOTLBO-WCSA) e a Estimativa do Pior Caso de Incerteza (RMOTLBO-WCE)
+
+a área dominada pelas soluções de Pareto, refletindo a dominância das frentes [Bader, 2010]. Desta
+maneira, quanto maior o valor do HV, melhores são as soluções representadas por uma dada frente.
+O IGD faz seu cálculo comparando dois conjuntos de soluções e medindo a diferença entre eles [Co-
+ello et al., 2007]. Assim, quanto menor o valor encontrado no IGD para um conjunto de soluções,
+melhores essas soluções são em relações às demais.
+
+As duas métricas foram aplicadas para 30 execuções nas soluções encontradas para a
+frente de pareto nominal (NMOTLBO), frente de pareto robusta para o pior caso por amostra-
+gem com 20 amostras (RMOTLBO-WCSA), estimativa de pior caso de incerteza com 5 amostras
+
+
+
+(RMOTLBO-WCE), e para as soluções que pertencem à frente de pareto do conjunto de soluções
+nominais perturbadas. Os resultados são exibidos na Tabela 1.
+
+NMOTLBO RMOTLBO-WCSA RMOTLBO-WCE S. Nominais Perturbadas
+HV (Hypervolume)
+
+Mediana 0,9034 0,6735 0,6404 0,5367
+Média 0,9028 0,6738 0,6392 0,5357
+
+Mı́nimo 0,8927 0,6592 0,6090 0,5038
+Máximo 0,9045 0,6892 0,6461 0,5569
+
+Desvio Padrão 0,0022 0,0078 0,0074 0,0131
+IGD (Inverted Generational Distance)
+
+Mediana 0,0077 0,1425 0,1797 0,2431
+Média 0,0099 0,1429 0,1800 0,2438
+
+Mı́nimo 0,0067 0,1342 0,1790 0,2177
+Máximo 0,0452 0,1516 0,1860 0,2723
+
+Desvio Padrão 0,0074 0,0051 0,0013 0,0117
+
+Tabela 1: Aplicação das métricas HV e IGD
+
+Com base nos valores obtidos pelas métricas HV e IGD apresentadas na Tabela 1, as
+soluções robustas para o pior caso por amostragem (RMOTLBO-WCSA) encontradas são mais
+pessimistas em relação às soluções nominais, mas isso se deve ao fato das soluções WCSA estarem
+sujeitas às incertezas. A estimativa de pior caso de incerteza (RMOTLBO-WCE), foi ainda bem
+superior em termos de desempenho quando comparada com as soluções que pertencem à frente de
+pareto do conjunto de soluções nominais perturbadas.
+
+Por fim, foi feita uma análise em torno do conjunto de soluções robustas para o pior
+caso por amostragem (RMOTLBO-WCSA). Neste experimento foi encontrada a fronteira de pareto
+robusta para quantidades de amostras de incertezas diferentes: 10 amostras, 20 amostras e 30 amos-
+tras. O resultado das frentes de pareto encontradas para cada um dos casos é mostrada na Figura
+7.
+
+Figura 7: Gráfico representando as Soluções pertencentes ao Pior Caso por Amostragem (RMOTLBO-
+WCSA) encontradas para diferentes quantidades de amostras
+
+Para gerar o resultado obtido na Figura 7, as métricas de desempenho HV e IGD foram
+
+
+
+calculadas uma vez para cada um dos 30 experimentos, para cada um dos conjuntos de soluções
+WCSA com quantidades de amostras diferentes. O resultado da aplicação dessas métricas se en-
+contram na Tabela 2.
+
+RMOTLBO-WCSA 10 amostras 20 amostras 30 amostras
+HV (Hypervolume)
+
+Mediana 0,6965 0,6371 0,6169
+Média 0,6975 0,6364 0,6167
+
+Mı́nimo 0,6806 0,6268 0,6063
+Máximo 0,7195 0,6462 0,6242
+
+Desvio Padrão 0,0108 0,0053 0,0043
+IGD (Inverted Generational Distance)
+
+Mediana 0,0577 0,0931 0,1084
+Média 0,0590 0,0926 0,1086
+
+Mı́nimo 0,0469 0,0848 0,1016
+Máximo 0,0748 0,1002 0,1211
+
+Desvio Padrão 0,0063 0,0042 0,0043
+
+Tabela 2: Aplicação das métricas HV e IGD
+
+Como detalhado na Tabela 2, há relação entre a quantidade de amostras utilizada e o de-
+sempenho destas soluções. A relação é que quanto mais amostras temos para a resolução de um
+problema, pior será o desempenho destas soluções robustas, pois o pior caso será melhor aproxi-
+mado.
+
+8. Conclusão
+O presente trabalho apresenta um algoritmo baseado na meta-heurı́stica TLBO, para reso-
+
+lução da versão robusta do Problema da Viga em Seção I que leva em consideração as incertezas
+inerentes ao problema, através da meta-heurı́stica Otimização Multiobjetivo baseada em Ensino e
+Aprendizagem.
+
+Como detalhado na Seção 7, referente aos experimentos e resultados, as soluções nomi-
+nais perturbadas foram em grande maioria dominadas pelas demais soluções de outras frentes e,
+assim, obteve-se um resultado esperado quanto às frentes de pareto robustas, tanto pela aplicação
+da técnica de pior caso por amostragem, quanto pela estimativa do pior caso de incerteza.
+
+Mesmo utilizando duas técnicas para obter-se soluções robustas, o pior caso por amos-
+tragem (RMOTLBO-WCSA) e a estimativa do pior caso de incerteza (RMOTLBO-WCE), ainda
+assim, ambas estratégias se mostraram melhores em termos de desempenho e apresentaram sempre
+soluções factı́veis, quando comparadas com as soluções nominais perturbadas através da aplicação
+das métricas HV e IGD.
+
+As soluções robustas se mostraram piores em termos dos valores das funções objetivos
+quando comparadas com as soluções nominais, entretanto isso era esperado pelo fato das soluções
+robustas terem a presença de incertezas em suas variáveis de decisões.
+
+Por meio do experimento que leva em consideração diferentes quantidades de amos-
+tras nas soluções robustas para o pior caso por amostragem (RMOTLBO-WCSA), obteve-se uma
+relação que diz respeito à quantidade de amostras utilizadas. Neste caso, quanto mais amostras são
+utilizadas, mais as soluções resultantes são pessimistas em relação às soluções que utilizam menor
+quantidade de amostras.
+
+Isso se deve ao fato de que ao aumentar a quantidade de amostras, também aumenta o
+espaço de busca das soluções robustas, assim, quanto mais amostras temos, maior a probabilidade
+de termos soluções robustas com piores valores de funções objetivos.
+
+
+
+Referências
+Bader, J. M. (2010). Hypervolume-based search for multiobjective optimization: theory and
+
+methods. Number 112. Johannes Bader.
+
+Ben-Tal, A., El Ghaoui, L., e Nemirovski, A. (2009). Robust optimization, volume 28. Princeton
+University Press.
+
+Beyer, H.-G. e Sendhoff, B. (2007). Robust optimization–a comprehensive survey. Computer
+methods in applied mechanics and engineering, 196(33-34):3190–3218.
+
+Coello, C. A. C. e Christiansen, A. D. (1998). Two new ga-based methods for multiobjective
+optimization. Civil Engineering Systems, 15(3):207–243.
+
+Coello, C. A. C., Lamont, G. B., Van Veldhuizen, D. A., et al. (2007). Evolutionary algorithms for
+solving multi-objective problems, volume 5. Springer.
+
+Deb, K. (2000). An efficient constraint handling method for genetic algorithms. Computer methods
+in applied mechanics and engineering, 186(2-4):311–338.
+
+Deb, K., Agrawal, S., Pratap, A., e Meyarivan, T. (2000). A fast elitist non-dominated sorting gene-
+tic algorithm for multi-objective optimization: Nsga-ii. In International Conference on Parallel
+Problem Solving From Nature, p. 849–858. Springer.
+
+Dubois, D. e Prade, H. (2009). Formal representations of uncertainty. Decision-Making Process:
+Concepts and Methods, p. 85–156.
+
+Mendes, M. H. S. Algoritmos evolucionários intervalares para otimização robusta multiobjetivo.
+Tese (Doutorado em Engenharia Elétrica, Programa de Pós-Graduação em Engenharia Elétrica)
+- Universidade Federal de Minas Gerais, Minas Gerais, 2013.
+
+Perny, P., Spanjaard, O., e Storme, L.-X. (2006). A decision-theoretic approach to robust optimiza-
+tion in multivalued graphs. Annals of Operations Research, 147(1):317–341.
+
+Rao, R. V., Savsani, V. J., e Vakharia, D. (2011). Teaching–learning-based optimization: a novel
+method for constrained mechanical design optimization problems. Computer-Aided Design, 43
+(3):303–315.
+
+Sabioni, C. L. Desenvolvimento de métodos para solução de problemas de otimização multiobje-
+tivo com incertezas. Tese (Doutorado em Engenharia Elétrica, Programa de Pós-Graduação em
+Engenharia Elétrica) - Universidade Federal de Minas Gerais, Minas Gerais, 2017.
+
+Soares, G. L., Adriano, R. L., Maia, C. A., Jaulin, L., e Vasconcelos, J. A. (2009). Robust multi-
+objective team 22 problem: A case study of uncertainties in design optimization. IEEE Transac-
+tions on Magnetics, 45(3):1028–1031.
+
+Steiner, G., Weber, A., e Magele, C. (2004). Managing uncertainties in electromagnetic design
+problems with robust optimization. IEEE transactions on magnetics, 40(2):1094–1099.
+
+Zou, F., Wang, L., Hei, X., Chen, D., e Wang, B. (2013). Multi-objective optimization using
+teaching-learning-based optimization algorithm. Engineering Applications of Artificial Intelli-
+gence, 26(4):1291–1300.

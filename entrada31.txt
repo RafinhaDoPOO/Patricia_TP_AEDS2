@@ -1,0 +1,470 @@
+﻿Detecção Automática de Linhas de
+Plantio em Culturas Agrı́colas
+
+Matheus Freitas Martins†, Domingos Sárvio M. Valente∓, José Augusto M. Nacif†,
+†Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa, Campus Florestal, Minas Gerais, Brasil
+
+∓Depto. de Engenharia Agrı́cola, Universidade Federal de Viçosa, Campus Viçosa, Minas Gerais, Brasil
+{matheus.f.martins,valente, jnacif}@ufv.br
+
+Resumo—A detecção automática de linhas de plantio em afetam diretamente na identificação e processamento [3]. Deste
+diferentes culturas não é um trabalho simples e exige um esforço modo, o problema consiste em lidar com cenários nos quais
+para ser realizada manualmente pelo agricultor. A automação o trajeto da plantação seja linear ou não linear, através de
+deste processo é um bom exemplo de aplicação que tem se
+tornado promissora com a inserção da tecnologia digital na imagens capturadas em baixa ou média altitude por um Veı́culo
+agricultura para planejar rotas de colheita. Este artigo compara Aéreo Não Tripulado (VANT). Destaca-se que este veı́culo
+o desempenho de três algoritmos de identificação do trajeto de permite um acompanhamento recorrente de baixo custo do
+culturas agrı́colas a partir de imagens simuladas por software e trajeto planejado do plantio, pois os caminhos podem sofrer
+de fotografias capturadas por um Veı́culo Aéreo Não Tripulado variações e falhas ao longo do tempo.
+(VANT). Os resultados das soluções propostas foram validados
+pela métrica Dice Similarity Coefficient (DSC) por meio da Este trabalho leva em consideração diversos tipos de
+comparação dos resultados com as máscaras dos caminhos situações que são apresentadas ao longo do ciclo de vida
+idealizados. Os resultados obtiveram um desempenho de até de uma cultura, independente do seu tipo de trajeto, seja
+99,5%. ele linear ou não linear. Serão apresentadas três diferentes
+
+abordagens: a primeira determina um ângulo em comum em
+Abstract—The automatic detection of planting rows in different
+
+crops is not a simple job and requires an effort to be performed relação às linhas de cultivo, a segunda traça retas com a
+manually by the farmer. The automation of this process is a utilização de clusterização de pontos com a técnica RAN-
+good example of an application that has become promising dom SAmple Consensus (RANSAC), e a terceira extrai o
+with the insertion of digital technology in agriculture to plan esqueleto da segmentação. Assim, foi utilizado neste artigo
+crop routes. This paper compares the performance of three dois conjuntos de imagens aéreas: (I) fotografias obtidas por
+agricultural crop row identification algorithms based on software
+simulated images and photographs captured by an Unmanned um VANT; (II) imagens de culturas genéricas com suas respec-
+Aerial Vehicle (UAV). The results of the proposed solutions were tivas máscaras desenhadas digitalmente por um especialista. O
+validated by the Dice Similarity Coefficient (DSC) metric by dataset contendo as imagens simuladas foi disponibilizado em
+comparing the results with the idealized path masks. The results um repositório público. 1 Ressalta-se que tal conjunto de cul-
+obtained a performance of up to 99.5%. turas aéreas simuladas foi desenvolvido devido à dificuldade
+
+de encontrar datasets que possuam imagens aéreas de culturas
+I. INTRODUÇÃO reais.
+
+Desde o começo da década de 80, a automação da produção A literatura apresenta diversas soluções para o problema
+agrı́cola se tornou um campo amplamente pesquisado no de identificação de linhas de plantio. Em [2] os autores
+que refere-se à agricultura de precisão [1]. Em destaque, o utilizam uma rede de segmentação semântica para segmentar
+Brasil é um dos maiores produtores de açúcar e etanol [2]. e classificar as imagens obtidas por um VANT, aperfeiçoando
+Assim, a produção agrı́cola pode ser otimizada por meio os resultados através da transformação de Radon. Guerrero
+da automatização dos processos de colheita, pois essa tarefa et al. [3] utilizam técnicas de segmentação de imagens para
+requer um alto nı́vel de precisão e demanda a realização de trabalhar em um sistema de visão a bordo da máquina agrı́cola
+tarefas manuais e repetitivas pelos humanos. Para tal, uma que estabelece a orientação, caminho e densidades de ervas
+orientação precisa das linhas de cultivos são necessárias para daninhas. Em [4] Basso e Freitas utilizam uma abordagem
+uma máquina agrı́cola autônoma percorrer eficientemente os de orientação composta de hardware e software para um
+caminhos para realizar a colheita. Ademais, as informações da VANT com base em técnicas de processamento de imagem.
+geolocalização das linhas permitem aprimorar a aplicação de Este trabalho assemelha-se no aspecto de manipular técnicas
+insumos e trabalhar com trajetos com falhas. de processamento digital por meio de imagens aéreas de
+
+As coordenadas de uma linha de cultura semeada não plantios. Deste modo, o objetivo desta pesquisa é desenvolver
+necessariamente representam as coordenadas que devem ser um método que:
+consideradas para a extração. O problema justifica-se devido a
+fatores ambientais que tornam o terreno e/ou a plantação irreg- i) Lide com falhas e caminhos irregulares;
+ulares [2]. Além disso, o sistema deve ser capaz de lidar com
+inúmeras situações de iluminação, pois algumas condições 1http://github.com/lesc-ufv/crop-row-detection
+
+
+
+ii) Convenha para diferentes tipos de culturas; Para que funcione de acordo com os objetivos esperados,
+iii) Identifique linhas de cultura que possuam caracterı́sticas é recomendado que a imagem possua boa qualidade e a
+
+lineares e não lineares. segmentação seja satisfatória para obter de forma adequada
+o que se pretende extrair.
+
+O restante deste trabalho está organizado da seguinte forma: Após realizada a segmentação, pode-se aplicar estratégias
+a Seção II introduz os conceitos mais básicos utilizados neste de regressão linear. No entanto, como em uma mesma im-
+trabalho; a Seção III apresenta os trabalhos relacionados; a agem podem haver diversos caminhos a serem traçados,
+Seção IV apresenta a metodologia com as principais decisões isso significa que várias regressões lineares são necessárias
+do projeto; a Seção V mostra os principais resultados e considerando-se janelas de avaliação na imagem. Tais janelas
+comparações; a Seção VI encerra com a conclusão e trabalhos podem ser pensadas como clusters de pixels em que as
+futuros, e por fim apresenta as referências bibliográficas. regressões lineares podem ser realizadas. A cada cluster
+
+pode ser aplicado a técnica RANdom SAmple Consensus
+II. CONCEITOS INTRODUTÓRIOS (RANSAC):
+
+Tendo em vista uma imagem obtida a partir de um De acordo com [8], RANSAC é uma técnica para esti-
+VANT ou uma máquina agrı́cola com uma câmera frontal, é mar os parâmetros de um modelo matemático a partir de
+necessário fazer com que o computador a interprete de modo um conjunto de pontos. Em outras palavras, este método
+a traçar as rotas adequadas para a realização da colheita de é útil para estabelecer a reta que melhor se adapta a um
+forma autônoma. No entanto, tais imagens não são livres de determinado conjunto de pontos, sendo possı́vel estabelecer
+imperfeições, isso faz com que certos detalhes sejam difı́ceis a rota que uma máquina autônoma deverá tomar. No entanto,
+de serem extraı́dos. Dessa maneira, diversas técnicas de pro- este método pode consumir muito tempo de processamento
+cessamento digital de imagens podem ser utilizadas para facil- e memória, sendo também dependente das regiões analisadas
+itar a extração destas informações. É possı́vel aplicar técnicas na imagem, isto é, o subconjunto de pixels da imagem para
+de segmentação, tais como remoção de ruı́dos, aplicação de se analisar a direção do caminho em cada parte da imagem.
+filtros morfológicos e estabelecimento de regiões de interesse. Este último ponto é uma tarefa relativamente complicada
+Assim, uma vez finalizado o pré-processamento, é possı́vel ao tentar pensar em uma solução mais genérica, visto que
+extrair as informações das rotas com base em técnicas de depende das caracterı́sticas da imagem, da segmentação e dos
+regressão linear e clusterização, por exemplo. tratamentos realizados. Uma alternativa é considerar o número
+
+Para realizar a segmentação de uma imagem, algumas de casamentos de pixels que a reta gerada consegue realizar
+técnicas como segmentação Otsu, transformada de Hough, em relação à imagem segmentada.
+aplicação de filtros morfológicos e de suavização podem ser
+utilizadas. III. TRABALHOS RELACIONADOS
+
+A Segmentação Otsu é utilizada para realizar o thresh- Foi proposto pelo trabalho [2] uma maneira de utilizar ima-
+olding automático das imagens [5]. Dada uma imagem em gens obtidas por VANTs para efetuar a segmentação e detecção
+tons de cinza, o processo de thresholding consiste em atribuir linhas da cultura de cana-de-açúcar. Foi estabelecido duas
+coloração branca para os pixels cujo valor é superior ou igual técnicas para tratar do problema, (I) baseado no Algoritmo
+ao valor do limiar (threshold), e coloração preta caso contrário. Genético (AG) e Otsu para produzir imagens binarizadas;
+Isso permite destacar regiões de interesse para análises futuras. (II) Semantic Segmentation Network (SSN) para segmentar
+
+Ruı́dos podem ser definidos como uma variação dos valores e classificar as linhas de plantio. Posteriormente, as linhas
+nos nı́veis de cinza dos pixels de uma imagem, causados segmentadas são transformadas pela transformadora de Radon
+por erros na transmissão de dados, ou eventuais distorções para reconstruir e melhorar as linhas que se encontram soltas.
+introduzidas na fase de aquisição de uma imagem em geral [6]. Por meio do trabalho desenvolvido por [3], um sistema
+Uma forma de retirar esses ruı́dos é através do uso de de filtros de visão mecânica foi construı́do na perspectiva frontal da
+de suavização. Alguns exemplos de filtros de suavização são máquina para a detecção de linhas de cultivo, consegue lidar
+os filtros Bilateral, Mediana, Gaussiano e Prewitt. com terrenos regulares e não regulares. O seu trabalho tem
+
+A Aplicação de filtros morfológicos utiliza uma máscara como consideração três objetivos principais: (I) obter uma
+ou elemento estruturante para determinar o processo de fil- orientação precisa do ponto de partida para o destino; (II)
+tragem geométrica, sendo eficazes para extrair informações obter uma orientação precisa do trajeto a ser percorrido; (III)
+das imagens. A morfologia, por sua vez, descreve um conjunto determinar a densidade e camadas de ervas daninhas que
+de técnicas de processamento não linear de imagens que trata há na plantação. Sua metodologia aborda as estratégias de
+da forma (estrutura) ou morfologia de objetos. Ela tem como processamento de imagem para detectar as linhas de cultura
+operações básicas os filtros morfológicos Erosão e Dilatação, com base em um ajuste de precisão e extração de dados
+e seus derivados Abertura e Fechamento [6]. para determinar densidades de ervas daninhas na plantação
+
+A Transformada de Hough é uma técnica utilizada para a de milho.
+extração de caracterı́sticas das imagens [7]. Ela se utiliza de Um método eficiente de detecção de linhas de cultura que
+um sistema de votação para identificação de objetos, sendo consegue detectar com precisão retas e curvas foi produzido
+útil para identificação de linhas e estruturas de interesse. por [1], sua técnica utiliza a programação dinâmica para
+
+
+
+combinar evidência de imagem e conhecimento prévio de 281 cálculo do ângulo médio, enquanto a Figura 3(a) mostra o
+imagens de diferentes culturas. A abordagem proposta consiste traçado das retas considerando-se tais pontos. A estratégia
+em três etapas: (I) detecção de vegetação; (II) detecção de para traçar tais retas é apresentada no Algoritmo 1 e consiste
+padrões regulares; (III) determinação de um modelo ótimo em:
+de linha de cultura. Sua metodologia consiste na comparação
+de dois métodos: (I) baseado na transformadora de Hough; i) A partir da imagem de interesse (img) e de um
+(II) regressão linear. Além disso, estabelece e demonstra uma parâmetro de distância de salto (d), encontra os pontos
+métrica própria que considerou ser superior para avaliação dos analisando-se os tons de cinza da imagem. O valor para
+métodos de detecção de linhas de cultura. o parâmetro d obtido empiricamente foi de 37 durante
+
+A concepção de um sistema com orientação embarcada em os testes (linhas: 2-15);
+VANTs foi desenvolvida por [4]. A partir da utilização de
+técnicas de processamento de imagens, produziu-se dois algo- ii) Para cada par de pontos em alturas distintas, calcula-se
+ritmos, o primeiro foi denominado de Crop Row Detection que o ângulo formado pela reta gerada ao ligar ambos os
+tem como objetivo identificar corretamente as linhas de cultivo pontos. Para cada ângulo obtido, armazena-os em um
+e o segundo foi denominado de Line Filter que é responsável vetor e remove os valores outliers (linhas: 16-24);
+por gerar corretamente os parâmetros de condução.
+
+O trabalho [9] estabelece um método para detectar lin- iii) Por fim, calcula-se a média geral dos pontos e o desvio
+has lineares e não lineares durante o diversificado estágio padrão (linhas: 25-36). Os pontos ligados em cada rota
+de crescimento da vegetação da cultura que eventualmente para o traçado das retas definitivas são aqueles mais
+surgem ervas daninhas, considerando espaçamentos regulares próximos da média geral.
+e irregulares entre o plantio. Por meio da perspectiva de uma
+câmera frontal instalada em um trator, identifica-se as linhas de
+cultivo com base em duas finalidades: (I) orientação precisa
+e autônoma; (II) tratamentos especı́ficos do local, incluindo
+remoção de ervas daninhas. Assim sua técnica consiste nas
+fases de (I) segmentação da imagem; (II) identificação dos
+pontos de partida para determinar o inı́cio das linhas de cultivo;
+(III) detecção de linhas de cultivo.
+
+Em [10] os autores propuseram o conceito de desenvolver
+um algoritmo que trabalha com a ideia de ser uma proposta
+genérica para identificar linhas de plantio. Sua proposta con-
+siste em duas etapas: (I) agrupar hierarquicamente os pontos
+para subdividi-los em linhas; (II) correção de imprecisões das
+linhas. (a) (b)
+
+Este trabalho apresenta comparações entre três diferentes Fig. 1: Realizando a segmentação. (a) Recorte de uma fo-
+abordagens, sendo elas: (I) Baseado na hipótese de que as tografia obtida por um VANT de uma plantação de uma cultura
+linhas de cultivo são paralelas, calcula-se o ângulo médio para de cana-de-açúcar. Resolução utilizada: 603 x 510 pixels. (b)
+os traçados; (II) Técnica RANSAC aplicada à clusterização de Segmentação da Figura (a).
+pontos; (III) Esqueletização das segmentações.
+
+IV. METODOLOGIA
+
+Para a elaboração deste trabalho, as tecnologias adotadas
+foram Python 3.8, OpenCV, Scikit-image e Scikit-learn. As três
+diferentes abordagens desenvolvidas consistem na aplicação de
+filtros e manipulações de cores para realizar a segmentação da
+imagem. As avaliações das segmentações para cada uma das
+diferentes técnicas são descritas a seguir:
+
+1) Se vale da análise dos tons de cinza para identificar os
+possı́veis pontos que fazem parte de cada rota na cultura. A
+Figura 2(a) mostra a análise dos tons de cinza da imagem
+segmentada considerando-se o centro da imagem da esquerda (a) (b)
+para a direita. A cada pico representado no gráfico existe
+a possibilidade do pixel em questão fazer parte da rota a Fig. 2: Identificação de pontos. (a) Gráfico das variações de
+ser traçada. A Figura 2(b) mostra os pontos marcados pelo tons de cinza em relação a linha central horizontal. (b) Pontos
+algoritmo, por meio das análises dos tons de cinza para marcados de vermelho por meio das análises dos tons de cinza
+algumas alturas da imagem, que foram utilizados para o da Figura (a).
+
+
+
+Algorithm 1: Análise de Ângulos do algoritmo RANSAC sobre estes clusters. A construção de
+clusters é mostrada no Algoritmo 2 e consiste em definir
+
+Input: img, d
+Output: None janelas de avaliação de pontos da imagem segmentada, no
+Start qual:
+
+1 gray img = Aplicação das seguintes operações sobre
+img: [Filtro Bilateral (Kernel 7x7, Filtro Mediana
+(Kernel 5x5), Conversão de imagem BGR para Gray,
+Filtro Gaussiano (Kernel 3x3), Filtro adaptativo
+gaussiano para thresholding (Limiar igual à média
+dos pixels da imagem), Filtro Prewitt (Kernel 3x3),
+Filtro Mediana (Kernel 3x3), Filtro binário para
+thresholding (Limiar inferior 100, Limiar superior
+255)];
+
+2 mp ← Matriz vazia de pontos de cada linha
+separados por d pixels de distância; i) A construção foi fundamentada em um conjunto de
+
+3 h ← altura de gray img;
+4 w ← largura de gray img; parâmetros especı́ficos que devem ser definidos para
+5 index array ← −1; cada imagem a ser analisada. Os parâmetros são: im-
+6 For y ← 0; y < h; y ← y + d do agem de interesse (img), a largura e altura do kernel de
+7 Adicione um vetor vazio a mp; busca (hks e vks) respectivamente, o comprimento de
+8 index array ← index array + 1 ; um kernel quadrado auxiliar para tratar os limites das
+9 For x ← 0;x < w;x ← x+ 1 do
+
+10 x0 ← x; imagens (sks), o número mı́nimo de pontos que devem
+11 While x < w && gray img[y][x] == 255 se encontrar dentro do kernel para este ser válido como
+
+do um cluster (ms), cor em tons de cinza mı́nimo para ser
+12 x ← x+ 1; considerado ponto de um cluster (t) e quantidade de
+
+End pixels que a janela deve saltar para a avaliação de novos
+13 If x != x0 then
+14 xm ← (x+ x0)//2; kernels (jz). Os valores para os parâmetros obtidos
+15 Adicione xm a mp[index array]; empiricamente são mostrados na Tabela I.
+
+End
+End
+
+End
+16 al ← Lista vazia de ângulos entre pontos em alturas
+
+consecutivas;
+17 For i ← 0; i < index array + 1; i ← i+ 1 do
+18 j max ← Tamanho do vetor mp[i];
+19 For j ← 0; j < j max; j ← j + 1 do
+20 p0 ← (mp[i][j][0],mp[i][j][1]);
+21 p1 ← Ponto mais próximo a p0 à distância
+
+vertical d;
+22 θ ← Ângulo da reta que liga p0 a p1;
+23 Adicione θ a al;
+
+End
+End TABELA I: Parâmetros utilizados no Algoritmo 2
+
+24 al ← Remova outliers de al; hks vks sks jz t ms
+25 m ← ângulo médio de al; 35 100 8 35 110 1300
+26 std ← desvio padrão de al;
+27 For i ← 0; i < index array + 1; i ← i+ 1 do
+28 j max ← Tamanho do vetor mp[i];
+29 For j ← 0; j < j max; j ← j + 1 do
+30 p0 ← (mp[i][j][0],mp[i][j][1]);
+31 x1 ← h− 1;
+32 y1 ← p0[0] + (p0[1]− x1)/m;
+33 p1 ← (y1, x1);
+34 If Reta não foi traçada para rota then
+35 p0 ← (p1[0] + p1[1]/m, 0);
+36 Trace a reta de p0 a p1 se o ângulo α
+
+entre esses pontos respeitar
+m− std <= α <= m+ std;
+
+End
+End
+
+End ii) Com os clusters montados (linhas: 2-17), o algoritmo
+End RANSAC pode ser aplicado para determinar as
+
+equações das retas de cada cluster (linha: 18).
+2) Se vale da construção de clusters de pontos e da aplicação
+
+
+
+Algorithm 2: Clusterização de Pontos + Algorithm 3: Esqueletização
+RANSAC Input: img
+
+Input: img, hks, vks, sks, jz, t, ms Output: None
+Output: None Start
+Start 1 gray img = Aplicação das seguintes operações sobre
+
+1 gray img = Aplicação das seguintes operações sobre img: [Conversão de imagem BGR para Gray,
+img: [Filtro Bilateral (Kernel 7x7, Cor Sigma 7, Cor Inversão de cores (bitwise not), Median Blur (Kernel
+Espacial 7, 5 repetições), Conversão de imagem 39x39), Filtro binário e OTSU para thresholding
+BGR para Gray, Filtro Gaussiano (Kernel 3x3), (Limiar inferior 100, Limiar superior 255)];
+Filtro adaptativo gaussiano para thresholding (Limiar 2 h ← altura de gray img;
+igual à média dos pixels da imagem), Filtro Prewitt 3 w ← largura de gray img;
+(Kernel 3x3), Aplicar Fechamento (3 iterações de 4 For y ← 0; y < h; y ← y + 1 do
+Erosão e 5 iterações de Dilatação)]; 5 gray img[y][w − 1] ← 255;
+
+2 cluster id ← 0; 6 For y ← 1; y < h; y ← y + 1 do
+3 res ← Dicionário de clusteres vazio; 7 p ← ’x’: 0, ’y’: y;
+4 h ← altura de gray img; 8 cor ← (0, 0, 0);
+5 w ← largura de gray img; 9 If gray img[p[′y′]][p[′x′]] == 255! =
+6 hs ← [h//8, 4 ∗ h//8, 7 ∗ h//8]; gray img[y][x] then
+7 For h in hs do cor ← (255, 255, 255);
+8 y ← 0; End
+9 While y < w do 10 xk ← x− (x− p[′x′])//2;
+
+10 For k in [−sks, sks] do 11 x1 ← (xk, y);
+11 If grayimg[h2 + k][y] > t then 12 Marque o ponto x1 na figura como parte da
+12 cluster ← Vetor vazio; rota;
+13 rh ← Vetor de valores inteiros entre End
+
+max(0, y − hks) e End
+min(w, y + hks+ 1); End
+
+14 rv ← Vetor de valores inteiros entre Em relação à métrica de desempenho, os resultados
+(h2− vts+ k) e
+(h2 + vks+ 1 + k); das imagens processadas foram comparados com máscaras
+
+15 Adicione todo pixel de gray img que podem ser entendidas como gabaritos que possuem o
+que seja maior que o valor de t traçado idealizado das linhas. Estas máscaras foram geradas
+percorrendo o retângulo de largura digitalmente por um especialista abrangendo todos os trajetos
+rh e altura rv; dos traçados dos plantios. Para esta comparação usamos o
+
+16 Adicione cluster em res se seu
+tamanho for superior ou igual a ms; Dice Similarity Coefficient (DSC) [11], um coeficiente de
+
+17 Se o vetor foi adicionado a res, similaridade de segmentação que mede a semelhança entre
+incremente cluster id em uma duas imagens sobrepostas que é definido por:
+unidade y ← y + jz;
+
+End
+End 2TP
+
+End DSC = (1)
+End 2TP + FP + FN
+
+18 Aplique o algoritmo RANSAC para todos os clusteres
+de pontos em res e trace as retas encontradas pelo
+algoritmo;
+
+End em que:
+• TP (True Positive) - Corresponde ao número de pontos
+
+corretamente identificados que fazem parte da rota da
+máscara;
+
+• FP (False Positive) - Corresponde ao número de pontos
+identificados a fazerem parte da rota mas que não o fazem
+na máscara de avaliação;
+
+• FN (False Negative) - Corresponde ao número de pontos
+marcados como não pertencentes à rota mas que deveriam
+ser marcados de acordo com a máscara de avaliação.
+
+3) Realiza a esqueletização da segmentação. Esse processo
+está descrito no Algoritmo 3. Seu mecanismo se dá pela V. RESULTADOS
+
+captura dos pontos médios das rotas presentes na segmentação Nesta seção são apresentados os resultados das execuções e
+(linhas: 10-12) em uma avaliação de cada linha da imagem. as respectivas observações entre elas, que são mostradas nas
+Por depender única e exclusivamente da segmentação, é Tabelas II, III e IV. Para tal, foi utilizado a imagem 1(a) para
+necessário que a segmentação seja excelente para um bom os algoritmos 1 e 2 e imagem 5(a) para o algoritmo 3. Para
+desempenho na aplicação desta técnica. ser possı́vel estabelecer uma comparação entre os diferentes
+
+
+
+resultados, máscaras foram utilizadas para a validação da Ao executar para o Algoritmo 3, identifica-se que o traçado
+métrica DSC. conseguiu identificar a plantação de forma eficiente para
+
+Ao executar para o Algoritmo 1, obteve-se o resultado praticamente todo o caminho, obteve 99,5% de desempenho.
+apresentado na Figura 3(a). O gabarito está representado Evidencia-se que tal resultado possui relação com a utilização
+pela cor vermelha e o caminho resultante combinado com o de uma imagem de boa qualidade, ou seja, não possui inter-
+gabarito está representado pela cor azul na Figura 3(b). O valor ferência dos fatores ambientais. Além disso, uma correção no
+de DSC obtido nesta execução foi de 74,4%. código pode fazer este algoritmo aumentar seu potencial para
+
+alcançar 100% de abrangência na métrica.
+
+(a) (b)
+
+Fig. 3: Resultado da Análise de Ângulos. (a) Linhas traçadas
+pelo algoritmo. (b) Resultado da figura (a) sobre a máscara. (a) (b) (c)
+
+Fig. 5: Resultado da Esqueletização. (a) Imagem gerada por
+software. Resolução utilizada: 853 x 480 pixels. (b) Imagem
+
+TABELA II: Resultado do primeiro algoritmo calculado pelo resultante da Esqueletização aplicada em (a). (c) Resultado da
+DSC. Figura (b) sobre a máscara.
+
+Alg. Fig. TP (%) FP (%) FN (%) DSC (%)
+1 1(a) 59,2 5,37 35,38 74,3
+
+TABELA IV: Resultado do terceiro algoritmo calculado pelo
+Ao executar para o Algoritmo 2, nota-se que na Figura 4(a) DSC.
+
+mais de uma regressão linear foi delineada em alguns trajetos Alg. Fig. TP (%) FP (%) FN (%) DSC (%)
+das linhas da plantação, porém na Figura 4(b) foi considerado 3 5(a) 99,18 0,35 0,46 99,5
+para a validação mais de uma linha caso a linha resultante
+exceda o limite delimitado pela máscara, o que proporcionou VI. CONCLUSÃO E TRABALHOS FUTUROS
+um desempenho de 91,7%.
+
+Este trabalho apresentou o uso de três diferentes abordagens
+para a identificação de linhas de culturas: (I) Baseado na
+hipótese de que as linhas de cultivo são paralelas, calcula-
+se o ângulo médio para os traçados; (II) Técnica RANSAC
+aplicada à clusterização de pontos; (III) Esqueletização das
+segmentações.
+
+O primeiro algoritmo apresentou bom desempenho na
+identificação de linhas de cultura em imagens cujas
+segmentações apresentavam falhas. No entanto, por se basear
+na hipótese que as linhas de cultivo são paralelas, isso a limita
+para o traçado quando a cultura apresenta curvas.
+
+(a) (b) O segundo algoritmo também apresentou bom desempenho
+para os mesmos cenários considerados pela abordagem ante-
+
+Fig. 4: Resultado da Clusterização de Pontos + RANSAC. (a) rior. No entanto, possui uma forte dependência na configuração
+Linhas traçadas pelo algoritmo. (b) Resultado da Figura (a) de parâmetros para efetuar o processo de clusterização de
+sobre a máscara. pontos necessários para a aplicação do algoritmo RANSAC.
+
+Nota-se que é possı́vel melhorar a técnica realizando a
+TABELA III: Resultado do segundo algoritmo calculado pelo combinação de linhas que se intersectam para formar um
+DSC. caminho contı́nuo.
+
+Em comparação com os resultados obtidos, o terceiro al-
+Alg. Fig. TP (%) FP (%) FN (%) DSC (%) goritmo aparentemente demonstrou ser superior ao realizar a
+
+2 5(a) 84,7 13,98 1,32 91,7 esqueletização das segmentações. Ele serve tanto para cenários
+
+
+
+não lineares quanto lineares, porém por depender de um [4] M. Basso and E. Pignaton de Freitas, “A uav guidance system using
+bom resultado na segmentação, é necessário que imagens de crop row detection and line follower algorithms,” Journal of Intelligent
+
+boa qualidade sejam utilizadas. No entanto, vislumbra-se a & Robotic Systems, vol. 97, no. 3, pp. 605–621, 2020.
+[5] N. Otsu, “A threshold selection method from gray-level histograms,”
+
+possibilidade dessa técnica ser aprimorada ao utilizar uma rede IEEE transactions on systems, man, and cybernetics, vol. 9, no. 1, pp.
+neural convolucional para efetuar a segmentação. 62–66, 1979.
+
+Futuramente, pretende-se estender a funcionalidade do [6] J. I. Miranda, “Processamento de imagens digitais: Prática usando java
+tm,” Campinas: Embrapa Informática Agropecuária, 2006.
+
+primeiro algoritmo para tratar de cenários curvados, estab- [7] P. V. Hough, “Method and means for recognizing complex patterns,” US
+elecendo janelas de avaliação nas imagens de modo a traçar patent, vol. 3, no. 6, 1962.
+
+pequenas retas dentro de curvas. Além disso, pretende-se [8] M. A. Fischler and R. C. Bolles, “Random sample consensus: a paradigm
+for model fitting with applications to image analysis and automated
+
+aperfeiçoar o terceiro algoritmo ao analisar a realização de cartography,” Communications of the ACM, vol. 24, no. 6, pp. 381–395,
+segmentações com apoio de uma rede neural convolucional. 1981.
+
+[9] I. D. Garcı́a-Santillán, M. Montalvo, J. M. Guerrero, and G. Pajares,
+REFERÊNCIAS “Automatic detection of curved and straight crop rows from images in
+
+maize fields,” Biosystems Engineering, vol. 156, pp. 61–79, 2017.
+[1] I. Vidović, R. Cupec, and Ž. Hocenski, “Crop row detection by global [10] I. R. Souza, M. C. Escarpinati, and D. D. Abdala, “A curve completion
+
+energy minimization,” Pattern Recognition, vol. 55, pp. 68–86, 2016. algorithm for agricultural planning,” in Proceedings of the 33rd Annual
+[2] R. d SILVA, “Detection of sugarcane crop rows from uav images using ACM Symposium on Applied Computing, 2018, pp. 284–291.
+
+semantic segmentation and radon transform,” 2020. [11] T. A. Sorensen, “A method of establishing groups of equal amplitude in
+[3] J. M. Guerrero, J. J. Ruz, and G. Pajares, “Crop rows and weeds plant sociology based on similarity of species content and its application
+
+detection in maize fields applying a computer vision system based on to analyses of the vegetation on danish commons,” Biol. Skar., vol. 5,
+geometry,” Computers and electronics in agriculture, vol. 142, pp. 461– pp. 1–34, 1948.
+472, 2017.

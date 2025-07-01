@@ -1,0 +1,524 @@
+﻿Testes de Segurança em Aplicações Web Open Source: Um
+Estudo Comparativo entre Ferramentas de Issue Tracking
+
+Ramon Oliveira Silva Gláucia Braga e Silva
+Universidade Federal de Viçosa Universidade Federal de Viçosa
+
+Florestal, MG Florestal, MG
+ramon.o.silva@ufv.br glaucia@ufv.br
+
+ABSTRACT diversas, constituindo assim um importante repositório de fragili-
+This study aims to evaluate security vulnerabilities in web open dades, incluindo segurança, que devem ser devidamente corrigidas.
+source tools for issue tracking, based on the criteria proposed Para exemplificar, em outrubro de 2014, a Mozilla corrigiu uma
+by ISO/IEC 27000 series standards and OWASP Community. The falha de segurança crítica no Bugzilla2. O problema permitia que a
+Owasp Guide was used to conduct the tests considering 10 most fre- aplicação fosse invadida por hackers, que teriam acesso ao banco
+quent vulnerabilities and the Owasp Zap tool was used to automate de dados e poderiam descobrir falhas na aplicação[8]. Em 2015,
+the tests. The tests were applied on three open source issue tracking também foi descoberta uma vulnerabilidade na ferramenta Mantis
+tools namely Redmine, Mantis Bug Tracker and Bugzilla. The tests Bug Tracker (MantisBT)3, que permitia a inserção de scripts malici-
+reports revealed few security vulnerabilities in the Redmine tool, osos (Cross site scripting) em um campo do sistema[5]. Já em 2017,
+but a lot of them in the context of Mantis Bug Tracker and Bugzilla. na ferramenta Redmine4, uma falha permitia a injeção de códigos
+
+arbitrários envolvendo a renderização de mensagens em Flash[6].
+CCS CONCEPTS Sendo assim, torna-se fundamental a realização de testes de segu-
+• Security andprivacy→Authentication;Access control;Web rança em ferramentas de issue tracking, para que suas fragilidades
+application security; Cryptography; sejam identificadas, corrigidas e seu uso não comprometa os proje-
+
+tos controlados nas mesmas.
+KEYWORDS O objetivo deste trabalho é avaliar vulnerabilidades nas ferramen-
+
+tas web open source de issue tracking Bugzilla, MantisBT e Redmine,
+Vulnerabilidades de Segurança, Owasp, Ferramentas de Teste com o intuito de verificar se ainda existem vulnerabilidades de
+ACM Reference Format: segurança nas mesmas e estabelecer mais um critério de escolha
+Ramon Oliveira Silva and Gláucia Braga e Silva. 2019. Testes de Segurança que possa apoiar gerentes de projetos no momento da adoção de
+emAplicaçõesWeb Open Source: Um Estudo Comparativo entre Ferramentas tais ferramentas. Para isso, serão realizados testes de segurança
+de Issue Tracking. In Proceedings of ACM SAST conference (SAST). ACM, New automatizados com base nos critérios definidos pelas normas da
+York, NY, USA, Article 4, 8 pages. https://doi.org/10.475/123_4 série ISO/IEC 27000 e pela comunidade Owasp5.
+
+Os testes em ferramentas de issue tracking são relevantes, pois
+1 INTRODUÇÃO essas ferramentas servem para gerenciar bugs que são encontrados
+Os sistemas web tiveram um crescimento exponencial nos últimos pelos testadores. Esses bugs não podem ser acessados por um usuá-
+anos, e devido à facilidade de acesso, por ser um espaço aberto, rio qualquer, já que o mesmo pode utilizar essas vulnerabilidades
+são bastante vulneráveis e estão sujeitos à invasões, já que existem para atacar a própria ferramenta. Geralmente, esses bugs são cor-
+milhares de pessoas mal-intencionadas que tentam invadir estes rigidos e lançados em novas versões, o que possibilita ao hacker
+sistemas todos os dias. explorar essa vulnerabilidade na versão reportada. Além disso, esta
+
+Existe uma fonte de fragilidades chamada CVE (Common Vulne- pesquisa se mostra relevante pelo motivo de não terem sido en-
+rabilities and Exposures)1, que é um projeto open source e mantém contrados trabalhos na literatura abordando a realização de testes
+uma base de dados com todas as vulnerabilidades que são encon- de segurança em ferramentas de issue tracking, apesar de serem
+tradas ao longo dos anos em várias ferramentas. amplamente adotadas no contexto de um projeto de software e de
+
+Dentre as ferramentas web que merecem atenção quanto aos as- já terem sido encontradas algumas vulnerabilidades de segurança
+pectos de segurança, destacam-se as ferramentas de issue tracking. nas mesmas.
+Tais ferramentas são responsáveis por registrar bugs de aplicações O texto do trabalho está organizado da seguinte forma: na seção
+1 2, são apresentadas as vulnerabilidades de segurança em aplicações
+https://www.cvedetails.com/
+
+web. Na seção 3, são discutidas as ferramentas de apoio aos testes
+Permission to make digital or hard copies of all or part of this work for personal or de segurança. Na seção 4, são discutidos os trabalhos relacionados.
+classroom use is granted without fee provided that copies are not made or distributed Na seção 5, é apresentada a base conceitual para a compreensão
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for components of this work owned by others than ACM dos testes de segurança em aplicações web, os resultados, análises e
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, discussões. Por fim, a seção 6 traz as conclusões e trabalhos futuros.
+to post on servers or to redistribute to lists, requires prior specific permission and/or a
+fee. Request permissions from permissions@acm.org.
+SAST, 2019, Bahia 2https://www.bugzilla.org/
+© 2016 Association for Computing Machinery. 3https://www.mantisbt.org/
+ACM ISBN 123-4567-24-567/08/06. . . $15.00 4https://www.redmine.org/
+https://doi.org/10.475/123_4 5https://www.owasp.org/
+
+
+
+SAST, 2019, Bahia Ramon Oliveira Silva and Gláucia Braga e Silva
+
+2 VULNERABILIDADES DE SEGURANÇA DE atacantes confundem o interpretador para que o mesmo execute
+APLICAÇÕES WEB comandos manipulados enviando dados modificados. Caso uma
+
+Vulnerabilidades são formas pelas quais as ameaças se manifestam entrada de um usuário seja fornecida a um interpretador sem va-
+emum sistema. O processo de avaliação de vulnerabilidades consiste lidação ou codificação, a aplicação é vulnerável. Um ataque com
+em identificar, avaliar e apresentar formas de reduzir tais ameaças, sucesso pode retornar aos atacantes diversas informações sensíveis
+melhorando a capacidade do sistema para lidar com possíveis falhas do banco de dados, além de poder permitir a manipulação dos dados,
+futuras[10]. operações como inserir, editar e deletar[11].
+
+As aplicações web requerem um alto grau de segurança. Logo,
+surge a necessidade de uma informação segura e imparcial. Nesse 2.3 Criptografia
+cenário temos a OWASP (Open Web Application Security Project), O objetivo é avaliar se a aplicação web toma medidas necessárias
+que é uma comunidade aberta dedicada a encontrar e combater pro- para evitar interceptações de dados utilizando protocolos seguros
+blemas de vulnerabilidades em sistemas web. Ela cria e disponibiliza como HTTPS, se utiliza algoritmos de criptografia para manter os
+de forma gratuita artigos, metodologias, documentos, ferramentas dados sensíveis protegidos no banco de dados.
+e tecnologias no campo da segurança de aplicações web[13].
+
+A comunidade OWASP publica o TOP 10[14] com o intuito de
+educar desenvolvedores, designers, arquitetos e organizações a 2.4 Autenticação
+respeito das consequências das vulnerabilidades mais comuns en- É o processo de tentar verificar a identidade de um usuário na apli-
+contradas em aplicações web. Para isso, ela disponibiliza um docu- cação. As funções da aplicação relacionadas com autenticação são
+mento de alto-nível que foca nas dez vulnerabilidades mais críticas geralmente implementadas de forma incorreta, permitindo que os
+de aplicações web, mais frequentes a cada ano. Dentre essas, as invasores comprometam senhas, tokens de sessão e assumam a iden-
+selecionadas neste trabalho para realização dos testes de segurança tidade de outros usuários com ataques de força bruta, requisições
+são. diretas à página [14].
+
+2.1 Cross Site Scripting (XSS) 2.5 Controle de Acesso
+A vulnerabilidade Cross Site Scripting ocorre sempre que uma apli- Serve para medir o nível de acesso aos recursos do sistema, logo
+cação obtém as informações fornecidas pelo usuário e as envia um usuário comum não pode realizar tarefas que cabem a um
+de volta ao navegador sem realizar validação ou codificação da- administrador de um sistema. As aplicações precisam executar as
+quele conteúdo. O XSS permite aos atacantes executarem scripts no verificações de controle de acesso no servidor quando cada função
+navegador da vítima, o qual podem roubar sessões de usuário, des- é invocada. Se forem realizadas essas verificações os invasores são
+configurar sites, redirecionar a vítima para sites não confiáveis e até capazes de manipular as requisições com o propósito de acessar a
+controlar o navegador do usuário. O script malicioso normalmente é aplicação sem a devida autorização.
+escrito em Java Script, mas qualquer linguagem de script suportada
+pelo navegador também pode ser utilizada. O XSS é classificado em
+refletido, armazenado e baseado em DOM [14]: 3 FERRAMENTAS DE APOIO AOS TESTES DE
+
+• O refletido é o tipo mais frequente de ataque XSS, sendo inici- SEGURANÇA
+ado com a ação de clicar em um link que possui parâmetros Existem ferramentas apropriadas para minimizar as quantidades
+modificados e que levam a ações não desejadas. Os passos bá- de falhas em uma aplicação. São os chamados scanners de vulnera-
+sicos para executar esse ataque é modelar um URL malicioso, bilidade (Vulnerability Scanning Device (VSD)) para aplicações web,
+identificar os campos de entrada de dados e posteriormente ferramentas automáticas, comerciais ou open source, que identifi-
+convencer a vítima a acessá-lo[11]. cam e trazem recomendações para possíveis falhas de segurança,
+
+• O armazenado ocorre quando o código malicioso fica armaze- prevenindo possíveis ataques ao sistema[10]. Elas varrem o servidor
+nado na aplicação e é executado pelo navegador de qualquer e testam uma enorme quantidade de eventos com a finalidade de
+vítima que acesse a página com tal código. O teste consiste obter respostas inesperadas[10]. É importante ressaltar também
+em identificar os campos onde a entrada fornecida pelo usuá- que os resultados encontrados podem não se tratar efetivamente de
+rio é armazenada e posteriormente exibida, como tag’s de um risco. Eles são considerados respostas a um determinado evento
+formulários. que necessita de uma investigação mais detalhada.
+
+• Já no baseado em DOM (Document Object Model), o código Neste trabalho, para a escolha da melhor ferramenta de teste,
+Java Script do site e as variáveis são manipulados ao invés alguns critérios foram levados em consideração, como ser open
+dos elementos HTML. Ele permite a modificação de propri- source e cobrir a maior parte das vulnerabilidades listadas pela
+edades desses objetos diretamente no navegador da vítima, Owasp. Entre as ferramentas existentes que cobriam esses critérios,
+não dependendo de nenhuma interação por parte do servidor foram selecionadas: Skipfish, Uniscan, Vega, W3AF e a Owasp Zap.
+que hospeda o serviço[10]. Costa [9] realizou um estudo entre as ferramentas Skipfish, Unis-
+
+can, Vega e W3AF, e levou em consideração três funcionalidades
+2.2 SQL Injection principais, que receberam notas de 1 a 3, onde 1 significa que não
+Esta vulnerabilidade acontece quando os dados fornecidos pelo atendeu minimamente os requisitos, 2 atendeu os requisitos e 3
+usuário são enviados como parte de um comando ou consulta. Os possui requisitos acima do necessário:
+
+
+
+Testes de Segurança em AplicaçõesWeb Open Source: Um Estudo Comparativo entre Ferramentas de Issue Tracking SAST, 2019, Bahia
+
+• Relatório: Deve detalhar cada vulnerabilidade, além de indi- ferramenta avaliada, mesmo sendo paga ao contrário da Arachini e
+car o ponto onde a mesma aconteceu. o Vega que são projetos públicos.
+
+• Usabilidade: Facilidade de utilizar a ferramenta. Já Oliveira[11], fez um estudo mais detalhado de testes de segu-
+• Eficácia: Quantidade de vulnerabilidades detectadas pela rança em aplicações web segundo a comunidade Owasp. As aplica-
+ferramenta, considerando a classificação da OWASP. ções web testadas foram aplicações da categoria e-comerce, baseadas
+
+Com base no estudo de Costa[9], foi acrescentada e avaliada no Owasp Top 10. São apresentadas tabelas com os resultados obti-
+a ferramenta Owasp Zap, considerando-se os mesmos critérios, dos. O objetivo neste trabalho está em analisar a comunidade Owasp
+conforme ilustra a Tabela 1. segundo seu guia de vulnerabilidades e testar alguns sistemas de
+
+e-commerce. As aplicações escolhidas foram de e-comerce por pos-
+suírem campos de nome, cpf, rg, endereço, que são de natureza
+
+Tabela 1: Avaliação das Ferramentas (Adaptado de Costa [9]) críticas. Os resultados apresentaram que as aplicações possuem
+vulnerabilidades semelhantes.
+
+Ferramentas Relatório Usabilidade Eficácia A diferença deste trabalho para Costa [9], Lins [10] e Oliveira
+Skipfish 3 2 3 [11], é que a ferramenta escolhida foi o Owasp Zap e os ambientes
+Uniscan 2 2 3 de testes são três ferramentas de issue tracking, não se limitando a
+Vega 1 3 3 uma análise mais detalhada entre scanners.
+W3AF 1 2 3
+
+Owasp Zap 3 3 3 5 TESTES DE SEGURANÇA REALIZADOS
+Com base nas vulnerabilidades de segurança definidas de acordo
+com critérios de maiores ocorrências nos últimos anos (Seção 2), os
+
+Após analisar os dados, a ferramenta Owasp Zap foi escolhida, testes analisaram as seguintes vulnerabilidades:
+com base na análise dos critérios mencionados na Tabela 1, por ter • Cross Site Scripting (XSS)
+sido desenvolvida pela própria comunidade Owasp e por ter sido • SQL Injection
+eleita a melhor ferramenta de segurança em 2013 e 2015 [15]. Além • Controle de Acesso
+disso, a ferramenta possibilita salvar a sessão que está sendo execu- • Autenticação
+tada, gerar o relatório do teste em html, salvar todas as mensagens • Criptografia
+e alertas que foram gerados.
+
+5.1 As ferramentas sob teste
+4 TRABALHOS RELACIONADOS As ferramentas avaliadas foram escolhidas segundo os critérios de
+Esta seção apresenta alguns trabalhos relacionados que avaliam popularidade, ser open source e possuir versãoweb. Para o critério de
+aplicações web segundo as vulnerabilidades listadas pela comu- popularidade, foram selecionadas as ferramentas Bugzilla6 , Mantis
+nidade Owasp. Não foram encontrados trabalhos relacionados a Bug Tracker7 e Redmine8, pois a cada ano elas estão sempre bem
+testes de segurança em ferramentas de issue tracking, apesar de rankeadas nas dez primeiras posições das ferramentas de issue
+haver um grande número de vulnerabilidades encontradas nessas tracking mais populares, como citados no sites [12] e [7]. Além
+ferramentas, como reportado, por exemplo, no CVE [1]. disso, as três ferramentas também são open source e possuem versão
+
+No contexto de análise de vulnerabilidades em uma aplicação web.
+web, Costa [9] realizou testes de segurança levando em considera- O MantisBT é uma ferramenta web open source para gerenci-
+ção as vulnerabilidades do Owasp Top 10 em portais de governos amento de bugs, criada no ano de 2000 por Kenzaburo Ito que a
+eletrônicos, buscando associar a riqueza dos estados dos portais desenvolveu em PHP. A ferramenta funciona em diversos bancos
+com seu nível de segurança, no sentido de uma relação direta entre de dados entre eles o MySQL e o PostgreSQL, além de estar dis-
+o PIB dos estados e a segurança dos portais. Inicialmente, realizou- ponível para diversas plataformas como Windows, Mac e várias
+se uma análise de alguns scanners segundo critérios de relatório, distribuições do Linux e possuir uma versão Mobile. Ao longo do
+usabilidade e eficácia. Os scanners utilizados foram Skipfish, Unis- tempo amadureceu e ganhou bastante popularidade, sendo umas
+can, Vega e o W3AF, sendo o Skipfish e o Uniscan escolhidos, além das ferramentas mais populares atualmente.
+de uma ferramenta extra para scanner de portas, o NMAP. Logo, os O Redmine também é uma ferramenta web open source e permite
+scanners foram executados em 28 portais dos estados brasileiros e o gerenciamento de bugs e de projetos possuindo gráficos de Gantt
+avaliados, segundo os critérios da Owasp, apresentando tabelas e para auxiliar na representação visual dos projetos e seus prazos
+gráficos comparativos. O estudo conseguiu atingir resultados signi- de entregas. Foi escrita em Ruby utilizando o framework Ruby
+ficativos, negando a hipótese proposta, o portal com maior número on Rails, é multiplataforma e suporta diversos bancos de dados,
+de vulnerabilidades foi o do Rio de Janeiro. possibilitando também o uso integrado com vários repositórios tais
+
+Em um outro trabalho relacionado, Lins [10] analisou três scan- como Git, Svn, Mercurial, entre outros.
+ners de vulnerabilidades em um ambiente de teste chamado bWAPP, Já o Bugzilla, é uma ferramenta de rastreamento de bugs online
+que possui algumas das principais vulnerabilidades categorizadas desenvolvida pela Fundação Mozilla e lançada em 1998 como um
+pela Owasp. Os scanners analisados foram Arachini, Nessus e o 6
+Vega. Logo, foram apresentadas tabelas comparativas com os resul- https://www.bugzilla.org/
+
+7https://www.mantisbt.org/
+tados obtidos em cada scanner, o Nessus destacou-se como melhor 8https://www.redmine.org
+
+
+
+SAST, 2019, Bahia Ramon Oliveira Silva and Gláucia Braga e Silva
+
+dos primeiros produtos da Mozilla. Originalmente foi escrita em 1.2.2 à 1.2.18, 1.3.0 à 1.3.13, 2.1.0, 2.2.1, 2.2.3, 2.5.2, 2.15.0, sendo em
+TCL, mas logo após foi reescrita em Perl. Atualmente é mantido 2017 encontradas quatorze das trinta e seis, o que representa que
+por voluntários, sendo utilizado por centenas de projetos de código a ferramenta estava muito vulnerável contra este tipo de ataque.
+aberto ou proprietário, como a Nasa e a Wikipédia, precisando Percebe-se também um número baixo de SQL Injection nos últimos
+também de um banco de dados SQL e do Apache para poder ser dez anos nas versões 1.2.13 à 1.2.19, 1.3.0 e 2.10.0, como mostrado
+utilizada. no gráfico do CVE Details [3] na Figura 3.
+5.1.1 Histórico de Vulnerabilidades. Esta seção apresenta o histó-
+rico de vulnerabilidades já encontradas nas ferramentas que serão
+testadas neste trabalho, levando em consideração as versões lança-
+das ao longo dos anos segundo o CVE Details, uma base de dados
+de vulnerabilidades de segurança [1].
+
+Na Figura 1, são apresentadas as vulnerabilidades de segurança
+encontradas para a ferramenta Redmine. Segundo esse histórico,
+observa-se que nenhuma vulnerabilidade do tipo SQL Injection foi
+encontrada, ao passo que um alto número de vulnerabilidades de
+XSS se faz presente nas versões 0.7.2, 0.8.5, 0.8.7, 1.0.1, 1.0.5, 1.3.2,
+2.6.2, 3.2.3, 3.2.6, 3.2.8 e 3.3.3 entre os anos de 2008 e 2018.
+
+Figura 3: Vulnerabilidades no Mantisbt entre 2008 a 2018[3]
+
+5.2 Preparação dos testes
+Esta seção apresenta os cenários e os casos de testes criados, a
+instalação e a configuração das ferramentas de teste, a preparação
+do ambiente e a execução dos testes.
+5.2.1 Cenários e Casos de Testes. Com base na definição das fer-
+ramentas a serem testadas e das vulnerabilidades definidas, foi
+
+Figura 1: Vulnerabilidades no Redmine entre 2008 a 2018[4] realizado um estudo para investigar as funcionalidades comuns no
+contexto de issue tracking, com o objetivo de criar os cenários de
+
+Para a ferramenta Bugzilla, pode-se observar na Figura 2 um testes. O estudo baseou-se em como as ferramentas implementam
+elevado número de vulnerabilidades do tipo XSS encontradas entre seus mecanismos de criação de issue, que foi definido como objetivo
+as versões 2.14 à 4.5.1, e um número relativamente baixo de SQL principal, pois o Redmine por exemplo, também desempenha outras
+Injection com base no tempo avaliado pela ferramenta nas versões funções além de issue tracker, como gerenciador de projetos, que
+2.14, 2.16, 2.17, 2.18, 2.20 e 3.0. Desde 2010, não foram encontradas não se aplica no contexto deste trabalho.
+vulnerabilidades do tipo SQL Injection e, nos últimos quatro anos, Para as três ferramentas, serão testadas as seguintes funcionali-
+foram poucas vulnerabilidades do tipo XSS encontradas. dades:
+
+• Criação de Issue - Esta funcionalidade tem por objetivo criar
+um issue.
+
+• Edição de Issue - Esta funcionalidade tem por objetivo editar
+um issue criado.
+
+• Consulta de Issue - Esta funcionalidade tem por objetivo
+consultar um issue criado.
+
+• Visualizar um Issue - Esta funcionalidade tem por objetivo
+visualizar as informações contidas em um issue criado.
+
+• Modificar um Issue - Esta funcionalidade tem por objetivo
+modificar as informações contidas em um issue criado.
+
+• Modificar Privilégios - Objetivo de conseguir alterar privilé-
+gios de usuários no sistema.
+
+Figura 2: Vulnerabilidades no Bugzilla entre 2000 a 2017[2] • Bloqueio de Sessão - Bloqueio de sessão após período de
+inatividade.
+
+A ferramenta MantisBT também apresentou um elevando nú- • Acesso Direto à Página - Acessar diretamente uma página
+mero de vulnerabilidades do tipo XSS encontradas nas versões sem realizar login no sistema.
+
+
+
+Testes de Segurança em AplicaçõesWeb Open Source: Um Estudo Comparativo entre Ferramentas de Issue Tracking SAST, 2019, Bahia
+
+• Ferramenta possui Sistema de Logout caso Usuário feche o
+Navegador Diretamente - Após sair do sistema sem realizar
+logout, a ferramenta desloga o usuário.
+
+• Páginas Acessadas Anteriormente após Logout - Páginas
+acessadas anteriormente após logout.
+
+• Força Bruta - Ataques de força buta são realizados com várias
+combinações de senhas e usuários.
+
+• Protocolos Utilizados - Tipo de protocolo utilizado pelas
+ferramentas, se protege os dados.
+
+• Métodos de Envio - Utiliza quais métodos para enviar infor-
+mações dos issues criados.
+
+A Tabela 2 ilustra as funcionalidades testadas em cada ferramenta.
+Ressalta-se que, na ferramenta MantisBT, como não é possível vi-
+sualizar e modificar issue não estando logado no sistema não foi
+possível realizar o teste de Autenticação, já que a ferramenta não
+apresenta campos de navegação na tela de login. Figura 4: Exemplo de um cenário de teste de modificação de
+
+issue
+Tabela 2: Funcionalidades Testadas
+
+5.2.2 Preparação do ambiente de teste. Esta seção apresenta os
+Funcionalidades Testadas Bugzilla MantisBT Redmine detalhes de instalação e configuração das ferramentas sob teste,
+
+Criação de Issue ✓ ✓ ✓ necessários à execução dos testes.
+Edição de Issue ✓ ✓ ✓ A versão utilizada do MantisBT foi a 2.16.0, cuja instalação re-
+Consulta de Issue ✓ ✓ ✓ quer instalar uma série de dependências para a linguagem PHP,
+Visualizar Issue ✓ ✗ ✓ a ferramenta utiliza um banco de dados e o Apache. Com relação
+Modificar Issue ✓ ✗ ✓ ao Redmine, foi instalada a versão 3.4.6, sendo necessária o banco
+
+Modificar Privilégios ✓ ✓ ✓ de dados e uma configuração no Apache. Para o Bugzilla, insta-
+Bloqueio de Sessão ✓ ✓ ✓ lado na 5.0.4, houve a necessidade de instalar dependências para
+
+Acesso Direto à Página ✓ ✓ ✓ a linguagem Perl, além do MySQL e do Apache. É importante des-
+Páginas Acessadas tacar também que as versões instaladas aparentam não terem sido
+
+Anteriormente após Logout ✓ ✓ ✓ testadas e avaliadas no CVE, pois não foram encontradas em seus
+Ferramenta possui Sistema de históricos de vulnerabilidades (Seção 5.1.1).
+Logout caso Usuário feche ✓ ✓ ✓ A partir das ferramentas instaladas e dos cenários de testes defi-
+o Navegador diretamente nidos, de acordo com as vulnerabilidades selecionadas, o ambiente
+
+Força Bruta ✓ ✓ ✓ de teste foi devidamente preparado, com a realização de alguns ca-
+Protocolos Utilizados ✓ ✓ ✓ dastros prévios nas ferramentas, tais como, criação de um usuário,
+Métodos de Envio ✓ ✓ ✓ criação de um projeto, de uma categoria, um papel e finalmente o
+
+issue.
+5.2.3 Execução dos testes. Para a realização dos testes sobre as
+
+Ao todo foram criados treze cenários e casos de teste para testar vulnerabilidades de Cross Site Scripting e SQL Injection inicialmente
+as funcionalidades selecionadas. A Figura 4 ilustra um cenário de foi necessário gerar os casos de testes a partir dos cenários defini-
+teste definido para a vulnerabilidade de Controle de Acesso para dos. Para gravar os passos de cada cenário de teste, a ferramenta
+a funcionalidade de modificação de um issue. Para cada cenário, Katalon foi usada. Além disso, para que as ferramentas sob teste
+foram identificadas pré-condições, como usuário não autenticado, funcionassem adequadamente, o servidorWeb Apache e o MYSQL
+issue criado, variando para cada cenário de teste. foram habilitados e inicializados.
+
+Para a elaboração dos casos de testes, a partir dos cenários cria- A partir dos casos de testes gerados, a ferramenta Owasp Zap foi
+dos, foi utilizada uma ferramenta de automação de testes chamada inicializada. É importante destacar que para a execução da ferra-
+Katalon9, uma ferramenta open source desenvolvida pela Katalon menta, foi necessário configurar a porta do navegador para que as
+LLC e construída sobre a estrutura do Selenium. Essa ferramenta páginas salvas na ferramenta Katalon pudessem ser capturadas e
+permite controlar a execução dos testes, aumentando a produtivi- usadas na ferramenta Owasp Zap e assim realizar os testes.
+dade e reduzindo tempo com a realização de uma mesma tarefa, A Owasp Zap realiza alguns testes automáticos pré-definidos em
+além de possibilitar a geração de scripts em vários formatos. uma janela chamada varredura ativa. Dentre esses testes, tem-se
+
+A Figura 5 ilustra um trecho de um de caso de teste com base os três tipos de Cross Site Scripting e SQL Injection mencionados
+no cenário de teste citado na Figura 4, que foi criado a partir da na seção 2 que foram executados nas ferramentas de issue tracking
+ferramenta Katalon. Este cenário representa a tentativa de modificar selecionadas com base nos cenários de testes definidos. Alguns
+um issue não estando logado nas ferramentas sob teste. testes foram cancelados pelo motivo de não fazerem parte das vul-
+9https://www.katalon.com/ nerabilidades selecionadas neste trabalho.
+
+
+
+SAST, 2019, Bahia Ramon Oliveira Silva and Gláucia Braga e Silva
+
+Figura 5: Trecho do código de um caso de teste de modificação de issue
+
+Para a realização dos testes sob a vulnerabilidade de Criptografia, Tabela 3: Resultados do Teste de Autenticação
+foi realizada uma análise na própria ferramenta Owasp Zap, pois
+ela mostra cada protocolo e método de envio utilizado por cada Ferramentas Permite acesso Permite páginas Permite ataques
+página quando executa a varredura ativa. direto à página acessadas após de força bruta
+
+Os testes sob as vulnerabilidades de Controle de Acesso e Au- logout
+tenticação, foram realizados de forma manual, pois a ferramenta MantisBT ✗ ✗ ✓
+Owasp Zap não dá suporte a testes de Controle de Acesso. Para testar Redmine ✗ ✗ ✓
+a vulnerabilidade de Autenticação há necessidade de estender a Bugzilla ✗ ✗ ✗
+ferramenta com scripts, o que é mais trabalhoso de fazer. Como os
+cenários definidos são simples, a execução manual dos testes sobre
+essas vulnerabilidades foi realizada sem muito esforço.
+
+HTTP e POST é perigosa já que em um formulário com um script
+malicioso é possível que os dados sejam enviados automaticamente
+
+5.3 Resultados, Análises e Discussões dos sem a vítima saber, assim o ideal é utilizar o protocolo HTTPS
+Testes juntamente com o método POST em campos de formulários.
+
+Nesta seção, são discutidos os resultados dos testes de segurança
+realizados nas ferramentas de issue tracking selecionadas. Tabela 4: Resultados do Teste de Criptografia
+
+A Tabela 3 mostra os resultados dos testes de Autenticação reali-
+zados nas ferramentas selecionadas, sendo possível verificar que Ferramentas Protocolo Método de envio
+a Bugzilla apresentou-se segura nestes testes, mas é importante Utilizado (GET e POST)
+ressaltar que quando é feita a requisição de voltar à página anterior MantisBT HTTP POST
+na ferramenta, ela permite visualizar a página anterior, só após uma Redmine HTTP POST
+solicitação qualquer na página que ela redireciona para a página Bugzilla HTTP POST
+de login, sendo que a página retornada pode conter informações
+que não deveriam ser vistas. Já as ferramentas MantisBT e Redmine
+apresentaram uma falha de permissão com ataques de força bruta, o As Tabelas 5 e 6 ilustram as vulnerabilidades de SQL Injection e
+que favorece ao atacante um ataque com milhares de combinações Cross Site Scripting encontradas pela ferramenta Owasp Zap, desta-
+de logins e senhas. O MantisBT apresenta uma tela para login e uma cando quais ferramentas apresentaram mais vulnerabilidades em
+outra para o campo de senha o que representa um grau a mais de suas respectivas versões instaladas. Estas vulnerabilidades estão
+dificuldade ao atacante, embora pouco eficiente contra estes tipos classificadas pelo grau de risco, sendo: A - risco alto, M - risco
+de ataques. médio, e B - risco baixo.
+
+Os testes realizados sobre a vulnerabilidade de Criptografia apre- A partir da Tabela 5 para a vulnerabilidade de SQL Injection, nota-
+sentados na Tabela 4 mostram que o tipo de protocolo utilizado não se que na ferramenta Redmine foi encontrada somente uma vulne-
+é seguro, ou seja, não se utiliza um protocolo que criptografe o que rabilidade considerada de alto risco. Considerando que, segundo o
+está sendo enviado pela rede. Essa falha é crítica, sendo um grande histórico de vulnerabilidades conhecidas para a ferramenta (Seção
+problema contra ataques em rede, nos quais são realizados tenta- 5.1.1), não haviam vulnerabilidades deste tipo, a ferramenta mostra-
+tivas de interceptar e obter estas informações na rede. Por outro se frágil para este tipo de ataque. Na ferramenta Mantis Bug Tracker,
+lado, as informações são enviadas pelo método POST que protege as foram encontrados quatro tipos dessa mesma vulnerabilidade, com
+informações inseridas em campos de formulários, sendo um ponto alto risco, o que representa um número alto, considerando-se o
+positivo para as três ferramentas testadas. Mas essa combinação histórico desta ferramenta (Seção 5.1.1). Por fim, na ferramenta
+
+
+
+Testes de Segurança em AplicaçõesWeb Open Source: Um Estudo Comparativo entre Ferramentas de Issue Tracking SAST, 2019, Bahia
+
+Bugzilla, foram encontradas três ocorrências da vulnerabilidade número de vulnerabilidades de segurança dentre as três avaliadas
+citada, que representa um número alto já que desde de 2010 não foi a ferramenta Redmine, seguida pelas ferramentas Bugzilla e
+foram encontradas vulnerabilidades deste tipo na ferramenta. MantisBT.
+
+Como trabalhos futuros sugere-se que os testes de segurança
+Tabela 5: Resultados do Teste de SQL Injection sejam realizados em outras ferramentas que estejam constante-
+
+mente presentes no top 10 das ferramentas de issue tracking mais
+Cenários de testes Bugzilla MantisBT Redmine utilizadas. Além disso, outras vulnerabilidades de segurança e ou-
+Criação de Issue A A - tras funcionalidades das ferramentas não tratadas aqui, podem ser
+Edição de Issue A A - analisadas.
+Consulta de Issue - A A
+
+REFERÊNCIAS
+[1] 2009. CVE-CVEDETAILS-the ultimate security vulnerability datasource. https:
+
+//www.cvedetails.com/
+A Tabela 6 informa que, dentre as vulnerabilidades de Cross Site [2] 2009. CVE-product-bugzilla. https://www.cvedetails.com/product/785/?q=
+
+bugzilla
+Scripting encontradas, apenas uma foi classificada de alto risco [3] 2009. CVE-product-mantisbt. https://www.cvedetails.com/product/19885/?q=
+para a ferramenta Bugzilla. A ferramenta Redmine não apresentou Mantisbt
+nenhuma vulnerabilidade desse tipo, o que mostra também que [4] 2009. CVE-product-redmine. https://www.cvedetails.com/product/15112/?q=
+
+Redmine
+medidas corretivas e preventivas estão sendo tomadas na mesma. [5] 2015. CVE-product-mantisbt- CVE-2014-8987. https://www.cvedetails.com/cve/
+Na ferramenta Mantis Bug Tracker, foi encontrada a mesma vulne- CVE-2014-8987/
+rabilidade, mas de categoria baixa para todos os cenários testados. [6] 2017. CVE-product-bugzilla-CVE-2015-8477. https://www.cvedetails.com/cve/
+
+CVE-2015-8477/
+Isso mostra uma diminuição significativa para essa ferramenta, [7] 2018. 15 Best Bug Tracking Software: Top Defect/Issue Tracking Tools of 2018.
+levando-se em consideração o alto número dessas vulnerabilidades https://www.softwaretestinghelp.com/popular-bug-tracking-software/
+
+[8] Canaltech. 2014. Mozilla Corrige Falha De Segurança Crí-
+encontradas anteriormente (Seção 5.1.1). tica No BugZilla. https://canaltech.com.br/navegadores/
+
+A Tabela 7 ilustra as falhas do tipo Controle de Acesso idenfica- Mozilla-corrige-falha-de-seguranca-critica-no-BugZilla/
+das nas ferramentas. Verifica-se que as permissões de visualização, [9] José Victor Pereira Costa. 2017. Análise de Vulnerabilidades de Segurança em
+
+Portais de Governos Eletrônicos. (dezembro 2017).
+modificação de issue e de gerenciamento de privilégios não foram [10] Lucas de Almeida Lins. 2017. Avaliação de Scanners de Vulnerabilidades-Dez
+encontrados no MantisBT, pois ele possui uma interface limpa, com riscos mais críticos em aplicações Web. (julho 2017).
+apenas os campos de login e senha. Pode-se verificar também que [11] Túlio Spuri Teixeira de Oliveira. 2012. Testes de Segurança em Aplicações Web
+
+Segundo a Metodologia Owasp. (novembro 2012).
+tanto o MantisBT quanto o Redmine possuem bloqueio de sessão e [12] Ederson Melo. 2018. 20 Best Bug Tracking Software: Top Issue/Defect Tracking
+logout automático, ao contrário do Bugzilla. Um usuário pode se Tools of 2018. https:https://www.guru99.com/top-20-bug-tracking-tools.html
+
+[13] Open Web Application Security Project. 2014. OWASP Open Web Application
+esquecer de sair do sistema, por exemplo, e então se um outro usuá- Security Project. CreateSpace Independent Publishing Platform, USA.
+rio abrir o sistema na mesma máquina ele vai ter acesso indevidos [14] Open Web Application Security Project. 2014. OWASP Top 10: The Top 10 Most
+
+aos issues. CriticalWeb Application Security Threats Enhanced with Text Analytics and Content
+by PageKicker Robot Phil 73. CreateSpace Independent Publishing Platform, USA.
+
+[15] Open Web Application Security Project. 2014. OWASP Zed Attack Proxy Project.
+6 CONCLUSÃO E TRABALHOS FUTUROS CreateSpace Independent Publishing Platform, USA.
+
+Este trabalho apresentou uma avaliação em ferramentas web open
+source de issue tracking com base em testes de segurança que ava-
+liaram algumas das vulnerabilidades destacadas pela comunidade
+Owasp. Os testes foram aplicados sobre as ferramentas Bugzilla,
+MantisBT e Redmine por serem bastante populares.
+
+Segundo os relatórios de testes, a ferramenta Bugzilla, por estar
+no mercado há mais tempo e ser uma ferramenta consolidada, apre-
+sentou um número alto de vulnerabilidades consideradas de alto
+risco. A ferramenta Mantis Bug Tracker também apresentou um
+número elevado de vulnerabilidades de alto risco destacando-se a
+vulnerabilidade do tipo SQL Injection. Já na ferramenta Redmine,
+foram encontrados um número menor de vulnerabilidades compa-
+rando com as outras ferramentas.
+
+Considerando-se que são ferramentas amplamente utilizadas em
+projetos de software e que tais vulnerabilidades de segurança colo-
+cam em risco os projetos controlados pelas ferramentas, ressalta-se
+a importância das correções necessárias serem aplicadas com ur-
+gência.
+
+A partir dos resultados obtidos, pode-se considerar o aspecto de
+segurança como um fator de escolha para a adoção de tais ferramen-
+tas. Segundo as vulnerabilidades selecionadas e os testes realizados
+com a ferramenta Owasp Zap, a ferramenta que apresentou o menor
+
+
+
+SAST, 2019, Bahia Ramon Oliveira Silva and Gláucia Braga e Silva
+
+Tabela 6: Resultados do Teste de Cross Site Scripting
+
+Cenários de testes Tipo de XSS Bugzilla MantisBT Redmine
+Refletido - B -
+
+Criação de Issue Armazenado - - -
+Baseado em DOM - - -
+
+Refletido A B -
+Edição de Issue Armazenado - - -
+
+Baseado em DOM - - -
+Refletido - B -
+
+Consulta de Issue Armazenado - - -
+Baseado em DOM - - -
+
+Tabela 7: Resultados do Teste de Controle de Acesso
+
+Ferramentas Permite Permite Permite Possui Possui
+visualização modificação gerenciamento bloqueio sistema de
+de issue de issue de privilégios de sessão logout automático
+
+MantisBT ✗ ✗ ✗ ✓ ✓
+Redmine ✓ ✗ ✗ ✗ ✓
+Bugzilla ✓ ✗ ✗ ✗ ✗

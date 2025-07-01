@@ -1,0 +1,612 @@
+﻿Avaliação Conjunta de Facilidade de Uso em Aplicativos Móveis
+para Apoio à Participação em Eventos
+
+Raissa P.P.M. Souza Thais R.M. Braga Silva Gláucia Braga e Silva
+Universidade Federal de Viçosa Universidade Federal de Viçosa Universidade Federal de Viçosa
+
+Florestal, MG - Brasil Florestal, MG - Brasil Florestal, MG - Brasil
+raissa.papini@ufv.br thais.braga@ufv.br glaucia@ufv.br
+
+Janaína Mendes Oliveira Gabriela A. Araujo de Oliveira
+oliveirajanajana@gmail.com Universidade Federal de Minas Gerais
+
+Belo Horizonte, MG - Brasil
+gabriela-amaral@ufmg.br
+
+ABSTRACT em particular para smartphones, pode ser utilizado em situações de
+Atualmente o mercado tem abrangido uma vasta gama de aplicati- mobilidade, facilitando o acesso à dados, informações e até mesmo
+vos móveis. Por estarem em contato direto com usuários que muitas serviços, e integrando usuários e o ambiente físico ao seu redor
+vezes não possuem conhecimentos técnicos, a usabilidade de tais [16].
+aplicativos é um fator importante e decisivo para que estes possam Se por um lado os aplicativos oferecem facilidades aos seus usuá-
+ser amplamente utilizados. Entretanto, a literatura ainda não provê rios, por outro encontram uma série de limitações advindas dos
+embasamento suciente para que sistemas dessa classe possam ser dispositivos nos quais executam [22]. O tamanho da tela, a entrada
+devidamente testados e avaliados. Este trabalho propõe a avaliação de dados, as limitações de memória, bateria e conectividade, dentre
+de facilidade de uso em aplicativos móveis de uma classe especíca, outros aspectos, fazem com que o desenvolvimento de aplicati-
+através da utilização de uma metodologia estruturada para avalia- vos seja uma tarefa desaadora, principalmente se comparada ao
+ção de usabilidade conjunta, formada pela utilização combinada de desenvolvimento de sistemas tradicionais [17].
+teste de usabilidade e avaliação heurística. Para os experimentos Apesar das diculdades mencionadas, a interface dos aplicativos
+foram selecionados 4 aplicativos de apoio à eventos (myMobiConf, representa uma parte importante do desenvolvimento. Uma vez
+Whova, mConference e Event Cadence). Os resultados mostram que a que usuários são levados por emoções ao utilizar um sistema [4], a
+avaliação conjunta de usabilidade apresenta resultados satisfatórios, facilidade com que interações são realizadas tem grande impacto na
+além de oferecer uma visão mais ampla das falhas técnicas e de aceitação de um aplicativo. Mesmo assim, ainda há escassez de tra-
+usabilidade de aplicativos móveis. balhos na literatura que apoiem o desenvolvimento de aplicativos
+
+em geral. Em especial, o desenvolvimento da interface ca depen-
+CCS CONCEPTS dente de métodos e técnicas elaboradas para avaliação de sistemas
+•Human-centered computing→Usability testing;Heuristic tradicionais, fazendo com que erros possam não ser notados.
+evaluations; Nesse contexto, a métrica Facilidade de Uso tem papel importante
+
+pois, com sua avaliação é possível vericar se um aplicativo possui
+KEYWORDS as condições técnicas e visuais mínimas necessárias. Essa métrica é
+
+particularmente importante para a categoria de aplicativos avaliada
+Teste de Usabilidade, Avaliação Heurística, Aplicativo Móvel neste trabalho, qual seja, aplicativos para apoio à participação em
+ACM Reference format: eventos. Por ser uma categoria de aplicativos sazonais, ou seja,
+Raissa P.P.M. Souza, Thais R.M. Braga Silva, Gláucia Braga e Silva, Janaína aplicativos que serão utilizados de forma esparsa no tempo e por
+Mendes Oliveira, and Gabriela A. Araujo de OliveiraAvaliação Conjunta um período breve, é importante que a curva de aprendizado de um
+de Facilidade de Uso em Aplicativos Móveis para Apoio à Participação em usuário não seja muito alta.
+Eventos. 9 páginas. O objetivo deste trabalho é avaliar a métrica de usabilidade Facili-
+
+dade de Uso em aplicativos móveis para apoio em eventos através da
+1 INTRODUÇÃO utilização da metodologia MeTAH (MEtodologia de Teste de usabi-
+Os aplicativos móveis representam uma nova classe de sistemas lidade e Avaliação Heurística). Através desta aplicação pretende-se
+computacionais com destacada relevância atual, visto que tem sido abordar pontos de vista técnicos e com base na experiência de uso,
+utilizados cotidianamente por um grande número de usuários para proporcionando uma visão mais ampla das falhas e pontos fortes
+as mais diferentes atividades [5]. Este tipo de software, desenvolvido do aplicativo em questão.
+
+O restante deste trabalho está organizado de forma a apresentar
+Permission to make digital or hard copies of part or all of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed na Seção 2 os trabalhos que estão relacionados a este de alguma
+for prot or commercial advantage and that copies bear this notice and the full citation forma; na Seção 3 será mostrada a maneira como a metodologia
+on the rst page. Copyrights for third-party components of this work must be honored. MeTAH foi estruturada; já na Seção 4 é especicada a maneira como
+For all other uses, contact the owner/author(s).
+© 2018 Copyright held by the owner/author(s). . a avaliação conjunta foi aplicada, além dos resultados obtidos; e por
+
+
+
+R. Souza et al.
+
+Tabela 1: Categorização dos Trabalhos Relacionados
+
+Trabalho Avaliação Heurística Teste de Usabilidade Materiais Utilizados
+Rodrigues and Gonçalves [23] X Checklist MATcH
+Feijó et al. [6] X Checklist MATcH
+Krone [12] X Checklist MATcH
+Inostroza et al. [10] X Formulação de novas heurísticas
+Neto [16] X Formulação de novas heurísticas
+Barbosa et al. [2] X Formulação de novas heurísticas
+Joyce et al. [11] X X Formulação de novas heurísticas/Questionário
+Araújo et al. [1] X X Heurística Nielsen/Questionário
+Soares et al. [24] X X Heurística Nielsen/Questionário
+Holanda [8] X X Checklist/Questionário
+Trabalho atual X X Checklist/Observação/Questionário
+
+último, na Seção 5, serão discutidas as conclusões obtidas, assim Como também pode ser observado na Tabela 1, outros 4 trabalhos
+como trabalhos a serem elaborados futuramente. utilizam de avaliação heurística e teste de usabilidade para avaliação
+
+de aplicativos, porém somente 1 utiliza de um checklist adaptado do
+checklist MATcH e de um questionário. Os outros trabalhos realizam
+
+2 TRABALHOS RELACIONADOS a avaliação de aplicativos a partir das heurísticas de Nielsen [18]
+Ainda existem poucos trabalhos na literatura que possuam enfoque ou como uma forma de validar heurísticas próprias.
+na aplicação conjunta de Avaliações Heurísticas e Testes de Usabi- A avaliação proposta neste artigo foi elaborada de forma que
+lidade, e acima de tudo em avaliar aplicativos de apoio a eventos. os resultados obtidos tanto com a avaliação heurística quanto com
+Como pode ser visto na Tabela 1, foram encontrados 10 trabalhos o teste de usabilidade sejam explorados de uma forma conjunta e
+que possuíam temática similar à apresentada neste artigo. Porém interligada, propondo uma atividade especíca para a análise de
+nenhum deles apresentou uma formalização de avaliação conjunta, tais resultados. Para o checklist proposto foi utilizado como base
+ou seja, não apresentaram uma metodologia que utilizasse de forma o checklist MATcH, porém com algumas modicações conforme
+conjunta mais de uma técnica de avaliação de usabilidade, além do proposto por Lima Salgado and Freire [13]. Já o Teste de Usabilidade
+fato de não avaliarem aplicativos móveis de apoio à eventos. foi estruturado de forma a se utilizar de um método de observação,
+
+Dos 10 trabalhos apresentados, 6 trabalhos [2, 6, 10, 12, 16, 23] assim como Soares et al. [24] aliado à aplicação de um questionário
+realizam apenas avaliação heurística, sendo que 3 destes [6, 12, 23] com enfoque na Facilidade de Uso. Desta forma, o trabalho apresenta
+utilizam o checklist MATcH GQS [7] e a outra metade utiliza de tal a possibilidade de avaliação de aplicativos tanto de forma qualitativa,
+avaliação para validar um novo conjunto de heurísticas, ou seja, quanto quantitativa, resultando em um maior entendimento do
+não possui um enfoque na avaliação dos aplicativos em si. objeto de estudo.
+
+Figura 1: Visão geral da metodologia MeTAH
+
+
+
+Avaliação Conjunta de Facilidade de Uso em Aplicativos Móveis para Apoio à Participação em Eventos
+
+3 METAH
+MeTAH é uma metodologia de avaliação de usabilidade para aplica-
+tivos móveis, composta por uma avaliação heurística e por um teste
+de usabilidade. A forma como a metodologia foi estruturada permite
+tanto a avaliação de um único aplicativo, com foco unicamente em
+vericar os aspectos de sua usabilidade, como também a avaliação
+de uma categoria de aplicativos, estabelecendo funcionalidades em
+comum, de forma a realizar uma comparação justa e objetiva. A
+Figura 1 ilustra uma visão geral das quatro etapas que compõem a
+metodologia, bem como entradas, saídas e papéis envolvidos.
+
+Conforme também pode ser observado na Figura 1, a partir da
+escolha do aplicativo, ou classe de aplicativos, a primeira etapa da
+metodologia MeTAH envolve a seleção de um conjunto de funcio-
+nalidades que serão avaliadas sob dois pontos de vista diferentes,
+um com foco técnico (Avaliação Heurística) e outro com foco no
+uso (Teste de Usabilidade). A etapa Avaliação Heurística prevê que
+avaliadores com experiência em usabilidade realizem a busca por
+falhas técnicas em interfaces. Já a etapa de Teste de Usabilidade
+busca a utilização dos aplicativos selecionados por um grupo de
+usuários, buscando entender as diculdades e falhas que o sistema Figura 2: Fluxograma para a Avaliação Heurística
+
+apresenta. Por m, a última etapa envolve a comparação dos resul-
+tados obtidos nas duas avaliações realizadas, com elaboração de um
+relatório nal de avaliação de usabilidade do aplicativo envolvido.
+Ressalta-se que não existem restrições quanto à ordem em que as (1) Planejar avaliação heurística do aplicativo móvel - busca or-
+etapas de Avaliação Heurística e Teste de Usabilidade devem ocorrer. ganizar e planejar de maneira adequada o processo de ava-
+Ressalta-se que a metodologia MeTAH não é especíca para uma liação como um todo, denindo o material a ser utilizado,
+classe de aplicativos ou para uma única métrica de usabilidade, ob- os avaliadores responsáveis, as telas que serão avaliadas,
+tendo análises comparativas mais assertivas quando usado para as bem como as heurísticas de avaliação e os procedimentos
+mesmas funcionalidades em aplicativos diferentes de uma mesma de execução.
+classe. (2) Customizar checklist MATcH - envolve adaptar o checklist
+
+O funcionamento de cada uma das etapas da metodologia MeTAH MATcH [7] para o contexto do aplicativo sob avaliação, a
+será descrito nas próximas subseções. partir da seleção das perguntas mais relevantes para este
+
+contexto. Essa seleção pode abranger todas as 48 pergun-
+tas ou um subconjunto destas, à escolha do responsável
+
+Selecionar funcionalidades do aplicativo móvel pela avaliação. Devido à sua importância para a etapa de
+Considerando-se que a análise completa da usabilidade para todas Avaliação Heurística, esta tarefa deve ser executada com
+as funcionalidades de um aplicativo consiste em uma tarefa dis- cautela. Ao nal desta tarefa, o Responsável pela avaliação
+
+pendiosa em termos de tempo, recomenda-se pela escolha de um deverá produzir o Formulário de Avaliação, um artefato
+conjunto representativo de funcionalidades para avaliação. Cabe contendo as heurísticas do checklist MATcH customizado
+ao para futuro preenchimento pelos avaliadores.
+
+Responsável pela avaliação executar esta etapa para todos os
+aplicativos. (3) Selecionar avaliadores - nesta etapa, recomenda-se a se-
+
+Como saídas desta etapa, tem-se: as telas selecionadas, que serão leção de avaliadores com conhecimento em usabilidade
+utilizadas pela etapa de de aplicativos móveis, já que esta é uma avaliação técnica.
+
+Avaliação Heurística; e os cenários, que
+serão utilizados na etapa de Nielsen [18] no que compete ao número de participantes,
+
+Teste de Usabilidade. Ressalta-se que os
+cenários envolvem usos do sistema para as telas das funcionalidades recomenda que sejam selecionados de 3 a 5 avaliadores.
+selecionadas. (4) Classicar telas do aplicativo - diz respeito à classicação
+
+das telas do aplicativo a ser avaliado, de modo a facilitar o
+processo de avaliação. Como artefato desta tarefa, deve ser
+
+Avaliação Heurística elaborado um documento contendo as telas classicadas
+e um printscreen correspondente para cada uma delas, de
+
+A avaliação heurística consiste em um método de avaliação analítica, modo a apoiar os avaliadores.
+em que os avaliadores buscam encontrar problemas de usabilidade (5) Aplicar avaliação heurística - após a conclusão das tarefas
+nas interfaces de um sistema [21]. Trata-se de uma avaliação téc- anteriores, a avaliação heurística é de fato aplicada con-
+nica realizada por especialistas do domínio de usabilidade para tando com a participação dos avaliadores selecionados, que
+aplicativos móveis. devem realizar sua inspeção com base no checklist MATcH
+
+A etapa de Avaliação Heurística foi estruturada em oito tarefas, e de maneira individual. A inspeção individual é fundamen-
+conforme ilustra a Figura 2. tal para que não haja inuências externas nas observações
+
+
+
+R. Souza et al.
+
+de cada avaliador. Como resultado desta tarefa, cada ava-
+liador deverá preencher o Formulário de Avaliação, com
+suas observações sobre a inspeção realizada em cada uma
+das telas selecionadas (respostas ao checklist).
+
+(6) Analisar os resultados - os Formulários de Avaliação de
+cada avaliador são recolhidos e o Responsável pela avaliação
+elabora relatórios individuais, contendo as constatações e
+observações de cada avaliação. Caso sejam identicadas
+discrepâncias nas análises realizadas, a próxima tarefa (Re-
+visar os resultados) deve ser executada. Caso contrário, a
+avaliação chega ao m com a condensação dos resultados
+obtidos.
+
+(7) Revisar os resultados - esta tarefa será executada apenas
+caso a análise dos resultados indique alguma incoerência
+nas avaliações. Para executar esta tarefa, o Responsável pela
+avaliação deverá discutir os resultados junto aos avaliado-
+res para esclarecer possíveis dúvidas e/ou incoerências nas
+observações apresentadas para cada pergunta do checklist.
+Caso ainda haja dúvidas e/ou incoerências quanto à avalia-
+ção, uma avaliação complementar poderá ser necessária. Figura 3: Fluxograma para o Teste de Usabilidade
+Nesse caso, recomenda-se retornar à tarefa Classicar te-
+las do aplicativo, selecionando novas telas do aplicativo e
+refazendo a avaliação para as mesmas, pois pode ser que
+as telas selecionadas inicialmente não representem bem em cima das funcionalidades que estão sendo avaliadas. A
+as funcionalidades avaliadas. Caso contrário, executa-se a quantidade de tarefas não é pré-denida, mas não é acon-
+tarefa Condensar os resultados. selhável formular muitas tarefas para o usuário, pois isso
+
+(8) Condensar os resultados - trata da conclusão da avaliação pode deixar o teste cansativo e desestimulante.
+heurística, sintetizando os resultados obtidos com as ob- (3) Denir ambiente de teste - trata de toda a conguração
+servações individuais dos avaliadores em um relatório que do ambiente em que o teste será realizado, incluindo lo-
+contenha uma tabela que discrimine, para cada tela catalo- cal, materiais de apoio, dispositivos móveis, aplicativos de
+gada: os problemas encontrados, o grau de severidade de apoio e conexão com a Internet. A execução do teste de
+cada um deles e as anotações relevantes dos avaliadores. usabilidade pode ser feita em laboratório, um ambiente
+
+controlado pelo avaliador, ou em ambiente real de trabalho,
+Teste de Usabilidade sujeito a interferências e interrupções [21].
+
+Ressalta-se que o ambiente deve ser cuidadosamente
+O teste de usabilidade visa detectar problemas enfrentados pelos planejado e vericado para evitar que problemas técnicos
+usuários durante o uso de um sistema. Dessa forma, os usuários não prejudiquem a execução dos testes, nem tampouco
+testam as funcionalidades de tal sistema, reportando possíveis erros inuenciem os resultados obtidos.
+de interação em sua utilização. (4) Elaborar questionário - nesta tarefa, sugere-se a elaboração
+
+A execução de um teste de usabilidade é guiada por medidas que de um questionário para avaliar a interação dos usuários
+envolvem análise das seguintes métricas: facilidade de aprendizado, com o aplicativo sob teste. Esse questionário é construído
+facilidade de uso, eciência de uso e produtividade, satisfação do com base nas métricas denidas na tarefa Denir métri-
+usuário, exibilidade, utilidade e segurança no uso [21]. cas e medidas de avaliação de usabilidade para o aplicativo
+
+Segundo a metodologia MeTAH, a etapa Teste de Usabilidade é móvel e deve abranger perguntas abertas e/ou fechadas.
+composta por 9 tarefas, conforme ilustra a Figura 3. Recomenda-se a utilização de pelo menos uma pergunta
+
+(1) Denir métricas e medidas de avaliação de usabilidade para aberta, como forma de permitir ao participante registrar
+o aplicativo móvel - nesta tarefa devem ser escolhidas as alguma consideração sobre o aplicativo.
+métricas de usabilidade que serão avaliadas, assim como as (5) Denir medições de uso - paralelamente à tarefa anterior,
+medidas que serão utilizadas. Recomenda-se a utilização a denição das medições sobre uso objetiva identicar os
+das seguintes medidas: tempo para se executar uma tarefa, erros e as diculdades apresentadas pelo usuário durante
+número de erros cometidos, porcentagem de usuários que a realização do teste. Para isso, recomenda-se a gravação
+conseguiram sair de um erro encontrado e porcentagem e/ou lmagem do teste, para ns de medições futuras sobre
+de usuários que caram satisfeitos com a aplicação a ser o uso do aplicativo.
+testada [21]. (6) Selecionar participantes - esta tarefa trata da escolha dos
+
+(2) Denir cenários de uso do aplicativo - envolve a denição participantes que realizarão o teste. Uma proposta inte-
+dos cenários de uso que serão executados pelos participan- ressante é a separação dos participantes em grupos com
+tes do teste. Cada cenário envolve tarefas a serem realizadas pers diferentes, objetivando analisar a interação de cada
+
+
+
+Avaliação Conjunta de Facilidade de Uso em Aplicativos Móveis para Apoio à Participação em Eventos
+
+perl ao utilizar o aplicativo. É interessante selecionar um tudo isso pelo próprio smartphone. Com o apoio destas funciona-
+mesmo número de participantes para cada grupo. lidades o usuário do aplicativo se informa, tira dúvidas e obtém
+
+(7) Aplicar o teste de usabilidade - envolve a aplicação do teste notícias de forma rápida e direta, além de se sentir parte importante
+em si, a partir de todas as denições anteriores. Esta tarefa do evento.
+tem como ponto de partida uma breve apresentação, pelo Durante um levantamento inicial foram encontrados 22 aplicati-
+Responsável pela avaliação, dos objetivos e procedimentos vos aptos a serem avaliados, porém alguns deles não possuíam um
+do teste, incluindo orientações verbais ou escritas sobre o conjunto aceitável de funcionalidades, ou ainda, o tempo de teste
+preenchimento do questionário e utilização de aplicativos disponibilizado era muito pequeno, resultando em 11 aplicativos
+auxiliares para gravação do teste. Pode ser necessária a no total. Com base nesta listagem, foi realizada uma análise mais
+disponibilização de um documento que garanta a conden- especíca que buscava encontrar e mapear todas as funcionalidades
+cialidade das informações fornecidas. dos aplicativos de interesse. Nesta nova ltragem foram eliminados
+
+(8) Analisar os resultados - envolve a análise das respostas outros 7 aplicativos. Assim, a avaliação foi realizada com base nos
+fornecidas nos questionários e também das gravações re- aplicativos myMobiConf, Whova, mConference e Event Cadence.
+alizadas. Os dados obtidos são então processados, com O sistema MyMobiConf [15] é direcionado para participação em
+geração de grácos e aplicação de algumas análises esta- qualquer tipo de evento. Ele possibilita o auxílio e gerenciamento
+tísticas. Caso sejam encontradas discrepâncias nos dados de eventos para os participantes, que montam sua própria agenda
+obtidos, assim como informações incompletas ou nulas, os de acordo com os eventos disponíveis, e para os próprios organi-
+resultados do teste podem não ser conclusivos, em espe- zadores, que conseguem obter um feedback rápido e direcionado
+cial, se as discrepâncias ocorrerem para participantes de sobre o evento e em atividades especícas. O MyMobiConf foi de-
+mesmo grupo. Nesse caso, a metodologia MeTAH considera senvolvido pelo Nesped (Núcleo de Estudos em Sistemas Pervasivos
+que houve uma falha no teste, ocasionada por falta de en- e Distribuídos da UFV-Florestal) e é utilizado em eventos locais.
+tendimento ou comprometimento do participante. Assim, O sistema Whova pertence a uma startup de San Diego na Califór-
+deve-ser retornar à tarefa Selecionar participantes, para que nia, e é utilizado principalmente para o networking em eventos em-
+novos participantes do grupo onde ocorreu a falha sejam presariais, culturais, reuniões, entre outros [25]. O Whova permite
+selecionados. aos participantes a criação de um perl no aplicativo, possibilitando
+
+(9) Condensar os resultados - após a correção de todas as uma interação entre os envolvidos antes e após os eventos. Este
+discrepâncias encontradas na tarefa anterior, esta tarefa aplicativo já foi utilizado pela Nasa, IEEE, entre outros.
+envolve o registro dos resultados do teste em um relatório Já o mConference [14] é um aplicativo que foi desenvolvido
+que sintetize os resultados obtidos com o questionário e como um projeto pessoal e disponibilizado posteriormente. A sua
+com as medições de avaliação do uso. Os resultados devem principal missão é divulgar informações acerca dos muitos eventos
+ser apresentados por métrica de usabilidade utilizada e cadastrados no próprio aplicativo, apesar das outras funcionalida-
+discriminados por grupo de usuários. des.
+
+O Event Cadence também é um aplicativo desenvolvido e dispo-
+Comparar os resultados nibilizado por uma startup, esta sediada no Brooklyn, Nova Iorque
+Nesta etapa, o Responsável pela avaliação analisa os resultados con- [3]. O sistema é direcionado para o engajamento de participantes
+tidos nos relatórios da Avaliação Heurística e do Teste de Usabilidade em um evento, com diversas funcionalidades relacionadas à comu-
+para elaborar um relatório nal de avaliação para o aplicativo se- nicação, competições internas, entre outras atividades. O aplicativo
+lecionado. Essa análise nal tem o intuito de comparar e discutir já foi utilizado por algumas empresas, inclusive Alkermes e Bayer.
+os resultados obtidos nas duas avaliações, a partir da análise das
+similaridades e das discrepâncias encontradas. 4.1 Funcionalidades Escolhidas
+
+Como a metodologia MeTAH foi utilizada para avaliar um conjunto
+4 AVALIAÇÃO CONJUNTA PARA de aplicativos, foi necessário estipular funcionalidades em comum
+
+APLICATIVOS DE APOIO À PARTICIPAÇÃO entre eles. Isso é importante para que os aplicativos escolhidos
+EM EVENTOS COM FOCO EM FACILIDADE sejam avaliados de forma igualitária, possibilitando uma compa-
+DE USO ração mais justa e assertiva. Para escolha das funcionalidades que
+
+Com o objetivo de aplicar a metodologia mostrada anteriormente, seriam avaliadas foi utilizado o estudo mencionado anteriormente,
+foi realizada uma avaliação que teve como foco aplicativos de apoio que visa encontrar e mapear as funcionalidades disponíveis para
+à eventos. Desta forma, utilizando aplicativos da mesma categoria, cada aplicativo. Isso possibilitou vericar as funcionalidades bási-
+a metodologia apresentaria resultados mais assertivos ao comparar cas, levando em consideração quais eram disponibilizadas por cada
+as saídas da Avaliação Heurística e do Teste de Usabilidade a serem sistema. Assim, foram escolhidas como funcionalidades mínimas:
+realizados. • Visualização de informações sobre o evento: O aplica-
+
+A categoria de aplicativos escolhida tem como proposta fazer a tivo permite que o usuário visualize informações gerais
+ligação entre participantes de um determinado evento com a equipe sobre o evento, como o local, data, hora, entre outras.
+por trás da organização deste. Desta forma, uma pessoa pode se • Programação: O aplicativo mostra ao usuário quais ativi-
+cadastrar em um evento, se inscrever nas atividades propostas, dar dades serão realizadas no evento, assim como informações
+sua opinião sobre como está sendo o evento, entre outras atividades, básicas sobre elas.
+
+
+
+R. Souza et al.
+
+• Visualização de informações sobre uma atividade: O modo que os especialistas pudessem identicá-las no formulário de
+aplicativo deve ser capaz de mostrar informações completas avaliação. O código das telas é formado pelo padrão ’NMFN’, onde
+sobre cada atividade, incluindo aqui informações sobre o ’NM’ indica o nome do aplicativo, ’F’ representa a funcionalidade
+tema que será abordado em tal atividade. abordada pela tela e ’N’ indica o número desta tela dentro do pa-
+
+• Agenda: O usuário é capaz de manter uma agenda pessoal drão. Por exemplo, o padrão MMP1 indica o primeira tela referente
+com todas as atividades que pretende participar no evento. à funcionalidade de Programação do Evento, pertencente ao apli-
+
+• Feedback: O aplicativo deve disponibilizar pelo menos cativo myMobiConf. As siglas utilizadas para funcionalidades são
+uma forma de feedback, ou seja, pelo menos uma maneira descritas abaixo:
+de o usuário expressar opiniões positivas ou negativas • E: Visualização de informações sobre o evento
+sobre o evento ou atividade, ou ainda enviar sugestões • P: Programação
+para os organizadores do evento. • T: Visualização de informações sobre uma atividade
+
+A tabela 2 mostra as funcionalidades levantadas que serão utili- • A: Agenda
+zadas para avaliação. Nela, um ’X’ é colocado para representar que • F: Feedback
+o aplicativo daquela linha possui a funcionalidade indicada pela Finalmente, na tarefa Aplicar avaliação heurística, cada um dos
+coluna. avaliadores preencheu um formulário individual para cada aplica-
+4.2 Aplicação da metodologia MeTAH tivo, onde apontaram erros, possíveis sugestões e demais conside-
+
+rações. Todos os avaliadores foram instruídos a executarem o teste
+A escolha da classe de aplicativos móveis para apoio em eventos individualmente e sem inuências externas.
+como objeto de estudo para a avaliação se deu em virtude da di- Uma vez que os resultados da avaliação foram colhidos e reunidos
+culdade de se encontrar trabalhos na literatura que embasem e conforme propõe a sexta tarefa, Analisar os resultados, constatou-se
+direcionem tal categoria. que os avaliadores obtiveram resultados que, à princípio são diferen-
+
+Ao mesmo tempo, a utilização da métrica Facilidade de Uso tes mas que, se avaliados em conjunto, revelam nuances distintas
+reete a intenção de avaliar o quão bem estruturado e desenvolvido de inconsistências comuns. Como não houveram discrepâncias en-
+é um aplicativo, levando em consideração tanto aspectos referentes tre os resultados obtidos, a tarefa de Revisar os resultados não foi
+às funcionalidades, quanto aspectos de design. Isto acontece porque aplicada.
+a Facilidade de Uso é frequentemente associada ao conceito de Com base nesta síntese obtida na tarefa Condensar os resultados
+usabilidade [4], e também tem seus resultados inuenciados pela foi possível perceber que o aplicativo que mais agradou os avalia-
+métrica de Satisfação, pois usuários comuns inconscientemente são dores foi o Event Cadence, pois apesar das muitas funcionalidades,
+levados por aspectos emocionais ao utilizar um sistema [19]. apresenta uma interface agradável e com poucos erros. O myMobi-
+
+A seguir serão especicadas as atividades realizadas para as Conf agradou pela interface simples e intuitiva, e também possui
+etapas de Avaliação Heurística e Teste de Usabilidade, relacionando- erros simples de serem resolvidos. Já o Whova agradou pela quan-
+as com as tarefas correspondentes. tidade de funcionalidades, porém a interface poluída visualmente
+
+4.2.1 Avaliação Heurística. Durante a primeira tarefa, Planejar estragou a experiência de uso dos avaliadores, mesmo com a pouca
+avaliação heurística do aplicativo móvel, maneiras de se aplicar a ocorrência de erros. Por m, o uso do mConference revelou diversos
+avaliação foram pesquisadas, além de ser feito o levantamento dos erros no aplicativo, como a falta de padronização dos textos e ícones
+especialistas que participariam do processo e das telas que seriam e símbolos não convencionais.
+avaliadas. As heurísticas que seriam utilizadas foram escolhidas No total foram levantadas 28 inconsistências nos quatro aplicati-
+com base nas heurísticas de Nielsen [18] e de Lima Salgado and vos, tendo o mConference obtido o maior número de erros por tela
+Freire [13] que estavam melhor relacionadas com aplicativos móveis (MCP1 - 8 erros encontrados), e sendo o myMobiConf o aplicativo
+e com Facilidade de Uso. que possuiu mais telas com erro. Apesar disso, as muitas telas pro-
+
+Para a segunda tarefa, Customizar checklist MATcH, foi elabo- blemáticas do myMobiConf são explicadas por dois erros estéticos
+rado um formulário de avaliação que sofreu algumas modicações, que se repercutiram em todas as telas.
+conforme proposto por Holanda [8]. Com base nas heurísticas esco- A tabela 3 mostra um resumo dos resultados obtidos nesta etapa.
+lhidas na tarefa anterior, as perguntas iniciais do checklist MATcH
+foram reduzidas de 48 para 15. Isto aconteceu porque várias das Tabela 3: Resultados da Avaliação Heurística
+perguntas iniciais não tinham relação com a categoria de aplicativos
+avaliada, com as heurísticas escolhidas ou com Facilidade de Uso. Aplicativos Resultados
+
+Telas Problemas Telas com Problemas
+Como a tarefa Selecionar Avaliadores recomenda, foram escolhi- Avaliadas Encontrados Problemas Frequentes 1
+
+dos 4 avaliadores, sendo todos eles estudantes do curso de graduação myMobiConf 8 8 8 F
+em Ciência da Computação da UFV-Florestal. Apesar disso, todos Whova 8 6 7 F, E
+eles possuíam perl adequado para realizar a avaliação. mConference 5 10 5 F, E, A, T
+
+Event Cadence 6 4 3 F, E
+Na tarefa de Classicar telas do aplicativo, as telas referentes Total 27 28 23 -
+
+às funcionalidades analisadas dos aplicativos foram revisadas, se-
+gundo o levantamento feito anteriormente. Esta revisão resultou em
+uma média de 7 telas por aplicativo. Após a decisão nal de quais
+telas seriam avaliadas, foi criado um código único para cada tela, de 1Os problemas foram classicados de acordo com as funcionalidades
+
+
+
+Avaliação Conjunta de Facilidade de Uso em Aplicativos Móveis para Apoio à Participação em Eventos
+
+Tabela 2: Resumo das Funcionalidades de cada aplicativo
+Funcionalidades
+
+Aplicativos Agenda Informações sobre o Evento Programação Informações sobre Atividades Feedback
+Comentários Enquetes Questionários Votação Feed
+
+myMobiConf X X X X X X X X
+Whova X X X X X X
+
+mConference X X X X X
+Event Cadence X X X X X X X X
+
+4.2.2 Teste de Usabilidade. Na primeira tarefa do teste de usabi- foram escolhidos 8 estudantes divididos em dois grupos: CdC, for-
+lidade, Denir métricas e medidas de avaliação de usabilidade para o mado por 4 alunos do curso de Ciência da Computação, e Leigos,
+aplicativo móvel, foram denidas as medidas tempo de execução e formado por 4 alunos de outros cursos. Assim é possível identicar
+quantidade de erros para avaliar os resultados dos usuários. as diculdades que os pers podem ter ao utilizar um aplicativo.
+
+Já na tarefa Denir cenários de uso do aplicativo, foram elaborados Na sétima tarefa, Aplicar o teste de usabilidade, foi redigido um
+seis cenários para aplicação no teste de usabilidade. Cada cenário breve documento para apresentar aos participantes uma denição
+é composto por uma breve introdução, cujo objetivo é inserir o do teste de usabilidade e como ele seria aplicado, além de apresentar
+usuário de forma criativa no contexto do cenário de teste abordado os cenários de uso aos participantes. As informações contidas no do-
+[4]; um tópico de objetivo, onde será especicado onde se deseja cumento também foram apresentadas aos participantes oralmente,
+chegar com o teste daquele cenário; e por m um tópico que irá juntamente com informações referentes aos aplicativos auxiliares.
+mostrar ao usuário o que deve acontecer quando o teste do cenário Com os resultados obtidos na tarefaAnalisar os resultados percebeu-
+for concluído. Abaixo será mostrada uma versão enxuta dos cenários se que as inconsistências encontradas pelos participantes foram
+criados, especicando somente o objetivo de cada um. parecidas, principalmente no que se refere à tradução de aplicativos
+
+• Cenário 1: Encontrar incoerências durante a apresentação ou à disposição de conteúdo na tela. Como não houveram inconsis-
+do evento. tências, não foi preciso realizar uma nova seleção de participantes.
+
+• Cenário 2: Encontrar problemas na disposição da progra- Os dados extraídos na tarefa Condensar os resultados podem ser
+mação do evento. vistos na tabela 4, que mostra a classicação de cada aplicativo,
+
+• Cenário 3: Descobrir diculdades na hora de manter uma em relação às 7 perguntas do questionário. Com base nesses dados
+agenda pessoal de atividades. pode-se perceber que a intuitividade do myMobiConf agradou bas-
+
+• Cenário 4: Observar se existem problemas na disposição tante os usuários, assim como o excesso de informação deixou os
+das informações sobre uma atividade dentro do aplicativo. usuários do Whova bastante confusos. O mesmo aconteceu com o
+
+• Cenários 5 e 6:Avaliar a forma com que o aplicativo trata Event Cadence, que não obteve tanto sucesso quanto na Avaliação
+o feedback positivo e negativo do usuário. Heurística, sendo o segundo aplicativo que mais foi classicado
+
+como Péssimo. Ao mesmo tempo, o myMobiConf atingiu a maior
+Para a tarefa Denir ambiente de teste foi estabelecido que cada aceitação pelos usuários, sendo classicado 42 vezes como Muito
+
+participante iria utilizar de seu próprio smartphone para a realização Bom.
+dos testes, impedindo assim que barreiras como a não familiarização
+com o aparelho interferisse nos resultados obtidos. O local de teste Tabela 4: Quantidade de classicações para cada aplicativo
+escolhido foram dois laboratórios de informática da UFV-Florestal,
+onde os alunos poderiam utilizar da internet quando necessário. Aplicativos Classicação
+
+Na quarta tarefa, Elaborar questionário, foi desenvolvido um ques- Péssimo Ruim Regular Bom Muito Bom
+myMobiConf 0 1 4 9 42
+
+tionário adaptado segundo orientações de Holanda [8], contendo Whova 17 7 9 14 9
+perguntas direcionadas para Facilidade de Uso. Tal questionário mConference 5 9 18 21 3
+contou com 7 perguntas fechadas e um campo de observações, para Event Cadence 9 3 22 15 7
+que os participantes pudessem discorrer de quaisquer considerações
+sobre o uso do aplicativo. Cada pergunta requeria que o usuário, De acordo com a gura 4 podemos perceber que o myMobiConf
+sob visões diferentes, classicasse o aplicativo em um dentre os também apresenta bons resultados em relação à quantidade média
+seguintes critérios: Péssimo, Ruim, Regular, Bom ou Muito Bom. de erros e duração média de cada tarefa. Por outro lado, percebemos
+
+Já na quinta tarefa, Denir medições de uso, estabeleceu-se que a também que o Whova obtém melhores resultados após o cadastro
+tela do aplicativo seria gravada durante o teste juntamente com a inicial em um evento. Segundo os participantes isto se deveu ao fato
+voz do participante, segundo a técnica "Pensar em voz alta". Esta de o aplicativo ser inteiramente em inglês. Este mesmo problema
+técnica consiste em fazer com que o usuário diga tudo o que pensa se deu com o Event Cadence, que até possui uma versão traduzida,
+e qual será o seu próximo passo durante o teste [9], possibilitando porém esta não é completa, possuindo várias funcionalidades na
+a compreensão de possíveis inconsistências entre os resultados língua inglesa. Já o mConference possui bons resultados em termos
+do questionário e das medições. Para gravação do vídeo e áudio de medição, porém a experiência de uso deixa a desejar.
+necessário foi utilizado o aplicativo AZ Screen Recorder Play [20]. Quanto à separação dos grupos, percebemos que apesar de haver
+
+Na tarefa Selecionar participantes foi feito um levantamento de uma grande distinção entre a porcentagem de cenários resolvidos
+estudantes da UFV-Florestal que nunca haviam utilizado nenhum pelo grupo CdC (70.37%) em relação ao grupo de Leigos (29.63%),
+dos aplicativos que seriam testados. A partir deste levantamento, ambos os grupos atingiram resultados parecidos no que compete à
+
+
+
+R. Souza et al.
+
+5 CONCLUSÃO E TRABALHOS FUTUROS
+Este trabalho apresentou a aplicação de uma metodologia estru-
+turada para se realizar avaliações de usabilidade em aplicativos
+móveis, com base na utilização conjunta de avaliação heurística
+e teste de usabilidade. Tal aplicação se deu em um conjunto de 4
+aplicativos de apoio à participação em eventos, em que foi utilizada
+a métrica de usabilidade Facilidade de Uso.
+
+A avaliação aplicada mostrou que a metodologia proposta obteve
+resultados satisfatórios, quando utilizada em produtos que depen-
+dem da aceitação de usuários não técnicos. Isso se dá em virtude da
+ampla gama de visão proporcionada pela avaliação, uma vez que
+aborda falhas e inconsistências de design em duas frentes distintas,
+porém igualmente importantes. Isto revelou a importância de uma
+fase obrigatória de análise e comparação dos resultados de ambas
+as técnicas de avaliação, pois como não há na literatura uma me-
+todologia que obrigue tal comparação, esta pode não ser feita. A
+métrica de Facilidade de Uso também se mostrou adequada, uma
+vez que pode abranger outras métricas.
+
+Vale a pena ressaltar a importância de uma atenção à usabilidade
+de aplicativos de apoio à eventos, uma vez que estes representam
+uma categoria relativamente nova, porém crescente no mercado e
+que não recebe tanta atenção na literatura.
+
+Como trabalhos futuros destaca-se a utilização de mais métricas
+além da Facilidade de Uso, e também a possibilidade de agregação
+de outras técnicas de avaliação de usabilidade.
+
+REFERÊNCIAS
+Figura 4: Resultados Relacionados aos Aplicativo Testados [1] Maiana Cunha Araújo, Ana Tereza Santos Assis, William Pereira, Clarissa Pesssoa,
+
+and Marcelo Marcio Soares. 2016. Análise de Usabilidade do Aplicativo de
+Compras para Dispositivo Móvel ZOOM. Blucher Engineering Proceedings 3, 3
+
+quantidade de erros cometidos e ao tempo gasto para realizar cada (2016), 1114–1124.
+[2] Glívia Barbosa, Erica Oliveira, and Deborah D’Carlo. 2016. Usabilidade em Apli-
+
+cenário. cativos Móveis Educacionais: Um Conjunto de Heurísticas para Avaliação. In
+Brazilian Symposium on Computers in Education (Simpósio Brasileiro de Informá-
+
+4.3 Comparação de Resultados tica na Educação-SBIE), Vol. 27. 777.
+[3] Event Cadence. 2018. https://www.eventcadence.com/ (Acessado em
+
+De acordo com os resultados condensados anteriormente foi possí- 12/11/2018).
+[4] Walter de Abreu Cybis, Adriana Holtz Betiol, and Richard Faust. 2015. Ergonomia
+
+vel vericar que o Event Cadence possuiu uma grande aprovação e Usabilidade 3ª edição: Conhecimentos, Métodos e Aplicações. Novatec Editora.
+em sua parte técnica, agradando aos avaliadores por sua estética e [5] Rafael Faccio. 2014. Validação de Heurísticas de Usabilidade para celulares
+funcionalidades, porém desagradou aos usuários do teste de usabili- touchscreen por meio de testes de usabilidade. (2014).
+
+[6] Valéria Casaroto Feijó, Berenice Santos Gonçalves, and Luiz Salomão Ribas Go-
+dade por não apresentar uma interface tão intuitiva. Um problema mez. 2013. Heurística para avaliação de usabilidade em interfaces de aplicativos
+encontrado pelos usuários foi a tradução incompleta do aplicativo, smartphones: Utilidade, produtividade e imersão. Design & Tecnologia 3, 06
+que aliada à falta de simplicidade, dicultou o entendimento, já que (2013), 33–42.
+
+[7] GQS. 2017. MATcH Checklist. http://match.inf.ufsc.br:90/
+estes selecionavam a língua portuguesa como idioma e se depara- [8] Marcello Anderson Bezerra Holanda. 2014. Avaliação de Usabilidade do Apli-
+vam com opções em inglês. cativo Onde Fica?-UFC em Dispositivos Móveis com Sistema Android. (2014).
+
+http://www.repositoriobib.ufc.br/000012/000012d8.pdf
+Já o myMobiConf apresentou mais falhas técnicas, porém estas [9] Andreas Holzinger. 2005. Usability engineering methods for software developers.
+
+se mostraram simples e de menor gravidade. Tal característica, Commun. ACM 48, 1 (2005), 71–74.
+aliada à interface intuitiva e direta fez com que os usuários se [10] Rodolfo Inostroza, Cristian Rusu, Silvana Roncagliolo, Virginica Rusu, and Cé-
+
+sar A. Collazos. 2016. Developing SMASH. Comput. Stand. Interfaces 43, C (Jan.
+mostrassem bem mais receptivos e com poucas diculdades. O 2016), 40–52. https://doi.org/10.1016/j.csi.2015.08.007
+Whova também mostrou poucas falhas técnicas durante a avaliação [11] Ger Joyce, Mariana Lilley, Trevor Barker, and Amanda Jeeries. 2016. Mobile
+heurística, porém sua interface poluída de informações e cheia de Application Usability: Heuristic Evaluation and Evaluation of Heuristics. In
+
+Advances in Human Factors, Software, and Systems Engineering, Ben Amaba (Ed.).
+componentes se mostrou uma barreira para os usuários comuns, Springer International Publishing, Cham, 77–86.
+fazendo com que sua aceitação não alcançasse grandes patamares. [12] Caroline Krone. 2013. Validação de Heurísticas de Usabilidade para Celulares
+
+Touchscreen. Grupo de Qualidade de Software–UFSC. Florianópolis (2013).
+Por último, o mConference não apresentou bons resultados, tendo [13] André Lima Salgado and André Pimenta Freire. 2014. Heuristic Evaluation of
+inúmeras falhas técnicas apontadas pelos avaliadores e outras tantas Mobile Usability: A Mapping Study. In Human-Computer Interaction. Applications
+
+reclamações acerca do layout e estética do aplicativo. Isso mostrou and Services, Masaaki Kurosu (Ed.). Springer International Publishing, Cham,
+178–188.
+
+que, em alguns casos, a avaliação heurística e o teste de usabilidade [14] mConference. 2017. https://play.google.com/store/apps/details?id=felipe.saraiva.
+convergem para o mesmo resultado. com.mconference2&hl=en_US (Accessed on 12/06/2018).
+
+
+
+Avaliação Conjunta de Facilidade de Uso em Aplicativos Móveis para Apoio à Participação em Eventos
+
+[15] myMobiConf. 2016. https://play.google.com/store/apps/details?id=com.
+ionicframework.scape771593 (Accessed on 12/06/2018).
+
+[16] Olibário José Machado Neto. 2013. Usabilidade da interface de dispositivos mó-
+veis: heurísticas e diretrizes para o design. (Mestrado em Ciências de Compu-
+tação e Matemática Computacional) - Instituto de Ciências Matemáticas e de
+Computação. Universidade de São Paulo, São Carlos. doi:10.11606/D.55.2013.
+tde-07012014-110754
+
+[17] Junia Maria Martins Neves et al. 2005. Estudo de usabilidade em sistemas móveis
+com foco em PDAs. (2005).
+
+[18] Jakob Nielsen. 1994. Usability engineering. Elsevier.
+[19] D. Norman. 2007. Emotional Design: Why We Love (or Hate) Everyday Things.
+
+Basic Books.
+[20] Google Play. 2016. AZ Screen Recorder. https://play.google.com/store/apps/
+
+details?id=com.hecorat.screenrecorder.free&hl=pt_BR
+[21] Raquel Oliveira Prates and Simone Diniz Junqueira Barbosa. 2003. Avaliação
+
+de Interfaces de Usuário–Conceitos e Métodos. In Jornada de Atualização em
+Informática do Congresso da Sociedade Brasileira de Computação, Capítulo, Vol. 6.
+
+[22] Daniel Francisco Ribeiro. 2007. Estudo de Interface Humano-Máquina em Dispo-
+sitivos Móveis. Florianópolis, UFSC (2007).
+
+[23] Bruno Carvalho de Melo Rodrigues and Berenice Santos Gonçalves. 2014. Inter-
+faces de Aplicativos de Autopublicação para Smartphones: Avaliação Heurística
+e Compartiva. Blucher Design Proceedings 1, 4 (2014), 1794–1805.
+
+[24] Horácio Pastor Soares, Ney Wagner F Cavalcante, Letícia Régis Di Maio, and
+Simone Bacellar Leal Ferreira. 2014. Inspeção heurística e observação no contexto
+de uso: um estudo de caso com o RunKeeper. In Companion Proceedings of the
+13th Brazilian Symposium on Human Factors in Computing Systems. Sociedade
+Brasileira de Computação, 128–142.
+
+[25] Whova. 2016. https://whova.com/faq/what-is-whova/ (Acessado em 12/11/2018).

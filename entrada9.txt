@@ -1,0 +1,502 @@
+﻿Coleta e Disponibilização de Dados do IBGE Cidades
+
+Kayque Avelar Oliveira Fabrício Aguiar Silva
+Instituto de Ciências Exatas e Tecnológicas Instituto de Ciências Exatas e Tecnológicas
+
+Universidade Federal de Viçosa Universidade Federal de Viçosa
+Florestal, Brasil Florestal, Brasil
+
+kayque.oliveira@ufv.br fabricio.asilva@ufv.br
+
+RESUMO sileiros estão vivendo e como os gestores públicos estão apli-
+
+O Instituto Brasileiro de Geografia e Estat́ısticas (IBGE) é cando os recursos. No entanto, as informações são apresenta-
+
+o órgão responsável pela manutenção e disponibilização dos das de uma maneira confusa, tornando inviável uma análise
+
+dados estat́ısticos de todo território nacional. No entanto a mais complexa, que traça correlações entre atributos de cada
+
+maneira como os dados são disponibilizados, pouco intuitiva, pesquisa, ou entre as cidades, deixando o cidadão limitado.
+
+dificulta a extração para uma análise mais elaborada. Será Com isso, o potencial que os dados poderiam oferecer ficam
+
+apresentado nesse artigo um sistema que viabiliza a extra- restritos, já que poucas pessoas ou instituições enfrentam as
+
+ção de dados de uma maneira mais clara. Usando conceitos dificuldades de coleta, preparação, organização e análise des-
+
+de Data Science e outros recursos computacionais, o sistema ses dados.
+
+desenvolvido neste trabalho é capaz de capturar os dados for- Para reduzir esse problema, neste trabalho foi desenvolvido
+
+necidos pelo IBGE, formatá-los de maneira mais intuitiva e um sistema com a finalidade de auxiliar tanto as pessoas que
+
+armazenar em uma base de dados local, com o objetivo de buscam fazer uma análise simples, quanto aquelas que pro-
+
+serem consultados para elaboração de gráficos e análises. curam direcionar sua busca para uma perspectiva mais deta-
+
+Os dados fornecidos pelo IBGE falam muito sobre o Bra- lhada. Assim, todos os cidadãos se beneficiam do sistema, dei-
+
+sil, como o brasileiro vive e como os gestores públicos têm xando os dados públicos mais fáceis de serem extráıdos para
+
+gastado os recursos da nação. Olhando por essa perspectiva, uma análise posterior. Com isso, será mais fácil identificar
+
+o projeto assume caracteŕısticas sociais, ao auxiliar a popula- os principais problemas enfrentados pelas cidades, e verificar
+
+ção no acesso às informações a fim de questionarem a situação posśıveis formas de melhorar a vida dos cidadãos.
+
+em que o páıs se encontra. Este artigo aborda as estratégias Este artigo está disposto da seguinte forma: Na Seção 2
+
+usadas de fácil assimilação, atingindo o objetivo que é o en- serão apresentados os principais conceitos relacionados; na
+
+tendimento dos dados disponibilizados pelo IBGE. Seção 3 será apresentado o sistema desenvolvido, com a expli-
+cação de sua arquitetura e descrição do processo para coleta
+
+Palavras-Chave de dados e da API constrúıda; na Seção 4 serão apresenta-
+das algumas análises e resultados obtidos. Por fim, a Seção 5
+
+Análise de Dados, IBGE, Cidades apresenta as conclusões e alguns posśıveis trabalhos futuros.
+
+1. INTRODUÇÃO 2. CONCEITOS RELACIONADOS
+Com a promulgação do Decreto no 218, em 26 de janeiro de
+
+O IBGE é o órgão responsável por disponibilizar os dados e
+1938 (1), é criado o Instituto Brasileiro de Geografia e Esta-
+
+estat́ısticas do território nacional. Com administração federal
+t́ıstica (IBGE), a partir do Instituto Nacional de Estat́ıstica
+
+e sede no Rio de Janeiro, o IBGE é encarregado por realizar
+(INE) (2). Com natureza federativa, o IBGE foi idealizado
+
+censos e organizar os dados conseguidos, a fim de suprir outros
+com finalidade de viabilizar e executar o levantamento orga-
+
+órgãos do governo e demais organizações em geral. O interesse
+nizado de todas estat́ısticas do território nacional. Na atuali-
+
+pelos dados estat́ısticos do Brasil tem crescido, não apenas em
+dade, os dados produzidos pelo IBGE são disponibilizados em
+
+instituições governamentais, mas também da população. Per-
+seu site (3). Cada cidadão pode fazer uso do sistema ofere-
+
+cebendo isso, em 2011 foi decretado a lei no 12.527/2011 - Lei
+cido no site do IBGE, a fim de realizar uma análise por conta
+
+de Acesso à Informação (LAI) (4), que define normas e re-
+própria.
+
+gras para gastos públicos da União, Estados e Munićıpios. A
+Os dados coletados e disponibilizados pelo IBGE possuem
+
+lei afirma que os dados devem ser disponibilizados por meios
+relevância significativa para o entendimento de como os bra-
+
+eletrônicos (Portais de Transparência). Os Portais de Trans-
+parência são desenvolvidos pelas instituições governamentais
+e em alguns casos demonstram ser ineficientes pela maneira
+como os dados são disponibilizados, com formatação impró-
+pria com grandes tabelas e até divergência de informações.
+
+No Brasil alguns projetos fazem uso dos dados fornecidos
+pelo IBGE, temos o Observatório de Oncologia (5) que é
+uma plataforma online com monitoramento dinâmico de da-
+dos abertos, que visa compartilhar informações relevantes da
+
+ACM ISBN área de oncologia no Brasil. Todos os dados usados pelo Ob-
+
+
+
+servatório de Oncologia são de fontes governamentais. As ba-
+ses usadas são fornecidas pelo Ministério da Saúde, Instituto
+Nacional do Câncer e também pelo IBGE.
+
+Outro projeto interessante é o Repasse (6), se trata de uma
+ferramenta para visualização das transferências feitas pelo go-
+verno federal as cidades, com a finalidade de analisar o im-
+pacto do investimento por meio de uma visualização gráfica.
+Os usuários desse sistema podem refletir de maneira mais sim-
+ples e eficiente diversos dados.
+
+Os dados conseguidos pelo IBGE são disponibilizados por
+meio de uma API de dados agregados que hoje está em sua
+terceira versão. Essa API atualmente alimenta o SIDRA, (Sis-
+tema IBGE de Recuperação Automática) (7), ferramenta que
+disponibiliza os dados das pesquisas e censos realizados pelo
+IBGE. A API organiza os censos por pesquisas, e cada pes-
+quisa possui seus indicadores. A figura 1 ilustra um retorno da
+API. A pesquisa referente ao censo escolar possui indicadores
+do ensino básico e ensino superior, que armazenam a quan-
+tidade de docentes, quantidade de matŕıculas, quantidade de
+matŕıculas em creches, quantidade de matŕıculas nas escolas Figura 2: Arquitetura do sistema
+públicas e privadas dentre outros.
+
+3.1.2 Sistema de Recuperação de Dados
+Responsável pela coleta e persistência dos dados. Este com-
+
+ponente é um elemento fundamental para o sistema como um
+todo. Caso faça sentido o usuário poderá fazer uso apenas
+desse componente, construindo sua base personalizada, con-
+tendo apenas as pesquisas necessárias para a sua análise. De
+maneira mais abstrata, podemos subdividir o Sistema de Re-
+cuperação de Dados da forma apresentada na Figura 3, essa
+etapa acontece pelo menos 4 vezes em cada vez que o sistema é
+ativado, primeiro os dados das cidades são salvos, em seguida
+formatado e inserido no banco de dados local. Esse processo
+acontece novamente para os indicadores, pesquisas e por fim
+histórico..
+
+Figura 1: Retorno de requisição a API do IBGE
+
+O sistema desenvolvido nesse artigo faz uso dessa API e
+constrói uma relação entre as Pesquisas e Indicadores, arma-
+zenando os resultados a fim de construir um histórico para
+consulta dos usuários.
+
+3. SOLUÇÃO Figura 3: Arquitetura do Sistema de Recuperação de
+Dados
+
+3.1 Arquitetura
+1. Escolha dos Indicadores: O IBGE atualmente disponi-
+
+A Figura 2 apresenta, de maneira geral, o funcionamento do biliza 74 censos de pesquisas, e o conjunto de todas as
+sistema desenvolvido. Cada elemento ilustrado é responsável pesquisas possuem 15001 indicadores. Para realizar uma
+por um componente independente do sistema. análise espećıfica, nem sempre é necessário obter todas
+
+3.1.1 API IBGE as informações disponibilizadas. Por exemplo: caso o
+objetivo do usuário seja fazer um estudo de caso relaci-
+
+Possibilita o acesso aos dados e estat́ısticas produzidas pelo onando o Censo Escolar, com Desigualdades Sociais por
+IBGE. Ao informar a pesquisa, indicador e localidade, a API Cor ou Raça no Brasil, não faria sentido obter informa-
+retorna um conteúdo JSON com as informações referentes ções da Produção Agŕıcola. Nesta etapa, o usuário irá
+àquela consulta. Como é de responsabilidade do IBGE re- escolher quais os indicadores serão recuperados, para
+alizar o levantamento de todas estat́ısticas do território naci- que o tempo de execução e memória gasta não sejam
+onal, o retorno oferecido na consulta à API pode trazer infor- acima do necessário.
+mações que não são relevantes para uma determinada análise,
+tornando o uso confuso para usuários leigos. 2. Download dos Dados: Nesta etapa, é realizado o down-
+
+
+
+load das informações para a máquina local em arquivos 1. Cidade: Cidades contidas no território nacional que te-
+JSON, que posteriormente serão inseridos no banco de nham estat́ısticas levantadas pelo IBGE. Atualmente
+dados relacional. É aqui onde as consultas à API do são 5570 cidades registradas.
+IBGE são realizadas, para todas as cidades do Brasil,
+sempre levando em consideração os indicadores escolhi- 2. Pesquisa: Conjunto de pesquisas realizadas pelo IBGE.
+dos. Por ser uma aplicação que faz uso da internet para Atualmente são 74 pesquisas, como por exemplo: Pro-
+obter os dados, o sistema fica suscet́ıvel a falhas de cone- dução Agŕıcola - Lavoura Temporária, Serviços de saúde
+xão. Contudo, a aplicação foi desenvolvida contornando e Finanças públicas.
+esse contratempo, sendo que caso ocorra um problema
+
+3. Indicadores: Conjunto de indicadores referentes às pes-
+de conexão, o sistema não segue adiante até que o down-
+
+quisas realizadas pelo IBGE. Atualmente são 15001, como
+load seja feito por completo.
+
+por exemplo: Atendimento de emergência, que informa
+
+3. Preparação dos Dados: A API retorna um JSON com a quantidade de atendimentos de emergencia realizados
+
+diversas informações adicionais que devem ser ignora- em uma região, Cĺınica médica, que informa a quan-
+
+das ou substitúıdas. Nessa etapa ocorre a leitura dos tidade de estabelecimentos em uma localidade, Investi-
+
+arquivos salvos no disco local, e em seguida as infor- mentos que armazena a quantidade de dinheiro investido
+
+mações são extráıdas dos arquivos JSON e formatadas, em uma região.
+
+para posteriormente serem inseridas no banco de dados
+4. Histórico: Armazena o valor de um determinado indi-
+
+relacional.
+cador em um peŕıodo de tempo para uma cidade. Com
+
+4. Inserção: Os dados são inseridos no banco de dados rela- isso é posśıvel analisar como os valores das cidades tem
+
+cional, seguindo o modelo que será apresentado a seguir. evolúıdo ao longo do tempo.
+
+3.1.3 Banco de Dados 3.1.4 API Para Acesso Local
+Após coletados e preparados, os dados são armazenados em Este componente foi constrúıdo com o propósito de facilitar
+
+um banco de dados relacional para serem consultados poste- o acesso aos elementos extráıdos pelo Sistema de Recupera-
+
+riormente. A Figura 4 representa como o banco de dados foi ção de Dados. Caso um determinado grupo de pessoas tenha
+
+modelado. Mesmo sendo um modelo simples, ele é capaz de como objetivo realizar um estudo espećıfico, este componente
+
+armazenar todas as pesquisas feitas pelo IBGE. possibilita que todos tenham acesso aos dados extráıdos pelo
+Sistema de Recuperação de dados. Desta maneira os dados
+serão salvos uma única vez e a API de acesso local irá inter-
+mediar o acesso a informação extráıda.
+
+Com este componente o usuário é capaz de buscar todas
+as cidades, pesquisas e indicadores. O usuário poderá fazer
+uma consulta de uma pesquisa espećıfica para uma cidade es-
+pećıfica, passando apenas como parâmetro, o id da cidade e
+o id da pesquisa, também é posśıvel buscar uma determinada
+pesquisa para todas as cidades do Brasil, passando como parâ-
+metro apenas o identificador da pesquisa e por fim também é
+posśıvel fazer buscas de um ano espećıfico, incluindo o ano nos
+parâmetros. A API Para Acesso Local, a cada requisição re-
+torna um JSON com o valor correspondente a pesquisa, desta
+maneira uma aplicação pode consumir o retorno fornecido a
+fim de realizar análises.
+
+3.1.5 Análise de Dados
+Este é o componente encarregado de analisar os dados ar-
+
+mazenados e, posteriormente, promover um entendimento do
+conteúdo extráıdo. No momento presente, essa etapa faz uso
+da API Rest de acesso local, para realizar consultas na base
+com um foco espećıfico de análise (como por exemplo, ranking
+de cidades pelo IDH), e podem ser disponibilizados de forma
+gráfica. O principal foco aqui é selecionar parte dos dados já
+preparados e armazenados e buscar correlações para análise.
+
+3.1.6 Usuário do Sistema de Recuperação
+Este usuário está interessado em usufruir apenas do Sistema
+
+de Recuperação de Dados, assumindo a responsabilidade de
+escolher quais indicadores serão usados na busca e o tipo de
+
+Figura 4: Modelo Relacional do Banco de Dados uti- análise a ser aplicada.
+lizado.
+
+3.1.7 Usuário da API Local
+A seguir cada entidade do banco e seus relacionamentos são Este usuário está interessado em fazer buscas aos dados
+
+descritos: extráıdos pelo Sistema de Recuperação de Dados e armaze-
+
+
+
+nados na base de dados já com as informações preparadas e
+organizadas, a fim de realizar sua análise individual. O indicador População ocupada representa a porcentagem
+
+da população empregada em um munićıpio. Este indicador
+3.1.8 Usuário Final é calculado da seguinte maneira: (pessoal ocupado no muni-
+
+Este usuário tem acesso às análises produzidas por meio de ćıpio/população total do munićıpio) x 100. Como podemos
+gráficos e relatórios, fazendo uso indiretamente de todos os ver na Figura 5, existe uma certa correlação positiva entre a
+componentes do sistema. população ocupada e o IDH. Isso se justifica pois a popula-
+
+ção desocupada e desempregada pode passar por situações de
+4. RESULTADOS miséria e consequentemente reduzir o IDH.
+
+A base constrúıda neste trabalho contém 5.570 cidades, 73
+pesquisas e 15.001 indicadores. Para popular o histórico fo-
+ram selecionados 30 indicadores, o que levou cerca de 11 ho-
+ras para construir a base para análise. Com o intuito de obter
+uma visão geral de cada cidade, os dados obtidos trazem infor-
+mações abrangentes da saúde, educação, economia, território,
+população dentre outros. Para cada cidade foram realizadas
+30 pesquisas totalizando 167.100 pesquisas efetuadas. O obje-
+tivo da tabela histórico é guardar as informações das pesquisas
+para todos os anos em que ocorreram. Por isso, neste caso de
+uso a tabela histórico possui 1.039.966 registros. Apesar da
+seleção de apenas 30 indicadores para este projeto, o sistema
+está preparado para consultar todos os indicadores, o que não
+foi feito ainda por restrições computacionais.
+
+4.1 Gráficos
+A análise feita neste estudo teve como maior objetivo en-
+
+contrar correlações entre alguns dos indicadores escolhidos. A
+seguir serão apresentados os gráficos que possuem correlações
+mais satisfatórias. Nos gráficos, cada ponto representa uma
+cidade, e os eixos X e Y contemplam os valores dos indicadores
+analisados.
+
+4.1.1 IDH X Esgotamento Sanitário
+Como pode-se ver na Figura 5, existe uma correlação posi-
+
+tiva entre o Esgotamento Sanitário e o IDH. A cidade tende a
+ter um IDH melhor quando o ı́ndice de esgotamento é maior.
+
+Figura 6: Correlação entre População ocupada e IDH
+
+4.1.3 Esgotamento Sanitário x Salário médio mensal
+A Figura 7 apresenta a correlação encontrada entre o Es-
+
+gotamento Sanitário e o Salário médio mensal. A correlação
+apresentada é uma correlação positiva, ou seja quando o salá-
+rio médio mensal da cidade é maior o esgotamento sanitário
+
+Figura 5: Correlação entre Esgotamento Sanitário e tende a ser maior. O esgotamento sanitário é uma necessi-
+IDH. dade básica, cidades que possuem o salário médio alto ten-
+
+dem a ser cidades mais desenvolvidas, que tem um sistema de
+4.1.2 População Ocupada x IDH esgoto apropriado.
+
+
+
+4.1.5 Salário Médio Mensal x População Ocupada
+A Figura 9 apresenta a correlação encontrada entre o Sa-
+
+lário médio mensal e a população ocupada. Como mostrado
+existe uma correlação positiva entre os indicadores, isso quer
+dizer que as cidades que possuem um salário médio melhor
+tendem a ter mais pessoas trabalhando.
+
+Figura 7: Correlação entre Esgotamento Sanitário e
+Salário médio mensal
+
+4.1.4 Salário Médio Mensal x IDH
+A Figura 8 apresenta a correlação encontrada entre o sa-
+
+lário médio mensal e o IDH, como pode-se ver, existe uma
+correlação positiva entre o salário médio mensal e o IDH. A
+cidade tende a ter um IDH maior quando o salário médio
+mensal é maior. Isso é coerente supondo que a qualidade de
+vida é melhor quando o salário é maior.
+
+Figura 9: Correlação entre Salário Médio Mensal e
+População Ocupada
+
+4.1.6 Mortalidade Infantil x Esgotamento Sanitário
+Figura 8: Correlação entre Salário Médio Mensal e A Figura 10 apresenta a correlação encontrada entre a taxa
+IDH de mortalidade infantil e o esgotamento sanitário.
+
+
+
+Figura 10: Correlação entre Mortalidade Infantil e Figura 11: Correlação entre Mortalidade Infantil e
+Esgotamento Sanitário IDH
+
+4.1.8 Salário médio mensal x Mortalidade infantil
+A Figura 12 apresenta a correlação encontrada entre o
+
+salário médio mensal e a mortalidade infantil. É esperado
+que quanto menor o salário médio mensal do munićıpio maior
+a taxa de mortalidade infantil.
+
+4.1.7 Mortalidade Infantil x IDH
+A Figura 11 apresenta a correlação encontrada entre a taxa
+
+de mortalidade infantil e o IDH. O Índice de Desenvolvimento
+Humano é calculado com base em três aspectos essenciais da
+população: Renda, educação e saúde, tendo isso em vista
+quando um desses aspectos apresentam melhorias o IDH tende
+a apresentar uma melhoria. A principal causa da mortalidade
+infantil predomina as causas evitáveis (8), sendo as causas
+evitáveis aquelas que podem ser parcialmente ou totalmente Figura 12: Correlação entre salário médio mensal e
+prevenidas por intervenção do serviço de saúde dispońıvel. Mortalidade infantil
+Sabendo disso é esperado que quanto maior a taxa de morta-
+lidade infantil, menor é o IDH. 4.1.9 População Ocupada X Densidade Demográfica
+
+
+
+A Figura 13 apresenta a correlação encontrada entre a po-
+pulação ocupada e a densidade demográfica. Como podemos
+observar, foi encontrada uma correlação positiva entre a po-
+pulação que está desempenhando algum tipo de trabalho e a
+densidade demográfica dos munićıpios. Ou seja, munićıpios
+maiores tendem a ter mais pessoas empregadas.
+
+Figura 14: Definindo K com Elbow method
+
+Para realizar o agrupamento das cidades, foram utilizados
+apenas os indicadores da população ocupada e densidade de-
+mográfica. Para este estudo de caso apresentar os dados em
+duas dimensões seria mais didático, mas nada impede do usuá-
+rio buscar agrupamento com n indicadores. A Figura 15 mos-
+tra o k-means aplicado com K igual a 5.
+
+Figura 13: Correlação entre população ocupada e
+densidade demográfica
+
+Figura 15: Clusters formados com K-means
+
+Uma outra maneira de realizar uma análise é criando gru- Podemos observar os cinco grupos, cada grupo com uma
+pos de cidades que possuem caracteŕısticas semelhantes. Para cor diferente. É esperado que cada grupo tenha semelhança
+isso, foi utilizado o k-means (9). O agrupamento por meio do entre si. Por exemplo: o grupo vermelho e azul, são aque-
+k-means é um dos mais usados e mais rápidos métodos de clus- las cidades que possuem uma baixa densidade demográfica,
+tering, que agrupa os dados em K grupos, sendo esse K pré- e pouca população ocupada. Já o grupo verde são aquelas
+definido. Dizer quantos clusters queremos separar nossos da- cidades que provavelmente possuem várias pessoas desempre-
+dos é sempre um desafio, especialmente quando estamos tra- gadas, tendo em vista que são cidades com grande densidade
+balhando com agrupamento e aprendizado não-supervisionado. demográfica e pouca população ocupada. Em contrapartida,
+Para solucionar esse desafio, foi aplicado o Elbow Method (10), o grupo amarelo é formado por cidades com boa parte da po-
+que visa aplicar o k-means em várias quantidades diferentes de pulação ocupada e baixa densidade demográfica. A ńıvel de
+clusters. Ao aumentar a quantidade de clusters, a diferença curiosidade foi plotado o ponto amarelo que representa a ci-
+entre eles serão muito pequenas, e o objetivo é encontrar o dade de Florestal-MG e o ponto rosa que representa a cidade
+meio termo em que os dados que formam cada agrupamento de Pará de Minas-MG.
+sejam o mais parecido posśıvel e que os agrupamentos forma-
+dos sejam o mais diferente um do outro. Na Figura 14, pode- 4.2 Discussões
+mos ver que o melhor K seria 5, já que a partir dáı os grupos Analisando os gráficos apresentados podemos observar que
+passam a se tornarem menores e com maior semelhança. vários indicadores possuem correlação com o IDH. Obser-
+
+
+
+vando a Figura 5 percebemos que investir em saneamento bá- Acessado em 24/11/2019.
+sico pode ser fundamental para a melhora do Índice de Desen- [3]SITE IBGE CIDADES. Https://cidades.ibge.gov.br/.
+volvimento Humano, as cidades que possuem o esgotamento [4]BRASIL. LEI No 12.527. Dispońıvel em:
+sanitário adequado tende a ter o IDH mais alto. Além disso <http://www.planalto.gov.br/ccivil 03/ ato2011-2014/
+investir em saneamento básico promove queda no ı́ndice de 2011/lei/l12527.htm>. Acessado em 24/11/2019.
+mortalidade infantil que por consequência também aumenta [5]OBSERVATÓRIO DE ONCOLOGIA. Dispońıvel em:
+o IDH. <https://observatoriodeoncologia.com.br/>. Acessado em
+
+Com o objetivo de aumentar a qualidade de vida da popu- 7/12/2019.
+lação e o IDH, os gestores devem investir em empregos que
+
+[6]REPASSE. Dispońıvel em: <http://repasse.ufabc.edu.
+geram uma renda maior, quanto maior o salário médio de
+
+br/>. Acessado em 7/12/2019.
+uma cidade menor é a taxa de mortalidade infantil e maior é
+o Índice de Desenvolvimento Humano. Além disso é posśıvel [7]API IBGE. Dispońıvel em: <https://servicodados.
+
+encontrar perfis de cidades, e quais devem ter prioridade no ibge.gov.br/api/docs/agregados?versao=3>. Acessado em
+
+investimento. 24/11/2019.
+[8]MORTALIDADE INFANTIL PRINCIPAIS
+
+5. CONCLUSÕES E TRABALHOS FUTUROS CAUSAS. Dispońıvel em: <http://www.imb.go.gov.
+br/files/docs/publicacoes/informes-tecnicos/2018/
+
+Há uma necessidade de análise dos dados estat́ısticos produ- 12-mortes-evitaveis-na-infancia-201810.pdf>. Acessado
+zidos pelo Instituto Brasileiro de Geografia e Estat́ıstica. Por em 24/11/2019.
+se tratar de grandes volumes de dados históricos, um usuário [9]KMEANS. Dispońıvel em: <https://docs.aws.amazon.
+leigo poderá encontrar dificuldades em fazer uso dos sistemas com/pt br/sagemaker/latest/dg/algo-kmeans-tech-notes.
+apresentados pelo IBGE. Com o trabalho existente, é posśıvel html>. Acessado em 24/11/2019.
+facilitar o processo de recuperação e análise dos dados, pro- [10]ELBOW METHOD. Dispońıvel em: <https:
+porcionando ao usuário o acesso a informação sem dificuldade //www.scikit-yb.org/en/latest/api/cluster/elbow.html>.
+e de maneira intuitiva. Acessado em 24/11/2019.
+
+Com os recursos gráficos e correlações de atributos, é pos-
+śıvel obter-se um entendimento de grande parte dos dados.
+É importante que o usuário tenha em mente a pergunta que
+ele deseja responder, dessa maneira o uso do sistema será vol-
+tado para seu objetivo, desde as escolhas dos indicadores. Por
+exemplo: caso o usuário queira classificar cidades com base na
+sua produção agŕıcola e o PIB, os indicadores e pesquisas es-
+colhidos deverão ser voltados para este fim. Dessa maneira a
+coleta de dados será mais rápida e a análise mais coerente com
+o objetivo proposto. Usando este sistema o usuário terá em
+sua máquina apenas os dados necessários para análises em seu
+contexto, ignorando todas outras informações que não são in-
+teressantes. Isso economiza espaço no disco e processamento
+de dados indesejados. Além de facilmente conseguir atualizar
+os dados caso novas pesquisas sejam realizadas pelo IBGE.
+
+Como trabalhos futuros, pretende-se desenvolver um mo-
+delo automatizado para a análise dos dados, relacionando os
+dados obtidos pelo IBGE com informações de outras bases a
+fim de encontrar padrões com o uso de técnicas de aprendizado
+de máquina. Também é esperado que a base coletada seja in-
+tegrada a bases de dados coletadas de portais de transparência
+municipal, para que seja posśıvel correlacionar as caracteŕıs-
+ticas das cidades com os detalhes dos gastos e investimentos
+públicos nas mesmas. Também seria interessante a construção
+de um ambiente colaborativo em que usuários disponibilizem
+scripts de análises feitas, dessa maneira em um só lugar pode-
+riam ser encontrados vários tipos de análises diferentes, cada
+uma criando correlação com itens e bases diferentes.
+
+6. REFERÊNCIAS
+[1]BRASIL. DECRETO-LEI No
+
+218. Dispońıvel em: <https:
+//www2.camara.leg.br/legin/fed/declei/1930-1939/
+decreto-lei-218-26-janeiro-1938-350934-publicacaooriginal-1-pe.
+html>. Acessado em 24/11/2019.
+[2]SÍNTESE HISTORICA DO IBGE. Dispońıvel
+em: <https://memoria.ibge.gov.br/images/memoria/
+linha-do-tempo/LinhaDoTempoSemImagem.pdf>.

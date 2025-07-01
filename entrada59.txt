@@ -1,0 +1,433 @@
+﻿Teste de Usabilidade de simulações do UFV Virtual Labs com
+o modelo MEEGA+
+
+Mateus Coelho Santos1, Gláucia Braga e Silva1
+
+1Instituto de Ciencias Exatas e Tecnologicas
+Universidade Federal de Viçosa Campus Florestal (UFV)
+
+Rodovia LMG 818, km 6 35690-000 – Florestal – MG – Brasil
+
+mateus.c.santos@ufv.br, glaucia@ufv.br
+
+Abstract. Computational tools focused on education enviroment has been stu-
+died and used more and more every day, and many studies point that it’s very
+important that those tools get tested, to guarantee the quality of them. This
+article aims testing the usability of UFV Virtual Labs’ simulation module, a vir-
+tual laboratory of natural sciences and their technologies, by using MEEGA+
+method. According to the users responses to a questionnaire, it was possible to
+analyse the simulations, and the game was classified as a good game according
+to MEEGA+ scale. However accessibility and operability had worse results
+than the other dimensions used on the evaluation.
+
+Resumo. Ferramentas computacionais voltadas para o ambiente educacional
+têm sido cada dia mais estudadas e utilizadas e vários estudos apontam a ne-
+cessidade que essas ferramentas sejam devidamente testadas, para garantir sua
+qualidade. Este trabalho visa a aplicação de um teste da usabilidade do módulo
+simulações do UFV Virtual Labs, um laboratório virtual de ciências da natureza
+e suas tecnologias através do método MEEGA+. De acordo com as respostas
+obtidas através de um questionário, foi possı́vel realizar análises e o jogo foi
+avaliado como de boa qualidade na escala MEEGA+, porém a acessibilidade e
+operabilidade apresentaram resultados piores comparados com o restante das
+dimensões utilizadas no teste.
+
+1. Introdução
+As ferramentas computacionais voltadas ao apoio à educação têm sido tema de estudos so-
+bre sua contribuição para o processo de ensino-aprendizagem, mas estudos sobre os usos
+da computação na educação são feitos há décadas. Muitos desses estudos mostram que
+ferramentas computacionais podem influenciar positivamente no ensino-aprendizagem
+[Valente 1999],[Maciel et al. 2021]. Uma dessas ferramentas são os jogos sérios, que são
+jogos onde o principal objetivo não é simplesmente divertir o jogador, e sim proporcionar
+meios de estudo, treinamento para diversas áreas de conhecimento [Abt 1987].
+
+Dada a importância das ferramentas computacionais para a educação, é necessário
+também garantir a qualidade da ferramenta utilizada [Wassermann 2014] para que a fer-
+ramenta se mostre útil, pois a tendência é de melhores resultados a partir de um bom
+produto. A usabilidade é um fator de qualidade importante a ser medido em ferramentas
+computacionais [Lima 2011]. A usabilidade então, inserida neste contexto representa a
+
+
+
+facilidade de uma interface de usuário ser utilizada pelo usuário [Nielsen 2012]. A usa-
+bilidade ainda pode ser dividida em cinco componentes de qualidade: aprendizibilidade,
+eficiência, memorabilidade, tratamento dos erros, e satisfação do usuário.
+
+Este trabalho tem como objetivo aplicar um teste da usabilidade das simulações
+de práticas laboratoriais do UFV Virtual Labs, uma plataforma de laboratórios virtuais de
+apoio ao ensino-aprendizagem de ciências da natureza e suas tecnologias, e apresentar os
+resultados obtidos. Neste trabalho, serão apresentadas todas as etapas desse teste, desde a
+preparação até a análise dos resultados.
+
+As demais partes deste trabalho estão organizadas da seguinte forma: a Seção dois
+será destinada a trabalhos relacionados, mostrando as principais diferenças de desenvol-
+vimento e resultados. Na Seção três, será feita uma listagem dos materiais e métodos
+utilizados para realização desta pesquisa. Na Seção quatro, será explicado como o teste
+foi realizado de acordo com a metodologia apresentada e os resultados obtidos. A Seção
+cinco apresenta a conclusão do trabalho.
+
+2. Trabalhos Relacionados
+Começando pela avaliação de um jogo para o ensino de gerência de riscos Silva e Fernan-
+des [da Silva and Fernandes 2020] apresentam a avaliação de um jogo de tabuleiro, não
+digital, por meio do modelo MEEGA+ [Petri et al. 2019]. O estudo verifica se o uso do
+jogo sério The Risk Analysis Theory afetaria no aprendizado dos alunos, e também avalia a
+sua qualidade. Após os testes realizados, os autores concluı́ram que não havia evidências
+suficientes para considerar que o jogo tenha influenciado ou não no aprendizado dos alu-
+nos. Além disso, não foi feita a classificação do jogo geral, utilizando os scripts1, tendo
+sido feitas apenas análises individuais para os diferentes fatores de qualidade e suas dife-
+rentes dimensões. Neste trabalho, o método MEEGA+ também será utilizado para avaliar
+uma ferramenta educacional, mas será utilizado na sua totalidade, incluindo a escala de
+classificação proposta originalmente [Petri et al. 2018a].
+
+Outro trabalho que pode ser citado é o de Junior et al. [Junior et al. 2007], onde
+os autores trazem uma análise de usabilidade de um Laboratório Virtual de Quı́mica
+Orgânica. A forma de avaliação utilizada por eles é uma adaptação de uma avaliação por
+meio de um formulário, com objetivo de testar a interface gráfica, pedagogia, linguı́stica
+e o domı́nio técnico do laboratório. Embora haja semelhanças, como a aplicação do teste
+de usabilidade, e o objeto de estudo ser um Laboratório Virtual, o método para avaliação
+apresenta grande diferença com o utilizado neste trabalho.
+
+Já Tsopra et al. [Tsopra et al. 2020] introduzem um jogo sério 2D, voltado para
+a educação de estudantes de medicina e demonstram seu funcionamento, mecânicas e
+objetivos. Os autores também utilizam do modelo MEEGA+ para classificar o jogo sério.
+A classificação obtida foi de boa na qual a escala consistia em três nı́veis: baixa, boa e
+excelente.
+
+3. Materiais e Métodos
+A avaliação de usabilidade do UFV Virtual Labs será conduzida, neste trabalho, com base
+no método MEEGA+, proposto por Petri [Petri et al. 2018a]. O método compreende duas
+
+1http://www.gqs.ufsc.br/files/2020/02/MEEGA-scale.zip
+
+
+
+partes: o processo MEEGA+ e o modelo MEEGA+. Essas partes se complementam, mas,
+até certo ponto, podem ser aplicadas de forma independente.
+
+3.1. Processo MEEGA+
+O processo MEEGA+ está muito relacionado com o planejamento e disponibilização de
+ferramentas para ajudar quem está utilizando o modelo MEEGA+, ou seja, possui uma
+descrição do que deve ser feito em cada etapa do planejamento e disponibiliza planilhas
+com gráficos para que o condutor dos testes possa gerar resultados visualmente agradáveis
+de forma mais simples e rápida. A Figura 1 é uma adaptação do fluxograma proposto por
+Petri et al. [Petri et al. 2018a], que ilustra as etapas do processo MEEGA+.
+
+Figura 1. Fluxograma do Processo MEEGA+ organizado em cinco etapas (adap-
+tado de [Petri et al. 2018b]
+
+Primeiramente, o fluxograma apresenta a etapa de definição de escopo, onde
+deve-se definir um escopo para o teste, ou seja, o que será testado e o seu objetivo.
+
+A segunda etapa compreende o planejamento do teste, em que os responsáveis
+pela pesquisa devem definir todo o contexto do teste, o público que o realizará, o local, a
+data e o horário, além de preparar o questionário que será aplicado aos testadores. Nesta
+etapa, quando aplicável, deve-se obter a aprovação do comitê de ética em pesquisa com
+seres humanos.
+
+Na terceira etapa, tem-se a execução do teste. Caso necessário, o consentimento
+dos participantes deve ser realizado para a coleta de dados. Após consentirem com o
+teste, os testadores devem jogar o jogo sério e responder o questionário referente a ele,
+para que os dados sejam coletados. Para finalizar essa etapa, o responsável pela condução
+do teste deve verificar a validade e a consistência dos dados coletados, para que, poste-
+riormente, não haja erros na análise devido à falta de dados ou mau entendimento das
+questões presentes no formulário.
+
+A quarta etapa é a etapa de análise. Nela os dados coletados anteriormente são
+preparados para análise. Essa preparação envolve formatar os dados obtidos para que
+seja possı́vel utilizar o script em R2 e as planilhas auxiliares3 disponibilizadas. O script
+após executado irá gerar uma tabela, com duas colunas e N linhas, sendo N o número
+de usuários do teste. Os valores da primeira coluna correspondem à pontuação geral na
+
+2http://www.gqs.ufsc.br/files/2020/02/MEEGA-scale.zip
+3http://www.gqs.ufsc.br/files/2020/02/MEEGA-Planilha-de-análise-de-dados-português-v2018.xlsx
+
+
+
+perspectiva de um usuário e esses valores devem ser somados e então divididos por N,
+para que seja encontrada a média da pontuação do teste como um todo. A segunda coluna
+representa o erro padrão envolvido no cálculo. A partir do valor da média encontrado, um
+cálculo deverá ser feito para encontrar a pontuação do jogo. Supondo que a média das
+pontuações é igual a Θ0,1 , é necessário transformar este valor para outra escala, sendo
+esta a escala (50,15). Então o cálculo a ser feito é: Θ50,15 = 50 + 15 ∗ Θ0,1 . O valor
+obtido então corresponde à pontuação do jogo na escala MEEGA+ [Petri et al. 2018a],
+que pode ser vista na Tabela 1
+
+Tabela 1. Escala MEEGA+ para classificar um jogo sério [Petri et al. 2019]
+Pontuação Classificação
+Θ50,15 < 45 Baixa
+
+45 <= Θ50,15 < 65 Boa
+Θ50,15 >= 65 Excelente
+
+A quinta e última etapa envolve a apresentação dos resultados em um relatório,
+ou trabalho, demonstrando seu planejamento, execução, análise e resultados.
+
+3.2. Modelo MEEGA+
+O modelo MEEGA+ tem como principal objetivo avaliar a qualidade de um jogo sério,
+no que compete à usabilidade e à experiência do usuário. Para isso, o modelo propõe a
+aplicação de um questionário4 com quatro perguntas sobre dados demográficos, 35 per-
+guntas fechadas sobre o jogo em estudo, e três perguntas abertas. O modelo também
+prevê que as respostas do questionário devem ser submetidas a análises estatı́sticas por
+meio de um script em R5, usado como instrumento do modelo para medir a qualidade do
+jogo sério de acordo com algumas métricas, como por exemplo, utilizar de ponderação
+para realizar um cálculo mais preciso de acordo com a relevância de cada pergunta.
+
+A Figura 2 traz os fatores de qualidade usabilidade e experiência do usuário divi-
+didos por suas respectivas dimensões.
+
+Para coletar o feedback dos usuários, o MEEGA+ propõe a aplicação de um ques-
+tionário6, composto de quatro dimensões, uma para levantamento de informações de-
+mográficas, uma para as perguntas relacionadas à usabilidade, outra para aquelas rela-
+cionadas à experiência do usuário e um espaço aberto para uma maior liberdade para o
+testador.
+
+4. Avaliação da usabilidade das simulações do UFV Virtual Labs
+Esta Seção apresenta o processo de aplicação do teste de usabilidade no módulo
+simulações do UFV Virtual Labs e os resultados gerados, passando por cada etapa do
+MEEGA+ e pelas adaptações que foram realizadas.
+
+4http://www.gqs.ufsc.br/files/2020/02/Questionario-Avalia%C3%A7%C3%A3o-Jogos-portugues-
+v2018.docx
+
+5http://www.gqs.ufsc.br/files/2020/02/MEEGA-scale.zip
+6http://www.gqs.ufsc.br/files/2020/02/Questionario-Avalia%C3%A7%C3%A3o-Jogos-portugues-
+
+v2018.docx
+
+
+
+Figura 2. Fatores de qualidade do modelo MEEGA+ e suas dimensões
+[Petri et al. 2019]
+
+4.1. Definição do Escopo
+O teste de usabilidade do módulo simulações do UFV Virtual Labs objetivou obter um
+feedback de um conjunto de usuários-finais com o intuito de identificar possı́veis proble-
+mas no que diz respeito à usabilidade e à experiência no uso. O módulo simulações do
+UFV Virtual Labs, se trata de um Laboratório Virtual simulado, feito utilizando Unity 3D,
+em conjunto com o módulo web, um ambiente virtual de aprendizagem, compõe o UFV
+Virtual Labs como um todo. O módulo simulações do UFV Virtual Labs pode ser clas-
+sificado e comparado com um jogo sério, por possuir como objetivo principal promover
+apoio a ensino-aprendizagem. Além disso, assim como um jogo, possui regras definidas,
+e apresenta fatores como missões, muito comum em jogos.
+
+Para o teste, foram escolhidas duas práticas laboratoriais do módulo simulações,
+sendo a primeira delas uma simulação nomeada “Treinamento da Pipeta”, utilizada para
+mostrar as mecânicas da simulação, para que os alunos já experienciem os controles
+básicos e realizem ações mais simples, como pipetar soluções em microtubos. A segunda
+prática escolhida, nomeada de “Eletroforese em Gel”, apresenta os equipamentos utiliza-
+dos na primeira prática, juntamente com uma cuba de eletroforese, usada para realizar o
+processo de eletroforese após algumas soluções serem despejadas com a pipeta dentro do
+equipamento.
+
+A Figura 3 apresenta uma captura de tela da simulação “Treinamento da Pipeta”.
+Nela, é possı́vel observar os elementos do jogo, como por exemplo a pipeta, que está
+sendo segurada pelo usuário, além das missões no canto direito da tela, mostrando ao
+usuário o que deve ser feito. A movimentação do personagem é feita utilizando o padrão
+WASD, sendo o “W” andar para frente, o “A” para a esquerda, o “S”, e o “D”para a
+
+
+
+direita. A movimentação da câmera é feita com o mover do mouse e algumas ações como
+pegar e largar objetos utilizam a tecla “E” como comando. Pode-se observar também na
+Figura 3, no canto esquerdo, que é possı́vel regular o volume que será pipetado utilizando
+a pipeta com as teclas “Z” e “C”. Para pipetar e despejar, são utilizados o botão direito e
+o botão esquerdo do mouse, respectivamente. Para colocar uma nova ponteira também é
+utilizado o botão esquerdo do mouse.
+
+Figura 3. Usuário segurando a pipeta em uma simulação.
+
+A segunda simulação assemelha-se bastante com a primeira, porém o usuário,
+além de realizar manipulações com a pipeta, deve despejar a solução na cuba de eletrofo-
+rese e ativar o equipamento.
+
+4.2. Planejamento do Teste
+Após a definição do que seria testado e qual o objetivo, definiu-se também qual seria o
+contexto dos testes, ou seja, o público-alvo que realizaria o teste, onde seria aplicado e as
+especificações das máquinas utilizadas para executar as simulações. Após uma avaliação,
+foi decidido que o teste seria aplicado com alunos do curso de Biologia da Universidade
+Federal de Viçosa - Campus Florestal, mais especificamente matriculados na disciplina
+do sétimo perı́odo da grade, “Práticas em Genética e Biologia Molecular”. Essa escolha
+se deve pelo fato desses alunos já estarem inseridos em um contexto laboratorial, portanto
+eles possuem pelo menos uma base teórica e prática para compreender as simulações.
+O grupo selecionado para o teste possui 16 alunos, sendo 10 mulheres e seis homens,
+a maioria possuindo de 21 a 30 anos, que apresentam em sua maioria a caracterı́stica
+de não jogarem jogos digitais com muita frequência. Foi uma escolha também realizar
+a aplicação do teste nas máquinas do Laboratório de Informática da própria Universi-
+dade pela padronização que as máquinas apresentam, e, assim, não haver nenhum tipo de
+diferença na execução das simulações para diferentes alunos, pois alguns computadores
+
+
+
+poderiam apresentar travamentos durante a execução de uma simulação, o que poderia
+impactar a experiência de cada aluno, e por consequência, possivelmente comprometer os
+resultados obtidos.
+
+Um formulário foi criado na plataforma Google Forms, utilizando como base o
+formulário disponibilizado por Petri et al. [Petri et al. 2018a]. Houve uma adaptação do
+questionário do MEEGA+, muitas vezes substituindo a palavra “jogo” por “simulação”
+ou “prática”, porém, as simulações do UFV Virtual Labs se enquadram no termo jogo
+sério. O resultado final dessas alterações pode ser acessado através do link7.
+
+Para cada pergunta, as opções de resposta variam entre dois negativo a dois, sendo
+o dois negativo equivalente a discordo totalmente, o dois equivalente a concordo total-
+mente, e o zero é um elemento neutro, podendo ser descrito como indiferente. Esses
+valores são importantes para a análise dos resultados.
+
+No formulário, também havia um espaço para que os alunos pudessem fazer um
+comentário escrito caso desejassem, então, além dos resultados gerados pelo método ME-
+EGA+, ainda seria possı́vel obter um feedback mais especı́fico por aluno, sem nenhum
+tipo de restrição.
+
+4.3. Aplicação do teste
+Os alunos compareceram ao laboratório de informática três da Universidade Federal de
+Viçosa campus Florestal, e utilizando os computadores fizeram uso das simulações e res-
+ponderam ao formulário proposto.
+
+O termo de consentimento constava no inı́cio do formulário e o aluno só prosse-
+guia com o teste mediante sua aceitação.
+
+Após a aplicação do formulário, obteve-se uma planilha com as suas respostas.
+Os dados foram verificados, de forma a garantir que não houve um mau entendimento por
+parte dos alunos das questões e formato das respostas.
+
+4.4. Análise
+Com os dados em mãos, foi realizada uma formatação dos dados, para o formato exigido
+pelas ferramentas disponibilizadas [Petri et al. 2018a]. Essa formatação consistiu em re-
+mover os itens desnecessários para a análise estatı́stica, como os dados demográficos e
+o texto da questão aberta. Após a formatação dos dados, executou-se o script em R
+para que ele gere os dados necessários e se obtenha a classificação do jogo na escala
+MEEGA+[Petri et al. 2018a]. Utilizando os cálculos mostrados na Seção 3.1., o valor de
+Θ0,1 encontrado foi 0,53142203625, portanto realizando a transformação para a escala
+Θ50,15 , foi encontrada uma pontuação de 57,97133054375, que corresponde à uma boa
+qualidade do jogo de acordo com a escala mostrada na Tabela 1.
+
+Com a planilha auxiliar8 também foi possı́vel gerar um gráfico de frequências
+baseado no que é disponibilizado pela planilha, disposto na Figura 4 das questões relaci-
+onadas a usabilidade.
+
+7https://docs.google.com/document/d/1BSwmDVLYpdAt7UWDEMVoD-
+JhWTitbwIcthrL4AD70hc/edit?usp=sharing
+
+8http://www.gqs.ufsc.br/files/2020/02/MEEGA-Planilha-de-análise-de-dados-português-v2018.xlsx
+
+
+
+Figura 4. Frequências das respostas as questões de usabilidade do formulário.
+
+Poucas perguntas possuem respostas “Discordo Totalmente” ou “Discordo”, de-
+monstrando que, segundo a maioria dos alunos, as simulações possuem uma boa usabi-
+lidade. A pergunta que os alunos mais responderam que concordam totalmente foi: As
+fontes (tamanho e estilo) utilizadas na simulação são legı́veis. Os alunos de forma geral
+concordam totalmente que o design da simulação é atraente, porém seis alunos apenas
+concordaram com essa afirmação, mostrando que provavelmente algum elemento do de-
+sign não permitiu com que eles concordassem totalmente, demonstrando que o design em
+si não está perfeito. O design poderia ser aprimorado através da melhoria dos gráficos
+porém isso poderia resultar em perda de desempenho das simulações, o que não é o ideal,
+portanto esse quesito deve ser estudado para que meios de se aprimorar o design sem
+afetar o desempenho sejam discutidos.
+
+Se tratando da aprendizibilidade, os usuários consideraram que tiveram que apren-
+der poucas coisas para poder começar a utilizar a simulação, ou seja, a simulação apre-
+senta poucos comandos para o usuário, como por exemplo, mover o personagem uti-
+lizando o padrão WASD, mover a câmera utilizando o mouse e interagir com objetos
+utilizando os botões direito e esquerdo do mouse. Apesar de haver poucos comandos,
+um aluno não achou fácil utilizar a simulação. Essa dificuldade pode estar relacionada
+com a baixa frequência com que esse aluno em especı́fico joga, ou até mesmo pode sig-
+nificar que a simulação, suas mecânicas e regras não possuem uma explicação tão clara,
+
+
+
+portanto uma conclusão não pode ser feita com certeza a respeito da resposta deste aluno.
+Apesar dos alunos, em sua maioria, demonstrarem certa facilidade para aprender a utili-
+zar a simulação, quando se trata de outras pessoas, é mostrado que elas podem ter mais
+dificuldades, segundo o pensamento dos alunos, e isso provavelmente acontece devido a
+possibilidade de que outras pessoas que utilizarem do laboratório não possuam uma ex-
+periência prática prévia, pois o teste está sendo aplicado utilizando uma turma de uma
+disciplina do sétimo perı́odo da grade do curso de Biologia, portanto muito conhecimento
+foi adquirido no processo, porém, as respostas em si se mostram divididas entre, “indife-
+rente”, “concordo” e “concordo totalmente”. Com relação às regras da simulação, não é
+consenso que elas são claras e compreensı́veis, o que é um fator de muita importância para
+o UFV Virtual Labs em si e é um tópico a ser estudado para ser aprimorado futuramente,
+pois apenas quatro testadores concordaram totalmente com a afirmação. De forma geral, a
+acessibilidade das simulações foi bem avaliada, porém, muitos alunos discordaram total-
+mente que a simulação permite personalizar a aparência conforme a necessidade pessoal,
+ou seja, um usuário não consegue alterar a fonte e seu tamanho caso ela esteja pequena
+ou grande, e não consegue alterar as cores do laboratório e dos seus objetos. Através
+dessas análises é possı́vel afirmar que a usabilidade geral das simulações é boa, porém
+apresenta algumas questões a serem melhoradas, principalmente relacionadas à acessi-
+bilidade e operabilidade, para que a plataforma contribua ainda mais com o processo de
+ensino-aprendizagem.
+
+A Figura 5 mostra uma nuvem de palavras gerada utilizando as respostas abertas
+dos alunos ao formulário, e é possı́vel notar o uso recorrente das palavras: “eletroforese”,
+“comando”, “simulação” e “funcionou”. Essas palavras se repetem tantas vezes devido a
+um erro encontrado pelos alunos, pois o comando de ativar a eletroforese não funcionou
+para alguns no final da segunda simulação, portanto o feedback destes alunos envolviam
+estes termos. A palavra “gostei” também aparece algumas vezes, demonstrando que,
+apesar dos erros apresentados da simulação, a experiência do usuário também se mostrou
+positiva, mesmo que não completamente.
+
+Figura 5. Nuvem de palavras geradas a partir da questão aberta.
+
+
+
+5. Considerações Finais
+O objetivo principal do trabalho foi conduzido com sucesso pois não houve problemas
+relacionados à aplicação do teste e foram encontrados resultados à respeito da plataforma
+UFV Virtual Labs, que se mostra uma ferramenta que futuramente pode ser muito útil
+num ambiente educacional.
+
+Os resultados encontrados revelaram que o projeto foi classificado como de boa
+qualidade, porém ainda há aspectos a serem melhorados, como por exemplo as questões
+de operabilidade e acessibilidade das simulações, pois estas dimensões apresentaram re-
+sultados inferiores comparadas com as demais.
+
+Este trabalho demonstra que, apesar de o jogo sério possuir atualmente uma
+boa classificação de acordo com a escala MEEGA+, ainda há espaço para melhorias e
+correções de erros para aprimorar no módulo simulações do UFV Virtual Labs, levando a
+possı́veis trabalhos futuros a serem realizados, como por exemplo a realização de novos
+testes, para verificar se, de fato, houve melhoria das simulações.
+
+Referências
+[Abt 1987] Abt, C. C. (1987). Serious games. University press of America.
+[da Silva and Fernandes 2020] da Silva, R. C. and Fernandes, D. F. R. (2020). Avaliação
+
+de um jogo para o ensino de gerência de riscos: uma experiência com o modelo de
+avaliação meega+. Anais do Computer on the Beach, 11(1):532–539.
+
+[Junior et al. 2007] Junior, B., Batista, J., and Coutinho, C. P. (2007). Análise da usabilidade
+de um laboratório virtual de quı́mica orgânica.
+
+[Lima 2011] Lima, D. P. (2011). Usabilidade na web. Universidade do Estado de Santa
+Catarina. Departamento de Ciências da Computação.
+
+[Maciel et al. 2021] Maciel, I. V., Canário, R., de Souza Mattioli, P., de Abril, R. V. E. U.,
+Silva, P. C. D., Drumond, R. I. I., da Silva, W. C., and de Souza, R. D. R. (2021).
+Ferramentas computacionais para a educação a distância e a realidade educacional no
+perı́odo pandêmico do covid-19 no brasil.
+
+[Nielsen 2012] Nielsen, J. (2012). Nielsen Norman Group usability 101: Introduction to
+usability. https://www.nngroup.com/articles/usability-101-introduction-to-usability/.
+Acessado em: 08/07/2023.
+
+[Petri et al. 2018a] Petri, G. et al. (2018a). A method for the evaluation of the quality of
+games for computing education. PhD thesis, Universidade Federal de Santa Catarina.
+
+[Petri et al. 2018b] Petri, G. et al. (2018b). A method for the evaluation of the quality of
+games for computing education.
+
+[Petri et al. 2019] Petri, G., Gresse von Wangenheim, C., and Borgatto, A. F. (2019). Me-
+ega+: Um modelo para a avaliação de jogos educacionais para o ensino de computação.
+Revista Brasileira de Informática na Educação, 27(3).
+
+[Tsopra et al. 2020] Tsopra, R., Courtine, M., Sedki, K., Eap, D., Cabal, M., Cohen, S.,
+Bouchaud, O., Mechaı̈, F., and Lamy, J.-B. (2020). Antibiogame®: A serious game
+for teaching medical students about antibiotic use. International Journal of Medical
+Informatics, 136:104074.
+
+
+
+[Valente 1999] Valente, J. A. (1999). Análise dos diferentes tipos de softwares usados na
+educação. O computador na sociedade do conhecimento, 1.
+
+[Wassermann 2014] Wassermann, B. R. (2014). Dificuldades encontradas na usabilidade
+web em portal de educação à distância.

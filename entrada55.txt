@@ -1,0 +1,674 @@
+﻿Impacto da relevância temática e outros atributos relacionados à
+comunicação em issue tracking no tempo de resolução das issues
+
+Fábio Trindade Ramos Gláucia Braga e Silva
+Federal University of Viçosa Federal University of Viçosa
+
+Florestal, Brasil Florestal, Brasil
+fabio.ramos@ufv.br glaucia@ufv.br
+
+RESUMO evolução de software, redes e caracterização de desenvolvedores,
+Contexto: Em um projeto de desenvolvimento de software, a reso- previsão de bugs, estimativa de esforço, entre outros.
+lução de uma issue pode ser influenciada por diversos fatores, como, Repositórios de software contam com um sistema de rastrea-
+o número de desenvolvedores envolvidos, a complexidade da issue, mento de questões (issue tracking), cuja função é manter registro
+a experiências dos desenvolvedores, a multitarefa e os comentários de issues, como por exemplo, bugs, novos requisitos e sugestões
+educados. Assim, entender quais fatores influenciam o seu tempo de melhorias. Esses problemas geralmente indicam que o projeto
+de resolução é crucial para diminuí-lo e, consequentemente, para os não está sendo desenvolvido conforme o planejado. Portanto, é
+resultados de um projeto. Objetivo: Este trabalho objetiva avaliar o natural esperar que a resolução ágil de uma issue evite atrasos em
+impacto de atributos extraídos de repositórios de issue tracking do um projeto. No entanto, a sua resolução pode ser influenciada por
+GitHub no tempo de resolução das issues. Esses atributos abrangem diversos fatores, como por exemplo, o número de desenvolvedores
+a relevância temática dos comentários postados, a quantidade de envolvidos, complexidade da issue, experiências dos desenvolve-
+comentários e de desenvolvedores em uma issue, e a participação dores, multitarefa [10], comentários educados [15], entre outros.
+de top-devs, seja na criação, na discussão ou na resolução das issues. Assim, entender quais fatores influenciam o seu tempo de resolução
+Materiais e Métodos: A organização Ruby on Rails foi alvo de é crucial para diminuí-lo e, consequentemente, para os resultados
+estudo deste trabalho, devido à sua alta atividade em issue tracking. do projeto.
+A partir dos dados obtidos, foi aplicado o método de correlação de Este trabalho objetiva avaliar o impacto de alguns atributos ex-
+Spearman para quantificar a relação entre dois atributos, e testes traídos de repositórios de issue tracking do GitHub no tempo de
+de hipótese para analisar as amostras. Resultados: Os resultados resolução das issues. Esses atributos abrangem a relevância temá-
+mostram que issues e pull requests criadas por top-devs possuem tica dos comentários postados, a quantidade de comentários e a
+um tempo médio menor de resolução. Além disso, foi encontrada quantidade de desenvolvedores em uma issue, e a participação de
+uma tendência de aumento no tempo de resolução das issues e pull top-devs (desenvolvedores que se destacaram em função da rele-
+requests, e apenas issues, respectivamente, quando a quantidade de vância dos comentários postados), seja na criação, na discussão ou
+comentários e de desenvolvedores aumentam. Por fim, observou-se na resolução das issues. No contexto de issue tracking, a métrica
+que a relevância temática dos comentários possuem valores baixos, de relevância temática representa o quanto um texto é relevante
+em sua maioria, entre 0 e 0,1. no contexto que está inserido [2, 14].Dessa forma, este estudo foi
+
+guiado pelas seguintes questões de pesquisa:
+
+1 INTRODUÇÃO • QP01 Existe relação entre a quantidade de comentários em
+uma issue e suas respectivas relevâncias temáticas e o tempo
+
+Em ambientes de software, há a colaboração constante de pessoas na de resolução?
+produção de artefatos, como a construção de código novo, correção • QP02. Existe relação entre a quantidade de desenvolvedores
+e discussão de erros, integração de código, entre outros. Nesses participando de uma issue e o tempo de resolução?
+ambientes, a comunicação entre os participantes mostra-se essen- • QP03. Existe diferença no tempo de resolução entre as issues
+cial e também representa um dos principais gargalos durante o que foram criadas, comentadas ou atribuídas por/para top-
+desenvolvimento. Para lidar com esses gargalos, repositórios de devs em issue tracking?
+software, como o GitHub, desempenham um papel fundamental ao O restante do artigo está organizado da seguinte forma: a seção
+armazenar informações acerca dessas colaborações. De acordo com 2 apresenta informações sobre comunicações em issue tracking e o
+Vidoni [17], minerar esses repositórios permite uma exploração conceito de relevância temática. Na seção 3, são apresentados os
+empírica dos dados, sendo os resultados diretamente aplicáveis em trabalhos relacionados. A seção 4 contém os materiais e métodos
+
+utilizados no trabalho. Os resultados e discussões estão presentes
+Permission to make digital or hard copies of all or part of this work for personal or na seção 5. Por fim, as ameaças à validade e as considerações finais
+classroom use is granted without fee provided that copies are not made or distributed
+for profit or commercial advantage and that copies bear this notice and the full citation estão, respectivamente, nas seções 6 e 7.
+on the first page. Copyrights for components of this work owned by others than ACM
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, 2 COMUNICAÇÕES EM ISSUE TRACKING
+to post on servers or to redistribute to lists, requires prior specific permission and/or a
+fee. Request permissions from permissions@acm.org. Frequentemente, problemas ou melhorias reportadas por desenvol-
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY vedores são discutidos durante o desenvolvimento de um projeto.
+© 2018 Association for Computing Machinery.
+ACM ISBN 978-1-4503-XXXX-X/18/06. . . $15.00 Essas discussões geralmente ocorrem por meio de um sistema de
+https://doi.org/XXXXXXX.XXXXXXX rastreamento de questões comumente disponível em repositórios
+
+
+
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Fábio Trindade Ramos and Gláucia Braga e Silva
+
+de software. De acordo com Bertram et al. [4], esses sistemas são res- por último, são exportados dados acerca das issues e comentários,
+ponsáveis por manter informações valiosas, como a comunicação junto com a relevância temática, para um arquivo CSV.
+realizada pelos desenvolvedores e ideias de recursos parcialmente Neste trabalho, o código da biblioteca RIT foi adaptado/estendido
+envolvidas, sendo útil de diversas formas para um projeto. com o intuito de melhorar o cálculo da métrica para o contexto de
+
+issue tracking e também para facilitar o uso dos dados gerados e eli-
+2.1 Issue Tracking no GitHub minar informações redundantes. Inicialmente, observou-se que os
+
+atributos textuais presentes nesses ambientes podem conter elemen-
+No GitHub, as issues são reportadas após a inserção de informações tos irrelevantes dependendo do escopo da pesquisa. Por exemplo,
+obrigatórias, como o título, e opcionais, como rótulos, atribuição de nos trabalhos de Lima et al. [8] e Zhang et al. [18], foram removidos
+issue a um desenvolvedor e descrição. Há ainda informações sobre elementos como imagens, trechos de código e URLs de comentários
+a issue que são geradas automaticamente, como data da criação, extraídos também desses sistemas por não agregarem valor ou pre-
+estado (fechada ou aberta), criador da issue, entre outras. Após judicarem o resultado da pesquisa. O cálculo de relevância temática
+essa etapa, qualquer colaborador do projeto pode participar da empregada pela RIT pode ser prejudicado por esses elementos, pois
+discussão, em caso de projetos privados. Em projetos open-source, a forma que são dispostos estruturalmente no texto são diferentes
+qualquer desenvolvedor que possua uma conta na plataforma pode da gramática utilizada pelos humanos. Dessa forma, neste trabalho,
+colaborar com as questões reportadas. Além disso, vale ressaltar foi inserida uma etapa de pré-processamento na RIT com o objetivo
+que o GitHub considera pull requests (PRs) como um tipo especial de melhorar o cálculo da relevância temática. Esta etapa retira os
+de issue, utilizadas para solicitar a alteração em uma ramificação seguintes elementos da descrição e comentários das issues:
+(branch).
+
+(1) URL; (5) Caminho de arquivo e
+2.2 Relevância Temática em Issue Tracking (2) Email; pasta;
+A relevância temática, métrica que visa avaliar a relevância de um (3) Emoji; (6) Referência de imagem;
+texto em relação ao assunto em que está inserido, foi inicialmente (4) Nome de usuário; (7) Trecho de código.
+aplicada em fóruns educacionais [1, 9] com o propósito de identificar
+quais alunos estavam contribuindo, ou não, com textos relacionados Houve também a modificação na etapa de exportação da bibli-
+ao tema em discussão. Posteriormente, Neto e Braga e Silva [14] oteca com o objetivo de normalizar os dados exportados, visto
+adaptaram essa métrica para analisar a relevância dos comentários que o arquivo CSV exportado pela biblioteca continha diversas in-
+postados em ambientes de issue tracking, sendo o título da issue e formações redundantes. Assim, os dados gerados pela biblioteca
+a sua descrição utilizados para identificar o contexto do problema foram separados em 2 arquivos CSV, conforme pode ser visto na
+discutido. Tabela 1. Além disso, as informações exportadas foram alteradas,
+
+Neto e Braga e Silva [14] aplicaram em sua abordagem a técnica as quais podem ser vistas na Tabela 1. O dado Tags, presente nos
+de similaridade de grafos. Em seguida, Batista et al. [2] adpataram dados dos comentários, indicam se os elementos 1, 5, 6 e 7 foram
+essa abordagem, substituindo a técnica por similaridade de cossenos. removidos do comentários. Por exemplo, se foi retirado uma re-
+De acordo com Machado et al. [9], a similaridade de grafos utiliza ferência de uma imagem e um trecho de código do comentário,
+uma estrutura baseada em vértices e arestas (grafo), no qual os vér- o arquivo CSV na coluna Tags desse comentário conterá o valor
+tices representam os termos mais relevantes e as arestas conectam "IMAGEM\nTRECHO_CODIGO\n".
+os termos próximos entre si do texto. Com base nessa estrutura são
+realizados cálculos matemáticos e outras técnicas para obter a rele- Tabela 1: Dados Exportados Após a Adpatação da RIT
+vância do comentário. Por outro lado, a similaridade de cossenos se
+baseia em vetorizar os textos para fazer uma análise angular entre Dados da issue Dados do comentário
+os conteúdos textuais. Assim, através da distância angular entre os Número da issue ID da issue
+vetores é obtida a relevância do comentário. ID da issue Número do comentário
+
+Associar um texto a outros atributos quali-quantitativos não é Título da issue ID do comentário
+viável com sua representação original. Nesse sentido, a relevância Data de criação da issue Data do comentário
+temática desempenha um papel fundamental ao expressar numeri- Nome do repositório da issue Relevância temática
+camente a relevância de um comentário, pois permite estabelecer Link da issue Autor do comentário
+relações com outras métricas ou atributos, como tempo de resolução, - Tags
+gênero e complexidade da issue.
+
+2.2.1 RIT. Batista et al. [2], desenvolveram uma biblioteca, cha-
+mada RIT, para automatizar o cálculo da relevância temática em 3 TRABALHOS RELACIONADOS
+ambientes de issue tracking do GitHub. A RIT funciona em três Nessa seção serão discutidos os trabalhos que investigam a in-
+etapas consecutivas: inicialmente, ocorre a extração dos dados das fluência de elementos no tempo de resolução de issue, assim como
+issues de um repositório; logo após, é calculada a relevância temá- trabalhos que aplicam a métrica de relevância temática.
+tica (um valor entre 0 e 1, com os extremos inclusos), para cada Ortu et al. [15] utilizam um modelo de regressão para entender
+comentário, a partir dos dados textuais brutos (sem manipulações como as emoções humanas afetam o tempo de resolução de issues.
+prévias) do título, descrição e dos próprios comentários das issues; Como resultado, os modelos mostram que comentários expressando
+
+
+
+Impacto da relevância temática e outros atributos relacionados à comunicação em issue tracking no tempo de resoluçCãondfearseinscsueeascronym ’XX, June 03–05, 2018, Woodstock, NY
+
+emoções felizes e amáveis estão relacionados a issues com menor Rails1, criada em 2008, próxima à fundação do GitHub, apresentou-
+tempo de resolução, enquanto os que expressam emoções tristes e se como uma fonte rica de informações sobre a comunicação, sendo
+agressivas estão relacionadas a issues commaior tempo de resolução. selecionada nesta pesquisa.
+Entender a relação de atributos com o tempo de resolução de uma Os atributos como a relevância temática, quantidade de comentá-
+issue é essencial para minimizá-lo. Assim, o atual trabalho avalia rios e quantidade de desenvolvedores foram obtidos a partir da RIT,
+se a quantidade de comentários e desenvolvedores, bem como os enquanto para obter dados acerca da atribuição de issues, tempo de
+desenvolvedores que possuem comentários mais relevantes, causam resolução de issue e autor da issue, foi necessário recorrer a outra
+impacto no tempo de resolução de uma issue. abordagem. São dois os principais métodos encontrados para obter
+
+Neto et al. [12] utilizam um modelo baseado em redes neurais dados do GitHub: GitHub API2 (REST e GraphQL) e projetos que
+para estimar o tempo de resolução de issue, a partir do uso de atribu- armazenam e disponibilizam dados públicos do GitHub, conhecidos
+tos textuais, temporais e dinâmicos. Este trabalho seleciona alguns como datasets. As APIs do GitHub permitem acesso aos projetos
+desses atributos, incluindo a quantidade de comentários, a partici- hospedados na plataforma [11], enquanto os datasets facilitam o
+pação de desenvolvedores, a criação de issues por um desenvolvedor acesso a esses dados para desenvolvedores e pesquisadores [5], con-
+e a atribuição de issue a um desenvolvedor. tornando as limitações de requisições diárias impostas pelas APIs, o
+
+No contexto de issue tracking, foram desenvolvidas algumas abor- que dificultaria a análise de grandes volumes de dados. Entretanto,
+dagens para aplicar a métrica de relevância temática. Neto e Braga e os trabalhos de Mombach [11] e Cosentino et al. [6] apontam que
+Silva [14] criaram uma ferramenta que identifica desenvolvedores- datasets como o GHTorrent3, GitHub Archive4 e BOA5 não estão
+chave em um projeto, com foco na comunicação. Neto [13] aprimo- atualizados em relação aos dados obtidos através das APIs.
+rou essa ferramenta, adicionando recursos como análise de senti- Para garantir uma melhor consistência dos dados, este traba-
+mentos e análise de rede social, junto com a relevância temática, lho adotou a mesma abordagem da RIT, utilizando a API REST do
+para criar uma rede social entre os envolvidos no projeto (stakehol- GitHub para obter as informações não fornecidas pela biblioteca.
+ders), facilitando a investigação do perfil destes stakeholders e a Além disso, foi criado um script para automatizar a execução do
+identificação dos stakeholders mais importantes na comunicação. cálculo de relevância temática para todos os repositórios da or-
+Batista et al. [3], por sua vez, utilizaram essa métrica para analisar ganização, dado que a RIT funciona para um repositório por vez,
+possíveis divergências na relevância dos comentários postados por sendo os nomes dos repositórios obtidos através também da API. A
+homens e mulheres em issues do GitHub. A relevância temática pos- extração dos dados foi realizada em maio de 2023.
+sibilita a associação da relevância de um texto com outras métricas
+quali-quantitativas, tornado-a de grande valor para análise de dados 4.2 Definição das Métricas
+envolvendo atributos textuais. Dessa forma, esse trabalho utiliza
+esta métrica com o objetivo de analisar a relação da relevância dos Para a condução das análises, foram utilizadas as seguintes métricas:
+comentários com o tempo de resolução de issue. • M01: Relevância temática dos comentários - calculada via
+
+O trabalho de Huang et al. [7] investiga se issues que possuem biblioteca RIT;
+perguntas na discussão do problema diferem das que não possuem • M02: Quantidade de comentários da issue - número de co-
+em termos de tempo de resolução de issue, número de comentá- mentários postados em uma issue;
+rios, número de desenvolvedores participando da issue e número • M03: Quantidade de desenvolvedores envolvidos na issue -
+de reatribuições. Enquanto o trabalho anterior avalia o impacto número de desenvolvedores que postaram comentários na
+de características específicas da issue no tempo de resolução de issue;
+issue, esse estudo é guiado pela relevância dos comentários para • M04: Tempo de resolução da issue - tempo total de resolução
+avaliar o impacto dos top-devs no tempo de resolução de issue, seja da issue, desde sua criação até seu fechamento;
+comentando, criando ou sendo atribuído a uma issue. • M05: Top-devs em issue tracking - desenvolvedores com alta
+
+Por fim, o presente trabalho se destaca em relação aos demais atividade em issue tracking.
+pelo uso da relevância temática para analisar a sua relação com o
+tempo de resolução das issues e identificar desenvolvedores-chave A métrica M01 foi utilizada com duas finalidades: calcular a sua
+(top-devs). A Tabela 2 apresenta um comparativo dos trabalhos relação com o tempo de resolução de issue e identificar os desen-
+relacionados com este trabalho, destacando as similaridades. volvedores da métrica M05. As métricas M02 e M03 foram obtidas
+
+a partir da biblioteca RIT, no entanto, foi necessário utilizar a bi-
+blioteca Pandas para obtê-las, sendo que essas métricas vêm de
+
+4 MATERIAIS E MÉTODOS forma implícita no CSV disponibilizado pela RIT. Por fim, a mé-
+Esta seção aborda as etapas do processo de mineração de dados trica M05 foi obtida selecionando os desenvolvedores que postaram
+deste estudo, bem como as métricas utilizadas para análise dos comentários com relevância temática maior do que 0,5.
+dados.
+
+4.1 Seleção e Extração dos Dados 1https://github.com/rails
+2
+
+Para a seleção do repositório de issue tracking utilizado na extra- https://docs.github.com/en/developers/overview/about-githubs-apis
+3https://ghtorrent.org/
+
+ção, optou-se por usar como critério uma organização com alta 4https://www.gharchive.org/
+atividade em issue tracking. Nesse sentido, a organização Ruby on 5https://boa.cs.iastate.edu/
+
+
+
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Fábio Trindade Ramos and Gláucia Braga e Silva
+
+Tabela 2: Similaridades Entre os Trabalhos Relacionados e Este Trabalho
+
+Uso de atributos Uso de atributos Uso de atributos Usa a relevância Temática
+textuais temporais relacionados aos
+
+desenvolvedores
+Ortu et al. [15] Análise de sentimentos Classificar o tempo de Não
+
+resolução das issues
+Neto e Braga e Calcular a relevância dos Calcular o tempo de Identificar stakeholders Sim
+
+Silva [14] comentários resolução das issues
+Neto [13] Análise de sentimentos e Calcular o tempo de Identificar stakeholders Sim
+
+calcular a relevância dos resolução das issues
+comentários
+
+Neto et al. [12] Criar um modelo de Criar um modelo de Criar um modelo de Não
+predição predição predição
+
+Batista et al. [3] Calcular a relevância dos Identificar o gênero dos Sim
+comentários desenvolvedores
+
+Huang et al. [7] Identificar comentários Calcular o tempo de Não
+com perguntas na resolução das issues
+discussão das issues
+
+Este trabalho Calcular a relevância Calcular o tempo de Identificar papéis dos Sim
+dos comentários resolução das issues desenvolvedores nas
+
+issues
+
+4.3 Análise dos Dados 4.3.2 Teste Shapiro-Wilk. Em estatística, uma população se refere
+As próximas subseções abordam ométodo utilizado para quantificar a um conjunto de elementos a ser estudado, ao passo que uma
+a relação entre as métrica M01 com M04, utilizada para responder amostra se refere a um subconjunto de uma população. Quando se
+as QP01; e as abordagens aplicadas para a QP03; e a limpeza de deseja comparar a média de duas amostras e não há todos os dados
+dados realizada. Vale ressaltar que gráficos de boxplots e dispersão da população, é necessário realizar inferências sobre as mesmas.
+foram utilizados para analisar a relação entre duas variáveis na Um dos métodos utilizados para fazer essa comparação, é o teste t.
+QP01 e QP02. Contudo esse teste parte de um pressuposto de que as amostras a
+
+serem comparadas seguem uma distribuição normal.
+4.3.1 Correlação de Spearman. Para analisar a relação entre duas Para responder à QP03, surgiu a necessidade de aplicar um teste
+variáveis, foi aplicado o método de correlação de Spearman. Esse para comparar duas amostras, como o teste t. Para isso, foi neces-
+método calcula o grau de relacionamento, linear ou não-linear, sário verificar a normalidade das amostras, a qual foi feita através
+entre duas variáveis, gerando um valor entre -1 e 1. De acordo com do teste de Shapiro-Wilk. Esse teste verifica, estatisticamente, se
+Schober et al. [16], o coeficiente de correlação pode ser interpretado uma amostra possui um distribuição normal, partindo das seguintes
+com base na Tabela 3. hipóteses:
+
+Tabela 3: Interpretação dos Coeficientes de Correlação • Hipótese nula (𝐻0): A amostra segue uma distribuição nor-
+mal.
+
+Valor absoluto do Interpretação • Hipótese alternativa (𝐻1): A amostra não segue uma distri-
+coeficiente de correlação buição normal.
+
+[0,00, 0,10) Correlação insignificante O resultado desse teste retorna um valor de p, que é utilizado
+[0,10, 0,40) Correlação fraca para avaliar a rejeição ou não da hipótese nula, com base em um
+[0,40, 0,70) Correlação moderada limiar 𝛼 , estabelecido em 5% nesse estudo. Em outras palavras, se
+[0,70, 0,90) Correlação forte o valor de p for menor ou igual a 5%, a hipótese nula é rejeitada,
+[0,90, 1,00] Correlação muito forte caso contrário, a hipótese nula é aceita. Esse método foi aplicado
+
+diretamente através do modulo stats da biblioteca SciPy.
+
+Valores positivos e negativos indicam, respectivamente, uma 4.3.3 Mann-Whitney U. Quando duas amostras não seguem uma
+correlação positiva e negativa, enquanto zero representa a ausência distribuição normal e há o intuito de compará-las, é possível aplicar
+de correlação. Uma correlação positiva significa que o aumento um teste não paramétrico. Para responder à QP03, foi necessário
+de uma variável está relacionado ao aumento da outra variável, comparar duas amostras que não apresentavam uma distribuição
+enquanto uma correlação negativa indica que o aumento de uma normal, sendo feita através do teste de Mann-Whitney U. Esse
+variável está relacionado à diminuição da outra variável. método segue as seguintes hipóteses:
+
+O cálculo do método de correlação foi realizado utilizando a • Hipótese nula (𝐻0): Não há diferença significativa entre as
+função corr disponível na classe DataFrame da biblioteca Pandas. medianas das duas amostras.
+
+
+
+Impacto da relevância temática e outros atributos relacionados à comunicação em issue tracking no tempo de resoluçCãondfearseinscsueeascronym ’XX, June 03–05, 2018, Woodstock, NY
+
+• Hipótese alternativa (𝐻1): Há diferença significativa entre 5.1 QP01. Existe Relação entre a Quantidade de
+as medianas das duas amostras. Comentários em uma Issue e suas
+
+O resultado desse teste retorna um valor de p, com o mesmo Respectivas Relevâncias Temáticas e o
+objetivo do teste de Shapiro-Wilk. Para esse método, o valor de Tempo de Resolução?
+𝛼 também foi estabelecido em 5%, além de também ser aplicado
+através do módulo stats da biblioteca SciPy. Para responder a esta Questão de Pesquisa, realizou-se duas análises,
+
+uma para a relevância temática e o tempo de resolução, e outra para
+5 RESULTADOS E DISCUSSÕES a quantidade de comentários e o tempo de resolução.
+
+Esta seção apresenta os resultados das métricas propostas na seção 5.1.1 Existe Relação Entre a Relevância Temática dos Comentários
+4.2 sobre dados de issue tracking da organização Ruby on Rails no e o Tempo de Resolução? Para analisar a relação entre a relevância
+GitHub. Os dados foram extraídos com a biblioteca RIT e a API temática dos comentários e o tempo de resolução, primeiramente foi
+REST do GitHub. Ao todo, foram obtidos 228.439 comentários pro- calculado a média aritmética da relevância temática para cada issue
+venientes de 49.108 issues de 88 repositórios da referida organização e pull request (PR). Logo após, foi criado um gráfico de dispersão
+através da RIT. Ao passo que, a API REST do GitHub forneceu da- para observar a relação entre essas variáveis, visto na Figura 1.
+dos das datas de fechamento e abertura de 60.564 issues de 116 Por fim, o método de correlação de Spearman foi aplicado para
+repositórios. quantificar essa relação.
+
+A diferença na quantidade de issues e repositórios obtidas para
+cada extração se dá por dois motivos: a biblioteca RIT não considera
+issues que não possuem comentários; e a extração dos dados neces-
+sários para calcular o tempo de resolução foi feita em um momento
+posterior à da extração feita pela RIT, por meio da API REST.
+
+Das 49.108 issues exportadas pela RIT, duas foram removidas
+devido à presença de valores nulos para a relevância temática e duas
+não puderam ser analisadas devido à reabertura dessas issues entre
+a extração inicial realizada pela RIT e a obtenção dos dados via
+API REST. Consequentemente, não foi possível calcular o tempo de
+resolução para as issues reabertas. Como resultado dessa remoção,
+houve perda de informações de 10 comentários.
+
+A Tabela 4 apresenta um resumo da quantidade de dados obtidos
+e analisados. Essa tabela mostra que a organização Ruby on Rails
+concentra um elevado número de issues, comentários e colabora-
+dores, com uma amostra significativa de dados de comunicação
+em issue tracking. Além disso, no que compete a quantidade de
+desenvolvedores, 2.354 participam tanto de issues quanto de PRs. Figura 1: Gráfico de Dispersão da Média da Relevância Temá-
+
+tica por issues e PRs e o Tempo de Resolução
+Issues PRs Total
+
+Repositórios - - 116
+Issues (incluindo PRs) 21.859 38.705 60.564 É possível observar que os dados estão mais concentrados entre
+
+Comentários 107.130 121.299 228.439 0 e 0.1 no eixo da relevância temática. Em outras palavras, a média
+Desenvolvedores 16.300 8.488 20.899 de relevância temática dos comentários por issue e por PR é muito
+
+baixa, como já observado no trabalho de Batista et al. [3]. Além
+Tabela 4: Visão Geral dos Dados Obtidos disso, não parece haver uma relação monótona entre as variáveis,
+
+ou seja, o aumento (ou diminuição) de uma variável não implica o
+aumento (ou diminuição) da outra.
+
+Para responder às Questões de Pesquisa propostas neste trabalho, Os valores de correlação calculados comprovam essa observa-
+as issues foram separadas em dois grupos: issues e pull requests. As ção, sendo obtido para issues e PRs, respectivamente, 0,08 e 0,18.
+issues referem-se a problemas reportados, enquanto as pull requests Conforme a Tabela 3, pode-se dizer que há uma correlação insig-
+são solicitações de alteração de branches. Essa separação foi reali- nificante entre a média da relevância temática por issue e o tempo
+zada devido aos diferentes objetivos desses elementos. As issues são de resolução, e uma correlação fraca entre a média de relevância
+voltadas para discussão e resolução de problemas, enquanto as pull temática por PR e o tempo de resolução.
+requests são mais relacionadas à revisão de código, não havendo Embora a relevância temática e o tempo de resolução não estejam
+necessariamente discussão sobre elas. Dessa forma, é esperado que diretamente relacionados, não é possível afirmar que a relevância
+esses dois grupos tenham características diferentes, levando em temática não influencie o tempo de resolução de uma issue. No en-
+consideração seus propósitos distintos. tanto, observou-se que esse atributo sozinho não influencia o tempo
+
+As próximas subseções apresentam os resultados obtidos através de resolução. O processo de comunicação abrange um conjunto
+da aplicação das métricas de M01 a M05, segundo cada questão de grande de variáveis, sendo em algumas ocasiões necessário a análise
+pesquisa. dessas variáveis em conjunto para identificar uma relação. Como
+
+
+
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Fábio Trindade Ramos and Gláucia Braga e Silva
+
+exemplo, Neto et al. [12] fizeram o uso de dezenas de atributos para 5.1.2 Existe relação entre a Quantidade de Comentários em uma
+criar um modelo capaz de predizer o tempo de resolução de uma Issue e o Tempo de Resolução? Para analisar a relação entre a quanti-
+issue. dade de comentários e o tempo de resolução, foram criados boxplots
+
+Para olhar um pouco mais de perto para os valores de relevância do tempo de resolução das issues e PRs de acordo com diferentes
+temática para issues e PRs, os dados foram analisados por meio de faixas de quantidades de comentários, como visto na Figura 3. Dessa
+boxplots, apresentados na Figura 2. De forma similar ao gráfico de forma, é possível analisar o comportamento do tempo de resolução
+dispersão, é possível observar que os valores de relevância temática conforme a variação da quantidade de comentários.
+tanto para issues quanto para PRs são muito baixos. Para entender Visualmente, a Figura 3 mostra que o tempo de resolução, tanto
+esse comportamento, alguns comentários foram analisados manu- para issues quanto para PRs, tende a aumentar conforme a quan-
+almente e observou-se que diversos deles possuem agradecimentos tidade de comentários aumenta. Aparentemente, colocar cada vez
+e emojis, os quais dificilmente vão possuir relevância no contexto mais esforços na discussão não contribui unicamente para que uma
+desse trabalho. Além disso, identificou-se que aproximadamente issue ou PR seja resolvida mais rapidamente. Conforme apresentado
+54% das issues e 38% dos PRs contém elementos como URL, trecho por Huang et al. [7], perguntas que surgem no meio das discussões
+de código, caminhos e referências de imagem. Dessa forma, há a aumentam esse tempo de resolução. Sendo assim, quando issues
+possibilidade dos desenvolvedores terem se comunicado, em sua ou PRs apresentarem cada vez mais um aumento na quantidade de
+maior parte, através desses elementos, havendo assim pouco ele- comentários, os desenvolvedores devem investigar se esse aumento
+mento textual para ser analisado, devido a execução da etapa de está sendo benéfico para a discussão ou não. Em caso negativo, é
+pré-processamento. possível alocar mais esforços na modelagem do problema para que
+
+o mesmo seja entendido pelos colaboradores mais facilmente.
+
+(a) Boxplot da Relevância Temática das Issues e PRs com
+Outliers
+
+Figura 3: Boxplots sem Outliers do Tempo de Resolução das
+Issues e PRs por Quantidades de Comentários
+
+5.1.3 Issues e PRs. Os resultados obtidos mostram que, apesar das
+issues e PRs possuírem objetivos diferentes, existem algumas carac-
+terísticas em comum entre eles. Por exemplo, ambos apresentaram
+baixa relevância temática, embora as issues demonstraram valo-
+res de relevância temática mais elevados em comparação aos PRs,
+como foi visto na Figura 2. Além disso, em ambos tipos de issues,
+há uma tendência do aumento no tempo de resolução conforme a
+quantidade de comentários aumenta. Contudo, a Figura 4 mostra
+
+(b) Boxplot da Relevância Temática das Issues e PRs sem que os PRs possuem um tempo de resolução proporcionalmente
+Outliers menor em relação às issues. Enquanto, aproximadamente, 75% das
+
+issues são solucionadas em até 3 meses, a mesma proporção dos
+Figura 2: Relevâncias Temáticas de Issues e PRs, ambas com PRs é resolvida em menos de 1 mês. Essa diferença no tempo de
+valores baixos resolução pode-se dar pelo fato de PRs seremmais valorizadas pelos
+
+desenvolvedores do que as issues, uma vez que trazem contribuições
+concretas para o projeto.
+
+
+
+Impacto da relevância temática e outros atributos relacionados à comunicação em issue tracking no tempo de resoluçCãondfearseinscsueeascronym ’XX, June 03–05, 2018, Woodstock, NY
+
+O gráfico da Figura 5 mostra que para as issues, há uma tendência
+de aumento no tempo de resolução de acordo com o aumento da
+quantidade de desenvolvedores em quase todas as faixas de comen-
+tários. Já os PRs apresentam essa mesma relação até as 3 primeiras
+faixas, sendo que nas faixas seguintes o tempo de resolução das PRs
+diminui conforme o aumento da quantidade de desenvolvedores,
+não havendo uma relação bem definida.
+
+(a) Boxplot do Tempo de Resolução das Issues e PRs com
+Outliers
+
+Figura 5: Boxplots Sem Outliers do Tempo de Resolução das
+Issues e PRs por Quantidades de Desenvolvedores
+
+A mesma dicussão feita sobre a relação entre a quantidade de
+comentários e o tempo de resolução das issues e PRs na QP01 pode
+
+(b) Boxplot do Tempo de Resolução das Issues e PRs sem ser aplicada nos resultados obtidos para as issues nesta Questão
+Outliers de Pesquisa, ou seja, quando as issues apresentarem cada vez mais
+
+um aumento na quantidade de desenvolvedores, deve-se investigar
+Figura 4: Boxplots do Tempo de Resolução das Issues e PRs se esse aumento está sendo benéfico para a discussão ou não. Em
+
+caso negativo, investigar se os esforços devem ser investidos na
+elaboração da issue, pois aumentar o número de envolvidos não ga-
+
+Além disso, diante da Figura 4, pode-se pensar em dois motivos rante um tempo de resolução menor nem um melhor entendimento.
+para uma issue ou PR levarem aproximadamente décadas para se- Pelo contrário, pode inclusive aumentar o ruído na comunicação e
+rem resolvidas: ou foram reabertas ou foram esquecidas. No caso estender o tempo de resolução.
+de terem sido reabertas, o tempo de resolução não diz exatamente
+quantos dias corridos esses elementos demoraram para serem resol-
+vidos. Dessa forma, identificar quais issues e PRs foram reabertas e 5.3 QP03. Existe Diferença no Tempo de
+desconsiderá-las da análise pode trazer melhores resultados a res- Resolução entre as Issues que foram Criadas,
+peito do impacto dos atributos aplicados neste trabalho no tempo Comentadas ou Atribuídas por/para
+de resolução. Top-Devs?
+
+Primeiramente, para responder a essa pergunta, foi necessário iden-
+5.2 QP02. Existe Relação entre a Quantidade de tificar os top-devs. Como resultado dessa identificação, apenas 24
+
+Desenvolvedores Participando de uma Issue de 20.899 desenvolvedores foram selecionados, sendo responsáveis
+e o Tempo de Resolução? por 43 comentários com relevância temática maior do que 0,5. Vale
+
+O método utilizado para responder a pergunta anterior foi o mesmo lembrar que a relevância temática varia entre 0 e 1. Logo após, foi
+aplicado nesta Questão de Pesquisa. Dessa forma, foram criados necessário definir as amostras de duas populações: issues e PRs. As
+boxplots do tempo de resolução das issues e PRs de acordo com di- amostras podem ser vistas a seguir:
+ferentes faixas de quantidades de desenvolvedores, como feito para • A = Issues/PRs que os top-devs em issue tracking participam;
+os comentários. Vale ressaltar que esses desenvolvedores se refe- • Ã = Issues/PRs que os top-devs em issue tracking não partici-
+rem aos que participaram da discussão das issues ou PRs, postando pam;
+comentários. • B = Issues/PRs criadas pelos top-devs em issue tracking;
+
+
+
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Fábio Trindade Ramos and Gláucia Braga e Silva
+
+• B̃ = Issues/PRs que não foram criadas por top-devs em issue mais tempo para serem resolvidas do que as que não contam com a
+tracking; sua participação, enquanto os PRs que esses top-devs participam
+
+• C = Issues/PRs atribuídas aos top-devs em issue tracking; levam, em média, o mesmo tempo para serem resolvidos do que as
+• C̃ = Issues/PRs que não foram atribuídas aos top-devs em que eles não participam.
+issue tracking. Apesar das issues contarem com comentários de desenvolvedores
+
+As amostras B e B̃, bem como C e C̃, juntas formam a sua respec- que sabem se comunicar, as mesmas podem ser criadas por desen-
+tiva população. Neste caso, como há acesso a todas as informações volvedores que não possuem essa habilidade. Por exemplo, Huang
+da população, não é necessário aplicar métodos de inferência es- et al. [7] identificou que issues que contém perguntas na discus-
+tatística para comparar essas amostras. É possível simplesmente são estão relacionadas a um maior tempo de resolução. Isso pode
+analisar os dados brutos e fazer as comparações desejadas. ocorrer principalmente pela má escrita do relatório do problema,
+
+Por outro lado, as amostras A e Ã juntas não formam as popula- gerando dúvidas e exigindo mais tempo para a sua resolução. Os
+ções completas. Isso ocorre porque para identificar as issues e PRs resultados posteriores mostram que issues e PRs criadas por desen-
+pertencentes a cada amostra foi necessário utilizar duas bases de volvedores que postam comentários de qualidade estão associados
+dados, uma obtida pela RIT e outra obtida pela API REST do GitHub. a um menor tempo médio de resolução.
+Os dados obtidos da API REST possuem o tempo de resolução de Como não é necessário realizar inferência estatística para compa-
+todas as issues e PRs da organização Ruby on Rails. Por outro lado, a rar as amostras B e B̃, e C e C̃ para cada tipo de issue, foi observado
+RIT não fornece informações sobre issues e PRs com quantidade de unicamente as médias para responder se há diferença nas issues
+comentários igual a 0. Dessa forma, como a extração feita pela API ou PRs que os top-devs criaram ou foram atribuídos. Dessa forma,
+REST foi realizada um momento posterior ao da RIT, não foi possí- é possível interpretar da seguinte forma os valores da tabela para
+vel considerar que as issues e PRs que não estavam na base de dados essas amostras:
+obtidos pela RIT não possuíam participação com comentários dos
+top-devs (já que possuem quantidade de comentários igual a 0), pois
+issues e PRs podem ter sido fechadas entre o período de obtenção (1) Issues criadas por top-devs em issue tracking são resolvi-
+das duas base de dados, não havendo possibilidade de identificar das, em média, mais rápido do que as que eles não criaram,
+se esses desenvolvedores participaram ou não da sua discussão. apesar de pouca diferença. Por outro lado, os PRs que esses
+Portanto, paras essas amostras, é necessário realizar inferências desenvolvedores criaram possuem uma média de tempo de
+estatísticas para realizar comparações. resolução bem menor do que as que eles não criaram.
+
+As Tabelas 5 e 6 apresentam, respectivamente, a quantidade de (2) Tanto as issues quanto os PRs atribuídos aos top-devs em
+issues e PRs encontradas para essas amostras e a média aritmética issue tracking demoram, em média, muito mais tempo para
+e desvio padrão do tempo de resolução de cada uma. Os valores serem resolvidas do que as que eles não foram atribuídos.
+de desvios padrões presentes nessa tabela apontam que os dados
+das amostras apresentam uma alta variabilidade, ou seja, os dados
+estão bem dispersos da sua respectiva média. Diante da interpretação do item 1, pode-se pensar que como esses
+
+desenvolvedores postam comentários relevantes, ou seja, são bons
+Tabela 5: Quantidade de Issues e PRs para cada Amostra na comunicação, eles também são capazes de criar títulos, descrições
+
+e até mesmo de códigos melhores para as issues e PRs, facilitando
+o processo de entendimento e resolução das mesmas. Além disso,
+
+A Ã B B̃ C C̃ essa interpretação reforça a ideia dos desenvolvedores alocarem
+Issues 7.131 13.466 552 21.307 270 21.589 mais esforço na modelagem do problema do que em discussões,
+PRs 15.128 13.379 1.425 37.280 2.002 36.703 quando a mesma não está colaborando para a resolução da issue ou
+
+PR.
+De acordo com a Tabela 5, os desenvolvedores selecionados, A Tabela 5 mostra que os top-devs em issue tracking participam
+
+apesar de serem poucos, participam de mais de 22.000 issues e PRs, ativamente nas discussões das issues e PRs. Sendo assim, o fato do
+mostrando serem bem participativos nas resoluções dos problemas item 2 mostrar um elevado tempo médio de resolução nas issues que
+e revisões de códigos. No entanto, esses desenvolvedores não foram a eles são atribuídas pode indicar uma sobrecarga em cima desses
+atribuídos e nem criaram muitas issues e PRs se comparados com a desenvolvedores. O trabalho de Martins [10] mostra que issues
+quantidade total. atribuídas a desenvolvedores com multitarefa possui mediana igual
+
+Em particular, para responder se existe diferença no tempo de a 232 dias, enquanto os que não estão, apresentam mediana igual
+resolução de issues e PRs para as amostras A e Ã, foi realizado um a 32 dias. A multitarefa nesse estudo é usada para identificar se
+teste de Shapiro-Wilk para verificar a normalidade das amostras. um desenvolvedor está atribuído a mais de uma issue. No contexto
+Foi obtido um valor de p próximo de 0 para ambas as amostras, deste trabalho, pode-se pensar em multitarefa também como a
+rejeitando a hipótese nula, ou seja, os dados não seguem uma distri- participação de um desenvolvedor na discussão em mais de uma
+buição normal. Dessa forma, foi aplicado o teste de Mann-Whitney. issue ao mesmo tempo.
+Como resultado desse teste, o valor de p retornado foi próximo Além disso, para melhorar a interpretação desses dados, as Figu-
+de 0 para as issues e 0,12 para os PRs, ou seja, as amostras A e Ã ras 6, 7, 8 apresentam, respectivamente os boxplots para as amostras
+das issues são estatisticamente diferentes, enquanto os PRs não. De A e Ã, B e B̃, e C e C̃, as quais reforçam as afirmações feitas nesta
+outra forma, issues com comentários de top-devs levam, em média, Questão de Pesquisa em relação a essa amostras.
+
+
+
+Impacto da relevância temática e outros atributos relacionados à comunicação em issue tracking no tempo de resoluçCãondfearseinscsueeascronym ’XX, June 03–05, 2018, Woodstock, NY
+
+Tabela 6: Médias e Desvios Padrões das Amostras em Dias
+
+A Ã B B̃ C C̃
+MA | DP MA | DP MA | DP MA | DP MA | DP MA | DP
+
+Issues 135,82 | 324,95 79,25 | 220,41 99,33 | 258,67 100,50 | 287,80 197,40 | 393,17 99,25 | 285,33
+PRs 86,69 | 266,12 59,25 | 205,79 36,13 | 187,93 59,12 | 221,40 227,36 | 479,46 49,05 | 192,35
+
+Figura 6: Boxplots Sem Outliers do Tempo de Resolução das Figura 8: Boxplots Sem Outliers do Tempo de Resolução das
+issues e PRs Para as Amostras A e Ã issues e PRs Para as Amostras C e C̃
+
+Ademais, os boxplots apresentados na QP03 mostram que issues e
+PRs levam milhares de dias para serem resolvidas. Isso pode ocorrer
+devido à reabertura das mesmas, ou seja, não há certeza que as issues
+e PRs demoram milhares de dias corridos para serem resolvidas.
+Desconsiderar a reabetura pode trazer resultados mais consistentes
+em relação ao tempo de resolução das issues e PRs, pois a quantidade
+de outliers provavelmente será reduzida.
+
+7 CONSIDERAÇÕES FINAIS
+O presente trabalho apresentou uma análise de dados em sistema
+de issue tracking com o intuito de avaliar o impacto de atributos
+como a relevância temática, quantidade de comentários, quantidade
+de desenvolvedores e de top-devs no tempo de resolução das issues
+e pull requests.
+
+Através dessa pesquisa, observou-se que a média do tempo de
+resolução por quantidade de comentários desses elementos tende a
+
+Figura 7: Boxplots Sem Outliers do Tempo de Resolução das aumentar conforme o número de comentários presente aumenta.
+issues e PRs Para as Amostras B e B̃ Além disso, issues e PRs que foram criadas por top-devs são resolvi-
+
+das, em média, mais rapidamente do que as que eles não criaram.
+Por outro lado, quando esses denvolvedores são responsáveis por
+uma issue ou PR, o tempo médio de resolução é maior. Ademais,
+
+6 AMEAÇAS À VALIDADE observando quando esses desenvolvedores estão participando da
+Como a RIT não exporta informações sobre issues e PRs que não discussão, as issues apresentaram um tempo de resolução médio
+possuem comentários, para a análise da QP01 e QP02, foram con- maior do que quando eles não participam, enquanto não foi encon-
+siderados apenas as issues e PRs fornecidos pela RIT. Consequen- trada diferença para os PRs.
+temente, não foi possível incluir issues e PRs com quantidades de Embora não foi encontrada correlação entre o tempo de resolução
+comentários e desenvolvedores iguais a 0 nos boxplots apresenta- de issues e PRs e a relevância temática, a mesma pode ser analisada
+dos. Dessa forma, a inserção dessas issues e PRs na análise pode em conjunto com outras variáveis do processo de comunicação
+alterar os resultados obtidos na faixa inicial de cada boxplot. para que seja identificada alguma relação, visto que a comunicação
+
+
+
+Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Fábio Trindade Ramos and Gláucia Braga e Silva
+
+envolve uma gama de atributos e variáveis que influenciam o tempo [18] Feng Zhang, Foutse Khomh, Ying Zou, and Ahmed E Hassan. 2012. An empirical
+de resolução das issues e PRs, tais como, complexidade, gravidade study on factors impacting bug fixing time. In 2012 19th Working conference on
+
+reverse engineering. IEEE, 225–234.
+e prioridade. Além disso, observou-se que a relevância temática
+apresentou valores muito baixos, em sua maioria, entre 0 e 0,1. Já
+o tempo de resolução chegava na casa de milhares de dias, sendo
+uma possível causa a reabertura desses elementos. Contudo, cerca
+de 75% das issues e PRs são resolvidas, respectivamente, em menos
+de 3 meses e em menos de 1 mês.
+
+Por fim, como trabalhos futuros, destacam-se: a) realizar novas
+análises, retirando da amostra issues que foram reabertas; b) calcular
+uma métrica de reputação para desenvolvedores com base na sua
+atividade em issue tracking; c) implementar ajustes na biblioteca RIT,
+tal como a exportação de informações sobre issues e pull requests
+que contenham quantidade de comentários igual a zero.
+
+REFERÊNCIAS
+[1] Breno Fabrício Terra Azevedo. 2011. MineraFórum: um recurso de apoio para
+
+análise qualitativa em fóruns de discussão. (2011).
+[2] Estela Miranda Batista, Melissa Araújo, Fábio Trindade Ramos, Gláucia Braga,
+
+Luiz Eugênio Coelho Neto, Santiago de Oliveira Souza, et al. 2023. RIT: uma
+Biblioteca para Análise da Relevância Temática dos Comentários Postados no
+Issue Tracking do GitHub. Anais do Computer on the Beach 14 (2023), 094–101.
+
+[3] Estela Miranda Batista, Gláucia Braga e Silva, and Thais Regina de Moura Braga e
+Silva. 2023. Gender Diversity on GitHub Issue Tracking: What’s the Difference?
+Journal on Interactive Systems 14, 1 (Jun. 2023), 128–137. https://doi.org/10.5753/
+jis.2023.3126
+
+[4] Dane Bertram, Amy Voida, Saul Greenberg, and Robert Walker. 2010. Commu-
+nication, collaboration, and bugs: the social nature of issue tracking in small,
+collocated teams. In Proceedings of the 2010 ACM conference on Computer supported
+cooperative work. 291–300.
+
+[5] Hudson Borges, Jailton Coelho, Paulo Carvalho, Mariane Fernandes, and
+Marco Tulio Valente. 2016. Como Pesquisadores Usam o Dataset GHTorrent?.
+In 5th Brazilian Workshop on Software Visualization, Evolution and Maintenance
+(VEM). 1–8.
+
+[6] Valerio Cosentino, Javier Luis, and Jordi Cabot. 2016. Findings from GitHub:
+methods, datasets and limitations. In Proceedings of the 13th International Confe-
+rence on Mining Software Repositories. 137–141.
+
+[7] Yonghui Huang, Daniel Alencar da Costa, Feng Zhang, and Ying Zou. 2019.
+An empirical study on the issue reports with questions raised during the issue
+resolving process. Empirical Software Engineering 24 (2019), 718–750.
+
+[8] Marcia Lima, Igor Steinmacher, Denae Ford, Evangeline Liu, Grace Vorreuter,
+Tayana Conte, and Bruno Gadelha. 2022. Looking for related discussions on
+GitHub Discussions. arXiv preprint arXiv:2206.11971 (2022).
+
+[9] Crystiano José RichardMachado, AlexandreMagnoAndradeMaciel, Rodrigo Lins
+Rodrigues, and Ronaldo Menezes. 2019. An approach for thematic relevance
+analysis applied to textual contributions in discussion forums. International
+Journal of Distance Education Technologies (IJDET) 17, 3 (2019), 37–51.
+
+[10] Matheus Felipe F Martins. 2022. Análise da Influência da Multitarefa de Desenvol-
+vedores no Ciclo de Vida de Issues do GitHub. Pontifícia Universidade Católica
+de Minas Gerais.
+
+[11] Marco Tulio Mombach, Thaís e Valente. 2018. GitHub REST API vs GHTorrent
+vs GitHub Archive: A comparative study. Universidade Federal de Minas Gerais.
+
+[12] Luiz Neto, Gláucia Silva, and Giovanni Comarela. 2021. Estimativa do tempo de
+resolução de issues no github usando atributos textuais e temporais. In Proceedings
+of the XXXV Brazilian Symposium on Software Engineering. 253–262.
+
+[13] Luiz Eugênio Neto. 2018. Quem faz a diferença? Uma abordagem para análise da
+comunicação entre os stakeholders de um projeto de software. Universidade
+Federal de Viçosa - campus Florestal.
+
+[14] Neto e Braga e Silva Neto e Braga e Silva. 2018. ColMiner: uma ferramenta de
+apoio ao gerenciamento das comunicações em um ambiente de issue tracking. In
+Anais do XIV Simpósio Brasileiro de Sistemas de Informação. SBC, 392–399.
+
+[15] Marco Ortu, Bram Adams, Giuseppe Destefanis, Parastou Tourani, Michele Mar-
+chesi, and Roberto Tonelli. 2015. Are bullies more productive? Empirical study
+of affectiveness vs. issue fixing time. In 2015 IEEE/ACM 12th Working Conference
+on Mining Software Repositories. IEEE, 303–313.
+
+[16] Patrick Schober, Christa Boer, and Lothar A Schwarte. 2018. Correlation coeffici-
+ents: appropriate use and interpretation. Anesthesia & analgesia 126, 5 (2018),
+1763–1768.
+
+[17] M Vidoni. 2022. A systematic process for Mining Software Repositories: Results
+from a systematic literature review. Information and Software Technology 144
+(2022), 106791.

@@ -1,0 +1,462 @@
+﻿Draw the Function: um jogo educacional para auxiliar a
+aprendizagem de funções matemáticas
+
+Marcos V. S. Mota1, Daniel Mendes Barbosa1
+
+1Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa
+Campus Florestal (UFV-CAF) Florestal – MG – Brasil
+
+mvsmota@live.com, danielmendes@ufv.br
+
+Abstract. Educational games are an attractive way of teaching between most of
+the young students of high school or college, although it’s still not much explored
+by the teachers of schools or/and universities. Many times those students fails in
+finishing their course by lack of interest in classes, specially in the area of exact
+sciences, since most of them consider such disciplines difficult. Therefore, this
+work presents the development, analysis and tests of the game Draw the Func-
+tion, an educational game for teaching in the area of exact sciences, specifically
+mathematical functions. During the tests we observed that Draw the Function
+has a pedagogical capacity, helping in the teaching of mathematical functions
+as well as being an attractive and motivating game for its players.
+
+Resumo. Jogos educacionais são uma forma de ensino atrativa entre a maio-
+ria dos jovens do ensino médio e/ou superior. Contudo, ainda é pouco explo-
+rada por parte dos professores de escolas e universidades. Muitas das vezes,
+tais alunos falham em concluir suas disciplinas por falta de interesse em suas
+aulas, principalmente na área de ciências exatas, uma vez que muitos consid-
+eram difı́ceis tais disciplinas. Portanto, este trabalho apresenta o desenvolvi-
+mento, a análise e testes do jogo Draw the Function, um jogo educacional para
+o ensino na área de ciências exatas, em especı́fico funções matemáticas. Du-
+rante os testes, foi possı́vel notar que o Draw The Function possui capacidade
+pedagógica, ajudando no ensino de funções matemáticas e se mostrou um jogo
+atrativo e motivador para os seus jogadores.
+
+1. Introdução
+Dado o atual ambiente educacional nas escolas e faculdades, observa-se a constante neces-
+sidade de manter os alunos entretidos com as aulas a fim de melhorar seu rendimento em
+suas disciplinas. De acordo com Sena, Oliveira e Carvalho (2014), práticas educacionais
+são aprimoradas diariamente, na tentativa de acompanhar melhor o desenvolvimento dos
+alunos. Dessa forma, professores vêm desenvolvendo novas técnicas de ensino e melho-
+rando as já utilizadas com o intuito de atrair mais atenção de seus alunos e ter um melhor
+aproveitamento das aulas.
+
+Observa-se também, a grande dificuldade que muitos alunos acabam tendo em dis-
+ciplinas de exatas como matemática ou fı́sica, onde há um grande número de reprovações
+dentro das faculdades. Muitas das vezes, não sendo exatamente um problema do ensino
+superior, mas sim um problema que se agrava desde o ensino fundamental e médio, como
+dito por Cardoso, Giraldello e Batista (2013), que há um grande despreparo por parte dos
+
+
+
+professores para auxiliar os aprendizes no ensino básico da matemática. Neste contexto,
+surge a necessidade de desenvolver novas técnicas para facilitar o ensino de tais conteúdos
+aos alunos.
+
+Nota-se ainda que os jovens tanto do ensino médio quanto do superior são dis-
+traı́dos constantemente por seus celulares e computadores durante as aulas, ferramentas
+as quais poderiam ser aproveitadas pelos professores para o ensino ao invés de serem
+uma distração. Sabe-se também que vários alunos conseguem ser atraı́dos facilmente por
+jogos digitais, já que é uma forma convidativa de entretenimento para muitos, princi-
+palmente para os jovens. De acordo com Digiampietri, Kropiwiec e Silva (2010) jogos
+digitais constituem uma área em expansão no mercado de trabalho, possui grande apelo
+aos estudantes e grande visibilidade pelos alunos do ensino médio.
+
+Silva e Morais II (2011) dizem que diferente da maioria dos jogos que hoje tem o
+intuito apenas de diversão de seu jogador, os jogos educacionais servem como uma ferra-
+menta didática na aprendizagem dos jovens, motivando-os através de desafios e tornando
+o aluno o autor do seu próprio conhecimento. Jogos educacionais possuem uma grande
+relevância na aprendizagem de vários conteúdos já que incentivam o aluno a buscar con-
+hecimento por si mesmo, na maior parte das vezes por diversão e competitividade, que
+são duas formas bastante motivadoras. Contudo jogos possuem tal influência apenas se
+aplicados de forma correta, uma vez que, caso sejam aplicados incorretamente, seja por
+falta de preparo dos professores ou da má qualidade de um jogo especı́fico, podem acar-
+retar em pontos negativos como a distração do aluno e não trazer nenhum aprendizado
+para o mesmo.
+
+Segundo Rosa (2004, p 22) ”diversas teorias, dadas como difı́ceis, quando apli-
+cadas através de jogos revelavam facilidades”. Baseado nesta ideia, se faz interessante o
+uso de jogos, sejam eles digitais ou não, no ensino de conteúdos geralmente mais com-
+plexos como da área de exatas. Sena, Oliveira e Carvalho (2014) citam vários pontos
+positivos que o uso de dispositivos móveis podem trazer para a aprendizagem, como a
+visualização dinâmica de fatos matemáticos, novas abordagens de conceitos, autonomia
+no estudo, entre outros.
+
+Assim, dado todo este contexto educacional, este trabalho propõe uma solução
+para esse problema através do desenvolvimento de uma nova ferramenta atrativa para os
+estudantes, consistindo no desenvolvimento de um jogo educacional para a plataforma
+de dispositivos móveis voltado para a área de exatas, em especı́fico funções matemáticas
+com nı́veis de ensino médio a ensino superior. O jogo têm como objetivo incentivar seu
+jogador a utilizar seu conhecimento em conceitos de funções matemáticas para prosseguir
+em suas fases. Nele, o aluno, terá que em cada fase, entrar com funções matemáticas que
+ao serem desenhadas, atinjam os pontos inimigos especificados.
+
+Este texto está dividido em 6 seções, onde na seção 2 será descrita a metodologia
+utilizada neste trabalho. Na seção 3 são descritos três trabalhos relacionados na área de
+ensino de exatas. A seção 4 é dividida em duas subseções onde, na primeira, é explicada
+a parte cientı́fica do desenvolvimento do jogo e, na segunda, é mostrado o jogo desen-
+volvido. A seção 5 descreve os resultados obtidos da análise do jogo. Por fim, na última
+seção, tem-se as considerações finais e trabalhos futuros.
+
+
+
+2. Metodologia
+
+O inı́cio do trabalho consistiu em realizar pesquisas bibliográficas na área de desen-
+volvimento de jogos educacionais e a aprendizagem de matemática para ensino médio
+e superior, aproveitando para levantar critérios do game design do jogo a ser a desen-
+volvido assim como métodos de avaliação pedagógica e técnica do mesmo. Em seguida
+foram definidos os requisitos do jogo e desenvolvido seu Game Design Document, a
+fim de especificar melhor seus detalhes para seu desenvolvimento. A seguir, se deu a
+implementação do mesmo por meio da ferramenta de desenvolvimento de jogos Unity,
+com a linguagem de programação C#.
+
+Com o desenvolvimento do jogo finalizado foi realizada uma avaliação do mesmo,
+utilizando uma avaliação de jogos educacionais proposta por Medeiros e Schimiguel
+(2012), onde são avaliados 9 quesitos, desde a qualidade do conteúdo e o objetivo da
+aprendizagem até a interação social e reusabilidade. Também aproveitando a avaliação,
+foram realizados testes com alunos do curso superior de Ciência da Computação da Uni-
+versidade Federal de Viçosa - Campus Florestal e feito um levantamento tanto sobre
+questões técnicas e pedagógicas do mesmo através de um questionário anônimo. Os testes
+foram feitos aluno por aluno, abordando os mesmos em horários diversos durante o dia
+na universidade.
+
+3. Trabalhos Relacionados
+
+Silva e Dantas (2014), desenvolveram o Klouro, o qual é um jogo educacional com o ob-
+jetivo de motivar alunos que sejam iniciantes em programação, uma vez que, de acordo
+com Silva e Dantas (2014) o aprendizado da mesma não é uma tarefa trivial. O jogo con-
+siste em várias fases, onde o jogador é recebido com algum desafio envolvendo estruturas
+de decisão de programação e operadores lógicos. O jogador passa de fase ao inserir o
+valor de entrada correto de acordo com o desafio. O KLouro apresenta elementos gráficos
+simples e intuitivos, de forma a deixar mais interessante aos seus usuários.
+
+Rosetti JR., Amaral, Schimiguel, Martins e Araújo JR. (2015) desenvolveram um
+jogo RPG educacional para auxiliar no aprendizado do conceito de moeda para o ensino
+fundamental. Neste jogo, o seu usuário deverá passar por 25 casas e responder a perguntas
+sobre o assunto moeda/dinheiro, onde será recompensado ou penalizado em seu dinheiro
+do jogo considerando se acertou a resposta ou não. O jogo propõe uma maior interação
+do professor com os alunos, pois sugere que também sejam feitos debates em sala a fim
+de se obter um maior entendimento do conceito de moeda.
+
+Tabuada Legal, um jogo desenvolvido por Cardoso, Giraldello e Batista (2013),
+é um jogo para computador com o intuito de ajudar alunos do ensino fundamental e
+médio na aprendizagem de multiplicações e divisões de números naturais. O jogo motiva
+alunos a criarem estratégias de solução de multiplicações a partir de soluções de outras
+multiplicações já conhecidas. O jogador deve conseguir multiplicar um certo valor, para
+isso controla canhões e deve atirar bolas numeradas que ao se chocarem irão se multiplicar
+e atingir tal valor, o jogo termina quando o usuário consegue atingir todos os valores ob-
+jetivos.
+
+
+
+4. Draw the Function
+4.1. Desenvolvimento
+O desenvolvimento do jogo Draw The Function foi pensado de tal forma que pudesse
+ser utilizado como uma ferramenta de apoio a professores para o ensino de funções
+matemáticas. Observando-se que nem toda instituição de ensino possui computadores a
+sua disposição de forma rápida e acessı́vel, foi decidido implementar o jogo para dispos-
+itivos móveis sabendo da grande adesão por parte dos estudantes tanto do ensino médio
+como ensino superior a tais dispositivos. Uma vez que muitos alunos já utilizam seus
+celulares durante as aulas de forma errônea com intuito apenas de lazer e diversão, pode-
+riam com este jogo utilizar o mesmo para incrementar seu aprendizado durante a aula.
+
+A criação do jogo se deu no motor de jogos Unity por ser uma ferramenta que
+permite facilmente implementar tanto jogos 3D quanto 2D, o qual é o caso do Draw the
+Function, um jogo 2D. Além de ser uma ferramenta com uma versão gratuita e uma versão
+paga para caso o jogo seja desenvolvido com intenções comerciais, o motor Unity permite
+facilmente compilar o projeto para várias plataformas como Windows, Linux, MacOS e
+inclusive para dispositivos Android e iOS.
+
+No Unity toda fase ou tela é feita em cenários. Um cenário pode ser descrito como
+um mundo virtual 3D vazio, onde é possı́vel colocar objetos de jogo. Tais objetos podem
+ser o personagem, botão, câmera, ou seja, todo elemento no cenário é um objeto de jogo.
+Assim, para criar o Draw the Function, um jogo 2D, foi necessário criar uma câmera
+que ficasse presa a uma perspectiva para simular uma tela 2D e adicionar os elementos
+para criar as telas e fases. O moto Unity já possui diversos componentes implementados
+como fı́sica, movimentação, renderização e outros, facilitando o desenvolvimento. Muitos
+desses componentes foram utilizados no jogo deste trabalho, contudo, a lógica em si para
+conclusão das fases teve que ser implementada manualmente.
+
+Durante a criação das fases do jogo, foi notado um problema: criar fase por fase
+seria um trabalho árduo. Para contornar isto, foi implementada a ideia de que as fases
+deveriam ser feitas de modo genérico para que se tivesse apenas uma fase que iria mu-
+dando de acordo com alguma configuração. Para isso, foi desenvolvido um arquivo no
+formato XML, que é uma linguagem de marcação que permite definir campos e seus
+valores, criando um modelo próprio para o Draw The Function com campos especı́ficos
+para a configuração da fase. Tais campos permitem customizar o número de inimigos e
+suas posições, quantas e quais serão as funções respostas, o quanto o projétil percorrerá a
+tela, qual o ponto inicial do projétil e da câmera, entre outros. Todos esses valores con-
+figuráveis permitem ter um controle maior na criação e personalização das fases. Assim,
+um professor pode, caso deseje, criar fases especı́ficas para o conteúdo que esteja sendo
+lecionado em sua classe, sem que haja a necessidade de reprogramar o jogo.
+
+4.2. Jogo desenvolvido
+Assim, Draw The Function tem como objetivo auxiliar seus jogadores na aprendizagem
+de funções matemáticas. Para isso, o jogador terá em cada fase vários pontos em um
+quadro negro considerados como seus inimigos e terá que com seu giz, escrever uma
+função matemática que desenhada com o giz no quadro irá acertar os pontos.
+
+Foram implementados três nı́veis de dificuldade, cada um com suas caracterı́sticas,
+sendo eles, fácil, médio e difı́cil. No nı́vel fácil, o jogo já irá escrever as funções na tela
+
+
+
+deixando lacunas vazias nos lugares dos coeficientes. Desta forma, o jogador precisa
+apenas preencher as mesmas com os coeficientes faltantes, facilitando para o jogador e
+deixando o jogo mais simples caso o mesmo tenha dificuldades ou queira jogar de uma
+forma mais casual. No nı́vel médio, seguindo a mesma lógica do nı́vel fácil, além de
+deixar lacunas nos coeficientes, serão deixadas lacunas nas variáveis da função, sendo de
+responsabilidade também do jogador preencher. Já no nı́vel difı́cil, nada da função irá ser
+escrita para o usuário, sendo exibido apenas um campo em aberto onde ele deve preencher
+por completo toda a função daquele nı́vel.
+
+Após escolher o nı́vel de dificuldade, o jogador será levado para a tela de escolha
+de fases (Figura 1). As fases são divididas em categorias, como tutorial, funções lineares,
+segundo grau, etc. Todas as fases são as mesmas para os 3 nı́veis de dificuldade, alterando-
+se apenas as formas de entradas da função. O ideal é que as fases estejam em ordem de
+grau de dificuldade das categorias da mais fácil para a mais difı́cil, assim o jogador terá
+uma dificuldade gradativa à medida que progride no jogo.
+
+Figura 1. Tela de escolha de fases.
+
+Figura 2. Trecho do tutorial do Draw the Function.
+
+É desejável que o tutorial seja a primeira fase jogada pelo usuário (Figura 2).
+Sendo assim, foi colocado como primeira opção da lista de fases, uma vez que para muitos
+
+
+
+não é intuitiva a forma como o jogo apresenta sua interface e principalmente como é feita
+a escrita de funções matemáticas com caracteres de um teclado. Por exemplo, 3x deve
+ser escrito 3*x, x ao quadrado deve ser escrito como xˆ2. Assim, tem-se o tutorial no
+inı́cio para que o usuário aprenda como utilizar a interface do jogo e como será feita a
+entrada das funções. Para facilitar para o jogador, foi colocado um botão especı́fico de
+ajuda dentro das fases, o qual exibe uma tela com várias funções de exemplo.
+
+Figura 3. Fase 2, funções lineares, dificuldade média.
+
+Figura 4. Fase 2, funções lineares, dificuldade difı́cil, exibindo o teclado do jogo.
+
+Ao escolher a fase, o jogador será levado para a tela principal do jogo onde poderá
+jogar. As Figuras 3 e 4 mostram a fase 2 nas dificuldades médio e difı́cil respectivamente.
+A Figura 4 mostra ainda o teclado do jogo aberto. O usuário então deve analisar onde
+estão os pontos e quais funções deve utilizar para alcançar seu objetivo. Ele tem um
+número fixo de tentativas para conseguir atingir os pontos, além de que cada arremesso
+gasta a durabilidade do giz, limitando a distância que o mesmo percorre. Isso impede que
+o mesmo trapaceie e use funções como, por exemplo, tg(x) que percorrerá várias vezes
+a tela, facilitando o jogo. Assim, o jogador deve inserir as funções correspondentes ou
+semelhantes à função resposta para atingir seu objetivo. Nesse caso da fase 2, as funções
+respostas são “F(x) = -x” e “F(x) = 3*x”. Contudo, caso o jogo esteja no nı́vel difı́cil, o
+
+
+
+jogador tem muito mais possibilidades de conclusão pois é apenas um campo aberto, per-
+mitindo que o mesmo use de todo seu conhecimento de matemática para escrever funções
+matemáticas que atinjam os pontos, usando, por exemplo, funções trigonométricas para
+completar fases onde supostamente deveria usar funções lineares apenas. Lembrando
+que o jogador também pode e deve em algumas fases, utilizar de mais de uma função
+matemática para conseguir atingir seu objetivo. Apenas com a restrição de que deve con-
+seguir atingir todos os pontos antes de acabar suas tentativas.
+
+5. Experimentos
+Todo jogo para que seja considerado um software educacional, necessita ser avaliado
+e testado quanto a vários aspectos pedagógicos como: o conceito a ser ensinado, seu
+manuseio, sua motivação, seu objetivo e como é feita a interação aluno e professor. Para
+isso, existem vários métodos de testes e análises que podem ser realizados nestes jogos.
+Quanto ao Draw The Function, foram escolhidos dois métodos.
+
+Como primeiro método de análise escohido, tem-se uma avaliação proposta por
+Medeiros e Schimiguel (2012), a qual avalia o software em nove critérios envolvendo
+desde a qualidade do conteúdo e até sua reusabilidade. Já como segundo método, foi
+escolhido o método de questionários anônimos, que é um dos métodos citados por Godoi
+e Padovani (2015). Para avaliar o jogo seguindo o modelo proposto por Medeiros e
+Schimiguel (2012), foi criada uma tabela e realizada a avaliação, segundo os critérios
+propostos pelos autores. O resultado é mostrado na Tabela 1.
+
+Já o questionário anônimo foi aplicado na Universidade Federal de Viçosa - Cam-
+pus Florestal com alunos de Ciência da Computação de diversos perı́odos, totalizando 15
+alunos, com idades de 18 a 24 anos, sendo dois alunos cursando o segundo perı́odo, três
+alunos cursando o quarto perı́odo e 10 alunos cursando o oitavo perı́odo.
+
+O questionário foi aplicado da seguinte forma: primeiro foi introduzido o jogo
+ao aluno, explicando brevemente o objetivo do mesmo e pedindo para que começasse
+pelo tutorial, a fim de que ele aprendesse como funcionava o jogo sem necessitar de aju-
+das externas. Após passar o tutorial, o aluno era livre para explorar, jogando as fases
+testes incluı́das no jogo e quando decidisse parar, era apresentado a ele um questionário
+anônimo com perguntas. Todas as perguntas podiam ser respondidas com as seguintes
+opções: Discordo Totalmente (DT), Discordo Parcialmente (DP), Indiferente (I), Con-
+cordo Parcialmente (CP) e Concordo Totalmente(CT). As questões são apresentadas na
+Tabela 2.
+
+A partir dos resultados, é interessante citar que a maioria dos alunos notou uma
+semelhança entre os conteúdos do jogo com os conteúdos aprendidos em sala de aula
+ensinados pelos professores. Pode-se notar também que a maioria pensa que o jogo pode
+sim ajudar no aprendizado de funções matemáticas na sala de aula. Este resultado é
+importante pois é com ele que o aluno consegue gerar mais conhecimento para si a partir
+da combinação do uso do jogo e dos conteúdos aprendidos em sala de aula. Outros pontos
+importantes é que também grande parte achou o jogo interessante e se sentiu motivado a
+continuar, o que leva a uma maior motivação do aluno a aprender por diversão através do
+jogo ao invés de se sentir obrigado a fazer uso do mesmo.
+
+Durante os testes foi possı́vel perceber que a maioria, sem precisar de explicações,
+começavam a testar várias funções para concluir a fase, cada um utilizando de seus
+
+
+
+Critérios Resultado
+Qualidade do Conteúdo: Veracidade e O jogo é centrado em um único tema,
+apresentação equilibrada das ideias com funções matemáticas, contudo abrange
+nı́vel apropriado de detalhes, enfatizando uma grande gama de funções permitindo
+os pontos significantes. bastante detalhamento das mesmas.
+Alinhamento do Objetivo da Apren- Isso dependerá do plano de ensino de
+dizagem: Alinhamento entre as metas cada professor. Draw The Function foi
+de aprendizagem, atividades, avaliações e pensado como uma ferramenta auxiliar,
+caracterı́sticas dos alunos. ficando a critério do professor como uti-
+
+lizá-la.
+Motivação: Capacidade de motivar o in- Durante os testes, foi possı́vel notar que
+teresse do jogador. os alunos eram motivados pelo próprio
+
+jogo a concluir as fases e a explorar cada
+vez mais.
+
+Imersão: Capacidade de envolver o jo- Como exige que o jogador pense em quais
+gador profundamente. funções utilizar e como alterá-las para
+
+atingir seu objetivo, o aluno acaba tendo
+sua atenção presa pelo jogo tendo que
+pensar na função dentro do jogo.
+
+Objetivos Claros: Metas claras do que O tutorial deixa bem claro qual é o obje-
+deve ser realizado. tivo, acertar todos os pontos, além de o
+
+jogo mostrar isto de uma forma intuitiva
+utilizando cores que chamem a atenção do
+jogador.
+
+Feedback e Adaptação Elaboração do Exibe mensagens de derrota ou
+feedback positivo e negativo do jogo. congratulações ao jogador que perder ou
+Conteúdo que se adapta de acordo com a ganhar uma fase respectivamente.
+habilidade do jogador
+Apresentação: Informação visual. Possui textos curtos e simples, todos com
+
+cores que se destacam com o restante do
+jogo. Botões grandes e fáceis de clicarem,
+possui também um teclado próprio den-
+tro do jogo com botões chamativos per-
+mitindo que o usuário use apenas as teclas
+dispostas para ele, facilitando a digitação.
+
+Interação Social: Dispor meios de O jogo em si não possui um meio
+interação com outros jogadores de interação dentro do mesmo, sendo
+
+necessário que os jogadores interajam en-
+tre si fora do jogo.
+
+Reusabilidade: Capacidade de ser uti- Por abranger várias áreas das funções
+lizado em diferentes contextos de apren- matemáticas, indo de funções simples a
+dizagem e com alunos de diferentes funções complexas, pode ser utilizado
+idades e interesses. com alunos de várias idades e nı́veis.
+
+Tabela 1. Avaliação do Draw The Function.
+
+
+
+Perguntas DT DP I CP CT
+Entendi facilmente o que devia ser feito 0% 0% 0% 60% 40%
+para conseguir interagir com o jogo.
+Compreendi facilmente as instruções. 0% 6,7% 0% 46,7% 46,7%
+Achei que faltaram mais explicações nas 26,7% 26,7% 6,7% 40% 0%
+instruções.
+O jogo respondeu corretamente aos meus 0% 0% 13,3% 13,3% 73,3%
+comandos.
+Os comandos foram simples e intuitivos. 0% 0% 13,3% 53,3% 33,3%
+Tive problemas com o jogo. 40% 26,7% 13,3% 20% 0%
+Me senti motivado a continuar explo- 0% 0% 26,7% 26,7% 46,7%
+rando e jogando mais fases.
+O jogo foi atrativo e interessante. 0% 0% 13,3% 33,3% 53,3%
+Consegui identificar relações com 0% 0% 0% 13,3% 86,7%
+matérias aprendidas dentro de sala.
+O jogo pode ajudar no aprendizado de 0% 0% 0% 6,7% 93,3%
+funções matemáticas.
+
+Tabela 2. Resultados do questionário anônimo.
+
+próprios métodos. Alguns alunos chegaram até mesmo a utilizar funções mais complexas
+como trigonométricas para concluir fases de funções de primeiro e segundo grau. Isso ev-
+idencia que os alunos estavam utilizando de todo seu conhecimento para atingir o objetivo
+das fases.
+
+6. Conclusão
+O Draw the Function foi criado com o objetivo de ser uma ferramenta de apoio para o
+aprendizado de funções matemáticas, um jogo onde os alunos pudessem se divertir ao
+mesmo tempo que aprendem funções, uma vez que o ensino de tal disciplina nas escolas
+e universidades é considerado difı́cil pela maior parte dos alunos. Foi possı́vel concluir
+no desenvolvimento as principais funcionalidades pensadas para o jogo, permitindo ao
+jogador acertar pontos na tela entrando com funções matemáticas. Contudo o jogo ainda
+possui um grande espaço para crescimento, como, por exemplo, a adição de mais fases,
+de um modo multi-jogador e também de um sistema de ranqueamento online.
+
+O objetivo principal do trabalho foi alcançado e validado pelos testes realizados,
+mostrando que o jogo possui uma capacidade pedagógica, permitindo que o mesmo possa
+ser utilizado por professores e alunos caso seja mais aprimorado. Nos testes foi possı́vel
+notar que os jogadores se sentiam motivados a continuar explorando o jogo, colocando
+seus conhecimentos na área de matemática à prova com os desafios propostos pelas suas
+fases. Foi possı́vel observar ainda que grande parte desses jogadores conseguiram ver
+relações entre os conteúdos aprendidos dentro de sala de aula e a mecânica do jogo e que
+o Draw The Function pode ajudar no aprendizado de funções matemáticas.
+
+Como trabalho futuro, pretende-se continuar aprimorando o jogo, melhorando a
+interface, adicionando efeitos sonoros e implementando algum meio de competição como
+um ranqueamento ou modo multi-jogador. Dessa forma, pode-se ter um aumento da
+
+
+
+motivação e da competitividade dentro do jogo, como também do aprendizado dos jo-
+gadores. Posteriormente, pode ser feita uma versão web para computador, não sendo
+obrigatória a posse de um dispositivo móvel pela parte dos alunos e permitindo que os
+mesmos utilizem de computadores de sua instituição de ensino. Um outro trabalho futuro
+é a implementação de um gerador de arquivos XML de configuração das fases, criando
+uma interface para facilitar a a geração automática desses arquivos de acordo com a en-
+trada dos usuários. Um ponto interessante a se testar também é qual o impacto que a
+utilização do jogo teria com turmas de exatas, testando durante o semestre com alguns
+alunos e validando se houve uma melhora na aprendizagem se comparados a alunos que
+não tiveram acesso ao mesmo.
+
+7. Referências
+Cardoso, A., Giraldello, A. G. C., Batista, N. Ap. M. (2013), Tabuada legal: um jogo sério
+
+para o ensino de multiplicações. In Anais do XXIV Simpósio Brasileiro de Informática
+na Educação (SBIE 2013)
+
+Digiampietri, L.A., Kropiwiec, D.D., Silva, R. A. C. O uso de jogos como fator moti-
+vacional em cursos de computação. XVIII Workshop sobre Educação em Computação
+(WEI), 2010, Belo Horizonte. Anais do XXX Congresso da Sociedade Brasileira de
+Computação (CSBC 2010). , 2010. p.768 - 777.
+
+Godoi, K. A., Padovani, S. (2015). Instrumentos avaliativos de software educativo: uma
+investigação de sua utilização por professores. In Estudos em Design, v. 19, n. 1.
+
+Medeiros, M., Schimiguel, J. (2012). Uma abordagem para avaliacão de jogos educativos:
+enfase no ensino fundamental. In Brazilian Symposium on Computers in Education
+(Simpósio Brasileiro de Informática na Educação-SBIE), volume 23.
+
+Rosa, M.. Role Playing Game: uma tecnologia lúdica para aprender a ensinar
+Matemática. 2004. 170 p. Dissertação (Mestre em Educação Matemática) – Uni-
+versidade Estadual de São Paulo, São Paulo, 2004.
+
+Rosetti JR., H., Amaral, G. P., Schimiguel, J., Martins, C. A., Araújo JR., C. F. (2015).
+O Jogo na Educação Matemática: Desenvolvimento de um RPG para Trabalhar o Con-
+ceito de Moeda no Ensino Fundamental. HOLOS, v. 8, p. 113.
+
+Sena, D. M., Oliveira, E. H. T., de Carvalho, L. S. G. (2014). Aplicativos móveis para o
+aprendizado de matemática. In Anais do XXV Simpósio Brasileiro de Informática na
+Educação.
+
+Silva, I. K. O., Morais II, M. J. O. (2011). Desenvolvimento de Jogos Educacionais no
+Apoio do Processo de Ensino-Aprendizagem no Ensino Fundamental. HOLOS, v. 5,
+p. 153.
+
+Silva, M. A. de A., Dantas, A. (2014). KLouro: Um jogo educacional para motivar alunos
+iniciantes em programação. In Anais do XXV Simpósio Brasileiro de Informática na
+Educação (SBIE 2014).

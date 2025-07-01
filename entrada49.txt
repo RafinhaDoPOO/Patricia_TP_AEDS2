@@ -1,0 +1,605 @@
+﻿Uma Análise do Impacto de Iniciativas de Ensino e Extensão
+no ensino-aprendizagem de Programação em um Curso de
+
+Ciência da Computação
+Pedro C. C. Mundim1, Daniel M. Barbosa2, Gláucia B. Silva3
+
+1Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa (UFV)
+Rodovia LMG 818, km 06 – 35690-000 – Florestal – MG – Brazil
+
+pedro.mundim@ufv.br, danielmendes@ufv.br, glaucia@ufv.br
+
+Abstract. This work analyzes the impact of teaching and extension initiatives
+in the Computer Science course, at the UFV Florestal campus, on student per-
+formance in subjects related to programming. Given the considerable level of
+dropouts and failures in subjects involving programming, initiatives were crea-
+ted to help in the development of students, one of which involves gamification,
+and the other, an extension project, to welcome freshmen, however, with a focus
+on the female public. The analyzes of the work took into account the comparison
+between the results of participating and non-participating students in the initia-
+tives, also discussing participation in the pandemic period. It was observed that
+the initiatives help students in their performance, becoming interesting approa-
+ches to be applied in other courses in the IT area and in other institutions.
+
+Resumo. Este trabalho analisa o impacto de iniciativas de ensino e extensão no
+curso de Ciência da Computação, do campus UFV Florestal, sobre o desempe-
+nho dos alunos em disciplinas relacionadas à programação. Visto o nı́vel consi-
+derável de evasões e reprovações em disciplinas que envolvem programação, fo-
+ram criadas iniciativas que auxiliam no desenvolvimento dos alunos, sendo que
+uma delas envolve gamificação, e a outra, um projeto de extensão, para acolhi-
+mento aos calouros, porém, com foco para o público feminino. As análises do
+trabalho levaram em consideração a comparação entre os resultados dos alu-
+nos participantes e não participantes das iniciativas, discorrendo também sobre
+as participações no perı́odo pandêmico. Observou-se que as iniciativas auxi-
+liam os alunos em seus desempenhos, tornando-se abordagens interessantes de
+serem aplicadas em outros cursos da área de TI e em outras instituições.
+
+1. Introdução
+Disciplinas dos cursos de computação relacionadas à programação apresentam altos
+ı́ndices de reprovação e evasão, sendo este um grande problema educacional da área.
+Segundo [Brito and Madeira 2015], diversos fatores contribuem para o aumento desses
+ı́ndices, tais como a falta de uma base matemática e lógica, falta de conhecimento rela-
+tivo ao próprio conteúdo, desmotivação e frustração, dentre outros. Dessa forma, diver-
+sas instituições têm adotado iniciativas complementares para o ensino-aprendizagem nas
+disciplinas introdutórias relacionadas à programação, tais como aquelas que envolvem
+gamificação e também a criação de grupos de apoio aos alunos.
+
+
+
+A gamificação tem se tornado um campo de estudo importante na motivação do
+aprendizado dos alunos nos diferentes conteúdos e disciplinas, dentre eles a programação.
+De acordo com [Silva et al. 2018], o uso dos jogos possibilita aos discentes momentos
+interativos com etapas distintas no processo de aprendizagem, oferecendo também entre-
+tenimento, o que amplia sua utilização.
+
+Grupos de estudos e projetos alternativos também têm se mostrado eficientes em
+relação ao ensino-aprendizagem em programação. Em [Giraffa et al. 2015], discute-se
+a importância dos discentes obterem pensamentos lógicos e estruturais relacionados a
+algoritmos, para melhorar a organização de suas ideias na construção de programas.
+Nesse sentido, [Silva et al. 2021b] concebem a formação dos grupos organizados como
+necessária à melhoria do desempenho dos alunos, tendo como recurso as mentorias.
+
+O objetivo deste trabalho é analisar o impacto de duas iniciativas complementa-
+res no ensino-aprendizagem em disciplinas de programação, das quais, uma envolve a
+gamificação e a outra um programa de extensão. A análise é focada na avaliação do de-
+sempenho dos discentes do curso de Ciência da Computação da Universidade Federal de
+Viçosa, campus Florestal. Também serão levado em consideração aspectos relativos às
+dificuldades da participação dos alunos durante o perı́odo pandêmico. Por fim, os dados
+serão analisados segundo o recorte de gênero relacionado a uma das iniciativas.
+
+O artigo está organizado da seguinte forma: a seção 2 apresenta os trabalhos rela-
+cionados; a seção 3 discute as duas iniciativas analisadas; a seção 4 aborda os materiais
+e métodos utilizados; a seção 5 expõe os resultados das análises; e, por fim, a seção 6
+apresenta as considerações finais.
+
+2. Trabalhos Relacionados
+Em relação aos projetos existentes que aplicam gamificação, o trabalho de
+[Brito and Madeira 2015] aborda um jogo baseado na aquisição de pontos de habilida-
+des, de acordo com cada conteúdo da disciplina de programação, motivando os alunos a
+resolverem exercı́cios. Já [Silva et al. 2021a] mostram a aplicação de um jogo do gênero
+Escape the Room, cujo objetivo inicial é instigar o pensamento lógico dos estudantes, e
+obteve feedbacks positivos no processo de ensino-aprendizagem.
+
+O estudo de [Teixeira and Jucá 2021], discorre sobre um projeto voltado ao au-
+mento do engajamento e da participação dos alunos visando reduzir a evasão destes no
+curso da Universidade Federal do Ceará, enfatizando a socialização. Tem-se também o
+trabalho de [Neto et al. 2021], que apresenta um protótipo do jogo educativo, denominado
+Maze Code, com o intuito de auxiliar os alunos de computação no ensino de programação
+básica, por meio de fluxogramas.
+
+Foram encontrados alguns trabalhos acerca de gamificação em conjunto com a
+interação entre os alunos, e outros propondo o uso e o estudo de aplicações de gamificação
+social no contexto pandêmico e fora dele. O trabalho de [Smiderle 2019] aborda a im-
+portância da gamificação social, destacando o engajamento dos alunos entre si, pela
+motivação participativa associada às medalhas, aos rankings e as conquistas.
+
+Já em relação ao perı́odo pandêmico, destaca-se o trabalho de
+[Bagatini et al. 2020], que discorre sobre a socialização dos estudantes durante o
+perı́odo de pandemia da COVID-19. O trabalho discute os impactos em aspectos como
+
+
+
+tempo, satisfação, carga de trabalho, ansiedade, tristeza, desânimo, dentre outros, na
+vida dos estudantes. Diversos outros trabalhos relacionam o uso de gamificação para
+o ensino-aprendizagem em disciplinas de programação, antes e durante o perı́odo
+pandêmico, destacando dentre eles [Sousa and Melo 2021], [Martins et al. 2018],
+[Alves and de Oliveira 2021] e [Nascimento et al. 2021], os quais associam fortemente o
+engajamento à aprendizagem.
+
+Relativo às iniciativas complementares para o ensino de programação,
+[Giraffa et al. 2015], apresentam diversas metodologias auxiliares, ressaltando uma sala
+virtual de apoio, exercı́cios diferenciados envolvendo seriados, dentre outros, nos quais
+os estudantes evidenciaram motivação, participação e compartilhamento de soluções
+de problemas. Já no trabalho de [Silva et al. 2021b], é discutido como a presença
+de mentoras e mentoradas dentro de um programa complementar que envolve sub-
+grupos têm sido eficiente no ensino-aprendizagem de programação. Os trabalhos de
+[Pessoa et al. 2017], [Silva and Falcão 2020], [Fiss et al. 2018] e [Vahldick et al. 2016]
+enaltecem as aplicações alternativas para o apoio ao ensino.
+
+3. Iniciativas Acadêmicas de Ensino e Extensão
+Nesta seção, serão apresentadas as iniciativas de ensino e extensão analisadas, sendo elas
+o projeto de gamificação Lord of Florestal e o programa de extensão MinasCoders.
+
+Lord of Florestal é um projeto de iniciação cientı́fica da área de gamificação, vol-
+tado ao ensino, com participação opcional, o qual consiste em um jogo de duelo de cartas
+aplicado aos calouros do curso de Ciência da Computação do campus UFV Florestal, jun-
+tamente com a disciplina de programação. Seus objetivos são melhorar o desempenho
+e engajamento entre eles, utilizando-se de missões, as quais envolvem conversar com os
+professores, com veteranos do curso, realizar exercı́cios das disciplinas, dentre outros.
+Como recompensa, uma carta é dada ao aluno que a finalizou e quando ele possuir car-
+tas suficientes, o discente consegue montar seu baralho e, assim, pode convidar outros
+colegas para realizarem os duelos. Caso ele consiga derrotar o veterano intitulado Lord,
+receberá pontos extras na disciplina de programação, sendo essa uma motivação extra para
+a participação do projeto e, consequentemente, para diminuir a evasão no curso, conforme
+mostrado em [Martins et al. 2019].
+
+Já o MinasCoders1, é um programa de extensão, também com participação op-
+cional, a qual pode ocorrer em qualquer perı́odo do curso. O programa objetiva atrair,
+motivar e fixar meninas nos cursos técnico e de graduação, nas áreas de Informática e
+Computação, estimulando o engajamento e a interação entre elas. Nele, tem-se quatro
+subgrupos, em que um deles é voltado para o ensino-aprendizagem de programação no
+curso técnico, denominado HighSchoolMinas e cada um dos outros três é especializado
+em uma parte diferente do ensino de programação de modo progressivo na graduação em
+Ciência da Computação: Codeloures, voltado às calouras, dando apoio nas disciplinas
+iniciais de programação; BOTz, focado no ensino de estruturas e algoritmos utilizados
+em sua maioria em maratonas de programação; e FullStackMinas, focado no ensino de
+tecnologias do mercado de trabalho. Para este trabalho, apenas os três últimos subgrupos,
+voltados para estudantes da graduação, foram considerados na análise. Ressalta-se ainda
+que existe uma mobilidade entre os grupos, ou seja, os alunos ingressantes começam no
+
+1Programa de extensão MinasCoders: https://minascoders.caf.ufv.br/
+
+
+
+Codeloures e conforme avançam no curso podem trocar de subgrupo, sendo o próximo
+o BOTz, seguido pelo FullStackMinas. É importante salientar ainda que, dentro do pro-
+grama, a estratégia de alunas de diferentes perı́odos atuarem como mentoras e mentoradas
+têm se mostrado eficiente no ensino-aprendizagem de programação, conforme discutido
+em [Silva et al. 2021b].
+
+4. Materiais e Métodos
+Para realizar a análise do impacto das iniciativas no desempenho acadêmico em discipli-
+nas de programação, foram utilizados dois métodos para coleta dos dados: a) A aplicação
+de um questionário com dois grupos de alunos, sendo um de participantes e um de não par-
+ticipantes nas iniciativas descritas; b) A extração de dados de desempenho acadêmico dos
+alunos respondentes a partir do sistema da Universidade, denominado Sapiens 2. Nesta
+seção, será detalhado o conteúdo deste questionário, bem como a forma de extração dos
+dados do Sapiens. O formulário3, elaborado no Google Forms, foi organizado em doze
+seções. O esboço geral de seu funcionamento é mostrado na Figura 1. Nele, são coletados
+os dados referentes às participações ou não dos alunos nas iniciativas.
+
+Figura 1. Estrutura do Formulário Aplicado.
+
+Inicialmente, é mostrada aos alunos a seção 1, cujas perguntas gerais possibilitam
+realizar uma análise mais detalhada, questionando o ano de entrada do aluno no curso
+(perı́odo entre 2018 e 2022), sua matrı́cula e seu gênero.
+
+2Sapiens: https://www.primeiroano.ufv.br/sapiens/
+3Perguntas do formulário: https://docs.google.com/document/d/
+
+1mWKUyXVp0Ilx3lDEs5Z56UtEQj7zRZSeJby0DPlsd08/edit?usp=sharing
+
+
+
+A seção 2, destinada a todos os participantes, averigua acerca do projeto Lord of
+Florestal. Seus questionamentos farão a separação entre participantes, que respondem à
+seção 3, e não participantes, que serão enviados à seção 4. As seções referentes ao projeto
+estão representadas pela cor verde na Figura 1. As perguntas da seção 3, de modo geral,
+abarcam a participação total na iniciativa, relacionando missões, duelos, dentre outros.
+Ademais é identificado se a participação foi remota ou presencial.
+
+As seções de 4 a 10, destacadas de vermelho na Figura 1, dizem respeito ao pro-
+grama MinasCoders. A seção 4 é semelhante à seção 2 no que diz respeito às perguntas,
+separando os participantes e não participantes para então realizar a análise concomitante-
+mente com os respondentes do Lord of Florestal. Os participantes seguem para a seção 5,
+enquanto que os não participantes seguem direto para a seção 11.
+
+As seções de 5 a 10 estão separadas duas a duas de acordo com os três subgrupos
+do MinasCoders, tendo em vista que cada aluno pode ter participado de um, dois ou dos
+três subgrupos. As seções 5, 6 e 7 são constituı́das por uma única pergunta, a qual verifica
+a participação em qual(is) subgrupo(s). Para a resposta afirmativa, ele passa para a seção
+8, 9 ou 10 e responde as perguntas relacionadas a cada subgrupo. No fluxograma da
+Figura 1, visualizam-se os caminhos possı́veis de seções disponı́veis para cada aluno.
+
+As seções 11 e 12, evidenciadas com cinza na Figura 1, referem-se ao perı́odo
+pandêmico. Caso o aluno tenha cursado seu primeiro perı́odo de forma remota, ele res-
+ponderá à seção 12; do contrário, será direcionado para a entrega do formulário. Serão
+feitas análises comparativas entre as participações remotas e/ou presenciais com base nas
+iniciativas mencionadas.
+
+Com relação às extrações de dados de desempenho acadêmico em disciplinas, foi
+utilizado o sistema Sapiens, o qual traz relatórios das notas das turmas que realizaram uma
+disciplina em determinado perı́odo. As disciplinas que serão analisadas no trabalho são
+obrigatórias e relacionadas com programação, as quais podem ser consultadas na matriz
+curricular do curso4. A Tabela 1 caracteriza de modo geral tais disciplinas.
+
+Tabela 1. Caracterı́sticas das Disciplinas Analisadas.
+
+Disciplina Código Perı́odo de Realização
+Programação CCF 110 Primeiro
+
+Algoritmos e Estruturas de dados I CCF 211 Segundo
+Algoritmos e Estruturas de dados II CCF 212 Terceiro
+
+Projeto e Análise de Algoritmos CCF 330 Quarto
+Programação Orientada a Objetos CCF 313 Quarto
+
+Após realizar a aplicação do formulário, a análise dos dados foi feita com a lingua-
+gem de programação Python, juntamente com a ferramenta Jupyter. Dentre as análises
+realizadas, tem-se as médias e desvios padrões das notas nas disciplinas, com base na
+participação ou não nas iniciativas, modalidade do primeiro perı́odo e recorte de gênero.
+Além disso, também foram coletados motivos da não participação em cada iniciativa,
+tendo-se como base o perı́odo emergencial remoto.
+
+4Matriz Curricular: https://www.novoscursos.ufv.br/graduacao/caf/ccp/www/
+?page_id=1976
+
+
+
+5. Resultados
+As subseções seguintes demonstram os resultados obtidos pela análise dos dados
+com a extração das médias e desvios padrões relativos a cada iniciativa, envolvendo
+participações gerais, modalidade do primeiro perı́odo, participações dos subgrupos do
+MinasCoders e recorte de gênero. Foram obtidas 93 respostas pelo formulário aplicado,
+em que a amostra analisada consiste nos 93 respondentes em um universo de 186 alunos.
+
+5.1. Médias e Desvios Padrões das Notas com Base nas Participações das Iniciativas
+O primeiro resultado apresentado refere-se às médias e desvios padrões das notas obti-
+das pelos alunos participantes e não participantes das iniciativas, no primeiro perı́odo do
+curso, avaliando apenas a disciplina de programação, visto que o projeto do Lord of Flo-
+restal é aplicado apenas nesse perı́odo. Com base nas informações retratadas na Tabela 2,
+nota-se que os alunos participantes de apenas uma ou ambas iniciativas, obtiveram maior
+média na disciplina inicial de programação, com destaque na média de participação em
+ambas iniciativas. No entanto, observam-se altos desvios padrões, tanto para os partici-
+pantes quanto para não participantes. Ou seja, no geral, os valores das notas dos discentes
+podem encontrar-se um pouco longe da média.
+
+Contabilizando os alunos respondentes, em relação ao Lord of Florestal, 60 res-
+ponderam que não participaram, dentre os quais 56 realizaram a disciplina, ou seja, apenas
+eles entraram nos cálculos e 33 responderam que participaram; em relação ao MinasCo-
+ders, especificamente no primeiro perı́odo, 64 disseram que não participaram, sendo que
+62 deles realizaram a disciplina e 29 disseram que participaram, dentre os quais 28 realiza-
+ram a disciplina. Relativo à participação em ambas as iniciativas, houve 10 participantes
+e 39 não participantes.
+
+Tabela 2. Médias e Desvios Padrões das Notas de Programação nas Iniciativas.
+
+Lord MinasCoders Lord e MinasCoders
+Média / Desvio Padrão - Participação 66,55 / 19,47 64,14 / 21,57 70,60 / 21,74
+
+Média / Desvio Padrão - Não Participação 62,04 / 21,26 63,51 / 20,35 63,03 / 21,34
+
+Dentre os alunos que participaram do projeto Lord of Florestal, observou-se um
+maior engajamento entre eles. A Figura 2 relaciona a interação entre os calouros partici-
+pantes e outros alunos do curso, e os duelos ocorridos no jogo. Pelo resultado da Figura,
+a iniciativa atingiu satisfatoriamente seu objetivo de engajamento.
+
+Figura 2. Engajamento na Inciativa Lord of Florestal.
+
+
+
+Em relação às outras disciplinas analisadas, a Tabela 3 traz as médias e desvios
+padrões das notas referentes apenas ao programa MinasCoders, isso porque ele possibi-
+lita participações em todos os perı́odos do curso, diferentemente do Lord of Florestal. É
+possı́vel observar que, a maioria das médias dos participantes superaram as dos não par-
+ticipantes e também que, nestas disciplinas os desvios padrões foram menores que os da
+disciplina de programação, evidenciando que as notas dos alunos podem encontra-se mais
+próximas das médias.
+
+Tabela 3. Médias e Desvios Padrões das Notas no MinasCoders.
+
+Participantes Não Participantes
+Média / Desvio Padrão - Algoritmos e Estruturas de Dados I 68,58 / 12,69 68,56 / 14,74
+Média / Desvio Padrão - Algoritmos e Estruturas de Dados II 76,04 / 10,48 70,67 / 18,61
+
+Média / Desvio Padrão - Projeto e Análise de Algoritmos 76,81 / 9,28 82,52 / 6,98
+Média / Desvio Padrão - Programação Orientada a Objetos 81,93 / 10,07 81,66 / 10,78
+
+Contabilizaram-se 30 participantes e 63 não participantes no programa. No en-
+tanto, da mesma forma que nos dados anteriores, alguns deles não realizaram algumas
+disciplinas e, apenas aqueles que cursaram entraram nos cálculos. A Tabela 4 mostra a
+quantidade de alunos que realizaram as disciplinas, cujas médias estão na Tabela 3.
+
+Tabela 4. Quantidade de Alunos que Cursaram as Disciplinas - MinasCoders.
+
+Participantes Não Participantes
+Algoritmos e Estruturas de Dados I 24 43
+Algoritmos e Estruturas de Dados II 23 40
+
+Projeto e Análise de Algoritmos 16 25
+Programação Orientada a Objetos 15 29
+
+No entanto, como o programa possui três subgrupos na graduação, foram feitas
+análises para os participantes e não participantes de cada um, mostradas na Tabela 5.
+Neste caso, como o Codeloures é voltado especificamente para o primeiro perı́odo do
+curso, a disciplina de programação também consta em sua respectiva coluna, mas não nas
+demais.
+
+Relativo à participação no subgrupo Codeloures, tem-se que todas as médias dos
+participantes superaram as dos não participantes. Quanto à participação no subgrupo
+BOTz, tem-se que ela não influenciou muito nas notas médias dos participantes. Vale sa-
+lientar que esse subgrupo é voltado para perı́odos superiores do curso, logo, pressupõe-se
+que os alunos estão com maior nı́vel de maturidade relativa. Já em relação à participação
+do subgrupo FullStackMinas, tem-se que todas as médias dos participantes superaram as
+dos não participantes. Em relação aos desvios padrões, assim como nas Tabelas 2 e 3, as
+quais dispunham da participação geral no programa, na disciplina de programação eles
+são maiores, enquanto que nas outras são menores.
+
+O total de participantes do Codeloures, BOTz e FullStackMinas foram respecti-
+vamente 15, 16 e 8, enquanto que os não participantes foram 78, 77 e 85. No entanto,
+sabe-se que alguns alunos não realizaram algumas disciplinas e, portanto, não entraram
+
+
+
+Tabela 5. Médias / Desvios Padrões - Notas dos Subgrupos do MinasCoders.
+
+Participação Codeloures BOTz FullStackMinas
+Programação 68,07 / 21,25
+
+Algoritmos e Estruturas de Dados I 69,70 / 14,11 65,91 / 12,93 75,14 / 10,43
+Algoritmos e Estruturas de Dados II 78,33 / 10,74 73,19 / 9,60 78,86 / 10,56
+
+Projeto e Análise de Algoritmos 92,33 / 6,66 73,64 / 6,59 81,17 / 10,15
+Programação Orientada a Objetos 94,67 / 6,81 79,90 / 8,74 84,83 / 11,75
+
+Não Participação Codeloures BOTz FullStackMinas
+Programação 62,89 / 20,54
+
+Algoritmos e Estruturas de Dados I 68,37 / 14,03 69,43 / 14,26 67,80 / 14,17
+Algoritmos e Estruturas de Dados II 71,69 / 16,87 72,45 / 18,03 71,86 / 16,72
+
+Projeto e Análise de Algoritmos 79,34 / 7,75 82,73 / 7,61 80,14 / 8,15
+Programação Orientada a Objetos 80,80 / 10,06 82,29 / 10,93 81,26 / 10,29
+
+nos cálculos. A Tabela 6 mostra separadamente a quantidade de alunos que realizaram as
+disciplinas, cujas médias foram apresentadas na Tabela 5.
+
+Tabela 6. Quantidade de Alunos que Cursaram as Disciplinas - Subgrupos.
+
+Participantes / Não Participantes Codeloures BOTz FullStackMinas
+Programação 14 / 75
+
+Algoritmos e Estruturas de Dados I 10 / 57 16 / 51 7 / 60
+Algoritmos e Estruturas de Dados II 9 / 54 16 / 47 6 / 56
+
+Projeto e Análise de Algoritmos 3 / 38 11 / 30 6 / 35
+Programação Orientada a Objetos 3 / 41 10 / 34 6 / 38
+
+Com base na análise geral em relação ao MinasCoders e na análise dos subgrupos,
+evidenciou-se que a iniciativa provou ser de grande auxı́lio no desempenho dos estudan-
+tes, sobretudo dos calouros do primeiro perı́odo do curso, com o subgrupo Codeloures.
+
+5.1.1. Médias e Desvios Padrões das Notas com Base no Primeiro Perı́odo
+
+Algumas das participações contabilizadas pelo formulário ocorreram durante os perı́odos
+emergenciais remotos. Dessa forma, foram feitas as análises comparativas das notas dos
+participantes do perı́odo presencial e dos participantes do perı́odo remoto.
+
+Em relação apenas às participações no Lord of Florestal, a Figura 3 (a) demons-
+tra a distribuição das notas dos alunos, conforme a modalidade do primeiro perı́odo. Os
+gráficos evidenciam que, quem participou do projeto durante perı́odos emergenciais remo-
+tos conseguiu obter desempenhos melhores na disciplina de programação do que aqueles
+que participaram presencialmente. Para os 10 participantes do perı́odo remoto, a média
+foi 74,40 e o desvio padrão foi 16,89, enquanto que para os 23 participantes do perı́odo
+presencial, foi 63,13 e 19,87, respectivamente.
+
+Para entender o impacto do perı́odo remoto na participação da iniciativa, foi feita
+a seguinte pergunta no formulário: “Você deixou de participar do Lord devido ao perı́odo
+
+
+
+remoto?”. Na resposta, 15 alunos responderam que sim. A pergunta seguinte especifica
+quais são esses fatores, sendo ela: “Qual(is) motivo(s) fizeram com que você não parti-
+cipasse do Lord?”. Dentre as respostas principais dadas, tem-se o que está exposto na
+Figura 3 (b), em que um mesmo aluno poderia marcar mais de uma opção.
+
+(a) Notas dos Participantes (b) Motivos da Não Participação
+
+Figura 3. Dados Relativos à Modalidade do Perı́odo: Lord of Florestal.
+
+Já em relação apenas às participações no MinasCoders, é possı́vel notar pela Fi-
+gura 4 (a) que, assim como no Lord of Florestal, o desempenho nos perı́odos emergenciais
+remotos foi melhor que nos presenciais na disciplina de programação. A média e desvio
+padrão dos participantes em perı́odo remoto foram de 76,11 e 16,87, respectivamente,
+contabilizando 11 participantes. Já no perı́odo presencial foram de 57,61 e 22,75, res-
+pectivamente, com 18 participantes. Assim como no Lord of Florestal, foram feitas as
+mesmas perguntas para os alunos sobre o porquê deixaram de participar do programa no
+perı́odo remoto, em que foram contabilizados 7 alunos e o resultado está na Figura 4 (b).
+
+(a) Notas dos Participantes (b) Motivos da Não Participação
+
+Figura 4. Dados Relativos à Modalidade do Perı́odo: MinasCoders.
+
+Ou seja, as iniciativas melhoram os desempenhos dos discentes mesmo em
+perı́odos remotos. No entanto, durante esses perı́odos houve falta da interação e enga-
+jamento entre eles, o que demonstrou certa evasão nas mesmas.
+
+5.2. Médias e Desvios Padrões das Notas com Base no Recorte de Gênero
+Como o MinasCoders possui foco no acolhimento do público feminino, a métrica de
+recorte de gênero também foi utilizada para medir o desempenho dos alunos no programa,
+comparando-o entre os participantes e não participantes de cada gênero.
+
+
+
+As Tabelas 7 e 8 mostram respectivamente as médias e desvios padrões das notas
+em relação ao gênero feminino e masculino, de acordo com os subgrupos do programa.
+Novamente, o subgrupo Codeloures é voltado para o primeiro perı́odo do curso, então
+também é considerada a disciplina de Programação em sua coluna. Os resultados apon-
+tam que o maior impacto está nas disciplinas iniciais, bem como a maioria das médias
+dos participantes de cada gênero superaram as dos não participantes. Também é interes-
+sante observar que estão presentes no primeiro subgrupo (Codeloures), os desvios padrões
+maiores, principalmente na disciplina de programação, demonstrando que os resultados
+podem se afastar um pouco da média geral. Dessa forma, a iniciativa demonstra um
+impacto importante no processo de ensino-aprendizagem.
+
+Tabela 7. Médias / Desvios Padrões - Notas do Gênero Feminino.
+
+Participantes Codeloures BOTz FullStackMinas
+Programação 66,08 / 22,03
+
+Algoritmos e Estruturas de Dados I 68,50 / 15,22 63,44 / 12,63 77,50 / 10,85
+Algoritmos e Estruturas de Dados II 79,86 / 11,19 73,56 / 9,17 84,25 / 9,18
+
+Projeto e Análise de Algoritmos 94,50 / 7,78 69,40 / 3,44 80,75 / 13,07
+Programação Orientada a Objetos 93,50 / 9,19 79,20 / 3,49 81,50 / 13,48
+
+Não Participantes Codeloures BOTz FullStackMinas
+Programação 55,57 / 27,00
+
+Algoritmos e Estruturas de Dados I 65,71 / 10,81 72,83 / 12,32 63,45 / 11,92
+Algoritmos e Estruturas de Dados II 76,86 / 9,89 87,00 / 5,39 76,00 / 10,12
+
+Projeto e Análise de Algoritmos 70,71 / 3,99 84,25 / 12,89 72,20 / 9,50
+Programação Orientada a Objetos 77,86 / 5,24 84,00 / 13,29 81,20 / 4,60
+
+Tabela 8. Médias / Desvios Padrões - Notas do Gênero Masculino.
+
+Participantes Codeloures BOTz FullStackMinas
+Programação 80,00 / 14,14
+
+Algoritmos e Estruturas de Dados I 74,50 / 10,61 68,86 / 13,63 72,00 / 11,14
+Algoritmos e Estruturas de Dados II 73,00 / 9,90 72,71 / 10,86 71,67 / 8,50
+
+Projeto e Análise de Algoritmos 88,00 / - 77,17 / 6,68 82,00 / 0,00
+Programação Orientada a Objetos 97,00 / - 80,60 / 12,58 91,50 / 3,54
+
+Não Participantes Codeloures BOTz FullStackMinas
+Programação 63,65 / 19,87
+
+Algoritmos e Estruturas de Dados I 68,74 / 14,48 68,98 / 14,56 68,78 / 14,55
+Algoritmos e Estruturas de Dados II 70,91 / 17,62 70,71 / 18,25 70,96 / 17,79
+
+Projeto e Análise de Algoritmos 81,29 / 7,04 82,50 / 6,84 81,47 / 7,27
+Programação Orientada a Objetos 81,41 / 10,74 82,07 / 10,83 81,27 / 10,94
+
+Houve 30 participantes no MinasCoders, em que 21 são do gênero feminino e 9
+do masculino. Dos 63 não participantes, todos são do gênero masculino. A divisão entre
+aqueles que cursaram as disciplinas de acordo com os subgrupos, separados por gênero
+está exposta nas Tabelas 9 e 10, cujas médias foram mostradas nas Tabelas 7 e 8.
+
+
+
+Tabela 9. Quantidade de Alunos que Cursaram as Disciplinas - Feminino.
+
+Participantes / Não Participantes Codeloures BOTz FullStackMinas
+Programação 12 / 7
+
+Algoritmos e Estruturas de Dados I 8 / 7 9 / 6 4 / 11
+Algoritmos e Estruturas de Dados II 7 / 7 9 / 5 4 / 10
+
+Projeto e Análise de Algoritmos 2 / 7 5 / 4 4 / 5
+Programação Orientada a Objetos 2 / 7 5 / 4 4 / 5
+
+Tabela 10. Quantidade de Alunos que Cursaram as Disciplinas - Masculino.
+
+Participantes / Não Participantes Codeloures BOTz FullStackMinas
+Programação 2 / 68
+
+Algoritmos e Estruturas de Dados I 2 / 50 7 / 45 3 / 49
+Algoritmos e Estruturas de Dados II 2 / 47 7 / 42 3 / 46
+
+Projeto e Análise de Algoritmos 1 / 31 6 / 26 2 / 30
+Programação Orientada a Objetos 1 / 34 5 / 30 2 / 33
+
+6. Considerações Finais
+
+Com este trabalho foi possı́vel observar que iniciativas e projetos criados para aplicações
+nos primeiros perı́odos de um curso relacionado à tecnologia da informação são de grande
+relevância para o desempenho dos alunos em disciplinas envolvendo programação, nas
+quais o nı́vel de reprovação do curso é considerável.
+
+Com a análise dos dados obtidos, notou-se que o desempenho dos alunos do
+curso de Ciência da Computação da Universidade Federal de Viçosa, Campus Flores-
+tal participantes das iniciativas superou o dos não participantes, tanto em relação às
+participações gerais quanto àquelas separadas por gênero. Além disso, conclui-se que os
+projetos aumentaram o engajamento entre os mesmos, tendo sido menor durante o perı́odo
+pandêmico devido aos fatores ressaltados, tais como desmotivação e dificuldade em con-
+ciliar o projeto com as disciplinas cursadas simultaneamente no respectivo perı́odo.
+
+Assim, é de suma importância que os cursos da área desenvolvam mais iniciati-
+vas dessa dimensão, visando melhorar o desempenho dos alunos e, consequentemente,
+reduzir a evasão e o número de reprovações.
+
+Referências
+
+Alves, M. O. and de Oliveira, G. V. (2021). Fluxogame: Um jogo para auxiliar no apren-
+dizado de algoritmo e lógica de programação através de fluxogramas. In Anais Esten-
+didos do XX Simpósio Brasileiro de Jogos e Entretenimento Digital, pages 697–700.
+SBC.
+
+Bagatini, D. D., Soares, R. O., Barros, E. B. C., and Silveira, G. F. S. (2020). Estudo
+virtual em tempos de distanciamento: uma análise sobre o impacto do isolamento so-
+cial na rotina de estudos de universitários. In Anais do XXXI Simpósio Brasileiro de
+Informática na Educação, pages 792–801. SBC.
+
+
+
+Brito, A. and Madeira, C. (2015). Xp & skills: gamificando o processo de ensino de
+introdução a programação. In Anais dos Workshops do Congresso Brasileiro de In-
+formática na Educação, volume 4, page 1124.
+
+Fiss, R., da Fontoura, T. P., de Freitas, D. S., and Ferreira, A. P. L. (2018). Pensamento
+computacional aplicado ao ensino de programação no ensino superior. Anais do Salão
+Internacional de Ensino, Pesquisa e Extensão, 10(1).
+
+Giraffa, L., Muller, L., and Moraes, M. C. (2015). Ensinado programação apoiada por
+um ambiente virtual e exercı́cios associados a cotidiano dos alunos: compartilhando
+alternativas e lições aprendidas. In Anais dos Workshops do Congresso Brasileiro de
+Informática na Educação, volume 4, page 1330.
+
+Martins, A. M., Ferreira, P., Lacerda, F. F., de Freitas, G. G., Figueiredo, R. O., and
+Barbosa, D. M. (2019). Lord of florestal: Uma abordagem de gamificação para o
+ensino superior com o uso de uma plataforma para criação de jogos de cartas digitais.
+In Anais do XVIII SBGames, pages 2179–2259. SBC.
+
+Martins, C., Giraffa, L. M. M., and do Rosário Lima, V. M. (2018). Gamificação e seus
+potenciais como estratégia pedagógica no ensino superior. Renote, 16(1).
+
+Nascimento, I. M. d., do Amaral Neto, J. R., da Silva Junior, L. O., de Lima Costa,
+T. K., and Oliveira, W. (2021). Os efeitos da gamificação social no desempenho dos
+estudantes durante a quarentena da covid-19. In Anais do XXXII Simpósio Brasileiro
+de Informática na Educação, pages 338–349. SBC.
+
+Neto, J. G., Marcolino, P. H. P., Ferreira, P., and Barbosa, D. M. (2021). Maze code:
+Retórica procedural aplicada ao ensino de lógica de programação. In Anais Estendidos
+do XX Simpósio Brasileiro de Jogos e Entretenimento Digital, pages 519–528. SBC.
+
+Pessoa, M. S. P., Tamayo, S. C., and Rodrigues, J. (2017). Aumento da participação
+feminina em competições de programação tecnológicas através da criação de grupos
+de treinamento e pesquisa. In Anais do XI Women in Information Technology. SBC.
+
+Silva, E. O. d. and Falcão, T. P. (2020). O pensamento computacional no ensino superior
+e seu impacto na aprendizagem de programação. In Anais do XXVIII Workshop sobre
+Educação em Computação, pages 171–175. SBC.
+
+Silva, R. R., Fernandes, J., and Santos, R. (2018). Panorama da utilização de jogos digitais
+no ensino de programação no nı́vel superior na última década: Uma revisão sistemática
+da literatura. In Brazilian Symposium on Computers in Education (Simpósio Brasileiro
+de Informática na Educação-SBIE), volume 29, page 535.
+
+Silva, R. R., Rivero, L., and dos Santos, R. P. (2021a). Programse: Um jogo para apren-
+dizagem de conceitos de lógica de programação. Revista Brasileira de Informática na
+Educação, 29:301–330.
+
+Silva, T. R. d. M. B., Braga, G., and Henriques, M. T. A. (2021b). Mentoria em
+programação: aprendendo ao ensinar e ensinando ao aprender. In Anais do XV Wo-
+men in Information Technology, pages 310–314. SBC.
+
+Smiderle, R. (2019). O efeito da gamificação no engajamento e aprendizagem de
+programação: um estudo considerado a personalidade e a orientação motivacional dos
+estudantes.
+
+
+
+Sousa, K. H. F. d. and Melo, L. B. (2021). Uma revisão sistemática do uso da gamificação
+no ensino de programação. Anais do XXXII Simpósio Brasileiro de Informática na
+Educação, pages 440–450.
+
+Teixeira, R. K. and Jucá, P. M. (2021). Engaja: Um arcabouço de gamificação para
+aumentar o engajamento dos alunos em um instituição de ensino superior. In Anais
+Estendidos do XX Simpósio Brasileiro de Jogos e Entretenimento Digital, pages 427–
+436. SBC.
+
+Vahldick, A., Mendes, A. J., Marcelino, M. J., and Farah, P. R. (2016). Pensamento
+computacional praticado com um jogo casual sério no ensino superior. In Anais do
+XXIV Workshop sobre Educação em Computação, pages 2303–2312. SBC.

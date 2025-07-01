@@ -1,0 +1,579 @@
+﻿VocacioEneagrama: um teste vocacional automatizado
+baseado em Eneagrama
+
+Athena F. Sarantôpoulos1, Daniel M. Barbosa1
+
+1Instituto de Ciências Exatas e Tecnológicas - Universidade Federal de Viçosa
+Campus Florestal (UFV-CAF) Florestal - MG - Brasil
+
+{athena.sarantopoulos,danielmendes}@ufv.br
+
+Resumo. O presente artigo tem como objetivo analisar a criação do site Voca-
+cioEneagrama e suas contribuições para a exploração vocacional. Utilizamos
+o Eneagrama como base para a investigação da personalidade do público do
+site, objetivando a descoberta das possı́veis áreas profissionais que mais se qua-
+lificam. O Eneagrama é uma representação gráfica dos tipos de personalidades
+existentes. A partir dele se compreende como cada personalidade se vê, age no
+mundo e se relacionam com o outro. Existem 9 Tipos divididos em 3 trı́ades: os
+Tipos 2, 3 e 4 que compõe a trı́ade do sentimento; os Tipos 5, 6 e 7 que compõe a
+trı́ade mental; e os Tipos 8, 9 e 1 que compõe a trı́ade dos instintos. A partir de
+uma série de perguntas, previamente selecionadas, é possı́vel descobrir o Tipo
+que cada pessoa pertence e realizar uma análise das principais caracterı́sticas
+do mesmo e como ele se relaciona com as escolhas de carreira.
+PALAVRAS-CHAVE: Eneagrama; Teste Vocacional; Exploração Vocacional
+
+1. Introdução
+A escolha do curso superior ou de qual carreira profissional seguir é uma tarefa complexa,
+já que normalmente acontece na adolescência, um perı́odo de desenvolvimento humano,
+com mudanças biológicas, cognitivas, psicológicas e de mudanças em relação ao papel
+social. Para realizar essa escolha, é preciso que o adolescente tenha autoconhecimento
+e reflita sobre quem gostaria de ser e com isto busque áreas relacionadas a seus gostos,
+pesquise sobre o mercado de trabalho e as possibilidades de formação profissional nessa
+carreira [Sparta 2003].
+
+A exploração vocacional, de acordo com Harren, é uma tomada de decisão de
+carreira [Harren 1979]. No entanto, pode ser considerada também como um estágio de
+desenvolvimento de carreira [Super 1957]. Porém, ambos consideram que essa etapa
+ocorre na adolescência, onde existem a atividade exploratória em relação aos conceitos
+vocacionais que estão ligados à escolha profissional e a exploração do autoconhecimento
+[Parsons 1909].
+
+O Eneagrama é um antigo ensinamento Sufi 1 que descreve nove tipos de persona-
+lidade e suas inter-relações, que tem como objetivo o autoconhecimento [Palmer 1991].
+Este trabalho tem como objetivo desenvolver um site, chamado VocacioEneagrama, com
+várias perguntas especı́ficas para se descobrir o tipo de personalidade do Eneagrama dos
+usuários, mostrando uma breve descrição sobre essas personalidades e quais possı́veis
+áreas profissionais mais se encaixam neste perfil, auxiliando na exploração vocacional.
+
+1É uma filosofia de autoconhecimento e contato com o divino, conhecido como o misticismo do Islã
+[Chittick et al. 2001]
+
+
+
+Este texto está organizado da seguinte forma: na Seção 2 é apresentado o refe-
+rencial teórico; na Seção 3 são citados alguns trabalhos relacionados; na Seção 4 são
+apresentados os materiais e métodos; o VocacioEneagrama é detalhado na seção 5; os
+resultados obtidos são mostrados na Seção 6; por fim, na Seção 7, são apresentadas as
+conclusões obtidas durante a realização do trabalho.
+
+2. Referencial Teórico
+O referencial teórico deste artigo aborda o Eneagrama e o Teste Vocacional. O Enea-
+grama, representa graficamente, através de uma figura geométrica, os tipos de personali-
+dades existentes e suas inter-relações. Ele foi criado a partir de várias tradições espiritu-
+ais e religiosas, entretanto não pretende ser um caminho espiritual e sim um caminho de
+autoconhecimento[Riso and Hudson 2003].
+
+O teste vocacional é um questionário que, utilizando o autoconhecimento, busca
+direcionar o respondente para atividades especı́ficas e auxiliá-lo na decisão de carreira.
+Esse teste pode ou não ser usado na exploração vocacional, pois refere-se a um processo
+psicológico complexo com um papel no desenvolvimento vocacional [Jordaan 1963].
+
+2.1. Eneagrama
+O Eneagrama possui nove tipos de personalidade, e esses tipos são divididos em três
+trı́ades de personalidades. A trı́ade do sentimento é composta pelos Tipos 2, 3 e 4;
+a trı́ade mental pelos Tipos 5, 6 e 7; e a trı́ade dos instintos pelos Tipos 8, 9 e 1
+[da Silva Vaz et al. 2021]. Os Tipos da trı́ade do sentimento utilizam a inteligência emo-
+cional para ganhar reconhecimento e para se adequarem à realidade para serem ama-
+dos, além de sempre estarem atentos ao estado de humor dos outros, ajudando a essa
+adequação a realidade. Por outro lado, os Tipos da trı́ade mental utiliza a inteligência
+mental para serem criativos, porém estão constantemente preocupados com o futuro ge-
+rando problemas de ansiedade e insegurança. E por fim, os Tipos da trı́ade dos instintos
+que utiliza uma inteligência prática, tendendo a ação e ao foco no presente, podendo ser
+um pouco controladores [Maschio and de Lara Soczek 2016].
+
+Além das trı́ades das personalidades, cada Tipo do Eneagrama possui uma
+paixão, que representa os sentimentos considerados poucos saudáveis e compulsivos
+[Naranjo and da Sociedade 1997].
+
+Palmer descreve os Tipos do Eneagrama da seguinte forma [Palmer 1991]:
+• Tipo 2, O Ajudante, busca ser amado através de relacionamentos bem ı́ntimos
+
+e calorosos, tornando-se indispensável para a outra pessoa e é empenhado em
+satisfazer necessidades alheias.
+
+• Tipo 3, O Realizador, procura ser admirado pelas conquistas e pelo seu desempe-
+nho, tornando-se competitivo e obcecado pela imagem de vencedor. Confunde o
+real com a identidade profissional e parece ser mais produtivos do que realmente
+é.
+
+• Tipo 4, O Romântico, é atraı́do pelo inacessı́vel e sempre idealiza o passado,
+tornando-se triste, sensı́vel e concentrado no amor ausente. Desse modo, seu foco
+é na beleza e na vida passional.
+
+• Tipo 5, O Investigador, gosta de manter distância emocional dos outros, podendo
+assim, proteger a sua privacidade, pois sente-se esgotado por compromisso e ne-
+cessidades alheias, por isso acaba não muito envolvido com outras pessoas.
+
+
+
+• Tipo 6, O Partidário, volta-se para o medo e é atormentados pela dúvida, por isso,
+possue receio ao tomar iniciativas, porque a apresentação gera ataques. Normal-
+mente, esse medo é manifestado na preocupação e imaginação de que tudo pode
+dar errado.
+
+• Tipo 7, O Entusiasta, inclina-se a ser um eterno jovem, gosta de ficar emocional-
+mente por cima, querendo manter opções em aberto, contudo acaba tendo proble-
+mas com compromissos. Ordinariamente, alegra e estimula os lugares que está e
+gosta de iniciar várias coisas, mas não consegue acompanhá-las até o final.
+
+• Tipo 8, O Desafiador, precisa estar no controle de tudo e adora uma briga, tomando
+a defesa de si mesmo e dos amigos, demonstrando assim, sua força e sua raiva.
+Porém, acaba tendo dificuldades em compartilhar a sua intimidade e em trabalhar
+para os outros, querendo assim ser independentes financeiramente.
+
+• Tipo 9, O Pacifista, gosta de evitar conflitos, minimizando tudo que pode, cedendo
+para que possa manter a paz, por isso, conhece as necessidades alheias melhor do
+que as próprias e acaba sendo pessoa de bom coração, de fácil convı́vio e fácil de
+agradar.
+
+• Tipo 1, O Perfeccionista, é crı́tico a si mesmo e aos outros, sentindo-se eticamente
+superior. Posterga por medo de cometer um erro e é convencido que existe apenas
+um caminho certo.
+
+2.2. Teste Vocacional
+Os instrumentos para avaliar a exploração vocacional começaram a surgir no inı́cio dos
+anos sessenta, onde as medidas dessa exploração eram feitas através de anotações sobre o
+explorador através de entrevistas estruturadas, questionários [Super and Overstreet 1960]
+e/ou listas de verificação comportamental [Super et al. 1982].
+
+A exploração e o teste vocacional são de grande importância para alu-
+nos do ensino médio, sendo evidente a necessidade da sua utilização em escolas
+[Hoyt and Wickwire 2001], porque proporcionam uma base para a obtenção de habilida-
+des, atitudes e conhecimentos que permitem aos alunos fazerem uma transição da escola
+para a carreira escolhida de forma segura [Association. 2002]. E, de acordo com Salami,
+muitos alunos cometem erros ao escolher a carreira em virtude da falta de experiência ou
+por influência de pais e amigos [Salami 1999].
+
+Na exploração vocacional, são levados em consideração os sentimentos, reações
+subjetivas e o que o curso oferece, que inclui o envolvimento, orientação, independência,
+compromisso e a determinação, além de considerar as competências cognitivas, conhe-
+cimento e habilidades do explorador. Na parte de sentimentos, competências cognitivas,
+conhecimento e habilidades pode-se usar o teste vocacional, já que é possı́vel classificar
+o indivı́duo em tipos de personalidades, como o Eneagrama.
+
+3. Trabalhos relacionados
+Ao longo desta seção, serão abordados alguns trabalhos existentes na literatura que pos-
+suem algum tipo de relação com o teste vocacional usando o Eneagrama como ferramenta.
+
+Fora do Brasil, muitos trabalhos foram realizados usando o Eneagrama. Bast e
+Thomson utilizam o Eneagrama para ajudar seus clientes a serem mais eficientes no tra-
+balho e mais completos como seres humanos, utilizando os Tipos para realizar estratégias
+
+
+
+de movimento no Coaching [Bast and Thomson 2005]. Por sua vez, Tapp e Engebretson
+realizaram trabalhos terapêuticos em um Tipo 8 para auxiliar na compreensão e percepção
+e ajudar a mudar o comportamento autoritário e dominador [Tapp and Engebretson 2010].
+Cohen aplica o Eneagrama para avaliações psicológicas, no qual cada Tipo está mais pro-
+penso a ter diagnósticos psicológicos, como a Bipolaridade, que podem ser mais comum
+no Tipo 4 [Cohen 2007]. Por fim, Arthur emprega o Eneagrama para terapia familiar e
+em pessoas casadas focando no apego como base dessa terapia e utilizando questionários
+para isso [Arthur 2008].
+
+Quanto ao contexto do Eneagrama no Brasil, a quantidade de trabalhos é um pouco
+menor. Messano et al. utilizam o Eneagrama para o recrutamento e seleção de candidatos
+para cargos de liderança [Messano et al. 2020]. E por fim, da Silva Vaz et al. realiza-
+ram a aplicação do Eneagrama para o autoconhecimento e gerenciamento das relações
+interpessoais nos ambientes de trabalho [da Silva Vaz et al. 2021].
+
+Considerando o Teste Vocacional no idioma inglês, foram encontrados alguns
+trabalhos relacionados. Ehrhart e Makransky realizam um estudo entre a relação dos
+interesses vocacionais e a personalidade, demonstrando que estão bastante interligados
+[Ehrhart and Makransky 2007]. E Westbrook et al. utilizam a relação entre adequação das
+escolhas da carreira e maturidade vocacional através de testes [Westbrook et al. 1990].
+
+Levando em conta o Teste Vocacional brasileiro, foram encontrados alguns tra-
+balhos relacionados. E Barra et al. são analisados diversos sites e softwares online de
+Teste Vocacional publicados no Brasil [Barra et al. 2013]. E Faria et al. realizaram uma
+avaliação da exploração e da indecisão vocacional de jovens por meio de consultas psi-
+cológicas vocacionais, avaliando essa intervenção [Faria and Taveira 2006].
+
+Apesar de já terem sido realizados estudos relacionados a essa área, não foi encon-
+trado nenhum trabalho que abordasse uma implementação de um site de teste vocacional
+usando o Eneagrama. Desta forma, este trabalho tem como uma de suas motivações o
+preenchimento desta lacuna na literatura.
+
+4. Materiais e Métodos
+Nesta seção serão descritas: as tecnologias utilizadas para o desenvolvimento do Vocaci-
+oEneagrama; a construção das afirmativas, que correspondem a afirmações caracterı́sticas
+de um dos Tipos do Eneagrama, construção dos textos explicativos e dos cursos recomen-
+dados; metodologia de testes de usabilidade; e a metodologia de análise de resultados.
+
+Para a divulgação do VocacioEneagrama foi enviada uma mensagem por meio do
+e-mail da Coordenação do curso de Ciência da Computação do Campus Florestal e pelas
+redes sociais, contendo o link para acessar o VocacioEneagrama e um formulário para a
+avaliação da usabilidade do site de acordo com as Heurı́sticas de Nielsen e para avaliar o
+descobrimento do Tipo do Eneagrama bem como a indicação do curso.
+
+4.1. Tecnologias Utilizadas
+O front-end do VocacioEneagrama, corresponde a parte que atua do lado do cliente e é
+responsável pela interface com o usuário e foi projetado em ReactJS. O ReactJS é uma
+biblioteca de Javascript utilizada para o desenvolvimento de componentes de interface de
+usuário (UI) reutilizáveis.
+
+
+
+A parte que atua do lado do servidor, responsável pela parte de acesso ao banco
+de dados, é denominada de back-end e foi implementada em PHP e com o Framework
+Laravel.
+
+O banco de dados, responsável pelo armazenamento das informações coletadas e
+pela organização dos dados, foi construı́do em MySQL, que é um sistema de gerencia-
+mento de banco de dados relacionais, sendo assim, armazena uma coleção ordenada de
+dados, que correntemente estão associados a um ou mais arquivos.
+
+4.2. Construção das Afirmativas, Textos explicativos e Cursos recomendados
+A construção das afirmativas utilizadas no VocacioEneagrama para descobrir o Tipo do
+Eneagrama do usuário foi feita após uma extensa pesquisa sobre o Eneagrama. Essas
+afirmativas foram agrupadas em duas partes distintas, para que o resultado fosse mais
+preciso. Para cada um dos Tipos do Eneagrama foram criadas 30 alternativas, sendo 15
+para a primeira parte e 15 para a segunda.
+
+Para a criação das afirmativas da primeira parte, foram utilizados como referência
+o Psicólogo Barcelona2 e o Aplicativo Eneagrama criado pelo Caio Coelho3. Ambos
+possuem questionários para o descobrimento do Tipo do usuário.
+
+Para a criação da segunda parte, foram utilizadas as afirmativas do teste proposto
+por [Riso and Hudson 2003], onde é possı́vel identificar o seu Tipo com uma precisão de
+70%, podendo se deparar com a identificação de até três Tipos. Nessa situação, para que
+a pessoa que realizou o teste se identifique com o resultado do estudo, é necessário um
+maior aprofundamento e autoconhecimento posterior.
+
+Os textos explicativos de cada Tipo do Eneagrama contém nome do Tipo,
+descrição, paixão, lema, pontos positivos e negativos, citação de um famoso
+que faz referência a caracterı́sticas desse Tipo, ambientes atrativos e tediosos
+e os possı́veis cursos. Para o nome e a frase de um famoso foi utilizado
+como referência o livro ”Sabedoria do Eneagrama”[Riso and Hudson 2003]. Para a
+descrição, paixão e o lema foi utilizado como referência o livro ”Os nove tipos de
+personalidade”[Naranjo and da Sociedade 1997]. E por fim, para a criação dos cur-
+sos, ambientes atrativos e tediosos foi utilizado como referência os sites: Lifego-
+alsmag4, People Acciona5, Psico6, Bustle7 e o livro ”O eneagrama no amor e no
+trabalho”[Palmer 1991].
+
+4.3. Metodologia de testes de usabilidade
+Em desenvolvimento de Software, os testes são umas das partes mais importantes, pois é
+quando acontece a verificação do sistema, para saber se o mesmo funciona corretamente,
+verificando possı́veis erros, problemas de usabilidade, segurança, entre outros. Neste
+trabalho, a usabilidade também foi considerada, visto que é uma condição para se persistir
+na rede, porque se uma página da web é confusa, o usuário rapidamente a abandona
+
+2http://www.psicologo-barcelona.cat/eneagrama/
+3https://play.google.com/store/apps/details?id=caiquecoelho.com.testeeneagrama
+4https://lifegoalsmag.com/career-path-enneagram-type/
+5https://people.acciona.com/es/tendencias-e-inspiracion/perfil-profesional-eneagrama-personalidad/
+6https://www.psico.mx/articulos/el-eneagrama-como-apoyo-vocacional
+7https://www.bustle.com/p/the-best-jobs-for-every-enneagram-personality-type-7273479
+
+
+
+[Nielsen 2012]. Para evitar isto, o site deve permitir que o usuário alcance o sucesso nas
+tarefas executadas [Nielsen and Nielsen 2000].
+
+A avaliação de usabilidade do VocacioEneagrama foi fundamentada nas dez
+heurı́sticas de Nielsen, mostradas na Tabela 1. Esse método de avaliação de usabilidade
+consiste na investigação da interface do website [Nielsen 10].
+
+Para a avaliação do sistema através das Heurı́sticas de Nielsen, foi aplicado um
+formulário aos usuários, para avaliar a satisfação em relação ao VocacioEneagrama. Esse
+formulário contém perguntas para conhecer o perfil do usuário, como idade, gênero e dis-
+positivo que foi usado para acessar o VocacioEneagrama: computador ou celular. Possui
+também duas perguntas abertas para reportar possı́veis bugs e sugestões de melhoria. E
+por fim, há perguntas para avaliar a usabilidade do VocacioEneagrama, que utilizam as
+escalas de 1 a 5, sendo 1 Péssimo e 5 Ótimo, mostradas na Tabela 2.
+
+4.4. Metodologia de análise de resultados
+Logo após a coleta de dados foi feita a análise e a interpretação dos mesmos. A análise
+dos dados envolve a preparação das respostas recebidas através do questionário realizado
+no formulário e dos dados coletados no Banco de Dados.
+
+Para facilitar a interpretação, os dados foram demonstrados por meio de gráficos
+de colunas e recurso textual. Essas análises são:
+
+• Porcentagem de acerto do curso recomendado com o curso que o usuário fez, faz
+ou pretende fazer;
+
+• Quantas pessoas acreditam que o Tipo do resultado é realmente o dela;
+• Qual o maior Tipo entre os gêneros;
+• Sugestões de melhoria;
+• Levantamento dos bugs.
+
+5. O VocacioEneagrama
+O VocacioEneagrama foi implementado para descobrir o Tipo do Eneagrama do usuário
+e a partir disso são exibidos cursos de graduação que batem com as caracterı́sticas desse
+Tipo. Ao entrar no VocacioEneagrama, o usuário precisará informar a idade, gênero,
+curso e estado, conforme mostrado na fig. 1 . Os dados idade e gênero foram usados
+para relacionar a quantidade de pessoas de algum Tipo com essa idade e com esse gênero.
+Já o curso informado, refere-se ao curso que o usuário está fazendo, fez ou pretende
+fazer, relacionando assim, com o Tipo indicado pelo VocacioEneagrama. E o estado foi
+utilizado para recomendar os melhores cursos existentes desse estado de acordo com o
+Tipo do Eneagrama.
+
+Logo após o usuário informar os dados, é necessário responder com Sim, Não e
+Às Vezes às afirmativas mostradas. Essas afirmativas são escolhidas aleatoriamente, mas
+sempre nove afirmativas dos 9 Tipos do Eneagrama, totalizando 81 afirmativas. O cálculo
+nessa primeira parte foi feito da seguinte forma: cada afirmativa corresponde a um Tipo;
+ao se selecionar a opção Sim, será somado 1 na variável desse Tipo; ao selecionar não,
+nada será somado; e ao escolher talvez, soma-se 0,5. Com isso, cada Tipo terá uma
+pontuação e as maiores delas serão utilizadas na segunda parte de afirmativas.
+
+
+
+Tabela 1. Heurı́sticas de Nielsen. Adaptado de [Nielsen 1994]
+
+Nome Descrição
+Através de feedbacks apropriados e em tempo aceitável,
+
+Visibilidade do status do sistema o sistema deve manter sempre os usuários informados
+sobre o que está acontecendo.
+
+Correspondência entre o sistema O sistema deve utilizar convenções do mundo real,
+e o mundo real utilizando palavras, frases e conceitos familiares, ou seja,
+
+utilizar a lı́ngua dos utilizadores.
+O sistema deve ter suporte para desfazer ou refazer
+
+Controle e liberdade do usuário alguma ação realizada, tendo assim, um controle
+sobre o sistema.
+O sistema deverá levar o usuário ao mesmo caminho
+dentro do sistema a partir da mesma ação, posto isto,
+
+Consistência e padrões o usuário não deve se perguntar se ações,
+situações e palavras significavam a mesma coisa.
+O sistema deve verificar os possı́veis erros,
+impedindo-os ou realizando uma verificação
+
+Prevenção de erros e apresentar ao usuário uma opção de confirmação antes de
+realizar e comprometer com alguma ação.
+
+Reconhecimento em vez O sistema deve possuir instruções de usos visı́veis,
+de recordação evitando que o usuário lembre de informações de
+
+uma parte do diálogo para outra.
+O sistema deve possuir atalhos para acelerar a
+
+Flexibilidade e eficiência de uso interação dos usuários experientes e inexperientes.
+O sistema não deve conter informações irrelevantes,
+
+Estética e design minimalista reunindo somente informações que o usuário precisa
+no momento.
+
+Reconhecer, diagnosticar e O sistema deve conter mensagens de erro
+resolver erros comunicadas em linguagem simples,
+
+informando com precisão o problema e propor uma solução.
+O sistema deve ser intuitivo, não necessitando de
+
+Ajuda e documentação ajuda ou documentação.
+
+
+
+Tabela 2. Perguntas realizadas tendo como base as Heurı́sticas de Nielsen
+
+Perguntas Heurı́sticas de Nielsen
+”O que você achou do Correspondência entre o sistema
+resultado que foi gerado?” e o mundo real
+”O que você achou do feedback Correspondência entre o sistema
+de cada tipo do eneagrama?” e o mundo real
+”O que você achou da Reconhecimento em vez de
+facilidade de usar o site?” recordação e Ajuda e documentação
+”O que você achou da
+organização das informações no site?” Consistência e padrões
+
+”O que você achou das
+formas e tamanho das letras no site?” Estética e design minimalista
+
+”O que você achou do design do site?” Estética e design minimalista
+”O que você achou da velocidade do site?” Flexibilidade e eficiência de uso
+”O que você achou da segurança do site?” Reconhecer, diagnosticar e resolver erros
+
+Figura 1. Página Inicial
+
+Nesta segunda parte, o usuário deve escolher uma alternativa em cada pergunta
+apresentada, sendo ela a que mais se identificar. A quantidade de afirmativas varia de
+acordo com as maiores pontuações dos Tipos encontrados na parte anterior. Nesse caso,
+são 15 perguntas por Tipo do Eneagrama, que continuam sendo mostradas aleatoriamente.
+O cálculo desta parte foi feito seguindo o mesmo padrão da parte anterior, com a única
+diferença que será somado 1 na variável do Tipo da afirmativa selecionada.
+
+Com os cálculos feitos, é então mostrado um gráfico, com a pontuação de cada
+Tipo e a maior pontuação resulta no Tipo do Eneagrama do usuário. A partir desse Tipo,
+é mostrado o nome do Tipo, a paixão, o lema, frase de um famoso, ambientes atrativos e
+não atrativos, pontos positivos e negativos, e a recomendação dos cursos, exibido na fig. 2,
+mostrando as melhores universidades do estado informado, usando a nota do Enade para
+escolher as melhores. Essas universidades possuem como informação a sigla, o nome, o
+estado e o link para o site da Universidade.
+
+6. Resultados obtidos
+Nesta seção será mostrado os resultados obtidos no VocacioEneagrama, sendo eles: o
+descobrimento do Tipo do Eneagrama do usuário; a indicação dos cursos a partir deste
+
+
+
+Figura 2. Descrição sobre o Tipo do Usuário
+
+Tipo; e a avaliação da usabilidade.
+
+6.1. VocacioEneagrama
+Em relação aos usuários que acessaram o VocacioEneagrama tivemos 203 participantes,
+equivalente a 104(51,2%) do gênero feminino, 96(47,3%) do gênero masculino, 2(1%)
+sem se identificar e 1(0,5%) cisgênero. Desses 203, 156 são do estado de Minas Gerais,
+seguido de São Paulo com 29. Foi possı́vel analisar que a maioria dos respondentes se
+encaixam nos Tipo 1 e 2, ambos com 29 pessoas. O Tipo 2 obteve também a maior
+quantidade no gênero feminino e o Tipo 1 no masculino.
+
+Analisando os resultados obtidos em relação a utilização do Eneagrama no Teste
+vocacional, é possı́vel notar que houve uma taxa de acerto relativamente baixa. Isso se
+deve ao fato da quantidade de acertos da área do respondente. Pois, ao cruzar o resultado
+do curso sugerido de acordo com a personalidade com o curso inserido na página inicial do
+VocacioEneagrama, temos mais de 50% dos respondentes com resultados não esperados,
+que pode ser visto na fig. 3. Portanto, nesses casos, seria necessário um outro estudo, mais
+aprofundado, para entender se o VocacioEneagrama contém falhas ao indicar os cursos ou
+se os respondentes podem estar em carreiras que não combinam com sua personalidade.
+
+Após o acesso ao VocacioEneagrama, 88 pessoas responderam o questionário,
+sendo 51 (58,0%) do gênero femino, 35 (39,8%) do gênero masculino e 2 (2,3%) pre-
+feriram não dizer. Desses 88, 18 tem idade entre 10-20 anos, 54 entre 20-30, 12 entre
+30-50 e 4 com idade maior que 50. A maioria dos usuários utilizaram o Celular para
+acessar o VocacioEneagrama, correspondendo a 48 deles, enquanto 40 usaram o Com-
+putador. Além disso, 51,14% concordam plenamente com o resultado gerado e 36,36%
+concordam e 76,14% avaliaram como ótimo o feedback do resultado e 19,32% acharam
+bom, indicando ser assertivo ao descobrir o Tipo do Eneagrama do usuário junto com uma
+grande quantidade de respondentes que indicariam o VocacioEneagrama para um amigo,
+sendo 87% deles.
+
+6.2. Avaliação da Usabilidade
+Realizando uma análise nas perguntas correspondentes a avaliação pela Heurı́stica de Ni-
+elsen para a avaliação da usabilidade do site, é possı́vel observar que o sistema é estável e
+
+
+
+Figura 3. Comparativo entre o Tipo do respondente com o Curso sugerido
+
+com design simples, porque a maioria dos respondentes avaliaram como ótimo na escala
+dessas perguntas. Também foi possı́vel analisar bugs e melhorias no sistema através das
+respostas do usuário. Como exemplo de respostas para melhorias temos: ”A estrutura
+formada está ótima mas indicaria melhorias no front-end, que acredito vir com o tempo”;
+”Acredito que transformar a primeira parte em várias páginas pode ser mais limpo visu-
+almente”; ”Mais imagens para aumentar a imersão nas perguntas e resultados”;”Indicaria
+a melhoria da parte 2. Caso a pessoa clique em alguma frase errada, ela deveria ter o
+direito de voltar e corrigir”; ”O gráfico arco-ı́ris não é tão simples de visualizar. No mais
+eu gostei bastante”. A tı́tulo de exemplo dos bugs reunimos: ”Demorou um pouco para
+o botão enviar funcionar”; ”No final, demorou um pouco aparecer as áreas e faculdades.
+Assim como os pontos fortes e fracos da personalidade”; ”Demorou para carregar para
+abrir”.
+
+7. Conclusão
+O objetivo principal deste trabalho foi a implementação de um site, o VocacioEneagrama,
+para recomendar cursos por meio do descobrimento do tipo de personalidade do Enea-
+grama dos usuários. O site foi implementado e testado, avaliando-se os resultados gera-
+dos por ele e utilizando-se técnicas de avaliação por meio de heurı́sticas para analisar a
+interação do usuário, qualificando a sua usabilidade e a sua funcionalidade.
+
+Com base nos resultados obtidos, o VocacioEneagrama mostrou ser assertivo no
+resultado do Tipo do Eneagrama do usuário, com feedbacks positivos a respeito. Entre-
+tanto, houve divergências em relação a indicação de possı́veis profissões, com retornos
+que demonstraram respondentes confusos ou descontentes ou ainda falhas no VocacioE-
+neagrama ao indicar cursos especı́ficos.
+
+Isso se deve ao fato de cada área do conhecimento possuir diversos cursos, sendo
+associadas a diversos Tipos e Subtipos. Muitas vezes uma profissão é relacionada a sua
+função mais conhecida ou sua função principal. Um exemplo disso, são os cientistas da
+computação, que em sua maioria são interligados ao desenvolvimento de softwares e a
+exatas, quando na verdade existe uma gama de opções no mercado de trabalho. Apresen-
+tado esse fato, o estudo demonstra oportunidades de desencadear outras questões a serem
+analisadas em trabalhos futuros, levando em consideração outros fatores psicológicos e
+talvez indicar uma área de conhecimento ao invés de um curso especı́fico.
+
+
+
+Referências
+Arthur, K. B. (2008). Attachment styles and Enneagram types: Development and testing
+
+of an integrated typology for use in marriage and family therapy. PhD thesis, Virginia
+Tech.
+
+Association., A. S. C. (2002). Position statement: The professional school counselor and
+comprehensive school counseling programs.
+
+Barra, A. S. B., de Azeredo Barros, V. F., and de Siqueira Neto, J. C. (2013). Teste
+vocacional digital.
+
+Bast, M. and Thomson, C. (2005). Out of the Box: Coaching with the Enneagram. Ni-
+nestar Publishing.
+
+Chittick, W. C. et al. (2001). The heart of Islamic philosophy: The quest for self-
+knowledge in the teachings of Afd. al al-Dı̄n Kāshānı̄. Oxford University Press on De-
+mand.
+
+Cohen, M. C. (2007). Applications of the enneagram to psychological assessment. Enne-
+agram. com.
+
+da Silva Vaz, S. H., Vasconcelos, H. G., Prado, L. F. R., da Silva, G. T. G., Rezende, L. C.,
+Guedes, G. F. R. B., and da Silveira, D. G. (2021). Eneagrama de personalidades no
+processo de gestão de pessoas. Brazilian Journal of Development, 7(1):1545–1565.
+
+Ehrhart, K. H. and Makransky, G. (2007). Testing vocational interests and personality
+as predictors of person-vocation and person-job fit. Journal of Career Assessment,
+15(2):206–226.
+
+Faria, L. and Taveira, M. d. C. (2006). Avaliação da exploração e da indecisão de jovens
+no contexto da consulta psicológica vocacional: Um estudo da eficácia da intervenção.
+
+Harren, V. A. (1979). A model of career decision making for college students. Journal of
+vocational behavior, 14(2):119–133.
+
+Hoyt, K. B. and Wickwire, P. N. (2001). Knowledge-information-service era changes in
+work and education and the changing role of the school counselor in career education.
+The Career Development Quarterly, 49(3):238–249.
+
+Jordaan, J. P. (1963). Exploratory behavior: The formation of self and occupational
+concepts. Career development: Self-concept theory, pages 42–78.
+
+Maschio, T. R. A. and de Lara Soczek, K. (2016). O eneagrama como ferramenta de
+autoconhecimento e sua relação com a teoria cognitivo-comportamental. Trabalhos de
+Conclusão de Curso-Faculdade Sant’ana.
+
+Messano, T., Oliveira, P. F., and de Oliveira Rocha, C. F. (2020). Processo de recruta-
+mento e seleção de pessoal para cargos de liderança. Revista H-TEC Humanidades e
+Tecnologia, 4(Edição Esp):84–109.
+
+Naranjo, C. and da Sociedade, O. E. (1997). Os nove tipos de personalidade. Rio de
+Janeiro, Objetiva.
+
+Nielsen, J. (10). Usability heuristics for user interface design.
+Nielsen, J. (1994). Usability engineering. Morgan Kaufmann.
+
+
+
+Nielsen, J. (2012). Usability 101: Introduction to usability (2012). URL:
+http://www. nngroup. com/articles/usability-101-introduction-to-usability/[Accessed
+November 2016], 9:35.
+
+Nielsen, J. and Nielsen, J. (2000). Designing web usability, volume 26. New Riders
+Indianapolis, IN.
+
+Palmer, H. (1991). The enneagram: Understanding yourself and the others in your life
+(harpersanfrancisco).
+
+Parsons, F. (1909). Choosing a vocation. Brousson Press.
+Riso, D. R. and Hudson, R. (2003). Sabedoria Do Eneagrama, a. Editora Cultrix.
+Salami, S. (1999). Relationship between work values and vocational interests among
+
+high school students in ibadan. Nigerian African Journal of Educational Research,
+5(2):65–74.
+
+Sparta, M. (2003). A exploração e a indecisão vocacionais em adolescentes no contexto
+educacional brasileiro.
+
+Super, D. (1957). Psychology of careers, new york, ny: Harper and brothers.
+Super, D. E. and Overstreet, P. L. (1960). The vocational maturity of ninth grade boys.
+Super, D. E., Thompson, A. S., Lindeman, R. H., Jordaan, J., and Myers, R. (1982).
+
+Career development inventory. Consulting Psychologists Press.
+Tapp, K. and Engebretson, K. (2010). Using the enneagram for client insight and transfor-
+
+mation: A type eight illustration. Journal of Creativity in Mental Health, 5(1):65–72.
+Westbrook, B. W., Sanford, E. E., and Donnelly, M. H. (1990). The relationship between
+
+career maturity test scores and appropriateness of career choices: A replication. Jour-
+nal of Vocational Behavior, 36(1):20–32.

@@ -1,0 +1,525 @@
+﻿Relevância Temática dos Comentários e Diversidade de Gênero
+em Projetos Open Source
+
+Estela Miranda Batista Gláucia Braga e Silva
+Federal University of Viçosa Federal University of Viçosa
+
+Florestal, Brasil Florestal, Brasil
+estela.batista@ufv.br glaucia@ufv.br
+
+RESUMO aspectos sociais, a diversidade de gênero é o objeto de estudo deste
+Este trabalho analisa a participação feminina em termos da relevân- trabalho, que busca avaliar a relevância da participação feminina no
+cia temática dos comentários postados no ambiente de issue tracking âmbito das comunicações ocorridas no ambiente do issue tracking do
+do GitHub. O trabalho também investiga se existem relações entre GitHub. O estudo será guiado pelas seguintes questões de pesquisa:
+a relevância temática e outras métricas ligadas ao desenvolvedor, • QP1. Qual a diferença de participação de homens e mulheres
+como reputação, tempo de plataforma e número de issues reporta- em termos de issues e comentários associados?
+das. Foram analisados dados de 5 comunidades open source abertas, • QP2. Existe diferença entre a relevância dos comentários
+e 5 dedicadas às mulheres. Os resultados apontam que, na média, postados por homens e mulheres?
+a relevância dos comentários feitos por mulheres é similar à dos • QP3. Existe relação entre a relevância dos comentários e a
+homens, se mostrando igualmente capazes, porém demonstram reputação do autor?
+uma representatividade e participação muito baixas, tendo apenas • QP4. Existe relação entre a relevância dos comentários e o
+22% dos comentários postados e 16% das issues reportadas. tempo de participação nas plataformas?
+
+KEYWORDS Para responder às questões de pesquisa enumeradas, serão avali-
+ados dados de comunicação extraídos de repositórios de projetos
+
+Gênero no GitHub, Comunicações em Issue Tracking, Índice Blau open source na plataforma do GitHub, em busca de análises compa-
+
+1 INTRODUÇÃO rativas entre a participação de homens e mulheres no contexto do
+issue tracking. O GitHub será usado por ser a maior comunidade
+
+Considerando a natureza colaborativa do desenvolvimento de soft- de código aberto, possuindo mais de 61 milhões de repositórios
+ware, as equipes podem ser formadas por pessoas de diversas cul- de software criados por mais de 16 milhões de desenvolvedores
+turas, idades, nacionalidades, gêneros, entre diversos outros fato- cadastrados na plataforma1, além de ser cada vez mais usada entre
+res, de forma que aquelas que possuem uma maior diversidade os pesquisadores como fonte de mineração de dados [6, 14]. Dentre
+social podem aproveitar de informações mais amplas, experiências os dados extraídos, os mesmos foram classificados em dois tipos
+e habilidades aprimoradas de resolução de problemas, tornando-se, de comunidades open source, sendo eles comunidades abertas, e
+portanto, mais eficazes [16]. Apesar do fator da diversidade ser comunidades dedicadas à mulheres, de forma a realizar compara-
+benéfico para as equipes de desenvolvimento, existem trabalhos na ções sobre a participação de mulheres e homens em cada um desses
+literatura que apontam a falta dela no desenvolvimento de software, ambientes.
+principalmente em questões de gênero, em que mulheres tendem a Os dados serão analisados com base na aplicação da métrica Re-
+ter uma permanência menor que a de homens [17]. Apesar da baixa levância Temática, proposta por Neto e Braga [11] para o contexto
+permanência, estudos mostram que as mulheres funcionam como de discussões em issue tracking. A relevância dos comentários será
+mediadoras dos problemas que surgem [5], sendo peças chave no analisada em conjunto com outras métricas de comunicação, sendo
+processo de comunicação. elas o número de issues criadas e número de comentários posta-
+
+A baixa participação feminina em projetos de desenvolvimento dos, em função de outros atributos que caracterizem o perfil do
+de software é bem conhecida na literatura e tem sido avaliada, desenvolvedor como gênero, tempo de participação na plataforma
+principalmente, em termos na contabilização das contribuições em e reputação.
+código e pull request aceitas [4, 13]. No entanto, outros aspectos Como resultados, serão apresentados indicativos importantes
+podem ser analisados com o intuito de se investigar a participação sobre o processo de comunicação dos times e as possíveis diferenças
+feminina na composição de equipes mais diversas, mais inclusivas em termos de contribuições em função do gênero do desenvolvedor.
+e, possivelmente, potencialmente mais produtivas [5]. Dentre esses Ressalta-se que o termo gênero está sendo tratado neste trabalho
+
+como a forma de identificação do usuário na plataforma, sendo
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed masculino ou feminino.
+for profit or commercial advantage and that copies bear this notice and the full citation O restante do artigo está organizado da seguinte forma: a seção
+on the first page. Copyrights for components of this work owned by others than ACM
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, 2 apresenta informações sobre as Comunicações em Issue Tracking,
+to post on servers or to redistribute to lists, requires prior specific permission and/or a e aborda o conceito de relevância dos comentários. Na seção 3, são
+fee. Request permissions from permissions@acm.org. apresentados os trabalhos relacionados. A seção 4 traz os materiais
+POC’22, Março 2022, Florestal, Minas Gerais, Brasil
+© 2022 Association for Computing Machinery.
+ACM ISBN 978-x-xxxx-xxxx-x/YY/MM. . . $15.00
+
+1https://octoverse.github.com/
+
+
+
+POC’22, Março 2022, Florestal, Minas Gerais, Brasil Estela Miranda Batista and Gláucia Braga e Silva
+
+e métodos. Os resultados são discutidos na seção 5. Por fim, as na comunidade de um determinado projeto, também é possível
+considerações finais são apresentadas na seção 6. investigar se existem correlações entre a relevância temática dos
+
+comentários e outros atributos ligados ao desenvolvedor, como
+2 COMUNICAÇÕES EM ISSUE TRACKING gênero, reputação e o tempo de projeto.
+Ao longo do desenvolvimento de software surgem diversas questões A relevância temática é uma métrica capaz de representar o
+sobre melhorias e dúvidas apontadas pelos membros dos projetos. quanto um texto é relevante em relação ao tema de uma deter-
+Essas questões ficam comumente concentradas em tópicos de dis- minada discussão [8]. Essa métrica foi proposta por Azevedo [1]
+cussão, representados por issues no sistema de issue tracking do para se analisar a relevância de comentários postados em fóruns
+GitHub. Segundo Bertran et al. [2], os repositórios de issue trac- de discussão educacionais, e adaptada para o ambiente de issue
+king são repositórios de conhecimento, que concentram grande tracking por Neto e Braga [11]. O cálculo envolve contabilizar o
+parte da comunicação e da colaboração dos projetos, além de serem número de conceitos relevantes usados no texto do comentário
+um canal de comunicação em si. Temos então que esses canais ge- que correspondem a conceitos do texto da problematização, que
+ram conhecimento útil e relevante no contexto para a gerência dos neste caso é dado pela descrição da issue, e seu título. Além de
+projetos. contabilizar os conceitos relevantes, o cálculo também considera a
+
+Análises automatizadas sobre esses dados podem revelar in- frequência dos mesmos no texto e os relacionamentos com outros
+dicadores de qualidade de processo importantes no que diz res- termos. Assim, quanto mais conceitos relacionados, maior será a
+peito à participação dos membros do projeto, como, por exemplo, relevância do comentário. A Equação 1, adaptada por Neto e Braga
+desenvolvedores-chaves, conflitos nas relações, representatividade [11], apresenta o cálculo da relevância temática.
+e participação de novatos e minorias. Para auxiliar nesse processo
+de análise existem algumas métricas usadas para tal apontamento, 𝑅𝑇 =𝑚𝑎𝑥{𝑆𝐶𝐼 , 𝑆𝐶𝐷 , 𝑆𝐶𝐶 } (1)
+como a reputação dos usuários, a contabilização dos anos de parti- Onde 𝑅𝑇 é a Relevância Temática; 𝑆𝐶𝐼 , a semelhança entre o
+cipação do usuário na plataforma, e a qualidade dos comentários comentário e a issue; 𝑆𝐶𝐷 , a semelhança entre o comentário e a
+postados. discussão, que leva em consideração o título da issue, sua descrição
+2.1 Issue Tracking no GitHub e o comentário anterior; e 𝑆𝐶𝐶 , a semelhança entre o comentário e
+
+o comentário anterior, caso exista.
+Nos ambientes de issue tracking, as comunicações ocorrem à me-
+dida que issues, representando bugs, sugestões de melhoria e novos 3 TRABALHOS RELACIONADOS
+requisitos, são reportadas pelos membros dos projetos e/ou por
+colaboradores externos. Após reportadas, as issues podem ser res- A baixa participação feminina em projetos de desenvolvimento de
+pondidas por qualquer membro da equipe. Ao final da discussão software tem sido reportada na literatura. Zacchiroli [18] analisou
+em busca da solução, podem ser gerados novos commits, e conse- 1.6 milhões de commits num período de 50 anos e apresentou que
+quentemente pull requests avaliados por gerentes de projeto, ou por cerca de 92% do código produzido nas plataformas de versionamento
+algum responsável pelo repositório. de código foi feito por homens. Izquierdo et al. [7] analisaram
+
+As issues são compostas por alguns campos obrigatórios, e ou- mais de 7000 perfis de usuários na plataforma do GitHub, em que
+tros, que dependendo do projeto não necessitam ser preenchidos. apenas 7% dos membros do comitê de projeto e 8% dos líderes foram
+Os campos obrigatórios são: título e descrição. Já os campos não identificados como mulheres.
+obrigatórios incluem as labels, como bug ou question, caso o projeto No que compete à análise dos dados de comunicações em issue
+possua as mesmas definidas, e a quem aquela issue é atribuída. Por tracking, diversos trabalhos na literatura têm usado técnicas de
+fim, tem-se os campos gerados automaticamente pela plataforma, mineração de textos sobre o conteúdo textual das issues. Ortu et al.
+como o autor, data de criação, e o estado, que ao ser criada será [12] analisou os dados de comunicação em projetos de software com
+open, e ao ser fechado por algum membro do projeto será closed. Os o objetivo de avaliar o impacto de determinados fatores no tempo
+campos relacionados a uma issue podem ser observados na Figura de resolução de uma issue. Neto and Silva [11] extraíram conhe-
+12. cimentos sobre os desenvolvedores do projeto, de forma a indicar
+
+Os campos título e descrição contêm a principal fonte do dados desenvolvedores chaves no projeto, usando de métricas como a
+textuais, uma vez que representam o conteúdo da discussão reali- relevância temática dos comentários, o número de issues reportadas
+zada na issue através dos comentários posteriormente postados, e, e o número de comentários postados nas issues. Apesar de trazerem
+por conta disso, serão explorados no contexto deste trabalho. investigações pertinentes às comunicações do desenvolvimento de
+
+software, os trabalhos apresentados não levam em consideração
+2.2 Relevância Temática em Issue Tracking questões de gênero.
+
+Considerando a participação feminina no universo open source,
+O objetivo de utilizar a relevância temática no contexto do issue Singh [15] analisou 355 sites de projetos, e os resultados apontam
+tracking é identificar se o texto do comentário em questão está que menos de 5% dessas comunidades possuíam espaço dedicados
+relacionado ao contexto do tema proposto na issue, com o intuito às mulheres. Neste trabalho, serão utilizados ambientes dedicados
+de se avaliar o impacto do comentário na resolução da issue, além para mulheres para fins de comparações com ambientes com baixa
+de demonstrar a importância de determinados desenvolvedores diversidade, indicados pelo índice Blau [3], de forma a verificar
+2Adaptado de https://docs.github.com/pt/issues/tracking-your-work-with- se as mulheres são mais atuantes em termos de comunicações em
+issues/planning-and-tracking-work-for-your-team-or-project ambientes dedicados para elas.
+
+
+
+Relevância Temática dos Comentários e Diversidade de Gênero em Projetos Open Source POC’22, Março 2022, Florestal, Minas Gerais, Brasil
+
+Figura 1: Exemplo de Issue no GitHub
+
+Buscando apresentar novos indicadores sobre a baixa participa- pela API GitHub, sendo subtraído o valor do ano de entrada do
+ção feminina no desenvolvimento de software, este trabalho visa desenvolvedor pelo ano corrente.
+analisar a quantidade e a qualidade do conteúdo das comunicações Para a métrica MC04, visto que a plataforma do GitHub não rea-
+em issue tracking. Para isso, serão usadas as métricas de relevân- liza a contabilização automática da reputação dos desenvolvedores,
+cia temática dos comentários, quantidade de issues reportadas e foi utilizada a ferramenta Git Score4. Na Figura 2, pode-se observar
+comentários postados, reputação do desenvolvedor e os anos de o campo reputation, usado para avaliarmos a reputação dos usuá-
+participação na plataforma, sempre calculadas em relação ao gênero rios, sendo importante citar que a métrica leva em consideração
+do desenvolvedor. para o cálculo da reputação a participação do usuário em projetos
+
+presentes na plataforma, a criação de repositórios e issues, além de
+4 MATERIAIS E MÉTODOS commits feitos.
+Para analisar os dados de comunicação em issue tracking em função
+do gênero do desenvolvedor, o estudo foi conduzido em 2 etapas: a)
+Definição das métricas; b) Extração dos dados, conforme detalhado
+nas próximas subseções.
+
+4.1 Definição e Automatização das Métricas
+Para a condução das análises, foramutilizadas cincométricas gênero-
+dependentes, chamadas aqui de Métricas de Comunicação (MC).
+
+• MC01. Quantidade de Issues Reportadas
+• MC02. Quantidade de Comentários Postados
+• MC03. Tempo de Participação na Plataforma
+• MC04. Reputação dos Desenvolvedores Figura 2: Exemplo de Exibição dos Dados GitScore
+• MC05. Índice de Diversidade de Gênero das Equipes [3]
+• MC06. Relevância Temática dos Comentários
+
+Para obter as medidas para as métricas MC01 e MC04, foram No que diz respeito à diversidade de gênero das equipes (MC05),
+utilizadas APIs e ferramentas da plataforma do GitHub. Já para as foi usado o Índice Blau como métrica de diversidade [3]. A métrica
+métricas MC05 e MC06, foram automatizadas em uma aplicação, de diversidade foi usada com o propósito de realizar comparações
+desenvolvida no contexto desse trabalho e será explicada ao longo sobre os resultados das métricas aplicadas aos dados de comuni-
+dessa seção. cação para cada um dos segmentos de comunidades avaliadas. A
+
+As métricas MC01 e MC02 foram calculadas de acordo com o Equação 2 apresenta a fórmula para o índice Blau, que calcula, de
+gênero do desenvolvedor, de forma que ao final da extração dos um total de N, a porcentagem 𝑃 de indivíduos em cada categoria 𝑖 .
+dados, usando do Jupyter Notebook3 sobre a base de dados salva em Neste trabalho, consideramos N = 2, visto que as categorias são mas-
+um CSV, em que os dados foram contabilizados através de filtros. culino e feminino. O índice varia entre 0 e 0.5, sendo 0.5 o equilíbrio
+Já a métrica MC03 foi calculada de acordo com a data fornecida no número de indivíduos nas categorias.
+
+3https://jupyter.org/ 4http://www.gitscore.com
+
+
+
+POC’22, Março 2022, Florestal, Minas Gerais, Brasil Estela Miranda Batista and Gláucia Braga e Silva
+
+∑︁ original [11], versão atualizada e avaliação manual de especialistas.
+𝑁
+
+𝐵𝑙𝑎𝑢 = 1 − 𝑃2
+Os grupo de especialistas contou com um total de 12 voluntários,
+
+𝑖 (2) sendo 3 engenheiros de software; 2 especialistas de domínio, ou
+𝑖=1
+
+Ao final da extração dos dados de uma determinada comunidade, seja, que participam da issue em questão; e 7 desenvolvedores, em
+o nome e o gênero dos desenvolvedores participantes foi salvo em vários níveis de conhecimento.
+um arquivo CSV. A partir desse arquivo, usando o Jupyter Note- Para a avaliação de especialistas, foi elaborado um questionário
+book, foi contabilizado o número de desenvolvedores nos gêneros que endereçava uma determinada issue, sendo solicitado que fosse
+feminino e masculino. Tais valores foram enviados a uma função atribuída uma relevância de 0 a 5 para cada comentário daquela
+simples na linguagem Python, que automatizou a métrica MC05, issue. Ao todo foram analisados 59 comentários, distribuídos em 12
+retornando assim o nível de diversidade daquela comunidade. issues. Cada um dos comentários foi analisado por dois especialistas
+
+Visto que na plataforma de issue tracking do GitHub não é obri- e foi feita uma média com as relevâncias atribuídas pela equipe de
+gatório a identificação do gênero dos desenvolvedores, e as métricas desenvolvimento, composta pelo(as) autores(as). A composição da
+anteriormente apresentadas fazem comparações em relação ao gê- média da relevância dos especialistas com a média da equipe de
+nero, fez-se necessário "adivinhar"tal informação. Zolduoarrati [19] desenvolvimento foi utilizada como valor real𝑦, enquanto os valores
+realizou um estudo para qualificar as melhores ferramentas adivi- calculados pela abordagem original, e pela abordagem adaptada
+nhadoras de gênero. As ferramentas apresentadas foram avaliadas foram usados como 𝑦. Esses valores foram usados no cálculo de
+e a ferramenta NamSor5 foi escolhida no contexto deste trabalho, Erro Absoluto Médio - MAE (Equação 4), que representa a média
+devido à sua simplicidade de uso e qualidade dos resultados. da diferença absoluta entre entre os valores reais e os previstos no
+
+conjunto de dados.
+4.2 Relevância Temática dos Comentários
+
+1 ∑︁𝑁
+Para a avaliação da qualidade dos comentários, foi desenvolvida 𝑀𝐴𝐸 = ∥𝑦 − 𝑦∥ (4)
+uma aplicação automatizada da métrica de relevância temática [11]. 𝑁
+
+𝑖=1
+Para fins de simplificação e melhoria no desempenho, o cálculo Além do MAE, também foi calculado o Erro Quadrático Médio
+automatizado da métrica foi adaptado no que diz respeito ao cálculo (MSE), que representa a média quadrada entre os valores reais e os
+da similaridade entre os termos de um comentário e seu texto refe- previstos no conjunto de dados, como apresentado na Equação 5.
+rência usando da técnica de cossenos. Na proposta de Neto e Braga
+e Silva [11], o cálculo da similaridade era realizado através de grafos, 1 ∑︁𝑁
+
+𝑀𝑆𝐸 = (𝑦 − 𝑦)2 (5)
+com uma dependência externa a uma ferramenta de geração dos 𝑁
+
+𝑖=1
+mesmos. Essa dependência causava problemas de desempenho em Ao final, observou-se uma melhora nos valores de MSE e MAE,
+virtude do alto número de requisições feitas à ferramenta externa. para a versão adaptada, em comparação com a abordagem original
+A alteração propiciou uma melhora significativa no desempenho [11]. A porcentagem de erro da abordagem original ficou em torno
+da aplicação, sem provocar alterações em termos da qualidade dos de 21% no MAE e 7% no MSE, enquanto na abordagem adaptada,
+resultados gerados. Além disso, a técnica de cossenos foi escolhida houve redução do valor de MAE, para 8% e de MSE, para 1%.
+devido à simplicidade de aplicação e também por apresentar uma
+alta precisão em relação à classificação humana, como observado 4.3 Seleção e Extração dos Dados
+por Medeiros [9].
+
+Ao usar a fórmula da Equação 1, apresentada na Seção 2.2, Na seleção das bases de dados, foram considerados projetos de co-
+observou-se que a similaridade do comentário em relação ao seu munidades abertas, e comunidades dedicadas à mulheres, de forma
+comentário anterior, 𝑆𝐶𝐶 , assumia, em diversos momentos, o valor a se comparar a participação feminina nesses dois contextos. As
+zero no cálculo da similaridade de cossenos. Depois de algumas comunidades dedicadas foram selecionadas através de uma pes-
+verificações, foi possível notar que a similaridade do comentário em quisa preliminar, em que após a escolha de comunidades abertas,
+relação à discussão 𝑆𝐶𝐷 , e a similaridade do comentário em relação buscou-se comunidades no mesmo segmento que trabalhassem a
+à issue 𝑆𝐶𝐼 , compunham uma relação com a relevância temática. inclusão de mulheres.
+Assim, de forma similar à equação apresentada por Azevedo [1], Os dados foram extraídos em janeiro de 2022, por meio de uma
+
+aplicação na linguagem Python, utilizando a API Rest do GitHub6optou-se pela média aritmética das semelhanças entre o comentário .
+e a issue 𝑆𝐶𝐼 , e entre o comentário e a discussão 𝑆𝐶𝐷 , como apresen- Para a etapa de extração dos dados, foram utilizados filtros base-
+tado na Equação 3. Ressalta-se que a discussão corresponde a uma ados no trabalho de Neto et al. [10], divididos em duas categorias:
+concatenação do título, da descrição e dos comentários anteriores Filtros de Projetos (FPs) e Filtros de Issues (FIs). Para selecionar os
+da issue. projetos de interesse, foram definidos cinco filtros FPs:
+
+• FP1. Possuir, no mínimo, 5 membros.
+𝑆𝐶𝐼 + 𝑆𝐶𝐷 (3) • FP2. Possuir, no mínimo, 5 commits.
+
+𝑅𝑇 =
+2 • FP3. Possuir, no mínimo, 5 issues abertas.
+
+4.2.1 Validação da Adaptação no Cálculo da Métrica. Para validar a • FP4. Possuir, no mínimo, 5 issues fechadas.
+alteração e garantir a confiabilidade dos resultados, foi realizado um • FP5. Ter sido criado a pelo menos 6 meses.
+procedimento de validação, comparando os resultados da versão A seleção das issues abrangeu a aplicação dos seguinte filtros FIs:
+5https://namsor.app/ 6https://docs.github.com/pt/rest
+
+
+
+Relevância Temática dos Comentários e Diversidade de Gênero em Projetos Open Source POC’22, Março 2022, Florestal, Minas Gerais, Brasil
+
+• FI1. Possuir no mínimo, 5 comentários.
+• FI2. As comentários não podem conter apenas trechos de
+códigos, sendo assim necessário textos.
+
+• FI3. Possuir um tempo de abertura mínimo de uma semana.
+• FI4. Issues não podem ter sido reabertas.
+
+Ressalta-se que o filtro FP4 foi definido com base no fator de que,
+as issues avaliadas no trabalho estavam com seu status closed, de
+forma que pudéssemos garantir que ao longo da extração dos dados,
+e da pesquisa não fossem inseridos mais comentários, unido a isso
+temos a definição do filtro FI4, para trazer mais uma garantia. Já o
+filtro FP5 foi escolhido de forma a garantir que o projeto estivesse
+plenamente em funcionamento, e executando as tarefas pertinentes
+ao sistema de issue tracking, unido aos fatores apresentados nos
+filtros FP2, FP3 e FP4. O filtro FI2 foi inserido com base no fator de
+que a avaliação dos comentários é feita a partir de seus textos, ou Figura 3: Comunidades, Índice Blau e Quantitativos por Gê-
+seja, os trechos de código não são inseridos na avaliação da relevân- nero
+cia temática, fazendo com que comentários com apenas trechos de
+código se tornem irrelevantes. Além disso, é importante ressaltar
+que o filtro FI2 leva em consideração todos os comentários de uma
+determinada issue, de forma que, caso tenhamos um comentário comunidades dedicadas, já que o maior índice chegou a 0.5, indi-
+com apenas trechos de códigos, aquela issue será desconsiderada. cando o equilíbrio entre as categorias, na RailsGirls. Importante
+
+Ao final, esses dados foram armazenados em um arquivo CSV, também destacar que na comunidade PyLadies, apesar do índice
+que posteriormente foram analisados através do Jupyter Notebook. Blau ser igual a 0.0 indicar a falta de diversidade, isso ocorre porque
+
+a comunidade é fechada à participação masculina, com o intuito de
+5 RESULTADOS E DISCUSSÕES se criar um ambiente seguro para que as mulheres possam desenvol-
+Após a extração dos dados com aplicação dos filtros, foram obtidos ver as habilidades, tanto técnicas, quanto teóricas. Ao se observar a
+9151 comentários, de 1275 issues, presentes em 28 repositórios de Tabela 1 e a Figura 3, comunidades como o Ruby on Rails tem um
+10 comunidades, sendo 5 comunidades abertas e 5 dedicadas às alto número de comentários postados, porém, seu nível de diversi-
+mulheres. Na Tabela 1, tem-se um sumário dos dados obtidos para dade é baixo. Importante também ressaltar, que após uma análise
+cada comunidade, incluindo o número de repositórios, issues e nos dados, verificando o nome e sobrenome dos desenvolvedores da
+comentários. Ressalta-se que as cinco primeiras comunidades são comunidade, foi possível notar que muitas mulheres que participam
+dedicadas às mulheres. vieram da comunidade dedicada, RailsGirls, ou seja, já são mulheres
+
+mais seguras e empoderadas.
+Tabela 1: Visão Geral dos Dados Extraídos por Comunidades Os demais resultados obtidos com a aplicação das métricas MC01
+
+a MC05, voltadas às questões de pesquisa endereçadas neste estudo,
+Comunidade #Repositórios #Issues #Comentários encontram-se descritos nas próximas subseções.
+RailsGirls 2 5 148
+PyLadies 4 41 360 5.1 QP1. Qual a diferença de participação de
+WomenWhoCode 3 22 168 homens e mulheres em termos de issues e
+WoMozBrasil 1 5 26 comentários associados?
+DjangoGirls 2 145 1014 Olhando primeiramente para as issues, temos foram extraídas 1275,
+Django 6 239 1985 em que 1071 (84%) foram reportadas por homens, e 204 (16%) por
+Ruby on Rails 4 426 3079 mulheres, como apresentado na Figura 4.
+Mozilla 2 81 423 Considerando o recorte das comunidades dedicadas, tem-se 218
+Flutter 1 214 1333 issues reportadas, das quais 102 (48%) foram reportadas por mulhe-
+Python 3 97 644 res. Já em comunidades abertas, foram reportadas 1057 issues, sendo
+
+que apenas 102 (9%) foram reportadas por mulheres. Tais valores
+Para cada uma das comunidades, foi calculado o quantitativo de mostram que de acordo com o aumento de mulheres nas comuni-
+
+mulheres e homens participantes e também o índice Blau, com o dades, a porcentagem de participação das mesmas aumenta. Ao
+intuito de se conhecer o fator de diversidade em cada uma delas. contrário dos homens, que possuem valores altos de porcentagens
+Os resultados são apresentados na Figura 3, em que é possível em ambos os tipos de comunidades.
+observar as discrepâncias em termos de representatividade feminina No caso dos comentários, temos que em sua grande maioria, o
+nas comunidades abertas e, por consequência, o baixo índice de gênero dos autores foi obtido automaticamente. Em alguns casos
+diversidade de gênero. foi necessária a intervenção manual, em que apenas um desenvol-
+
+Conforme esperado, os dados coletados evidenciam baixos ín- vedor permaneceu com o gênero indefinido. Além disso, tem-se
+dices de diversidade em comunidades abertas e índices altos em que alguns comentários foram postados por bots, não sendo, assim,
+
+
+
+POC’22, Março 2022, Florestal, Minas Gerais, Brasil Estela Miranda Batista and Gláucia Braga e Silva
+
+Figura 6: Intervalo de Relevância Temática nas Comunidades
+Abertas
+
+Figura 4: Issues e Comentários em Relação ao Gênero
+
+considerados na Figura 4. A partir disso, dos 9151 comentários ava-
+liados, 6897 foram postados por homens, 2059 (22%) por mulheres 5.3 QP3. Existe relação entre a relevância dos
+e 194 por bots. comentários e a reputação do autor?
+
+No contexto das comunidades dedicadas, dos 1923 comentários, Para os dados considerados, obteve-se uma reputação dos desen-
+741 (39%) foram postados por mulheres. E no caso das comunidades volvedores variando entre 0 e 16000. Esses dados foram cruzados
+abertas, foram postados 7447 comentários, em que apenas 1395 com os dados de relevância temática dos comentários postados por
+(19%) foram postados por mulheres, o que também evidencia a esses desenvolvedores, conforme mostrado nos gráficos das Figuras
+baixa participação em comparação com os homens neste segmento. 7 e 8. A partir da análise dos gráficos, não é possível notar uma
+Observar-se então que os homens se sentem mais confortáveis relação entre os atributos, uma vez que a distribuição dos valores
+para comentar do que as mulheres, até mesmo em comunidades da relevância temática se mostram similares em todos os valores
+dedicadas. de reputação analisados. Para comprovar esse comportamento nos
+
+dados, foi calculado o coeficiente de correlação de Pearson entre
+5.2 QP2. Existe diferença entre a relevância dos os atributos de relevância temática e a reputação dos autores. A
+
+comentários postados por homens e partir do coeficiente obtido, -0.045, constatou-se que os atributos
+mulheres? não estão correlacionados.
+
+Após o cálculo da relevância temática para cada comentário anali-
+sado, os resultados são similares na média, sendo 0.03680, para os
+homens e 0.03394, para as mulheres. Conforme mostrado no gráfico
+das Figuras 5 e 6, observa-se que o intervalo de dados altera entre
+os gêneros, segundo o contexto do segmento em análise. Impor-
+tante também destacar que, nas comunidades dedicadas (Figura 5),
+diferente das abertas (Figura 6), as mulheres alcançam valores de
+relevância maiores que os homens.
+
+Figura 7: Relevância Temática e Reputação para Mulheres
+
+Nas comunidades dedicadas às mulheres, como apresentado na
+Figura 9, observam-se alterações nos valores de reputação, com o
+maior valor presente na faixa de 103, enquanto na base de dados
+como um todo está em 104. Além disso, é importante ressaltar que
+
+Figura 5: Intervalo de Relevância Temática nas Comunidades o maior valor de reputação é do gênero masculino, e as reputações
+Dedicadas das mulheres estão em torno de 102 e 103.
+
+
+
+Relevância Temática dos Comentários e Diversidade de Gênero em Projetos Open Source POC’22, Março 2022, Florestal, Minas Gerais, Brasil
+
+Figura 8: Relevância Temática e Reputação para Homens Figura 10: Relevância Temática e Anos na Plataforma para
+Mulheres
+
+Figura 9: Relevância Temática e Reputação em Comunidades Figura 11: Relevância Temática e Anos na Plataforma para
+Dedicadas Homens
+
+5.4 QP4. Existe relação entre a relevância dos menor será o número de comentários e commits realizados. Essa
+questão pode ser verificada na Figura 7, de forma que em reputações
+
+comentários e o tempo de participação na muitos altas, acima de 103, temos uma maioria de homens, e uma
+plataforma? maioria feminina em valores igual ou abaixo de 102.
+
+As Figuras 10 e 11 apresentam a relação entre a relevância dos Ao observar-se o recorte das comunidades dedicadas, é possível
+comentários e o tempo de participação na plataforma por gênero. verificar que o intervalo dos dados varia, como mostrado na Figura
+De forma similar à QP3, os atributos não parecem estar relacionados, 12. Observa-se que a participação na plataforma tem início no se-
+uma vez que a distribuição dos valores de relevância temática se gundo ano, com maioria masculina, o que apresentam indicadores
+encontra similar em todos os anos apresentados. Para confirmar sobre um tempo de espera para que mulheres comecem a participar
+essa análise, foi realizado o cálculo da correlação de Pearson entre de comunidades open source, mesmo que dedicadas. As mulheres
+os atributos de relevância temática e os anos de participação da começam a participar mais ativamente, a partir do quinto ano, mas
+plataforma, sendo obtido o valor de -0.052, que confirmou a falta o tempo de permanência é menor que o dos homens. Também se
+de relação entre os atributos. observa uma queda da participação feminina, a partir do nono ano.
+
+Um fator importante a se citar sobre a Figura 10 é que ao passar
+dos anos apresentados, o número de mulheres diminui, compro- 6 CONSIDERAÇÕES FINAIS
+vando assim questões já apontadas na literatura [17]. Os dados Este trabalho apresentou os resultados de uma análise de dados de
+mostram uma maior presença feminina no quarto ano de participa- comunicação em issue tracking, observou-se que, na média, as mu-
+ção, e uma tendência de baixa a partir do décimo primeiro ano. lheres postam comentários com relevância similar aqueles postados
+
+Levando em consideração que as mulheres possuem um menor dos homens. O estudo também reforçou índices discrepantes de
+tempo de permanência nos projetos, tem-se um impacto nos valores participação feminina nas comunidades open source confirmando-
+de sua reputação, isso porque quanto menos tempo de participação, se também no contexto de issue tracking, onde apenas 22% dos
+
+
+
+POC’22, Março 2022, Florestal, Minas Gerais, Brasil Estela Miranda Batista and Gláucia Braga e Silva
+
+IEEE, Montreal, QC, Canada, 11–20. https://doi.org/10.1109/ICSE-SEIS.2019.
+00010
+
+[6] Georgios Gousios and Diomidis Spinellis. 2017. Mining Software Engineering
+Data from GitHub. In 2017 IEEE/ACM 39th International Conference on Software
+Engineering Companion (ICSE-C). IEEE, Buenos Aires, Argentina, 501–502. https:
+//doi.org/10.1109/ICSE-C.2017.164
+
+[7] Daniel Izquierdo, Nicole Huesman, Alexander Serebrenik, and Gregorio Robles.
+2019. OpenStack Gender Diversity Report. IEEE Software 36 (1 2019), 28–33.
+Issue 1. https://doi.org/10.1109/MS.2018.2874322
+
+[8] Crystiano José Richard MacHado, Alexandre Magno Andrade MacIel, Ro-
+drigo Lins Rodrigues, and Ronaldo Menezes. 2019. An approach for thematic
+relevance analysis applied to textual contributions in discussion forums. Inter-
+national Journal of Distance Education Technologies 17 (2019), 37–51. Issue 3.
+https://doi.org/10.4018/IJDET.2019070103
+
+[9] Danielle C. Medeiros, José Eustáquio Rangel de Queiroz, and Joseana M. F. R.
+Araújo. 2014. Análise de Funções de Similaridade para Verificação do Conteúdo
+de Mensagens em Fóruns de Discussão. In Brazilian Symposium on Computers in
+Education (Simpósio Brasileiro de Informática na Educação - SBIE). SBC, Dourados,
+Mato Grosso do Sul, Brazil, 144. https://doi.org/10.5753/cbie.sbie.2014.144
+
+[10] Luiz Neto, Gláucia Silva, and Giovanni Comarela. 2021. Estimativa Do Tempo de
+Figura 12: Relevância Temática e Anos na Plataforma em Resolução de Issues No GitHub Usando Atributos Textuais e Temporais. In Brazi-
+Comunidades Dedicadas à Mulheres lian Symposium on Software Engineering. Association for Computing Machinery,
+
+New York, NY, USA, 253–262. https://doi.org/10.1145/3474624.3474647
+[11] Luiz Eugênio Coelho Neto and Gláucia Braga e Silva. 2018. ColMiner: A Tool to
+
+Support Communications Management in an Issue Tracking Environment. In
+comentários foram postados por mulheres e 16% das issues tem Proceedings of the XIV Brazilian Symposium on Information Systems (Caxias do
+autoria feminina. Além disso, olhando para os recortes das comuni- Sul, Brazil) (SBSI’18). Association for Computing Machinery, New York, NY, USA,
+dades, podemos verificar que as mulheres têm sido mais atuantes Article 50, 8 pages. https://doi.org/10.1145/3229345.3229398
+
+[12] Marco Ortu, Tracy Hall, Michele Marchesi, Roberto Tonelli, David Bowes, and
+em comunidades dedicadas à elas, chegando a 48% das issues re- Giuseppe Destefanis. 2018. Mining Communication Patterns in Software Deve-
+portadas. Porém, ao observarmos comunidades abertas elas tem lopment: A GitHub Analysis. In Proceedings of the 14th International Conference
+
+se mostrando com uma baixa participação e representatividade, on Predictive Models and Data Analytics in Software Engineering (Oulu, Finland)
+(PROMISE’18). Association for Computing Machinery, New York, NY, USA, 70–79.
+
+tendo apenas 9% das issues reportadas. Outro ponto importante https://doi.org/10.1145/3273934.3273943
+explorado pelo trabalho é em relação à reputação e ao tempo de [13] Gema Rodriguez, Reza Nadri, andMeiyappan Nagappan. 2021. Perceived diversity
+
+in software engineering: a systematic literature review. Empirical Software
+participação das mulheres na plataforma, em que elas geralmente Engineering 26 (09 2021). https://doi.org/10.1007/s10664-021-09992-2
+estão em um intervalo de 4 anos a 10 anos, enquanto os homens [14] Samaneh Saadat, Olivia B. Newton, Gita Sukthankar, and Stephen M. Fiore.
+tem seu intervalo variando desde meses até 14 anos. 2020. Analyzing the Productivity of GitHub Teams based on Formation Phase
+
+Activity. In 2020 IEEE/WIC/ACM International Joint Conference on Web Intelligence
+Como trabalhos futuros, levando-se em consideração questões and Intelligent Agent Technology (WI-IAT). IEEE, Melbourne, Australia, 169–176.
+
+técnicas sobre a análise de dados, pode-se realizar o cruzamento https://doi.org/10.1109/WIIAT50758.2020.00027
+entre os dados da relevância temática com outros indicadores de [15] Vandana Singh. 2019. Women-Only Spaces of Open Source. In 2019 IEEE/ACM
+
+2nd International Workshop on Gender Equality in Software Engineering (GE). IEEE,
+participação no desenvolvimento de software, como o número de Montreal, QC, Canada, 17–20. https://doi.org/10.1109/GE.2019.00010
+commits realizados, pull requests aceitas. Pode-se avaliar se a parti- [16] Bogdan Vasilescu, Alexander Serebrenik, and Vladimir Filkov. 2015. A Data Set
+
+for Social Diversity Studies of GitHub Teams. In 2015 IEEE/ACM 12th Working
+cipação feminina no âmbito das comunicações nos projetos causa Conference on Mining Software Repositories. IEEE, Florence, Italy, 514–517. https:
+algum impacto em termos do tempo de resolução ou fechamento de //doi.org/10.1109/MSR.2015.77
+issues. Por fim, com o intuito de complementar a análise quantita- [17] Balazs Vedres and Orsolya Vasarhelyi. 2019. Gendered behavior as a disadvantage
+
+in open source software development. EPJ Data Science 8 (12 2019). Issue 1.
+tiva dos dados, podem ser realizadas entrevistas com mulheres que https://doi.org/10.1140/epjds/s13688-019-0202-z
+participam em ambos os tipos de comunidades, para se conhecer as [18] Stefano Zacchiroli. 2021. Gender Differences in Public Code Contributions: A
+percepções das mesmas quanto aos motivos que levam aos baixos 50-Year Perspective. IEEE Software 38, 2 (2021), 45–50. https://doi.org/10.1109/
+
+MS.2020.3038765
+índices obtidos. [19] Elijah Zolduoarrati and Sherlock A. Licorish. 2021. On the value of encou-
+
+raging gender tolerance and inclusiveness in software engineering commu-
+REFERÊNCIAS nities. Information and Software Technology 139 (11 2021), 106667. https:
+
+//doi.org/10.1016/j.infsof.2021.106667
+[1] Breno Fabrício Terra Azevedo. 2011. Minerafórum : um recurso de apoio para
+
+análise qualitativa em fóruns de discussão. Tese de Doutorado em Informática na
+Computação. Universidade Federal do Rio Grande do Sul.
+
+[2] Dane Bertram, Amy Voida, Saul Greenberg, and Robert Walker. 2010. Com-
+munication, Collaboration, and Bugs: The Social Nature of Issue Tracking in
+Small, Collocated Teams. In Proceedings of the 2010 ACM Conference on Computer
+Supported Cooperative Work (Savannah, Georgia, USA) (CSCW ’10). ACM, New
+York, NY, USA, 291–300. https://doi.org/10.1145/1718918.1718972
+
+[3] Torsten Biemann and Eric Kearney. 2010. Size does matter: How varying
+group sizes in a sample affect the most common measures of group diver-
+sity. Organizational Research Methods 13 (7 2010), 582–599. Issue 3. https:
+//doi.org/10.1177/1094428109338875
+
+[4] E.D. Canedo, Heloise Tives, Madianita Bogo, Fabiano Fagundes, and José Si-
+queira de Cerqueira. 2019. Barriers Faced by Women in Software Development
+Projects. Information 10 (10 2019), 309. https://doi.org/10.3390/info10100309
+
+[5] Gemma Catolino, Fabio Palomba, Damian A. Tamburri, Alexander Serebrenik,
+and Filomena Ferrucci. 2019. Gender Diversity and Women in Software Teams:
+How Do They Affect Community Smells?. In 2019 IEEE/ACM 41st International
+Conference on Software Engineering: Software Engineering in Society (ICSE-SEIS).

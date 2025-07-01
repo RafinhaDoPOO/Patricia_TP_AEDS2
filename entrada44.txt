@@ -1,0 +1,774 @@
+﻿Revista Brasileira de Informática na Educação – RBIE
+Brazilian Journal of Computers in Education
+(ISSN online: 2317-6121; print: 1414-5685)
+
+http://br-ie.org/pub/index.php/rbie
+
+Submission: dd/Mmm/yyyy; 1st round notif.: dd/Mmm/yyyy; New version: dd/Mmm/yyyy; 2nd round notif.: dd/Mmm/yyyy;
+Camera ready: dd/Mmm/yyyy; Edition review: dd/Mmm/yyyy; Available online: dd/Mmm/yyyy; Published: dd/Mmm/yyyy;
+
+Um fórum de discussão gamificado para o UFV Virtual Labs a
+fim de melhorar a interação e o engajamento dos estudantes
+
+Title: A gamified discussion forum for UFV Virtual Labs to improve student interaction and
+engagement
+
+Arthur Sales da Silva Gláucia Braga e Silva
+Universidade Federal de Viçosa - Campus Florestal Universidade Federal de Viçosa - Campus Florestal
+arthur.sales@ufv.br glaucia@ufv.br
+
+Resumo
+Este trabalho apresenta o desenvolvimento de um fórum de discussão para o UFV Virtual Labs, uma plataforma de
+Laboratórios Virtuais de apoio ao processo de ensino-aprendizagem que pode ser utilizada no contexto presencial ou
+remoto. Em ambientes desse tipo, é necessário que haja alguma funcionalidade que promova a comunicação entre
+professores e alunos. Assim, fóruns de discussão vêm se mostrando ser bastante eficazes para isso, além de que
+permitem aos alunos compartilharem seus conhecimentos entre si, de maneira a enriquecer os temas com diferentes
+ideias e experiências. Entretanto, para um fórum promover esses benefícios é necessário que os estudantes interajam
+mais efetivamente nele. Assim, para melhorar a interação e o engajamento dos estudantes, foi implementado um
+sistema de reputação gamificado com uma distribuição de pontos conforme o tipo de interação do aluno no fórum.
+Por fim, para avaliar o fórum, foi realizado um teste com usuários, em que 6 pessoas, membros da própria equipe do
+UFV Virtual Labs, participaram de uma discussão acerca do sistema de reputação e da usabilidade da ferramenta.
+Como resultados, na visão dos usuários (testadores), o fórum foi considerado uma funcionalidade intuitiva e de
+fácil uso, porém, houve uma dificuldade para entender como funciona a atualização da pontuação ao se fazer uma
+interação no fórum, visto que esta não acontece automaticamente. Além disso, através do resultado do ranking
+gerado na prova de conceito, foi possível visualizar que os participantes que mais interagiram, principalmente entre
+si, e com menor tempo de resposta ficaram nas posições mais altas.
+Palavras-chave: Fórum de Discussão; Fórum Educacional; Gamificação; Sistema de Pontuação.
+
+Abstract
+This work presents the development of a discussion forum for the UFV Virtual Labs, a Virtual Laboratories platform
+to support the teaching-learning process that can be used in the presential or remote context. In environments of
+this type, there needs to be some functionality that promotes communication between teachers and students. Thus,
+discussion forums have proven to be very effective for this, in addition they allow students to share their knowledge
+with each other, in order to enrich the themes with different ideas and experiences. However, for a forum to provide
+these benefits, it is necessary for students to interact more effectively in it. Thus, to improve student interaction and
+engagement, a gamified reputation system was implemented with a distribution of points according to the type of stu-
+dent interaction in the forum. Finally, to evaluate the forum, a user test was carried out, in which 6 people, members
+of the UFV Virtual Labs team, participated in a discussion about the reputation system and the tool’s usability. As a
+result, in the view of the users (testers), the forum was considered an intuitive and easy-to-use functionality, however,
+there was a difficulty in understanding how the score update works when interacting in the forum, since this does not
+happen automatically . In addition, through the result of the ranking generated in the proof of concept, it was possible
+to visualize that the participants who interacted the most, mainly with each other, and with the shortest response time
+were in the highest positions.
+Keywords: Discussion Forum; Educational Forum; Gamification; Scoring System.
+
+Cite as: da Silva, A., Braga e Silva, G. (2022). Um fórum de discussão gamificado para o UFV Virtual Labs para
+melhorar a interação e o engajamento dos estudantes. Brazilian Journal of Computers in Education (Revista
+Brasileira de Informática na Educação – RBIE), vol(33), pp-pp. DOI: 10.5753/RBIE.yyyy.vol.num.pp.
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+1 Introdução
+
+O crescente avanço da tecnologia na área da educação no Brasil tem sido muito benéfico para a
+educação no geral. O ensino à distância (EaD), por exemplo, faz uso da tecnologia como meio de
+ensino através de ferramentas que podem ser utilizadas a qualquer horário e de qualquer local, o
+que beneficia pessoas que não possuem tempo para um ensino totalmente presencial (Vasconcelos,
+Jesus, & Santos, 2020). Nesse cenário, um dos recursos usados são os Laboratórios Virtuais, que
+consistem em sistemas de laboratórios remotos onde os alunos não precisam participar presen-
+cialmente para a realização de experimentos. Dessa forma, alunos que não têm condições de se
+deslocarem até um laboratório presencial são beneficiados, já que podem acessar a esses sistemas
+de qualquer lugar (Amaral, Ávila, Zednik, & Tarouco, 2011).
+
+O UFV Virtual Labs é uma plataforma de Laboratórios Virtuais de apoio ao ensino-apren-
+dizagem de ciências da natureza e suas tecnologias. A plataforma abrange um ambiente Web,
+colaborativo e supervisionado, integrado a simulações de práticas laboratoriais, desenvolvidas em
+Unity 3D1. Ademais, é possível que os docentes recomendem materiais de estudo, como aulas e
+vídeos, para as turmas, além de terem acesso a dados detalhados sobre as atividades e os discentes.
+
+A plataforma UFV Virtual Labs pode ser utilizada no contexto do ensino remoto ou pre-
+sencial, como forma de substituir e/ou complementar as aulas presenciais. Por se tratar de uma
+plataforma de ensino remoto, não existe a facilidade de comunicação presencial, sendo portanto,
+imprescindível que exista um módulo que promova a comunicação entre professores e estudantes.
+Para isso, o fórum de discussão tem sido um dos recursos mais evidentes neste tipo de ambiente,
+já que permite uma comunicação assíncrona, ou seja, não é preciso que professor e aluno estejam
+conectados simultaneamente, o que possibilita que ambos os lados se comuniquem no melhor
+momento para eles (da Silva, 2019).
+
+A interação e a colaboração professor-aluno é um tema muito importante quando se trata
+de aprendizagem, uma vez que é por meio desta interação que, por exemplo, os professores con-
+seguem dar feedbacks para os alunos, apontando os erros e acertos para que o aluno possa ser
+direcionado ao caminho correto de aprendizado. Assim, o objetivo deste trabalho é apresentar o
+desenvolvimento de um fórum de discussão para o UFV Virtual Labs com o intuito de melhorar a
+interação e o engajamento dos estudantes. Para isso, o fórum oferecerá um sistema de reputação
+gamificado, com distribuição de pontos segundo o tipo de contribuição e o tempo de resposta do
+aluno.
+
+O restante do artigo está organizado da seguinte forma: a Seção 2 apresenta alguns trabalhos
+relacionados. A Seção 3 trata da fundamentação teórica sobre fóruns de discussão e técnicas de
+engajamento dos estudantes. Já a Seção 4, descreve a plataforma UFV Virtual Labs. A Seção 5
+traz os resultados das etapas do desenvolvimento do fórum. A Seção 6 apresenta uma prova de
+conceito do fórum implementado. Por fim, a Seção 7 apresenta a conclusão do trabalho.
+
+1https://unity.com/pt
+
+02
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+2 Trabalhos Relacionados
+
+O trabalho de Lima, Gerosa, Conte, and de M. Netto (2019) explora os benefícios e dificulda-
+des do uso de fóruns de discussão sob a perspectiva de professores de ensino à distância e busca
+apresentar várias estratégias e melhorias, como a gamificação, melhora da interface, recursos co-
+laborativos, sistema de reputação, categorização de mensagens, entre outras, para tornar o fórum
+de melhor uso e fazer com que os alunos participem mais. Os resultados obtidos são úteis para
+professores, desenvolvedores e pesquisadores para ajudá-los a melhorarem os fóruns de discussão
+através de uma série de estratégias, melhorias e dificuldades apresentadas que podem ser explora-
+das para aprimorar o uso da ferramenta. Já neste trabalho, será apresentado um fórum de discussão
+e um sistema de reputação gamificado que será utilizado como forma de avaliar a participação dos
+alunos por meio de uma distribuição de pontos conforme o tipo de interação e o tempo de resposta
+dos alunos. Dessa forma, será possível melhorar a interação e engajamento dos estudantes no
+fórum.
+
+Coetzee, Fox, Hearst, and Hartmann (2014) investigaram como o design do fórum afeta o
+processo de ensino-aprendizagem dos alunos. Para isso, eles realizaram um experimento com um
+sistema de reputação em que os participantes do fórum ganhavam pontos por fazerem postagens
+úteis. Concluiu-se que o sistema de reputação faz com que os alunos respondam às postagens no
+fórum mais rapidamente, além de ter um número maior de respostas. Além disso, como resultado
+de uma pesquisa com usuários, os alunos acharam tal funcionalidade útil e que melhorou a ex-
+periência de uso do fórum. Porém, com o uso do sistema de reputação, não houve um aumento
+significativo nas notas dos alunos, o que pode sugerir que ele não contribuiu substancialmente para
+o resultado das avaliações. Entretanto, o autor deixa claro que há várias questões que limitam a
+validação e a generalização dos resultados obtidos, como a participação de apenas um curso na in-
+vestigação, a pequena quantidade de usuários ativos durante a pesquisa, e ainda somente 20% dos
+participantes do experimento com o sistema de reputação consentiram em ter suas notas correla-
+cionadas. No fórum de discussão apresentado neste trabalho, será usado um sistema de reputação
+semelhante ao apresentado por Coetzee et al. (2014), mas ao invés dos alunos ganharem ou per-
+derem pontos de acordo com upvotes e downvotes, eles aumentam sua pontuação conforme o tipo
+de interação no fórum. Por exemplo, ganham pontos por responderem comentários, por iniciarem
+discussões e aprofundarem as respostas dos outros. Acredita-se que essa abordagem gamificada
+de pontuação possa melhorar a interação e o engajamento dos alunos através de uma competição
+saudável entre si, além de fazer com que gostem mais de usar o fórum.
+
+Morales, Amado-Salvatierra, Hernández, Pirker, and Gütl (2016) traz uma análise para ten-
+tar resolver um dos maiores problemas em cursos on-line: a alta taxa de desistência dos alunos.
+Para isso, é analisada a utilização de técnicas de gamificação para promover um melhor e mais
+motivacional aprendizado. Os exemplos abordados são distribuição de prêmios por atividades, uti-
+lização de níveis e rankings para incentivar o progresso e a competição, e badges por participação
+em fóruns. Assim, foram realizados testes com 1678 participantes experimentando essas técnicas,
+e foi obtido como resultado que o método de gamificação mais efetivo é a distribuição de prêmios
+por realização de atividades. Neste trabalho, foi utilizado como técnica de engajamento um sis-
+tema de reputação gamificado com distribuição de pontos conforme as interações dos alunos no
+fórum de discussão, a fim de melhorar a interação e o engajamento dos estudantes.
+
+A Tabela 1 apresenta um comparativo das contribuições deste trabalho à luz dos trabalhos
+
+03
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+relacionados.
+
+Tabela 1: Comparativo entre o presente trabalhos e os Trabalhos Relacionados.
+
+Sistema de Apresentação de Análise de
+Gamificação
+
+Reputação um Fórum Dados
+(Lima et al., 2019) X X X
+
+(Coetzee et al., 2014) X
+(Morales et al., 2016) X
+
+Este Trabalho X X X
+
+3 Fóruns de Discussão Educacionais
+
+Um fórum de discussão é um espaço de comunicação constituído por mensagens que são clas-
+sificadas tematicamente (Sánchez, 2005). Quanto às interações, os alunos podem criar novos
+comentários, interagir em outras respostas, receber feedbacks de outros discentes ou docentes, o
+que auxilia para se ter uma discussão profunda sobre o assunto abordado. Tudo isso ocorre de
+forma assíncrona, ou seja, os usuários podem interagir no momento mais oportuno para eles. Essa
+característica permite um aprendizado mais flexibilizado, uma vez que o fórum pode ser usado a
+qualquer momento. Desta forma, é possível que os alunos tenham mais tempo para organizar e
+escrever suas ideias.
+
+O fórum de discussão oferece uma rede de aprendizado que permite aos alunos buscar, obter
+e compartilhar conhecimentos. Desta forma, esta ferramenta enriquece o processo de ensino e
+aprendizagem deles, além de proporcionar-lhes uma experiência de como agir em uma discussão,
+o que melhora o pensamento crítico dos mesmos. Além disso, o acesso a diferentes respostas
+permite que o aluno possa ver diferentes abordagens sobre o assunto discutido, o que é muito
+benéfico para construir um conhecimento aprofundado acerca do tema (Onyema et al., 2019).
+
+De acordo com Sondermann and Baldo (2017), um fórum pode ter diversos tipos, com
+configurações e objetivos específicos, conforme pode ser observado na Tabela 2.
+
+Tabela 2: Tipos de Fórum de Discussão (Sondermann & Baldo, 2017).
+
+Tipo Descrição
+Discussão simples Possui apenas um tópico para uma pergunta. Tem o intuito de permitir
+
+uma discussão curta acerca de um tema específico.
+Fórum Geral Todos os participantes podem adicionar tópicos de discussão, ou seja, é
+
+um fórum aberto.
+Um tópico por usuário Cada participante pode adicionar apenas um tópico de discussão. Pode
+
+ser usado em atividades que os alunos devem organizar uma discussão
+acerca de um tema.
+
+Perguntas e Respostas Os alunos têm acesso aos comentários dos demais somente depois de
+adicionar sua resposta. Isso possibilita que os estudantes criem sua res-
+posta sem consultar a dos outros.
+
+Para um fórum ser um espaço organizado capaz de permitir que discussões acerca de deter-
+minados assuntos aconteçam, acredita-se que ele deva seguir a seguinte composição de elementos:
+
+04
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+1. Tópicos de discussão: geralmente usados para definir qual a temática será discutida;
+
+2. Comentário inicial: normalmente consiste em uma descrição de como os alunos devem criar
+suas respostas com relação ao tema de discussão;
+
+3. Comentários: são as respostas referentes ao assunto abordado no tópico;
+
+4. Respostas a comentários: são comentários de outros comentários, ou seja, um usuário apro-
+fundando na resposta de outro, seja refutando, concordando ou esclarecendo suas ideias.
+
+3.1 Técnicas de Engajamento
+
+Para que o aprendizado seja de qualidade em um fórum de discussão, é preciso que haja colabora-
+ção e interação entre os alunos e professores, de forma a aumentar a troca de ideias e informações,
+contribuindo para a produção de um conhecimento coletivo. No entanto, nem sempre os discentes
+conseguem perceber a importância do fórum nem o olham sob essa perspectiva. Geralmente, fa-
+zem somente o mínimo para ganhar os pontos e não se importam em construir uma discussão mais
+aprofundada sobre um determinado tema (Mantovani, Gouvêa, & Viana, 2016). Desta forma, é
+necessário que haja formas de engajar os alunos a participarem mais dos fóruns, seja por estímu-
+los diretos dos docentes ou por meio de técnicas embutidas no próprio fórum (Soares, Mendes,
+Machiavelli, & de Gusmão, 2020).
+
+Dentre as técnicas utilizadas para se aumentar o engajamento dos estudantes, destacam-se:
+
+1. Gamificação: utilização de mecânicas de jogos para engajar e motivar os alunos a partici-
+parem mais (Lima et al., 2019; Tan & Hew, 2016; Morales et al., 2016);
+
+2. Sistema de reputação: distribuição de pontos seguindo algum critério, como participação ou
+qualidade do comentário, com o intuito de estimular os alunos por meio de uma competição
+saudável (Coetzee et al., 2014; Howley, Tomar, Ferschke, & Rose, 2017);
+
+3. Relevância temática das mensagens: utilização de um algoritmo para calcular a relevância
+dos comentários, de forma a auxiliar os docentes na avaliação dos alunos (Azevedo, 2011;
+Machado, Maciel, Rodrigues, & Menezes, 2019);
+
+4 O UFV Virtual Labs
+
+O UFV Virtual Labs é uma plataforma de Laboratórios Virtuais de apoio ao processo de ensino-
+aprendizagem de ciências da natureza e suas tecnologia. O módulo Web oferece um ambiente
+colaborativo e supervisionado, com funcionalidades de suporte à interação entre professores e alu-
+nos no contexto das práticas simuladas. Por meio desse ambiente, os docentes podem recomendar
+materiais para auxiliar no aprendizado dos alunos, tal como analisar detalhadamente dados sobre
+as notas e atividades dos discentes, incluindo o monitoramento dos mesmos durante a execução
+das práticas simuladas.
+
+O módulo Web do UFV Virtual Labs, ilustrado pela Figura 1, é dividido em duas visões:
+a do professor e a do aluno. Na visão do professor, é possível gerenciar turmas, utilizar das
+
+05
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+disciplinas, aulas e práticas cadastradas no sistema, sugerir materiais de estudo, propor atividades
+para os alunos, e avaliar essas atividades. A Figura 2 exemplifica a gestão de turmas por um
+professor. Já na visão do aluno (Figura 3), é possível acessar as aulas e recursos pedagógicos
+que foram propostos para a turma a qual faz parte, e realizar as atividades e práticas laboratoriais
+simuladas.
+
+Figura 1: Módulo Web do UFV Virtual Labs - Tela de Disciplina.
+
+Figura 2: Visão do Professor no UFV Virtual Labs - Tela de Turma.
+
+06
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+Figura 3: Visão do Aluno no UFV Virtual Labs - Perfil do Aluno.
+
+O módulo Simulações, por sua vez, abrange um conjunto de simulações de práticas la-
+boratoriais, desenvolvidas em Unity 3D, que permitem aos alunos realizar experimentos em um
+laboratório virtual de biologia, sem sair de casa. Para exemplificar, a Figura 4 apresenta uma
+simulação de uma prática de treinamento de uso de uma pipeta.
+
+Figura 4: Simulação do UFV Virtual Labs para treinamento de uso de uma pipeta.
+
+5 Desenvolvimento de um Fórum de Discussão para o UFV Virtual Labs
+
+Esta seção apresenta as etapas do desenvolvimento de um fórum de discussão geral (aberto) para o
+UFV Virtual Labs, que implementa um sistema de reputação gamificado. Para isso, foram elabo-
+radas as especificações e a modelagem dos diagramas de classes e dados, juntamente com o design
+
+07
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+das interfaces, para que a nova funcionalidade pudesse ser desenvolvida, testada e implantada.
+
+5.1 Especificações do Sistema
+
+Dentre as especificações elaboradas para inclusão desta nova funcionalidade à plataforma, tem-se
+os requisitos funcionais e não-funcionais; as regras do negócio, separadas por perfil de usuário; e
+as regras de pontuação do sistema de reputação gamificado.
+
+5.1.1 Requisitos Funcionais
+
+Para os requisitos funcionais, foi elaborado um diagrama de casos de uso (Figura 5), a fim de
+especificar quais funcionalidades cada ator pode executar no fórum. Trata-se de um diagrama da
+UML2, usado para modelagem gráfica dos requisitos funcionais de um sistema. O diagrama foi
+construído na ferramenta de modelagem Astah3, que oferece uma licença para estudantes.
+
+Figura 5: Diagrama de Casos de Uso.
+
+Como pode ser visto na Figura 5, o ator “Estudante” pode responder comentários, postar
+comentários, criar tópicos, exibir ranking e exibir fóruns. Já o ator “Professor”, tem permissão
+para fazer tudo que o estudante faz, além de gerenciar fóruns (incluindo a criação) e gerenciar
+tópicos. Para complementar o diagrama, os casos de uso foram também documentados em termos
+dos seus fluxos de execução, mas esta documentação não foi disponibilizada aqui por restrições
+de espaço.
+
+5.1.2 Requisitos Não-Funcionais
+
+Quanto aos requisitos não-funcionais, o desenvolvimento do fórum não demandou por nenhuma
+nova especificação. No entanto, o desenvolvimento dessa nova funcionalidade foi guiado pelos
+requisitos não-funcionais já existentes na plataforma do UFV Virtual Labs, com destaque para:
+
+1. A plataforma UFV Virtual Labs deve estar disponível na Web;
+
+2. As informações do sistema devem ser armazenadas em um banco de dados não relacional
+(NoSQL);
+
+2https://www.omg.org/spec/UML/
+3https://astah.net/
+
+08
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+3. O módulo Web deve ser desenvolvido utilizando a linguagem de programação JavaScript
+em conjunto com a biblioteca React e o framework Node.js;
+
+4. O controle de acesso deve contemplar 2 níveis de usuários, com acesso ao fórum: aluno e
+professor;
+
+5. As interfaces com o usuário devem ser prototipadas, com base em boas práticas de usabili-
+dade e tomando-se como base outros fóruns já estabelecidos;
+
+6. As interfaces devem ser avaliadas, em nível de protótipos e testadas por usuários, após o
+desenvolvimento;
+
+7. As interfaces devem seguir a identidade visual das demais interfaces da plataforma;
+
+5.1.3 Regras do Negócio e Perfis de Usuários
+
+As regras do negócio foram pensadas com o intuito de controlar o acesso dos dois tipos de usuários
+do fórum de discussão: aluno e professor. O professor tem o papel de supervisor do fórum,
+possuindo mais permissões.
+
+O fórum desenvolvido conta com um status podendo ser “Programado”, “Em andamento”
+ou “Encerrado”, para controlar quando as interações podem ocorrer. Em função dessas regras,
+outras regras de acesso às funcionalidades foram definidas, com destaque para:
+
+1. Adicionar a resposta inicial: para um aluno é necessário ser o criador do tópico e o fórum
+precisa estar com o status “Em andamento”. Já para um professor, é possível realizar tal
+ação mesmo ele não sendo quem criou o tópico, além de poder executá-la para os status
+“Em andamento” e “Programado”;
+
+2. Remover um comentário: para um aluno, ele deve ser o dono do comentário. Já para um
+professor, é possível executar esta ação para qualquer comentário e status;
+
+3. Adicionar tópico: é necessário o status ser “Em andamento” ou caso o usuário for um
+professor, é possível realizar a ação caso o status seja “Em andamento” ou “Programado”;
+
+4. Editar tópico: o status precisa ser diferente de “Encerrado” e é necessário que seja um
+professor executando a ação ou o autor do tópico;
+
+5. Editar Fórum: somente o professor e o status não pode ser “Encerrado”;
+
+5.1.4 Sistema de Reputação Gamificado
+
+As regras de pontuação do sistema de reputação foram elaboradas pelos próprios autores de forma
+a pontuar os alunos conforme a interação e a colaboração nos fóruns de discussão, com o intuito de
+melhorar a interação e engajamento dos alunos. A pontuação será atribuída segundo as seguintes
+regras:
+
+09
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+• 3 pontos para um aluno que responder o comentário inicial de um tópico: regra com menor
+pontuação, considerando que essa resposta inicial envolve menor esforço do aluno e pode,
+em alguns casos, ser até mesmo uma exigência do professor;
+
+• 5 pontos para um aluno que criar o tópico mais a resposta inicial: regra visando incentivar
+os próprios alunos a iniciarem discussões.
+
+• 5 pontos para um aluno que responder um comentário que não seja a resposta inicial: regra
+voltada a promover interação e colaboração aluno-aluno, o que beneficia o aprendizado,
+uma vez que estimula troca de ideias e informações, com aprofundamento do tema.
+
+• Acréscimo de pontos conforme o tempo de resposta: regra com o intuito de incentivar os
+alunos a responderem mais rápido, seguindo está lógica:
+
+( f/t)∗5
+
+Em que f é a quantidade de dias até o fim do fórum, e t o total de dias que os alunos podem
+interagir.
+Em outras palavras, é possível receber um máximo de 5 pontos e um mínimo de 0 (caso
+responda no último dia) de bônus na pontuação do aluno. Então, se um estudante responder
+o comentário inicial de um tópico (3 pontos) no primeiro dia de um fórum que possui mais
+de um dia para interagir, ele receberá um bônus de 5 pontos, resultando em uma pontuação
+final igual a 8. Essa estratégia visa incentivar os alunos a responderem mais rápido e evitar
+que deixem a participação para última hora, aumentando as chances de se ter mais respostas
+e a discussão acerca do tema ser mais abrangente.
+
+Por fim, ressalta-se que um aluno não é pontuado por responder o seu próprio comentário, e
+um professor não participa da distribuição dos pontos.
+
+5.2 Modelagem de Classes e Dados
+
+Com base nos casos de uso foi elaborado o diagrama de classes (Figura 6), com o intuito de
+auxiliar no desenvolvimento das coleções no banco de dados.
+
+No desenvolvimento desse diagrama foi preciso pensar em quais atributos e métodos as fun-
+cionalidades e regras do fórum precisam para funcionarem corretamente. Para isso, foi elaborado
+da seguinte forma: a classe “Forum” possui, além de seus atributos, uma lista de tópicos, e con-
+sequentemente, tem uma relação de um para zero ou muitos com a classe “Topico”; “Topico”
+apresenta, salvo suas próprias propriedades, uma resposta inicial, e com isso, possui uma relação
+de um para zero ou uma correspondência com “Comentario”;“Comentario” é relacionado com ele
+próprio com cardinalidade um para zero ou muitos; a interface “Autor” é uma dependência para
+as classes “Topico” e “Comentario”; e “Estudante” e “Professor’ implementam “Autor”.
+
+O modelo de classes foi usado como base para elaboração do modelo de dados, conside-
+rando as particularidades de uma abordagem não relacional de banco de dados. Foi utilizado o
+Hackolade4, uma ferramenta de construção de diagramas para bancos NoSQL. O modelo é com-
+posto por duas coleções novas (“Forum” e “Ranking”) que foram elaboradas conforme as suas
+
+4https://hackolade.com/
+
+10
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+Figura 6: Diagrama de Classes.
+
+classes e uma já existente no contexto da plataforma (“Turma”) que foi adicionada (com apenas
+dois de seus atributos) somente para ajudar na visualização.
+
+Importante ressaltar que o modelo de classes UML foi utilizado para guiar a modelagem
+dos dados e também para nortear a modelagem das funções do fórum. No entanto, como o código
+em si não é orientado a objetos e segue o paradigma funcional, para atender aos requisitos não-
+funcionais da plataforma UFV Virtual Labs (linguagem de programação JavaScript, biblioteca
+React e framework Node.js), as classes modeladas não foram implementadas de fato.
+
+5.3 Design das Interfaces com Usuário
+
+Os protótipos das interfaces foram construídos utilizando a ferramenta Figma5, um editor gráfico
+de vetor e prototipagem de projetos de design. Os protótipos foram importantes para antecipar
+uma avaliação heurística de usabilidade do sistema e também porque guiam a implementação das
+interfaces finais no front-end da aplicação.
+
+5.4 Desenvolvimento do Fórum
+
+Para desenvolvimento do fórum, foram utilizadas as mesmas tecnologias já adotadas na plata-
+forma do UFV Virtual Labs, conforme descrito nos requisitos não-funcionais, a saber: biblioteca
+React para o front-end e o framework Node.js para o back-end; um banco de dados NoSQL, im-
+plementado no Google Cloud Firestore; e o Firebase para deploy e hosting da aplicação.
+
+Como o fórum é uma funcionalidade integrada às demais da plataforma, inicialmente, foi
+feito o clone dos arquivos tanto do front-end, quanto os do back-end do projeto, hospedado em
+um repositório do GitHub6.
+
+5https://www.figma.com/
+6https://github.com/
+
+11
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+A IDE Visual Studio Code foi utilizada para codificação do fórum. Também foi necessário
+instalar o Node.js, versões 12.4.0 e 14.18.0, para execução do back-end e do front-end, respecti-
+vamente.
+
+5.4.1 Fórum Desenvolvido
+
+Na visão do aluno, o fórum foi disponibilizado, por meio de uma aba, na área “Meu Perfil”, como
+pode ser visto na Figura 7.
+
+Figura 7: Fórum de Discussão Implementado - Visão Aluno.
+
+Já na visão do professor, o fórum foi disponibilizado, também por meio de uma aba, na área
+onde se controla uma turma, conforme ilustra a Figura 8.
+
+Figura 8: Fórum de Discussão Implementado - Visão Professor.
+
+Os comentários do fórum ficam aninhados em certos níveis de recuo à esquerda, de forma
+
+12
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+que fique claro qual é o comentário “pai” (caso exista). Em outras palavras, a resposta inicial fica
+no nível 0 e todas as respectivas respostas dela ficam no 1. Caso alguma delas possua comentários
+“filhos”, eles estarão no nível 2, e assim sucessivamente. Isso contribui para a usabilidade do
+fórum, uma vez que os comentários e suas respostas serão facilmente localizados. Essa forma de
+estruturação pode ser observada na Figura 9.
+
+Figura 9: Organização dos comentários no Fórum.
+
+O ranking com as pontuações e posições organizadas de acordo com os alunos que mais
+pontuaram, pode ser visto tanto na visão do professor, ao lado da aba de fóruns de discussão,
+quanto na do aluno, localizado também próximo à parte de fórum na tela de perfil. A Figura 10
+ilustra o ranking na visão do professor.
+
+Figura 10: Ranking Implementado - Visão Professor.
+
+13
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+Com relação ao sistema de reputação, as regras de pontuação estão acessíveis na tela “Meu
+Perfil”, nas abas “Fóruns de Discussão” e “Ranking”, e podem ser consultadas pelo aluno ao clicar
+na sua pontuação, localizada no canto superior direito da tela, conforme pode ser visto na Figura
+11.
+
+Figura 11: Regras de Pontuação do Sistema de Reputação.
+
+A lógica de funcionamento do fórum de discussão, com base nas regras descritas na Seção
+5.1.3, segue o seguinte fluxo, conforme a funcionalidade acessada:
+
+1. Criação de um fórum: acessível ao professor, através do clique no ícone “+”, disponível na
+aba “Fóruns de Discussão”. A partir disso, abre-se uma tela para preenchimento dos dados
+do novo fórum.
+
+2. Adição de um tópico: em um fórum expandido, o usuário deve clicar no botão “Adicionar
+Tópico”. Logo após, aparecerá uma tela onde deve-se preencher as informações do novo
+tópico.
+
+3. Adicionar comentário inicial: por meio de um tópico expandido, o usuário precisa clicar no
+botão “Adicionar Primeira Resposta”. Em seguida, exibe-se uma tela para preenchimento
+dos dados do comentário.
+
+4. Responder um comentário: acessível por meio do clique no botão “Responder” presente no
+comentário em que se deseja adicionar a resposta, e então aparecerá uma tela onde deve-se
+preencher o texto do novo comentário.
+
+14
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+6 Prova de Conceito
+
+Para avaliar o fórum, foi realizada uma prova de conceito com a participação de 6 pessoas que
+fazem parte da equipe do projeto do UFV Virtual Labs, mas não participaram do desenvolvimento
+do fórum em si.
+
+Para isso, criou-se um fórum com dois tópicos de discussão: “Usabilidade do Fórum” e
+“Sistema de Reputação”. O primeiro teve como objetivo descobrir o que os participantes acharam
+sobre a usabilidade do fórum de discussão. Já o segundo, abriu uma discussão sobre o sistema de
+reputação e como ele pode ajudar no engajamento dos alunos.
+
+A Tabela 3 apresenta os resultados quantitativos da prova de conceito, em termos da quan-
+tidade de comentários e respostas postados. Ressalta-se que o total de participantes consta como
+8 porque inclui os 2 autores deste trabalho, sendo que um deles foi o responsável pela criação do
+fórum, dos tópicos e da primeira resposta para estes.
+
+Tabela 3: Resultados Quantitativos da Prova de Conceito.
+
+Tópico Comentários Participantes Respostas principais Comentários de comentários
+Usabilidade do Fórum 9 8 6 2
+Sistema de Reputação 9 5 3 5
+
+Tendo em vista esses dados, é possível observar que o tópico sobre o sistema de reputação
+gamificado obteve um número elevado de “comentários de comentários”. Isso aconteceu, porque
+um dos participantes teve uma dúvida sobre a visualização da sua pontuação do ranking, e outros
+participantes ou tentaram esclarecer ou também tiveram o mesmo problema. Assim, pode-se dizer
+que a exibição dos pontos não ficou de fácil entendimento para os usuários, sendo um ponto de
+atenção quanto à usabilidade. O causador desse problema é o fato de que a pontuação e o ranking
+não atualizam automaticamente quando o usuário faz uma interação no fórum (existe uma certa
+complexidade para tornar automático).
+
+Com base nas respostas dos comentários dos participantes e após realizar um tratamento
+para remover stop words, palavras consideradas irrelevantes para o resultado, foi elaborada uma
+nuvem de palavras (Figura 12) pela ferramenta WordClouds7. Nela, é possível observar que ga-
+nharam destaque palavras como: “gostei”, “simples”, “fácil”, “intuitivo” e “familiar”, indicando
+que os participantes tiveram uma boa experiência de uso do fórum.
+
+Como resultado das interações dos participantes, as pontuações do Autor 1 e Autor 2 ficaram
+no topo do ranking. Isso ocorreu devido a uma maior motivação, naturalmente, dos autores para
+participar e analisar o fórum, além de terem respondido às dúvidas e comentários dos outros par-
+ticipantes, o que gerou muitos pontos devido à distribuição ser conforme a interação. Importante
+destacar que outros 3 participantes também se engajaram e tiveram pontuações bem próximas aos
+primeiros colocados. Enquanto isso, os demais integrantes do teste que interagiram menos ou
+demoraram para responder, ficaram em posições mais baixas do ranking. O ranking final pode ser
+visto na Figura 13.
+
+7https://www.wordclouds.com/
+
+15
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+Figura 12: Nuvem de Palavras dos Comentários da Prova de Conceito.
+
+Figura 13: Ranking Resultante da Prova de Conceito.
+
+Então, com base no teste realizado foi possível identificar um problema na usabilidade: a
+
+16
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+atualização da pontuação do usuário não acontecer de forma automática quando este interage no
+fórum de discussão. O que gerou uma dificuldade nos usuários para entender como funciona essa
+atualização e se realmente estavam ganhando pontos. Dessa forma, foram abertas issues para
+resolver essa questão futuramente.
+
+7 Considerações Finais
+
+Este trabalho apresentou os detalhes do desenvolvimento de um fórum de discussão para o UFV
+Virtual Labs. O fórum teve como diferencial um sistema de reputação gamificado com uma distri-
+buição de pontos conforme o tipo de contribuição e o tempo de resposta, com intuito de melhorar
+a interação e o engajamento dos estudantes.
+
+Por meio de uma prova de conceito com a própria equipe do UFV Virtual Labs, foi possível
+avaliar a usabilidade do fórum e o sistema de reputação gamificado. Os resultados desse teste
+de usabilidade simplificado mostraram uma avaliação positiva por parte dos usuários, que consi-
+deraram o fórum intuitivo e de fácil uso. Com relação ao sistema de reputação, os participantes
+avaliaram ser uma boa estratégia para incentivar e engajar os alunos a participarem mais do fórum.
+Entretanto, o teste revelou algumas issues que serão tratadas em versões futuras da ferramenta.
+
+Como trabalhos futuros, destacam-se: a) aplicar o fórum com turmas reais das disciplinas
+de Genética e Biologia Molecular, e realizar testes de usabilidade com os mesmos; b) adicionar
+funcionalidades de geração de relatórios de participação dos alunos e notificação de eventos por
+e-mail; e c) refinar o sistema de reputação de forma a colocar certas conquistas e prêmios para
+cada uma, a fim de incentivar e engajar ainda mais os alunos.
+
+Referências
+
+Amaral, , Ávila, B., Zednik, H., & Tarouco, L. (2011, dez.). Laboratório virtual de aprendizagem:
+Uma proposta taxonômica. RENOTE, 9(2). Retrieved from https://www.seer.ufrgs.br/index
+.php/renote/article/view/24821
+
+Azevedo, B. F. T. (2011). Minerafórum : um recurso de apoio para análise qualitativa em fóruns
+de discussão. Unpublished doctoral dissertation, Universidade Federal do Rio Grande do
+Sul. [GS Search]
+
+Coetzee, D., Fox, A., Hearst, M. A., & Hartmann, B. (2014). Should your mooc forum use
+a reputation system? In Proceedings of the 17th acm conference on computer supported
+cooperative work amp; social computing (p. 1176–1187). New York, NY, USA: Association
+for Computing Machinery. Retrieved from https://doi.org/10.1145/2531602.2531657
+
+da Silva, A. (2019). O uso do fórum em um curso de graduação a distância: Formação e aprendiza-
+gem. In Anais do iv congresso sobre tecnologias na educação (pp. 138–145). Porto Alegre,
+RS, Brasil: SBC. Retrieved from https://sol.sbc.org.br/index.php/ctrle/article/view/8884
+
+Howley, I., Tomar, G. S., Ferschke, O., & Rose, C. P. (2017, November). Reputation Systems
+Impact on Help Seeking in MOOC Discussion Forums. IEEE Trans. Learn. Technol., 1.
+
+Lima, D. P. R., Gerosa, M. A., Conte, T. U., & de M. Netto, J. F. (2019, Dec 04). What to
+expect, and how to improve online discussion forums: the instructors’ perspective. Journal
+
+17
+
+
+
+da Silva, A. S., Braga e Silva, G.
+RBIE v.30 – 2022
+
+of Internet Services and Applications, 10(1), 22. Retrieved from https://doi.org/10.1186/
+s13174-019-0120-0
+
+Machado, C. J. R., Maciel, A. M. A., Rodrigues, R. L., & Menezes, R. (2019, July). An Approach
+for Thematic Relevance Analysis Applied to Textual Contributions in Discussion Forums.
+IJDET , 17(3), 37–51.
+
+Mantovani, D. M. N., Gouvêa, M. A., & Viana, A. B. N. (2016). Fórum de discussão como
+ferramenta no ensino de administração: um estudo em uma disciplina de estatística aplicada.
+Revista de Administração da Universidade Federal de Santa Maria, 9(4), 681–698.
+
+Morales, M., Amado-Salvatierra, H. R., Hernández, R., Pirker, J., & Gütl, C. (2016, July). A
+Practical Experience on the Use of Gamification in MOOC Courses as a Strategy to Incre-
+ase Motivation. In Learning Technology for Education in Cloud – The Changing Face of
+Education (pp. 139–149). Cham, Switzerland: Springer.
+
+Onyema, E. M., Lecturer, Dept. o. C. S., Deborah, E. C., Alsayed, A. O., Naveed, Q. N., Sanober,
+S., . . . Science, P. S. A. A. U. (2019). Online Discussion Forum as a Tool for Interactive
+Learning and Communication. International Journal of Recent Technology and Engineering
+(IJRTE), 8(4), 4852–4868. [GS Search]
+
+Soares, I., Mendes, P., Machiavelli, J., & de Gusmão, C. (2020). Fóruns de discussão em am-
+bientes virtuais de aprendizagem: Um mapeamento sistemático do seu uso nos contextos
+brasileiro e latino-americano. In Anais do v congresso sobre tecnologias na educação (pp.
+530–539). Porto Alegre, RS, Brasil: SBC. Retrieved from https://sol.sbc.org.br/index.php/
+ctrle/article/view/11431
+
+Sondermann, D., & Baldo, Y. (2017, 02). O uso da ferramenta cognitiva fórum no processo
+de ensino-aprendizagem na modalidade a distância. Revista Brasileira de Informática na
+Educação, 24, 75.
+
+Sánchez, L. P. (2005, June). El foro virtual como espacio educativo: propuestas diácticas para
+su uso. Retrieved from http://www.quadernsdigitals.net/datos_web/hemeroteca/r_1/nr_662/
+a_8878/8878.html
+
+Tan, M., & Hew, K. F. (2016, Dec.). Incorporating meaningful gamification in a blended learning
+research methods class: Examining student learning, engagement, and affective outcomes.
+Australasian Journal of Educational Technology, 32(5). Retrieved from https://ajet.org.au/
+index.php/AJET/article/view/2232
+
+Vasconcelos, C. R. D., Jesus, A. L. P. d., & Santos, C. d. M. (2020, Mar.). Ambiente virtual
+de aprendizagem (ava) na educação a distância (ead): um estudo sobre o moodle / virtual
+learning environment (ava) in distance education (ead): a study on moodle. Brazilian Jour-
+nal of Development, 6(3), 15545–15557. Retrieved from https://brazilianjournals.com/ojs/
+index.php/BRJD/article/view/8165
+
+18

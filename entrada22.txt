@@ -1,0 +1,492 @@
+﻿Meta-Game: Um Jogo Sério para Auxiliar o Ensino
+de Algoritmos Genéticos
+
+Jose Grigorio Neto Daniel Mendes Barbosa
+Instituto de Ciências Exatas e Tecnológicas Instituto de Ciências Exatas e Tecnológicas
+
+Universidade Federal de Viçosa - Campus UFV-Florestal Universidade Federal de Viçosa - Campus UFV-Florestal
+Florestal, Brasil Florestal, Brasil
+
+jose.grigorio@ufv.br danielmendes@ufv.br
+
+Resumo—Tendo em vista a popularização dos jogos digitais II. FUNDAMENTAÇÃO TEÓRICA
+e os benefı́cios que eles podem gerar à área da educação, este
+trabalho consiste na apresentação de um protótipo de um jogo A utilização de jogos como um método didático tem como
+educativo, chamado Meta-Game, que tem como foco o ensino
+de conceitos envolvendo algoritmos genéticos e meta-heurı́sticas. objetivo aumentar qualitativamente a aprendizagem e o ensino
+O protótipo foi avaliado por alunos do curso de ciência da de uma área ou conteúdo [3]. Apesar de ser um tema que
+computação da Universidade Federal de Viçosa - Campus Flore- vem sendo pesquisado recentemente, ainda possui algumas
+stal através do teste MEEGA+ e os resultados obtidos mostram lacunas e oportunidades para se criar e desenvolver novas
+que o jogo é efetivo em auxiliar o aprendizado de algoritmos ferramentas para imersão, junto a novas estratégias de como o
+genéticos além de ter sido bem aceito pelos jogadores que o
+testaram. jogo é propriamente construı́do e estruturado, e para contextos
+
+Palavras-chave—jogo educativo; heurı́sticas; meta-heurı́sticas; especı́ficos ou mesmo para o ensino de um assunto especı́fico.
+algoritmo genético; jogos sérios; ensino superior;
+
+A. Heurı́sticas
+I. INTRODUÇÃO
+
+Um algoritmo é chamado heurı́stico caso não se tenha con-
+A adição de jogos no contexto educacional vem ganhando hecimentos matemáticos completos sobre seu comportamento
+
+relevância visto que as tecnologias que utilizamos diariamente [4]. As heurı́sticas não garantem encontrar a solução ótima
+evoluem constantemente fazendo com que novas utilidades de um problema, na verdade, o objetivo de uma heurı́stica é
+surjam. Atualmente, os jovens estão acostumados ao uso de encontrar uma solução viável para um problema complexo de
+dispositivos tecnológicos como computadores e smartphones. maneira simples e rápida.
+De acordo com as estimativas mundiais, 97% dos jovens se
+dedicam a jogos de computador ou consoles [1], portanto, é B. Meta-heurı́sticas
+importante que esse tipo de mı́dia também seja utilizada no
+contexto educacional. A meta-heurı́stica pode ser definida como um conjunto
+
+Jogos sérios ou serious games são jogos utilizados com o de conceitos que pode ser utilizado para definir modelos
+propósito de ensino, aprendizagem ou treinamento, ou seja, heurı́sticos que podem ser aplicados a uma grande quantidade
+são ferramentas para simular problemas do mundo real num de problemas, ou seja, uma estrutura genérica que pode ser
+mundo digital [2]. Os Jogos sérios são utilizados numa var- utilizada na resolução de vários problemas de otimização difer-
+iedade de áreas, como, por exemplo: educação, treinamento entes [5]. Uma meta-heurı́stica necessita de poucas mudanças
+profissional, saúde, publicidade e polı́ticas públicas. para que seja adaptada para a resolução de cada problema
+
+O Meta-Game é um jogo sério que tem como obje- especı́fico em que seja necessária.
+tivo a visualização da execução de algoritmos genéticos,
+onde é possı́vel observar seus comportamentos em diferentes C. Algoritmos genéticos
+situações. No jogo é possı́vel criar um algoritmo genético e
+modificar seus parâmetros, de maneira que ele seja adequado Algoritmos genéticos (AGs) é uma meta-heurı́sticas inspi-
+para uma dada situação. radas nos mecanismos de evolução de populações de seres
+
+O restante do trabalho está organizado da seguinte forma: vivos. São algoritmos que se baseiam na seleção natural e no
+a Seção II apresenta os conceitos utilizados na construção princı́pio de sobrevivência dos mais aptos, onde os indivı́duos
+do jogo; a Seção III apresenta alguns jogos com temática mais aptos têm uma maior probabilidade de reprodução, e,
+relacionada; a Seção IV os materiais e métodos utilizados; a portanto, possuem mais chance de gerar descendentes. [6]. De
+Seção V apresenta o desenvolvimento do Meta-Game; a Seção acordo com Charles Darwin, ”Quanto melhor um indivı́duo
+VI apresenta os resultados da avaliação do jogo e a Seção VII se adaptar ao seu meio ambiente, maior será sua chance de
+as conclusões. sobreviver e gerar descendentes.”.
+
+
+
+III. TRABALHOS RELACIONADOS Windows, Linux e Mac e para consoles como Xbox, Playsta-
+A seguir serão citados alguns trabalhos com propostas tion e Nintendo Switch.
+
+parecidas com a proposta do Meta-Game, como jogos sérios A nossa escolha em desenvolver o jogo no Unity se justifica
+com propósito educacional, voltados ao complemento de um na facilidade da ferramenta para lidar com gráficos e fı́sicas
+assunto estudado pelo jogador e que tenham estudantes como 2D, além do suporte a múltiplas plataformas, visto que o
+principal público-alvo. jogo foi disponibilizado para teste nas plataformas Windows
+
+Em [7] os autores apresentam três jogos educativos com e Android.
+o objetivo de auxiliar o ensino da disciplina de Sistemas
+Operacionais, uma disciplina presente em grande parte dos B. Trilha sonora
+cursos da área da computação. Escalonando é um jogo de Beepbox2 é uma ferramenta online e gratuita para criação e
+puzzle que coloca o jogador no papel de um escalonador, compartilhamento de melodias instrumentais. Essa ferramenta
+reforçando alguns conceitos de escalonadores para o jogador; foi utilizada para a criação da trilha sonora do jogo, sendo
+Race Conditions convida o jogador a gerenciar processos e possı́vel criar com ela uma trilha sonora para cada um das
+a tratar de assuntos como a comunicação entre processos, fases disponı́veis atualmente no jogo.
+regiões crı́ticas, condições de corrida e etc; e por fim, em
+Threadman, o jogador controla a rota de uma thread que C. Modelo MEEGA+
+dividirá espaço com outras enquanto todas colaboram para
+utilizar os recursos escassos e não violar a região crı́tica. O modelo MEEGA+ (Model to Evaluate Educational
+
+O Desafio de Design Goople (DDG) [8] é um jogo de cartas Games) [10] é um modelo de avaliação de jogos educacionais
+que tem como objetivo oferecer aos alunos uma forma comple- que avalia caracterı́sticas especı́ficas para jogos deste tipo,
+mentar de experienciar o contexto do design de interação. Em como a aprendizagem do jogo, usabilidade, sentimentos e
+DDG os jogadores representam startups fictı́cias e competem emoções causadas ao jogador entre outras. A avaliação se dá
+entre si para criar o melhor protótipo para a demanda da por uma escala numérica (escala Likert), onde os avaliadores
+empresa Goople. Por ser um jogo de cartas, a dinâmica do devem responder as perguntas do questionário ao marcar um
+jogo permite que o jogador vivencie situações complexas e número de 1 (discordo totalmente) a 5 (concordo totalmente)
+que requerem escolhas que trarão consequências para o resto em relação a cada pergunta do questionário. Ao fim do ques-
+da partida. tionário há campos opcionais para feedbacks e comentários
+
+O Operação Lovelace [9] é um jogo de estratégia 2D, para que além de testar a qualidade do software, o questionário
+voltado para o público infantil (de 8 a 11 anos), onde são pudesse proporcionar sugestões para o jogo.
+apresentados conteúdos indicados pelo Currı́culo de Tecnolo-
+gia e Computação para estudantes do 5º ano do Ensino D. Algoritmos Genéticos
+Fundamental: listas, filas e pilhas. A narrativa do jogo é apre- Em AGs um indivı́duo é uma representação de uma possı́vel
+sentada em formato de storyboard de forma lúdica ao jogador, solução para o problema, e, cada indivı́duo possui uma
+apresentando as personagens principais, duas cientistas que cadeia própria de genes chamada de cromossomo que define
+precisam do auxı́lio do jogador para ajudar o mundo com suas a solução gerada por ele. Vários indivı́duos juntos formam
+criações. O jogo se baseia em uma mecânica de programação uma população, esses indivı́duos passam por processos de
+em blocos para realizar a movimentação do seu personagem, seleção, reprodução e mutação para que a cada geração desta
+para assim, chegar ao objetivo de cada fase enquanto evita população, os indivı́duos se tornem mais aptos [11]. A aptidão
+alguns inimigos e obstáculos. de um indivı́duo, que nesse contexto representa o quanto ele
+
+Mesmo tendo o caráter educacional e sendo utilizado como é capaz de resolver um problema, é determinada através do
+complemento de um assunto, este trabalho se diferencia dos cálculo da função objetivo do problema.
+citados pelo assunto abordado, sendo este, meta-heurı́sticas e Um AG simples pode ser representado pelo fluxograma
+algoritmos genéticos. visto na Fig. 1, onde os passos são: i) inicializar a população
+
+IV. M com indivı́duos iniciais; ii) Fazer a avaliação de aptidão
+ETODOLOGIA
+
+(ou fitness) da população atual; iii) selecionar os pais para
+A. Unity gerar novos indivı́duos para a próxima geração; iv) aplicar a
+
+O Unity1 é uma das game engines mais utilizadas atual- recombinação e a mutação para gerar novos indivı́duos; v)
+mente, devido a sua interface intuitiva, sua grande comunidade avaliar os novos indivı́duos da população; vi) se não chegar
+na internet e por sua variedade de plataformas disponı́veis. em um critério de parada, retorne para o passo iii. [6].
+Com o Unity é possı́vel criar jogos multi-plataforma sem a Em Meta-Game, o jogador pode criar o seu próprio AG
+necessidade de grandes ajustes em cada versão, possibilitando escolhendo entre alguns métodos diferentes disponibilizados
+que um jogo possa ser desenvolvido ao mesmo tempo para para algumas fases de algoritmo genético: são métodos de
+plataformas mobile como iOS e Android, para desktops com seleção, mutação e recombinação.
+
+1Unity - https://unity3d.com/pt/unity 2Beepbox - https://www.beepbox.co/
+
+
+
+a seleção é feita, é necessário recombinar os indivı́duos
+selecionados para criar um novo indivı́duo para a próxima
+geração. Para isso, geralmente são usados dois indivı́duos
+selecionados, chamados de pais, para gerar dois novos
+indivı́duos filhos [12].
+
+Os métodos de recombinação disponı́veis no Meta-Game
+podem ser vistos na Tabela II.
+
+TABELA II
+MÉTODOS DE RECOMBINAÇÃO PRESENTES NO JOGO
+
+Método Definição
+Um ponto de divisão é selecionado na cadeia de genes
+
+Um ponto do indivı́duo filho, a partir desse ponto, os genes são
+de corte trocados entre os pais, por exemplo, se os genes daquele
+
+indivı́duo até o ponto são os genes do pai 1, a partir
+desse ponto os genes serão do pai 2.
+
+Um ponto Similar ao método de ponto único, mas são definidos
+de corte dois pontos ao invés de apenas um.
+Uniforme Cada gene do novo indivı́duo é selecionado aleatoria-
+
+mente de um dos pais.
+
+3) Mutação: A mutação é a fase na qual um ou mais genes
+Fig. 1. Fluxo de execução de um algoritmo genético simples. de um novo indivı́duo são alterados depois da recombinação.
+
+A mutação em um AG serve para manter a diversidade da
+1) Seleção: A seleção é a fase de um algoritmo genético população através da aleatoriedade, evitando por exemplo,
+
+onde indivı́duos de uma geração são selecionados para ajudar gerar soluções de mı́nimos locais [12]. A taxa de mutação
+na criação da próxima geração na fase de recombinação. Na em um AG geralmente é baixa, pois altas taxas de mutação
+natureza, os indivı́duos mais aptos a sobreviver são aque- podem converter o AG em um algoritmo de pesquisa aleatória.
+les com maior chance de se reproduzir, fazendo com que Os métodos de Mutação disponı́veis no Meta-Game podem
+seus genes contribuam mais com a próxima geração daquela ser vistos na Tabela III.
+espécie. A seleção se baseia nesses princı́pios para garantir que
+os indivı́duos mais aptos sejam aqueles com maior chance de TABELA III
+
+MÉTODOS DE MUTAÇÃO PRESENTES NO JOGO
+contribuição para a próxima geração [12].
+
+Os melhores indivı́duos têm uma chance maior de serem Método Definição
+selecionados para a fase de recombinação, enquanto os piores Única Apenas um gene aleatório do indivı́duo é alterado.
+indivı́duos possuem as menores chances, mas é importante que Aleatória Um número aleatório de genes do indivı́duo são alterado.
+
+os piores indivı́duos ainda tenham chance de se reproduzirem, Completa Todos os genes do indivı́duo são alterados, inserindo um
+indivı́duo completamente novo na população.
+
+pois sem eles a diversidade da população seria reduzida a cada
+nova geração.
+
+Os métodos de seleção disponı́veis no Meta-Game podem
+ser vistos na Tabela I. V. O JOGO
+
+No Meta-Game, o jogador deverá construir algoritmos
+TABELA I genéticos em diferentes contextos, se adequando à complex-
+
+MÉTODOS DE SELEÇÃO PRESENTES NO JOGO
+idade exigida pela fase. Essa complexidade é medida pelos
+
+Método Definição pontos de complexidade e cada nı́vel exige um valor máximo
+Roleta Escolhe indivı́duos aleatoriamente com probabilidades desses pontos para que um dos objetivos seja cumprido.
+
+proporcionais à sua aptidão (fitness). Os seus pontos de complexidade são a soma de pontos
+São selecionados aleatoriamente vários subconjuntos de
+
+Torneio tamanho k da população, sendo selecionado o indivı́duo de complexidade que o algoritmo montado custou. Cada
+de maior aptidão de cada um dos subconjuntos. parâmetro têm o seu custo de complexidade, sendo que adi-
+São selecionados os N/2 melhores indivı́duos da cionar mais indivı́duos à sua população, por exemplo, custaria
+
+Truncamento população, sendo N é o tamanho da população,
+descartando-se os outros. alguns pontos por indivı́duo extra. Métodos de recombinação
+
+e mutação também possuem seus respectivos custos.
+O objetivo de cada fase é que o jogador consiga fazer
+
+2) Recombinação: O papel da recombinação (ou com que mais de 50% de sua população cumpra os requisitos
+reprodução) nos AGs é combinar pedaços de indivı́duos daquela fase (que no primeiro nı́vel, por exemplo, é chegar ao
+selecionados para gerar uma nova solução [13]. Depois que final da fase) em um determinado número de gerações. Esse
+
+
+
+número de gerações muda de acordo com a fase em que o
+jogador está.
+
+O jogo possui três nı́veis ou mini-jogos, onde o algoritmo
+será o verdadeiro jogador, com estilos de jogo diferentes entre
+si. Cada um desses nı́veis possuem três fases, com nı́veis
+de dificuldade diferentes à medida que o jogador avança. A
+dificuldade dessas fases é baseada em elementos novos que
+podem atrapalhar os indivı́duos e no aumento da dificuldade
+de cumprir as missões secundárias das fases.
+
+Cada fase dá uma recompensa de até três estrelas baseando-
+se no cumprimento das limitações impostas ao jogador. As
+estrelas são distribuı́das da seguinte forma: Uma estrela por
+ter completado a fase, outra estrela por não ter ultrapassado Fig. 3. Seleção de fases.
+o limite de pontos de complexidade determinado e outra
+estrela por terminar a fase numa geração abaixo do limite
+determinado.
+
+A. Interface
+Quando o jogo é iniciado, o jogador se depara com a tela
+
+inicial vista na Fig. 2, onde é possı́vel ver a logo com o nome
+do jogo, ir para a tela de seleção de fases ou fechar do jogo.
+
+Fig. 4. Tela de montagem do algoritmo.
+
+Fig. 2. Tela inicial do jogo.
+
+Na tela de seleção de fases vista na Fig. 3, o jogador pode
+escolher qual fase jogar. Existem três fases para cada nı́vel,
+onde as primeiras fases de cada nı́vel estão sempre liberadas,
+enquanto para que as outras fases sejam liberadas é necessário
+cumprir alguns requisitos: para a segunda fase de qualquer
+nı́vel é necessário ter ao menos uma estrela naquele nı́vel e
+para a terceira fase de qualquer nı́vel é necessário ter ao menos Fig. 5. Primeira fase do primeiro nı́vel.
+quatro estrelas no respectivo nı́vel.
+
+No inı́cio de cada fase o jogador será direcionado para a
+tela de montagem do algoritmo, vista na Fig. 4, onde ele
+selecionará os parâmetros do seu algoritmo, como o tamanho dinossauros precisam saber quando devem pular para desviar
+da população, método de seleção, porcentagem de mutação dos obstáculos e quando não devem pular para que não fiquem
+e etc. Caso o jogador tenha dúvidas sobre algum parâmetro presos ou caiam em algum buraco. Uma das fases desse nı́vel
+especı́fico ou queira saber o que cada método faz, o botão de pode ser vista na Fig. 5. A dificuldade deste nı́vel aumenta
+ajuda pode informá-lo sobre tais assuntos. de acordo com a quantidade e complexidade dos obstáculos
+
+espalhados pela fase, como visto na Fig. 6
+B. Primeiro nı́vel - Dinos Os genes dos indivı́duos deste nı́vel são abstrações da
+
+No primeiro nı́vel, os indivı́duos criados pelo algoritmo decisão que o indivı́duo deve tomar: se ele pula ou não em um
+são dinossauros que precisam chegar de um lado ao outro sprite especı́fico do ambiente. Cada gene é um valor inteiro 1
+em uma plataforma, desviando de buracos e obstáculos. Os ou 0 que significam respectivamente pular ou não pular.
+
+
+
+direção ele deverá seguir ao encontrar novos possı́veis camin-
+hos pelo labirinto. Cada gene é um valor inteiro de 0 a 3 que
+significam respectivamente cima, direita, baixo e esquerda.
+
+D. Terceiro nı́vel - Space Ships
+
+Fig. 6. Terceira fase do primeiro nı́vel.
+
+Fig. 9. Primeira fase do terceiro nı́vel.
+
+No terceiro nı́vel, os indivı́duos criados são naves espaci-
+ais que precisam coletar o maior número possı́vel das orbs
+espaciais espalhadas pelo ambiente. A nave perderá e não
+poderá se mexer caso bata no limite da fase ou em algum
+obstáculo. Um exemplo de fase para este nı́vel pode ser visto
+na Fig. 9. Cada fase se torna mais difı́cil ao serem adicionados
+obstáculos espalhados pelo espaço como visto na Fig. 10, uma
+
+Fig. 7. Primeira fase do segundo nı́vel.
+vez que as naves deverão desviar desses obstáculos para chegar
+às orbs mais distantes.
+
+C. Segundo nı́vel - Labirinto
+No segundo nı́vel, os indivı́duos criados são personagens
+
+presos em um labirinto como visto na Fig. 7. Eles precisam
+achar a saı́da do labirinto a partir do ponto inicial, mas, caso
+um personagem encontre um beco sem saı́da, ele perderá e
+não poderá mais se mover. A cada fase deste nı́vel o labirinto
+aumenta, e, o ponto inicial e a saı́da se tornam mais distantes
+entre si, tornando a fase mais complexa. Um exemplo de
+labirinto maior pode ser visto na Fig. 8.
+
+Fig. 10. Terceira fase do terceiro nı́vel.
+
+Os genes das naves desse nı́vel indicam tanto a velocidade
+da nave quanto a sua movimentação. O primeiro gene sempre
+será um número inteiro entre 5 e 10 indicando a velocidade
+daquela nave. Já os outros genes são números inteiros entre
+-60 e 60 que indicam qual será a angulação da nave em um
+certo intervalo de frames do jogo, ou seja, a cada x frames a
+nave irá se virar em y graus, sendo x o intervalo de frames
+definido pela fase e y um valor inteiro entre -60 e 60.
+
+Fig. 8. Terceira fase do segundo nı́vel.
+VI. RESULTADOS E DISCUSSÃO
+
+Os genes dos indivı́duos deste nı́vel também são abstrações Nesta Seção apresentamos os resultados do questionário
+da decisão que ele deve tomar, sendo, neste caso, para qual do teste MEEGA+ [10], disponibilizado para os alunos que
+
+
+
+se voluntariaram a testar e avaliar o jogo. O questionário respeito à relevância do jogo em relação à temática e a
+obteve nove respostas e contêm perguntas baseadas em onze aprendizagem percebida pelo jogador, e, portanto, podemos
+fatores de qualidade de um jogo, sendo eles: estética, apren- dizer que o jogo foi eficaz em seu objetivo de auxiliar no
+dizibilidade, operabilidade, acessibilidade, confiança, desafio, ensino de AG’s.
+satisfação, interação social, diversão, atenção, relevância e Como pontos a se melhorar, temos a atenção focada, que
+aprendizagem percebida. Os jogadores foram instruı́dos a não obteve apenas 51,85% de respostas positivas, indicando que
+tirarem dúvidas com os desenvolvedores e para que relatassem será necessário analisar o uso de algumas estratégias que
+todos os problemas encontrados durante o jogo, para que a prendam melhor a atenção do jogador, como melhorar a
+avaliação do software fosse fiel aos sentimentos verdadeiros interação com os indivı́duos em uma partida e tornar as
+dos jogadores. Os resultados de cada fator de qualidade podem partidas mais rápidas e dinâmicas.
+ser encontrados na Tabela IV ou visualizados no gráfico da A interação social também é um ponto onde análises futuras
+Fig. 11. são necessárias, visto que obteve o menor número de respostas
+
+positivas, somando 40,74%. Uma alternativa para esse prob-
+TABELA IV lema seria a adição de Leader Boards ou competições dentro
+
+RESPOSTAS DO QUESTIONÁRIO DE AVALIAÇÃO DO META-GAME EM CADA do jogo, aumentando a interação e competitividade entre os
+FATOR DE QUALIDADE DO TESTE MEEGA+ jogadores.
+
+fator 1 2 3 4 5 O perfil dos jogadores que responderam o questionário é
+Estética 11,11% 0,00% 16,67% 38,89% 33,33% formado por 66,7% de pessoas que cursaram ou estão cursando
+Aprendizibilidade 0,00% 14,81% 11,11% 44,44% 29,63% uma disciplina de meta-heurı́sticas e 33,3% de pessoas que
+Operabilidade 0,00% 0,00% 5,56% 55,56% 38,89%
+Acessibilidade 5,56% 0,00% 5,56% 22,22% 66,67% nunca cursaram. Outra pergunta feita para os jogadores foi a
+Confiança 5,56% 0,00% 11,11% 38,89% 44,44% de qual plataforma foi utilizada para executar o jogo, dentre
+Desafio 7,41% 3,70% 0,00% 37,04% 51,85% as disponı́veis que eram PC e dispositivos Android (mobile),
+Satisfação 16,67% 2,78% 11,11% 30,56% 38,89% onde tivemos 33,3% das pessoas jogando pelo PC e 66,7%
+Interação social 25,93% 3,70% 29,63% 22,22% 18,52%
+Diversão 11,11% 0,00% 5,56% 22,22% 61,11% jogando em dispositivos mobile.
+Atenção focada 7,41% 11,11% 29,63% 18,52% 33,33% Na Fig. 12 podemos ver a comparação entre a confiança
+Relevância 0,00% 5,56% 13,89% 22,22% 58,33% dos alunos que não cursaram e aqueles que cursaram ou estão
+Aprendizagem
+percebida 0,00% 5,56% 5,56% 38,89% 50,00% cursando a disciplina.
+Total 7,99% 4,51% 12,85% 31,60% 43,06%
+
+Fig. 12. A confiança segundo alunos que cursaram a disciplina e aqueles que
+não cursaram.
+
+Fig. 11. Gráfico das respostas baseadas nos fatores de qualidade do teste. É interessante percebermos que os alunos que não cursaram
+foram aqueles com maiores problemas em relação à confiança,
+e também foram aqueles com a pior aprendizagem percebida
+
+A. Análises observada na Fig. 13, visto que 100% dos alunos que cur-
+Analisando os dados gerados pelas respostas do ques- saram a disciplina deram respostas positivas a respeito da
+
+tionário, podemos destacar a operabilidade, que diz respeito aprendizagem percebida, contra apenas 66,67% dos alunos que
+à clareza e facilidade das regras do jogo, tendo 94,45% não cursaram. Esse resultado reforça o objetivo deste trabalho,
+das respostas entre Concordo (4) e Concordo totalmente (5), que é apenas auxiliar o aprendizado, requerendo que o jogador
+demonstrando que o jogo é fácil de se jogar e possui regras tenha algum conhecimento sobre o assunto para ser efetivo.
+claras. A acessibilidade do jogo diz respeito ao tamanho e as cores
+
+Além da operabilidade, podemos destacar a relevância e das fontes, botões e elementos da interface em geral. Anal-
+aprendizagem percebida, com 80,55% e 88,89% de respostas isando as duas plataformas em que o jogo foi disponibilizado
+entre Concordo e Concordo totalmente. Esses fatores dizem na Fig. 14, podemos ver uma leve vantagem da plataforma
+
+
+
+às pessoas como funciona o machine learning, é um
+jogo que sim é leve roda bem na máquina, consumo
+de processamento e memoria minúsculos, a joga-
+bilidade é interessante pois coloca para o jogador
+uma serie de opções para que ele possa escolher e
+encontrar o melhor resultado. A premissa do jogo
+é clara. Quanto a erros interativos da mecânica
+ta funcionando legal não teve bugs ou erros ou
+travamentos.”
+
+E como pontos de melhoria na opinião dos jogadores, rela-
+tando um problema com o ritmo do jogo, temos as seguintes
+respostas:
+
+Fig. 13. Comparação entre a aprendizagem percebida dos alunos que cursaram ”Colocar um ı́cone de informação para relembrar o
+a disciplina e a daqueles que não cursaram. que é preciso para passar de nı́vel e conseguir 3
+
+estrelas. Ter a opção de aumentar a velocidade dos
+mobile, com 100% de respostas positivas, contra 66,67% do personagens.”
+PC, fazendo com que a acessibilidade em PCs seja um assunto ”Ter a possibilidade de aumentar a velocidade com
+a ser revisto em próximas versões do jogo. que as gerações passam.”
+
+VII. CONCLUSÃO
+
+O trabalho é fundamentado na construção de um jogo que
+tem como objetivo auxiliar o ensino de algoritmos genéticos
+em disciplinas de um curso superior na área da computação,
+ao permitir com que os jogadores possam experimentar var-
+iedades de combinações de métodos para criar seus próprios
+algoritmos.
+
+Em relação aos resultados, o teste MEEGA+ avaliou 11
+fatores de qualidade de um jogo educativo. Ao observarmos o
+total de respostas temos que o teste obteve 74,66% de respostas
+positivas e apenas 12,5% de respostas negativas, demonstrando
+que a abordagem do jogo foi aceita pelos jogadores. Podemos
+também destacar o sucesso obtido em fatores como relevância
+
+Fig. 14. A acessibilidade do jogo segundo alunos que jogaram no PC ou em
+dispositivos Mobile e aprendizagem percebida, que são fatores importantes para
+
+a avaliação desse jogo, visto a complexidade do assunto
+Ao final do questionário de avaliação os jogadores foram proposto. Fatores como a interação social, atenção focada e
+
+incentivados a deixarem alguns feedbacks sobre os pontos que satisfação, por outro lado, nos mostram que a forma com que
+mais gostaram e os pontos que poderiam ser melhorados. o jogo foi desenvolvido não foi a melhor possı́vel, deixando
+
+Como pontos positivos segundo os jogadores, demonstrando espaço para melhorias em trabalhos futuros.
+a relevância do jogo em relação com a disciplina ensinada, Em trabalhos futuros pretende-se: adicionar uma forma de
+podemos destacar as seguintes respostas: alterar a velocidade de execução do jogo, atendendo assim aos
+
+”Quero elogiar todo o trabalho do jogo, porque pedidos feitos pelos jogadores no questionário; criar modos de
+ele tem um design super simples (algo que gosto jogo mais interativos, criando competições ou um sistema de
+bastante), e tem todo um objetivo por trás, que ranqueamento; criar uma identidade visual mais atrativa para o
+faz a gente querer observar o que estamos fazendo jogo, e também, adicionar meta-heurı́sticas diferentes e novos
+de errado para sempre melhorar, prendendo bem a algoritmos, como os algoritmos de ordenação e operações em
+atenção de quem está jogando.” árvores de dados, por exemplo.
+”Gostaria de comentar que o jogo foi enviado a mim REFERÊNCIAS
+justamente na época que estava fazendo o trabalho
+
+[1] J. McGonigal and E. Rieche, A realidade em jogo: Por que os games
+da disciplina de meta-heurı́sticas sobre algoritmos nos tornam melhor e como eles podem mudar o mundo. Editora Best
+genéticos, e ver a aplicação de alguns conceitos, Seller, 2012.
+fez com que além de ter ideias para o trabalho, eu [2] R. V. da Rocha, I. I. Bittencourt, and S. Isotani, “Análise, projeto,
+
+desenvolvimento e avaliação de jogos sérios e afins: uma revisão
+também conseguisse usar os parâmetros usados no de desafios e oportunidades,” Anais do Xxvi Simpósio Brasileiro de
+jogo para melhorar o meu trabalho.” Informática na Educação (sbie 2015), 2015.
+
+”Gostei da premissa acho interessante pois é um [3] M. N. Nascimento, M. S. Nery, and V. Silva, “Desenvolvimento de jogos
+digitais e sua utilização na educação juvenil: Um estudo de caso real
+
+jogo leve que poderia auxiliar ou ao menos levar em um projeto governamental,” SBC–Proceedings of SBGames, 2013.
+
+
+
+[4] I. R. Sucupira, “Métodos heurı́sticos genéricos: metaheurı́sticas e hiper-
+heurı́sticas,” USP: São Paulo, vol. 32, 2004.
+
+[5] D. A. G. vel Lejbman, “Um estudo abrangente sobre metaheurı́stica,
+incluindo um histórico,” 2009.
+
+[6] R. Linden, Algoritmos genéticos (2a ediçao). Brasport, 2008.
+[7] M. d. S. Luccas, L. T. Pereira, J. C. Estrella, and K. R. L. J. C. Branco,
+
+“Uma abordagem fazendo uso de serious games para ensino de sistemas
+operacionais,” SBC–Proceedings of SBGames, 2020.
+
+[8] F. R. d. Aquino, R. C. Ribeiro, and T. d. G. R. Darin, “Desafio de
+design goople: Um jogo de cartas para ensino contextual do design de
+interação,” SBC–Proceedings of SBGames, 2020.
+
+[9] J. Macena, F. Pires, and M. Pessoa, “Operaçao lovelace: uma abor-
+dagem ludica para introduçao de aprendizagem em algoritmos,” SBC–
+Proceedings of SBGames, 2020.
+
+[10] G. Petri, C. G. von Wangenheim, and A. F. Borgatto, “Meega+: an evo-
+lution of a model for the evaluation of educational games,” INCoD/GQS,
+vol. 3, pp. 1–40, 2016.
+
+[11] M. A. C. Pacheco et al., “Algoritmos genéticos: princı́pios e aplicações,”
+ICA: Laboratório de Inteligência Computacional Aplicada. Departa-
+mento de Engenharia Elétrica. Pontifı́cia Universidade Católica do Rio
+de Janeiro. Fonte desconhecida, vol. 28, 1999.
+
+[12] S. Mirjalili, “Genetic algorithm,” in Evolutionary algorithms and neural
+networks. Springer, 2019, pp. 43–55.
+
+[13] G. R. Harik, F. G. Lobo, and D. E. Goldberg, “The compact genetic
+algorithm,” IEEE transactions on evolutionary computation, vol. 3,
+no. 4, pp. 287–297, 1999.

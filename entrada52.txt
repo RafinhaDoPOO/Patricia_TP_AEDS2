@@ -1,0 +1,396 @@
+﻿Identificação de Cruzamentos de Eucalyptus Resistentes à
+Seca e Produtivos utilizando Imagens de Folhas
+
+Marcos Veniciu de Sá Barbalho1, Adilson Rosa Lopes1, Patrick Araújo1,
+Jean Marcel Lira1, Gleison dos Santos1, José Augusto M. Nacif1
+
+1Universidade Federal de Viçosa (UFV) – Viçosa, MG – Brasil
+
+{marcos.barbalho,jean.lira,gleison,jnacif}@ufv.br
+
+Resumo. Este trabalho utilizou uma rede neural convolucional (CNN) NasNet-
+Mobile para identificar cruzamentos de eucaliptos que sejam produtivos e resis-
+tentes à seca, a partir da análise das folhas. O conjunto de dados é composto
+por 17.790 imagens, após o aumento de dados, e foi dividido em 4 classes. O
+teste final foi dividido em 3 etapas. Na etapa I foi testado o número de camada
+densa, na etapa II a regularização dropout e L2 e na etapa III foi realizado a
+validação cruzada k-fold com k = 10. Para a validação cruzada o melhor mo-
+delo conseguiu uma acurácia de 82,69% no treinamento, 63,96% na validação
+e 56,70% com as imagens de teste.
+
+1. Introdução
+O Brasil é um dos maiores produtores de eucalipto do mundo, com uma área plantada de
+7,53 milhões de hectares, representando 75,8% de toda área de floresta comercial plantada
+no paı́s, chegando a uma produtividade média de 38,9 m³/ha/ano. As maiores plantações
+estão nos estados de Minas Gerais (30%), Mato Grosso do Sul (14%) e São Paulo (13%).
+O eucalipto tem importante papel na economia nacional, representando um saldo positivo
+na balança comercial de 10 bilhões de dólares no ano de 2021, além da geração de 2
+milhões de empregos diretos e indiretos. A celulose foi o produto derivado do eucalipto
+mais exportado, representando 6,7 bilhões do montante, deixando o Brasil na primeira
+posição do ranking mundial dos paı́ses exportadores de celulose [de Árvores ibá 2021].
+
+Um fator ambiental que afeta significativamente a produtividade dos plantios de
+eucalipto são longos e severos perı́odos de estiagem. Apenas no estado de Minas Gerais,
+no ano de 2014, aproximadamente 150.000 hectares de plantações de eucalipto foram
+perdidas em função da seca. Projeções climáticas preveem que eventos desta natureza
+serão acentuados em regiões tropicais e subtropicais [Masson-Delmotte and (eds.) 2021].
+Como consequência, tem-se um aumento considerável na mortalidade das árvores
+[Germon et al. 2019]. A pesquisa em melhoramento genético, visando a produção de
+materiais genéticos com alta produtividade de madeira e tolerância à seca, é algo de suma
+importância para enfrentar este problema futuro, mantendo o ganho econômico das em-
+presas do setor florestal.
+
+Buscando o desenvolvimento de materiais tolerantes às condições de baixa dis-
+ponibilidade água e que tenham alta produtividade, foi criado um projeto chamado “To-
+lerância à Seca em Eucalipto”, resultado de uma parceria público-privada entre a Soci-
+edade de Investigações Florestais (SIF), a Universidade Federal de Viçosa (UFV) e 15
+grandes empresas do setor florestal brasileiro. No escopo deste projeto, implantou-se
+
+
+
+no ano de 2019 um teste de progênies em um local com histórico de seca, a cidade de
+Buritizeiro-MG. O teste de progênie é um método utilizado em programas de melhora-
+mento genético para seleção de genótipos avaliando as caracterı́sticas e desempenho dos
+descendentes de um progenitor em diferentes ambientes [VanRaden 2008]. Na cultura
+de eucalipto, em geral, o teste de progênie é realizado em um perı́odo de sete anos, que
+corresponde ao intervalo de rotação da cultura. Assim, os estudos para identificação dos
+cruzamentos que melhor atendem às caracterı́sticas de interesse levam um tempo signifi-
+cativo para serem concluı́dos.
+
+Visando encurtar o perı́odo do teste de progênie, resultando na maior eficiência
+do uso do tempo e economia de recursos na obtenção dos genótipos de interesse, o pro-
+blema estudado neste artigo se refere à identificação precoce destes materiais utilizando
+técnicas de visão computacional. Utilizando como base de dados as imagens das folhas
+das árvores de eucalipto coletadas em campo pelo projeto, pretende-se avaliar a viabili-
+dade do uso dessa técnica para a identificação precoce dos cruzamentos promissores. Para
+tanto, imagens das folhas de plantas em idades mais jovens foram usadas como predito-
+ras para classificação dos genótipos quanto à tolerância e produtividade em uma idade
+futura, objetivando a modelagem da seleção precoce. O processo de modelagem é com-
+posto pelas etapas de pré-processamento das imagens, divisão do conjunto de dados em
+treinamento, validação e teste, ajuste de hiperparâmetros, treinamento, validação e teste
+da rede NasNetMobile [Zoph et al. 2018] e avaliação dos resultados. As imagens foram
+rotuladas em: (0) não resistente e não produtiva; (1) resistente e não produtiva; (2) não
+resistente e produtiva; (3) resistente e não produtiva, totalizando 4 classes. O modelo
+treinado alcançou resultados de 82.70% de acurácia no treinamento, 63.97% de acurácia
+na validação e 56.70% de acurácia com as imagens de teste.
+
+O artigo está dividido em outras quatro seções, onde a Seção 2 apresenta trabalhos
+relacionados com aplicações de CNN em problemas de classificação a partir de imagens
+de folhas de plantas. A Seção 3 descreve a metodologia deste trabalho, onde serão apre-
+sentadas as etapas de desenvolvimento do estudo. Na Seção 4 são mostrados os resultados
+do trabalho e a discussão acerca dos mesmos. Por fim, a Seção 5 conclui o trabalho com as
+considerações finais e propostas de trabalhos futuros relacionados ao problema estudado.
+
+2. Trabalhos Relacionados
+Técnicas de visão computacional como Redes Neurais Convolucionais (CNN), são comu-
+mente empregadas para identificar objetos e classificar imagens. No entanto, não foram
+encontrados estudos que tratem especificamente sobre o tema deste artigo, que é o uso
+de imagens de folhas de eucalipto para identificação de espécies com alta produtividade
+e resistência à seca. Os trabalhos encontrados estão relacionados a aplicação de CNN
+para estudos em plantas, em alguns casos utilizando um conjunto de dados público ou um
+próprio para a pesquisa. Eles estão mais relacionados ao uso de imagens de folhas e das
+frutas para a identificação de doenças em estágio inicial, para que permita uma melhor
+tomada de decisão antes que a doença se prolifere na plantação.
+
+Em [Na Yao 2021] foi proposto o uso de uma modificação da rede Xception para
+a identificação precoce de 7 principais doenças que afetam as plantações de pêssegos.
+Nos testes foram comparados o desempenho do modelo proposto com o de outras 6 ar-
+quiteturas. Obtendo uma acurácia de 93,85% com os dados de validação com o modelo
+
+
+
+proposto.
+Em [Mohanty et al. 2016] foi realizado o treinamento de duas arquiteturas de
+
+CNN para identificação de doenças, utilizando imagens de folhas. Foi utilizado um con-
+junto de dados público contendo mais de 54 mil imagens de folhas saudáveis e doentes,
+abrangendo um total de 14 espécies e 26 doenças. Para isso eles treinaram duas arquite-
+turas, a Alexnet e a GoogleNet. O experimento alcançou uma acurácia de 99,35% com as
+imagens de teste.
+
+3. Materiais e Métodos
+Nesta seção, apresentaremos a metodologia aplicada nesse trabalho. Será falado sobre
+o projeto de melhoramento genético que gerou as imagens para o estudo, o conjunto de
+dados e a forma como as imagens foram processadas e rotuladas, e sobre as etapas de
+treinamento do modelo.
+
+3.1. Projeto
+O projeto “Tolerância à Seca em Eucalipto” iniciado no ano de 2019 com uma duração
+esperada de 7 anos, tem por objetivo a identificação de espécies de eucalipto que tivessem
+uma alta resistência à seca e conseguissem manter uma alta produtividade. Para isso foi
+realizado o cruzamento de algumas espécies de eucalipto. Foram geradas 220 progênies,
+que se referem ao conjunto de descendentes desses cruzamentos. Cada progênie possui 20
+indivı́duos, totalizando 4400 indivı́duos. As coletas de dados desses indivı́duos foram re-
+alizadas aos 6, 18, 30, 36 e 42 meses, onde selecionou-se aleatoriamente 6 indivı́duos. As
+coletas não eram realizadas com os mesmos indivı́duos, pois alguns desses indivı́duos po-
+deriam ter morrido no intervalo entre as coletas. Os dados coletados dessas amostras, que
+foram mais relevantes para este trabalho foram, o Incremento Médio Anual Volumétrico -
+IMAVol (m3/ha/ano) e a taxa de sobrevivência e foram utilizados para rotular as imagens,
+com base no desempenho das progênies. A plantação foi realizada em um sı́tio localizado
+no municı́pio de Buritizeiro, no estado de Minas Gerais (17º 05’ 49”S 44º 53’ 09”O). En-
+tre os anos de 2018 a 2021, a temperatura média foi de 25 ºC, a temperatura mı́nima de 5,4
+ºC e a máxima de 41 ºC. A precipitação anual nesse perı́odo foi: 2018 (971,5 mm), 2019
+(509 mm), 2020 (1.090mm) e 2021 (1.041,5mm)[Minasligas 2021]. Para comparação
+foram plantadas 6 espécies, que já são conhecidas por seu desempenho, que foram cha-
+madas de testemunhas. No total foram coletadas informações de 83 progênies diferentes,
+bem como das 6 testemunhas.
+
+3.2. Conjunto de dados
+As imagens coletadas foram digitalizadas e processadas para que ficassem o mais seme-
+lhantes possı́vel, o conjunto de imagens usado contém as imagens que foram coletadas
+aos 6, 18, 30 e 36 meses e foram rotuladas de acordo com os critérios de tolerância à seca
+e produtividade avaliados com base nos dados de inventário das progênies coletados aos
+42 meses.
+
+3.2.1. Processamento
+
+Inicialmente havia várias folhas em uma mesma imagem, para fazer a identificação
+e segmentação das imagens das imagens foi utilizada a rede neural Yolo
+
+
+
+[Redmon et al. 2016], o que gerava imagens com alguma inclinação e pedaços de outras
+folhas como mostrados na figura 1.
+
+Figura 1. A imagem mais à esquerda, é a imagem inicial resultante da digitalização
+das folhas, a imagem do meio as folhas foram detectadas pelo Yolo e a imagem
+à direita é a imagem final com a segmentação das folhas também feita pelo Yolo.
+
+Para melhorar o tratamento das imagens foi realizado um segundo processamento
+nelas a fim de deixar uma folha por imagem, sem a presença de pedaços de folha após a
+segmentação, com um fundo preto na resolução 536 x 536 pixels. Inicialmente as imagens
+possuı́am partes de outras folhas junto com a folha principal, é então gerada uma máscara
+para essa imagem para diferenciar as folhas do fundo da imagem, como na figura 2.
+
+Figura 2. Imagem após a segmentação com o Yolo a esquerda e mascara para a imagem
+a direita.
+
+Após gerar a máscara, é realizada a separação das folhas. Para separar as folhas
+é gerada uma matriz na mesma resolução da máscara. Então cada ponto da máscara é
+verificado até que seja encontrado um pixel branco, o que significa que uma possı́vel
+folha foi encontrada. Então todos os pontos brancos próximos ao pixel encontrado são
+mapeados para a matriz. Quando o mapeamento termina, os pixels da imagem original
+que estão marcados na matriz são colados em uma imagem com fundo preto, salvando
+assim apenas o objeto identificado na imagem. Quando terminar de mapear um objeto, a
+verificação dos pixel continua do ponto em que o primeiro foi encontrado até que outro
+
+
+
+pixel branco que ainda não tenha sido mapeado na matriz seja encontrado, esse processo
+se repete até que todos os pontos brancos da imagem tenham sido verificados. No final
+tem uma imagem de fundo preto para cada folha encontrada, como pode ser visto na figura
+3.
+
+Figura 3. Imagens de cada folha encontrada na imagem inicial.
+
+Após separar as imagens, é selecionado o objeto com o maior número de pixels,
+que seria a maior folha encontrada, e ela é então verticalizada. Para isso a largura da
+imagem é minimizada, rotacionando a imagem em 1 grau e o excesso de fundo é remo-
+vido. Esse processo se repete até que a largura mı́nima seja atingida. Após a largura ser
+minimizada a imagem é redimensionada para uma altura de 536 pixels, ela é então colada
+no centro de uma imagem de fundo preto com resolução 536 x 536, como pode ser visto
+na figura 4.
+
+Figura 4. À esquerda, a maior folha encontrada, no centro a folha verticalizada e à
+direita, a folha centralizada com resolução de 536 x 536.
+
+O conjunto de imagens foi dividido em 4 classes: (0) não resistente e não pro-
+dutiva; (1) resistente e não produtiva; (2) não resistente e produtiva; (3) resistente e não
+produtiva. Cada classe possui respectivamente 1760, 1570, 1470 e 4260 imagens, mais
+200, 205, 200, 201 imagens para testes. Para uma progênie ser considerada tolerante ela
+deve ter menos de 50% dos indivı́duos mortos aos 42 meses, caso contrário ela é conside-
+rada não tolerante. Em relação à produtividade, ela é considerada produtiva se a média do
+IMAVol das árvores vivas aos 42 meses for maior ou igual a média do IMAVol de todos
+os indivı́duos vivos do experimento (média geral do IMAVol).
+
+Para reduzir o overfitting e melhorar a precisão do modelo foi utilizado o aumento
+da quantidade de imagens, utilizado a técnica de aumento de dados (Data Augmenta-
+tion) [Perez and Wang 2017]. Como é difı́cil distinguir as classes apenas observando as
+imagens, como mostrado na figura 5, e como também foram posicionadas na vertical, isso
+acabou limitando os tipos e a quantidade de transformações que poderı́amos utilizar, pois
+não querı́amos que as imagens fossem muito afetadas por transformações como alteração
+
+
+
+Figura 5. Exemplo de imagem do conjunto de dados para cada classe.
+
+de saturação, brilho e recorte. Usamos apenas duas transformações, espelhando a ima-
+gem para cima ou para baixo e espelhando a imagem para direita ou esquerda. De modo
+que para cada imagem foram geradas mais duas imagens. Com isso pudemos deixar as
+classes 0, 1 e 2 que possuı́am menos imagens, com uma quantidade similar ao da classe
+4 que possuı́a 4.260 imagens, ficando no final 17.790 imagens. As transformações foram
+aplicadas nas imagens após elas serem divididas nas 10 pastas de que serão usadas para
+treinamento e validação, de modo que a imagem original e as suas variações ficaram no
+mesmo grupo, já nas imagens de teste não foi aplicado o aumento de dados. Para melhor
+avaliar os modelos, foi utilizado validação cruzada k-fold com k=10, de modo que cada
+pasta continha 10% do conjunto total de treinamento, sendo 90% para treinamento e 10%
+para validação, sem contar as imagens de teste.
+
+3.3. Treinamento
+3.3.1. Configuração
+
+Para treinamento da rede foi utilizada uma máquina que possui um processador AMD Ry-
+zen 9 5900X 12-Core Processor, uma GPU NVIDIA TITAN V de 12GB. O treinamento
+foi realizado utilizando a rede NasNetMobile.
+
+3.3.2. NasNetMobile
+
+Para o treinamento dos modelos foi utilizada a rede CNN NasNetMobile, ela foi esco-
+lhida com base no custo de treinamento, que foi limitado pela quantidade de memória
+
+
+
+disponı́vel na GPU e pelo tempo necessário para realizar o treinamento dos modelos.
+Para o treinamento não foi utilizado um modelo pré-treinado, os modelos foram treina-
+dos com pesos inicializados aleatoriamente, com a função padrão da biblioteca Keras da
+linguagem Python.
+
+3.3.3. Etapas de treinamento
+
+O treinamento final foi dividido em 3 etapas. Em todos eles a taxa de aprendizado foi
+mantida como 1,6970e-04, com o batch size de 32, a resolução de 480x480, por 40 épocas.
+Para ajudar na redução do overfitting foi utilizado juntamente com o DataAgumentation e
+a redução da taxa de aprendizado [You et al. 2019], reduzindo a taxa de aprendizado em
+90% a cada 3 épocas sem redução da taxa de perda.
+
+Na etapa I foi testado o número de camadas densas na parte de classificação.
+Foram testadas com 1, 2, 3 e 5 camadas sem contar a camada de saı́da para as 4 classes.
+Todos os modelos possuı́am Dropout de 50% apenas na entrada da camada visı́vel.
+
+Na etapa II, foram realizados testes de regularização, com o objetivo de reduzir
+a taxa de perda e o overfitting. Nessa etapa foram treinados 9 modelos, sendo 6 com
+variações na regularização usada e 3 variando a taxa de Dropout. Em todos eles, havia
+3 camadas densas para testar o comportamento das técnicas de regularização. Para esses
+testes foram usadas as técnicas de regularização Dropout e L2 e a combinação das duas
+técnicas [Srivastava et al. 2014]. Foram testados:
+
+• Modelo 1: Dropout apenas nas camadas ocultas;
+• Modelo 2: Dropout apenas na entrada da camada visı́vel;
+• Modelo 3: Apenas regularização L2 em todas as camadas;
+• Modelo 4: Dropout na entrada da camada visı́vel e L2 nas camadas ocultas;
+• Modelo 5: Dropout apenas na entrada da camada oculta e L2 em todas as camadas;
+• Modelo 6: Dropout e L2 em todas as camadas.
+
+Em todos os que possuı́am Dropout, a taxa foi de 50%. Os três últimos testes
+foram realizados variando a taxa de Dropout em 30%, 50% e 70% apenas nas camadas
+ocultas. Na etapa III, foi realizado o teste de validação cruzada, no qual o conjunto de
+imagens foi dividido em 10 pastas, cada uma contendo 10% das imagens e uma pasta de
+teste com as imagens que serão usadas para testar os modelos em cada treinamento.
+
+4. Resultados e Discussão
+Na etapa I o melhor resultado foi com o modelo de 2 camadas, que obteve uma acurácia
+de 55,95% com as imagens de teste, o pior resultado com a de 3 camadas, que obteve um
+resultado de 53,59% com as imagens de teste. Os resultados completos podem ser vistos
+na figura 6. Para cada teste também foi gerado um gráfico com a matriz de confusão,
+conforme a figura 7.
+
+Já para os testes da etapa II, o modelo 1 com dropout apenas nas camadas ocultas e
+o modelo 3 com regularização L2 em todas as camadas, obtiveram o mesmo resultado na
+acurácia de teste, 57,19%, como pode ser visto na figura 8 o resultado do treinamento de
+cada modelo e na figura 9 a matriz de confusão desses modelos. Para o teste de dropout,
+as taxas de 30% e 50% obtiveram resultados proximos, como pode ser visto na figura 10.
+
+
+
+Figura 6. Resultado dos testes da Etapa I.
+
+Figura 7. Resultado dos testes da Etapa I.
+
+Figura 8. Resultados dos testes dos modelos, na Etapa II.
+
+Para a etapa III, onde foi realizado a validação cruzada k-fold com k=10. O melhor
+resultado obtido foi com o modelo 2, que obteve uma acurácia de 56,70% enquanto os
+10 modelos obtiveram uma acurácia média de 53,73% ambos com as imagens de teste.
+Para as imagens de validação ele obteve 63,96% de acurácia e uma acurácia média de
+61.09% para as imagens de teste, como pode ser visto na figura 11. Foi gerado também
+o gráfico da curva de aprendizado, figura 12, a matriz de confusão, figura 13 e a curva
+Roc do modelo, figura 14. A curva Roc (Caracterı́stica de Operação do Receptor) gerada
+apresenta a comparação entre as classes.
+
+Como pode ser observado em todas as matrizes de confusão, a classe 3 foi a que
+obteve o melhor resultado em relação às outras classes. Isso se deve principalmente ao
+fato de que a classe 3 possui 4.260 imagens, enquanto que as outras tem entre 1.570 e
+1.760 imagens e mesmo utilizando o aumento de dados para balancear as classes, a classe
+3 continuou tendo um melhor resultado, de modo que um conjunto de dados que seja
+
+
+
+Figura 9. Matriz de confusão dos modelos 1 e 3 treinados na Etapa II.
+
+Figura 10. Resultados do teste de Dropout.
+
+naturalmente mais balanceado poderia ter um resultado melhor.
+
+Figura 11. Resultado da validação cruzada k-fold com k=10.
+
+Figura 12. Curva de aprendizado do modelo 2.
+
+
+
+Figura 13. Matriz de confusão do modelo 2.
+
+Figura 14. Curva ROC do modelo 2.
+
+5. Considerações Finais
+
+Os resultados foram obtidos a partir de imagens de 6, 18, 30 e 36 meses rotulados com
+base nos dados de 42 meses, podendo ser testados ainda outras combinações para se ter
+uma visão mais abrangente da viabilidade do uso das folhas de eucalipto, para identificar
+cruzamentos que seja produtivos e resistentes a seca. Outro ponto a ser observado é
+que por questões de tempo e limitação na memória da GPU foi utilizado apenas uma
+arquitetura de CNN, realizar novos testes comparando outras arquiteturas poderia dar
+uma visão mais adequada sobre a capacidade das CNNs em extrair as caracterı́sticas das
+folhas, uma vez por não haver uma diferença visual muito clara entre as classes, redes
+maiores poderia ter resultados diferentes. Por questão de tempo de treinamento, não foi
+possı́vel treinar os modelos mais vezes para se ter uma acurácia mais confiável.
+
+
+
+Agradecimentos
+Gostarı́amos de agradecer CAPES, CNPq (Processo #401839/2021-4), Fapemig (Projeto
+#APQ-02062-21) e SIF (Sociedade de Investigações Florestais) pelo financiamento a este
+trabalho.
+
+Referências
+de Árvores ibá, I. B. (2021). Relatório anual ibÁ 2021. Technical report, indústria brasi-
+
+leira de árvores.
+Germon, A., Jourdan, C., Bordron, B., Robin, A., Nouvellon, Y., Chapuis-Lardy, L., de
+
+Moraes Gonçalves, J. L., Pradier, C., Guerrini, I. A., and Laclau, J.-P. (2019). Conse-
+quences of clear-cutting and drought on fine root dynamics down to 17m in coppice-
+managed eucalypt plantations. Forest Ecology and Management, 445:48–59.
+
+Masson-Delmotte, V., P. Z. A. P. S. C.-C. P. S. B. N. C. Y. C. L. G. M. G. M. H. K. L.
+E. L. J. M. T. M. T. W. O. Y. R. Y. and (eds.), B. Z. (2021). Climate Change 2021:
+The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment
+Report of the Intergovernmental Panel on Climate Change.
+
+Minasligas, E. (2021). Dados meteorológicos coletados em estação meteorológica. Dados
+brutos. Estação Meteorológica da Empresa Minasligas, Buritizeiro-MG, Brasil.
+
+Mohanty, S. P., Hughes, D. P., and Salathé, M. (2016). Using deep learning for image-
+based plant disease detection. Frontiers in Plant Science, 7.
+
+Na Yao, Fuchuan Ni, Z. W. J. L. W.-K. S. C. L. . G. L. (2021). L2mxception: an improved
+xception network for classification of peach diseases. Plant Methods.
+
+Perez, L. and Wang, J. (2017). The effectiveness of data augmentation in image classifi-
+cation using deep learning.
+
+Redmon, J., Divvala, S., Girshick, R., and Farhadi, A. (2016). You only look once: Uni-
+fied, real-time object detection. In Proceedings of the IEEE Conference on Computer
+Vision and Pattern Recognition (CVPR).
+
+Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., and Salakhutdinov, R. (2014).
+Dropout: A simple way to prevent neural networks from overfitting. Journal of Ma-
+chine Learning Research, 15(56):1929–1958.
+
+VanRaden, P. M. (2008). Efficient methods to compute genomic predictions. Journal of
+Dairy Science.
+
+You, K., Long, M., Wang, J., and Jordan, M. I. (2019). How does learning rate decay help
+modern neural networks?
+
+Zoph, B., Vasudevan, V., Shlens, J., and Le, Q. V. (2018). Learning transferable architec-
+tures for scalable image recognition.

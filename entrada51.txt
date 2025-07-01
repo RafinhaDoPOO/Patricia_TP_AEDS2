@@ -1,0 +1,677 @@
+﻿ASTSecurer Ferramenta de Detecção de Vulnerabilidades em
+Contratos Inteligentes
+
+Eduardo V. B. Esquivel1, Josué N. Campos1, Ronan M. Dutra1,
+Alex B. Vieira2, José A. M. Nacif1
+
+1Instituto de Ciências Exatas e Tecnológicas, Campus UFV-Florestal
+Universidade Federal de Viçosa (UFV) – Florestal, MG – Brazil
+
+2Departamento de Informática, Universidade Federal de Juiz de Fora
+(UFJF) – Juiz de Fora, MG – Brazil
+
+{eduardo.esquivel,josue.campos,ronan.dutra,jnacif}@ufv.br
+alex.borges@ufjf.edu.br
+
+Abstract. As we move towards new decentralized application solutions, we can
+observe a growing number of smart contracts on blockchain networks, ranging
+from more straightforward implementations to more complex and valuable ones.
+However, this significant increase brings along a concerning amount of vulne-
+rable contracts, susceptible to attacks from malicious actors aiming to steal
+resources or cause application failures. This paper aims to provide documenta-
+tion on detecting the main vulnerabilities in Solidity and present an automated
+detection solution that utilizes static analysis techniques to identify vulnerabili-
+ties in large datasets of smart contracts. Based on this, performance tests and
+comparisons were conducted with the leading current tools in the smart contract
+verification field, In these experiments, our tool achieved good results in terms
+of both execution time and detection capability compared to the others.
+
+Resumo. À medida que avançamos em direção a novas soluções de aplicações
+descentralizadas, observa-se um crescente número de contratos inteligentes nas
+redes blockchain, desde implementações mais simples até as mais complexas
+e valiosas. No entanto, esse aumento significativo traz consigo uma preocu-
+pante quantidade de contratos vulneráveis, que estão suscetı́veis a ataques de
+invasores mal-intencionados com o objetivo de roubar recursos ou causar fa-
+lhas nas aplicações. O objetivo deste artigo é fornecer documentação sobre a
+detecção das principais vulnerabilidades do Solidity e apresentar uma solução
+de detecção automatizada que utiliza técnicas de análise estática para identi-
+ficar vulnerabilidades em grandes conjuntos de dados de contratos inteligen-
+tes. Para tanto, foram realizados testes de desempenho e comparações com as
+principais ferramentas atuais da área de verificação de contratos inteligentes,
+nesses experimentos a nossa ferramenta apresentou bons resultados tanto em
+termos de tempo de execução como em capacidade de detecção em relação as
+demais.
+
+1. Introdução
+Em decorrência do rápido avanço das tecnologias blockchain, os contratos inteligentes
+emergiram como uma forma revolucionária de automatizar e executar acordos digitais de
+
+
+
+forma confiável, transparente e imutável. Os contratos inteligentes são programas auto
+executáveis e armazenados nas redes blockchain, que foram projetados para automati-
+zar e garantir a execução de transações entre as partes envolvidas, sem a necessidade de
+intermediários.
+
+Um dos sistemas mais populares para implementar contratos inteligentes é a Ethe-
+reum Virtual Machine (EVM). Ela é uma “máquina virtual” criada especialmente para
+executar esses contratos na blockchain Ethereum. Isso permite que desenvolvedores im-
+plantem os contratos escritos em linguagem de programação Solidity na blockchain para
+serem executados de forma confiável.
+
+No entanto, à medida que o número de contratos inteligentes aumenta rapida-
+mente, também surgem preocupações sobre a segurança e a detecção de vulnerabilidades
+nesses contratos. Erros de programação, falhas de projeto e brechas de segurança podem
+causar consequências graves, como a perda de recursos financeiros ou até mesmo serem
+explorados por pessoas, como relatado em [Ndiaye and Konate 2021]. Sendo assim, mui-
+tas das vulnerabilidades que ocorreram e ainda ocorrem nos contratos inteligentes foram
+documentadas por meio de especialistas de segurança, pesquisadores e usuários. O co-
+nhecimento e documentação das vulnerabilidades é algo essencial para a compreensão e
+estudo dessa área, evitando que programas futuros sofram dos mesmos ataques e sejam
+explorados da mesma forma.
+
+Neste artigo serão discutidos os conceitos fundamentais da análise estática em
+Solidity, juntamente com a documentação de vulnerabilidades comuns já conhecidas e re-
+gistradas anteriormente. Em especial, serão abordadas as vulnerabilidades presentes em
+registro diverso, que serão classificadas de acordo com seu tipo, método de detecção de
+acordo com o código fonte. Por fim, será apresentada a nossa solução para a detecção
+de vulnerabilidades por meio de uma técnica de análise estática, sendo a ferramenta que
+foi desenvolvida ao longo desse trabalho denominada ASTSecurer [Esquivel 2023], que
+é um analisador semântico com base em vulnerabilidades conhecidas. Essa abordagem
+permite uma análise automatizada de grandes volumes de código, identificando as vulne-
+rabilidades registradas e mostrando onde elas estão presentes. Para isso, utiliza-se uma
+análise da Árvore Sintática Abstrata (AST), que oferece informações relevantes sobre a
+estrutura do código e ajuda na identificação de padrões de vulnerabilidade.
+
+Ademais serão apresentados ao longo do artigo tópicos explicativos sobre os prin-
+cipais conceitos que envolve o reconhecimentos de vulnerabilidades, assim como técnicas
+que são constatante utilizadas para a verificação do código de contratos inteligentes.
+
+2. Visão Geral
+Ao abordar a verificação de contratos inteligentes, é necessário explorar técnicas e con-
+ceitos especı́ficos. Estes contratos apresentam peculiaridades em sua implementação, o
+que os torna mais suscetı́veis a serem verificados por meio de abordagens distintas.
+
+2.1. Análise Estática e Análise Dinâmica
+Existem duas maneiras de realizar testes em contratos inteligentes: análise estática e
+análise dinâmica.
+
+A análise estática de código é uma técnica que envolve a revisão do código-fonte
+do software sem a necessidade de executá-lo. Geralmente, são utilizadas ferramentas de
+
+
+
+software para examinar o código-fonte em busca de erros de programação, violações de
+padrões de codificação, vulnerabilidades de segurança e outros problemas. Por outro lado,
+a análise dinâmica envolve a execução do software e a observação de seu comportamento
+durante a execução. Essa técnica é realizada por meio de testes de software, que simulam
+diferentes situações para detectar erros e falhas de segurança [Adrion et al. 1982].
+
+Existem diversos métodos para realizar os testes, incluindo testes formais, ma-
+chine learning, métodos baseados em modelos e métodos baseados em pesquisas. A
+análise estática consiste em analisar a estrutura do código-fonte, sua sintaxe, estruturas e
+fluxos de dados. Já a análise dinâmica é mais adequada para detectar problemas de desem-
+penho, questões relacionadas à memória e outras questões que só podem ser identificadas
+durante a execução do software.
+
+Atualmente, a maioria das ferramentas existentes utilizam análise estática
+para detecção de vulnerabilidades em contratos inteligentes, como documentado em
+[Marijan and Lal 2022]. Isso se deve ao fato de que as técnicas de análise estática têm
+se mostrado mais eficientes em termos de tempo na detecção de um maior número de
+vulnerabilidades em contratos inteligentes até o momento, uma vez que para executar um
+contrato inteligente é necessário simular todo um ambiente de execução [Luu et al. 2016].
+
+2.2. Verificação Formal
+A verificação formal é uma abordagem que se utiliza de métodos lógicos e matemáticos
+para detectar e verificar sistemas de software. Nesse processo é realizada a modela-
+gem formal do sistema, expressando suas propriedades e requisitos em termos de ma-
+temática lógica. Essa modelagem matemática permite uma análise precisa e abrangente
+do sistema, ajudando a identificar erros e garantir a exatidão ou precisão do software
+[Hasan and Tahar 2015].
+
+No contexto da tecnologia blockchain, a verificação formal pode ser aplicada ao
+código dos contratos inteligentes, o que é extremamente útil para detectar diferentes ti-
+pos de vulnerabilidades. Através da modelagem matemática, é possı́vel identificar de
+forma mais precisa e eficiente as potenciais fragilidades no código. Ao utilizar técnicas de
+verificação formal, é possı́vel analisar minuciosamente o contrato inteligente e identificar
+condições que possam tornar o código vulnerável a ataques ou explorações indesejadas.
+
+Ao contrário da verificação tradicional, que é baseada em testes e verificações
+manuais, a verificação formal usa métodos automatizados para realizar uma análise com-
+pleta do contrato inteligente. Isso inclui a verificação de todos os possı́veis caminhos de
+execução do contrato, bem como a verificação de todas as condições de entrada e saı́da.
+Nos últimos anos, uma série de técnicas de verificação têm sido amplamente empregadas
+para detecção de erros e análise de vulnerabilidades. Dentre essas técnicas, destacam-se
+o model checking, theorem proving, symbolic execution.
+
+2.2.1. Model Checking
+
+O model checking é uma técnica de verificação formal amplamente empregada na enge-
+nharia de software e hardware para assegurar a exatidão de sistemas complexos, tradu-
+zindo os mesmos para a linguagem SMT a fim de verificar propriedades desejadas do
+modelo criado [Clarke 1997].
+
+
+
+Uma vez que o modelo formal é criado, é possı́vel realizar a verificação por meio
+do model checking. Essa verificação consiste em explorar todas as possı́veis execuções
+do sistema, em busca de estados indesejados ou violações de propriedades especifica-
+das. Essas propriedades podem descrever requisitos de segurança, exatidão funcional ou
+comportamental do sistema.
+
+No contexto dos contratos inteligentes, o model checking é frequente-
+mente realizado utilizando ferramentas como NuSMV e nuXmv [Cimatti et al. 1999]
+[Cavada et al. 2014], que se valem da técnica do model checking para analisar expressões
+como LTL (Linear Temporal Logic) ou CTL (Computation Tree Logic). Além disso, ou-
+tras aplicações fazem uso de solucionadores SMT para analisar a linguagem simbólica
+dos contratos.
+
+Algumas ferramentas de model checking, como o CBMC (C Bounded Model
+Checker) [Kroening and Tautschnig 2014], empregam solucionadores SMT internamente
+para gerar contraexemplos quando modelos violam as propriedades verificadas. Dessa
+forma, essas ferramentas auxiliam na identificação de erros, bugs e vulnerabilidades nos
+contratos inteligentes, contribuindo para sua melhoria e confiabilidade.
+
+2.2.2. Symbolic Execution
+
+Symbolic execution é uma técnica de análise estática de código que é usada para verificar
+o comportamento do programa de forma simbólica, em vez de executá-lo de fato. Ela per-
+mite analisar o comportamento do programa para uma entrada genérica, em vez de anali-
+sar o comportamento especı́fico para um conjunto finito de entradas de teste [King 1976].
+
+Durante o processo o código é executado simbolicamente, substituindo os valores
+das variáveis por expressões simbólicas que representam suas possı́veis atribuições. Essas
+expressões simbólicas são manipuladas de acordo com as instruções do programa, produ-
+zindo novas expressões simbólicas que representam o estado do programa em diferentes
+pontos de execução. Os SMT solvers são amplamente utilizados na symbolic execution
+para verificar se as expressões simbólicas geradas durante a execução simbólica satisfa-
+zem certas propriedades ou restrições.
+
+Em solidity a grande maioria das ferramentas de verificação de código e vulnera-
+bilidade se utiliza da técnica symbolic execution, uma vez que para vulnerabilidades mais
+complexas nas quais os valores de entradas estão diretamente ligados a exploração de
+erros, ele se mostra mais eficaz, produzindo menor número de falsos positivos no geral,
+como reportado em [Luu et al. 2016].
+
+2.2.3. Theorem Proving
+
+Theorem Proving consiste na técnica de codificar o sistema e suas propriedades em uma
+lógica matemática particular. Após isso se tenta obter uma prova formal na qual se faça a
+satisfação das propriedades do sistema codificado. Diferente do model checking que ape-
+nas consegue verificar sistemas de estados finitos, o Theorem proving consegue verificar
+sistemas de estados infinitos [Green 1981].
+
+
+
+Essa técnica semi-automática exige conhecimentos avançados e especialização
+manual desse sistema por um programador, no contexto de contratos inteligentes e uma
+técnica ainda pouco utilizada, sendo aplicada em grandes sistemas ou pesquisas.
+
+2.3. SMT Solver
+SMT (Satisfiability Modulo Theories) solver é um software projetado para resolver pro-
+blemas de satisfação, justificação, explicação de fórmulas de lógica de primeira ordem
+em teorias especı́ficas, como aritmética, teoria dos conjuntos, teoria da igualdade, entre
+outras. No contexto de Solidity muitas ferramentas utilizam de SMT solvers para reali-
+zar a detecção de vulnerabilidades e bugs no código. Dentre os solvers mais utilizados
+estão Z3, Yices, mathsat5 [De Moura and Bjørner 2008] [Dutertre and De Moura 2006]
+[Cimatti et al. 2013].
+
+Os solvers SMT (Satisfiability Modulo Theories) são amplamente utilizados nas
+técnicas de verificação formal, pois o processo de resolver um modelo formal requer a
+solução lógica matemática. Os SMTsolvers desempenham exatamente esse papel, indi-
+cando se certas propriedades na linguagem formal podem ou não ser resolvidas, além de
+fornecer as soluções correspondentes.
+
+3. Trabalhos Relacionados
+Durante os últimos anos, surgiram várias ferramentas de verificação de vulnerabilida-
+des em contratos inteligentes. Muitas dessas ferramentas utilizam técnicas avançadas de
+análise estática para identificar possı́veis bugs em contratos vulneráveis.
+
+Uma das ferramentas disponı́veis para análise do bytecode EVM é o Mythril
+[ConsenSys 2023], que utiliza a execução simbólica para identificar certos tipos de vul-
+nerabilidades. Embora tenha demonstrado resultados satisfatórios em relação a algumas
+vulnerabilidades, a análise de contratos simples usando essa ferramenta requer um tempo
+significativo.
+
+O Slither [Feist et al. 2019] é uma ferramenta adicional de análise que emprega
+métodos de análise estática para detectar vulnerabilidades especı́ficas. Ele faz uso de
+técnicas de representação intermediária para identificar essas vulnerabilidades durante o
+processo de análise, o que torna o processo um pouco mais rápido do que as técnicas que
+fazem uso de modelagem complexas, entretanto possui resultados menos precisos para
+alguns tipos de vulnerabilidades.
+
+Além disso, em 2019 foi publicada a Manticore, uma ferramenta popular descrita
+em [Mossberg et al. 2019], que utiliza a técnica de execução simbólica e se comporta
+de maneira semelhante ao Mythril, analisando certos caminhos do contrato inteligente
+e verificando certas propriedades para encontrar vulnerabilidade, também demandando
+certo esforço computacional, tornando assim todo o processo mais lento.
+
+4. Metodologia
+A ferramenta de detecção ASTSecurer foi desenvolvida com base na documentação SWC
+(Smart Contract Weakness Classification and Test Cases) [SmartContractSecurity 2020],
+que é amplamente reconhecida por programadores de contratos inteligentes, sendo bas-
+tante abrangente em relação às vulnerabilidades da linguagem Solidity. A partir dessa
+
+
+
+documentação, foram criados artefatos úteis para utilização no desenvolvimento e apri-
+moramento da nossa ferramenta de detecção.
+
+Para a elaboração da ferramenta de detecção, foi empregada uma estratégia ba-
+seada na análise estática da AST (Árvore de Sintaxe Abstrata). Foi desenvolvido um al-
+goritmo para identificar e detectar vulnerabilidades previamente selecionadas no registro.
+Essa abordagem foi cuidadosamente escolhida devido a uma série de motivos fundamen-
+tais descritos a seguir.
+
+Em primeiro lugar, a análise estática da AST permite examinar o código-fonte do
+contrato de forma minuciosa e abrangente. Ao analisar a estrutura sintática do código,
+é possı́vel identificar padrões, fluxos de controle e relacionamentos entre os elementos
+do contrato. Isso possibilita a detecção de vulnerabilidades em um nı́vel mais profundo,
+permitindo uma maior precisão na identificação dos problemas de segurança.
+
+Além disso, a análise estática da AST tem a vantagem de ser eficiente e escalável.
+Ao contrário da execução do contrato, que exigiria a simulação de todas as possı́veis
+interações com o contrato para detectar vulnerabilidades, a análise estática pode ser re-
+alizada antes mesmo da implantação do contrato. Isso reduz significativamente o tempo
+necessário para verificar a segurança do código, permitindo uma identificação mais rápida
+e eficiente de possı́veis vulnerabilidades.
+
+O método proposto dispõe da ocorrência de que algumas vulnerabilidades podem
+ser identificadas por meio de padrões semânticos especı́ficos. Isso elimina a necessidade
+de converter as propriedades do código em modelos complexos, permitindo uma análise
+mais rápida e prática. Entretanto a utilização dessa técnica limita o grupo de vulnerabili-
+dades que podem ser detectadas, assim sendo necessário delimitar os tipos de vulnerabi-
+lidades a serem suportadas na ferramenta de detecção.
+
+Atualmente, existem muitos dados e contratos inteligentes escritos, e há várias
+ferramentas que propõem a detecção de vulnerabilidades. No entanto, muitas dessas fer-
+ramentas requerem um esforço computacional significativo, o que torna a análise lenta e
+ineficiente quando aplicada a conjuntos de dados extensos de contratos inteligentes.
+
+Portanto, foi desenvolvida uma ferramenta que realiza uma filtragem inicial de
+certas vulnerabilidades de contratos inteligentes em tempo hábil. Essa ferramenta utiliza
+a técnica de análise dos nós da AST para exibir em quais métodos ou variáveis foram
+encontradas as vulnerabilidades no código fonte em linguagem Solidity.
+
+4.1. Documentação de Vulnerabilidades
+Com base nas vulnerabilidades registradas no SWC, foi realizado um estudo detalhado
+e minucioso, resultando na criação de um artefato abrangente contendo detalhes impor-
+tantes. Esse artefato foi convertido cuidadosamente elaborada em uma tabela, no qual
+apresenta informações essenciais para a compreensão das vulnerabilidades em contratos
+inteligentes.
+
+Dentro da Tabela 1, é possı́vel encontrar o nome especı́fico de cada vulnerabi-
+lidade, bem como o código de identificação correspondente. Além disso, uma breve
+descrição é fornecida, oferecendo uma visão geral das caracterı́sticas e potenciais impac-
+tos de cada vulnerabilidade identificada. Para auxiliar ainda mais na detecção e compre-
+ensão dessas vulnerabilidades, cada uma delas é acompanhada de um método especı́fico
+
+
+
+de detecção em contratos inteligentes, nos quais descrevem um passo a passo para identi-
+ficar as vulnerabilidades de forma prática.
+
+A Tabela 1 é uma representação abrangente dos tipos de vulnerabilidades que
+são suportados pelo mecanismo de detecção do ASTSecurer. Através dessa tabela, é
+possı́vel visualizar de forma clara e organizada os diferentes tipos de vulnerabilidades
+que o ASTSecurer tem a capacidade de identificar em contratos escritos em Solidity.
+
+Tabela 1. Detalhes das Vulnerabilidades
+
+ID/Nome Descrição Detecção
+SWC-100
+Function Default Funções com tipo de visibilidade Para verificar esse tipo de vulne-
+Visibility não especificado são tratadas como rabilidade basta conferir se todas
+
+públicas por padrão.Em casos do as funções do contrato inteligente
+programador esquecer de definir a estão com o tipo de visibilidade de-
+visibilidade correta podem ocorrer finida , caso negativo o contrato é
+ataques maliciosos. suscetı́vel a este tipo de vulnerabili-
+
+dade.
+SWC-102
+Outdated Compi- Ao se utilizar uma versão desatuali- Basta verificar se o seu contrato está
+ler Version zada do compilador o código pode sendo executado pela versão mais
+
+estar suscetı́vel a bugs e vulnerabi- recente do compilador do Solidity.
+lidades expostas.
+
+SWC-104
+Unchecked Call Ocorre quando os valores de retor- Verifique se há chamadas a funções
+Return Value nos das chamadas não são verifi- externas sem verificar o valor de
+
+cados, a execução continua mesmo retorno. Verifique também se o
+após haver uma exceção, podendo código está corretamente lidando
+assim ocorrer resultados indeseja- com o caso em que a função externa
+dos. falha.
+
+SWC-108
+State Variable Variáveis com tipo de visibilidade Para verificar esse tipo de vulne-
+Default Visibility não especificado são tratadas como rabilidade basta conferir se todas
+
+públicas por padrão.Em casos do as variáveis do contrato inteligente
+programador esquecer de definir a estão com o tipo de visibilidade de-
+visibilidade correta podem ocorrer finida , caso negativo o contrato é
+ataques maliciosos. suscetı́vel a este tipo de vulnerabili-
+
+dade.
+SWC-111
+Use of Depreca-
+ted Solidity Func- Ocorre devido ao uso de funções Conferir se as funções presentes no
+tions obsoletas ou descontinuadas na lin- código são obsoletas conforme a
+
+guagem de programação Solidity. documentação mais atualizada do
+Se um desenvolvedor ainda as usa compilador do Solidity.
+em seu código, isso pode resultar
+em problemas de segurança ou pro-
+blemas de eficiência.
+
+
+
+SWC-115
+Authorization th- Consiste no uso incorreto da A detecção pode ser realizada veri-
+rough tx.origin variável “tx.origin”, onde se utili- ficando se o contrato possui em seu
+
+zada para validação de autoridade código a utilização do “tx.origin”
+de forma errada pode implicar para autorização de alguma funcio-
+em roubos de fundos por contra- nalidade ou requisição.
+tos maliciosos com controle de
+autorização deste contrato.
+
+SWC-116
+Block values as a Devido à mineração de novos blo- Verificar se o contrato
+proxy for time cos ser dificultada e à possibilidade utiliza as variáveis tais
+
+de congestionamento da rede, a ve- como “block.timestamp” ou
+locidade de adição de blocos pode “block.number”, ou algum tipo de
+variar. Além disso, os minerado- má aleatoriedade para ativar certas
+res podem atrasar intencionalmente condições do contrato.
+a mineração para manipular o valor
+do bloco.
+
+SWC-127
+Arbitrary Jump
+with Function Solidity possui suporte para tipos Verificar se o código faz uso de
+Type Variable de funções, ou seja pode se atribuir variáveis do tipo função utilizando
+
+uma função a variável.Entretanto isso em conjunto com a utilização
+o uso incorreto disso juntamente de assembly.
+com a utilização com uso de assem-
+bly pode acarretar nos usuários po-
+dendo alterar diretamente essas fun-
+cionalidades.
+
+SWC-130
+Right-To-Left-
+Override control Os Usuários podem utilizar o Verificar se o contrato permite en-
+character caractere único de Right-To- tradas inválidas em certas áreas
+
+Left-Override para forçar uma visı́veis para outros usuários , tais
+renderização de texto RTL. como o caractere Right-To-Left-
+
+Override control.
+SWC-131
+Presence of unu- Consiste na existência de variáveis Verificar se o código possui
+sed variables não utilizadas, que podem acarre- variáveis declaradas e que não
+
+tar em um maior gasto de gás (taxa são utilizadas em todo o contrato
+paga na rede para o uso do poder inteligentes.
+computacional da plataforma) , e
+ruı́dos no código.
+
+
+
+SWC-134
+Message call
+with hardcoded As funções “send()” e “trans- Verificar se o contrato inteligente
+gas amount fer()”, utilizam fixamente 2300 de utiliza funcionalidades tais como
+
+gás, entretanto esses valores podem send() ou transfer(), apenas espe-
+ser modificados durantes os “hard rando valores fixos de gás já prede-
+forks”, quebrando certas lógicas de finidos.
+contratos que supõem apenas esses
+valores fixos.
+
+4.2. Árvore de Sintaxe Abstrata
+A AST é uma estrutura de dados que descreve sintaticamente um código, indicando várias
+informações úteis em seus nós, como o tipo de dado de uma variável ou as expressões que
+compõem outras expressões.
+
+O uso de uma árvore de sintaxe abstrata é comum em compiladores, interpre-
+tadores e ferramentas de análise estática de código. Ela permite que o código-fonte
+seja processado e analisado de forma mais eficiente, facilitando a detecção de erros, a
+transformação do código e a geração de código intermediário ou otimizado. Resumida-
+mente a Arvore Sintática Abstrata e uma representação intermediária e abstrata do código-
+fonte de um programa, organizada em uma estrutura de árvore que facilita a análise e
+manipulação do código.
+
+Podemos observar um exemplo de AST de um contrato inteligente na (Figura 1).
+Nesse exemplo é demonstrado a estrutura de um código em Solidity utilizando uma
+representação AST, assim tendo os seus nós correspondendo às variáveis e expressões
+de um contrato inteligente. Esse contrato exibe uma mensagem “Hello Word” ao acionar
+uma determinada funcionalidade nomeada “sayHell”.
+
+A AST é uma estrutura muito facilitadora para análise e verificação de código,
+uma vez que, podemos analisar semanticamente certas expressões que podem se encaixar
+em um padrão vulnerável. Por conta dessa praticidade o ASTSecurer se utiliza dessa
+estrutura para a detecção de vulnerabilidades utilizando diretamente a AST para analisar
+certos padrões especı́ficos no código de contratos inteligentes, a fim de detectar trechos
+vulneráveis e que são suscetı́veis a ataques de autores maliciosos na blockchain, e a partir
+disso exibe para o usuário onde se encontra localizado cada trecho vulnerável no código
+base.
+
+5. Resultados
+Nesta seção, serão apresentados os resultados das execuções do ASTSecurer, bem como
+métricas para avaliar a confiabilidade e capacidade de detecção de vulnerabilidades. Es-
+sas métricas foram obtidas por meio de diversas execuções do programa em diferentes
+conjuntos de dados de contratos inteligentes.
+
+Foram analisados 10480 contratos inteligentes aleatórios reais através da execução
+da ferramenta, podendo esses códigos do conjunto de dados possuı́rem vulnerabilidades
+ou não, isso foi feito a fim de medir o tempo médio de execução da ferramenta para
+
+
+
+Figura 1. Representação AST
+
+Tabela 2. Tempo de Análise ASTSecurer
+
+Número de contratos inteligentes Tempo de Análise (s)
+10.480 15.250,97
+
+1 1,46
+
+análise de vulnerabilidades em um conjunto de dados de contratos inteligentes relativa-
+mente grande. Os resultados conforme mostrado na Tabela 2 foram bastante satisfatórios
+tendo um tempo médio de análise por contrato relativamente baixo.
+
+Além disso, foram realizadas análises comparativas do tempo de verificação de
+um conjunto de dados de códigos utilizando outras ferramentas de detecção de contra-
+tos inteligentes, nomeadamente Mythril, Oyente, Slither e Manticore. Essas análises
+foram executadas em uma mesma máquina, com a mesma configuração. O método
+de verificação semântica do ASTSecurer demonstrou resultados significativamente mais
+rápidos em comparação às outras ferramentas. Foram testados no total 39 códigos de
+contratos inteligentes distintos, cada um contendo vulnerabilidades diferentes, com isso
+foi realizada uma análise do tempo de execução de todas as ferramentas.
+
+Na (Figura 2), é apresentado o tempo médio de execução em segundos para a
+análise de cada código nas diversas ferramentas. É possı́vel observar uma notável dis-
+paridade de velocidade entre as ferramentas que empregam técnicas mais complexas
+
+
+
+Tabela 3. Total de Tipos de Vulnerabilidades no Conjunto de Dados
+
+SWC-100 SWC-102 SWC-104 SWC-111 SWC-115 SWC-116 SWC-131
+5 15 12 3 7 5 6
+
+de análise estática em comparação àquelas que utilizam representação intermediária ou
+análise semântica direta.
+
+Figura 2. Comparação de Tempo de Execução
+
+Através da análise dos resultados obtidos em execuções do mesmo conjunto de
+dados, foi realizado um estudo sobre as vulnerabilidades detectadas em determinados
+contratos inteligentes vulneráveis. Esses contratos inteligentes foram previamente classi-
+ficados em relação às suas vulnerabilidades por meio de uma revisão manual.
+
+Os contratos foram divididos com base nas vulnerabilidades presentes em cada
+um, sendo possı́vel que um mesmo contrato possua várias vulnerabilidades do mesmo tipo
+ou de tipos diferentes. As vulnerabilidades correspondentes aos contratos são: “Function
+Default Visibility”, “Outdated Compiler Version”, “Unchecked Call Return Value”, “Use
+of Deprecated Solidity Functions”, “Authorization through tx.origin”, “Block values as a
+proxy for time”, e “Presence of unused variables”. Essas vulnerabilidades estão relaci-
+onadas no registro SWC, respectivamente, aos seguintes códigos: SWC-100, SWC-102,
+SWC-104, SWC-111, SWC-115, SWC-116 e SWC-131.
+
+A Tabela 3 contem o total de vulnerabilidades presentes no conjunto de dados, en-
+quanto os resultados do experimentos estão presentes na (Figura 3), onde é possı́vel obser-
+var que o ASTSecurer conseguiu identificar diversas vulnerabilidades distintas, apresen-
+
+
+
+tando resultados muito satisfatórios em comparação as demais ferramentas testadas. Ape-
+sar de ter um tempo de execução baixo, como mencionado anteriormente, o ASTSecurer
+consegue realizar a detecção de forma eficiente em comparação às demais ferramentas
+testadas.
+
+Figura 3. Comparação de Capacidade de Detecção das Ferramentas
+
+Por fim, foi testada a ferramenta em conjunto de dados de contratos vulneráveis
+popular obtido em [SmartBugs ], esse repositório contém diversos códigos em Solidity
+com vulnerabilidades classificadas em cada um, sendo constantemente alimentados e atu-
+alizados pela comunidade, a partir do mesmo foram feitas diversas execuções do ASTSe-
+curer a fim de averiguar a precisão da ferramenta na detecção de certos tipos de vulnera-
+bilidades.
+
+Foram selecionados três conjuntos de dados principais, cada um representando
+uma vulnerabilidade especı́fica: “Unchecked Calls” (Chamadas Não Verificadas), “Bad
+Randomness” (Aleatoriedade Ruim) e “Access Control” (Controle de Acesso). Cada con-
+junto de dados apresentava diferentes tamanhos. Os resultados desse experimento foram
+bastante satisfatórios, conforme evidenciado na (Figura 4). Nela, pode-se observar que o
+ASTSecurer conseguiu detectar a maioria das vulnerabilidades nos conjuntos de dados de
+contratos reais, mesmo em casos onde os conjuntos de dados eram diversificados e conti-
+nham tipos de vulnerabilidades para os quais a ferramenta não foi originalmente projetada
+para detectar.
+
+6. Conclusão
+A precisão e a confiabilidade dos resultados obtidos pelo ASTSecurer são notáveis. A fer-
+ramenta demonstrou uma capacidade robusta de identificar vulnerabilidades especı́ficas,
+oferecendo aos desenvolvedores uma valiosa análise de segurança para seus contratos
+inteligentes. Com suas funcionalidades avançadas e detecção precisa, o ASTSecurer se
+
+
+
+Figura 4. Teste em Conjuntos de Dados Reais
+
+destaca como uma solução eficiente no setor, contribuindo para a mitigação de riscos e a
+proteção dos contratos inteligentes contra explorações maliciosas. Esses resultados pro-
+missores reforçam a importância de utilizar ferramentas de análise de segurança como o
+ASTSecurer para garantir a integridade e a confiança dos contratos inteligentes no volu-
+moso sistema da blockchain.
+
+Além disso a ferramenta como demonstrado nos resultados apresenta um baixo
+tempo de execução, sendo bastante útil para ser utilizada em grande volumes de dados
+de contrato inteligentes escritos em Solidity, sendo recomendado principalmente para
+realização de filtragens iniciais em contratos inteligentes, revelando se o mesmo possui
+algumas das vulnerabilidades documentadas em seu código fonte.
+
+Para futuros trabalhos, há planos de expansão do suporte para detecção de novos
+tipos de vulnerabilidades em Solidity, além do aprimoramento dos recursos de detecção já
+existentes no código. O objetivo é aumentar o número de códigos detectados e melhorar
+a eficiência do ASTSecurer.
+
+Uma abordagem promissora é a utilização de recursos de aprendizado de máquina
+para detectar padrões na Abstract Syntax Tree (AST). Isso pode acelerar o processo de
+detecção e permitir a identificação de um espectro ainda maior de vulnerabilidades pelo
+programa. A aplicação de técnicas de machine learning na análise de contratos inte-
+ligentes pode proporcionar uma detecção mais precisa e automatizada, aprimorando a
+capacidade da ferramenta de encontrar vulnerabilidades sutis ou complexas.
+
+Essas direções futuras visam a contı́nua evolução do ASTSecurer, tornando-o mais
+abrangente, eficiente e capaz de lidar com uma ampla variedade de vulnerabilidades em
+contratos inteligentes.
+
+Referências
+Adrion, W. R., Branstad, M. A., and Cherniavsky, J. C. (1982). Validation, verification,
+
+and testing of computer software. ACM Computing Surveys (CSUR), 14(2):159–192.
+
+
+
+Cavada, R., Cimatti, A., Dorigatti, M., Griggio, A., Mariotti, A., Micheli, A., Mover, S.,
+Roveri, M., and Tonetta, S. (2014). The nuxmv symbolic model checker. In Computer
+Aided Verification: 26th International Conference, CAV 2014, Held as Part of the Vi-
+enna Summer of Logic, VSL 2014, Vienna, Austria, July 18-22, 2014. Proceedings 26,
+pages 334–342. Springer.
+
+Cimatti, A., Clarke, E., Giunchiglia, F., Roveri, M., et al. (1999). Nusmv: A new symbolic
+model verifier. In CAV, volume 99, pages 495–499. Citeseer.
+
+Cimatti, A., Griggio, A., Schaafsma, B. J., and Sebastiani, R. (2013). The mathsat5 smt
+solver. In Tools and Algorithms for the Construction and Analysis of Systems: 19th In-
+ternational Conference, TACAS 2013, Held as Part of the European Joint Conferences
+on Theory and Practice of Software, ETAPS 2013, Rome, Italy, March 16-24, 2013.
+Proceedings 19, pages 93–107. Springer.
+
+Clarke, E. M. (1997). Model checking. In Foundations of Software Technology and
+Theoretical Computer Science: 17th Conference Kharagpur, India, December 18–20,
+1997 Proceedings 17, pages 54–56. Springer.
+
+ConsenSys (Acessado em 2023). Mythril. https://github.com/ConsenSys/
+mythril.
+
+De Moura, L. and Bjørner, N. (2008). Z3: An efficient smt solver. In Tools and Algo-
+rithms for the Construction and Analysis of Systems: 14th International Conference,
+TACAS 2008, Held as Part of the Joint European Conferences on Theory and Practice
+of Software, ETAPS 2008, Budapest, Hungary, March 29-April 6, 2008. Proceedings
+14, pages 337–340. Springer.
+
+Dutertre, B. and De Moura, L. (2006). The yices smt solver. Tool paper at http://yices.
+csl. sri. com/tool-paper. pdf, 2(2):1–2.
+
+Esquivel, E. (2023). Astsecurer. https://github.com/eduardovbe/AST_
+Vulnerabities_Checker. Acessado em 01 de junho de 2023.
+
+Feist, J., Grieco, G., and Groce, A. (2019). Slither: a static analysis framework for smart
+contracts. In 2019 IEEE/ACM 2nd International Workshop on Emerging Trends in
+Software Engineering for Blockchain (WETSEB), pages 8–15. IEEE.
+
+Green, C. (1981). Application of theorem proving to problem solving. In Readings in
+Artificial Intelligence, pages 202–222. Elsevier.
+
+Hasan, O. and Tahar, S. (2015). Formal verification methods. In Encyclopedia of Infor-
+mation Science and Technology, Third Edition, pages 7162–7170. IGI global.
+
+King, J. C. (1976). Symbolic execution and program testing. Communications of the
+ACM, 19(7):385–394.
+
+Kroening, D. and Tautschnig, M. (2014). Cbmc–c bounded model checker: (competition
+contribution). In Tools and Algorithms for the Construction and Analysis of Systems:
+20th International Conference, TACAS 2014, Held as Part of the European Joint Con-
+ferences on Theory and Practice of Software, ETAPS 2014, Grenoble, France, April
+5-13, 2014. Proceedings 20, pages 389–391. Springer.
+
+
+
+Luu, L., Chu, D.-H., Olickel, H., Saxena, P., and Hobor, A. (2016). Making smart con-
+tracts smarter. In Proceedings of the 2016 ACM SIGSAC conference on computer and
+communications security, pages 254–269.
+
+Marijan, D. and Lal, C. (2022). Blockchain verification and validation: Techniques, chal-
+lenges, and research directions. Computer Science Review, 45:100492.
+
+Mossberg, M., Manzano, F., Hennenfent, E., Groce, A., Grieco, G., Feist, J., Brunson, T.,
+and Dinaburg, A. (2019). Manticore: A user-friendly symbolic execution framework
+for binaries and smart contracts. In 2019 34th IEEE/ACM International Conference on
+Automated Software Engineering (ASE), pages 1186–1189. IEEE.
+
+Ndiaye, M. and Konate, P. K. (2021). Cryptocurrency crime: Behaviors of malicious
+smart contracts in blockchain. In 2021 International Symposium on Networks, Com-
+puters and Communications (ISNCC), pages 1–8. IEEE.
+
+SmartBugs. SmartBugs Curated Repository. https://github.com/smartbugs/
+smartbugs-curated. Acesso em: 8 de junho de 2023.
+
+SmartContractSecurity (2020). Smart contract weakness classification and test cases.
+https://swcregistry.io. Acessado em 25 de maio de 2023.

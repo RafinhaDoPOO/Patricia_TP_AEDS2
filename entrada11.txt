@@ -1,0 +1,3304 @@
+﻿UNIVERSIDADE FEDERAL DE VIÇOSA
+CAMPUS FLORESTAL
+
+CAMILA COTA GUIMARÃES
+
+DESENVOLVIMENTO DE UM SISTEMA WEB PARA COLETA E ANÁLISE
+QUANTITATIVA DE DADOS DE ALUNOS EGRESSOS
+
+FLORESTAL - MINAS GERAIS
+2020
+
+
+
+CAMILA COTA GUIMARÃES
+
+DESENVOLVIMENTO DE UM SISTEMA WEB PARA COLETA E ANÁLISE
+QUANTITATIVA DE DADOS DE ALUNOS EGRESSOS
+
+Monografia, apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Orientador: Prof. Dr. Marcus Henrique Soares Men-
+des
+
+FLORESTAL - MINAS GERAIS
+2020
+
+
+
+CAMILA COTA GUIMARÃES
+
+DESENVOLVIMENTO DE UM SISTEMA WEB PARA COLETA E ANÁLISE
+QUANTITATIVA DE DADOS DE ALUNOS EGRESSOS
+
+Monografia, apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Prof. Dr. Marcus Henrique Soares Mendes
+
+Prof. Dr. Antônio Carlos Fava Barros
+
+Prof. Dr. Daniel Mendes Barbosa
+
+FLORESTAL - MINAS GERAIS, 2020
+
+
+
+DEDICATÓRIA
+
+Há sempre muitas pessoas para agradecer ao final de uma graduação, mas existem algumas que
+merecem um agradecimento especial.
+
+Primeiro eu gostaria de agradecer os meus pais, Janice e Dimas, pelas várias formas de
+apoio durante toda a graduação. Sem eles eu não teria tido essa oportunidade e não conseguiria
+chegar até aqui.
+
+Aos meus professores, por todo o ensinamento passado. Um agradecimento especial
+ao professor Marcus Mendes pela orientação no desenvolvimento desse trabalho e ao professor
+José Nacif por me auxiliar e aconselhar durante todo o curso.
+
+Também sou muito grata as amizades que eu fiz durante esse perı́odo. Elas que me
+incentivaram e apoiaram nos momentos ruins e comemoraram comigo os momentos de alegria
+e vitória.
+
+Por fim, gostaria de agradecer à todos que tiraram um tempo para responderem ao ques-
+tionário e tornaram esse trabalho possı́vel, e aos profissionais da saúde que participaram da
+minha jornada, possibilitando que eu concluı́sse essa etapa da minha vida de forma mais leve.
+
+Meu muito obrigado a todos que estiveram comigo nesses longos anos e me ajudaram
+de alguma forma.
+
+
+
+RESUMO
+
+Realizar pesquisas com alunos egressos é uma das principais fontes de informação de uma
+
+instituição. A partir dos resultados obtidos, a instituição e os cursos que a ela pertencem po-
+
+dem tomar decisões para aprimorar os serviços prestados e a experiência dos alunos. Com a
+
+intenção de investigar a atuação dos egressos dos cursos Bacharel em Ciência da Computação
+
+e Técnico em Informática, ambos da Universidade Federal de Viçosa - Campus Florestal, no
+
+mundo do trabalho, e fornecer parâmetros para o instituto, elaborou-se uma pesquisa quantita-
+
+tiva para colher as informações desse público. O propósito do trabalho foi alcançado através
+
+da construção de um sistema Web que disponibiliza um questionário para os egressos, faz a
+
+captação das respostas, analisa os dados obtidos e disponibiliza as informações para os admi-
+
+nistradores da aplicação para que eles possam tomar as providências necessárias. A principal
+
+contribuição dessa investigação foi auxiliar no mapeamento do perfil dos alunos egressos dos
+
+cursos estudados e do mercado de trabalho atual nas áreas de tecnologia. Este trabalho expõe
+
+os resultados alcançados com a pesquisa bem como a metodologia utilizada na construção do
+
+sistema e dos questionários e na coleta, análise e interpretação dos dados.
+
+Palavras-chave:
+Ensino; Egressos; Avaliação; Questionário web.
+
+
+
+ABSTRACT
+
+Conduct research with alumni is one of the main source of information inside an institution.
+
+From the obtained results, the institution and their courses can make decisions to improve its
+
+provided services and the graduates’ experience. In order to investigate the market perfomance
+
+of the Alumni’s from the bachelor of Computer Science and Computer Technician courses, both
+
+of then from Universidade Federal de Viçosa – Florestal Campus, and provide parameters for
+
+the institute, quantitative research was carried out to gather information from this audience. The
+
+purpose of the work was achieved through the construction of a system, which provides a ques-
+
+tionnaire for Alumni, captures responses, analyzes the obtained data and turn the information
+
+available to application administrators so they can take the necessary steps. The main contribu-
+
+tion of this research was to assist in mapping the profile of Alumni and the current job avaliable
+
+in technology areas. This work extracts the results achieved with the research as well as the
+
+methodology used in the construction of the system and the questionnaires in the collection,
+
+analysis and data interpretation.
+
+Keywords:
+Teaching; Alumni; Evaluation; Web form.
+
+
+
+Lista de Figuras
+
+FIGURA 1 – Diagrama UML de casos de uso do sistema . . . . . . . . . . . . . . . 17
+FIGURA 2 – Interface da página inicial do SCADA-E . . . . . . . . . . . . . . . . 18
+FIGURA 3 – Interface do questionário . . . . . . . . . . . . . . . . . . . . . . . . 19
+FIGURA 4 – Interfaces do gerente . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+FIGURA 5 – Modelo relacional do banco de dados do ensino técnico . . . . . . . . 22
+
+FIGURA 6 – Faixa etária do ensino superior . . . . . . . . . . . . . . . . . . . . . 27
+FIGURA 7 – Faixa salarial bruta do ensino superior . . . . . . . . . . . . . . . . . 28
+FIGURA 8 – Anos de inı́cio e de conclusão do curso superior . . . . . . . . . . . . 29
+FIGURA 9 – Formação do egresso em algum curso técnico . . . . . . . . . . . . . 30
+FIGURA 10 –Atividades desenvolvidas durante a graduação . . . . . . . . . . . . . 31
+FIGURA 11 –Continuidade dos estudos dos egressos do ensino superior . . . . . . . 32
+FIGURA 12 –Domı́nio em idiomas estrangeiros dos egressos do ensino superior . . 33
+FIGURA 13 –Vı́nculo empregatı́cio do egresso do ensino superior . . . . . . . . . . 34
+FIGURA 14 –Áreas de atuação dos egressos do ensino superior . . . . . . . . . . . 34
+FIGURA 15 –Cargos ocupados pelos egressos do ensino superior . . . . . . . . . . 35
+FIGURA 16 –Dificuldades encontradas na profissão pelos egressos do ensino superior 35
+FIGURA 17 –Importância das competências em relação ao mercado de trabalho para
+
+os egressos do ensino superior . . . . . . . . . . . . . . . . . . . . . . 36
+FIGURA 18 –Itens que diferenciam os egressos do superior e outras pessoas do mundo
+
+do trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+FIGURA 19 –Adequação das disciplinas para o bom desempenho profissional . . . . 37
+FIGURA 20 –Frequência de utilização das disciplinas no mercado de trabalho . . . . 38
+FIGURA 21 –Frequência de utilização das linguagens de programação no mercado
+
+de trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+FIGURA 22 –Frequência de utilização dos SGBDs no mercado de trabalho . . . . . 39
+FIGURA 23 –Motivação para escolha do curso de Bacharel em Ciência da Computação 40
+FIGURA 24 –Motivação para escolha da Universidade/Campus . . . . . . . . . . . 41
+FIGURA 25 –Atendimento das expectativas com o curso em relação à formação pro-
+
+fissional . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+FIGURA 26 –Nı́vel de satisfação com as estruturas da instituição . . . . . . . . . . . 42
+FIGURA 27 –Média salarial X Ano de formatura . . . . . . . . . . . . . . . . . . . 43
+FIGURA 28 –Média salarial X Gênero . . . . . . . . . . . . . . . . . . . . . . . . . 45
+FIGURA 29 –Intercâmbio no exterior X Proficiência em lı́nguas estrangeiras . . . . 47
+FIGURA 30 –Nı́vel de satisfação com o curso X Ano de formatura . . . . . . . . . . 47
+FIGURA 31 –Nı́vel de satisfação com a instituição X Ano de formatura . . . . . . . 48
+FIGURA 32 –Faixa etária do ensino técnico . . . . . . . . . . . . . . . . . . . . . . 49
+FIGURA 33 –Principais motivos para não atuar na área da informática . . . . . . . . 49
+FIGURA 34 –Anos de inı́cio e de conclusão do curso técnico . . . . . . . . . . . . . 50
+FIGURA 35 –Continuidade dos estudos dos egressos do ensino técnico . . . . . . . 51
+
+7
+
+
+
+FIGURA 36 –Participação no PIBIC e PIBEX . . . . . . . . . . . . . . . . . . . . . 51
+FIGURA 37 –Domı́nio em idiomas estrangeiros dos egressos do ensino técnico . . . 52
+FIGURA 38 –Motivação para escolha do curso técnico em Informática . . . . . . . . 53
+FIGURA 39 –Motivação para escolha da instituição/Campus . . . . . . . . . . . . . 53
+FIGURA 40 –Atendimento às expectativas com o curso em relação à formação pro-
+
+fissional . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+FIGURA 41 –Nı́vel de satisfação com as estruturas da instituição . . . . . . . . . . . 54
+FIGURA 42 –Nı́vel de satisfação com o curso X Ano da formatura . . . . . . . . . . 55
+FIGURA 43 –Nı́vel de satisfação com a instituição X Ano da formatura . . . . . . . 56
+
+Lista de Tabelas
+
+TABELA 1 – Composição das amostras . . . . . . . . . . . . . . . . . . . . . . . . 26
+TABELA 2 – Remuneração e ano da formatura . . . . . . . . . . . . . . . . . . . . 44
+TABELA 3 – Remuneração e gênero . . . . . . . . . . . . . . . . . . . . . . . . . 46
+
+8
+
+
+
+LISTA DE ABREVEATURAS SIGLAS
+
+UFV – Universidade Federal de Viçosa
+
+SCADA-E – Sistema Web para Coleta e Análise de Dados de Alunos Egressos
+
+UML – Unified Modeling Language (Linguagem de Modelagem Unificada)
+
+SGBD – Sistema de Gerenciamento de Banco de Dados
+
+PHP – PHP HiperText Preprocessor (Pré-processador de Hipertexto PHP)
+
+HTML – HyperText Markup Language (Linguagem de Marcação de Hipertexto)
+
+CSS – Cascading Style Sheet (Folhas de Estilo em Cascata)
+
+IDE – Integrated Development Environment (Ambiente de Desenvolvimento Integrado)
+
+DCE – Diretório Central dos Estudantes
+
+PIBIC – Programa Institucional de Bolsas de Iniciação Cientı́fica
+
+PIBEX – Programa Institucional de Bolsas Extensão
+
+
+
+SUMÁRIO
+
+1 INTRODUÇÃO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.1 Objetivo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.1.1 Objetivos Especı́ficos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+1.2 Organização do Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+
+2 METODOLOGIA . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+2.1 Pesquisa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+2.1.1 Escolha das Perguntas e Construção dos Questionários . . . . . . . . . . . . . . 13
+2.1.2 Coleta de Dados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+2.1.3 Análise e Interpretação dos Dados . . . . . . . . . . . . . . . . . . . . . . . . . 15
+2.2 Sistema . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+2.2.1 Especificação e Prototipagem do Sistema . . . . . . . . . . . . . . . . . . . . . 16
+2.2.2 Persistência dos Dados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+2.2.3 Implementação . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+2.2.4 Testes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+3 ESTUDO DE CASO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+3.1 Planejamento do Estudo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+3.2 Descrição da População e da Amostra . . . . . . . . . . . . . . . . . . . . . . . 26
+3.3 Apresentação e análise dos resultados . . . . . . . . . . . . . . . . . . . . . . . 27
+3.3.1 Egressos do ensino superior . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+3.3.2 Egressos do ensino técnico . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 48
+
+4 CONCLUSÃO E TRABALHOS FUTUROS . . . . . . . . . . . . . . . . . . . . 57
+
+REFERÊNCIAS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+
+Apêndice A Documentação dos Casos de Uso . . . . . . . . . . . . . . . . . . . . . 60
+
+Apêndice B Fomulário Utilizado para Testes da Ferramenta . . . . . . . . . . . . . 64
+
+A Perguntas Utilizadas no Questionário do Ensino Técnico . . . . . . . . . . . . . . 67
+
+B Perguntas Utilizadas no Questionário do Ensino Superior . . . . . . . . . . . . . 78
+
+
+
+11
+
+1 INTRODUÇÃO
+
+A opinião de alunos é muito importante em vários quesitos. Ela auxilia desde a avaliação dos
+
+professores até a avaliação do curso e da instituição no geral. Algumas pesquisas utilizam
+
+a opinião de alunos em estágios finais do curso, já que possuem uma visão mais completa do
+
+ambiente (ESPARTEL, 2009). Entretanto, são raros os estudos que avaliam a opinião dos alunos
+
+egressos (ESPARTEL, 2009).
+
+A falta de pesquisa com egressos acaba deixando uma lacuna em relação aos dados
+
+que poderiam ser coletados. O estudo com esse público, tende a ser mais completo e valioso
+
+podendo ser um instrumento fundamental na avaliação da eficácia do que é ensinado durante
+
+a formação (SILVA et al., 2017). Isso é possı́vel, pois ele traz informações sobre o nı́vel de
+
+utilização do conhecimento adquirido durante o curso no mercado de trabalho (SILVA et al.,
+
+2017) e do mercado de trabalho em si, além de opiniões sobre a instituição e sobre o curso.
+
+O acompanhamento de egressos cria condições para que a instituição possa conhecer
+
+melhor o que está sendo requisitado no mercado de trabalho, podendo assim contribuir para a
+
+melhoria do projeto pedagógico do curso e das práticas de ensino utilizadas nas salas de aula.
+
+Com isso e preocupados com o aumento da qualidade do ensino, o trabalho vem suprir a falta
+
+de pesquisa com os estudantes egressos.
+
+Participaram do estudo de caso os ex-alunos do curso técnico em Informática e do curso
+
+de bacharelado em Ciência da Computação, ambos da Universidade Federal de Viçosa (UFV) -
+
+Campus Florestal.
+
+1.1 Objetivo
+
+O trabalho expõe a construção de um sistema Web que, através de um questionário,
+
+coleta dados de alunos egressos e faz uma análise quantitativa deles a fim de auxiliar o mapea-
+
+mento do perfil pessoal e profissional dos ex-alunos e do mundo do trabalho atual na área dos
+
+cursos que participaram do estudo. O trabalho tem como objetivo principal contribuir com o
+
+aprimoramento dos cursos e da instituição analisados utilizando as informações coletadas pelo
+
+Sistema Web para Coleta e Análise Quantitativa de Dados de Alunos Egressos (SCADA-E).
+
+
+
+12
+
+1.1.1 Objetivos Especı́ficos
+
+Para amparar o objetivo geral do trabalho, foram necessários os seguintes objetivos es-
+
+pecı́ficos:
+
+• Definição dos cursos utilizados no estudo de caso;
+
+• Escolha das perguntas utilizadas nos questionários de cada um dos curso;
+
+• Especificação, codificação e documentação do sistema desenvolvido;
+
+• Criação do protótipo de telas do sistema;
+
+• Elaboração do roteiro utilizado nos testes do sistema;
+
+• Testes de usabilidade do sistema e da coerência do banco de dados;
+
+• Aplicação do questionário aos alunos egressos;
+
+• Interpretação das respostas obtidas.
+
+1.2 Organização do Trabalho
+
+Os próximos capı́tulos do trabalho estão organizados da seguinte forma:
+
+• Capı́tulo 2: apresenta a metodologia utilizada para o desenvolvimento do trabalho;
+
+• Capı́tulo 3: mostra como os estudos foram realizados e os resultados obtidos com eles;
+
+• Capı́tulo 4: aborda a conclusão do trabalho e os possı́veis trabalhos futuros.
+
+
+
+13
+
+2 METODOLOGIA
+
+Este capı́tulo descreve os procedimentos utilizados na realização da pesquisa e na construção
+
+do sistema utilizado para efetuação dela.
+
+2.1 Pesquisa
+
+O primeiro elemento a ser definido foi quais seriam os grupos de egressos que participa-
+
+riam do estudo para, dessa forma, poder conduzir as próximas etapas da melhor forma. A forma
+
+como foi feita a escolha desses grupos e qual a motivação para tal pode ser vista na seção 3.1.
+
+O instrumento utilizado para coletar os dados em uma pesquisa é um aspecto impor-
+
+tante para atingir aos objetivos desejados e a seleção desses instrumentos deve ser adequada ao
+
+problema em estudo (MONTE, 2011). Tendo isso em vista, surgiu a necessidade de escolher a
+
+ferramenta mais apropriada para este trabalho, optando-se pela utilização de questionários. A
+
+seção 2.1.1 entra em mais detalhes sobre a metodologia utilizada para formulá-los.
+
+2.1.1 Escolha das Perguntas e Construção dos Questionários
+
+Depois de escolher os grupos a serem estudados e o instrumento utilizado para coletar
+
+os dados, foi elaborado um questionário para cada um dos grupos participantes. Para tal, foi re-
+
+alizado o levantamento e a classificação das perguntas utilizadas em cada um dos questionários.
+
+Essa etapa foi dividida em três fases: pré-seleção e classificação das questões; pesquisa de
+
+opinião; e seleção final.
+
+Na fase inicial, realizou-se a pré-seleção e categorização das perguntas e a definição de
+
+quais seriam abertas ou fechadas, bem como as que utilizariam o método de classificação por
+
+relevância. Essa fase foi feita utilizando como base as perguntas apresentadas no 1o Seminário
+
+de Informática e Turismo (INFOTUR) (MENDES, 2006). Após triagem, os professores dos
+
+cursos eleitos a participarem do estudo de casos opinaram sobre as questões a fim de aumentar
+
+o benefı́cio da pesquisa.
+
+As perguntas foram categorizadas da seguinte forma: dados pessoais; conhecimento;
+
+
+
+14
+
+dados profissionais; empresa em que trabalha; mercado de trabalho; tecnologia; lazer, saúde e
+
+cidadania; e satisfação. A primeira categoria tem o intuito de caracterizar a amostra estudada,
+
+então ela ressalta o perfil dos respondentes.
+
+A segunda parte visa saber mais sobre os conhecimentos do egresso. Nela consta a
+
+obtenção ou não de outros tı́tulos, atividades realizadas durante o curso, domı́nio de outros
+
+idiomas, a disposição em participar da semana acadêmica do curso, entre outros.
+
+Da terceira à sexta parte, o questionário refere-se aos dados profissionais do alumni, da
+
+empresa em que ele trabalha e ao mercado de trabalho atual. As perguntas das categorias qua-
+
+tro, cinco e seis (empresa em que trabalha, mercado de trabalho e tecnologia, respectivamente)
+
+só ficavam disponı́veis para as pessoas que respondessem que estavam trabalhando na área do
+
+curso. Algumas das perguntas que constituem essa etapa são: quando foi o inı́cio da carreira
+
+profissional, como se deu a obtenção do primeiro emprego, se a pessoa está ou não trabalhando
+
+e o vı́nculo empregatı́cio, área de atuação e cargo da mesma, faixa salarial, as principais dificul-
+
+dades encontradas na profissão, a frequência de utilização das disciplinas ministradas no curso
+
+e as tecnologias que a pessoa usa no ambiente de trabalho.
+
+A sétima parte, visa saber mais sobre a vida social do respondente e tinha perguntas rela-
+
+cionados ao bem-estar e cidadania. Na última parte, buscando investigar a satisfação do alumni
+
+com a instituição e com o curso, o questionário trouxe perguntas relacionadas à motivação da
+
+escolha do curso e da instituição, se as expectativas com o curso foram atendidas e se as matérias
+
+ministradas foram suficientes para um bom desempenho no trabalho. Além disso, foi feito um
+
+levantamento para saber qual a importância desta pesquisa.
+
+Por último, foi feita a seleção final das perguntas que seriam utilizadas no questionário
+
+do ensino técnico e do ensino superior. A estrutura dos questionários e as perguntas contidas
+
+neles podem ser vistas nos anexos A e B.
+
+Algumas perguntas não são respondidas por todos os participantes. Existem, em algu-
+
+mas categorias, questões que ficam ocultas e aparecem de acordo com a resposta do usuário em
+
+alguma pergunta anterior. Por exemplo, a pergunta referente aos esportes que o usuário pratica,
+
+ela só fica visı́vel para resposta se o aluno responder que pratica atividade fı́sica.
+
+
+
+15
+
+2.1.2 Coleta de Dados
+
+O estudo pretendeu obter o máximo de informações possı́vel para chegar ao objetivo
+
+desejado. Para esse fim utilizou-se de dois questionários eletrônicos elaborados de acordo com
+
+a seção 2.1.1. O recolhimento das informações ocorreu entre setembro de 2019 e junho de 2020
+
+através do sistema Web construı́do conforme descrito na seção 2.2.
+
+A fim de contactar os possı́veis participantes, um e-mail foi enviado para os egressos do
+
+curso técnico e uma mensagem foi enviada em um grupo no Whastapp com todos os egressos do
+
+superior. Junto com o link para o sistema, foi enviado um texto explicando qual era a finalidade
+
+do trabalho.
+
+2.1.3 Análise e Interpretação dos Dados
+
+A fase seguinte à coleta dos dados é a de análise e interpretação dos mesmos. A análise
+
+é o processo de organizar os dados com o intuito de fornecer respostas ao problema proposto,
+
+já a interpretação é a procura do sentido mais amplo das respostas e é feito relacionando o que
+
+as pessoas disseram com o conhecimento prévio do pesquisador (TEIXEIRA, 2003).
+
+Nesse sentido, analisar os dados envolve o processamento das respostas recebidas através
+
+dos questionários. Com exceção das questões abertas, esse estudo foi feito de forma automati-
+
+zada e dinâmica, ou seja, assim que uma nova resposta é inserida ou alterada o próprio sistema
+
+faz o processamento e retorna as novas informações para o gerente assim que ele recarregar a
+
+página. Para facilitar a interpretação, os dados foram expressos por meio de gráficos de pizza e
+
+de linhas e em alguns casos também foi utilizado o recurso textual. Dentre essas análises temos
+
+a média de algumas questões classificatórias e a correlação de uma ou mais perguntas. Alguns
+
+dos estudos realizados pelo sistema são:
+
+• Média de conhecimento por lı́ngua estrangeira;
+
+• Frequência de utilização das disciplinas no mercado de trabalho;
+
+• Motivação para escolha do curso;
+
+• Média salarial X Gênero;
+
+
+
+16
+
+• Grau de satisfação com as estruturas da instituição.
+
+Além dessas análises, o sistema também retorna as respostas das questões discursivas e
+
+gráficos para cada uma das outras questões. Esse ponto também é feito de forma automatizada.
+
+Com as informações apresentadas pelo sistema foi possı́vel interpretar os dados e fazer
+
+algumas inferências para chegar ao objetivo do estudo. Nessa etapa foi verificado, entre outras
+
+coisas, se havia alguma discrepância dos resultados obtidos e se tinha alguma questão com o
+
+número de respondentes muito baixo. Nesses casos, os resultados podem ser inconclusivos.
+
+Para realização dos ensaios foram considerados todos os questionários respondidos mesmo
+
+que de forma parcial.
+
+2.2 Sistema
+
+Um sistema ou aplicação Web é um software hospedado na internet, onde o usuário ca-
+
+dastrado pode acessar através de um navegador (PARADELA, 2018). Muitos egressos perdem
+
+o contato com a instituição, sendo assim, canais virtuais facilitam a comunicação com esse
+
+público. Dentro dessa classe de canais, a Web foi escolhida para fazer o estudo de casos por
+
+oferecer diversas vantagens sendo a principal delas, nesse caso, o fato de estar disponı́vel para
+
+o usuário em qualquer lugar e hora sem que ele precise baixar ferramentas adicionais (SCRIPT-
+
+CASE, 2013).
+
+2.2.1 Especificação e Prototipagem do Sistema
+
+A criação do diagrama de casos de uso em UML (Unified Modeling Language) e dos
+
+protótipos de telas do sistema foram feitas na segunda fase do projeto. Esta seção descreve essas
+
+duas partes.
+
+
+
+17
+
+2.2.1.1 Diagrama de Casos de Uso
+
+O diagrama de casos de uso, elaborado no Visual Paradigm, foi útil para explicitar as
+
+funcionalidades da ferramenta e seus atores (Figura 1). O sistema possui três diferentes atores:
+
+Egresso, Administrador e o próprio sistema.
+
+Figura 1 – Diagrama UML de casos de uso do sistema
+
+O ator ’Egresso’ pode executar o caso de uso de responder as perguntas do questionário,
+
+desde que ele esteja autenticado no sistema. O ’Administrador’ utiliza a ferramenta para con-
+
+sultar os dados coletados e as análises geradas pelo sistema e também deve estar autenticado no
+
+sistema para realizar a operação.
+
+Por último, o sistema tem a função de analisar os dados coletados e mostrá-los ao gerente
+
+quando solicitado. Além disso, ele também é o responsável por apresentar as respostas de cada
+
+pergunta.
+
+Com o diagrama de casos de uso pronto, cada caso foi documentado e a documentação
+
+
+
+18
+
+pode ser vista no apêndice A.
+
+2.2.1.2 Interfaces dos Sistema
+
+A primeira tela do sistema é uma tela de autenticação do usuário em que ele insere o CPF
+
+e seleciona a modalidade a que pertence - egresso do técnico, egresso do superior ou gerente do
+
+sistema (Figura 2).
+
+Figura 2 – Interface da página inicial do SCADA-E
+
+Depois de ser autenticado, o usuário ’Egresso’ é direcionado para as questões. Cada ca-
+
+tegoria do questionário aparece em uma página diferente, mas todas possuem o mesmo design,
+
+como pode ser observado no exemplo da Figura 3. O usuário pode acompanhar o progresso dele
+
+ao avançar nas categorias do questionário através de uma barra que fica na parte inferior de cada
+
+página. Caso o aluno já tenha respondido ao questionário ele é direcionado a uma página que
+
+informa que o mesmo já foi preenchido e pergunta se o usuário deseja responder novamente.
+
+
+
+19
+
+Figura 3 – Interface do questionário
+
+O usuário ’Administrador’, após autenticação, é conduzido a escolher entre visualizar
+
+os dados do técnico ou do superior. Em seguida, ele poderá escolher entre ver as respostas ou
+
+ver as análises dos dados e o sistema o direcionará para a opção escolhida (Figura 4).
+
+
+
+20
+
+(a) Interface das respostas dos egressos (b) Interface das análise dos dados dos egressos
+
+Figura 4 – Interfaces do gerente
+
+2.2.2 Persistência dos Dados
+
+As informações referentes ao SCADA-E, foram armazenadas em bancos de dados Web.
+
+Os mesmos mantém as perguntas e alternativas existentes nos questionários, as respostas dadas
+
+pelos participantes e os CPFs de todas as pessoas que podem ter acesso ao sistema de alguma
+
+forma.
+
+Para criação da aplicação foram empregados três bancos de dados: uma para as informações
+
+referentes ao questionário do ensino técnico, outro para o ensino superior e, por último, um para
+
+armazenar os CPFs dos administradores do sistema.
+
+
+
+21
+
+Esse último banco de dados possui apenas uma tabela, com apenas uma coluna para
+
+salvar os CPFs. O banco de dados do ensino superior e do ensino técnico possuem o mesmo
+
+modelo relacional (Figura 5) e as mesmas operações possı́veis. Cada um deles possui oito
+
+tabelas:
+
+• A tabela ’pergunta’ foi utilizada para guardar o enunciado de todas as perguntas existentes
+
+no questionário, juntamente com a numeração dessas perguntas;
+
+• Alguns enunciados possuı́am mais de uma pergunta, nesse caso, essas subperguntas foram
+
+armazenadas na entidade ’subpergunta’. Essa tabela tem relacionamento com a entidade
+
+’pergunta’ para indicar à qual enunciado cada subpergunta pertence. A ’subpergunta’ foi
+
+utilizada, por exemplo, para as questões que apresentavam tabelas, onde cada linha foi
+
+considerada como uma subperguntas;
+
+• As possı́veis alternativas das questões e subquestões foram reunidas na tabela ’alternativa’
+
+e essa entidade tem relacionamento com as duas outras tabelas já mencionadas afim de
+
+registrar as dependências de cada alternativa;
+
+• Na entidade ’login’ estão o CPF e o tipo (superior ou técnico) de todos os alumni que
+
+estão aptos a participarem da pesquisa;
+
+• A tabela ’resposta’ persiste todos os identificadores (id) dos dados relacionados as respos-
+
+tas que foram inseridas pelos usuários. Nessa entidade, os identificadores das alternativas
+
+e das subquestões não são obrigatórios já que não são todos os enunciados que possuem
+
+esses atributos;
+
+• Por último, as tabelas ’pergunta has alternativa’, ’subpergunta has alternativa’ e ’subper-
+
+gunta has pergunta’ foram geradas, pois o relacionamento das tabelas ’pergunta’ e ’alter-
+
+nativa’, ’subpergunta’ e ’alternativa’ e ’subpergunta’ e ’pergunta’, respectivamente, eram
+
+de muitos para muitos e, nesse caso, há a necessidade de uma tabela para armazenar os
+
+possı́veis relacionamentos.
+
+
+
+22
+
+Figura 5 – Modelo relacional do banco de dados do ensino técnico
+
+Na formulação dos modelos relacionais, utilizou-se o Sistema de Gerenciamento de
+
+Banco de Dados (SGBD) MySQL Workbench 8.0.17 na versão Community. Enquanto o MySQL
+
+8.0.17 na versão Community Server foi manipulado para a persistência dos dados na Web.
+
+2.2.3 Implementação
+
+A implementação do SCADA-E foi desenvolvida a partir dos resultados das fases apre-
+
+sentadas anteriormente.
+
+O back-end do sistema foi implementado usando a linguagem de programação PHP
+
+
+
+23
+
+(PHP HiperText Preprocessor). Essa parte do sistema atua do lado do servidor e é responsável
+
+pela parte de acesso ao banco de dados e pela lógica utilizada na análise dos dados.
+
+A parte que atua do lado do cliente, conhecida por front-end, é a responsável pela in-
+
+terface com o usuário. A parte do design das telas foi feita utilizando HTML (HyperText Mar-
+
+kup Language), CSS (Cascading Style Sheet), e o framework Bootstrap. Para as interações
+
+do usuário com o sistema e para criação dos gráficos foi empregado JavaScript e a biblioteca
+
+Chart.js.
+
+A codificação foi feita na IDE (Integrated Development Environment) Visual Studio, na
+
+versão 1.47.2. O WampServer, na versão 3.1.9, foi utilizado como servidor local e para hospe-
+
+dagem foi utilizado o servidor disponibilizado pela própria UFV. O controle de versões foi feito
+
+utilizando o GitHub e o código-fonte pode ser consultado em: https://github.com/miilacg/questionario.
+
+2.2.4 Testes
+
+O sistema precisa ser testado antes de ser utilizado no estudo de casos para verificar a
+
+compatibilidade do SCADA-E com diversos tamanhos de telas e navegadores, possı́veis falhas
+
+na formulação do questionário e na persistência dos dados, erros de português, entre outros
+
+problemas que possam surgir.
+
+Dois testes foram feitos. No primeiro, algumas pessoas foram selecionadas para usar o
+
+sistema, da forma como elas achassem melhor, enquanto ele ainda estava com uma interface
+
+básica. O intuito foi coletar opiniões de possı́veis usuários para saber o que eles achavam das
+
+perguntas e do tempo usado para respondê-las e ideias de como poderia ser uma boa interface
+
+do sistema.
+
+O segundo teste foi realizado com algumas pessoas que participaram do primeiro e ou-
+
+tras novas. Ele foi feito quando a interface e o banco de dados já estavam finalizados e tinha
+
+como intenção principal testar se os dados estavam sendo inseridos de forma correta no banco
+
+de dados, mas também foi utilizado para coletar mais opiniões sobre o sistema. No inı́cio desse
+
+teste, foi entregue aos testadores um formulário onde continha as respostas que deveriam ser
+
+inseridas em cada uma das perguntas do sistema e algumas perguntas para sabermos a opinião
+
+deles em relação à aplicação. A decisão de entregar as respostas que deveriam ser inseridas foi
+
+para testar o banco de dados da melhor forma e ter certeza da inserção correta dos dados. Um
+
+
+
+24
+
+exemplo do formulário utilizado nos testes pode ser visto no apêndice B.
+
+Antes de realizar os testes, foi explicado aos testadores qual era a finalidade do sistema
+
+para que eles pudessem dar opiniões pertinentes à melhoria do mesmo.
+
+Alguns testadores reportaram problemas de usabilidade e sugeriram melhorias. Também
+
+foram encontrados alguns erros de português e de persistência no banco de dados. Apesar
+
+dos erros apontados, os resultados obtidos foram positivos e as adaptações necessárias foram
+
+realizadas.
+
+
+
+25
+
+3 ESTUDO DE CASO
+
+Este capı́tulo tem como objetivo realizar um estudo sobre a situação dos egressos dos cursos
+
+Técnico em Informática e Bacharel em Ciência da Computação da UFV - Florestal, no mercado
+
+de trabalho atual e o nı́vel de satisfação com o ensino e com a instituição no geral. Além disso, o
+
+ensaio busca conhecer um pouco mais sobre o mercado de trabalho na área da tecnologia, a fim
+
+de verificar se o aluno que a instituição forma tem as habilidades necessárias para o trabalho e
+
+as melhorias que podem ser feitas pelo Instituto de Ciências e pelas Comissões Coordenadoras
+
+dos cursos que participaram do estudo.
+
+3.1 Planejamento do Estudo
+
+Como já mencionado no capı́tulo 1, pesquisas com alunos egressos são feitas com menor
+
+frequência do que pesquisas com alunos que ainda estão matriculados na instituição e elas
+
+tendem a apresentar resultados importantes para a instituição. A dificuldade de contatar os
+
+ex-alunos é um dos fatores que torna esse estudo menos constante, sendo assim, pensou-se na
+
+utilização de um sistema web para coletar informações sobre esse grupo.
+
+Essa forma de aplicar os questionários foi escolhida por trazer uma maior agilidade na
+
+coleta dos dados, além de alcançar uma porcentagem maior da população que se deseja atingir.
+
+Além disso, ela agrupa todos os dados recolhidos, evitando que algumas respostas sejam extra-
+
+viadas, e faz algumas análises poupando que esse trabalho tenha que ser feito manualmente.
+
+Como o instrumento escolhido para a aplicação dos questionários foi um sistema, surgiu
+
+a necessidade de avaliar se seria mais satisfatório a criação de um sistema próprio ou a utilização
+
+de aplicações genéricas já existentes. A primeira opção foi a escolhida por trazer as vantagens
+
+de poder ser modelada o mais próximo possı́vel do que se deseja para o estudo e de poder ser
+
+replicado mais facilmente em futuras pesquisas.
+
+A motivação para escolher os cursos de Ciência da Computação e de Informática da
+
+UFV para participarem do estudo de casos foi por acreditar que haveria uma maior possibilidade
+
+de conseguir contato com eles, tornando a pesquisa mais efetiva.
+
+
+
+26
+
+3.2 Descrição da População e da Amostra
+
+Antes de apresentar os resultados encontrados é importante descrever a população alvo
+
+de cada umas das pesquisas e os universos amostrais. Segundo Déris Oliveira Caitano (2007) e
+
+Simone Furlanetto Barichello (2008) ”população é o grupo de pessoas ou empresas que se inte-
+
+ressa pesquisar para obter informações necessárias com o propósito especı́fico de um estudo”.
+
+Como, em geral, não se tem acesso a toda a população de interesse, recorre-se a uma
+
+amostra que é parte da população, escolhida utilizando algum critério, afim de representar essa
+
+população de interesse (CAITANO, 2007). A composição da amostra desse estudo foi feita
+
+utilizando resposta voluntária. Nesse tipo de seleção, o próprio membro da população escolhe
+
+se quer ou não participar e a amostra inclina-se a ser tendenciosa (AMARAL, 2011).
+
+As populações estudadas foram os alunos egressos formados no curso Técnico em
+
+Informática entre os anos de 2012 e 2018 e os egressos do curso Bacharel em Ciência da
+
+Computação formados entre os anos de 2015 e 2019, ambos da Universidade Federal de Viçosa
+
+- Campus Florestal, localizada na Rodovia LMG 818, KM 6, na cidade de Florestal - Minas
+
+Gerais. Sendo assim, a população do primeiro grupo ficou constituı́da de 113 alunos e a do
+
+segundo por 62 alunos. A relação dos egressos foi disponibilizada pelo setor responsável da
+
+Instituição.
+
+Como a tabela 1 demonstra, a taxa de retorno, considerando os questionários respon-
+
+didos parcialmente e os respondidos integralmente, atingiu 11,50% do técnico e 58,06% do
+
+superior, o que corresponde a 13 e 36 respondentes, respectivamente.
+
+Tabela 1 – Composição das amostras
+
+Egressos do técnico Egressos do superior
+Dados número de alunos % número de alunos %
+População alvo 113 100% 62 100%
+Questionários respondidos parcialmente 3 2,65% 8 12,90%
+Questionários respondidos integralmente 11 9,73% 28 45,16%
+Questionário totais respondidos 14 12,38% 36 58,06%
+
+
+
+27
+
+3.3 Apresentação e análise dos resultados
+
+Essa seção dispõe e comenta os resultados obtidos com a pesquisa. Os primeiros dados
+
+apresentados são os relacionados à caracterização das amostras, logo em seguida são apresenta-
+
+dos dados sobre a formação acadêmica, o mercado de trabalho e a satisfação com o curso e com
+
+a instituição. Por fim, realizou-se uma análise associando dados de perguntas distintas afim de
+
+extrair mais informações.
+
+3.3.1 Egressos do ensino superior
+
+3.3.1.1 Caracterização da amostra
+
+Os resultados dessa pesquisa apontam que 29 participantes são do sexo masculino, sendo
+
+a maioria (80,56%). Toda a população acessı́vel mora no Brasil, sendo que 88,89% residem em
+
+Minas Gerais, e o percentual significativo de 83,33% está solteiro. No que se refere a faixa
+
+etária (Figura 6), 17 dos constituintes da amostra tem entre 22 e 25 anos; 13 tem entre 26 e 29;
+
+4 tem entre 30 e 33; e 2 tem acima de 34, constatando-se um perfil relativamente jovem.
+
+Figura 6 – Faixa etária do ensino superior
+
+Cerca de 89,65% dos entrevistados, que responderam essa questão, estão trabalhando e
+
+todos eles estão exercendo alguma função alinhada ao curso de formação. A faixa salarial bruta
+
+
+
+28
+
+com maior quantidade de pessoas foi entre R$2000,00 e R$5000,00 com 17 pessoas, seguindo
+
+da renda inferior a R$2000,00 com 4 pessoas e da renda entre R$5000,00 e R$8000,00 com
+
+3 pessoas. Apenas duas pessoas informaram receber acima de R$8000,00, correspondendo a
+
+7,7%. A imagem 7 apresenta essas informações de forma gráfica.
+
+Figura 7 – Faixa salarial bruta do ensino superior
+
+3.3.1.2 Formação acadêmica
+
+Esse segmento irá mostra uma análise da formação acadêmica dos egressos e do conhe-
+
+cimento que eles possuem, compreendendo formação técnica, ano de ingresso e conclusão do
+
+curso, atividades desenvolvidas durantes o curso, fluência em idiomas estrangeiros entre outros.
+
+As ilustrações 8(a) e 8(b) evidenciam, respectivamente, os anos de inı́cio e conclusão
+
+do curso. Como pode-se observar, grande parte dos egressos iniciou a graduação em 2014
+
+(36,11%) e a menor parte ingressou em 2013 (16,67%). O gráfico da Figura 8(b) evidencia a
+
+participação menos representativa de formandos de 2015 (1 pessoa) e maior representatividade
+
+de participantes que formaram em 2018 (18 pessoas).
+
+
+
+29
+
+(a) Ano de ingresso no curso (b) Ano de conclusão do curso
+
+Figura 8 – Anos de inı́cio e de conclusão do curso superior
+
+Foi perguntado aos entrevistados se eles fizeram algum curso técnico antes de iniciar a
+
+graduação e se esse curso era na área da computação. Aos que responderam que fizeram algum
+
+curso técnico nessa área ou em outro campo das ciências exatas, também perguntou-se se esse
+
+curso auxiliou na graduação. O resultado pode ser visto na Figura 9.
+
+
+
+30
+
+(a) Egresso fez curso técnico antes da graduação (b) Área do curso técnico
+
+(c) Auxilio do curso técnico na graduação
+
+Figura 9 – Formação do egresso em algum curso técnico
+
+Com os resultados obtidos, foi possı́vel concluir que ter feito um curso técnico antes de
+
+iniciar a graduação foi de grande ajuda na maioria dos casos.
+
+As atividades desenvolvidas pelos egresso durante o curso podem ser visualizadas na
+
+Figura 10. A partir da observação e interpretação do gráfico, é possı́vel deduzir que no mı́nimo
+
+80% dos egressos participou de ao menos uma atividade extracurricular. Esse fato pode estar re-
+
+lacionado ao incentivo da instituição aos alunos participantes dessas ações, como também pode
+
+estar relacionado com a grande quantidade de oportunidades disponibilizadas pela Universidade
+
+e pelo curso.
+
+
+
+31
+
+Figura 10 – Atividades desenvolvidas durante a graduação
+
+Foi feita uma pergunta diferente para cada uma das atividades com a finalidade de obter
+
+mais detalhes sobre elas. Na amostra estudada, apenas 3 ex-alunos fizeram intercâmbio, 2 foram
+
+para os Estados Unidos e 1 para Irlanda.
+
+Dos egressos que responderam que participaram de alguma entidade representativa de
+
+discentes, 37,5% afirmaram participar na comissão coordenadora do curso, 12,5% participaram
+
+da comissão coordenadora e do diretório central dos estudantes (DCE) e 50% participou de
+
+outras entidades.
+
+No que se refere a empresa júnior do curso, egressos que atuaram apenas como diretor
+
+representam 50% dos que participaram da empresa de alguma forma, enquanto 21,43% atuaram
+
+apenas como efetivo, 7,14% em outros cargos e 21,43% trabalharam em mais de uma função.
+
+Dentre os Alumni que publicaram artigos durante a graduação, 70,59% da amostra vei-
+
+culou o texto apenas em congressos; 5,88% em revistas; e 23,53% em revistas e congressos.
+
+A atividade que teve maior participação dos alunos foi o projeto de iniciação cientı́fica,
+
+contando com a participação de 82,86% dos respondentes. Dos egressos que participaram dessa
+
+atividade, 37,93% ganharam bolsa, outros 37,93% participaram sem bolsa e 24,13% participa-
+
+ram nas duas modalidades.
+
+Quando se trata da continuidade dos estudos (ilustração 11), a pesquisa evidenciou que
+
+16 entrevistados deram prosseguimento, enquanto 19 ainda não têm outros tı́tulos. O fato de
+
+mais da metade dos respondentes não possuı́rem outras formações pode ter relação com ano
+
+da graduação deles no curso (Figura 8(b)). A pesquisa revelou que a maioria dos egressos se
+
+formou depois de 2018, como a pesquisa foi feita entre 2019 e 2020, pode ser que eles não
+
+
+
+32
+
+tiveram tempo hábil para obter novos tı́tulos.
+
+Figura 11 – Continuidade dos estudos dos egressos do ensino superior
+
+Na questão referente aos idiomas estrangeiros, os alunos podiam classificar o domı́nio
+
+que possuem para falar, ler e escrever cada um dos idiomas. Eles podiam avaliar o nı́vel de
+
+compreensão entre ’não sei’, ’básico’, ’intermediário’ e ’fluente’. Para calcular as médias de
+
+conhecimento de cada uma das lı́nguas foi considerado 0 para ’não sei’, 1 para ’básico’, 2 para
+
+’intermediário’ e 3 para ’fluente’, fazendo com que a média varie entre 0 e 3. Os gráficos da
+
+figura 12 contemplam os resultados obtidos pela pesquisa.
+
+Como é possı́vel observar, o inglês é o idioma que os alunos informaram ter maior nı́vel
+
+de conhecimento em todas as competências pesquisadas, ficando com 1,971 na média geral,
+
+seguido do Espanhol que ficou com 0,762 (Figura 12(d)).
+
+
+
+33
+
+(a) Média do nı́vel de escrita por lı́ngua estrangeira (b) Média do nı́vel de leitura por lı́ngua estrangeira
+
+(c) Média do nı́vel de fala por lı́ngua estrangeira (d) Média de conhecimento por lı́ngua estrangeira
+
+Figura 12 – Domı́nio em idiomas estrangeiros dos egressos do ensino superior
+
+3.3.1.3 Mercado de trabalho
+
+Um dos objetivos da pesquisa é saber como está o mercado de trabalho e qual a posição
+
+dos egressos nele. Esse seção irá tratar sobre esse ponto.
+
+Como o intuito da pesquisa é estudar mais sobre o mercado trabalhista na área da
+
+computação, apenas alunos que responderam estarem atuando nessa área foram selecionados
+
+para participarem dessa etapa do questionário. Na seção 3.3.1.1 já foi apresentado que a maio-
+
+ria da população amostral está trabalhando atualmente e também foi apresentado a faixa salarial
+
+na área da computação.
+
+A Figura 13 expõe um gráfico relacionado ao vı́nculo empregatı́cio dos egressos. Como
+
+é notório, a massa dos ex-alunos (80,77%) está trabalhando com carteira assinada, seguido
+
+dos egressos que trabalham sem carteira assinada ou que têm outro vı́nculo, cada um deles
+
+representando 7,69% da amostra. A menor parte da amostra (3,85%) atua como profissional
+
+autônomo e nenhum dos entrevistados é empregador.
+
+
+
+34
+
+Figura 13 – Vı́nculo empregatı́cio do egresso do ensino superior
+
+Outras duas perguntas feitas foram relacionadas a área de atuação e ao cargo que os
+
+egressos ocupam. Dentre as áreas que os egressos poderiam selecionar, apenas 3 foram es-
+
+colhidas: informática, sistemas ou tecnologia; consultoria; planejamento, desenvolvimento ou
+
+análise. Sendo que, a última delas concentra 50% dos egressos (Figura 14).
+
+Figura 14 – Áreas de atuação dos egressos do ensino superior
+
+Com relação aos cargos ocupados, pode ser observado na Figura 15, que 10 pessoas
+
+afirmaram ser analista de sistemas, 1 afirmou ser coordenadora de projetos, 5 pessoas têm algum
+
+outro cargo e outras 10 pessoas são programadoras. A baixa quantidade de egressos que são
+
+coordenadores de projeto pode ter relação com o ano de formação dos ex-alunos, já que para
+
+chegar a esse posto o funcionário precisaria ter uma maior experiência.
+
+
+
+35
+
+Figura 15 – Cargos ocupados pelos egressos do ensino superior
+
+A imagem 16 ilustra as dificuldades que os egressos encontraram no mercado de tra-
+
+balho. Essa questão foi elaborada utilizando uma escala que variava entre 1 e 5, com 1 sendo
+
+considerado pouca dificuldade e 5 muita dificuldade, para cada uma das adversidades apresen-
+
+tadas.
+
+Figura 16 – Dificuldades encontradas na profissão pelos egressos do ensino superior
+
+Para melhor visualizar quais foram as maiores dificuldades encontradas pelos alumni,
+
+foi feito uma média utilizando a quantidade de egressos que escolherem cada um dos valores da
+
+escala para cada uma das opções dadas. Os dados apontam que a menor dificuldade encontrada
+
+pelos egressos foi com relação à motivação da equipe, tendo 2,154 de média. A opção de ’outras
+
+
+
+36
+
+dificuldades’ obteve a maior média (2,885).
+
+O estudo também almejou saber quais competências os ex-alunos julgavam ter maior im-
+
+portância para entrada no mercado de trabalho. Esse questão foi elaborada utilizando a mesma
+
+escala da questão anterior e funcionava do mesmo modo.
+
+A Figura 17 evidência que o trabalho em equipe foi a opção com maior média (4,591)
+
+entre os itens, seguindo por experiência no mercado (3,955) e fluência em idiomas (3,5). A
+
+instituição de ensino, disponibilidade para fazer hora extra e o fato de ter outros tı́tulos foram
+
+avaliados com menores notas.
+
+Figura 17 – Importância das competências em relação ao mercado de trabalho para os
+egressos do ensino superior
+
+Alguns itens foram adicionados ao questionário e os egressos deveriam avaliá-los, entre
+
+1 e 5, conforme acreditavam que aquele item era um diferencial entre ele e outros colegas de
+
+trabalho. A Figura 18 apresenta a média dos resultados obtidos e considera 1 como sendo uma
+
+base pouco diferenciada.
+
+Os participantes julgaram que aprender novas técnicas é o que mais diferenciam eles em
+
+relação aos outros, ficando com média de 4,5 e o fator liderança foi o que teve menor média:
+
+3,364. Os itens ’adaptação às mudanças’, ’capacidade analı́tica’ e ’eficiência na produção’
+
+também tiveram boas pontuações, ficando acima de 4.
+
+
+
+37
+
+Figura 18 – Itens que diferenciam os egressos do superior e outras pessoas do mundo do
+trabalho
+
+Foi questionado ao entrevistado se as disciplinas ofertadas no curso foram adequadas
+
+para o bom desempenho dele na atividade profissional e quais foram mais utilizadas. Com
+
+relação à adequação das disciplinas (Figura 19), 8 pessoas responderam que elas foram um
+
+pouco adequadas e 20 responderam que foram muito adequadas.
+
+Figura 19 – Adequação das disciplinas para o bom desempenho profissional
+
+A Figura 20 refere-se a frequência de utilização das disciplinas. Nessa questão, o egresso
+
+podia selecionar uma opção, entre as cinco disponibilizadas (’usa efetivamente’, ’usa indireta-
+
+mente e é indispensável’, ’usa indiretamente e é dispensável’, ’nunca usou’ e ’não fiz a disci-
+
+plina’), para cada uma das disciplinas. Para fazer essa análise, foi desconsiderado as pessoas
+
+
+
+38
+
+que marcaram não ter feito aquela disciplina e valores numéricos foram relacionados as outras
+
+opções para possibilitar o cálculo da média de utilização. A atribuição dos valores ficou da
+
+seguinte forma: 0 para ’nunca usou’; 1 para ’usa indiretamente e é dispensável’; 2 para ’usa
+
+indiretamente e é indispensável’; e 3 para ’usa efetivamente’.
+
+As três matérias que os respondentes informaram mais utilizar são as relacionadas a
+
+área do desenvolvimento, sendo elas: programação, programação orientada a objetos e projeto
+
+de sistemas para web, todas tendo média superior a 2,7 pontos. Essa informação coincide com
+
+a resposta da Figura 15, onde a maioria dos egressos responderam trabalhar como analistas
+
+de sistemas ou programadores. Fı́sica (0,591), gestão ambiental (0,615), geometria analı́tica
+
+e álgebra linear (0,682) e processamento digital de imagens (0,682) foram as matérias com
+
+menores médias sendo a última delas a única especı́fica do curso.
+
+Figura 20 – Frequência de utilização das disciplinas no mercado de trabalho
+
+Na intenção de saber se as linguagens de programação que estavam sendo ensinadas no
+
+curso eram as mesmas que estavam sendo mais utilizadas no mercado, indagou-se sobre elas
+
+aos respondentes (Figura 21). O estudo mostrou que as três linguagens mais manipuladas pelos
+
+egressos (JavaScript, Python e Java) coincidem com linguagens ministradas no curso, sendo
+
+um bom resultado.
+
+
+
+39
+
+Figura 21 – Frequência de utilização das linguagens de programação no mercado de tra-
+balho
+
+Com a mesma finalidade da questão anterior, o sistema solicitou aos egressos que res-
+
+pondessem sobre os SGBDs mais utilizados (Figura 22) e eles fizeram essa avaliação utilizando
+
+uma escala que variava de 1 a 5.
+
+Figura 22 – Frequência de utilização dos SGBDs no mercado de trabalho
+
+O MySQL, sistema utilizado no curso, pode ser uma ótima ferramenta para ensino de
+
+banco de dados por causa da praticidade e facilidade de acesso, mas não demonstrou ser uma
+
+ferramenta muito utilizada no mercado. As ferramentas mais utilizadas no mercados foram o
+
+Microsoft SQL Server e o MongoDB.
+
+
+
+40
+
+3.3.1.4 Satisfação com o curso e com a instituição
+
+Outro ponto que a pesquisa almejou saber, é a opinião dos participantes com relação ao
+
+curso e a universidade e o que os motivou a escolhê-los. A Figura 23 nos apresenta os fatores
+
+que motivaram os egressos a escolherem o curso de Ciência da Computação. Assim como
+
+em outras questões, os respondentes podiam avaliar cada uma das opções com valores entre 1
+
+e 5, sendo 1 usado nas opções que pouco influenciaram na escolha e 5 nas opções que mais
+
+influenciaram. Para facilitar a visualização dos resultados obtidos foi feita a média dos valores
+
+obtidos em cada uma das questões.
+
+Figura 23 – Motivação para escolha do curso de Bacharel em Ciência da Computação
+
+A pesquisa, evidenciou que os fatores que mais motivaram os alunos a escolherem o
+
+curso foram o interesse na área, com 4,75 de média, e as oportunidades no mercado de trabalho,
+
+com 4,607. A facilidade de entrar no curso e de fazer o curso e outros fatores foram menos
+
+influentes nessa decisão, sendo que todos ficaram com média inferior à 3,5.
+
+O gráfico da imagem 24 expõe os fatores motivadores para escolha da instituição e do
+
+Campus. O formato dessa questão e o método utilizado na análise foram os mesmos utilizados
+
+para saber a motivação na escolha do curso. Com base nos resultados, observa-se que os fatores
+
+que mais influenciaram na escolha da UFV - Campus Florestal foram a localidade e o custo
+
+de vida, ficando com 4,179 e 3,536 de média, respectivamente. A infraestrutura da instituição,
+
+a nota para entrar, a possibilidade de conseguir alguma bolsa e outros fatores foram os que
+
+
+
+41
+
+apresentaram menor importância, ficando, cada um, com média menor que 3.
+
+Figura 24 – Motivação para escolha da Universidade/Campus
+
+Os egressos foram questionados se as expectativas deles em relação ao curso tinham
+
+sido atendidas e o nı́vel de satisfação com as estruturas do Campus. A Figura 25 demonstra que
+
+a maioria dos alunos (57,14%) declarou que as expectativas foram bem atendidas, 32,14% que
+
+o atendimento foi ótimo e 10,71% que foi regular. Ninguém marcou as alternativas ’péssima’ e
+
+’ruim’.
+
+Figura 25 – Atendimento das expectativas com o curso em relação à formação profissional
+
+Os respondentes também se mostraram satisfeitos com as dependências e serviços da
+
+instituição (Figura 26) e todas ficaram com média superior à 3. As opções mais bem avaliadas
+
+
+
+42
+
+foram as aulas (4,393 de média) e as salas de aula (3,714). A biblioteca e os laboratórios tiveram
+
+a pior média ficando, cada um, com 3,25. Essa questão foi estruturada e analisada da mesma
+
+maneira que as questões relacionadas à motivação para escolha do curso e instituição.
+
+Figura 26 – Nı́vel de satisfação com as estruturas da instituição
+
+3.3.1.5 Análise de dados associados
+
+Essa divisão tem o objetivo de analisar alguns resultados apresentados anteriormente
+
+relacionando-os entre si com a finalidade de extrair mais informações. As primeiras correlações
+
+feitas foi entre a média salarial e algumas questões. Como a questão referente aos salários
+
+foi organizada por faixas salariais e não por valores especı́ficos, foi considerado para fazer
+
+o cálculo das médias salariais R$2.000,00 para salários abaixo de R$2.000,00, R$3.500,00
+
+para salários entre R$2.000,00 e R$5.000,00, R$6.500,00 para salários entre R$5.000,00 e
+
+R$8.000,00, R$10.000,00 para salários entre R$8.000,00 e R$12.000,00 e R$12.000,00 para
+
+salários acima de R$12.000,00.
+
+A imagem 27 e a Tabela 2 relacionam as variáveis salário e o ano de formatura e têm
+
+por objetivo avaliar se egressos que formaram a mais tempo têm maiores salários. Para criação
+
+do gráfico (Figura 27), os indivı́duos foram separados pelo ano em que formaram e foi feito a
+
+média dos salários que eles informaram receber.
+
+
+
+43
+
+Figura 27 – Média salarial X Ano de formatura
+
+O resultado apresentado no gráfico nos mostra que existe uma inclinação para que os
+
+salários aumentem a medida que o tempo de atuação no mercado evolui, mas esse resultado
+
+pode ser tendencioso já que a Tabela 2 indica que apenas uma pessoa formou em 2015 e ela é a
+
+única que marcou receber mais de R$12.000. A tabela também mostra que a opção de receber
+
+entre R$8.000 e R$12.000 foi marcada por apenas uma pessoa, tendo ela formado em 2017,
+
+ou seja, existem egressos que formaram mais recentemente e recebem mais do que formandos
+
+mais antigos.
+
+
+
+44
+
+Tabela 2 – Remuneração e ano da formatura
+
+Total de pessoas
+Ano 2015 2016 2017 2018 2019 por salário
+
+Menos de Quantidade de egresso 0 0 1 3 0 4
+R$2.000 % 0% 0% 3,85% 11,54% 0% 15,38%
+
+Entre R$2.000 Quantidade de egresso 0 1 3 9 4 17
+Faixa e R$5.000 % 0% 3,85% 11,54% 34,61% 15,38% 65,38%
+
+salarial Entre R$5.000 Quantidade de egresso 0 2 0 1 0 3
+e R$8.000 % 0% 7,69% 0% 3,85% 0% 11,54%
+
+Entre R$8.000 Quantidade de egresso 0 0 1 0 0 1
+e R$12.000 % 0% 0% 3,85% 0% 0% 3,85%
+
+Mais de Quantidade de egresso 1 0 0 0 0 1
+R$12.000 % 3,85% 0% 0% 0% 0% 3,85%
+
+Total de pessoas por ano de formação 3,85% 11,54% 19,23% 50% 15,38% 100%
+
+
+
+45
+
+A associação feita entre salário e gênero é apresentada na Figura 28 e na Tabela 3. O
+
+gráfico da imagem 28 evidencia que a média salário do sexo masculino é inferior à média das
+
+mulheres, sendo também inferior a média geral.
+
+Figura 28 – Média salarial X Gênero
+
+Analisar esse relacionamento apenas utilizando a média salarial pode apresentar uma
+
+falsa percepção sobre sobre a realidade, já que, com exceção da aluna que marcou receber
+
+mais do que R$12.000, nenhuma outra respondeu receber mais de R$5.000, enquanto alguns
+
+homens responderam ganhar mais do que esse valor, como mostra a Tabela 3. Como existem
+
+poucas mulheres entre os participantes, o fato de uma delas ganhar um alto salário já altera
+
+consideravelmente esse cálculo, fazendo com que à média feminina ficasse R$616,67 superior
+
+a dos homens.
+
+
+
+46
+
+Tabela 3 – Remuneração e gênero
+
+Faixa Mulher Homem Total de pessoas salário
+salarial Qnt. de egressos % Qnt. de egressos % Qnt. de egressos %
+
+Menos de
+1 3,85% 3 11,54% 4 15,38%
+
+R$2.000
+Entre R$2.000
+
+4 15,38% 13 50% 17 65,38%
+e R$5.000
+
+Entre R$5.000
+0 0% 3 11,54% 3 11,54%
+
+e R$8.000
+Entre R$8.000
+
+0 0% 1 3,85% 1 3,85%
+e R$12.000
+
+Mais de
+1 3,85% 0 0% 1 3,85%
+
+R$12.000
+Total de pessoas
+
+por salário 6 23,08% 20 76,92% 26 100%
+
+O estudo se interessou em saber se o fato do egresso ter feito um intercâmbio no exterior
+
+influenciou no aprendizado de outros idiomas. Nessa análise, os egressos foram separados em
+
+quem fez o intercâmbio no exterior e que não fez intercâmbio ou fez dentro do próprio paı́s.
+
+A partir dessa divisão, calculou-se a média de proficiência dos grupos considerando todas as
+
+linguagens e todas as habilidades apresentadas na imagem 12 da seção 3.3.1.2.
+
+A Figura 29 apresenta que os indivı́duos que fizeram intercâmbio no exterior têm mais
+
+habilidades com idiomas. Esse grupo teve média de 1,25 enquanto o outro grupo ficou com
+
+0,665.
+
+
+
+47
+
+Figura 29 – Intercâmbio no exterior X Proficiência em lı́nguas estrangeiras
+
+Interessado em saber se a instituição e o curso estão melhorando com o passar do tempo,
+
+efetuou-se o cruzamento do ano de formatura dos respondentes com a média geral que eles
+
+deram pra cada um deles. Essa média poderia variar entre 1 e 5 com 5 sendo um ótima avaliação.
+
+No que tange ao nı́vel de satisfação com o curso (Figura 30), ele foi bem avaliado em todos os
+
+anos com a média variando entre 4 e 4,5.
+
+Figura 30 – Nı́vel de satisfação com o curso X Ano de formatura
+
+A instituição (Figura 31) não foi tão bem avaliada quanto o curso, tendo a maior média
+
+(4,02) em 2018 e com a nota caı́do drasticamente no ano seguinte (2,83).
+
+
+
+48
+
+Figura 31 – Nı́vel de satisfação com a instituição X Ano de formatura
+
+3.3.2 Egressos do ensino técnico
+
+3.3.2.1 Caracterização da amostra
+
+Toda a população acessı́vel pesquisada fez o curso concomitante com o ensino médio.
+
+Além disso, ela é composta predominantemente por homens (64,29%), solteiros (92,86%) e
+
+residentes em Minas Gerais (92,86%).
+
+A faixa etária dos respondentes, apresentada na figura 32, varia entre 20 e 26 anos. A
+
+idade com maior quantidade de egressos é a de 22 anos contando com 5 pessoas, seguindo dos
+
+egressos com 21 anos (4 respondentes).
+
+
+
+49
+
+Figura 32 – Faixa etária do ensino técnico
+
+Aproximadamente 36,36% dos entrevistados estão trabalhando, desses apenas 25% (1
+
+egresso) trabalha na área da informática. Os entrevistados que responderam estar trabalhando
+
+em outra área foram questionados com relação ao motivo para eles não estarem trabalhando na
+
+área e 2 pessoas responderam que tiveram melhores oportunidades em outras área e 1 pessoa
+
+falou que teria outro motivo (Figura 33).
+
+Figura 33 – Principais motivos para não atuar na área da informática
+
+3.3.2.2 Limitações
+
+A taxa de retorno desse grupo foi muito baixa, contado com apenas 14 participantes
+
+e, como visto na seção 3.3.2.1, apenas 1 egresso trabalha na área da informática. Essa baixa
+
+
+
+50
+
+taxa de retorno fez com que grande parte da análise dos dados do grupo fossem inconclusivas
+
+e não permitiu que as análises referentes ao mundo do trabalho fossem feitas, o que acabou
+
+prejudicando o estudo.
+
+3.3.2.3 Formação acadêmica
+
+Essa seção irá tratar das questões referentes à formação acadêmica dos egressos do en-
+
+sino técnico e do conhecimento que eles possuem, englobando o ano de ingresso e conclusão do
+
+curso, atividades desenvolvidas durantes o curso, fluência em idiomas estrangeiros entre outros.
+
+A Figura 34 nos informa os anos de entrada e de conclusão do curso, respectivamente. O
+
+ano que teve o maior número de ingresso entre os respondentes foi 2014 e com maior número de
+
+formandos foi 2016, cada um correspondendo à 28,57% da amostra. Nenhum dos participantes
+
+começou o curso em 2012 e nenhum se formou em 2014. O fato do gráfico da imagem 34(b) ser
+
+igual ao gráfico da imagem 34(a) com defasagem de 3 anos (contando que o primeiro se refere
+
+ao final do ano e o segundo ao começo) pode significar que todos os respondentes formaram no
+
+perı́odo regular do curso.
+
+(a) Ano de ingresso no curso (b) Ano de conclusão do curso
+
+Figura 34 – Anos de inı́cio e de conclusão do curso técnico
+
+No que tange a continuação dos estudos e obtenção de novos tı́tulos, todos os egressos
+
+responderam que continuaram os estudos. A Figura 35 demonstra que 9,09% da amostra fez
+
+outro curso técnico e que a maior parte concluiu uma graduação, representando 90,91% dos
+
+respondentes.
+
+
+
+51
+
+Figura 35 – Continuidade dos estudos dos egressos do ensino técnico
+
+Para o ensino técnico, a instituição oferece o Programa Institucional de Bolsas de Iniciação
+
+Cientı́fica (PIBIC) e o Programa Institucional de Bolsas de Extensão (PIBEX) e a pesquisa co-
+
+lheu informações sobre a participação dos egressos nessas atividades. A imagem 36 mostra que
+
+72,73% dos Alumni que participaram da pesquisa não se envolveu com nenhum dos dois progra-
+
+mas, 9,09% participou do PIBIC e 18,18% participou do PIBEX. A porcentagem de egressos
+
+que participaram de alguma atividade extracurricular foi baixa, principalmente se comparado
+
+com a participação dos egressos do ensino superior nesse tipo de atividade (Figura 10).
+
+Figura 36 – Participação no PIBIC e PIBEX
+
+Assim como foi feito com os egressos do superior, perguntou-se aos egressos do técnico
+
+a afinidade que eles tinham com alguns idiomas estrangeiros. Os participantes puderam avaliar
+
+
+
+52
+
+as competências de cada idioma em ’não sei’, ’básico’, intermediário’ e ’fluente. Os gráficos da
+
+Figura 37 apresentam as médias calculadas de cada idioma por habilidade, considerando ’não
+
+sei’ como 0, ’básico’ como 1, intermediário’ como 2 e ’fluente como 3. Os resultados foram
+
+semelhantes com os resultados do ensino superior (Figura 12) com o inglês tendo a maior média
+
+em todas competências e espanhol ficando em segundo lugar. A media geral de conhecimento
+
+por idioma (Figura 37(d)) ficou da seguinte forma: inglês com 1,788 de média; espanhol com
+
+0,515; francês com 0,091; e italiano com 0.
+
+(a) Média do nı́vel de escrita por lı́ngua estrangeira (b) Média do nı́vel de leitura por lı́ngua estrangeira
+
+(c) Média do nı́vel de fala por lı́ngua estrangeira (d) Média de conhecimento por lı́ngua estrangeira
+
+Figura 37 – Domı́nio em idiomas estrangeiros dos egressos do ensino técnico
+
+3.3.2.4 Satisfação com o curso e com a instituição
+
+Buscou-se saber os motivos que levaram os egressos do ensino técnico a escolherem
+
+o curso e a instituição. Nas duas questões os participantes podiam avaliar cada quesito com
+
+pontuações que variavam entre 1 e 5 sendo 5 o valor para os quesitos que foram mais importan-
+
+tes e foi feito a média dessas pontuações.
+
+Na motivação para escolha do curso (Figura 38), os motivos que mais influenciaram
+
+foram o interesse na área e o mercado de trabalho, com médias 3,909 e 3,636, respectivamente.
+
+A facilidade de entrar no curso foi a opção que menos incentivou na escolha marcando 2,273
+
+
+
+53
+
+na média.
+
+O fato do mercado de trabalho ser um dos fatores que mais influenciaram na escolha
+
+do curso contraria o que foi respondido com relação ao motivo dos egressos não estarem tra-
+
+balhando na área (Figura 33). Esse resultado mostra que as expectativas que os alunos tinham,
+
+com relação ao ramo trabalhista, ao ingressarem no curso não foram atendidas já que muitos
+
+deles encontraram melhores oportunidades em outras profissões.
+
+Figura 38 – Motivação para escolha do curso técnico em Informática
+
+Com relação à motivação para escolher a instituição (Figura 39), a localidade da mesma
+
+foi o que mais induziu os respondentes na seleção, com a infraestrutura vindo logo em seguida.
+
+As duas tiveram pontuação média superior a 3,4.
+
+Figura 39 – Motivação para escolha da instituição/Campus
+
+
+
+54
+
+A Figura 40 apresenta a opinião dos alunos a respeito do atendimento das expectativas
+
+com o curso. De modo igual ao resultado do superior, todos os respondentes acharam que
+
+o curso atendeu ao que eles esperavam, ficando o bom atendimento em primeiro lugar com
+
+63,64%, o regular em segundo com 27,27% e o ótimo em terceiro com 9,09%.
+
+Figura 40 – Atendimento às expectativas com o curso em relação à formação profissional
+
+No que compete à satisfação com a instituição (Figura 41), as aulas foram o que deixou
+
+os egressos mais satisfeitos, tendo uma média de 4,182, e a biblioteca foi a estrutura que menos
+
+agradou com 3,182 de média. Salas de aulas, laboratórios e outras dependências ficaram com
+
+3,73, 3,55 e 3,45, na devida ordem.
+
+Figura 41 – Nı́vel de satisfação com as estruturas da instituição
+
+
+
+55
+
+3.3.2.5 Análise de dados associados
+
+A proposta desta seção é fazer a correlação do ano de formatura dos egressos com a
+
+satisfação deles com a instituição e com o curso. Da mesma forma que aconteceu com o curso
+
+superior, o curso técnico também foi bem avaliado em todos os anos tendo médias entre 3,5 e 4
+
+(Figura 42).
+
+Figura 42 – Nı́vel de satisfação com o curso X Ano da formatura
+
+No caso da satisfação com a instituição (Figura 43), o resultado foi diferente do resultado
+
+do ensino superior. Aqui, as pontuações também ficaram abaixo das avaliações referentes ao
+
+curso, mas ainda assim foram boas e variaram entre 3,46 e 4,1. O ano de 2015 foi o melhor
+
+avaliado e o de 2013 teve a pior avaliação.
+
+
+
+56
+
+Figura 43 – Nı́vel de satisfação com a instituição X Ano da formatura
+
+
+
+57
+
+4 CONCLUSÃO E TRABALHOS FUTUROS
+
+Neste estudo verificou-se a atuação profissional dos egressos dos cursos de Ciência da Computação
+
+e Técnico em Informática da UFV com o intuito de utilizar as respostas deles para melhorar os
+
+cursos e a instituição de ensino. Para atingir ao objetivo proposto fez-se uma pesquisa quantita-
+
+tiva utilizando, como instrumento de coleta e análise, um sistema web que recolhe as respostas
+
+e as apresenta de forma clara juntamente com uma breve exploração de alguns pontos.
+
+Inicialmente, fez-se um levantamento de quais perguntas fariam parte dos questionários
+
+e, na sequência, implementou-se a aplicação web que seria utilizada. A pesquisa ocorreu entre
+
+setembro de 2019 e junho de 2020, utilizando o critério de resposta voluntária, onde os próprios
+
+membros da população escolhem se querem ou não participar, e atingiu 36 alunos dos egressos
+
+do ensino superior e 14 do ensino técnico, representando 58,06% e 12,38% da população total
+
+de cada grupo, respectivamente. A pesquisa com o ensino técnico teve como fator limitante a
+
+quantidade de respostas que se obteve, dificultando a avaliação real de alguns pontos.
+
+Os resultados gerais dessa pesquisa mostraram que a maioria dos participantes são jo-
+
+vens, solteiros e do sexo masculino. O fator que mais motivou os egressos, dos dois grupos, a
+
+escolherem a instituição foi a localidade dela e o interesse na área foi a motivação para escolha
+
+dos cursos.
+
+O estudo também apresentou questões positivas tanto em relação aos cursos e instituição
+
+quanto ao mundo do trabalho, no caso do ensino superior. Nesse momento, é válido destacar
+
+que os estudantes egressos das duas amostras tiveram suas expectativas atendidas e se mos-
+
+traram satisfeitos com os respectivos cursos e com a instituição, principalmente com as aulas
+
+ministradas. Salienta-se que todos os egressos do superior estão trabalhando na área ou ainda
+
+estão se dedicando aos estudos.
+
+Conclui-se que a pesquisa permitiu averiguar como está o mercado de trabalho na área
+
+da tecnologia da informação e as competências e habilidades exigidas, assim como possibilitou
+
+saber a opinião que os alunos egressos têm sobre a instituição e sobre o curso. Percebeu-se, com
+
+isso, que a continuidade do estudo é importante para apresentar dados cada vez mais próximos
+
+da realidade, tornando-o mais completo e valioso.
+
+Como possı́veis trabalhos futuros destacam-se explorar por completo e mais detalha-
+
+damente as respostas obtidas e evoluir a aplicação para coletar dados de outros cursos e de
+
+outras instituições e aperfeiçoar os códigos implementados para facilitar essa evolução. Ainda,
+
+
+
+58
+
+planeja-se melhorar a interface e torná-la responsiva e acrescentar novas funcionalidades, como
+
+possibilitar aos usuários reportarem possı́veis erros encontrados ao utilizarem o sistema.
+
+
+
+59
+
+REFERÊNCIAS
+
+AMARAL, E. F. L. A lógica da amostragem do survey. 2011. Disponı́vel em: 〈http:
+//www.ernestoamaral.com/docs/dcp033-111/Aulas22-24.pdf〉. Acesso em: 30 de julho de
+2020.
+
+CAITANO, D. O. A atuação dos egressos do curso de Administração da UFSC no mercado de
+trabalho. Monografia — Universidade Federal de Santa Catarina, 2007.
+
+ESPARTEL, L. B. O uso da opinião dos egressos como ferramenta de avaliação de cursos: o
+caso de uma instituição de ensino superior catarinense. Revista Alcance - Eletrônica, Univali,
+p. 102–114, 2009.
+
+FURLANETTO, S. Implantação do programa 5 sensos na empresa JF embalagens. 2008.
+Disponı́vel em: 〈http://siaibib01.univali.br/pdf/Simone%20Furlanetto%20Barichello.pdf〉.
+Acesso em: 30 de julho 2020.
+
+MENDES, M. H. S. Pesquisa com os egressos do curso técnico de informática da ufv – campus
+florestal. Apresentado no 1 Seminário de Informática e Turismo (INFOTUR). 2006.
+
+MONTE Ítalo José Alves do. O perfil profissional e socioeconômico dos egressos do curso de
+administração das faculdades Unificadas Doctum de Iúna - ES, no perı́odo de 2007 a 2010.
+Monografia — Faculdades Unificadas Doctum de Iúna - ES, 2011.
+
+PARADELA, B. Sistemas Web: O que é Importante Você Saber. 2018. Disponı́vel em:
+〈https://blog.visie.com.br/sistemas-web/〉. Acesso em: 08 janeiro 2020.
+
+SCRIPTCASE. A diferença entre um Site e uma Aplicação WEB. 2013. Disponı́vel em:
+〈https://www.scriptcaseblog.com.br/scriptcase/diferenca-site-aplicacao-web/〉. Acesso em: 08
+janeiro 2020.
+
+SILVA, L. C. da et al. Acompanhamento de egressos como ferramenta para a gestão
+universitária: um estudo com graduados da ufba. Revista Gestão Universitária na
+America Latina (GUAL), Florianópolis, Santa Catarina, Brasil, 2017. Disponı́vel em:
+〈https://doi.org/10.5007/1983-4535.2017v10n4p293〉.
+TEIXEIRA, E. B. A análise de dados na pesquisa cientı́fica - importância e desafios em estudos
+organizacionais. Desenvolvimento em questão, Editora Unijuı́, p. 177–201, 2003.
+
+
+
+60
+
+A Documentação dos Casos de Uso
+
+Esta documentação se refere aos casos de uso do sistema. Ela descreve as funcionalidades do
+mesmo mostrando os fluxos de execução e interações necessárias do usuário com o sistema em
+cada caso.
+
+Responder perguntas (CSU01)
+
+Sumário: Aluno utiliza o sistema para responder o questionário especı́fico para ele. O Aluno
+pode ser um aluno egresso do técnico ou superior.
+Ator Primário: Aluno.
+Precondições: O Aluno está autenticado.
+
+Fluxo Principal:
+
+1. O Aluno requisita responder as perguntas.
+
+2. O sistema apresenta ao Aluno as perguntas referentes a seu curso (técnico ou superior).
+
+3. O Aluno responde todas as perguntas.
+
+4. O Aluno finaliza as respostas e o caso de uso termina.
+
+Fluxo alternativo (2): O Aluno já respondeu todas as perguntas
+
+2.1. O Aluno já respondeu todas as questões.
+
+2.2. O sistema informa que todas as questões já foram e pergunta se o Aluno deseja responder
+de novo.
+
+2.3. O Aluno deseja responder as questões novamente.
+
+2.4. O sistema volta para o passo 2.
+
+Fluxo de exceção (3): O Aluno deixa respostas em branco
+
+A. O Aluno deixa alguma resposta em branco.
+
+B. O sistema informa o erro e volta para o passo 3.
+
+Fluxo de exceção (2.3): O Aluno não deseja responder as questões novamente
+
+A. O Aluno não deseja responder as questões novamente.
+
+B. O caso de uso termina.
+
+
+
+61
+
+Pós-condições: As respostas do Aluno foram cadastradas no sistema.
+Regras de Negócio: N/A.
+
+Autenticar acesso (CSU02)
+
+Sumário:Aluno/Gerente utiliza o sistema para autenticar o acesso e utilizar recursos do sis-
+tema.
+Ator Primário: Aluno/Gerente.
+Precondições: O Aluno/Gerente está cadastrado no sistema.
+
+Fluxo Principal:
+1. O sistema exibe a tela de autenticação com os campos CPF e Modalidade.
+
+2. Aluno/Gerente digita o CPF, seleciona a Modalidade e submete as informações.
+
+3. O sistema permite o acesso do Aluno/Gerente ao sistema e o caso de uso termina.
+
+Fluxo alternativo (2): O CPF não está cadastrado no sistema
+
+3.1. O Aluno/Gerente não poderá ter acesso ao sistema.
+
+3.2. O Sistema barra o Aluno/Gerente e o caso de uso termina.
+
+Fluxo exceção (2): CPF incorreto
+
+A. Aluno/Gerente entra com o CPF incorreto.
+
+B. O sistema informa o erro e volta para o passo 2.
+
+Fluxo de exceção (2): Campo em branco
+
+A. Aluno/Gerente deixa algum campo obrigatório (CPF e/ou Modalidade) em branco.
+
+B. O sistema informa o erro e volta para o passo 2.
+
+Pós-condições: O Aluno/Gerente foi reconhecido pelo sistema.
+Regras de Negócio: N/A.
+
+Consultar as respostas (CSU03)
+
+Sumário: Gerente utiliza o sistema para consultar as respostas.
+Ator Primário: Gerente.
+Precondições: O Gerente deve estar autenticado no sistema.
+
+Fluxo Principal:
+
+
+
+62
+
+1. O Gerente solicita a consulta das respostas.
+
+2. O Sistema mostra as respostas das perguntas e o caso de uso termina.
+
+Fluxo de exceção (2): A pergunta ainda não recebeu respostas
+
+A. O Sistema informa que aquela pergunta ainda não recebeu resposta e volta ao passo 2.
+
+Pós-condições: O Gerente consultou as respostas.
+Regras de Negócio: N/A.
+
+Consultar as análises dos dados (CSU04)
+
+Sumário: Gerente utiliza o sistema para consultar as análises dos dados.
+Ator Primário: Gerente.
+Precondições: O Gerente deve estar autenticado no sistema.
+
+Fluxo Principal:
+
+1. O Gerente solicita a consulta as análises dos dados.
+
+2. O Sistema mostra as análises feitas e o caso de uso termina.
+
+Fluxo de exceção (2): Determinada análise ainda não foi feita
+
+A. O Sistema informa que aquela análise ainda não está disponı́vel e volta ao passo 2.
+
+Pós-condições: O Gerente consultou as análises dados.
+Regras de Negócio: N/A.
+
+Analisar os dados (CSU05)
+
+Sumário: O Sistema analisa os dados enviados pelos Alunos.
+Ator Primário: Sistema.
+Precondições: Pelo menos um Aluno daquele tipo (técnico ou superior) já respondeu ao ques-
+tionário.
+
+Fluxo Principal:
+
+1. O Sistema faz a análise dos dados.
+
+2. O Sistema transforma os dados analisados em gráficos e textos e encerra o caso de uso.
+
+
+
+63
+
+Fluxo de exceção (1): A pergunta a ser analisada ainda não recebeu respostas
+
+A. O Sistema vai para a próxima pergunta a ser analisada e retorna para o passo 1
+
+Pós-condições: Os dados foram analisados.
+Regras de Negócio: N/A.
+
+Apresentar a análise de dados (CSU06)
+
+Sumário: O Sistema mostra na tela a análise dos dados.
+Ator Primário: Sistema.
+Precondições: A análise dos dados já deve ter sido feita.
+
+Fluxo Principal:
+
+1. O Sistema apresenta a análise.
+
+Pós-condições: As análises dos dados foram apresentadas.
+Regras de Negócio: N/A.
+
+
+
+64
+
+B Fomulário Utilizado para Testes da Ferramenta
+
+Segundo teste do questionário
+
+Link de acesso: questionario-camila.ccp.caf.ufv.br
+CPF: -
+Curso: Técnico
+
+Instruções:
+
+• Responder às questões de acordo com as respostas que estão na tabela, caso não tenha
+nenhuma resposta pode responder de acordo com a sua preferência.
+
+• As questões que forem quantitativas variam de 1 a 5, sendo 1 o mais à esquerda
+
+• Qualquer dúvida é só chamar.
+
+Você acha que se algumas perguntas já viessem pré-selecionadas ajudaria a responder o
+questionário? Caso sua resposta seja afirmativa, quais seriam essas perguntas?
+
+Alguma pergunta você considera desnecessária para o questionário? Qual seria essa(s)
+pergunta(s)?
+
+O que você achou do tempo gasto para responder o questionário?
+
+Encontrou algum problema no sistema? Se sim, qual?
+
+Qual a sua opinião sobre a interface? Você tem alguma sugestão de alteração/melhoria?
+
+Caso você não consiga terminar o questionário coloque abaixo o problema que ocorreu.
+
+
+
+65
+
+Questão Resposta
+1. Ano de nascimento 1981
+2. Ano de ingresso no curso 2012
+3. Ano de conclusão do curso 2013
+4. Estado civil Solteiro
+5. Sexo Feminino
+6. Paı́s onde mora Brasil
+7. Estado onde mora Minas Gerais
+8. Você fez curso técnico antes da graduação? Sim
+9. O curso técnico foi na área da computação? Sim
+10. O curso técnico auxiliou na graduação? Ajudou muito
+11. Você publicou artigo durante a graduação? Sim. Em uma revista
+12. Qual foi o formato da sua defesa de TCC? Artigo
+13. Fez estágio na área da computação durante a graduação? Sim
+14. Participou da Empresa Jr. (SetApp) na graduação? Sim. Como diretor
+15. Você participou como membro discente em entidade ...? Sim. No DCE
+16. Você participou de algum projeto de iniciação cientı́fica? Sim. Com bolsa
+17. Você participou de algum projeto de extensão? Sim. Com bolsa
+18. Você participou de algum projeto de ensino? Sim. Com bolsa
+19. Você foi monitor ou tutor de alguma disciplina? Sim. De ambos
+20. Você fez intercâmbio durante a graduação? Sim. No Brasil
+21. Para onde você foi no intercâmbio?
+22. Você continuou os seus estudos? Não
+23. Lı́ngua estrangeira que sabe ler Marcar ‘não sei’ em todos
+24. Lı́ngua estrangeira que sabe falar Marcar ‘não sei’ em todos
+25. Lı́ngua estrangeira que sabe escrever Marcar ‘não sei’ em todos
+26. Quantos cursos/treinamentos você costuma. . . ? 0
+27. Quantas palestras/congressos você costuma...? 0
+28. Você estaria disposto a participar como palestrante...? Sim
+29. Qual seria o tema dessa palestra?
+30. Você estaria disposto a ministrar um minicurso na ...? Sim
+31. Qual seria o tema deste minicurso?
+32. Você já trabalhou? Sim
+33. Quando foi o inı́cio da sua atividade profissional? Antes de começar a graduação
+34. Como obteve o primeiro emprego Abriu uma empresa
+35. Você está trabalhando? Sim
+36. Qual o seu vı́nculo empregatı́cio? Autônomo
+37. Qual a área que você atua? Informática/Sistemas/Tecnologia
+38. A função que você exerce está alinhada com a ciência ...? Sim
+39. Qual cargo você ocupa? Acadêmico
+40. Quantas horas você trabalha por semana? Menos de 40
+41. Qual a sua faixa salarial bruta? Menos de R$2000,00
+42. Avalie como foram as dificuldades que você encontrou ... Colocar tudo em 1
+45. Qual o ramo da empresa que você trabalha Aeroespacial e defesa
+46. Quantas pessoas trabalham na empresa? Menos de 10
+
+
+
+66
+
+Questão Resposta
+47. Classifique os itens abaixo de acordo com a... Colocar tudo em 1
+48. Como os itens abaixo ofereceram uma base...? Colocar tudo em 1
+49. Com qual frequência você utiliza as disciplinas...? Marcar “Usa efetivamente” em todos
+50. Com qual frequência você utiliza as linguagens...? Colocar tudo em 1
+51. Com qual frequência você utiliza os SGBD...? Colocar tudo em 1
+52. Com qual frequência você utiliza os sistemas...? Colocar tudo em 1
+53. Você fuma? Sim
+54. Você faz algum trabalho voluntário? Sim
+55. Qual a sua média de sono? Menos de 2 horas
+56. Você pratica esporte? Sim
+57. Quais esporte abaixo você pratica? Marcar todas as opções
+58. Classifique as opções abaixo de acordo com o ... Colocar tudo em 1
+59. Classifique as opções abaixo de acordo com o ... Colocar tudo em 1
+60. Como foi atendida suas expectativas do curso em...? Péssima
+61. As disciplinas especı́ficas foram adequadas para o...? Um pouco
+62. Como você classifica os itens abaixo? Marcar ‘péssimo’ em todos
+63. Como você avalia a importância dessa pesquisa? Muito importante
+
+
+
+67
+
+A Perguntas Utilizadas no Questionário do Ensino Técnico
+
+Dados pessoais
+
+1. Ano de nascimento
+
+(a) Antes de 1990 (e) 1993 (i) 1997 (m) 2001
+(b) 1990 (f) 1994 (j) 1998 (n) 2002
+(c) 1991 (g) 1995 (k) 1999
+(d) 1992 (h) 1996 (l) 2000
+
+2. Ano de ingresso no curso
+
+(a) 2011 (c) 2013 (e) 2015 (g) 2017
+(b) 2012 (d) 2014 (f) 2016
+
+3. Ano de conclusão do curso
+
+(a) 2012 (c) 2014 (e) 2016 (g) 2018
+(b) 2013 (d) 2015 (f) 2017 (h) 2019
+
+4. Estado civil
+
+(a) Solteiro (c) Casado (e) Viúvo
+(b) União estável (d) Divorciado
+
+5. Sexo
+
+(a) Feminino (b) Masculino (c) Prefiro não informar
+
+6. Paı́s onde mora
+
+(a) Brasil (e) França
+(b) Canadá (f) Itália
+(c) Espanha (g) Portugal
+(d) Estados Unidos (h) Outro
+
+
+
+68
+
+7. Estado onde mora
+
+(a) Acre (j) Maranhão (s) Rio de Janeiro
+(b) Alagoas (k) Mato Grosso (t) Rio Grande do Norte
+(c) Amapá (l) Mato Grosso do Sul (u) Rio Grande do Sul
+(d) Amazonas (m) Minas Gerais (v) Rondônia
+(e) Bahia (n) Pará (w) Roraima
+(f) Ceará (o) Paraı́ba (x) Santa Catarina
+(g) Distrito Federal (p) Paraná (y) São Paulo
+(h) Espirito Santo (q) Pernambuco (z) Sergipe
+(i) Goias (r) Piauı́ () Tocantins
+
+Conhecimento
+
+1. Já iniciou outro curso técnico?
+
+(a) Sim (b) Não
+
+2. Já concluiu outro curso técnico?
+
+(a) Sim (b) Não
+
+3. Você teve bolsa Pibic ou Pibex?
+
+(a) Não (c) Sim. Pibex.
+(b) Sim. Pibic. (d) Sim. Ambas.
+
+4. Você fez técnico concomitante ou subsequente?
+
+(a) Concomitante (junto com o ensino médio).
+(b) Subsequente (depois do ensino médio).
+
+5. Você continuou os seus estudos?
+
+(a) Não (c) Graduação. (e) Doutorado.
+(b) Outro técnico. (d) Mestrado. (f) Pós-graduação.
+
+
+
+69
+
+6. Lı́ngua estrangeira que sabe ler
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+7. Lı́ngua estrangeira que sabe falar
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+8. Lı́ngua estrangeira que sabe escrever
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+9. Quantos cursos/treinamentos você costuma fazer por ano?
+
+(a) 0 (c) 2 (e) Mais de 3
+(b) 1 (d) 3
+
+10. Quantas palestras/congressos você costuma fazer por ano?
+
+(a) 0 (c) 2 (e) Mais de 3
+(b) 1 (d) 3
+
+11. Você estaria dispostos a participar como palestrante da semana acadêmica do curso que é
+realizada anualmente no mês de maio?
+
+(a) Sim (b) Não
+
+12. Qual seria o tema dessa palestra?
+
+
+
+70
+
+13. Você estaria disposto a ministrar um minicurso da semana acadêmica do curso que é
+realizada anualmente no mês de maio?
+
+(a) Sim (b) Não
+
+14. Qual seria o tema desse minicurso?
+
+Dados profissionais
+
+1. Você já trabalhou?
+
+(a) Sim. (b) Não.
+
+2. Você já atuou como técnico em informática?
+
+(a) Sim (b) Não
+
+3. Quando foi o inı́cio da sua atividade profissional?
+
+(a) Ante de começar o técnico.
+(b) Durante o técnico.
+(c) Até um ano depois da formatura.
+(d) 1 a 3 anos depois da formatura.
+(e) Mais de 3 anos depois da formatura.
+
+4. Como obteve o primeiro emprego?
+
+(a) Abriu uma empresa.
+(b) Enviou o currı́culo e foi selecionado.
+(c) Fez estágio e foi admitido ao término do mesmo.
+(d) Indicação de um amigo.
+(e) Indicação de um professor.
+(f) Outro.
+
+5. Você está trabalhando?
+
+(a) Sim (b) Não
+
+
+
+71
+
+6. Qual o seu vı́nculo empregatı́cio?
+
+(a) Autônomo.
+(b) Empregado com carteira assinada.
+(c) Empregado sem carteira assinada.
+(d) Empregador.
+(e) Outro.
+
+7. Qual a área que você atua?
+
+(a) Informática/ Sistema/ Tecnologia.
+(b) Planejamento/ Desenvolvimento/ Análise.
+(c) Industrial/ Produção/ Manutenção.
+(d) Acadêmica.
+(e) Administração.
+(f) Comercial/ Vendas.
+(g) Consultoria.
+(h) Jurı́dica/ Legal.
+(i) Presidência/ Diretoria/ Gerência Geral.
+(j) Telecomunicações.
+(k) Outro.
+
+8. A função que você exerce está alinhada a área de técnico em informática?
+
+(a) Sim. (b) Não.
+
+9. Qual cargo você ocupa?
+
+(a) Acadêmico. (g) Gerente.
+(b) Administrador de banco de dados. (h) Programador.
+(c) Administrador de redes.
+
+(i) Sócio/ Proprietário.
+(d) Analista de sistemas.
+(e) Coordenador de projetos. (j) Suporte técnico.
+
+(f) Diretor. (k) Outro.
+
+
+
+72
+
+10. Quantas horas você trabalha por semana?
+
+(a) Menos de 40. (b) Entre 40 e 44. (c) Entre 45 e 48. (d) Mais de 48.
+
+11. Qual a sua faixa salarial bruta?
+
+(a) Menos de R$1000,00.
+(b) Entre R$1000,00 e R$2000,00.
+(c) Entre R$2000,00 e R$4000,00.
+(d) Entre R$4000,00 e R$6000,00.
+(e) Mais de R$6000,00.
+
+12. Avalie, de 1 a 5 (sendo 1, pouca dificuldade e 5, muita dificuldade), como foram as
+dificuldades que você encontrou na profissão?
+
+(a) Apresentação em público.
+(b) Falta de cursos relacionados à área.
+(c) Fluência em lı́nguas estrangeiras.
+(d) Motivação da equipe.
+(e) Outras.
+
+13. Qual o principal motivo para você não atuar na área de informática?
+
+(a) Falta de perspectiva de carreira.
+(b) Mercado de trabalho atual saturado.
+(c) Melhor oportunidade em outra profissional.
+(d) Trabalho na área da minha segunda formação.
+(e) Outro.
+
+14. Por que você não está empregado?
+
+(a) Falta de oportunidade.
+(b) Não preciso/ Não quero.
+(c) Me dedico aos estudos.
+
+
+
+73
+
+Empresa em que trabalha
+
+1. Qual o ramo da empresa que você trabalha?
+
+(a) Aeroespacial e defesa.
+(b) Automobilı́stica.
+(c) Fundos de aposentadoria e de pensão.
+(d) Indústria farmacêutica.
+(e) Maquinas e equipamentos.
+(f) Organização sem fins lucrativos.
+(g) Setor público.
+(h) Serviços.
+(i) Tecnologia da informação.
+(j) Telecomunicações.
+(k) Outro.
+
+2. Quantas pessoas trabalham na empresa?
+
+(a) Menos de 10. (c) Entre 21 e 35. (e) Entre 51 e 100.
+(b) Entre 10 e 20. (d) Entre 36 e 50. (f) Mais de 100.
+
+Mercado de trabalho
+
+1. Classifique os itens abaixo de acordo com a importância deles para entrada no mercado
+de trabalho.
+
+Importância Instituição Trabalho Experiência Fluência Disponibilidade para
+de ensino em equipe no mercado em lı́nguas trabalhar horas extras
+
+1
+2
+3
+4
+5
+Não se aplica
+
+
+
+74
+
+2. Avalie de 1 a 5 como os itens abaixo ofereceram um base diferenciada se comparada com
+colegas de trabalho. (Utilize 1 para pouco diferenciada e 5 para muito diferenciada).
+
+(a) Adaptação às mudanças. (f) Eficiência na produção.
+(b) Aprendizado de novas técnicas. (g) Liderança.
+(c) Aptidão empreendedora.
+(d) Capacidade analı́tica. (h) Visão ampla de organização.
+
+(e) Criatividade. (i) Visão de novas tendências.
+
+3. Com que frequência você utiliza as disciplinas abaixo no seu ambiente de trabalho.
+
+Disciplina Usa efeti- Usa indiretamente e Usa indiretamente e Nunca Não fiz a
+vamente é indispensável é dispensável usou disciplina
+
+Análise e pro-
+jeto de siste-
+mas
+
+Banco de da-
+dos
+
+Contabilidade
+
+Estrutura da
+informação na
+web
+
+Fundamentos
+da
+administração
+
+Informática
+básica
+
+Inglês técnico
+
+Introdução a
+programação
+
+Legislação
+para in-
+formática
+
+Lógica de
+programação
+
+Manutenção
+de computado-
+res
+
+Organização
+de computado-
+res e sistemas
+operacionais
+
+Programação
+
+Programação
+web
+
+Projeto
+
+Redação
+teórica
+
+Redes de com-
+putadores
+
+Tópicos
+especiais em
+informática
+
+
+
+75
+
+Tecnologia
+
+1. Com qual frequência você utiliza as seguintes linguagens de programação no seu traba-
+lho? (Utilize 1 para pouco utilizada e 5 para muito utilizada).
+
+(a) Java. (g) Ruby. (m) TypeScript. (s) Assembly.
+(b) JavaScript. (h) PHP. (n) ASP. (t) Cobol.
+(c) Python. (i) R. (o) Go.
+
+(u) ML.
+(d) C. (j) Objective-C. (p) Pascal.
+(e) C++. (k) Kotlin. (q) Visual Basic. (v) Verilog.
+
+(f) C. (l) Delphi. (r) .Net. (w) Outras.
+
+2. Com qual frequência você utiliza os seguintes SGBDs no seu trabalho? (Utilize 1 para
+pouco utilizada e 5 para muito utilizada).
+
+(a) Mysql. (g) Microsoft Acces.
+(b) Oracle. (h) Teradata.
+(c) Microsoft Sql Server.
+
+(i) Paradx.
+(d) PostgreSQL.
+(e) MongoDB. (j) Cache.
+
+(f) Db2. (k) Outros.
+
+3. Com qual frequência você utiliza os seguintes sistemas operacionais no seu trabalho?
+(Utilize 1 para pouco utilizada e 5 para muito utilizada).
+
+(a) Windows. (c) Mac. (e) Outros.
+(b) Linux. (d) Netware.
+
+Lazer, saúde e cidadania
+
+1. Você fuma?
+
+(a) Sim. (b) Não.
+
+2. Você faz algum trabalho voluntário?
+
+(a) Sim. (b) Não.
+
+
+
+76
+
+3. Qual a sua média de sono?
+
+(a) Menos de 2 horas. (c) Entre 4 a 6 horas. (e) Entre 8 a 10 horas.
+(b) Entre 2 a 4 horas. (d) Entre 6 a 8 horas. (f) Mais de 10 horas.
+
+4. Você pratica esportes?
+
+(a) Sim. (b) Não.
+
+5. Quais esportes você pratica?
+
+(a) Atletismo. (c) Futebol. (e) Vôlei.
+(b) Basquete. (d) Musculação. (f) Outros
+
+Satisfação
+
+1. Classifique as opções abaixo de acordo com o grau de influência dele na sua escolha
+em cursar o técnico em informática. (Utilize 1 para pouco influência e 5 para muito
+influência).
+
+(a) Curso fácil de entrar. (d) Interesse na área.
+(b) Curso fácil de fazer. (e) Mercado de trabalho.
+(c) Falta de outra opção. (f) Outras.
+
+2. Classifique as opções abaixo de acordo com o grau de influência dele na sua escolha em
+estudar na Cedaf. (Utilize 1 para pouco influência e 5 para muito influência).
+
+(a) Infraestrutura. (c) Menor nota para entrar.
+(b) Localidade. (d) Outras.
+
+3. Como foi atendida suas expectativas do curso em relação à formação profissional?
+
+(a) Péssima. (c) Regular. (e) Ótima.
+(b) Ruim. (d) Bom.
+
+4. As disciplinas especı́ficas foram adequadas para o bom desempenho profissional?
+
+(a) Um pouco. (b) Muito. (c) Não.
+
+
+
+77
+
+5. Você acha que o estágio de pelo menos 150 horas (além das disciplinas obrigatórias) deve
+ser obrigatório para receber o diploma do curso?
+
+(a) Sim. (b) Não. (c) Indiferente.
+
+6. Você acha que o curso deve ter 120 horas em atividades obrigatórias?
+
+(a) Sim. (b) Não. (c) Indiferente.
+
+7. Como você classifica os itens abaixo?
+
+Classificação Aulas Laboratórios Biblioteca Salas de aula Outros
+Péssimo
+Ruim
+Indiferente
+Bom
+Ótimo
+
+8. Como você avalia a importância dessa pesquisa?
+
+(a) Muito importante. (c) Indiferente. (e) Sem importância.
+(b) Importante. (d) Pouco importante.
+
+
+
+78
+
+B Perguntas Utilizadas no Questionário do Ensino Superior
+
+Dados pessoais
+
+1. Ano de nascimento
+
+(a) Antes de 1980 (g) 1985 (m) 1991 (s) 1997
+(b) 1980 (h) 1986 (n) 1992 (t) 1998
+(c) 1981 (i) 1987 (o) 1993 (u) 1999
+(d) 1982 (j) 1988 (p) 1994 (v) 2000
+(e) 1983 (k) 1989 (q) 1995 (w) 2001
+(f) 1984 (l) 1990 (r) 1996 (x) 2002
+
+2. Ano de ingresso no curso
+
+(a) 2011 (c) 2013 (e) 2015 (g) 2017
+(b) 2012 (d) 2014 (f) 2016
+
+3. Ano de conclusão do curso
+
+(a) 2012 (c) 2014 (e) 2016 (g) 2018
+(b) 2013 (d) 2015 (f) 2017 (h) 2019
+
+4. Estado civil
+
+(a) Solteiro (c) Casado (e) Viúvo
+(b) União estável (d) Divorciado
+
+5. Sexo
+
+(a) Feminino (b) Masculino (c) Prefiro não informar
+
+6. Paı́s onde mora
+
+(a) Brasil (e) França
+(b) Canadá (f) Itália
+(c) Espanha (g) Portugal
+(d) Estados Unidos (h) Outro
+
+
+
+79
+
+7. Estado onde mora
+
+(a) Acre (j) Maranhão (s) Rio de Janeiro
+(b) Alagoas (k) Mato Grosso (t) Rio Grande do Norte
+(c) Amapá (l) Mato Grosso do Sul (u) Rio Grande do Sul
+(d) Amazonas (m) Minas Gerais (v) Rondônia
+(e) Bahia (n) Pará (w) Roraima
+(f) Ceará (o) Paraı́ba (x) Santa Catarina
+(g) Distrito Federal (p) Paraná (y) São Paulo
+(h) Espirito Santo (q) Pernambuco (z) Sergipe
+(i) Goias (r) Piauı́ () Tocantins
+
+Conhecimento
+
+1. Você fez curso técnico antes da graduação?
+
+(a) Sim (b) Não
+
+2. O curso técnico foi na área da computação?
+
+(a) Sim.
+(b) Outra área, mas na área das exatas.
+(c) Outra área diferente.
+
+3. O curso técnico auxiliou na graduação?
+
+(a) Ajudou muito. (b) Ajudou pouco. (c) Não ajudou.
+
+4. Você publicou artigo durante a graduação?
+
+(a) Sim. Em uma revista.
+(b) Sim. Em um congresso.
+(c) Sim. Em uma revista e em um congresso.
+(d) Não.
+
+5. Qual foi o formato da sua defesa de TCC?
+
+(a) Artigo (b) Monografia.
+
+
+
+80
+
+6. Fez estágio na área da computação durante a graduação?
+
+(a) Sim. (b) Não.
+
+7. Participou da Empresa Jr (SetApp) na graduação?
+
+(a) Sim. Como diretor. (d) Sim. Em outro cargo.
+(b) Sim. Como gerente. (e) Sim. Em mais de uma função.
+(c) Sim. Como efetivo. (f) Não.
+
+8. Você participou como membro discente em entidades representativas de discentes?
+
+(a) Sim. Na comissão coordenadora do curso.
+(b) Sim. No DCE.
+(c) Sim. Em ambas as entidades.
+(d) Sim. Em outra entidade.
+(e) Não.
+
+9. Você participou de algum projeto de iniciação cientifica?
+
+(a) Sim. Com bolsa. (c) Sim. Com e sem bolsa.
+(b) Sim. Sem bolsa. (d) Não.
+
+10. Você participou de algum projeto de extensão?
+
+(a) Sim. Com bolsa. (c) Sim. Com e sem bolsa.
+(b) Sim. Sem bolsa. (d) Não.
+
+11. Você participou de algum projeto de ensino?
+
+(a) Sim. Com bolsa. (c) Sim. Com e sem bolsa.
+(b) Sim. Sem bolsa. (d) Não.
+
+12. Você foi monitor ou tutor de alguma disciplina?
+
+(a) Sim. De uma matéria especifica do curso.
+(b) Sim. De uma matéria de outro curso.
+(c) Sim. De ambos.
+(d) Não.
+
+
+
+81
+
+13. Você fez intercâmbio durante a graduação?
+
+(a) Sim. No Brasil. (b) Sim. No exterior. (c) Não.
+
+14. Para onde você for no intercâmbio?
+
+15. Você continuou os seus estudos?
+
+(a) Não. (c) Pós-graduação. (e) Doutorado.
+(b) Outra graduação. (d) Mestrado. (f) Outra formação.
+
+16. Lı́ngua estrangeira que sabe ler
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+17. Lı́ngua estrangeira que sabe falar
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+18. Lı́ngua estrangeira que sabe escrever
+
+Idioma Não sei Básico Intermediário Fluente
+Inglês
+Espanhol
+Italiano
+Francês
+
+19. Quantos cursos/treinamentos você costuma fazer por ano?
+
+(a) 0 (c) 2 (e) Mais de 3
+(b) 1 (d) 3
+
+
+
+82
+
+20. Quantas palestras/congressos você costuma fazer por ano?
+
+(a) 0 (c) 2 (e) Mais de 3
+(b) 1 (d) 3
+
+21. Você estaria dispostos a participar como palestrante da semana acadêmica do curso que é
+realizada anualmente no mês de maio?
+
+(a) Sim (b) Não
+
+22. Qual seria o tema dessa palestra?
+
+23. Você estaria disposto a ministrar um minicurso da semana acadêmica do curso que é
+realizada anualmente no mês de maio?
+
+(a) Sim (b) Não
+
+24. Qual seria o tema desse minicurso?
+
+Dados profissionais
+
+1. Você já trabalhou?
+
+(a) Sim. (b) Não.
+
+2. Quando foi o inı́cio da sua atividade profissional?
+
+(a) Ante da graduação.
+(b) Durante a graduação.
+(c) Até um ano depois da formatura.
+(d) 1 a 3 anos depois da formatura.
+(e) Mais de 3 anos depois da formatura.
+
+3. Como obteve o primeiro emprego?
+
+(a) Abriu uma empresa.
+(b) Enviou o currı́culo e foi selecionado.
+(c) Fez estágio e foi admitido ao término do mesmo.
+(d) Indicação de um amigo.
+(e) Indicação de um professor.
+(f) Outro.
+
+
+
+83
+
+4. Você está trabalhando?
+
+(a) Sim (b) Não
+
+5. Qual o seu vı́nculo empregatı́cio?
+
+(a) Autônomo.
+(b) Empregado com carteira assinada.
+(c) Empregado sem carteira assinada.
+(d) Empregador.
+(e) Outro.
+
+6. Qual a área que você atua?
+
+(a) Informática/ Sistema/ Tecnologia.
+(b) Planejamento/ Desenvolvimento/ Análise.
+(c) Industrial/ Produção/ Manutenção.
+(d) Acadêmica.
+(e) Administração.
+(f) Comercial/ Vendas.
+(g) Consultoria.
+(h) Jurı́dica/ Legal.
+(i) Presidência/ Diretoria/ Gerência Geral.
+(j) Telecomunicações.
+(k) Outro.
+
+7. A função que você exerce está alinhada com a ciência da computação?
+
+(a) Sim. (b) Não.
+
+8. Qual cargo você ocupa?
+
+(a) Acadêmico. (f) Diretor.
+(b) Administrador de banco de dados. (g) Gerente.
+(c) Administrador de redes. (h) Programador.
+(d) Analista de sistemas. (i) Sócio/ Proprietário.
+(e) Coordenador de projetos. (j) Outro.
+
+
+
+84
+
+9. Quantas horas você trabalha por semana?
+
+(a) Menos de 40. (c) Entre 45 e 48.
+(b) Entre 40 e 44. (d) Mais de 48.
+
+10. Qual a sua faixa salarial bruta?
+
+(a) Menos de R$2000,00.
+(b) Entre R$2000,00 e R$5000,00.
+(c) Entre R$5000,00 e R$8000,00.
+(d) Entre R$8000,00 e R$12000,00.
+(e) Mais de R$12000,00.
+
+11. Avalie, de 1 a 5 (sendo 1, pouca dificuldade e 5, muita dificuldade), como foram as
+dificuldades que você encontrou na profissão?
+
+(a) Apresentação em público.
+(b) Falta de cursos relacionados à área.
+(c) Fluência em lı́nguas estrangeiras.
+(d) Motivação da equipe.
+(e) Outras.
+
+12. Qual o principal motivo para você não atuar na área de informática?
+
+(a) Falta de perspectiva de carreira.
+(b) Mercado de trabalho atual saturado.
+(c) Melhor oportunidade em outra profissão.
+(d) Trabalho na área da minha segunda formação.
+(e) Outro.
+
+13. Por que você não está empregado?
+
+(a) Falta de oportunidade. (c) Me dedico aos estudos.
+(b) Não preciso/ Não quero.
+
+
+
+85
+
+Empresa em que trabalha
+
+1. Qual o ramo da empresa que você trabalha?
+
+(a) Aeroespacial e defesa.
+(b) Automobilı́stica.
+(c) Fundos de aposentadoria e de pensão.
+(d) Indústria farmacêutica.
+(e) Maquinas e equipamentos.
+(f) Organização sem fins lucrativos.
+(g) Setor público.
+(h) Serviços.
+(i) Tecnologia da informação.
+(j) Telecomunicações.
+(k) Outro.
+
+2. Quantas pessoas trabalham na empresa?
+
+(a) Menos de 10. (c) Entre 21 e 35. (e) Entre 51 e 100.
+(b) Entre 10 e 20. (d) Entre 36 e 50. (f) Mais de 100.
+
+Mercado de trabalho
+
+1. Classifique os itens abaixo de acordo com a importância deles para entrada no mercado
+de trabalho.
+
+Importância Instituição Trabalho Experiência Fluência Disponibilidade para
+de ensino em equipe no mercado em lı́nguas trabalhar horas extras
+
+1
+2
+3
+4
+5
+Não se aplica
+
+
+
+86
+
+2. Avalie de 1 a 5 como os itens abaixo ofereceram um base diferenciada se comparada com
+colegas de trabalho. (Utilize 1 para pouco diferenciada e 5 para muito diferenciada).
+
+(a) Adaptação às mudanças. (f) Eficiência na produção.
+(b) Aprendizado de novas técnicas. (g) Liderança.
+(c) Aptidão empreendedora.
+(d) Capacidade analı́tica. (h) Visão ampla de organização.
+
+(e) Criatividade. (i) Visão de novas tendências.
+
+3. Com que frequência você utiliza as disciplinas abaixo no seu ambiente de trabalho.
+
+Disciplina Usa efeti- Usa indiretamente Usa indiretamente Nunca Não fiz a
+vamente e é indispensável e é dispensável usou disciplina
+
+Algoritmo e estru-
+tura de dados
+
+Arquitetura de
+software
+
+Banco de dados
+
+Cálculo di-
+ferencial e
+integral
+
+Compiladores
+
+Computador e so-
+ciedade
+
+Economia
+
+Empreendedorismo
+e inovação
+
+Engenharia de
+software
+
+Fundamentos da
+administração
+
+Fı́sica
+
+Fundamentos
+da teoria da
+computação
+
+Geometria
+analı́tica e álgebra
+linear
+
+Gestão ambiental
+
+Gestão da
+diversidade nas
+organizações
+
+Contabilidade
+
+Gestão de projetos
+
+Gestão da
+informação
+
+Inglês
+
+Iniciação a
+estatı́stica
+
+Introdução a
+ciência dos dados
+
+
+
+87
+
+Disciplina Usa efeti- Usa indiretamente Usa indiretamente Nunca Não fiz a
+vamente e é indispensável e é dispensável usou disciplina
+
+Introdução a sis-
+tema lógicos e di-
+gitais
+
+Libras
+
+Linguagem de
+programação
+
+Meta-heurı́stica
+
+Matemática
+discreta
+
+Matemática finan-
+ceira
+
+O ser e as
+organizações
+
+Organização de
+computadores
+
+Pesquisa operacio-
+nal
+
+Português instru-
+mental
+
+Processamento di-
+gital de imagens
+
+Programação
+
+Programação ori-
+entada à objetos
+
+Projeto de siste-
+mas para web
+
+Projeto e análise
+de algoritmos
+
+Redes de compu-
+tadores
+
+Sistema dis-
+tribuı́dos e
+paralelos
+
+Sistemas embarca-
+dos
+
+Sistemas operaci-
+onais
+
+Teoria e modelo
+de grafos
+
+Teoria geral da
+administração
+
+
+
+88
+
+Tecnologia
+
+1. Com qual frequência você utiliza as seguintes linguagens de programação no seu traba-
+lho? (Utilize 1 para pouco utilizada e 5 para muito utilizada).
+
+(a) Java. (g) Ruby. (m) TypeScript. (s) Assembly.
+(b) JavaScript. (h) PHP. (n) Go. (t) Cobol.
+(c) Python. (i) R. (o) ASP.
+
+(u) ML.
+(d) C. (j) Objective-C. (p) Pascal.
+(e) C++. (k) Kotlin. (q) Visual Basic. (v) Verilog.
+
+(f) C. (l) Delphi. (r) .Net. (w) Outras.
+
+2. Com qual frequência você utiliza os seguintes SGBDs no seu trabalho? (Utilize 1 para
+pouco utilizada e 5 para muito utilizada).
+
+(a) Mysql. (g) Microsoft Acces.
+(b) Oracle. (h) Teradata.
+(c) Microsoft Sql Server.
+
+(i) Paradx.
+(d) PostgreSQL.
+(e) MongoDB. (j) Cache.
+
+(f) Db2. (k) Outros.
+
+3. Com qual frequência você utiliza os seguintes sistemas operacionais no seu trabalho?
+(Utilize 1 para pouco utilizada e 5 para muito utilizada).
+
+(a) Windows. (c) Mac. (e) Outros.
+(b) Linux. (d) Netware.
+
+Lazer, saúde e cidadania
+
+1. Você fuma?
+
+(a) Sim. (b) Não.
+
+2. Você faz algum trabalho voluntário?
+
+(a) Sim. (b) Não.
+
+
+
+89
+
+3. Qual a sua média de sono?
+
+(a) Menos de 2 horas. (c) Entre 4 a 6 horas. (e) Entre 8 a 10 horas.
+(b) Entre 2 a 4 horas. (d) Entre 6 a 8 horas. (f) Mais de 10 horas.
+
+4. Você pratica esportes?
+
+(a) Sim. (b) Não.
+
+5. Quais esportes você pratica?
+
+(a) Atletismo. (c) Futebol. (e) Vôlei.
+(b) Basquete. (d) Musculação. (f) Outros
+
+Satisfação
+
+1. Classifique as opções abaixo de acordo com o grau de influência dele na sua escolha em
+cursar o Bacharelado em Ciência da Computação. (Utilize 1 para pouco influência e 5
+para muito influência).
+
+(a) Curso fácil de entrar. (c) Interesse na área. (e) Outras.
+(b) Curso fácil de fazer. (d) Mercado de trabalho.
+
+2. Classifique as opções abaixo de acordo com o grau de influência dele na sua escolha em
+estudar na Universidade Federal de Viçosa - Campus Florestal. (Utilize 1 para pouco
+influência e 5 para muito influência).
+
+(a) Infraestrutura. (d) Menor nota para entrar.
+(b) Custo de vida. (e) Possibilidade de bolsa.
+(c) Localidade. (f) Outras.
+
+3. Como foi atendida suas expectativas do curso em relação à formação profissional?
+
+(a) Péssima. (c) Regular. (e) Ótima.
+(b) Ruim. (d) Boa.
+
+4. As disciplinas especı́ficas foram adequadas para o bom desempenho profissional?
+
+(a) Um pouco. (b) Muito. (c) Não.
+
+
+
+90
+
+5. Como você classifica os itens abaixo?
+
+Classificação Aulas Laboratórios Biblioteca Salas de aula Outros
+Péssimo
+Ruim
+Indiferente
+Bom
+Ótimo
+
+6. Como você avalia a importância dessa pesquisa?
+
+(a) Muito importante. (c) Indiferente. (e) Sem importância.
+(b) Importante. (d) Pouco importante.

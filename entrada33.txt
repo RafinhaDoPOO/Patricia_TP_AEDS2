@@ -1,0 +1,409 @@
+﻿Padrão Strategy aplicado à geração de múltiplas visões de dados
+na biblioteca ColMinerRT
+
+Santiago Souza Gláucia Braga e Silva
+Federal University of Viçosa Federal University of Viçosa
+Florestal, Minas Gerais, Brasil Florestal, Minas Gerais, Brasil
+
+santiago.souza@ufv.br glaucia@ufv.br
+RESUMO GitHub e nos tópicos de discussão do StackOverflow, com o intuito
+A utilização de padrões de projeto permite ao desenvolvedor aplicar de avaliar o quão relevantes os comentários são para uma determi-
+estratégias vastamente testadas em um domínio específico. Este tra- nada discussão. Com esse padrão, espera-se melhorar a arquitetura
+balho faz uso do padrão Strategy para melhorar a manutenibilidade da ColMinerRT, incluindo uma nova camada de apresentação que
+e extensibilidade da arquitetura da biblioteca ColMinerRT, que tem disponibilize múltiplas visões estruturadas dos dados de relevância
+como finalidade importar dados da ferramenta GitHub, realizar o temática calculados e outras informações associadas que também
+cálculo da relevância temática e persisti-lo em um arquivo formato foram coletadas das bases de dados, que possam ser exportadas em
+CSV. O padrão foi aplicado para se criar um novo mecanismo de algum formato intercambiável para fins de análises futuras mais
+geração dos dados a serem exportados, incluindo uma nova camada detalhadas em outras ferramentas de apoio.
+de apresentação que disponibilize múltiplas visões estruturadas dos Espera-se que esse refinamento do projeto arquitetural da biblio-
+dados. Após a aplicação do padrão, foi possível observar ganhos teca ColMinerRT possa trazer melhorias em termos de extensibi-
+em termos de manutenibilidade e extensibilidade, uma vez que o lidade e manutenibilidade do código, em especial no que compete
+código ficou mais organizado e mais desacoplado, permitindo que, à funcionalidade de geração/exportação dos dados resultantes do
+no futuro, novas visões sejam adicionadas. cálculo da métrica de relevância temática. Essa funcionalidade está
+
+implementada na versão original de forma muito acoplada e de
+CCS CONCEPTS difícil manutenção. Para gerar dados mais simplificados ou mudar
+• Software and its engineering → Designing software; Software o formato de exportação dos dados, o usuário da biblioteca teria
+design engineering. que alterar o código internamente, o que fere o encapsulamento e
+
+pode causar problemas de funcionamento.
+KEYWORDS O restante deste artigo está organizado da seguinte forma: na
+
+Seção 2, apresenta-se uma fundamentação acerca do padrão Strategy
+Padrão de projeto, manutenibilidade, extensibilidade e sua influência em termos dos atributos de qualidade abordados;
+ACM Reference Format: a Seção 3 traz os trabalhos relacionados; A aplicação do Strategy
+Santiago Souza and Gláucia Braga e Silva. 2022. Padrão Strategy aplicado à no contexto da biblioteca ColMinerRT é apresentada na Seção 4;
+geração de múltiplas visões de dados na biblioteca ColMinerRT. In Procee- a prova de conceito da arquitetura na Seção 5; e as considerações
+dings of UNIVERSIDADE FEDERAL DE VIÇOSA campus FLORESTAL, Traba- finais, na Seção 6.
+lho de conclusão de Curso (UFV 2022). ACM, New York, NY, USA, 8 pages.
+https://doi.org/10.1145/nnnnnnn.nnnnnnn
+
+2 PADRÃO DE PROJETO STRATEGY E
+1 INTRODUÇÃO QUALIDADE DE SOFTWARE
+A utilização dos padrões de projeto permite ao desenvolvedor apli- Um padrão de projeto é uma descrição de uma solução genérica,
+car estratégias vastamente testadas em um domínio específico [3]. resultante de uma vasta busca realizada por especialista em sistemas
+Eles podem ser utilizados para atender às especificações de nor- existes por soluções semelhantes aplicadas a domínios distintos [7].
+mas como a ISO/IEC 25010, que priorizam atributos de qualidade Após a identificação desses designs brutos, realiza-se a remoção do
+como eficiência, manutenibilidade, extensibilidade, desacoplamento domínio de aplicação, mantendo apenas sua estrutura básica.
+e portabilidade. O padrão de projeto Strategy “define uma família de algoritmos,
+
+Este trabalho propõe o uso do padrão de projeto Strategy, no encapsula cada um deles e os torna intercambiáveis” [3, p. 292].
+contexto da biblioteca ColMinerRT, voltada ao cálculo da relevância O uso desse padrão permite que a aplicação Cliente defina qual
+temática de comentários postados no ambiente de issue tracking do algoritmo utilizar e quando executar, mas não tem acesso direto a
+
+sua execução. Ele é aplicado, quando há a necessidade de múltiplas
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed variantes para o mesmo algoritmo, quando uma classe possui várias
+for profit or commercial advantage and that copies bear this notice and the full citation operações chamadas por vários condicionais, entre outras [3, p.
+on the first page. Copyrights for components of this work owned by others than ACM 293].
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish,
+to post on servers or to redistribute to lists, requires prior specific permission and/or a A Figura 1 apresenta uma versão com uma pequena adaptação
+fee. Request permissions from permissions@acm.org. de Gamma et al. [3] para o diagrama de classes do padrão de projeto
+UFV 2022, Abril 01–04, 2022, Florestal, MG Strategy.
+© 2018 Association for Computing Machinery.
+ACM ISBN 978-x-xxxx-xxxx-x/YY/MM. . . $15.00 As classes que representam o Strategy possuem as seguintes
+https://doi.org/10.1145/nnnnnnn.nnnnnnn responsabilidades:
+
+
+
+UFV 2022, Abril 01–04, 2022, Florestal, MG Santiago Souza and Gláucia Braga e Silva
+
+O padrão Strategy é uma alternativa interessante para a herança,
+já que ele decompõe códigos voláteis, encapsulando-os como ob-
+jetos e os usa quando necessário. Esse padrão respeita o princípio
+(OCP) [11], uma vez que se baseia na extensibilidade e reutilização
+para promover a flexibilidade do código. Dessa forma, nenhuma
+modificação em classes existentes é requerida, em mudanças e ma-
+nutenções futuras.
+
+A manutenibilidade trata de realizar o menor esforço para mo-
+dificar um software ([8] citado por [5]). Ferreira et al.[5] também
+reforçam as afirmações de Pigoski[10] sobre o esforço para manu-
+
+Figura 1: Diagrama geral do padrão de projeto Strategy tenção, sendo 25% emmanutenção adaptativa (capacidade de ajustar
+o software as mudanças do ambiente), 20% em corretiva (reparação
+de defeitos) e 55% em evolutiva (adição de novas funcionalidades).
+
+• Cliente: Define entre as estratégias disponíveis qual utilizar, Extensibilidade é a qualidade de ser extensível. No contexto de
+mas não sabe como é usada.1 software, corresponde a uma especialização da manutenibilidade,
+
+• Contexto: Possui a operação que executa o ImplementaS- que trata da capacidade de um software ou sistema de aumentar
+trategy que o Cliente definiu. suas funcionalidades[4].
+
+• Strategy: Interface ou classe abstrata que define uma polí-
+tica. 3 TRABALHOS RELACIONADOS
+
+• ImplementaStrategy: Implementa a política definida pela Figielska [6] propõe o uso dos padrões Strategy e Template Method
+Strategy, podendo, com isso, ser usado pelo contexto. no contexto de um programa de agendamento usando o mesmo
+
+Dentre as vantagens de se usar o Strategy, destacam-se: a) permite algoritmo meta-heurístico. Os padrões são usados na criação de
+a troca do algoritmo entre múltiplas estratégias; b) reduz o uso de duas soluções para remover a existência de múltiplos comandos
+condicionais; c) gera o desacoplamento das estratégias e das demais condicionais na implementação da meta-heurística Simulated an-
+classes; e d) facilita a inclusão de novas estratégias. nealing, composta de duas execuções possíveis, uma sequencial e
+
+Dentre as desvantagens de seu uso, pode ocorrer: a) o aumento outra paralela. O uso dos padrões melhora o princípio (OCP) do
+do número de objetos em uso; b) a exigência de que o Cliente tenha SOLID [1], aumenta a extensibilidade por facilitar a implementação
+ciência das estratégias disponíveis; c) Em implementações, pode de novas meta-heurísticas e remove a necessidade de manutenções
+acarretar desperdício dememória caso utilize uma politica complexa nas existentes. Rana et al. [11] aplicaram os padrões Strategy e
+[3, p. 296]. Decorator, em conjunto com dois dos princípios do SOLID (SRP) e
+
+(OCP) em um sistema orientado a objeto, para medir a flexibilidade
+2.1 Atributos de Qualidade de Software de software.
+
+O uso do Strategy também é usado em ferramentas para refatora-
+Este trabalho aborda melhorias na arquitetura de software, no que ção automática de código com intuito de aumentar a extensibilidade
+diz respeito à manutenibilidade e à extensibilidade de código. [2]. O trabalho usa o padrão, por meio de polimorfismo para elimi-
+
+Quando se fala em manutenibilidade e extensibilidade no con- nar odores no código (code smells) que estão relacionados ao uso
+texto da Orientação a Objetos (O.O), é importante considerar os extensivo de declarações condicionais complexas.
+cinco princípios SOLID [1] :
+
+• S - Single Responsibility Principle (SRP) ou Princípio da Res- 4 APLICAÇÃO DO STRATEGY NA BIBLIOTECA
+ponsabilidade Única, que recomenda que uma classe deveria COLMINERRT
+ter uma, e apenas uma, razão para mudar; Esta seção apresenta os resultados da aplicação do padrão Stra-
+
+• O -Open Closed Principle (OCP) ou Princípio Aberto-Fechado, tegy no refinamento da arquitetura da biblioteca ColMinerRT, no
+que diz que objetos devem estar abertos para extensão, mas que compete à geração/exportação dos dados com as relevâncias
+fechados para modificação; temáticas calculadas.
+
+• L - Liskov Substitution Principle (LSP) ou Princípio da substi-
+tuição de Liskov, que diz que uma classe derivada deve ser 4.1 A biblioteca ColMinerRT
+substituível por sua classe base; A biblioteca ColMinerRT faz parte do projeto de modularização
+
+• I - Interface Segregation Principle (ISP) ou Princípio da Segre- da ferramenta ColMiner, proposta por Neto e Braga e Silva [9]. A
+gação da Interface, que recomenda que uma classe não deve biblioteca ColMinerRT se concentra na funcionalidade do cálculo
+ser forçada a implementar interfaces e métodos que não irá da relevância temática sobre as mensagens das discussões em issue
+utilizar; e tracking ou em fóruns de discussão do StackOverflow. As principais
+
+• D - Dependency Inversion Principle (DIP) ou Princípio da funcionalidades da biblioteca abrangem:
+Inversão de Dependência, que recomenda a dependência de
+abstrações e não de classes concretas (implementações). • Importar dados: Coleta dados no ambiente de issue tracking
+
+do GitHub e nos tópicos de discussão do StackOverflow.
+• Calcular relevância temática: Consiste em gerar um valor
+
+1Não representado no diagrama de referência. que representa a relevância de cada mensagem em relação
+
+
+
+Padrão Strategy aplicado à geração de múltiplas visões de dados na biblioteca ColMinerRT UFV 2022, Abril 01–04, 2022, Florestal, MG
+
+ao termo em discussão. Para isso, faz uso da métrica de rele- refinada. O refinamento restringe-se ao escopo da operação ge-
+vância temática [9] rarCSVGitHub() da classe CalculoRelevanciaFachada, responsável
+
+• Exportar dados com relevâncias: Armazena os dados com por gerar os dados com as relevâncias temáticas. Nesse contexto,
+as relevâncias calculadas em um arquivo CSV, por ser um foi aplicado o padrão Strategy, conforme mostra a Figura 4.
+formato intercambiável compatível com várias ferramentas, Para facilitar a interpretação do diagrama, foi ocultado o con-
+onde se pode utilizar o arquivo para gerar novas análises junto de classes internas à biblioteca ColMinerRT por não terem
+sobre os dados. sido modificadas. Essas classes estão representadas na cor cinza no
+
+Na Figura 2, pode-se observar o diagrama de classes da bibli- diagrama.
+oteca ColMinerRT. O modelo é composto pelas classes: Cliente, Foi necessário fazer uma refatoração na classe CalculoRelevan-
+que representa a aplicação Cliente da biblioteca; CalculoRelevan- ciaFachada. A operação gerarCSVGitHub() foi substituída por
+ciaFachada, uma classe de fronteira destinada a interagir com a criarVisualizador() e as demais operações mantidas inalteradas.
+classe Cliente e possibilitar a execução das operações existentes A nova operação permite ao Cliente acessar as classes que imple-
+na biblioteca; classes de controle representadas em vermelho, como mentam o padrão Strategy e por meio destas gerar o arquivo CSV,
+a CalculoRelevanca; e classes de modelo, representadas em azul. utilizando uma das visões.
+
+Do ponto de vista do projeto arquitetural e das responsabilidades As demais classes referem-se à aplicação do Strategy e estão
+de suas classes, algumas particularidades merecem destaque: descritas abaixo:
+
+• CalculoRelevanciaFachada: Responsável por simplificar e • VisualizadorGitHub: Ocupa a função de Contexto, armaze-
+centralizar os acessos às funcionalidades da biblioteca, per- nando a visaoStrategy e possui quatro operações: gerarCSV(),
+mitindo realizar seis operações distintas (três para cada fonte responsável por pegar o resultado da visão e armazenar no
+de dados): duas versões processarDados(), que comunica arquivo CSV. Essa operação permite escolher quais colunas e
+com as APIs para importar os dados de cada repositório; em qual ordem serão persistidas, sendo necessário informar
+duas de CalcularRelevânciaTemática, que junto da classe uma lista de chaves; para saber quais chaves podem ser in-
+especializadas realiza a medição que permite criar um valor formadas utiliza-se a operação colunasDisponiveis(), que
+que representa a relevância temática para cada comentá- retorna uma lista de chaves, que varia a depender do com-
+rio; e duas gerarCSV() responsável por criar o arquivo CSV portamento da visão; setVisao() permite alterar a interface
+seguindo uma regra para escolha dos dados exportados. VisaoStrategy e, por consequência, alterar a visão sobre os
+
+• ControladoraAPIGitHub: Pormeio de suas duas operações dados persistidos; e a operação colunasApresentar(), limi-
+acessa a APIGitHub para importar os dados deste repositório. tada ao escopo da classe, remove as colunas que não estão
+
+• ControladoraAPI: Pormeio de suas quatro operações acessa na lista de chaves.
+a APIStackOverFlow, importa os dados e constrói um objeto • VisaoStrategy: É uma Interface que define uma regra co-
+"Topico". mum as classes, que a implementam, permitindo que a classe
+
+• CalculoRelevancia: Realiza operações que resultam no va- VisualizadorGitHub possa utilizar todas as classes derivadas.
+lor da Relevância Temática. • FerramentasVisao: Classe composta por três operações
+
+• Projeto: Armazena os dados de um repositório do GitHub. destinadas a auxiliar as implementações da VisaoStrategy.
+• Topico: Armazena os dados das Issues do GitHub ou de Como exemplo de uso foram criadas cinco implementações da
+Tópicos do Stack Overflow. VisaoStrategy, denominadas visões, sendo uma com comportamento
+
+• Comentario: Armazena os dados dos comentários e arma- simples e quatro mais complexas. A VisaoPadrao converte o ob-
+zena o resultado do cálculo da Relevância Temática. jeto Projeto para o formato usado por gerarCSV(), permitindo
+
+A funcionalidade alvo deste trabalho é a "Exportar dados com gerar o mesmo arquivo que a biblioteca ColminerRT, sendo esta
+as relevâncias"e só considera a aplicação da biblioteca para dados visão definida como a padrão, caso não seja informada outra vi-
+do GitHub. Na versão corrente, o principal resultado é a geração são ao criar o VisualizadorGitHub. As demais visões compartilham
+de um arquivo CSV com os dados das relevâncias calculadas. Este de uma mesma estrutura: a) Ordenar os dados com base em um
+arquivo é criado na classe CalculoRelevanciaFachada, por meio atributo pertencente a uma das classes de modelo, o que tende a
+da operação gerarCSVGitHub(). O arquivo gerado apresenta uma criar grupos, devido a equivalências de dados; e b)Ordenar estes
+estrutura de tabela, composta por linhas e colunas, onde na primeira grupos seguindo outro atributo que nestes exemplos foi a relevan-
+linha expõe uma lista de nomes para as colunas. Estes nomes são ciaTematica, da maior relevância para a menor. As outras quatro
+definidos dentro da operação junto da escolha de quais atributos visões são: 1) VisaoRelevanciaTematicaPorData, que utiliza o
+serão persistidos e se transformam em colunas no arquivo. A Figura atributo data2 pertencente à classeComentário. 2)VisaoRelevan-
+3 apresenta um exemplo de um arquivo CSV gerado pela biblioteca ciaTematicaPorStatus, que utiliza o atributo status encontrado
+e aberto em um editor de planilhas para visualização. na classe Topico, que também realiza um filtro para apresentar
+
+apenas comentários criadas no ano de 2022; 3) VisaoRelevanci-
+aTematicaPorAutor, que utiliza o atributo Autor pertencente à
+
+4.2 Arquitetura com o Strategy
+Com o intuito de prover uma arquitetura mais extensível e de fá-
+cil manutenção no que compete à geração das múltiplas visões 2Esse atributo na verdade possui data e hora, por isso foi utilizada apenas a informação
+dos dados de relevâncias temáticas calculadas, a arquitetura foi de data para criar grupos por dia.
+
+
+
+UFV 2022, Abril 01–04, 2022, Florestal, MG Santiago Souza and Gláucia Braga e Silva
+
+Figura 2: Diagrama de Classes da biblioteca ColMinerRT
+
+Figura 3: Exemplo de arquivo CSV exportado pela ColMinerRT e aberto na ferramenta Google Sheets
+
+classe Comentário; e 4) VisaoRelevanciaTematicaPorComen- 5 PROVA DE CONCEITO DA ARQUITETURA
+tario, que utiliza o atributo mensagem também pertencente à classe Esta seção apresenta as refatorações em código decorrentes da
+Comentário. aplicação do Strategy na arquitetura da biblioteca ColminerRT e
+
+
+
+Padrão Strategy aplicado à geração de múltiplas visões de dados na biblioteca ColMinerRT UFV 2022, Abril 01–04, 2022, Florestal, MG
+
+Figura 4: Diagrama de Classes da biblioteca ColMinerRT com a adição do padrão de projeto Strategy
+
+também alguns exemplos de uso dos dados, a partir das visões um arquivo semelhante pode ser vista na Figura 6.
+geradas.
+
+5.1 Refatorações em código
+Aqui serão apresentadas as mudanças na implementação do có-
+digo para uso da biblioteca, focando nas mudanças realizadas na Figura 6: Trecho de código com a nova forma de criar o ar-
+aplicação Cliente, discutindo ganhos e perdas. Os códigos foram quivo CSV, na biblioteca ColminerRT
+produzidos em Python e são apresentados aqui como recortes para
+os trechos modificados e ou inseridos. Pode-se observar que a nova versão é mais complexa e menos
+
+A Figura 5 mostra como era a chamada do método gerarCSV- direta, mas isso acontece apenas nesta chamada. Contudo, a nova
+GitHub(), responsável por gerar o arquivo CSV, na versão corrente forma de criar o arquivo permite escolher quais colunas apresentar.
+sem o padrão. Após a aplicação do Strategy, a nova forma de criar É como se repetisse a linha dois da Figura 6, passando como pa-
+
+râmetro uma lista com as colunas de interesse. Na versão original
+da biblioteca ColminerRT, não seria possível para o Cliente fazer
+as mesmas operações, cabendo ao usuário a responsabilidade de
+remover as colunas irrelevantes, após a geração do arquivo.
+
+Figura 5: Trecho de código com a forma original de criar o Para a utilizar as visões na versão da biblioteca ColminerRT com
+arquivo CSV, na biblioteca ColminerRT o Strategy, são necessárias poucas linhas de código, como pode
+
+
+
+UFV 2022, Abril 01–04, 2022, Florestal, MG Santiago Souza and Gláucia Braga e Silva
+
+ser visto na Figura 7. Neste trecho de código, a primeira linha cria arquivo em projetos distintos ou refazer a mesma análise de forma
+o contexto usando a visão VisaoRelevanciaTematicaPorAutor ; e na recorrente.
+segunda, gera-se um arquivo com apenas duas colunas, que será Como forma de mostrar as vantagens da utilização da nova ver-
+persistido seguindo a ordem na lista passada como parâmetro. Na são da biblioteca ColminerRT com uso do Strategy, serão apresen-
+terceira linha, altera-se a visão em uso e, na quarta, gera-se outro ar- tados exemplos de uso dos dados das visões, sempre discutindo
+quivo, agora usando a nova visão, além de ter sido escolhidas outras os ganhos obtidos em relação à versão anterior. Para isso, serão
+colunas para persistir. Essa mesma execução não seria possível na utilizados dados exportados em duas das visões propostas na seção
+versão original da biblioteca ColminerRT, sem haver modificação 4.2, com geração de gráficos na ferramenta Google Sheets3. Para
+do código interno da biblioteca por parte do Cliente, que precisaria este fim, foram utilizados dados públicos do repositório Xmonad4,
+editar o método gerarCSVGtiHub(), e esta edição teria validade disponível no GitHub. Os exemplos apresentados possuem a fina-
+curta, pois quando necessário exportar um arquivo diferente teria lidade exclusiva de mostrar a utilização da biblioteca e não a de
+que ser modificado novamente. analisar os dados do repositório em si.
+
+Um exemplo simples dos ganhos na utilização das visões pode ser
+visto na Tabela 1, que apresenta a visão "Relevância Temática por
+Autor". Nessa visão, são apresentadas apenas duas informações: o
+autor e as relevâncias de todos os comentários postados, ordenadas
+de forma decrescente. Os valores do campo loginAutorComentario
+são agrupados por autor e a primeira linha de cada grupo traz
+a maior relevância temática para os comentários daquele autor.
+As demais linhas seguem em ordem decrescente. Para ter acesso
+
+Figura 7: Criando dois arquivos cada um com sua visão aos mesmos dados na versão original, seria necessário fazer uma
+seleção/recorte, a partir das 18 colunas geradas no CSV padrão
+
+Na Figura 8, é apresentado um exemplo genérico de uma classe (Figura 3), tarefa muito mais trabalhosa e humano-dependente.
+visão, que poderia ser usada pelos usuários da biblioteca para criar,
+de forma personalizada, visões que atendam diferentes necessidades loginAutorComentario relevanciaComentario
+de visualização dos dados e que facilitem análises futuras em outras 2shrestha22 0,03693260312
+ferramentas. 2shrestha22 0,01150358369
+
+2shrestha22 0,0001022704029
+ashincoder 0,008293026522
+ashincoder 0,006687178855
+AusCyberman 0,1548215249
+AusCyberman 0,0436499175
+AusCyberman 0,008763645465
+burunduk3 0,06015617353
+burunduk3 0,02458671272
+burunduk3 0,01145639106
+dmwit 2,95E-05
+doums 0,07944822765
+doums 0,01073306427
+doums 0,002770651712
+drewbarbs 0,06769878044
+
+Figura 8: Estrutura básica de uma visão duplode 0,1262261712
+ekmett 0,02227402122
+
+Essa nova possibilidade de utilizar múltiplas visões simplifica elkowar 0,02227402122
+significativamente a manutenibilidade. Novas visões sobre os dados exorcist365 0,01746620751
+não resultam em modificações em classes existentes da biblioteca, fabiodl 0,07697864798
+mas sim na adição de uma nova classe, que passa a fazer parte fabiodl 0,07697864798
+do conjunto de visões. Com tudo, a aplicação Cliente precisa ser geekosaur 0,4992112488
+modificada caso pretenda fazer uso das novas visões. geekosaur 0,4982220862
+
+Tabela 1: Exemplo que arquivo .csv transformado em tabela,
+5.2 Uso da biblioteca ColMinerRT utilizou a visão Relevância por Autor
+Na versão original, a biblioteca ColminerRT exporta os dados em
+um arquivo com 18 colunas (Figura 3), deixando a cargo do usuá-
+rio duplicar o arquivo e remover as colunas não desejadas. Isso
+resulta em desperdício de tempo por parte do usuário, principal- 3https://www.google.com/sheets/about/
+mente quando se pretende utilizar a mesma estrutura interma do 4https://github.com/xmonad/xmonad/
+
+
+
+Padrão Strategy aplicado à geração de múltiplas visões de dados na biblioteca ColMinerRT UFV 2022, Abril 01–04, 2022, Florestal, MG
+
+Os dados gerados na visão poderiam ser facilmente visualizados dados dessa visão poderiam ser cruzados com outros dados das
+em algum ferramenta de geração de gráficos ou até mesmo utiliza- issues, em análises futuras, como por exemplo, tempo de resolução
+dos no cálculo de alguma métrica ou análise estatística, a critério com o intuito de avaliar, por exemplo, se a relevância impacta no
+do usuário. A Figura 9 apresenta um gráfico gerado com os dados tempo de resolução. Onde este parâmetro é composto do resultado
+dessa visão. Nele, pode-se visualizar, por exemplo, quais autores da subtração de data de fechamento da issue pela data de sua criação.
+possuem comentários relevantes e os que possuem o maior número Para issues que se encontram em aberto, a data de fechamento ainda
+de comentários. Essas informações podem ser usadas por um ge- não existe, por isso pode ser usada em substituição a data do último
+rente de projetos, em conjunto com outras análises, para mensurar, comentário.
+por exemplo, o envolvimento e a qualidade das participações de
+membros em um projeto.
+
+Figura 10: Relevância temática no período de 2022 por status
+Figura 9: Relevância temática no por Autor Comentário, das Issues
+usando a mesma fonte de informações da Tabela1
+
+Um segundo exemplo de um arquivo CSV gerado, usando a visão
+"Relevância Temática por Status das Issues", pode ser visualizado 6 CONCLUSÃO
+na Tabela 2. Nesse recorte de dados, tem-se três colunas: idTopico Este trabalho apresentou os resultados da aplicação do padrão Stra-
+statusTopico e relevanciaComentario. tegy em uma funcionalidade da biblioteca ColMinerRT. Essa revisão
+
+no projeto da arquitetura trouxe ganhos importantes em termo
+idTopico statusTopico relevanciaComentario de manutenibilidade e extensibilidade do código, em especial, por
+1144832458 closed 0,1688622452 propiciar o desacoplando da classe bibliotecaColMinerRTFachada.
+1098238192 closed 0,1081061795
+1098238192 closed 0,0877012043 Houve melhoria no contexto do mecanismo de geração dos dados
+1098238192 closed 0,0612397314 em um formato intercambiável, permitindo agora a geração de múl-
+1093918803 closed 0,0444178372 tiplas visões, escolhidas pelo usuário, ao invés de uma tabela única
+1119535474 closed 0,0083132683
+838934012 closed 0 com todos os dados. Com o uso das visões, criou-se um mecanismo
+1077896353 open 0,2422956823 para adição de micro funcionalidades, de fácil utilização por parte
+1073522144 open 0,1575319991
+1130498842 open 0,1545851503 do usuário, que pode vir a ter um leque de visões mais amplo. Por
+993927243 open 0,1405014142 fim, as mudanças aplicadas facilitam o uso posterior dos arquivos
+1022508325 open 0,1306193974 gerados em ferramentas específicas de geração de gráficos e análises
+992751744 open 0,0485278502
+1156244675 open 0,0034077172 estatísticas dos dados.
+
+Tabela 2: Recorte de um arquivo .csv para a visão Relevâncias Como trabalhos futuros, vislumbra-se: investigar o uso de outros
+por Status das Issues padrões de projeto que melhorem a coesão da classe CalculoRe-
+
+levanciaFachada, de forma a respeitar o princípio da responsa-
+bilidade única (SRP) do SOLID; criar novas visões para os dados
+gerados; e adicionar novos mecanismos para exportação dos dados
+
+Para ilustrar o uso desses dados, foi gerado um gráfico (Figura em formatos intercambiáveis, além do CSV.
+10), com status de Issues referentes ao ano de 2022 e as relevâncias
+dos respectivos comentários postados. Essa visão representa outro REFERÊNCIAS
+exemplo de arquivo CSV que a biblioteca ColminerRT original não [1] Uncle Bob. 2022. The Principles of OOD. http://butunclebob.com/ArticleS.
+é capaz de gerar, devido ao arquivo persistido não passar pela reor- UncleBob.PrinciplesOfOod
+ganização gerada pela visão e pelo filtro criado. Em uma observação [2] Aikaterini Christopoulou, E.A. Giakoumakis, Vassilis E. Zafeiris, and Vasiliki
+rápida do gráfico, percebe-se que os comentários mais relevantes Soukara. 2012. Automated refactoring to the Strategy design pattern. Information
+
+and Software Technology 54, 11 (2012), 1202–1214. https://doi.org/10.1016/j.infsof.
+do período pertencem a Issues que ainda se encontram abertas. Os 2012.05.004
+
+
+
+UFV 2022, Abril 01–04, 2022, Florestal, MG Santiago Souza and Gláucia Braga e Silva
+
+[3] Ralph Johnson John Vlissides Erich Gamma, Richard Helm. 2000. Padrões de Berlin Heidelberg, Berlin, Heidelberg, 114–134.
+Projeto: Soluções reutilizáveis de software orientado a objetos. Bookman Companhia [8] W. Li and S. Henry. 1993. Maintenance metrics for the object oriented paradigm.
+Editora, Porto Alegre, RS, BR. Trad. Luiz A. Meirelles Salgado.. In [1993] Proceedings First International Software Metrics Symposium. 52–60. https:
+
+[4] Mohamed Fayad and Marshall P. Cline. 1996. Aspects of Software Adaptability. //doi.org/10.1109/METRIC.1993.263801
+Commun. ACM 39, 10 (oct 1996), 58–59. https://doi.org/10.1145/236156.236170 [9] Luiz Eugênio Coelho Neto and Gláucia Braga e Silva. 2018. ColMiner: A Tool to
+
+[5] Isaias Ferreira, Antônio Maria de Resende, and Heitor Costa. 2012. Analysis Support Communications Management in an Issue Tracking Environment. In
+of the Impact of the Application of Design Patterns on the Maintainability of Proceedings of the XIV Brazilian Symposium on Information Systems (Caxias do
+an Object Oriented System. In Anais do XI Simpósio Brasileiro de Qualidade de Sul, Brazil) (SBSI’18). Association for Computing Machinery, New York, NY, USA,
+Software (Fortaleza). SBC, Porto Alegre, RS, Brasil, 341–348. https://doi.org/10. Article 50, 8 pages. https://doi.org/10.1145/3229345.3229398
+5753/sbqs.2012.15327 [10] Thomas M Pigoski. 1996. Practical software maintenance: best practices for mana-
+
+[6] Ewa Figielska. 2017. Using Template Method and Strategy Design Patterns in ging your software investment. Wiley Publishing.
+the Python Implementation of a Metaheuristic Algorithm for Solving Scheduling [11] Muhammad Ehsan Rana and Eddy Khonica. 2021. Impact of Design Principles
+Problems. Zeszyty Naukowe Warszawskiej Wyższej Szkoły Informatyki (2017). and Patterns on Software Flexibility: An Experimental Evaluation Using Flexible
+
+[7] Anthony Lauder and Stuart Kent. 1998. Precise visual specification of design Point (FXP). Journal of Computer Science 17, 7 (Jul. 2021), 624–638. https:
+patterns. In ECOOP’98 — Object-Oriented Programming, Eric Jul (Ed.). Springer //doi.org/10.3844/jcssp.2021.624.638

@@ -1,0 +1,692 @@
+﻿Aplicação de uma abordagem de gamificação em um aplicativo móvel de Rede de
+Sensoriamento Participativo
+
+Samuel Jhonata Soares Tavares, Daniel Mendes Barbosa e Thais Regina de Moura Braga Silva
+Instituto de Ciências Exatas e Tecnológicas
+
+Universidade Federal de Viçosa - Campus UFV-Florestal
+Florestal, Brasil
+
+Email: samueljhonatast@hotmail.com; {danielmendes; thais.braga}@ufv.br
+
+Resumo—Redes de Sensoriamento Participativo (RSP) so- por conter dados sobre temperatura e som, que só fazem
+frem com a falta de participação ativa dos usuários, implicando sentido em tempo real. Dessa forma, a gamificação é uma
+algumas vezes na baixa coleta de dados, o que pode interferir abordagem apropriada para um sistema como este, uma
+diretamente na qualidade de suas análises. Para reduzir esse
+problema, este trabalho aplica uma abordagem de gamificação, vez que ela é capaz de provocar uma participação perene,
+como mecanismo de incentivo intrínseco, a fim de melhorar constante, gradual, lúdica e prazerosa aos usuários do apli-
+e deixar mais prazerosa a utilização de um aplicativo RSP, cativo. Além disso, também é proposta uma abordagem
+para apoio a eventos, criado pelo “Núcleo de Estudos em quantitativa de controle de spam em opiniões enviadas pelos
+Sistemas Pervasivos e Distribuídos” (NesPED), da Universidade participantes. Os resultados obtidos com a aplicação da
+Federal de Viçosa, Campus Florestal. Ao utilizar elementos de
+jogos, como pontos, ranking e premiação, bem como a criação abordagem proposta durante um evento real, revelam um
+de grupos de usuários, para melhorar a interação entre os aumento quantitativo no envio de dados pelos participantes,
+participantes, e a elaboração de uma abordagem quantitativa sem interferências significativas em sua qualidade. Eles
+para inibir o envio de spam em opiniões, obteve-se um resultado também mostram que a gamificação foi mais efetiva quando
+importante no estudo de caso, realizado com participantes da comparada ao uso de outra abordagem extrínseca.
+Semana Acadêmica do curso de Ciência da Computação. O
+impacto foi significativo nos grupos que utilizaram o módulo O restante deste trabalho está dividido da seguinte forma:
+com gamificação, melhorando a interação e o engajamento a seção II traz uma visão geral sobre o aplicativo objeto deste
+dos usuários, gerando, assim, uma participação mais efetiva trabalho, Redes de Sensoriamento Participativo e Gamifica-
+no evento e, consequentemente, um aumento na quantidade ção. A seção III mostra alguns trabalhos relacionados, tanto
+de dados de feedback para os organizadores, aumentando em em produtos do mercado, quanto em trabalhos acadêmicos.
+quase 12 vezes mais a média de opiniões enviadas, sem impactar
+em sua qualidade. A seção IV define a abordagem de gamificação elaborada
+
+para a aplicação neste trabalho. Na seção V é mostrada,
+Keywords-Gamificação; RSP; Aplicativo Móvel; de forma geral, a implementação da abordagem proposta.
+
+A seção VI apresenta um estudo de caso realizado em um
+I. INTRODUÇÃO evento na universidade dos autores, com análises objetivas,
+
+Gamificação consiste em utilizar fora do contexto de por meio dos dados gerados, e subjetiva, por meio de
+jogos, elementos como pontuação, rankings, prêmios, ava- questionários aplicados aos participantes. Por fim, a seção
+tares, desafios, dentre outros, a fim de propiciar que o VII traz uma breve conclusão sobre o trabalho.
+usuário possa visualizar a evolução de seus “oponentes”
+e “amigos” [1]. Ela tem sido usada em diversos cenários, II. EVENTOS, SENSORIAMENTO PARTICIPATIVO E A
+
+desde aplicativos que compartilham informações sobre rotas GAMIFICAÇÃO
+
+de veículos, a incentivos a alunos em salas de aula. Um Eventos de qualquer natureza geram dados importantes,
+dos cenários em que ela pode ser empregada é em Redes que podem ser utilizados pelos seus organizadores para
+de Sensoriamento Participativo (RSPs), onde os usuários acompanhar a opinião de seus participantes e tomar ações
+enviam seus dados de forma voluntária e ativa, com o necessárias para um melhor aproveitamento do evento.
+objetivo de cooperar com a rede, sendo a gamificação uma Dessa forma, as RSPs se tornam uma boa ferramenta para
+forma de incentivo intrínseco para a produção desses dados. captar e canalizar esses dados, de forma a receber o feed-
+
+Este trabalho apresenta a modelagem, implementação back de seus usuários. No entanto, ferramentas desse tipo
+e avaliação de uma abordagem de gamificação para um sofrem devido à grande dependência da motivação dos seus
+sistema específico de apoio à participação em eventos. O usuários em enviar os dados de monitoramento. Técnicas
+sistema coleta diversos tipos de dados sobre as atividades de de incentivo podem ser utilizadas para aumentar a interação
+um evento por meio de seus participantes e, assim, o envio dos participantes, e a gamificação é uma delas. As subseções
+ativo e contínuo por parte destes é essencial, principalmente abaixo apresentam (1) um sistema RSP específico para apoio
+
+
+
+à participação em eventos, (2) alguns conceitos sobre RSP ou manter sua privacidade, por exemplo, pode optar por
+e (3) alguns conceitos sobre gamificação e seu uso em RSP. apenas usufruir da rede e não colaborar com ela [4]. Isso
+
+pode comprometer a RSP, já que, sem uma participação
+A. O sistema de apoio a eventos MyMobiConf adequada do usuário, é difícil haver uma boa coleta de dados.
+
+Este trabalho utiliza uma plataforma de apoio a eventos, A colaboração do usuário normalmente ocorre quando ele
+desenvolvida pelo “Núcleo de Estudos em Sistemas Perva- se sente beneficiado, ou seja, quando as recompensas que
+sivos e Distribuídos” (NesPED), da Universidade Federal de ele recebe são superiores aos custos que ele tem [3].
+Viçosa, Campus Florestal. O sistema conta com uma plata- Neste cenário de necessidade de motivar a participação
+forma web, para gerenciamento e uso dos administradores, dos usuários, surgem os mecanismos de incentivo, que
+e um aplicativo móvel, para apoio aos participantes e envio podem ser classificados como intrínsecos, quando não há
+de feedback aos organizadores do evento. [2]. incentivo monetário ou material e extrínsecos, quando o
+
+Na plataforma web, o administrador do evento pode usuário recebe algo de valor por colaborar [5]. Existem
+cadastrá-lo, juntamente com suas atividades, horários, locais várias formas para aplicar mecanismos intrínsecos para que
+e responsáveis e questionários. Também é possível acompa- o envio desses dados seja mais prazerosa e estimulante para
+nhar as notas dos usuários, e as opiniões que estes enviaram. o usuário. Uma delas, é o uso de gamificação [3], [1].
+
+No aplicativo móvel, o usuário tem acesso ao cadastro em
+um evento e a adicionar à sua agenda as atividades em que C. Gamificação
+irá participar, com dados sobre elas e notificações sobre sua Os jogos podem ser classificados de várias maneiras,
+hora de início. O aplicativo é o responsável pela coleta de observando alguns de seus aspectos. Jogos com propósito
+dados junto ao usuário. Durante a atividade é disponibilizado buscam, além de entretenimento e diversão, resolver algum
+ao usuário a opção de avaliar os confortos térmico e sonoro, problema, auxiliando e incentivando a execução das tarefas
+em um espectro que varia desde muito baixo a muito alto e, que farão cumprir o objetivo [6]. Jogos de informação
+de muito frio a muito quente, além de questionários a serem perfeita oferecem todas as informações necessárias para
+respondidos, com perguntas objetivas. Também é possível o jogador fazer sua jogada, como as possibilidades de
+avaliar a atividade entre 1 e 5 estrelas, podendo também escolha possíveis e suas vantagens e desvantagens, diferente
+enviar opiniões de texto livre durante todo o evento. dos jogos de informação imperfeita, que não oferecem
+
+Dessa forma, o sistema em questão é uma RSP específica todas essas informações, dependendo, também, das escolhas
+para monitoramento de eventos, coletando e canalizando de outros jogadores. Jogos finitos oferecem um número
+os dados disponibilizados por seus usuários, possibilitando limitado e analisável de alternativas de jogada, o que não
+monitorar as atividades realizadas durante o evento. acontece em jogos infinitos. Em jogos de soma zero, é
+
+preciso que alguém perca para o outro ganhar, diferente dos
+B. Rede de Sensoriamento Participativo jogos de soma não zero, onde todos podem ganhar [7].
+
+Uma RSP pode ser entendida como uma rede de coleta Para que os jogadores continuem a se interessar pelo jogo,
+de dados pessoais, onde, voluntariamente e de forma ativa, é necessário os motivar, e, para isso, é importante descobrir
+pessoas expõem informações, determinando o que pode ser o perfil de cada um. Bartle (1996) [8] propôs classificá-
+amostrado, de que forma é permitido que isso seja feito, los como: Empreendedores, jogam com o objetivo de
+além do momento e do lugar em que foi feito. Com ela, é ganhar, buscando sempre estar no topo, necessitando de
+possível monitorar o comportamento de um grupo de pessoas objetivos definidos para estarem motivados; Exploradores,
+aproximadamente em tempo real. A Internet e a populari- jogam com o objetivo de ganhar recompensas inesperadas;
+zação de dispositivos portáteis têm possibilitado uma maior Socializadores, jogam com o objetivo de se conectar com
+conexão e difusão dessas redes. O usuário é o elemento outras pessoas; Assassinos, jogam para ganhar de qualquer
+central, e pode enviar informações por meio de recursos maneira. Os mecanismos do jogo podem ser implementados
+encontrados em dispositivos móveis, ou de forma explí- de forma a incentivar esses comportamentos, focando em
+cita, como questionários. Essas redes possibilitam acesso a Ação ou Interação e Jogador ou Mundo Virtual. Para focar
+grandes volumes de dados, uma vez que, com a Internet, é em Ação, deve-se oferecer ao jogador várias opções para
+possível enviá-los de praticamente qualquer lugar do planeta, agir, bastando aumentar a quantidade de ações que ele pode
+facilitando a obtenção de informações que seriam de difícil realizar, ou em Interação, onde deve-se oferecer entreteni-
+acesso. Um fator importante é a alta escalabilidade das RSPs, mento, sem muita ação direta no jogo, bastando restringir
+uma vez que seus nós são autônomos, tornando o custo de a liberdade do jogador, oferecendo poucos caminhos de
+infraestrutura distribuído entre os participantes. [3] desenvolvimento. Para manter o foco no Jogador, deve-se
+
+A colaboração dos usuários nesse tipo de rede é de aumentar a interação entre os jogadores, oferecendo diversas
+extrema importância, uma vez que ela depende dos usuários opções de comunicação. Já para foco em Mundo Virtual,
+para a coleta dos dados, refletindo diretamente em sua é necessário aumentar a atenção do jogador aos elementos
+qualidade. Porém, o usuário para poupar bateria e dados, do jogo e diminuir o contato entre jogadores [9].
+
+
+
+Csikszentmihalyi (1990) [10], propôs a Teoria de Flow, III. TRABALHOS RELACIONADOS
+buscando entender o que leva uma pessoa a um estado de
+felicidade. Aplicando-a em jogos, deve-se ponderar o nível Algumas soluções para eventos apresentam aspectos se-
+de dificuldade com o de habilidade do jogador. Quando isso melhantes a este trabalho. Alguns sem gamificação, como é
+não acontece, ansiedade pode ser gerada em caso de baixa o caso da plataforma Even3, que proporciona organizar um
+habilidade e a oferta de muitos desafios. Por outro lado, evento científico, com inscrições, cadastro de atividades e
+quando há muita habilidade e pouco desafio, a sensação de formulários de avaliações, assim como este trabalho. Além
+tédio pode se instaurar entre os jogadores. Sendo assim, é disso, ela também oferece credenciamento, emissão de certi-
+importante analisar a ocorrência dessas situações, principal- ficados e criação de site do evento [17], e também de Event
+mente quando deve-se haver motivação implícita [11]. App, que permite criar uma agenda personalizada para cada
+
+O processo de gamificação, segundo Seaborn & Fels usuário, visualizar detalhes de atividades, patrocinadores
+(2015) [12], pode ser aplicado a partir da elaboração do e receber feedbacks dos usuários, além de espaço para
+uso de elementos de jogos em um contexto não considerado expositores e palestrantes, enviar arquivos, escrever notas
+de entretenimento, ou a partir da utilização em sistemas e manipular mapas de localização [18].
+já existentes, sem a necessidade de ser um jogo completo Já outras soluções, apresenta o uso de gamificação: InE-
+[13]. Esses elementos foram classificados como: Pontos, vent oferece agenda, notificações e perguntas aos participan-
+indicadores numéricos de progresso; Emblemas , elementos tes, como este trabalho, além de permitir envio de arquivos,
+visuais conquistados; Tabela de Liderança, ou ranking, apresentar mapas e conexões entre as pessoas, por meio de
+expondo a classificação dos participantes; Progressão, com redes sociais e chats. A gamificação permite criar jogos para
+marcos que indicam progresso; Estado, sendo títulos que o evento, com pontos, ranking, prêmios, missões e objetivos
+indicam progresso; Níveis, com dificuldade crescente; Re- [19]. Enterprise Event App oferece agenda, perguntas e
+compensas, como itens tangíveis que podem ser ganhos; e comentários, além de conter um bate-bapo automatizado,
+Papéis, assumidos pelos personagens no jogo [14]. conexão dos participantes e compartilhamento de fotos. A
+
+Três elementos básicos frequentemente aparecem em gamificação apresenta pontos, ranking, prêmios e tarefas,
+abordagens de gamificação: pontos, conquistas e placar permitindo ao administrador criar jogos ou usar o modelo
+[15]. Os pontos são a principal moeda dentro do jogo, e pré-definido na plataforma [20]. Lumi Show oferece agenda,
+devem ser ganhos com a realização das tarefas, sendo um dos informações sobre atividades, patrocinadores, perguntas, co-
+motivos pelos quais a abordagem de gamificação funciona, mentários e avaliações, além de perfil dos palestrantes e
+uma vez que faz com que o desejo natural do jogador participantes, bate-papo, fórum de discussão, anotações,
+em coletar recursos seja atendido. Conquistas são prêmios blog, arquivos e integração com redes sociais. A gamificação
+que os jogadores ganham ao realizar algo, instigando o é feita com pontos, ganhos ao interagir com o aplicativo,
+desejo de mostrar competência, sendo considerado uma sendo oferecidos prêmios aos maiores pontuadores [21].
+excelente forma para engajar os usuários. Deve ser usada Engage oferece informações sobre as atividades, agenda,
+com cautela, para não acabar desestimulando o jogador. O comentários, avaliação de atividades e perguntas, além de
+placar é usado como uma espécie de feedback ao jogador, oferecer uma rede social privada, cruzamento de perfis, por
+que pode acompanhar como ele e os outros jogadores estão interesse, e visualização de perfis. A gamificação é feita pelo
+naquele exato momento, ajudando a encorajar as pessoas e acúmulo de pontos ao interagir com o aplicativo, oferecendo
+gerando uma competição entre os jogadores. Porém, caso o adesivos ao completar certos objetivos e prêmios aos três
+jogador esteja muito abaixo do primeiro colocado isso pode primeiros colocados [22].
+desestimular sua participação, diminuindo o desempenho Para auxiliar participantes de eventos com várias atrações,
+dos jogadores, ao invés de aumentá-lo [11]. Também podem Porcino et. al (2018) propuseram um aplicativo gamificado
+ser usados níveis de progresso, que podem aumentar a para melhorar a experiência dos usuários ao aguardar nas
+dificuldade conforme o jogador aumenta seu nível, dando filas, utilizando elementos como pontos, ranking e prêmios
+a ele a sensação de progresso. Porém, a pontuação para [23]. Cunegato e Dick (2016) propuseram um aplicativo
+passar de nível não deve aumentar de forma linear e nem gamificado para auxiliar o usuário na administração de suas
+exponencial, uma vez que manter o usuário no nível correto tarefas, com um “incentivo virtual”, utilizando elementos
+contribui para deixá-lo em “estado de flow” [16]. como pontos, níveis, conquistas e emblemas [24].
+
+Por ser uma RSP, o sistema em questão é muito depen- Diferente de Even3 e Event App, este trabalho traz uma
+dente da utilização frequente de seus usuários, necessitando, abordagem de gamificação como incentivo aos participantes.
+assim, de uma forma de incentivo. Este trabalho apresenta Em comparação com os demais, que também utilizam ele-
+uma proposta de utilização de gamificação como técnica de mentos de gamificação, este trabalho propõe a utilização de
+incentivo à participação dos usuários do aplicativo, buscando grupos de usuários, marcação das atividades e desses grupos
+deixar a tarefa de sensoriamento mais prazerosa e estimu- nas opiniões enviadas pelos participantes, além da criação
+lante ao criar um ambiente competitivo e participativo. de uma abordagem quantitativa para minimização do envio
+
+
+
+Tabela I
+de spam. Outro fator importante a ser observado, é que o sis- TABELA DE RECOMPENSAS
+tema em questão necessita ainda mais de incentivo durante a
+realização do evento, uma vez que coleta informações sobre Recompensas Ação para ganhar
+
+temperatura e som, que só fazem sentido em tempo real. Insignias de Nível Subir de nível
+Medalha de Diamante Responder todos os questionários
+
+IV. A Conquista de Opinião Opinar
+BORDAGEM DE GAMIFICAÇÃO PARA O APLICATIVO Conquista de Questionário Responder questionário
+
+Com o objetivo de incentivo à participação dos usuários Conquista de Temperatura Avaliar conforto térmico
+
+do aplicativo MyMobiConf, a fim de gerar mais dados para Conquista de Som Avaliar conforto sonoro
+Conquista de Avaliação Avaliar atividade
+
+os administradores dos eventos, é proposto um projeto de Conquista de Atividade Completa Avaliar uma mesma atividade nos
+mecanismo de incentivo intrínseco, utilizando uma aborda- 3 quesitos
+
+gem de gamificação. Busca-se, portanto: Troféus 1o, 2o e 3o lugares Terminar o evento entre os primei-
+ros colocados no ranking de pontos
+
+• aumentar a quantidade de opiniões dadas e usuários
+opinando, sem a perda de qualidade, ou seja, sem que “Explorador”; visualização do perfil de outros participantes
+isso possa gerar uma grande quantidade de comentários e criação de grupos de usuários, para incentivar o perfil
+sem relevância, apenas para ganhar pontos (spam); “Socializador”; e a possibilidade de ganhar pontos por meio
+
+• aumentar a quantidade de envios de avaliações e de de envio de opiniões, para incentivar o perfil “Assassino”.
+usuários as avaliando, em relação aos três quesitos: A proposta dos grupos de participantes é feita de modo
+confortos térmico e sonoro e a avaliação por estrelas; a que os próprios usuários possam se agrupar livremente,
+
+• aumentar a quantidade de respostas aos questionários a fim de participarem da experiência lúdica em conjunto,
+propostos e número de pessoas respondendo. aumentando a chance de interação com o aplicativo, com os
+
+Dessa maneira, a abordagem de gamificação proposta participantes e, dessa forma, com o evento como um todo.
+pode ser classificada como um “jogo com propósito”, já que As próprias características do aplicativo levam esta pro-
+tem por objetivo aumentar a participação de seus usuários. posta a um foco maior em “mundo virtual”, uma vez que a
+
+Buscou-se, primeiramente, aplicar os elementos básicos atenção do participante será mais voltada para o ambiente
+da gamificação: pontos, conquistas e placar. Também são do jogo e seus elementos, e em “ação”, com possibilidades
+utilizados emblemas, progressão, estado e níveis, além de restritas de interação entre os participantes. Uma vez que
+propostas de incentivo e controle, explicitadas mais a frente. a versão oficial do aplicativo oferece poucas opções para
+
+Os participantes recebem pontos, que são acumulados, jogadores com o perfil “socializador”, busca-se por equilí-
+quando enviam uma opinião, avaliam as atividades em brio, com foco também em “interação” e “jogador”, com a
+cada quesito e respondem a questionários. Também, para proposta de implementações de grupos de participantes e de
+incentivar que uma mesma atividade seja avaliação em todos visualização de opiniões enviadas por eles.
+os quesitos, é proposta uma pontuação extra, denominada Outro ponto a ser levado em consideração, é que usuários,
+“Conquista de Atividade completa”. principalmente do perfil “assassino”, poderiam aproveitar-
+
+As recompensas são classificadas em conquistas, troféus e se da pontuação por opiniões enviadas e ganhar pontos
+medalha, representadas em “emblemas” que o usuário recebe “ilimitados”, opinando indefinidamente, aumentando consi-
+ao realizar ações no aplicativo, como mostrado na Tabela deravelmente o risco de spam. Para tentar contornar isso,
+I. Ao conquistá-las, o usuário recebe pontos, que devem é proposto que, conforme a quantidade de opiniões de um
+ser configurados pelos administradores do evento, a fim de mesmo usuário aumente, seu valor diminua gradualmente,
+controlar quais ações são mais relevantes naquela situação. chegando a zerar, e até mesmo ficando negativa, como forma
+As insígnias, além de emblemas, também implementam de penalidade, diminuindo, assim, a chance de comentários
+progressão, sendo recebidas ao subir de nível, e estado, sem conteúdo significativo, apenas para ganhar pontos.
+representando cada um desses níveis. Definidas as particularidades, buscou-se classificar essa
+
+Para implementar o placar, são propostos alguns rankings abordagem quanto aos seus aspectos. Além de jogo com
+para os participantes, para os grupos de participantes, que propósito, pode ser classificado como “jogo com informação
+serão detalhados mais a frente, e para as atividades, sendo perfeita”, uma vez que, já ao início da sua participação, o
+a maneira efetiva de classificá-los em quesitos como pontu- usuário possui as informações necessárias, como atividades
+ação alcançada, opiniões dadas e avaliações recebidas. cadastradas, pontos recebidos por cada ação e a quantidade
+
+Após a aplicação dos elementos básicos de gamificação, máxima de opiniões para que não sofra penalização.
+levando em consideração os perfis dos usuários que podem É possível ao participante avaliar apenas as atividades
+vir a utilizar o módulo de gamificação proposto, buscou-se presentes no evento e responder apenas aos questionários
+também adicionar outros elementos a fim de incentivar cada disponibilizados pelo administrador, além de saber previa-
+um deles: é utilizada a técnica de ranqueamento, a fim de mente quantas opiniões ele pode dar sem que perca pontos.
+incentivar o perfil “Empreendedor”; premiação com insíg- Portanto, pode ser classificado como um “jogo finito”.
+nias, conquistas, troféus e medalha, para incentivar o perfil A abordagem proposta permite que mais de um usuário
+
+
+
+possa terminar “vencedor”, ou seja, ficar em primeiro lugar Na página de “Perfil”, o usuário pode gerenciar suas
+no ranking, além de que sua pontuação depende exclusi- informações gerais, bem como escolher um avatar dentre
+vamente de suas ações, sem impacto direto das ações dos opções pré-definidas. A partir dos rankings, é possível
+outros usuários. Dessa forma, pode ser classificado como visualizar o perfil de outros usuários, bastando selecioná-los.
+um “jogo de soma não zero”. Assim, é possível acompanhar quantas conquistas o usuário
+
+já acumulou ao opinar, responder questionários, avaliar
+V. IMPLEMENTAÇÃO DA ABORDAGEM DE GAMIFICAÇÃO confortos térmico, sonoro e a atividade, além de quantas
+
+Após as definições de todos os elementos a serem utili- avaliações completas de atividade foram feitas. Também é
+zados nesta abordagem de gamificação, iniciou-se a fase de possível visualizar as medalhas troféus e as insígnias ganhas
+implementação. Buscou-se fazê-la de forma modularizada, com as passagens de nível. Caso o usuário não pertença a
+com baixo acoplamento às funcionalidades já existentes, um grupo, ele pode criá-lo a partir da página de perfil.
+como é mostrada na Figura 1, que representa, em alto nível, Na página do “Grupo”, são exibidas suas informações,
+a arquitetura do projeto, que consiste em acrescentar um permitindo ao proprietário editá-las e também excluí-lo. São
+módulo de mecânica do jogo no servidor, e outro módulo exibidas as conquistas do grupo, calculadas pelo somatório
+de interface do jogo no aplicativo, utilizando a mesma de conquistas dos seus integrantes. Nos comentários, são
+infraestrutura de comunicação já existente. exibidas todas as opiniões em que o grupo foi marcado. Há
+
+uma lista de integrantes, possibilitando que o proprietário
+possa aceitar, recusar, ou remover integrantes. Há a opção de
+pedir para integrar, caso o usuário não participe de nenhum
+outro grupo, bem como a opção de sair do grupo, caso seja
+um integrante. Vale salientar que é possível ser integrante
+de apenas um grupo, ao mesmo tempo.
+
+Na página da “Atividade”, são exibidas as informações
+gerais da atividade. A versão original do aplicativo já dis-
+
+Figura 1. Arquitetura simplificada ponibilizava uma página com as informações da atividade,
+assim, a versão gamificada apresenta como novidade as
+
+O servidor é responsável por receber as requisições do médias de avaliações recebidas nos três quesitos, além dos
+aplicativo, onde a Camada de Mecânica do jogo é res- comentários, com as opiniões em que ela foi marcada, da
+ponsável por administrar as pontuações e premiações dos mesma forma dos grupos de usuários.
+usuários, além das configurações da gamificação do evento. Para implementar a “marcação” de atividades e grupos nas
+O aplicativo, interface do sistema para o usuário, coleta opiniões enviadas, possibilitando a sua distinção e, assim, a
+os dados, enviando-os para o servidor e sincronizando as exibição em suas respectivas páginas de comentários, foi
+informações de outros participantes e das atividades. implementado o sistema de “hashtags” e “identificadores”.
+
+As principais páginas implementadas no aplicativo foram: Cada atividade deve possuir uma hashtag associada, iniciada
+“Perfis” do usuário e dos “Grupos” de usuários e as informa- com o simbolo de cerquilha (#), seguida de caracteres sem
+ções sobre a “Atividade”, mostradas na Figura 2. Também espaço, e cada grupo, um identificador, iniciado com um
+foi implementada uma página com os rankings, onde são símbolo de arroba (@). As hashtags são escolhidas pelo
+visualizas as classificação de usuários, grupos e atividades. administrador do evento, no momento de sua criação. Já os
+
+identificadores são definidos pelo proprietário do grupo, no
+momento de sua criação. Além disso, também foi acrescida
+a funcionalidade de escolha do usuário opinar de forma não
+anônima, ou seja, exibindo seu nome e figura de perfil na
+seção de comentários, o que antes não era possível de ser
+feito, uma vez que essas opiniões eram visualizadas apenas
+pelos organizadores do evento.
+
+Na página de “Ranking” são exibidas as tabelas de
+liderança dos usuários, atividades e grupos. Os usuários
+podem ser classificados por pontos ou por quantidade de
+opiniões enviadas. Os grupos, também podem ser classifi-
+cados por pontos, por quantidade de opiniões, enviadas por
+seus integrantes, ou pela quantidade de membros. Tanto os
+pontos quanto as opiniões do grupo, são calculados pelo
+somatório dos pontos e opiniões dos seus membros. Já
+
+Figura 2. Capturas de tela das páginas de ’Perfil’, ’Grupo’ e ’Atividade’ as atividades, podem ser classificadas quanto à média de
+
+
+
+avaliações recebidas, ou pela quantidade de opiniões em que Assim, devem ser configurados os parâmetros a e b,
+ela foi “marcada”, com o uso de sua hashtag. ambos números reais positivos, onde a é inversamente
+
+Para a implementação, no servidor de banco de dados, proporcional à quantidade de opiniões esperadas, e b é
+foram criadas tabelas para o perfil dos usuários, para o grupo proporcionalmente relacionado com a pontuação atribuída
+e uma extensão para a atividade, com a hashtag escolhida às opiniões. É importante salientar que a e b são correlaci-
+pelo administrador. Além disso, para controle do administra- onados, devendo ser ponderados de forma a se escolher a
+dor, foi criada uma tabela de configurações do evento, com melhor curva a representar as pontuações esperadas.
+alguns parâmetros configuráveis, explicados a seguir. Para a Na Figura 3 é mostrada a função de configuração de
+atualização constante dos dados dos usuários e dos grupos, pontos de opinião alterando cada parâmetro de forma iso-
+optou-se por utilizar duas visões (views) do banco de dados, lada, em (a), fixando ’b’ em 25 e variando ’a’ em 0,4,
+uma para o participante e outra para o grupo, calculando 0,5 e 0,6. Já em (b), é fixado ’a’ em 0,5, variando ’b’
+dinamicamente os seus pontos e conquistas. em 10, 20 e 30. Na implementação, a pontuação deve
+
+Ao criar o evento, o administrador deve inserir, além dos ser um número inteiro, sendo sempre arredondado o valor
+dados do evento, os seguintes parâmetros para a gamificação: em caso de resultado real. Assim, espera-se pontuar com
+
+valores maiores as primeiras opiniões, a fim de incentivar
+• Pontuação a ser recebida em cada questionário res- uma quantidade razoável delas, diminuindo a pontuação
+
+pondido, avaliação de atividade em cada um dos três gradativamente, sendo que, ao atingir o máximo da função,
+quesitos e avaliação completa; ou seja, a quantidade máxima de opiniões esperada por
+
+• Quantidade máxima de atividades a serem consideradas participante, a pontuação de opiniões começa a regredir,
+para a pontuação, já que pode existir atividades com ou seja, o participante começa a perder pontos, podendo
+interseção de horários, uma vez que não é possível zerar a sua pontuação com opiniões, e até mesmo perder
+identificar quais participantes estão em cada atividade; pontos ganhos com avaliações e questionários, em caso de
+
+• Parâmetros a e b da função de cálculo de pontuação de extrapolação do número de opiniões.
+opiniões, que será explicado mais adiante.
+
+A dificuldade para passar de nível aumenta conforme o
+participante avança-os, de forma a contribuir para buscar
+o “estado de flow”. Para ser possível dividir a pontuação
+dos níveis, uma vez que ela é dinâmica e depende dos
+parâmetros acima, foi definido uma pontuação de referência.
+Ela leva em conta a pontuação esperada para opiniões, sendo
+definida como 1,5 vezes a quantidade de atividades, além do
+somatório dos pontos que o usuário pode ganhar avaliando
+a quantidade máxima de atividades possíveis, em todos os
+
+Figura 3. Função de configuração de pontos de opinião alterando
+quesitos, bem como os pontos de atividade completa, pontos parâmetros (a) ’a’ e (b) ’b’
+de avaliação de todos os questionários e da medalha de
+diamante. Essa pontuação é a base para o nível máximo, É importante ressaltar que o usuário é avisado, por
+10, utilizada para calcular a pontuação para subir para os mensagem no aplicativo, quando estes valores máximos são
+próximos níveis. Buscou-se aumentar a dificuldade de forma atingidos, sendo alertado a cada nova tentativa de opinar.
+não linear e não exponencial, de forma que, o usuário inicia
+no nível 1, ao completar 5% dos pontos ele sobe para o nível VI. ESTUDO DE CASO
+
+2, depois ao completar 11%, 18%, 26%, 36%, 48%, 63%, A. Cenário de Aplicação
+80% e, por fim, 100%, chegando ao nível 10. Para aplicar a abordagem de gamificação desenvolvida,
+
+Para controlar a quantidade de opiniões e tentar diminuir foi escolhido o evento Semana Acadêmica do curso de
+spam, foi elaborada uma função matemática, de acordo com Ciência da Computação, da Universidade Federal de Viçosa,
+a Equação 1, capaz de ser ajustável pelo administrador do Campus Florestal, envolvendo a grande maioria dos alunos
+evento. A equação prevê uma quantidade de comentários desse curso. O evento já tem se tornado tradição, com o
+máxima, por usuário, para que este comece a ser penalizado, uso do MyMobiConf, em sua versão sem gamificação, em
+perdendo pontos ao passar desse patamar, bem como ajustar suas últimas edições. O evento contou com três dias de
+a pontuação atribuída às opiniões dadas. Assim, a função duração, sendo o primeiro dia composto das atividades de
+tem por objetivo calcular o valor de pontos de opinião do credenciamento, um simpósio com as pesquisas realizadas
+participante, dada a quantidade de opiniões enviadas por ele. no curso, cerimônia de abertura, além de uma palestra e uma
+
+mesa redonda. Já o segundo dia contou com uma maratona
+√ √ de programação durante todo o período da manhã e com
+
+pontosOpiniao(x) = (10− a× x)× b× x (1) duas palestras à tarde. No último dia foram realizados quatro
+
+
+
+Tabela II
+minicursos, simultaneamente, ao longo de todo o dia, onde COMPARATIVO DOS DADOS DOS USUÁRIOS COLETADOS
+cada participante poderia participar de apenas um deles,
+tendo fim com a cerimônia de encerramento, totalizando, Dados analisa- G1 G3 G2 G4 SG CG NP
+
+dos
+assim, 13 atividades, das quais o usuário poderia participar Porcentagem de 9% 9% 11% 22% 18% 33% 49%
+de, no máximo, 09. participantes
+
+Para os testes, foram selecionados alunos do curso de Ao menos 1 opi- 30% 40% 85% 96% 35% 92% 36%
+
+computação, veteranos e calouros, divididos em quatro gru- nião
+Média de opi- 2,0 0,9 7,4 23,2 1,5 17,8 2,7
+
+pos, de acordo com seus perfis: niões
+
+• Grupo 1: 10 calouros, com versão sem gamificação; Ao menos 1 100% 90% 92% 100% 95% 97% 51%
+questionário
+
+• Grupo 2: 13 calouros, com versão com gamificação; Média de questi- 8,2 5,0 7,6 8,1 6,6 7,9 3,1
+• Grupo 3: 10 veteranos, com versão sem gamificação; onários
+• Grupo 4: 25 veteranos, com versão com gamificação; Ao menos 1 ava- 100% 100% 100% 100% 100% 100% 78%
+
+liação
+Durante o evento, apenas os grupos 2 e 4, também Média de avalia- 7,5 6,9 8,2 8,2 7,2 8,2 3,4
+
+agrupados como “Grupo Com Game” (CG), tiveram acesso ções
+Ao menos 1 100% 100% 100% 100% 100% 100% 75%
+
+a uma versão de testes, com o módulo de gamificação conforto sonoro
+disponível, enquanto os grupos 1 e 3, também agrupados Média de con- 5,0 4,9 6,4 7,5 5,0 7,1 2,4
+como “Grupo Sem Game” (SG), utilizaram o aplicativo forto sonoro
+
+em sua versão original. Também utilizaram o aplicativo Ao menos 1 100% 100% 100% 100% 100% 100% 78%
+conforto térmico
+
+em sua versão original outras 55 pessoas, que não foram Média de con- 5,6 5,3 7,1 7,5 5,5 7,3 2,8
+incluídas neste estudo de caso. No total, 113 participantes forto térmico
+
+utilizaram o aplicativo durante o evento, sendo 38 com a
+versão gamificada e 75 com a versão original. Há uma
+quantidade maior de usuários com a versão gamificada a Em praticamente todos os quesitos, os participantes dos
+fim de proporcionar um ambiente de jogo simulado mais grupos com game superam, relativamente, os participantes
+próximo do real, o que poderia comprometer as interações dos grupos sem ele, com atenção especial à proporção de
+entre usuários e aplicativo, com apenas 20 usuários. pessoas que opinaram pelo menos uma vez, sendo de 92%
+
+Além da abordagem de gamificação proposta, concomi- nos grupos com game, e de apenas 35% sem ele, com uma
+tantemente foi aplicada uma estratégia de incentivo extrín- média de comentários, por pessoa, de 17,8 contra 1,5 (quase
+seca, com a premiação de um brinde para o participante que 12 vezes superior). No comparativo dos perfis, o grupo de
+mais utilizasse o aplicativo. Essa estratégia já é utilizada em veteranos G4 apresentou uma média de 23,2, ante 0,9 do
+todos os eventos do aplicativo, sendo comunicada explicita- seu correspondente sem o game (G3). Nas respostas de
+mente a todos os participantes no decorrer do evento. questionário, o resultado para os quatro grupos foi bem
+
+parecido em questões de pelo menos uma resposta, com
+B. Resultados diferença significativa, se comparado com o grupo fora do
+
+Após a realização do evento, foram recolhidos os dados estudo (NP), com apenas 51%. Já na média, a gamificação
+gerados pelos participantes durante o evento, para análise se mostrou um pouco superior, com 7,9 ante 6,6, sem game
+do impacto da proposta de gamificação. Também foram e 3,1 do grupo NP. Nas avaliações de atividade e confortos
+aplicados questionários aos participantes selecionados para térmico e sonoro, 100%, nos quatro grupos, avaliou pelo
+os grupos 1, 2, 3 e 4, a fim de obter resultados subjetivos. menos uma das atividades em cada um desses quesitos,
+
+1) Resultados objetivos: Foram recolhidos os dados ge- contra aproximadamente 77% do grupo NP. A média de
+rados pela utilização dos usuários durante o evento, com avaliações da atividade, em comparação com a avaliação dos
+as opiniões, questionários respondidos e as avaliações de confortos sonoro e térmico, foi superior em todos os grupos
+atividades, confortos térmico e sonoro. Além dos dados dos e, em todos os casos, os grupos com o game aumentando a
+participantes deste estudo de caso, foram disponibilizados média de avaliações.
+os dados dos outros usuários que também participaram do Justificando o porque de o grupo SG ter superado o
+evento, mas que não fizeram parte do grupo de controle, uso do grupo NP, mesmo que ambos tenham utilizado a
+permitindo analisá-los. As análises dos dados foram feitas mesma versão do aplicativo, o fato de os participantes do
+a fim de identificar qual o impacto gerado nos grupos grupo de controle terem sido avisados previamente de que
+que utilizaram o aplicativo com a versão gamificada, em participariam do experimento, além de participarem de um
+comparação com os que utilizaram a versão original. Na grupo em um aplicativo de mensagens, mesmo que com
+Tabela II, são feitos alguns comparativos entre os grupos pouca interação, pode ter influenciado positivamente o seu
+G1, G2, G3 e G4, o resultado agrupado em CG e SG, além uso. No entanto, em comparação apenas entre os grupos
+dos usuários que não participaram deste estudo (NP). de controle, o que é o objetivo deste trabalho, a versão
+
+
+
+gamificada se mostrou mais atraente.
+2) Resultados subjetivos: Além dos dados gerados no
+
+aplicativo, foram aplicados dois questionários ao final do
+evento, um para os Grupos 1 e 3, sem gamificação e outro
+para os Grupos 2 e 4, com gamificação, havendo interseção
+de perguntas relacionadas ao evento e ao aplicativo em suas
+funcionalidades sem o game. Para os grupos 2 e 4, também
+foram perguntadas questões específicas da gamificação.
+
+Na Tabela III são mostradas algumas respostas das per-
+guntas em comum, onde é possível perceber que a visão
+geral sobre o evento foi um pouco melhor entre os calouros Figura 4. Respostas quanto à utilização do aplicativo durante o evento
+que não utilizaram o game. Por outro lado, 92% dos calouros
+e 84% dos veteranos que utilizaram a versão gamificada
+avaliaram que o aplicativo melhorou muito a sua experiência ter gostado muito, tendo apenas uma resposta negativa;
+no evento, ante 70% dos grupos sem o game. Já ao perguntar
+
+• 96% dos veteranos e 75% dos calouros consideram que
+se utilizaria com certeza o aplicativo em outro evento, apesar o uso desses elementos os incentivou muito a responder
+do empate geral dos grupos com e sem gamificação, com questionários e avaliar as atividades;
+70% de respostas, o grupo de calouros se mostrou menos
+
+• 89% respondeu ter aproveitado mais tanto o aplicativo,
+receptivo à versão gamificada, com 58% ante 80% dos ca- quanto o evento ao utilizar o game, onde 51,4% diz ter
+louros sem o game. Já no grupo de veteranos, foi observado aproveitado muito mais;
+o oposto, com a preferência sobre a versão gamificada em
+
+• 92% respondeu ter gostado das interfaces do game, dos
+76% das respostas, contra 60% sem o game. quais 40% dos calouros e 67% dos veteranos diz ter
+
+Tabela III gostado muito;
+ALGUMAS RESPOSTAS DO QUESTIONÁRIO COMPARTILHADO • 95% respondeu ter achado fácil o uso do aplicativo,
+
+sendo que 56% dos calouros e 46% dos veteranos achou
+Pergunta G1 G3 G2 G4 SG CG
+Visão geral ótima so- 80% 75% 75% 75% 78% 75% muito fácil;
+bre o evento • 76% dos veteranos e 67% dos calouros consideraram a
+Aplicativo melhorou 70% 70% 92% 84% 70% 87% experiência do game durante o evento muito animada;
+muito a experiência e
+interação no evento • 96% dos veteranos e 75% dos calouros consideram que
+Utilizaria com certeza 80% 60% 58% 76% 70% 70% a utilização da atividade lúdica no aplicativo contribuiu
+o aplicativo em outro para melhorar a sua experiência, dos quais 52% e 33%,
+evento respectivamente, consideram ter melhorado muito.
+
+Foi perguntado aos participantes qual a classificação eles Além das questões de múltipla escolha, foram feitas
+dariam quanto à utilização do aplicativo durante o evento, algumas questões abertas, que poderiam ser respondidas de
+com as respostas sendo mostradas no gráfico da Figura 4, forma opcional, a fim de justificar algumas respostas. De
+onde é possível observar que todos os resultados foram modo geral, em relação aos elementos de jogos aplicados,
+favoráveis. Também é possível observar que nos grupos com houve elogios quanto à utilização destes, apresentando res-
+a versão com gamificação, a visão sobre a importância da postas contendo termos como “sensacional", “excelente",
+utilização do aplicativo foi ainda melhor, chegando a 24% de “incrível” e “muito bom". Como críticas e sugestões, sur-
+respostas classificando-o como “essencial”. Na visão geral, giram comentários sobre a “utilização de padronização” e
+22% dos participantes do grupo com game, ante 10% sem “melhoria em algumas artes”.
+ele responderam ser o aplicativo “essencial” para o evento. Sobre facilidade de uso e entendimento do aplicativo,
+
+Ao perguntar para os grupos sem gamificação sobre o a maioria julgou ser uma interface “simples", “intuitiva",
+interesse em utilizá-la, 70% dos participantes, de ambos os “agradável", “fácil de utilizar” e “autodidática". Já nas opi-
+grupos, responderam ter muito interesse (4 ou 5, em uma niões menos positivas, observou-se respostas como “poderia
+escala de 0 a 5), onde 55% das respostas foi 5. ser mais atrativo” e “no começo foi confuso". Algumas
+
+Já para os grupos com a gamificação, foram feitos também respostas alegaram que as funcionalidades da gamificação
+questionamentos específicos sobre o módulo proposto: ficaram menos visíveis que as demais funcionalidades do
+
+• 76% dos participantes consideram que o game motivou aplicativo, justificadas pelo fato desta proposta procurar ser
+a utilização do aplicativo, sendo que 67% dos calouros o menos invasiva possível.
+e 80% dos veteranos consideram que motivou muito. Quanto à contribuição da atividade lúdica para melhorar
+
+• 92% respondeu ter gostado do uso de elementos como a experiência, observaram-se diversas respostas positivas
+ranking, pontos e prêmios, dos quais 78% respondeu quanto ao game, justificadas por questões como “competiti-
+
+
+
+vidade", “reconhecimento", “motivação” e “interação". Em
+respostas menos favoráveis, sendo a minoria, observaram-se
+justificativas como “a função do aplicativo não ser um jogo”
+ou “falta de competitividade” por parte da pessoa.
+
+Assim, foi possível identificar pontos que satisfizeram
+as expectativas dos usuários, como a boa aceitação da
+proposta de gamificação, por grande parte dos usuários. Por
+outro lado, o feedback menos positivo, por parte de alguns Figura 5. Gráficos de (a) opiniões por dia do evento e (b) opiniões por
+usuários, contribui para melhorar a gamificação proposta, em grupo
+oportunidades futuras. Vale ressaltar que, no estudo de caso
+em questão, os participantes que utilizaram o game foram
+selecionados pelos autores deste trabalho, e, em aplicações duas análises. Na primeira, foram removidas as palavras
+reais, a escolha de participar ou não do jogo do aplicativo irrelevantes (“stop words”), sendo criada uma nuvem de
+será de total liberdade do participante. palavras, apenas com os comentários dos usuários com
+
+3) Visão Geral: De modo geral, a abordagem proposta a versão gamificada. Na Figura 6 ela é mostrada, sendo
+teve uma boa aceitação pelos usuários do aplicativo, neste possível identificar diversas palavras consonantes com o
+estudo de caso. Ao comparar os resultados objetivos, dos esperado, como os nomes das atividades, opiniões sobre
+dados coletados, com os resultados subjetivos, dos questio- temperatura e sobre o evento, como um todo. Isso reforça
+nários aplicados, percebe-se uma convergência em relação ao que a qualidade das opiniões não foi prejudicada. Uma
+sentimento de engajamento e maior disposição para interagir segunda análise foi realizada a fim de tentar identificar pos-
+no evento, utilizando o aplicativo. Vale ressaltar que, ao fim síveis opiniões que foram enviadas como spam, verificando
+deste evento, houveram três primeiros lugares, dois segundos mensagens que: continham o mesmo conteúdo, apenas o
+e um terceiro, com uma boa participação da grande maioria uso de identificadores de grupos ou atividades, apenas uma
+dos usuários, onde quase 90% deles chegaram ao nível 6. única palavra, espaços ou caracteres especiais e algumas
+Assim, a utilização dessa abordagem favoreceu aos usuários outras particularidades identificadas, gerando um resultado
+manterem-se, pelo menos em boa parte do tempo, em estado em torno de 4% de spam tanto nos participantes com o game,
+de flow. Dessa forma, a estratégia de aumento de dificuldade quanto nos participantes sem ele.
+ao evoluir os níveis mostrou-se satisfatória.
+
+Outro fator a ser observado é que a estratégia de ga-
+mificação se mostrou, neste estudo de caso, superior à
+estratégia explícita de premiação, uma vez que os dados
+dos usuários da versão gamificada foram melhores, em
+todas as comparações. De maneira geral, a quantidade de
+opiniões enviadas foi a que mais se beneficiou da estratégia
+implementada neste estudo de caso e, no gráfico da Figura
+5 é mostrado um comparativo com esses valores. Na figura
+(a) é possível perceber que a quantidade de comentários Figura 6. Nuvem de palavras gerada com as opiniões enviadas pelos
+caiu ao longo dos três dias de evento. Observa-se que a participantes com a versão gamificada
+maratona de programação, que ocupou metade do segundo
+dia, e os minicursos, que ocuparam quase a totalidade
+do terceiro dia, deixaram os participantes com pouca ou VII. CONCLUSÃO
+
+nenhuma disponibilidade para a utilização do aplicativo, Portanto, a utilização da abordagem de gamificação pro-
+além da baixa complexidade do aplicativo, gerando falta de posta como técnica de incentivo intrínseco, mostrou-se um
+novidade aos participantes, fazendo com que houvesse muita fator importante para melhorar a colaboração dos usuários
+habilidade e pouco desafio, podem ter influenciado nesses nesse sistema de RSP para apoio a eventos. Este trabalho
+números. Porém, como é possível perceber, a abordagem conseguiu cumprir com o esperado, até mesmo superando
+aplicada ainda assim conseguiu superar, e muito, a sua não algumas expectativas, aumentando significativamente a par-
+utilização, mantendo a proporcionalidade de cerca de 80% ticipação dos usuários, sem a perda de qualidade dos dados.
+das opiniões dadas, em todos os dias, pelos usuários com o Também foi possível abranger aspectos favoráveis aos quatro
+game, como é mostrado em (b), no geral. Vale ressaltar que perfis de jogadores, com elementos como ranking, incenti-
+34% dos participantes (participantes com o game), opinaram vando “empreendedores"; insígnias, conquistas, medalhas e
+80% do total de opiniões. troféus, incentivando “exploradores"; criação de grupos de
+
+Para analisar o impacto na qualidade das opiniões da- participantes e visualização de perfil e comentários de outros
+das devido ao aumento em sua quantidade, foram feitas usuários, incentivando “socializadores"; e a possibilidade
+
+
+
+de ganhar pontos à medida que são dadas opiniões, incen- [6] L. Von Ahn and L. Dabbish, “Designing games with a
+tivando “assassinos", mas com cautela, ao empregar uma purpose,” Communications of the ACM, vol. 51, no. 8, pp.
+função com o objetivo de controlar a quantidade máxima de 58–67, 2008.
+comentários, diminuindo a chance de spam. [7] A. L. Gonçalves et al., “Grafos: Aplicações ao jogo.” Master’s
+
+Os resultados obtidos, tanto por coleta de dados, quanto thesis, Universidade Portucalense, 2007.
+por questionários aplicados se mostraram muito favoráveis à
+utilização dessa técnica de incentivo, com boa aceitação dos [8] R. Bartle, C. Hearts, and S. Diamonds, “Players who suit
+usuários. Os dados proporcionaram medir quantitativamente muds, 1996,” Journal of MUD research, 1996.
+
+as melhorias quanto a opiniões, avaliações e questionários [9] J. A. L. d. FARIAS et al., “Jogos digitais como forma de
+enviados, bem como os questionários aplicados auxiliaram incentivo à computação por humanos.” 2014.
+a ter uma visão sobre o sentimento dos usuários, sendo
+observadas respostas que indicaram que a experiência foi [10] M. Csikszentmihalyi, Flow. The Psychology of Optimal Ex-
+animada e bem aceita, engajando e incentivando, de forma perience. HarperPerennial, 1990.
+
+ativa, a interação dos usuários com o aplicativo. [11] M. N. Gomes, “Desenvolvimento de uma atividade gamifi-
+Em trabalhos futuros, seria interessante a utilização de cada voltada ao turismo de caxias do sul,” 2017.
+
+técnicas de análise de sentimentos para uma melhor pon-
+tuação das opiniões enviadas pelos usuários, com punições [12] K. Seaborn and D. I. Fels, “Gamification in theory and action:
+em caso de envio de spam. Uma integração com sistemas de A survey,” International Journal of human-computer studies,
+
+vol. 74, pp. 14–31, 2015.
+check-in, para permitir que usuários interajam apenas com as
+atividades que eles estejam participando ativamente. Prover [13] M. M. Alves and A. L. Battaiola, “Gamificação como es-
+uma interface mais amigável, ao administrador do evento, tratégia de design para a animação interativa educacional.”
+quando este for ajustar a curva de controle de opiniões, SBGames, 2017.
+que por hora necessita definir os parâmetros a e b. Vê-se [14] R. Barradas and J. A. Lencastre, “Gamification: uma abor-
+a necessidade da utilização de alguma técnica para engajar dagem lúdica à aprendizagem,” 3o Encontro sobre Jogos e
+os usuários ao longo do evento, para evitar que eles fiquem Mobile Learning, pp. 220–230, 2016.
+desmotivados pelo baixo nível de complexidade do aplica-
+tivo. Para aumentar a quantidade de conquistas de atividades [15] K. Werbach and D. Hunter, For the win: How game thinking
+
+can revolutionize your business. Wharton Digital Press,
+completas, a marcação do progresso, ao votar nas avaliações 2012.
+das atividades, poderia se mostrar eficiente. Também seria
+interessante a criação de “missões” que levassem o usuário a [16] G. Zichermann and C. Cunningham, Gamification by design:
+cumprir objetivos pré-determinados, mostrando, a cada con- Implementing game mechanics in web and mobile apps.
+quista, uma mensagem de parabenização e encorajamento. "O’Reilly Media, Inc.", 2011.
+
+REFERÊNCIAS [17] L. S. em Tecnologia, “Even3,” L3 SOLUÇÕES
+EM TECNOLOGIA, 2018. [Online]. Available:
+
+[1] S. Deterding, D. Dixon, R. Khaled, and L. Nacke, “From https://www.even3.com.br/
+game design elements to gamefulness: defining gamification,”
+in Proceedings of the 15th international academic MindTrek [18] EngageData, “Event app,” EngageData, 2016. [Online].
+conference: Envisioning future media environments. ACM, Available: http://engagedata.com.br/event-apps/
+2011, pp. 9–15.
+
+[19] InEvent, “Inevent app,” InEvent, 2018. [Online]. Available:
+[2] NESPeD, “Mymobiconf,” NESPeD, 2016. [Online]. https://inevent.us/pt/aplicativo-para-eventos.php
+
+Available: http://nesped.caf.ufv.br/mymobiconf/index.html
+[20] Eventbase, “Enterprise event app,” Eventbase, 2018. [Online].
+
+[3] T. H. Silva, P. O. V. de Melo, J. Neto, A. IJT, C. S. d. S. Available: https://www.eventbase.com/
+Ribeiro, V. Mota, F. D. da Cunha, A. Ferreira, K. L. d. S.
+Machado, R. A. d. F. Mini et al., “Redes de sensoriamento [21] D. Solvers, “Digital solvers - lumi show,” Digital Solvers,
+participativo: Desafios e oportunidades,” Minicursos SBRC- 2017. [Online]. Available: https://www.digitalsolvers.com
+Simpósio Brasileiro de Redes de Computadores e Sistemas
+Distribuıdos, 2015. [22] E. MobLee, “Engage moblee,” MobLee, 2018. [Online].
+
+Available: https://www.moblee.com.br/engage-app-eventos/
+[4] J.-S. Lee and B. Hoh, “Dynamic pricing incentive for parti-
+
+cipatory sensing,” Pervasive and Mobile Computing, vol. 6, [23] T. Porcino, W. Oliveira, D. Trevisan, and E. Clua, “Gamifi-
+no. 6, pp. 693–708, 2010. cation for better experience in queues during entertainment
+
+events,” SBGames, 2018.
+[5] H. Gao, C. H. Liu, W. Wang, J. R. Zhao, Z. Song, X. Su,
+
+J. Crowcroft, and K. K. Leung, “A survey of incentive me- [24] M. P. Cunegato and M. E. Dick, “A utilização de estratégias
+chanisms for participatory sensing.” IEEE Communications de gamificação em uma interface digital,” XV SBGames, São
+Surveys and Tutorials, vol. 17, no. 2, pp. 918–943, 2015. Paulo-SP. Proceedings of SBGames, pp. 281–287, 2016.

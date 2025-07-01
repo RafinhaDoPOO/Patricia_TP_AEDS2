@@ -1,0 +1,431 @@
+﻿Stone Game: Uma abordagem gamificada para o
+aprendizado de Cálculo Diferencial e Integral I
+
+Heitor Passeado Soares Lucas Carvalho Silva Daniel Mendes Barbosa
+Instituto de Ciências Instituto de Ciências Instituto de Ciências
+
+Exatas e Tecnológicas Exatas e Tecnológicas Exatas e Tecnológicas
+Universidade Federal de Viçosa (UFV) Universidade Federal de Viçosa (UFV) Universidade Federal de Viçosa (UFV)
+
+Florestal, Brasil Florestal, Brasil Florestal, Brasil
+heitor.soares@ufv.br lucas.silva@ufv.br danielmendes@ufv.br
+
+Resumo—Este artigo evidencia a pesquisa e desenvolvimento na insituição analisada por ela [3]. Existem diversos fatores
+da criação do Stone Game, um jogo sério para dispositivos que podem influenciar o rendimento dos alunos brasileiros
+móveis com o intuito de utilizar os estı́mulos sensoriais que durante o ensino superior: a falta de infraestrutura na educação
+um jogo possibilita para facilitar o aprendizado do conteúdo
+da disciplina de Cálculo Diferencial e Integral I. As disciplinas básica e o baixo incentivo à pesquisa são algumas delas.
+de Cálculo carregam alguns dos maiores ı́ndices de reprovação Deixando os aspectos socio-econômicos de lado, podemos
+em universidades públicas e privadas. O jogo visa melhorar o nos ater à dificuldade inerente ao aprendizado da disciplina
+cenário de engajamento e aprendizado dos alunos. Baseado em de matemática, que pode ser vista de outra forma como cita
+estudos sobre jogos e sua atratividade, optou-se por utilizar os Barbosa, Sandra Malta [4]: “a representação gráfica, potencial-
+fatores psicológicos que fazem uma pessoa se viciar em um jogo
+social como Candy Crush para benefı́cio acadêmico. Por meio da izada pela visualização, é uma das representações múltiplas
+gamificação e interação, pretende-se aumentar a atratividade do que podem transformar a interpretação e o entendimento dos
+jogo e o tempo de permanência do aluno no ambiente. Estı́mulos conceitos matemáticos”. Ou seja, com mecanismos gráficos
+gráficos e visuais são ferramentas que favorecem o aprendizado pode-se chegar mais facilmente à entendimentos de conceitos
+de conceitos matemáticos e a criação de um mascote aparece abstratos de matemática.
+como um diferencial, que apela para a identificação do usuário.
+Foram aplicados testes empı́ricos com alunos para avaliar o grau Como proposta de solução, foi feito o Stone Game, um jogo
+de satisfação com o jogo. Foi constatado que o jogo se mostra sério mobile levando em conta duas metodologias de avaliação
+melhor como objeto de aprendizagem do que uma forma de diferentes que serão discutidas na seção IV. O diferencial
+diversão. do software é apelar ao máximo aos estı́mulos sensoriais do
+
+Palavras chave—Cálculo, Gamificação, Aplicativo, Mobile jogador, sendo o mais atrativo possı́vel com animações digitais
+personalizadas, um mascote, cores e sons atrativos. Toda a
+
+I. INTRODUÇÃO parte visual tem como meta aumentar o tempo de uso do
+A chamada quarta revolução industrial trouxe em poucas aplicativo pelo aluno e facilitar a abstração de macro conceitos
+
+décadas um costume que está completamente impregnado no do Cálculo Diferencial e Integral I.
+cotidiano da população mundial, até mesmo no Brasil, um Este documento está organizado nas seguintes seções: a
+paı́s em desenvolvimento: o uso de celulares smartphones. O seção II traz uma breve discussão sobre os trabalhos rela-
+número de dispositivos móveis no paı́s é quase que equivalente cionados na área; a seção III contém a base teórica na qual
+ao populacional: 234 milhões de acordo com o Centro de o jogo foi pensado e avaliado; a seção IV apresenta como a
+Tecnologia de Informação Aplicada (FGVcia) da Escola de fundamentação da literatura moldou as formas de mensurar a
+Administração de Empresas de São Paulo da Fundação Getulio qualidade do jogo e de seu conteúdo; a seção V terá como foco
+Vargas (FGV EAESP) [1]. mostrar as regras de funcionamento do Stone Game, assim
+
+Além de toda a praticidade de comunicação e facilidade para como o desenvolvimento, arquitetura de comunicação entre as
+realizar diversas tarefas, o uso dos celulares fez com que as entidades do sistema; a seção VI apresenta os resultados e a
+pessoas tivessem acesso a jogos instantaneamente e a qualquer última seção traz as considerações finais.
+momento. Designs coloridos e chamativos acabam fazendo
+com que o usuário use muito seu aplicativo, Cheng elabora II. TRABALHOS RELACIONADOS
+
+sobre os motivos do uso deliberado de jogos móveis [2]. Medeiros, Schimiguel abordam as motivações didáticas do
+Percebe-se além dos motivos, o sucesso das grandes empresas ensino pelo meio da gamificação, com a explicação de que o
+em relação a números de usuários e seus tempos de utilização. aluno se torna protagonista do próprio aprendizado [5].
+
+Paralelo à esse fenômeno, temos o alto ı́ndice de reprovação Para o aprendizado de matemática Mota, Barbosa [6] cri-
+em disciplinas como Cálculo I e Fı́sica I, como mostra a aram um jogo de natureza mais interativa. Nele o jogador deve,
+pesquisa da doutora em pedagogia Fabiana Garzella, que a partir de um plano cartesiano com pontos pré estabelecidos
+evidênciou uma taxa de evasão de 77,9% no perı́odo de 7 anos para cada fase, descobrir qual a função matemática intersecta
+
+
+
+a maior parte dos pontos. Seu trabalho se assemelha ao Stone • Squash And Stretch - O quanto um objeto estica e
+pelo fato de ser um aplicativo mobile. se comprime, fornece fluı́dez ao movimento e comunica
+
+Em um contexto mais voltado à experiência lúdica quais são as propriedades daquele objeto, uma bola de
+Cezar,Garcia, Manara e Botelho [7] criaram uma abordagem boliche não se comprime tanto quanto um balão d’água
+tematizada, assim como a do presente trabalho para apren- por exemplo.
+dizado de cálculo. Os autores buscaram criar um jogo de • Antecipação - Antes de realizar a ação principal é
+interpretação (rpg) traduzido para um sistema de computador. importante que o personagem mostre a audiência que ele
+
+Em um cenário de gamificação em contextos não tec- realizará tal ação
+nológicos Martins,Ferreira,Lacerda,Freitas,Figueiredo e Bar- • Ação secundária - Com o objetivo de tornar a
+bosa [8] criaram um jogo de cartas em que a coleta das cartas composição mais real e crı́vel, é bom que haja ações
+era uma experiência lúdica na graduação, cujo nome é Lord complementares que não ofuscem a ação principal
+Of Florestal. • Slow in and out - Movimentos tem mais apelo gráfico
+
+Para diferenciar dos outros trabalhos na literatura, a ideia quando são acelerados, começam e/ou terminam mais
+deste foi a junção da questão prática de ser aplicativo mobile, o lentos dependendo do movimento, uma bola caindo por
+que já difere da maioria dos demais trabalhos de gamificação, exemplo terá a sua maioria de frames de 0 a 20% em
+e a aplicação de animação digital para maior engajamento e relação a sua altura total.
+interesse dos jogadores
+
+IV. METODOLOGIA
+III. FUNDAMENTAÇÃO TEÓRICA
+
+O desenvolvimento do aplicativo do Stone Game foi feito
+Uma das estratégias para o aprendizado de cálculo era se durante o perı́odo de um ano, incluindo todos os passos do
+
+basear na tendência dos usuários usarem o celular de forma processo de fazer um software: levantamento de requisitos,
+deliberada. modelagem da arquitetura do banco, idealização do fluxo
+
+Uma das teorias base para a análise do uso da tecnologia de telas, desenvolvimento e testes das duas entidades do
+midiática é a teoria U&G (Uses and Gratification) desen- sistema(back-end e front-end) e implantação dos mesmos.
+volvida por Elihu Katz and Jay Blumler [9] que tem 5 pilares: Em paralelo à essa tarefa, as animações inclusas no software
+
+1) Seleção de mı́dia e uso é orientado ao objetivo também foram feitas.
+2) Pessoas tomam iniciativa para selecionar e usar veı́culos
+
+de comunicação para satisfazer suas vontades A. Animação
+3) Fatores sociais e psicológicas mediam o comportamento As animações foram feitas frame a frame com o auxı́lio de
+
+comunicativo das pessoas interpolação gráfica, utilizando o software Adobe Animate.
+4) A mı́dia é competitiva com outras formas de Para visualizar os macro conceitos de Cálculo Diferencial
+
+comunicação para seleção e atenção, costumam nos e Integral I foram feitas 4 animações, cada uma ilustrando a
+recompensar. ideia geral de um módulo. Para exemplificar os pontos teóricos
+
+5) Pessoas são tipicamente mais influentes do que a mı́dia levantados sobre animações, a animação usada no módulo de
+na relação, mas não sempre. Função foi escolhida:
+
+Com base na teoria U&G, Cheng [2] fez um estudo com O personagem joga um cubo com o valor de 1 em uma
+14 estudantes universitários que jogavam Candy Crush, com o máquina cuja função é f(x) = - x, a máquina então expele
+objetivo de descobrir quais eram os motivos pelos quais eles o valor -1 e o personagem repete a ação e ocorre um
+jogavam. Para cada motivo parametrizado era atribuı́do uma loop na animação. Levando em consideração os princı́pios
+nota de 1 a 5 pelo aluno. Os parâmetros estão descritos na da animação levantados na fundamentação teórica, pode ser
+Tabela I. observado antecipação quando o personagem se prepara na
+
+Em paralelo à esse estudo, [5] utiliza o método de avaliação Fig. 1a antes de pegar o bloco na Fig. 1b , enquanto espera a
+LORI(Learning Object Review Instrument), desenvolvida pela máquina processar o número bate os pés e cruza os braços
+e-Learning Research and Assessment Network [10], em sua (ação secundária). Ao passar para o outro lado a ação é
+proposta educacional. Esse método de avaliação também foi rápida (slow in and out) e seus traços e formas se comprimem
+utilizado para avaliarmos a qualidade do Stone Game. A exageradamente como pode ser visto em Fig. 1c para dar
+avaliação LORI é uma ferramenta de avaliação bastante uti- fluidez ao movimento (squash and stretch).
+lizada e são descritas na Tabela II.
+
+Tendo em vista a necessidade do apelo visual, por ser um B. Avaliação
+critério constantemente considerado, em ambas as formas de Com base nas duas metodologias de avaliação mencionadas
+avaliação, foram criadas algumas animações digitais. na fundamentação teórica, foi feito um formulário, em que
+
+Sultana motra como os personagens ganham vida ao serem cada pergunta poderia ser avaliado de 1 a 5, sendo 1 discordo
+animados seguindo os 12 princı́pios da animação de Frank totalmente e 5 concordo totalmente. O objetivo do formulário
+Thomas and Ollie Johnston [11] Nas animações que serão era avaliar se o aplicativo cumpriu seus objetivos como um
+melhor explicadas na seção V, foram exploradas nelas 4 dos objeto de aprendizagem seguindo a avaliação LORI, assim
+12 princı́pios, principalmente: como um jogo de lazer/diversão de acordo com Cheng. O
+
+
+
+Tabela I: Notas dos estudantes do porquê jogarem jogos mobile, fonte: [2]
+Motivo Média Desvio Padrão
+1-Para que eu possa jogar em qualquer lugar 2.48 1.01
+2-Para que eu possa jogar em qualquer momento 3.59 0.97
+3-Para que eu possa jogar enquanto me desloco 2.68 1.11
+4-Para que eu possa apreciar o design de cada nı́vel 3.71 0.78
+5-Para que eu possa apreciar a interface do jogo 3.92 0.77
+6-Para que eu possa apreciar a aparente infinitude do jogo 3.50 0.96
+7-Para comunicar com os amigos 2.81 0.98
+8-Para ter uma relação mais próxima com os amigos 2.69 0.96
+9-Para sentir a sensação de ganhar 3.19 1.11
+10-Para competir com os amigos 2.69 1.07
+11-Para me desafiar minhas habilidades motoras 2.97 1.00
+12-Para matar tempo 3.97 0.84
+13-Para relaxar 3.90 0.78
+
+Tabela II: Metodologia LORI
+Pilar Descrição
+
+Veracidade e apresentação equilibrada das ideias
+Qualidade do conteúdo com nı́vel apropriado de detalhes, enfatizando os pontos
+
+chaves e ideias significantes
+Alinhamento do Objetivo da Aprendizagem Alinhamento entre as metas de aprendizagem, atividades, avaliações e caracterı́sticas dos alunos
+Feedback e Adaptação Conteúdo adaptável e feedback de acordo com as caracterı́sticas especı́ficas do aluno.
+Motivação Capacidade de motivar o interesse de um público alvo.
+Design da Apresentação Referente a informação visual, gráficos, tabelas, animação, entre outros
+Usabilidade Facilidade de navegação, previsibilidade da interface do usuário, e qualidade dos recursos de ajuda da interface.
+Acessibilidade Facilidade do acesso independente de plataforma.
+Reusabilidade Habilidade para usar em diferentes contextos de aprendizagem e com alunos de diferentes origens.
+Aderência a padrões Adesão às normas e especificações internacionais
+
+(a) Antecipação para pegar o bloco na (b) Ação de pegar o bloco para módulo de (c) Frame extremo demonstrando squash
+animação do módulo de Função Função and stretch
+
+Fig. 1: Princı́pios da animação exemplificados
+
+formulário foi enviado a todos os estudantes que utilizaram • Aderência a Padrões O aplicativo não segue padrões
+o aplicativo e a tabela III mostra cada enunciado e qual seu internacionais.
+direcionamento teórico :
+
+Os itens da metodologia LORI que não estão contemplados C. Conteúdo
+na Tabela III são e podem ser justficados por: Pensando na reusabilidade do sistema, a ideia era ter as
+
+questões salvas em um bancos a dados, de forma com que
+• Qualidade do Conteúdo As questões foram revisadas fosse possı́vel ter outras questões para possı́veis trabalhos
+
+pelo professor de Cálculo futuros.
+• Feedback e Adaptação O jogo liberava os módulos ape- Para facilitar a inserção de questões no sistema foi feito
+
+nas quando o usuário chegava em uma certa quantidade uma interface web para o CRUD de questões que será melhor
+de pontos, o sistema de pontuação é melhor discutido na discutida na seção V.
+seção V
+
+• Reusabilidade O jogo no atual momento possui apenas V. STONE GAME
+conteúdo de cálculo mas outros conteúdos podem ser
+facilmente adicionados como será discutido na seção VII. A. Ideia do Jogo
+
+• Acessibilidade O aplicativo não conta com recursos de A palavra cálculo vem de calculus, que significa pedra
+acessibilidade. pequena. O Stone Game usa essa etimologia como inspiração
+
+
+
+Tabela III: Perguntas do Formulário
+Enunciado Referência
+1. Encontrei dificuldades para entender o que deveria ser feito 6 da Tabela II
+2. Usei o aplicativo para matar tempo livre / relaxar 12 e 13 da Tabela I
+3. Gostei da interface do jogo 4 e 5 da tabela 1 e 5 da Tabela II
+4. Me senti motivado a resolver as questões 5 da Tabela I e 4 da Tabela II
+5. O ranking me motivou a resolver mais questões 7, 8, 9 e 10 da Tabela I
+6. O conteúdo do aplicativo me ajudou no entendimento de Cálculo I 2 da Tabela II
+7. Me senti recompensado de responder uma pergunta corretamente 4 e 5 da Tabela I e 3 da Tabela II
+
+para o nome e tem como ideia ser um jogo no formato de quiz, e a figura 3b mostra o valor de x bem pequeno (tendendo a
+em que cada módulo é uma espécie de cenário, começando 0).
+com o Marco da Função, com fundo verde e de planı́cie, O jogador pode se cadastrar e fazer login no sistema. Com
+passando pelo ”Oásis do Limite” com temática desértica, o mecanismo de autenticação, o app é capaz de salvar o
+chegando no ”Monstro da Derivada” e finalizando na ”Cidade seu progresso e a quantidade de pontos que será levada em
+Reintegrada”. consideração no ranqueamento dos usuários. O Ranking é
+
+Cada cenário possui múltiplos submódulos, mapeados para global e visı́vel para todos os usuários a qualquer momento,
+capı́tulos do livro de Cálculo I do Stewart, cada um deles con- sendo uma forma de alimentar a competitividade saudável
+tendo uma série de perguntas em formato de múltipla escolha. entre os jogadores para ser mais um fator de incentivo.
+Os cenários e submódulos são desbloqueáveis dependendo do O ranking é uma contagem decrescente de números de
+progresso do usuário, a fim de alimentar a curiosidade dele e estrelas. Cada pergunta acertada sem erros anteriores garante
+retê-lo por mais tempo. ao usuário três estrelas. Ao acertá-la com apenas uma alter-
+
+nativa errada, sua recompensa é reduzida para duas estrelas,
+e em sequência, para três estrelas quando há duas alternativas
+erradas. A partir desse momento cada vez que o usuário erra
+uma alternativa, ele perde uma vida, e sem vidas não é possı́vel
+mais tentar acertar nenhuma pergunta.
+
+O usuário pode ter no máximo duas vidas a cada momento
+e vidas são repostas a cada 6 horas.
+
+Um recurso que é dado ao usuário é a possibilidade de
+submeter uma resolução, por meio de imagem, mediante uma
+questão respondida com sucesso. Independente de quantas
+estrelas ele tenha ganhado com seu acerto, se sua submissão
+for aceita pelo usuário administrador (vide seção Conteúdo e
+Administração), ele será recompensado com 5 estrelas para
+aquela questão. Após um acerto, o jogador poderá ver as
+resoluções aceitas de outros usuários para aquela questão.
+
+Fig. 2: Menu inicial do jogo com a primeira fase B. Desenvolvimento e Tecnologia
+A arquitetura de funcionamento pode ser descrita de acordo
+
+O menu inicial mostra o desenho referente a cada capı́tulo, com a Fig. 4. O usuário final interage diretamente apenas com
+como mostra na Fig. 2, o usuário pode deslizar o touch hor- o ”mobile”, que é a versão interativa, feita em React Native.
+izontalmente para visualizar as próximas fases. Desta forma, As operações que ele executa são salvas e gerenciadas por
+o desenho principal muda e o plano de fundo é um gradiente um backend, construı́do em Node JS, hospedado no serviço
+que engloba toda a ”extensão” do cenário, mudando sua cor gratuito Heroku, que opera e interage com um banco de dados
+para as fases mais difı́ceis. não relacional, o MongoDB.
+
+A qualquer momento, é possı́vel ir até as configurações, que Por motivos de desempenho na comunicação do usuário
+são salvas no cache do aparelho, e configurar se a música e/ou final com o servidor, as imagens inclusas no enunciado das
+os efeitos sonoros irão tocar. questões e aquelas submetidas pelos próprios usuários, são
+
+Em cada um desses módulos, o usuário poderá ver uma salvas no Firebase, que é uma plataforma gratuita da Google
+pequena animação envolvendo o ”mascote” do aplicativo. Essa que auxilia na criação e gestão de aplicativos mobile e web.
+animação tem como objetivo sintetizar de forma simples o Dentre todas as ferramentas disponibilizadas no Firebase,
+macro conteúdo daquele módulo.Tomando o módulo de limite apenas o armazenamento de imagens foi utilizado.
+como exemplo, o personagem faz um movimento com os O Módulo Web, feito com a microframework Flask, é
+braços para simbolizar para qual valor o x está tendendo.A exclusivo ao usuário administrador do sistema. Nele é possı́vel
+Fig. 3a mostra o valor de x muito grande(tendendo a infinito), realizar a inserção, edição e remoção das questões inclusas no
+
+
+
+(a) Animação do conteúdo do Capı́tulo de limite, x tendendo (b) Animação do conteúdo do Capı́tulo de limite, x tendendo a
+ao infinito 0
+
+Fig. 3: Animação para o módulo de Limite
+
+Fig. 5: Demonstração de como uma pergunta é adicionada no
+sistema gerenciador
+
+Fig. 4: Diagrama da arquitetura do sistema
+
+musical muda para dar mais imersão, na tentativa de ambientar
+banco de dados, assim como aprovar ou recusar as submissões e condicionar o usuário para o ”momento de responder”. As
+dos usuários. cinco alternativas são animadas e aparecem na tela conforme
+C. Conteúdo e Administração a Fig. 6.
+
+O jogo conta com um total de 56 questões distribuı́dos em
+20 submódulos. Elas foram baseadas no livro de Cálculo do
+Stewart 5ª edição. Como as questões estão salvas no banco
+de dados, foi feito um sistema web para o gerenciamento
+do conteúdo. Nele é possı́vel adicionar, editar e remover
+módulos, capı́tulos e questões. Na página de cada submódulo,
+o administrador pode adicionar uma questão como visto na
+Fig. 5
+
+É necessário que o usuário administrador coloque o enun-
+ciado da questão e as quatro possı́veis alternativas e selecione
+qual delas é a correta. Também é possı́vel que ele adicione
+uma imagem à questão que será salva no Firebase. O ID da
+pergunta no sistema é usado como referência no sistema de
+diretório do Firebase. A qualidade das questões foi revisada
+por um professor de cálculo, um dos autores deste trabalho, Fig. 6: Página de responder as perguntas
+para que o primeiro item da metodologia LORI seja atendido.
+
+Após acessar cada módulo, como por exemplo o A pergunta pode ter uma imagem que foi adicionada na
+”Marco da Função”, o usuário se depara com a lista de criação da questão. Quando isso acontece o usuário deve clicar
+capı́tulos(submódulos) daquele contexto. Cada submódulo no sı́mbolo de imagem no canto direito superior para visualizar
+contém uma lista de possı́veis questões a serem respondidas e qual a imagem da questão.
+o usuário tem a visão de quais ele já respondeu corretamente. Durante a fase de coleta de resultados, as resoluções das
+No momento que ele seleciona uma não respondida, o tema questões submetidas foram aprovadas e recusadas por meio
+
+
+
+do mesmo módulo Web.
+
+VI. RESULTADOS
+
+Após a criação do aplicativo, ele foi disponibilizado para
+duas das três turmas de cálculo I da UFV - Campus Florestal,
+no primeiro perı́odo letivo de 2021.
+
+Como forma de incentivo, o professor da disciplina bonifi-
+cou com 1 ponto extra o aluno que estava no topo do ranking
+no final do perı́odo letivo.
+
+Durante o respectivo perı́odo letivo foi aplicado o formulário
+discutido na metodologia para os alunos que participaram do Fig. 9: Gráfico das respostas para pergunta 3
+experimento.
+
+Um total de 15 alunos utilizaram o aplicativo e, desses,
+7 responderam o questionário e deixaram um total de 4
+comentários. A aluna com maior pontuação fez um total
+de 39 estrelas, o que equivale a 13 questões respondidas
+corretamente. Os comentários feitos foram:
+
+• ”Muito bom as questões”
+• ”As questões e a ideia do aplicativo são muito boas, mas
+
+poderia ser mais bonito.”
+• ”No geral gostei bastante do aplicativo! Uma sugestão
+
+de melhoria seria uma atualização gráfica na interface do Fig. 10: Gráfico das respostas para pergunta 4
+aplicativo.”
+
+• ”É um excelente aplicativo e ajuda bastante no apren-
+dizado!”
+
+Fig. 11: Gráfico das respostas para pergunta 5
+
+Fig. 7: Gráfico das respostas para pergunta 1
+
+Fig. 12: Gráfico das respostas para pergunta 6
+
+Fig. 8: Gráfico das respostas para pergunta 2 maioria dos casos, o que é um dos fatores mais importantes
+na criação de um aplicativo. Em relação ao objetivo de ser
+
+Como podemos ver na Fig. 11, o ranking ajudou a incentivar uma experiência realizada durante o ócio houve divergências
+os alunos mas não foi o aspecto de maior importância, se nos resultados, como pode ser visto na Fig. 8. O resultado
+considerarmos o pequeno número de participantes. Talvez o da interface foi insatisfatório conforme visto na Fig. 9, onde
+raking fosse progressivamente mais competitivo e relevante a os elementos gráficos como botões, telas de menu, quantidade
+medida que o número de usuários crescesse. A Fig. 7 mostra de tentativas, pontuação total não tinham qualidade tão boa
+que os objetivos eram bem claros e a usabilidade intuitiva na quanto jogos de grandes empresas que os usuários estão
+
+
+
+os pilares da metodologia Lori. Dando enfoque à essa reusabil-
+idade é possı́vel que outros trabalhos explorem a inserção de
+novas questões para o aprendizado de outros contextos, mas
+para que isso fosse viável é importante melhorar a interface
+e criar possı́veis novos sistemas de recompensa, bem como
+animações e cenários especı́ficos.
+
+REFERÊNCIAS
+
+[1] Fundação Getúlio Vargas. Brasil tem 424 milhões de
+dispositivos digitais em uso, revela a 31ª pesquisa anual
+
+Fig. 13: Gráfico das respostas para pergunta 7 do fgvcia, 2020.
+[2] Cheng Cheng. Are you addicted to candy crush saga? an
+
+acostumados a utilizar. Os estudantes em sua maioria se exploratory study linking psychological factors to mobile
+sentiram gratificados de responder as perguntas, motivados a social game addiction, telematics and informatics, 2016.
+responder mais e o mais importante, sentiram que o aplicativo [3] Fabiana Garzella. ’terror’ dos alunos de exatas, cálculo
+auxiliou no aprendizado de cálculo como pode ser visto na i é comparado a processo industrial, unicamp, 2019.
+Fig. 10, na Fig. 12 e na Fig. 13. [4] Sandra Malta Barbosa. Tecnologias da informação e
+
+Podemos perceber que o ranking (Fig. 11 e ser um aplica- comunicação, função composta e regra de cadeia, uni-
+tivo para momentos de relaxamento (Fig. 8) não obtiveram versidade estadual paulista, 2009.
+resultados tão bons. [5] Juliano Schimiguel Maxwell de Oliveira Medeiros. Uma
+
+abordagem para avaliaÇÃo de jogos educativos: Ênfase
+VII. CONSIDERAÇÕES FINAIS no ensino fundamental, universidade federal do rio
+
+Analisando Stone Game diante das duas frentes, objeto grande do sul, 2012.
+de aprendizagem e/ou um jogo divertido, podemos perceber [6] Daniel Mendes Barbosa Marcos V. S. Mota. Draw the
+que ele faz mais sentido como a primeira. Os resultados, function: um jogo educacional para auxiliar a aprendiza-
+assim como a dificuldade de se atingir uma interface no nı́vel gem de funções matemáticas, universidade federal de
+profissional mostram isso. viçosa, 2018.
+
+A quantidade de usuários não foi tão satisfatória, uma vez [7] Vinicius Lunkes Cezar, Patrick Vicente Garcia, Evan-
+que o modo de disponibilização ao aplicativo não foi o melhor dro Manara Miletton, and Viviane Botelho. A sociedade
+possı́vel: apenas o arquivo instalador do android (APK) foi do cálculo: um jogo educacional digital para a disciplina
+enviado pelo professor para os alunos da disciplina, o que de cálculo i, instituto federal de educação, ciência e
+seria diferente de disponibilizar na Play Store e fazer uma tecnologia do rio grande do sul, 2019.
+aprensentação presencial para os alunos, o que não foi possı́vel [8] Filipe F. Lacerda Gabriel G. de Freitas Rodrigo O.
+visto o custo da loja e o contexto pandêmico, respectivamente. Figueiredo e Daniel M. Barbosa Adriano M. Martins,
+
+Alguns alunos se queixaram ainda de não existir a versão Pablo Ferreira. Lord of florestal: Uma abordagem de
+para iOS e outros de não ter a versão web, que seria útil gamificacão para o ensino superior com o uso de uma
+também visto que os estudantes também gostariam de poder plataforma para criacãao de jogos de cartas digitais,
+usar o app em um ambiente mais propı́cio para o aprendizado, sbgames, 2019.
+como, por exemplo, numa área de trabalho de mesa. [9] Elihu Katz and Jay Blumler. Uses and gratifications
+
+Apesar do baixo uso, os resultados coletados conseguiram theory, the pennsylvania state university, 2011.
+cumprir bem as duas bases de avaliação. Melhorar a interface [10] John Nesbit. Learning object review instrument
+base do sistema alavancaria o engajamento por parte dos (lori),simon fraser university. 2009.
+usuários, já que esse foi um dos pontos mais comentados por [11] Nekhat Sultana. Exploring believable character ani-
+parte dos mesmos e pode ser observado como constante em mation based on principles of animation and acting,
+ambos as metodologias de avaliação. Melhorar esse aspecto informatics and creative multimedia (icicm), 2013.
+pode ser um trabalho futuro, explorando conceitos de usabili-
+dade.
+
+Sobre a interface e as animações, cabe ressaltar que para
+serem vistas era necessário o clique ativo do usuário, que
+poderia facilmente não ver essa opção, já que o botão para
+visualização era bem discreto, o que seria um dos primeiros
+itens a ser refatorados caso o sistema fosse atualizado.
+
+Como trabalhos futuros, o sistema pode ser expandido para
+outras áreas do conhecimento, bastando para isso que as
+questões especı́ficas fossem inseridas. Podem ser adicionados
+recursos de acessibilidade e padronização para cumprir todos

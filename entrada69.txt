@@ -1,0 +1,617 @@
+﻿Uma Avaliação do Consumo Energético de Protocolos de
+Acesso ao Meio para Redes Corporais sem Fio
+
+Adriele D. Souza1, Kristtopher K. Coelho1, Alex B. Vieira2,
+Bruno M. Cremonezi3, Michele Nogueira3, José Augusto M. Nacif1
+
+1Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa (UFV)
+2Depto. de Ciência da Computação – Universidade Federal de Juiz de Fora (UFJF)
+
+3Depto. de Informática – Universidade Federal do Paraná (UFPR)
+
+{adriele.souza,kristtopher.coelho,jnacif}@ufv.br
+
+alex.borges@ufjf.edu.br, {michele.nogueira, cremonezi}@ufpr.br
+
+Abstract. Wireless Body Area Networks (WBANs) have been widely employed
+in medical environments to aid communication between devices and the trans-
+mission of collected data, such as vital signs of patients. As it serves to support
+medical applications, WBANs require reliability on the communication between
+sensor nodes and base stations. However, given the natural vulnerabilities of
+wireless communication, such as inferences and losses, solutions need to by-
+pass issues faced in wireless communication. In this paper, we evaluate the
+power consumption of devices in a scenario similar to a hospital environment in
+order to compare the DCAA and PDAC protocols, both specifically designed for
+wireless body networks. The experiments demonstrate a slightly higher power
+consumption for PDAC compared to DCAA. However, because it has a more
+robust and efficient channel control and allocation, PDAC offers characteristics
+that benefit the quality of the communication, which accredits it as an adequate
+protocol to WBAN.
+
+Resumo. As redes corporais sem fio (WBANs) são amplamente utilizadas em
+ambientes médicos no auxílio à comunicação entre dispositivos e à transmis-
+são dos dados coletados, tais como os sinais vitais de pacientes. Como servem
+de suporte às aplicações médicas, as WBANs utilizadas neste ambiente reque-
+rem confiabilidade na comunicação entre os dispositivos sensores e as estações
+base. Entretanto, diante das vulnerabilidades natas da comunicação sem fio,
+tais como inferências e perdas, as soluções precisam contornar possíveis pro-
+blemas enfrentados em uma comunicação sem fio. Neste trabalho, nós avalia-
+mos o consumo energético de dispositivos em um cenário similar a um ambi-
+ente hospitalar para comparar os protocolos DCAA e PDAC, ambos projetados
+especificamente para redes corporais sem fio. Os experimentos apontam um
+consumo energético levemente superior para o PDAC em relação ao DCAA.
+Contudo, por ser dotado de um controle e alocação de canais mais robusto e
+eficiente, o PDAC apresenta características que favorecem a qualidade da co-
+municação, credenciando-o como um protocolo propício para WBANs.
+
+
+
+1. Introdução
+Com o crescimento da população mundial, os sistemas de saúde públicos e priva-
+
+dos apresentam uma necessidade constante por reformulações para se adaptarem a esta
+situação. Devido ao aumento de doenças crônicas e fatais, e também à falta de profis-
+sionais qualificados, as despesas relacionadas à saúde tendem a aumentar significativa-
+mente nos próximos anos [Movassaghi et al. 2014]. Diante de tal cenário, a tecnologia
+apresenta-se como uma alternativa promissora, uma vez que, se utilizada corretamente,
+além de fornecer diagnósticos e tratamentos mais assertivos, pode auxiliar na redução
+de custos. Tendo em vista a possibilidade de tornar o cuidado com a saúde algo viá-
+vel em qualquer lugar e a qualquer momento, a computação ubíqua surge como uma
+solução [Lima 2010, Augustin et al. 2008], pois apresenta características favoráveis ao
+cenário. A proposição de sistemas de monitoramento extremamente confiáveis, de baixa
+potência e baixo consumo energético podem contribuir para que haja uma exigência me-
+nor da infraestrutura existente, além de apresentar avaliações mais precisas dos pacien-
+tes [de Carvalho et al. 2011].
+
+As redes corporais sem fio (WBANs) consistem em um conjunto de sensores que
+atuam de forma cooperativa, cujo espaço de monitoramento é o corpo humano. Capazes
+de monitorar e processar diversos sinais vitais de um usuário, a aplicação de WBANs no
+cenário médico é direta. De maneira geral, tais dados são capturados, processados e pos-
+teriormente enviados para análise. Uma vez armazenados em repositórios médicos, essas
+informações podem alimentar diversas aplicações, oferecendo a verificação e o diagnós-
+tico baseado nas condições do paciente. O padrão IEEE 802.15.6 fornece para tal cenário
+uma comunicação confiável, de curto alcance (utilizável dentro ou em torno do corpo
+humano) e baixa potência. Entretanto, estes sistemas apresentam diversas limitações ad-
+vindas do próprio ambiente de comunicação em si [Movassaghi et al. 2014]. Devido à
+baixa disponibilidade de canais na faixa de frequência não-licenciada de 2,4GHz (indus-
+trial, científica e médica), o ambiente em questão apresenta condições vulneráveis, os
+quais torna a comunicação propensa a congestionamento e interferências. Além disso, a
+questão energética dos dispositivos é um ponto a ser tratado. Apesar da troca de bateria
+em sensores externos ser fácil, aqueles intra-corporais não possuem tal privilégio. Sendo
+assim, para estes dispositivos a vida útil deve ser prolongada.
+
+Atualmente, muitas pesquisas estão sendo realizadas acerca dos problemas en-
+frentados por WBANs. Alguns modelos foram propostos para mensurar o consumo
+de energia [El Azhari et al. 2017] e garantir a eficiência energética de dispositivos em
+rede [Hiep and Hoang 2014]. No entanto, a maioria destes trabalhos consideram ambi-
+entes insaturados, protocolos que dispõem de menos funcionalidades, e que por vezes
+não garantem qualidade na comunicação e um bom desempenho por parte do sistema
+[Jung et al. 2012, Hiep and Hoang 2014].
+
+Nesse sentido, este artigo contribui com uma investigação quantitativa do
+consumo energético nos dois principais protocolos de controle de acesso ao
+meio projetatos para WBAN, os protocolos DCAA (Dynamic Channel Adjustable
+Asynchronous) [Lee et al. 2011] e PDAC (Protocol for Dynamic Channel AlloCa-
+tion) [Cremonezi et al. 2017]. O DCAA segue uma abordagem para alocação dinâmica
+de canais, além de expor as principais técnicas que garantem uma comunicação de qua-
+lidade entre os dispositivos sensores. O PDAC possui características similares ao DCAA
+
+
+
+em relação à alocação dinâmica de canais, mas difere desse por permitir a atuação de
+múltiplas estações base em um mesmo ambiente. A abordagem do PDAC reduz o atraso
+e as perdas de pacotes em aplicações médicas. O PDAC oferece também uma solução ca-
+paz de reduzir fatores que possam comprometer a qualidade da comunicação. O principal
+objetivo deste trabalho consiste em realizar uma análise e comparação entre os protocolos.
+
+A avaliação do consumo energético dos protocolos DCAA e PDAC foi realizada
+através dos simuladores Castália, versão 3.2, e Network Simulator 3 (NS-3), versão 3.27.
+Os protocolos em questão foram expostos a simulações de redes sem fio utilizando, pri-
+meiramente, o padrão IEEE 802.11 (WiFi) e em seguida o padrão IEEE 802.15.4 (ZigBee).
+Os protocolos são analisados sob a métrica consumo médio de energia gasto pelos dis-
+positivos sensores em um cenário similar a um ambiente hospitalar. Com uma diferença
+média de aproximadamente 0,87%, utilizando o simulador Castália, e 2,05% utilizando
+o NS-3, os resultados demonstram que sistemas seguindo o PDAC tendem a consumir
+mais energia do que aqueles que utilizam o DCAA. Entretanto, devido às funcionalida-
+des adicionais apresentadas pelo PDAC, os quais o DCAA não dispõe, o PDAC ainda é
+considerado apto a ser aplicado em WBANs.
+
+O artigo segue a organização descrita. A Seção 2 discute sobre os trabalhos relaci-
+onados. Na Seção 3, são detalhados os protocolos DCAA e PDAC, utilizados como base
+para realizar as simulações. A Seção 4 descreve as simulações realizadas para a avalia-
+ção dos protocolos, bem como os modelos referentes a cada simulador. Na Seção 5, são
+apresentados os resultados. A Seção 6 conclui o artigo e direciona os trabalhos futuros.
+
+2. Trabalhos Relacionados
+Considerando um cenário médico, onde as informações trafegadas são referentes
+
+à dados clínicos de pacientes, é imprescindível que haja um controle minucioso sobre
+possíveis interferências na rede. Tal ambiente exige maior rigidez com alguns requisitos
+de comunicação, como por exemplo, baixa latência [Baker and Hoglund 2008], eficiência
+energética e alta precisão na entrega [Yu et al. 2006]. Por vezes, estes requisitos estão re-
+lacionados ao padrão e infraestrutura utilizada [Movassaghi et al. 2014]. Tendo em vista
+os desafios enfrentados por WBANs, muitas pesquisas são realizadas acerca de técnicas
+já existentes na literatura, a fim de se obter soluções mais assertivas. Porém, na maioria
+das vezes trata-se de soluções genéricas que não atendem às exigências da área médica,
+como desejado.
+
+Em [Lee et al. 2011], os autores apresentam o DCAA, um protocolo de aloca-
+ção dinâmica de canais, que possui características comuns de rádio cognitivos. Uti-
+lizando técnicas como handshaking e saltos entre as frequências ao realizar a varre-
+dura da faixa, o DCAA garante certa confiabilidade na transmissão de dados e também
+um melhor aproveitamento do espectro de frequência. Com base no trabalho citado,
+[Cremonezi et al. 2017] implementa o DCAA utilizando o padrão IEEE 802.15.4 e pro-
+põe o PDAC, que é um protocolo que além de possuir as características do DCAA, atende
+cenários com múltiplas estações bases. O que de certa forma está mais próximo da re-
+alidade de um ambiente hospitalar, onde é possível haver várias estações bases em uma
+mesma região [Baker and Hoglund 2008].
+
+Alguns padrões fornecem mecanismos que garantem uma comunicação confiável
+e energicamente eficiente [Salayma et al. 2016], porém ainda assim é necessário uma oti-
+
+
+
+mização para que estes atendam a cenários e requisitos específicos. O presente trabalho
+aborda os padrões IEEE 802.15.4 e IEEE 802.11. Ambos apresentam características favo-
+ráveis ao que se refere a WBANs, além de operarem na faixa não licenciada de 2,4GHz.
+O IEEE 802.15.4 utilizado nas especificações do Zigbee, se destaca pelo baixo consumo
+energético e baixo alcance, o que possibilita a utilização de baterias como fonte de ali-
+mentação [Gislason 2008]. Enquanto o Wi-Fi, estabelecido pela norma IEEE 802.11,
+apresenta maior capacidade de transmissão e conexão mais estável [Crow et al. 1997].
+
+Em [Jung et al. 2012], os autores apresentam uma análise estabelecida em alguns
+requisitos exigidos por WBANs. Apesar de não ser o foco principal, um dos objetos ex-
+plorados no estudo realizado, é o consumo e eficiência energética em um cenário similar a
+um ambiente hospitalar. Entretanto, tal análise é realizada sob condições favoráveis, sem
+a presença de fatores que possam interferir na comunicação. Por consequência, os resul-
+tados obtidos podem não ser tão condizentes com a realidade, uma vez que na maioria das
+vezes o cenário em questão está exposto a diversos fatores que contribuem para que haja
+problemas na comunicação. Diferente do estudo mencionado, o presente trabalho realiza
+uma avaliação com base em simulações de ambientes saturados, expostos a interferências
+e com múltiplos dispositivos ativos, deste modo, fornecendo resultados mais próximos da
+realidade.
+
+À vista disso, este trabalho apresenta uma análise relativa ao consumo energético
+dos protocolos e padrões de comunicação supracitados. Esta análise segue fielmente as
+referências estabelecidas por [Lee et al. 2011] e [Cremonezi et al. 2017].
+
+3. Os protocolos de controle de acesso ao meio para WBAN
+Esta seção apresenta as características dos protocolos DCAA e PDAC. Ambos fo-
+
+ram implementados com objetivo de serem especificamente voltados para WBANs, com
+foco em aplicações para áreas médicas. Diante disso, é imprescindível que estes proto-
+colos atendam aos requisitos exigidos pelo cenário médico, uma vez que as informações
+trafegadas são, em sua maioria, referentes a sinais vitais de pacientes.
+
+Os protocolos em questão podem ser configurados para assumirem papéis dis-
+tintos conforme as necessidades do cenário e aplicação. Sendo assim, os dispositivos
+presentes na rede podem atuar como estação base ou nó sensor, respeitando o que foi
+preestabelecido. Nas subseções posteriores, é apresentada uma descrição minuciosa dos
+protocolos e suas características desempenhando os papéis de estação base e nó sensor.
+
+3.1. DCAA: Dynamic Channel Adjustable Asynchronous
+O DCAA trata-se de um protocolo que permite um gerenciamento eficiente do
+
+espectro de frequência licenciado, utilizando técnicas de rádio cognitivo. Para isto, os
+nós examinam o ambiente e utilizam as frequências ociosas para a transmissão dos da-
+dos. Deste modo, é possível proteger os usuários preferenciais do canal. Tal protocolo
+ainda apresenta um modelo de interação assíncrono com intuito de prover baixa latência
+e reconfigurabilidade para as WBANs.
+
+Quando o protocolo é atribuído ao nó sensor, seu comportamento segue o fluxo-
+grama apresentado na Figura 1. Ao despertar para transmissão de dados, o nó inicia em
+um dos canais disponíveis escolhido de modo aleatório (1). Em seguida, a disponibili-
+dade e qualidade deste canal é avaliada (2) por meio de Carrier Sense. Caso este canal
+
+
+
+Figura 1. Fluxograma do nó sensor - DCAA
+
+esteja sobrecarregado (3), o nó hiberna por um tempo estipulado pelo algoritmo de bac-
+koff exponencial (4), para então realizar uma nova verificação de disponibilidade (5). Na
+situação em que o canal permanece dedicado, o nó faz a comutação dos canais utilizando
+o método Frequency Hopping (6), seguindo um Round Robin crescente, em que a troca
+de canais segue uma fila circular no qual o ponto de partida é o canal escolhido anterior-
+mente.
+
+Quando um canal apresenta condições de comunicação e existem dados a serem
+transmitidos, o nó estabelece um canal de comunicação confiável, utilizando o método
+Handshake de três vias. Ao utilizar esta técnica, o nó sensor envia uma mensagem de
+requisição de comunicação (RTS) (7) endereçada à estação base. Quando a estação base
+encontra-se ocupada, ou caso não tenha recebido a mensagem a ela destinada, acontece a
+retransmissão do pacote contendo RTS com tempo gerenciado pelo algoritmo de backoff
+exponencial. Quando a estação base encontra-se disponível, esta sinaliza com o quadro
+de CTS (8). Em seguida, o nó passa a transmitir todos seus dados (9) sequencialmente à
+estação, e o término é sinalizado por meio do EOF (10). Neste ponto, o nó volta ao estado
+de hibernação inicial favorecendo a eficiência energética por parte do nó sensor.
+
+Na situação em que o nó atua como estação base, o comportamento do protocolo
+é apresentado pelo fluxograma da Figura 2. A estação base também é inicializada em um
+canal escolhido aleatoriamente (1). Entretanto, a fase de avaliação do ambiente (Carrier
+Sense) (2) ocorre com intuito de identificar a requisição de estabelecimento de comunica-
+ção por parte dos nós sensores. Deste modo quando não há alteração no ambiente por um
+determinado período (8), ocorre uma troca entre os canais (9), assim como acontece com
+os nós sensores.
+
+Quando algum pacote de comunicação é recebido (3), verifica-se se este possui
+um conteúdo válido e endereçado a tal estação base (4). Ao validar estas informações,
+inicia-se o processo de estabelecimento de comunicação com o envio de um quadro CTS
+(5). Neste momento a estação base está apta a receber os dados dos nós sensores (6) até
+
+
+
+Figura 2. Fluxograma da estação base - DCAA
+
+que o fim da transmissão é sinalizada por meio de uma mensagem contendo um quadro
+EOF (7) ou após um período de inatividade. Ao findar a transmissão dos dados, a estação
+base volta a verificar o ambiente, percorrendo todo espectro de frequência em busca de
+novas requisições.
+
+3.2. PDAC: Protocol for Dynamic Channel AlloCation
+Assim como o DCAA, o PDAC é um protocolo que apresenta o conceito de alo-
+
+cação dinâmica de canais, além de abordar técnicas que tendem a reduzir problemas na
+comunicação. Considerando um ambiente hospitalar e seus requisitos, o PDAC, diferente
+de outros protocolos propostos, permite a atuação de diversas estações base, de forma
+colaborativa. Tal funcionalidade é interessante, uma vez que evita a possibilidade de so-
+brecarga, fator proeminente em ambientes que dispõe de apenas uma estação base.
+
+Para a aplicação do protocolo em questão, a arquitetura considerada dispõe de nós
+sensores, nós centrais e estações base. Sendo assim, os nós sensores enviam os dados
+para um nó central (comunicação intra-WBAN), e este, por sua vez, fica encarregado de
+fazer a negociação com a estação base e, posteriormente, a transmissão dos dados para a
+mesma (comunicação inter-WBAN).
+
+Em sistemas que utilizam o PDAC, a transmissão ocorre em duas fases. A pri-
+meira, denominada fase de controle, inicia-se quando o nó central envia uma requisição
+à estação base para a negociação de um canal de dados. Assim que a alocação do mesmo é
+efetuada, inicia-se a fase de transmissão. Nos fluxogramas apresentados pelas Figuras 3
+e 4, estas fases foram destacadas, respectivamente, com as cores vermelha e azul.
+
+Quando o protocolo é atribuído ao nó central, seu comportamento segue o fluxo-
+grama mostrado na Figura 3. O início da fase de controle (1), como dito anteriormente,
+ocorre assim que o dispositivo envia uma mensagem de requisição de comunicação (RTS)
+
+
+
+(2) para a estação base. Após o envio da mensagem de requisição, o nó central aguarda
+(3) por um tempo até que a estação base retorne uma mensagem de confirmação (CTS).
+Caso não haja retorno (4), este espera por mais um tempo aleatório e faz a requisição no-
+vamente. Se a estação base enviar a confirmação, o dispositivo envia um pacote SYNC (5)
+confirmando o recebimento do canal. Em seguida, o nó central fica aguardando por uma
+confirmação (ACK) (6, 7) para posteriormente sintonizar o canal de dados (8) e encerrar
+a fase de controle.
+
+Figura 3. Fluxograma do nó sensor - PDAC
+
+Ao sintonizar no novo canal, a fase de transmissão se inicia. Com isso, a estação
+base deve indicar ao nó central, que está pronta para receber os dados. Esta sinalização
+é feita a partir do envio do pacote DRTS (Data Request to Send)(9). Caso o dispositivo
+receba essa mensagem (10), a transmissão de dados é iniciada (11). Logo após receber
+os dados, a estação base envia um ACK para confirmar o recebimento e a comunicação é
+finalizada.
+
+O fluxograma apresentado na Figura 4 descreve o comportamento do protocolo
+quando o mesmo é aplicado à uma estação base. Neste caso, o dispositivo dispõe de duas
+interfaces de comunicação sem fio, uma de controle e outra de dados. A interface de
+controle é inicializada em um canal fixo (1), que é conhecido por todos os dispositivos,
+enquanto a interface de dados sintoniza de acordo com as requisições e disponibilidade de
+canais. Ao receber uma requisição do nó central (RTS) (2), a estação base verifica se há
+canais disponíveis para serem utilizados (LCD). Se não haver nenhum canal disponível,
+a estação base envia um pacote de negação (NCTS - Negative Clear to Send) para o nó
+central e a comunicação é encerrada.
+
+Caso a estação base encontre um canal (5), o mesmo deve ser retirado da LCD e
+adicionado à uma lista de canais em uso (LCU) (6). Em seguida a estação base em questão
+comunica às outras estações presentes que determinado canal foi alocado (7), e envia uma
+mensagem de confirmação ao nó central (CTS) (8). Após enviar o CTS, o nó central deve
+
+
+
+confirmar o recebimento do canal (SYNC) (9). Caso a estação base receba este pacote,
+a mesma retorna um ACK (11) para o nó central, sinalizando que irá estabelecer uma
+conexão no canal alocado. Neste momento, a fase de controle se encerra.
+
+Figura 4. Fluxograma da estação base - PDAC
+
+A fase de transmissão é iniciada assim que um canal é alocado (12). Para indicar
+que está pronta para receber os dados provenientes do nó central, a estação base deve
+encaminhar um pacote DRTS (13) para este. Após receber todos os dados (14), a estação
+base envia um pacote de confirmação (ACK) (15), desaloca o canal (16) removendo-o da
+LCU e o inclui na LCD. Em seguida, comunica às outras estações base que determinado
+canal está disponível para uso (17) e por fim, encerra a comunicação.
+
+4. Análise
+Para este trabalho foi necessário um estudo prévio sobre os protocolos DCAA
+
+e PDAC, bem como os padrões utilizados. Os experimentos foram realizados com os
+simuladores Castália e NS-3, ambos utilizando a linguagem C++. Os dados coletados
+referentes ao consumo energético dos nós sensores em seus respectivos ambientes, foram
+armazenados em arquivos do tipo .csv (Comma-separated values), o que posteriormente
+possibilitou a geração de gráficos utilizando o software livre Gnuplot.
+
+Considerando ambientes com área de aproximadamente 30 m2, os experimentos
+deste trabalho foram feitos com base em quatro casos. Para dois primeiros casos, foram
+simulados utilizando o simulador Castália e o padrão IEEE 802.15.4, e para os dois ou-
+tros, o simulador NS-3 e o padrão IEEE 802.11. Para obter um resultado mais preciso,
+foram realizadas 15 (quinze) execuções de cada um dos quatro cenários avaliados. Os da-
+dos obtidos são resultados de simulações as quais consideram o envio de 6400 pacotes de
+mensagem com conteúdo útil de 110 bytes de tamanho cada. Tais mensagens são trans-
+mitidas em intervalos de 150 milissegundos utilizando a faixa não licenciada de 2,4GHz.
+Durante a simulação, realizou-se a variação da quantidade de nós, para análise do com-
+portamento de cada protocolo em condições distintas. Deste modo, foi estabelecido que
+a quantidade mínima por ambiente seria de 4 nós sensores, e o limite máximo seria 16.
+Gerando assim, 13 (treze) experimentos para cada caso avaliado.
+
+
+
+A captura de estatísticas geradas em cada simulação foi realizada a partir de logs
+de mensagem, no Castália, e módulos nativos do próprio simulador, como o Flow Moni-
+tor do NS-3. Em ambos os casos, há métodos que fornecem informações sobre a conexão
+com base nas métricas que foram exigidas. Porém, informações sobre o consumo ener-
+gético não são possíveis de serem extraídas por tais métodos, e para isso é necessário a
+utilização de outros componentes dos simuladores que serão apresentados adiante.
+
+4.1. Análise de Consumo Energético
+No contexto de WBANs, a eficiência em relação ao consumo energético é consi-
+
+derado um dos fatores mais importantes a ser avaliado. Uma vez que, há sensores que
+podem ser expostos a locais de difícil acesso, o que de certa forma, acaba impossibili-
+tando a troca de bateria [Motoyama ], se faz necessário um controle maior no que se diz
+respeito à vida útil dos dispositivos.
+
+Muitos métodos são propostos a fim de promover uma otimização no quesito
+eficiência energética, como por exemplo reduzir o tamanho da bateria, adaptar o dis-
+positivo para reduzir o consumo em determinados estados de funcionamento, estudar
+a possibilidade de um carregamento on-body [Gomes 2015], entre outros. Entretanto,
+a camada MAC que mais atua no processo de correção e controle de problemas, além
+de ser responsável por tratar diversos outros requisitos exigidos pelo cenário médico,
+acaba sendo uma influenciadora direta em relação ao consumo de energia dos dispositi-
+vos [dos Santos1 and Motoyama ].
+
+Para o presente trabalho, foram realizadas medições a fim de investigar o com-
+portamento dos protocolos DCAA e PDAC em relação ao consumo energético em uma
+rede de dispositivos sem fio. Para tal, foram utilizados modelos fornecidos pelos próprios
+simuladores.
+
+4.1.1. Modelo fornecido pelo Castália
+
+Tendo em vista a importância de tratar a questão da eficiência energética em uma
+rede de dispositivos sem fio, o simulador Castália dispõe de um gerenciador de recursos
+que é responsável, basicamente, por monitorar a energia consumida pelos dispositivos
+presentes na rede. A estrutura do gerenciador de recursos segue, de forma resumida, o
+fluxo apresentado na Figura 5. A fim de transmitir informações sobre o consumo ener-
+gético e estado em dado momento, os dispositivos presentes enviam mensagens para o
+gerenciador de recursos sempre que ocorre alguma variação na comunicação ou periodi-
+camente.
+
+Figura 5. Estrutura do Gerenciador de Recursos no Castália.
+
+
+
+O cálculo de consumo energético realizado pelo Castália segue o modelo mais
+simples presente na literatura, utilizando a carga atual (Ca) do dispositivo e o tempo per-
+corrido (Tp). Para se obter o valor referente ao tempo percorrido (Tp) é necessário ter
+conhecimento sobre o tempo anterior e o tempo atual. Já o valor da carga atual pode ser
+calculado com base nos valores referentes à carga antiga e à energia consumida ao enviar
+uma mensagem.
+
+Com a possibilidade de possuir mais de dois dispositivos na rede, o resultado se dá
+à partir da média aritmética do consumo energético obtido por todos os nós presentes, sem
+levar em consideração o estado no qual este se encontra. Por padrão, os resultados são
+obtidos em milijoules (mJ), mas esta unidade pode ser facilmente alterada pelo usuário.
+Na Equação 1 o resultado é apresentado em Watt, que é equivalente a Joules por segundo,
+uma vez que a conversão já está sendo feita na própria equação.
+
+n
+1∑ Cai · Tpi
+
+C = (1)
+n 1000
+
+i=1
+
+Além das funcionalidades citadas anteriormente, o gerenciador de recursos é capaz de
+fornecer dados mais específicos de cada dispositivo, como por exemplo, a taxa de desvio
+do relógio, que consiste na possível variação do tempo diante as condições apresentadas
+no ambiente em questão. E também a energia mínima que um nó é capaz de consu-
+mir. Embora o Castalia apresente uma base suficiente para realizar análise em relação ao
+consumo energético, muitas das funcionalidades que o simulador propõe ainda não estão
+totalmente operacionais [Boulis et al. 2011].
+
+4.1.2. Modelo fornecido pelo NS-3
+
+De forma análoga ao Castália, o NS-3 apresenta um framework no qual são abor-
+dados alguns parâmetros e requisitos básicos para realizar análise e tratamento do con-
+sumo energético. O Energy Framework dispõe de módulos que permitem a investigação
+acerca da energia consumida pelo nó, além de ser capaz de mensurar, de forma criteriosa,
+o tempo de vida do mesmo sob condições específicas [Wu et al. 2011].
+
+Figura 6. Estrutura do módulo Energy Framework no Network Simulator 3.
+(Fonte: Adaptado de [Wu et al. 2011])
+
+Como pode ser visto na Figura 6, o framework é composto por um conjunto de
+fontes e modelos de energia que estão, de certa forma, conectados entre si. Basicamente,
+
+
+
+do lado esquerdo tem-se a bateria do dispositivo, e do lado direito o componente em si,
+que irá consumir a carga da bateria. A partir da combinação destes módulos, é possível
+obter informações sobre o consumo energético de determinado dispositivo, a carga res-
+tante com base no valor da carga inicial da bateria, além de ser possível também obter
+informações sobre energia advinda de fatores externos.
+
+Ao iniciar uma simulação utilizando o NS3, é atribuído um valor inicial para cada
+dispositivo. Durante o processo, um valor referente ao consumo é decrementado da carga
+inicial até que o mesmo se finalize ou até que a carga total seja totalmente consumida.
+Além da carga inicial (Eo) o módulo responsável pelas fontes de energia, armazena tam-
+bém outras informações sobre o nó, como por exemplo, a corrente (Ii), a tensão (V) e o
+tempo (Ti) associado a ele. Tais informações auxiliam no cálculo do consumo energético,
+como pode ser visto na Equação 2. O cálculo é realizado durante o período (Ti,T(i + 1)). Para
+que os resultados extraídos sejam próximos aos de um ambiente real, os valores citados
+acima normalmente são especificados pelo usuário com base em informações obtidas a
+partir de baterias reais, por exemplo, ou de alguma referência já presente na literatura.
+
+E(i+1) = Ei + V · (T(i+1) − Ti) · Ii (2)
+
+Considerando que em um ambiente real, os dispositivos disponíveis na rede podem ope-
+rar com base em estados distintos, o NS-3 apresenta uma abordagem única para cada
+caso. Um rádio por exemplo, em dado momento pode estar atuando em modo receptor,
+transmissor, idle ou sleep. Portanto, se faz necessário estabelecer valores de consumo di-
+ferentes para cada estado, uma vez que alguns consomem mais energia que outros e isso
+pode impactar no resultado final.
+
+5. Resultados
+Implementados os protocolos e modelos propostos, alguns experimentos foram
+
+configurados e executados conforme o que foi apresentado na Seção 4. Diante disso, a
+presente seção explora os resultados comparando os protocolos DCAA e PDAC entre si,
+tendo como essência o consumo energético em um cenário hospitalar.
+
+Inicialmente, os experimentos foram realizados utilizando o simulador Castália.
+Para estas simulações, foram utilizados rádios ZigBee CC2420, que são disponibilizados
+pelo próprio simulador. Além disso, foi necessário a definição de valores padrões para
+alguns parâmetros exigidos pelo modelo. Ao iniciar a simulação, o valor da bateria com-
+pletamente carregada equivale a 18720 joules, o que representa duas pilhas recarregáveis
+comuns. A taxa de consumo por período e o intervalo para realizar o cálculo foram confi-
+gurados para 6 milliwatts e 1000 milissegundos respectivamente, bem como apresentado
+por [Boulis et al. 2011].
+
+Nestas condições, o gráfico apresentado pela Figura 7 exibe o consumo médio
+de energia por número de nós presentes na rede. Ao analisar o gráfico nota-se uma evi-
+dente diferença, com média de aproximadamente 0.00583 milliwatts entre os protocolos.
+É possível constatar que o PDAC consome mais energia que o DCAA em todos os pontos
+presentes. Em contrapartida, analisando ambos os protocolos com base na taxa de entrega
+de dados, o PDAC prevalece. Tal resultado se dá pelo fato de que o PDAC acaba con-
+sumindo mais energia em sua fase inicial. Isto devido ao processo de escolha e alocação
+de canais entre as estações base. Além de dispor de uma quantidade maior de mensagens
+
+
+
+de controle. Consequentemente, faz-se necessário a transmissão de 7 (sete) mensagens,
+enquanto o DCAA utiliza apenas 4 (quatro).
+
+Figura 7. Gráfico referente aos resultados obtidos pelo simulador Castália
+
+Com o objetivo de contribuir com a pesquisa e futuramente otimizar o protocolo
+proposto por [Cremonezi et al. 2017] em relação à eficiência energética, neste trabalho
+os protocolos e modelos apresentados foram adaptados para reproduzirem os mesmos ce-
+nários utilizando o simulador NS-3. Essa escolha foi feita considerando que a aplicação
+deste vem crescendo progressivamente no ambiente acadêmico. Assim como nas confi-
+gurações do Castália, antes de realizar as simulações, foram necessários definir alguns
+valores padrões para o modelo. Seguindo [Henderson et al. 2008], os valores da carga
+inicial e corrente foram inicializados com 0.1 joule e 0.0174 amperes, respectivamente.
+
+Diante tais configurações, o gráfico representado pela Figura 8, de forma análoga
+ao anterior, mostra o consumo médio de energia por número de nós presentes na rede.
+Entretanto, apesar de os resultados apontarem uma diferença média de aproximadamente
+2.23 milliwatts entre os protocolos, e de o DCAA, na maioria dos pontos, apresentar um
+desempenho melhor que o PDAC no que se diz respeito à eficiência energética, nesta
+segunda abordagem, é observada uma proximidade no comportamento de ambos.
+
+Para investigar o motivo de tal efeito, foi necessário realizar uma análise além do
+consumo energético. Após executar novamente os experimentos e examinar cautelosa-
+mente o comportamento de ambos os protocolos durante o processo, foi possível obser-
+var que o DCAA, por vezes, apresentou um número maior de retransmissões, além de
+enfrentar uma certa ineficiência na fase de pareamento. Estes fatores acabam impactando
+significativamente no consumo energético total.
+
+
+
+Figura 8. Gráfico referente aos resultados obtidos pelo simulador NS3
+
+6. Conclusões e Trabalhos Futuros
+Este trabalho apresentou uma avaliação do consumo energético referente aos pro-
+
+tocolos PDAC e DCAA, além da comparação entre eles. Ao explorar os resultados obtidos
+é possível concluir que, em geral, o primeiro apresenta um consumo de energia levemente
+superior. Entretanto, o PDAC é dotado de funcionalidades que são favoráveis no que se
+diz respeito a uma comunicação de melhor qualidade. Apresentando um controle e alo-
+cação de canais mais robusto e eficiente. O PDAC ainda garante melhor desempenho
+relativos à error rate e vazão de dados. O que o credencia como um protocolo propício
+para ser aplicado em WBANs.
+
+Considerando a importância da expansão da vida útil dos dispositivos sem fio
+em cenário hospitalar, como trabalho futuro espera-se desenvolver modelos otimizados
+para análise do consumo energético de tais dispositivos dispondo como base o protocolo
+PDAC. Além disso, propomos ainda a avaliação do consumo em uma rede provida de
+múltiplas estações bases. Uma vez que tal cenário apresenta as condições extremas pro-
+porcionadas por um ambiente hospitalar, e os resultados obtidos, de certa forma, tendem
+a condizer com a realidade.
+
+Referências
+Augustin, I., Ferreira, G. P., and Yamin, A. C. (2008). Grade computacional como infra-
+
+estrutura para a computação pervasiva/ubíqua. ERAD-Santa Cruz do Sul.
+Baker, S. D. and Hoglund, D. H. (2008). Medical-grade, mission-critical wireless
+
+networks [designing an enterprise mobility solution in the healthcare environment].
+IEEE Engineering in Medicine and Biology Magazine, 27(2).
+
+Boulis, A. et al. (2011). Castalia: A simulator for wireless sensor networks and body area
+networks. NICTA: National ICT Australia, 83.
+
+
+
+Cremonezi, B. M., Vieira, A. B., Nogueira, M., and Nacif, J. A. (2017). Um protocolo de
+alocação dinâmica de canais para ambientes médicos sob múltiplas estações base. In
+Simpósio Brasileiro de Redes de Computadores (SBRC), volume 35.
+
+Crow, B. P., Widjaja, I., Kim, J. G., and Sakai, P. T. (1997). Ieee 802.11 wireless local
+area networks. IEEE Communications magazine, 35(9):116–126.
+
+de Carvalho, S. T., Copetti, A., and Loques Filho, O. G. (2011). Sistema de computação
+ubíqua na assistência domiciliar à saúde. Journal Of Health Informatics, 3(2).
+
+dos Santos1, N. and Motoyama, S. Proposta de uma plataforma de larga escala para
+monitoração de pacientes.
+
+El Azhari, M., El Moussaid, N., Toumanari, A., and Latif, R. (2017). Equalized energy
+consumption in wireless body area networks for a prolonged network lifetime. Wireless
+Communications and Mobile Computing, 2017.
+
+Gislason, D. (2008). ZigBee wireless networking. Newnes.
+Gomes, M. P. (2015). Controle de acesso ao meio (mac) baseado em polling flexível e
+
+ponderado para rede corporal de sensores sem fio.
+Henderson, T. R., Lacage, M., Riley, G. F., Dowell, C., and Kopena, J. (2008). Network
+
+simulations with the ns-3 simulator. SIGCOMM demonstration, 14(14):527.
+Hiep, P. T. and Hoang, N. H. (2014). Payload and power consumption analysis of ieee802.
+
+15.6 based wban with csma/ca. In Advanced Technologies for Communications (ATC),
+2014 International Conference on, pages 500–505. IEEE.
+
+Jung, B. H., Akbar, R. U., and Sung, D. K. (2012). Throughput, energy consumption, and
+energy efficiency of ieee 802.15. 6 body area network (ban) mac protocol. In Personal
+Indoor and Mobile Radio Communications (PIMRC), 2012 IEEE 23rd International
+Symposium on, pages 584–589. IEEE.
+
+Lee, B., Yun, J., and Han, K. (2011). Dynamic channel adjustable asynchronous cognitive
+radio mac protocol for wireless medical body area sensor networks. In Communication
+and Networking, pages 338–345. Springer.
+
+Lima, M. N. (2010). Saúde móvel-conceitos, iniciativas e aplicações. Curitiba: Clube de
+Autores.
+
+Motoyama, D. S. Controles de acesso ao meio para redes de área corporal sem fio (wban-
+wireless body area network).
+
+Movassaghi, S., Abolhasan, M., Lipman, J., Smith, D., and Jamalipour, A. (2014). Wi-
+reless body area networks: A survey. IEEE Communications Surveys & Tutorials,
+16(3):1658–1686.
+
+Salayma, M., Al-Dubai, A., and Romdhani, I. (2016). Reliability and energy efficiency
+enhancement in wireless body area networks for e-health. In Open Innovations Asso-
+ciation (FRUCT), 2016 19th Conference of, pages 203–211. IEEE.
+
+Wu, H., Nabar, S., and Poovendran, R. (2011). An energy framework for the network
+simulator 3 (ns-3). In Proceedings of the 4th International ICST Conference on Simu-
+lation Tools and Techniques, pages 222–230. ICST (Institute for Computer Sciences,
+Social-Informatics and Telecommunications Engineering).
+
+
+
+Yu, J.-Y., Liao, W.-C., and Lee, C.-Y. (2006). A mt-cdma based wireless body area
+network for ubiquitous healthcare monitoring. In Biomedical Circuits and Systems
+Conference, 2006. BioCAS 2006. IEEE, pages 98–101. IEEE.

@@ -1,0 +1,370 @@
+﻿A Mesh Sensor Network based on Bluetooth: Comparing
+Topologies to Crop Monitoring.
+
+Luan H. S. Alves∗, Elida Antunes∗, Ricardo Ferreira† and José A. M. Nacif∗
+E-mail: {luan.h.alves, elida.antunes, ricardo, jnacif}@ufv.br
+
+∗Instituto de Ciências Exatas e Tecnológicas
+Universidade Federal de Viçosa, Florestal, MG, Brazil
+
+†Departamento de Informática
+Universidade Federal de Viçosa, Vicosa, MG, Brazil
+
+Abstract— The growth of the world population incre- should be low power consumption and have the
+ases the demand for food and other products from agri- capacity to transmit over long distances to be
+culture. Therefore, it is increasingly needed to enhance feasible in the agricultural environment.
+and optimize the productivity of farms. Through using a
+Wireless Sensor Network (WSN) and the application of The Bluetooth Low Energy (BLE) has some
+the internet of things (IoT) technologies, we can better essential features for precision agriculture: low
+monitor the condition of farm crops. In this work, we
+designed a Bluetooth Low Energy mesh network joined energy consumption and medium transmission dis-
+fluorescence sensors for agricultural crop monitoring, tance. When used in the mesh topology, BLE
+and also we evaluated the suitability of this solution in expands the communication coverage range and
+a crop field scenario. scalability. These characteristics support the use of
+
+the BLE in a Wireless Sensor Network (WSN) in
+I. INTRODUCTION scenarios where the direct communication between
+
+The current world population of 7.6 billion, is two end-points may not be possible, such as farm
+expected to overcome 8.6 billion people in 2030, scenario.
+according to the United Nations (UN) [1], and In this paper, we have built an efficient and
+this population growth raises the demand for food automated system for monitoring crops using the
+and other products from agriculture. Moreover, BLE mesh network to send measurements of a
+agriculture is an important industry that drives chlorophyll fluorescence sensor to assist producers
+billions of dollars every year [2], [3]. For these in decision-making. The measurement of chlo-
+reasons, there is a growing need for maximizing rophyll fluorescence (CF) is a non-invasive and
+agricultural production efficiency and optimize the well-known technique for measure plant health,
+use of production resources. and the use of fluorescence sensors can be an ef-
+
+Wireless Sensors Network (WSN) are widely fective method for monitoring crops. In this work,
+used and play a vital role in precision agricul- we focus on the sensor communication topology,
+ture [4] to monitor the conditions of the farm. range, and power consumption.
+Farmers use WSNs to reduce uncertainties in
+decision-making for a better understanding of the We organize the paper as follows. Section II
+information acquired in the crop environment, and studies previous work related to our solution. In
+thus, to optimize the use of resources (water, Section III we discuss the design of the sensor
+pesticides, fertilizers), increase the production, and node as well as the network communication. Sec-
+reduce losses. Recent advances in electronics sys- tion IV describes the sensor network application
+tems of the Internet of Things (IoT) technologies scenario. In Section V, we examine our results
+have allowed the development of small and low- and analyze the suitability of our mesh sensor
+cost sensors capable of communicating through the network in the proposed scenario. Finally, Section
+wireless network. However, the wireless sensors VI concludes this paper.
+
+
+
+II. RELATED WORK Table I shows a comparison between some wi-
+Applications of the Internet of Things in the reless standards regarding transmission range, data
+
+agricultural sector has been developed in recent rate, power consumption, and cost. Our choice for
+years. However, few works utilize a fluorescence Bluetooth low energy (BLE) is due to its low
+sensor network for crop monitoring. Therefore, power consumption and low cost. Although the
+in this Section, we present some studies on the Bluetooth does not have a wide transmission range,
+use of Bluetooth and its suitability in the farming such as the other standards, we can mitigate this
+scenario, and also we present some basics on issue by using the mesh topology.
+fluorescence sensors.
+
+C. Gull et al. [6] present in their work a low-cost TABLE I: Comparison of wireless technologies.
+CF sensor to monitor plant health. They propose a Wireless P
+solution that uses off-the-shelf components in an technology Range Data ower
+
+rate consumption Cost
+Wi-Fi 10-100m 6.75Gb/s High Low
+
+affordable package, which can measure CF. The Zigbee 10-100m 250Kb/s Low Medium
+solution shows potential as a low-cost fluorometer Lora +10km 50Kb/s Low Medium
+and opens up the possibility of utilizing multiple Bluetooth 10m 3Mb/s Medium Low
+
+BLE 10-50m 1Mb/s Low Low
+sensors in a WSN.
+
+In [7], T. Rault et al. provide a survey of energy
+efficiency in the wireless sensor network in several
+categories of applications. This work presents the III. SYSTEM ARCHITECTURE
+
+trade-offs between application requirements and In this section, we discuss the composition of
+sensor node lifetime. They expose that the main the sensor node as well as the characteristics of the
+requirements of environmental and agricultural ap- Bluetooth mesh network topology and the cloud
+plications are scalability, coverage, and lifetime platform. We present the architecture of our system
+prolongation, which are met by the BLE mesh in Fig. 1.
+network. They also made a comparison with some
+wireless standards, and the Bluetooth Low Energy A. Sensor Node
+and ZigBee are the lowest power consumption
+wireless standards, although, BLE has higher data The measurement of chlorophyll fluorescence
+rate transmission. is a well-known technique affording robust mo-
+
+In the same direction of [7], Mekala and P. nitoring [11], and with no harmful consequences
+Viswanathan [8] and Shi et al. [9] study several for the plant. Therefore, we use the fluorescence
+network communication technologies for agricul- sensor illustrated in Fig. 2, capable of distin-
+ture. The Bluetooth Low Energy has been consi- guishing a healthy plant from an unhealthy plant
+dered in their work, although they do not discuss by measuring the fluorescence emitted by the leaf
+mesh network over BLE. in the process of photosynthesis. We describe the
+
+P. Zenker et al. [10], examine the applicability operation of the sensor as follows: (1) Sensor
+of Bluetooth Low Energy for mesh-enabled appli- emits light; (2) The leaf emit the fluorescence;
+cations. They used modules equipped with CSR’s (3) The optical sensor captures this fluorescence;
+Bluetooth chip CSR1010 and CSRmesh protocol (4) The measured parameters are transmited to the
+to study the suitability of Bluetooth Mesh in large- microcontroller; (5) The measured parameters are
+scale networks. They conclude that the Bluetooth sent to the node sink through the BLE module. The
+Mesh is a promising and useful technology for following components compose each sensor node:
+mesh applications. This work also includes a simu- 1) LEDs: To stimulate the process of pho-
+lation of a network ranging from 100 to 500 nodes tosynthesis, we use UV and IR LEDs in the 470
+placed following a uniform grid. The authors show nm and 627 nm spectrum, respectively.
+that the network size does not have a significant 2) Optical Sensor: The optical sensor we use
+impact on end-to-end packet delivery when the is the OPT101 monolithic photodiode from Texas
+nodes are uniformly spatial distributed. Instruments.
+
+
+
+BLE mesh
+Fluorescence 
+sensor node Internet
+
+Cloud 
+Platform
+
+Node sink
+
+Crop field
+
+Fig. 1: Architecture of the Wireless Sensor Network monitoring System.
+
+3) Filter: Our interest is that the optical sensor topology, which is a chain of piconets connected
+measure fluorescence emitted by the leaf, for this by a bridge node.
+reason, we use a filter to allow the passage of wa- Due to the low power consumption and the
+velengths between 690 nm to 740 nm, where is the restrictions of the standard topology, we configure
+fluorescence emission peak, and block undesired the sensors in a mesh network over Bluetooth Low
+light out of this spectrum range. Energy. In a mesh network, Fig. 3c, every node can
+
+4) Microcontroller: Every sensor node has a reach any other node of the network, because the
+microcontroller MSP430G2553 to control the acti- nodes transmit their packets and also relay packets
+vation of the LEDs and the optical sensor for each received from other nodes. The advantage of this
+measurement cycle. type of topology is that it is easy to expand the
+
+5) BLE Module: The CSR1010 BLE module range by simply inserting a new node. These cha-
+[12] with proprietary BLE-based CSRmesh pro- racteristics of mesh topology are suitable for our
+tocol is responsible for sending the data into the application scenario because we can transfer data
+mesh network to the node sink. over long distances with a low power consumption
+
+radio.
+B. Mesh Communication CSRmesh [14] developed by Cambridge Silicon
+
+Bluetooth Low Energy (BLE) [13] has been Radio (CSR), is a proprietary protocol that ope-
+developed explicitly for devices with low battery rates over Bluetooth low energy. It uses a floo-
+capacity, low-cost and short and medium range ding mechanism to transmit messages across the
+requirements. In terms of power consumption effi- network, and the advantage of this approach is sim-
+ciency, BLE is designed so that devices can have plicity, as it does not require the establishment of
+a prolonged lifetime. connections within adjacent BLE devices neither
+
+The Bluetooth uses piconet, Fig. 6a, as standard a routing protocol. However, the limitation of this
+topology. In this type of network, the slave nodes mechanism is the occurrence of bottlenecks in high
+are only allowed to connect to the master node. data traffic condition, or also in the distribution of
+It is also possible to use the scatternet, Fig. 6b, a random node in a dense network [10].
+
+Publish  
+
+Sub
+scr
+
+ibe
+
+
+
+Sensor 
+Node
+
+M
+
+M
+Filter 
+(3) Master 
+
+Node
+
+M
+
+UV/IR LEDs UV/IR LEDs (a) Piconet (b) Scatternet (c) Mesh
+(1) Optical (1)
+
+Sensor (2) Fig. 3: Bluetooth Low Energy topologies.
+
+MSP430G2553 Microcontroller 
+(4) IV. APPLICATION SCENARIO
+
+The application scenario in which we evaluate
+the suitability of our sensor mesh network is a
+field crop of 1 hectare (100 x 100 meters). We
+place nine sensor nodes in a uniform grid pattern
+
+BLE Mesh 
+module (5) separated by 30 meters, such as crop in Fig. 1.
+
+We have made three different tests using the
+wireless sensor network, considering our scenario.
+These tests aim to examine the power consump-
+tion, communication distance range and also com-
+
+Fig. 2: Overview diagram of the sensor node. pare the Bluetooth topologies and the minimum
+number of sensor nodes to have good monitoring
+coverage.
+
+An advantage of Bluetooth, in contrast with
+other wireless patterns, is its easy integration with V. RESULTS
+
+other systems. For example, it is possible to place In this section, we analyze the data obtained by
+IoT systems in the crop to manage irrigation, humi- experiments in the application scenario discussed
+dity, and temperature and connect all via Bluetooth in Section V and also, we compare between the
+and control and monitoring them by applications Bluetooth topologies.
+embedded in mobile devices such as tablets and
+smartphones. A. Communication Distance
+
+In this experiment, our focus is on the maximum
+C. Cloud Platform distance we reach between two nodes. For this
+
+reason, there is no distinction between topologies.
+After sensor measurements, the node sink re- Table II presents the results obtained in the tests.
+
+ceives the data and sends it to the Cloud IoT
+Core of the Google Cloud Platform, via MQTT, a TABLE II: Distance Test Results
+lightweight machine-to-machine publish/subscribe Communication Distance Range
+messaging protocol [15], [16]. The Cloud IoT Maximum 45-50 meters
+Core is a service from Google Cloud Platform, Safe 25-30 meters
+that allows easy and secure management of IoT
+devices, and provide solutions for processing and In our tests, we found that the maximum com-
+visualization of the measured data in real-time. munication range between nodes is around 45 to
+
+
+
+the percentage of the battery capacity that is never
+used.
+
+Fig. 4: Maximum distance between modules.
+
+50 meters. However, we noticed that in this range,
+there were eventual losses in the packets delivery
+as shown in Fig 4. For this reason, we established Fig. 5: Mesh consumption transmission peak.
+the safe distance range of communication, where
+the occurrence of failures is unlikely. For this
+reason, it is possible to use Bluetooth in a short- Fig. 5 shows a chart of power consumption by
+medium range. time, in milliseconds. We can see that there is
+
+a peak of energy consumption when the module
+B. Power Consumption sends the data. The transmission time is around
+
+35 ms, which repr(esents)3.5% of 1 second.
+In this experiment, we have used a power moni-
+
+tor to measure the energy consumption of the BLE BC
+BL = × (1−DS) (1)
+
+module with mesh and without mesh protocol. We CR
+have collected 2,000 samples at a rate of 1kHz, and To calculate the battery lifetime, we consider
+then we calculate the power consumption average. that the module is transmitting 3.5% of the time
+Table III shows the tests results. and 96.5% in idle mode because, in the agricultural
+
+TABLE III: Power consumption. scenario, there is no necessity to update the para-
+meters for a short period. Also, we use a reference
+
+Protocol Idle Transmitting battery with a capacity of 9,800 mAh, and the
+Mesh 29.47±2.72 mA 40.55±2.90 mA
+No mesh 19.56±1.24 mA 22.20±1.49 mA estimated battery lifetime was 262.65 hours.
+
+Although the mesh protocol has a higher con-
+sumption, it still has a low cost of energy con-
+
+In our tests, we verified that the Bluetooth mesh sumption. Though it is possible using photovoltaic
+consumes 50.63% more in idle mode and up to solar panels to charge the sensor nodes battery, and
+82,64% more in transmission mode when compa- even on cloudy days, the battery can keep the node
+red to regular Bluetooth network. Because of the running for approximately 11 consecutive days.
+BLE mesh relay messages from other modules and
+also its messages. C. Topology Comparison
+
+Further, we estimate the BLE module battery We have performed a comparison of two WSN
+lifetime. Regularly, battery lifetime (BL), Equation with different Bluetooth topologies, the piconet
+1, is calculated based on the current consumption and mesh. In our analysis, we considered the re-
+rating (CR) in Milliampere (mA) and the capacity sults of the communication distance test of Section
+of the battery (BC) in Milliampere Hours (mAh). V. We noticed that in the network using the piconet
+In our results, we include the discharge safe (DS), Bluetooth topology Fig. 6a, sensor nodes (slaves)
+
+
+
+located in the corners of the field were out of the the fitness of both mechanisms in the purposed
+communication range of the master node. For all application scenario.
+nodes to be part of the network, we should include REFERENCES
+other master nodes 6b in a Scatternet scheme.
+Moreover, this makes node placement more com- [1] UN (2017). ”World Population Prospects The 2017 Revision”,
+
+2017. [Online]. Available: https://population.un.org/
+plicated, as it is necessary to check where a master wpp/Publications/Files/WPP2017 Volume-II-Demographic-
+node should be. Profiles.pdf
+
+[2] Statista. Cotton production value in the U.S. from 2000
+to 2018 (in 1,000 U.S. dollars). [Online]. Available:
+https://www.statista.com/statistics/191505/cotton-production-
+
+M value-in-the-us-since-2000/
+[3] Statista. Top 10 U.S. states based on production value of
+
+corn for grain in 2017 (in 1,000 U.S. dollars). [Online].
+M M
+
+Available: https://www.statista.com/statistics/191052/top-us-
+states-by-production-value-of-corn-for-grain/
+
+sink M sink sink [4] R. Radha, A.K. Tyagi, K. Kathiravan, G. Staflin Betzy (2020)
+Precision Crop Protection Using Wireless Sensor Network.
+
+(a) Piconet (b) Scatternet (c) Mesh In: Abraham A., Cherukuri A., Melin P., Gandhi N. (eds)
+Intelligent Systems Design and Applications. ISDA 2018
+
+Fig. 6: Bluetooth Topology Comparison. 2018. Advances in Intelligent Systems and Computing, vol
+940. Springer, Cham
+
+[5] K. Nickelsen, Explaining Photosynthesis: Model of Biochemi-
+The BLE mesh topology uses a flat model cal Mechanisms 1840–1960. Dordrecht, Netherlands: Sprin-
+
+whereby all nodes have the same hierarchical level. ger, 2015, pp. 94–95.
+[6] C. Gull, M. T. Minkov, E. G. Pereira and J. A. M. Nacif,
+
+Consequently, it does not present the problem of A Low-Cost Chlorophyll Fluorescence Sensor System, IEEE
+the topology mentioned above since every node Conf. on Brazilian Symposium on Computing Systems Engi-
+can connect to any other nodes nearby, as shown neering (SBESC), pp. 186 – 191.
+
+in Fig. 6c. Another benefit of the mesh network [7] T. Rault, A. Bouabdallah, Y. Challal, Energy efficiency in
+wireless sensor networks: A top-down survey, Computer
+
+when compared to the Scatternet, is in the absence Networks, Volume 67, 2014, pp. 104-122.
+of a single point of failure, since there is no single [8] M. S. Mekala and P. Viswanathan, ”A Survey: Smart agricul-
+
+access point to the network. ture IoT with cloud computing,”2017 International conference
+on Microelectronic Devices, Circuits and Systems (ICMDCS),
+
+VI. C Vellore, 2017, pp. 1-7.
+ONCLUSIONS AND FUTURE WORK [9] X. Shi, X. An, Q. Zhao, H. Liu, L. Xia, X. Sun, and Y. Guo,
+
+This paper presented the design of a system for “State-of-the-Art Internet of Things in Protected Agriculture,”
+monitoring agricultural crops. Applications for this Sensors, vol. 19, no. 8, p. 1833, Apr. 2019
+
+[10] P. Zenker, S. Krug, M. Binhack, J, Seitz (2016). Evaluation
+scenario have as main requirements the scalability, of BLE Mesh capabilities: A case study based on CSRMesh.
+coverage, and also long battery life, due to the 2016 Eighth International Conference on Ubiquitous and
+large dimensions of crop fields. Our Bluetooth Future Networks (ICUFN),pp. 790-795.
+
+[11] K. Nickelsen, Explaining Photosynthesis: Model of Biochemi-
+mesh sensor network shown to be suitable for the cal Mechanisms 1840–1960. Dordrecht, Netherlands: Sprin-
+proposed scenario due to good coverage and easy ger, 2015, pp. 94–95.
+scalability allowed by the mesh topology, and to [12] Qualcomm Bluetooth Low Energy Solutions, CSRmesh and
+
+CSR1010, Qualcomm Technologies International.
+the low power consumption of the Bluetooth Low [13] Bluetooth Core Specification Version 4.1, Bluetooth SIG.
+Energy. Furthermore, the comparison of the Blue- [14] Qualcomm©R Bluetooth Low Energy CSRmeshTM Develop-
+tooth network topologies presented the advantages ment Kit.
+
+[15] MQTT.org, What is MQTT? [Online]. Available:
+of using mesh topology in a WSN. http://mqtt.org/faq
+
+Future work involves a comparison between the [16] V. Karagiannis, P. Chatzimisios, F. Vazquez-Gallego, J.
+flooding mechanism of our mesh sensor network Alonso-Zarate (2015), A Survey on Application Layer Proto-
+
+cols for the Internet of Things, Transaction on IoT and Cloud
+and a mesh network that uses a routing protocol Computing 3 (1), pp. 11-17
+in order to evaluate the energy consumption and

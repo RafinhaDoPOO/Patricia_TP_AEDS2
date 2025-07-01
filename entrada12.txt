@@ -1,0 +1,464 @@
+﻿Inferindo traços de personalidade com base
+em aplicativos móveis
+
+Chaubert da Silva Ferreira1, Leonardo Júnio Alves dos Santos2, Fabrı́cio Aguiar Silva1
+
+1Universidade Federal de Viçosa (UFV) - Campus Florestal
+Rodovia LMG 818, km 06, s/n, Florestal - MG, 35690-000
+2Universidade Federal de Viçosa (UFV) - Campus Viçosa
+
+Av. Peter Henry Rolfs, s/n - Campus Universitário, Viçosa - MG, 36570-900
+
+{chaubert.ferreira,leonardo.j.alves,fabricio.asilva}@ufv.br
+
+Resumo. Conhecer o perfil dos clientes é uma forma eficiente de oferecer
+serviços melhores e mais personalizados, aumentar a satisfação e, com isso,
+manter os mesmos engajados com a empresa. Um item muito relevante do perfil
+é a personalidade do usuário, que pode ser dividida em cinco traços distin-
+tos. Porém, inferir a qual traço um usuário pertence não é uma tarefa trivial.
+Neste trabalho, é investigado se os traços de personalidade podem ser inferidos
+com base nas categorias dos aplicativos instalados no dispositivo móvel de um
+usuário. Foram criados modelos de classificação e regressão, e os resultados
+são promissores, sendo possı́vel identificar os traços com uma margem de erro
+aceitável.
+
+1. Introdução
+Conhecer os traços de personalidade de um usuário é interessante pois permitem resumir,
+prever e explicar a conduta de um indivı́duo [Silva and Nakano 2011]. Com esse co-
+nhecimento, empresas conseguem melhorar seus produtos e serviços, de forma que seus
+clientes se sintam mais satisfeitos e, consequentemente, mantendo seus clientes fiéis e
+melhorando sua visibilidade.
+
+Porém, extrair os traços de personalidade de um indivı́duo é uma tarefa complexa.
+Até o momento, vários trabalhos já vem buscando resolver esse problema de diversas for-
+mas, sendo que muitas vezes usam de mecanismos invasivos que demandam informações
+sensı́veis dos usuários. Em relação à extração dos traços de personalidade de usuários de
+serviços móveis, algumas soluções requerem que o usuário seja monitorado constante-
+mente, exigindo um comprometimento do mesmo.
+
+A hipótese deste trabalho é que é possı́vel extrair os traços de personalidade
+dos usuários com base nas categorias de seus aplicativos instalados com precisão con-
+siderável, sem que haja a necessidade de invadir a privacidade do usuário, exigir que o
+usuário responda a questionários extensos e que o usuário se comprometa a continua-
+mente contribuir para a pesquisa. O objetivo do trabalho é validar essa hipótese e, para
+isso, serão coletados dados de aplicativos instalados de usuários voluntários, assim como
+as respostas a algumas perguntas referentes à sua personalidade.
+
+Um diferencial deste trabalho em relação aos existentes é que é preciso
+apenas os aplicativos instalados e, para obter a lista de aplicativos que o in-
+divı́duo possui em seu dispositivo, não é necessário a requisição de nenhuma per-
+missão [M. C. Grace and Sadeghi 2012]. Foram desenvolvidos modelos preditivos de
+
+
+
+classificação e de regressão. Os resultados mostraram que foi possı́vel classificar um
+usuário em termos de seus traços de personalidade com uma precisão considerável utili-
+zando apenas as categorias dos aplicativos instalados.
+
+Este trabalho está organizado da seguinte forma. Na Seção 2 são apresentados os
+conceitos e estudos relacionados. A Seção 3 apresenta a base de dados utilizada. Em
+seguida, na Seção 4 são explicados os modelos preditivos gerados e os seus resultados.
+Por fim, as conclusões e os trabalhos futuros são apresentados na Seção 5.
+
+2. Conceitos Fundamentais
+Para o entendimento deste estudo, primeiramente é necessário apresentar quais são os
+traços de personalidade de referência, chamados de Big Five [McCrae and Jr. 1999]:
+
+• Aberto a Novas Experiências: Pessoas abertas a novas experiências, são pessoas
+criativas, mente aberta, independente e sempre estão procurando por diferentes
+experiências;
+• Agradabilidade: Pessoas agradáveis, são cortezas, gentis, confiáveis, tolerantes e
+
+mais propensas a ajudar os outros;
+• Conscienciosidade: Indivı́duos deste traço são bem organizados, possuem auto-
+
+controle, são cuidadosos, persistentes e confiáveis;
+• Estabilidade Emocional: Pessoas emocionalmente estáveis são bem humoradas,
+
+não costumam sentir ansiedade, não são nervosas, possuem autoconfiança e ten-
+dem a não ter uma reação negativa diante diferentes situações da vida;
+• Extroversão: Pessoas extrovertidas, são comumente pessoas que gostam de se
+
+comunicar, ativas socialmente.
+Conhecer os traços de personalidade do usuário é importante para correlacioná-
+
+los com seus interesses em produtos e serviços. Existem várias maneiras de predizer
+esses traços e outras caracterı́sticas dos usuários, sendo que algumas envolvem o uso de
+aplicativos e suas categorias, outras envolvem o uso do smartphone pelos usuários além
+de outras informações sobre o mesmo.
+
+Alguns trabalhos encontrados na literatura utilizam a lista de aplicativos ou suas
+respectivas categorias, e seus respectivos usos, para predizer os traços de personalidade do
+usuário. [Runhua Xu and Ilic 2016] utilizaram somente as categorias dos aplicativos mais
+frequentes entre os usuários para correlacionar com os traços de personalidade através de
+algoritmos de classificação. Já em [Runhua Xu and Ilic 2015] somente 13 aplicativos das
+categorias de redes sociais, comunicação, viagens, leitores de textos e compras foram uti-
+lizados. O trabalho de [Raihana Ferdous and Mayora 2015] considera somente 5 catego-
+rias diferentes para aplicativos e com o objetivo é predizer o nı́vel de estresse no ambiente
+de trabalho. O presente estudo considera apenas as categorias dos aplicativos instalados
+pelo usuário, sem a necessidade de mais dados, para prever os traços de personalidade.
+
+Outros trabalhos utilizam informações de contexto para estimar os traços do
+usuário, tais como: nı́vel de bateria do celular, quando o dispositivo está carregando,
+quando o usuário está conectado em uma rede WiFi, quantidade de pessoas com bluetooth
+ativado perto do usuário, dentre outros. O estudo [Aline Carneiro Viana and Stefa 2018]
+utiliza essas informações e mostra que existem correlações com os traços de perso-
+nalidade. Além de traços, estudos provaram que existem certos padrões de compor-
+tamento ao uso de aplicativos dependendo do local em que o usuário se encontra
+
+
+
+[Trinh Minh Tri Do and Gatica-Perez 2011]. SWB (Subjective Well-Being) é uma me-
+dida que indica o grau de satisfação e felicidade auto-reportada pelo usuário. O ar-
+tigo [Yusong Gao and Zhu 2014] tenta prever o SWB levando em consideração os apli-
+cativos utilizados juntamente com os logs de SMS, GPS, mudança de wallpaper, con-
+tatos, dentre outros, sendo que os resultados mostraram que os usuários com dife-
+rentes nı́veis de SWB possuem comportamentos diferentes em relação à utilização de
+aplicativos, como por exemplo, usuários com nı́veis altos de SWB utilizam mais apli-
+cativos relacionados a comunicação e usam menos aplicativos relacionados a câmera.
+[Gokul Chittaranjan and Gatica-Perez 2011] utilizou informações de contexto (bluetooth,
+SMS, ligações) juntamente com as classificações de aplicativos; porém, neste trabalho os
+traços de personalidade são de acordo com o Big Five e o questionário utilizado foi o TIPI
+(Ten-Item Personality Inventory) e na modelagem foram usados somente dois classifica-
+dores (SVM e C4.5). Em [Yves-Alexandre de Montjoye and Pentland 2013], os autores
+utilizam a quantidade de vezes que o usuário mandou mensagens, realizou ligações e am-
+bos juntos para correlacionar com os traços de personalidade; além disso, um estudo mais
+aprofundando sobre informações de contexto foi realizado, levando em consideração o
+tempo que o usuário demora para responder as mensagens, com que frequência o usuário
+responde às mensagens e ligações, alcançando resultados com precisão de 29% à 59%
+melhor do que um palpite aleatório.
+
+Através das redes sociais, é possı́vel inferir os traços do usuário baseando-se em
+como o mesmo se comporta nessas redes. Em [Ryan and Xenos 2011], os autores mos-
+traram que isso é verdade utilizando o Facebook, encontrando que pessoas extrovertidas
+possuem uma correlação maior com as atividades sociais e com interações sociais em
+tempo real. Outra pesquisa envolvendo o Facebook [Jianqiang Shen and Liu 2014] foi
+feita, porém focando somente nos traços Neuroticismo e Extroversão; os resultados mos-
+traram que pessoas com alto grau de Neuroticismo tendem a fazer postagens maiores
+contendo palavras negativas e criam mais álbuns, pessoas com alto grau de Extroversão
+possuem comportamentos sociais mais ativos, tais como: compartilhar fotos, vı́deos e
+atualizar seu status. O trabalho [Doyle and Youn 2000] utilizou dados de um questionário
+anual que engloba vários aspectos do indivı́duo, tais como: interesses, opiniões, ativida-
+des e traços de personalidade. Os grupos foram divididos em duas dimensões: Extroverti-
+dos/Introvertidos e Emocional/Racional, sendo que o foco foi medir o nı́vel de felicidade
+dos usuários e seus resultados mostraram que pessoas Extrovertidas são mais felizes do
+que Introvertidos, e pessoas Emocionais são mais felizes do que pessoas Racionais. Com
+os dados sobre a mobilidade do usuário, o trabalho [Aline Carneiro Viana and Stefa 2018]
+usou a mobilidade como forma de predizer os traços de personalidade do indivı́duo. Os
+dados foram divididos em dois grupos: Mobilidade Temporal (quando o indivı́duo está
+em casa, trabalho ou se deslocando de um para o outro, quando o indivı́duo está fora de
+casa à noite) e Mobilidade Espacial (distância que o indivı́duo se locomoveu, velocidade
+em que ele se locomoveu, distância do local que ele se encontra em relação a sua casa).
+Os traços Aberto a Novas Experiências, Agradabilidade e Extroversão são bem correla-
+cionados com o grupo de Mobilidade Temporal, enquanto o traço Conscienciosidade se
+mostrou correlacionado com o grupo de Mobilidade Espacial.
+
+Todos estes trabalhos conseguiram estabelecer uma conexão entre os traços de
+um indivı́duo (personalidade, felicidade, comportamento) e alguma informação contex-
+tual de perfil do usuário (social, mobilidade, uso de dispositivos móveis e aplicativos).
+
+
+
+Este trabalho tem como objetivo prever os traços de personalidade do indivı́duo levando
+em consideração apenas as categorias de aplicativos que o mesmo tem instalado em seu
+smartphone. Diferentemente dos outros trabalhos, a informação sobre as categorias dos
+aplicativos é mais fácil de obter e menos invasiva em termos de privacidade do usuário.
+Ou seja, utilizar somente as categorias de aplicativos diminui a complexidade do modelo
+gerado e mostra que é possı́vel inferir os traços de personalidade de um usuário com
+precisão considerável.
+
+3. Base de Dados
+Para obter a base de dados necessária para este trabalho, foi desenvolvido um apli-
+cativo, denominado APProfile, para dispositivos com sistema operacional Android
+usando as tecnologias Flutter e Java. Neste aplicativo, o usuário informa sua idade,
+gênero e responde a dez itens do formulário TIPI (Ten-Item Personality Inventory)
+[Samuel D. Gosling and Jr 2003], e ao final, suas respostas são enviadas para um banco
+de dados junto com a lista de aplicativos instalados no aparelho móvel do usuário. Neste
+trabalho optamos por utilizar o Firebase Realtime Database, que é um banco de dados
+hospedado na nuvem. Os dados são armazenados como JSON e sincronizados em tempo
+real com todos os usuários conectados.
+
+O aplicativo APProfile foi divulgado em algumas redes sociais (Facebook e Insta-
+gram) e por e-mail. O tempo da coleta dos dados foi de aproximadamente um mês (entre
+Maio de 2020 e Junho de 2020) e foram alcançados um total de 98 usuários, onde 57 são
+do sexo masculino e 41 do sexo feminino. A média de idade foi de 22.6 anos, com o
+desvio padrão igual à 7.15, máximo igual à 63 e mı́nimo igual à 14. A figura 1a mostra
+a distribuição das idades de um modo geral e a figura 1b mostra como as idades estão
+distribuı́das em relação ao sexo. Para remover possı́veis usuários que tenham respondido
+sem o propósito de ajudar o trabalho, foram considerados somente os usuários que leva-
+ram ao menos 45 segundos para responder ao questionário (no qual foi desconsiderado
+somente um usuário).
+
+(a) Boxplot das idades no geral (b) Boxplot das idades por sexo
+
+Figura 1. Distribuição das idades
+
+Primeiramente o usuário instala o APProfile pela Google Play Store; ao abrir o
+aplicativo o usuário se depara com uma mensagem de boas vindas caso tenha conexão
+com a Internet ou com uma mensagem de aviso dizendo para se conectar à Internet, caso
+
+
+
+o usuário esteja desconectado. Os primeiros campos que o usuário precisa preencher
+são de idade e sexo (figura 2a) e posteriormente o usuário responde aos dez itens do
+TIPI (figura 2b). Quando o usuário escolher enviar suas respostas, é feita a coleta dos
+aplicativos instalados no smartphone e todas essas informações são enviadas para o banco
+de dados Firebase Realtime Database, onde é possı́vel gerar um arquivo JSON contendo
+todos estes dados de cada usuário voluntário.
+
+(a) Tela inicial para o preenchimento de Idade (b) Tela contendo um dos dez itens
+e Sexo
+
+Figura 2. Algumas telas do aplicativo desenvolvido
+
+Para calcular a nota do usuário em determinado traço de personalidade, é ne-
+cessário pegar a resposta de uma pergunta, somar com o reverso (há um mapeamento
+entre os valores, caso o usuário tenha respondido com o valor 7 em uma pergunta, este
+valor será mapeado para o valor 1. Caso tenha respondido com o valor 6, será mapeado
+para o valor 2 e assim sucessivamente) da resposta de outra pergunta e dividir por dois.
+Por exemplo, para calcularmos o resultado do usuário no traço Extroversão, utilizamos a
+resposta dele no primeiro item (Extrovertido, entusiasta) e o reverso da resposta no sexto
+item (Reservado, quieto) [Samuel D. Gosling and Jr 2003].
+
+Inicialmente, foram coletados dados de 1.423 aplicativos diferentes instalados.
+Para identificar em qual categoria cada aplicativo pertence, foi utilizada uma base de
+dados coletada da Google Play Store, que permitiu que fossem mapeados 874 aplicativos
+em 45 categorias distintas. Porém, restaram 549 aplicativos sem categorização, sendo
+que alguns deles foram instalados por muitos usuários. Para solucionar parcialmente este
+problema, foi feita manualmente a categorização dos aplicativos que possuı́ssem pelo
+menos quatro usuários, totalizando um total de 41 aplicativos. Após a categorização
+manual, a base continha um total de 915 aplicativos categorizados e 508 aplicativos sem
+
+
+
+categorização, sendo que esses últimos foram desconsiderados por estarem presentes em
+poucos usuários.
+
+Após a coleta dos dados e o enriquecimento dos aplicativos com suas respecti-
+vas categorias, os resultados dos traços de personalidades dos usuários também foram
+agregados. A Tabela 1 ilustra a matriz completa dos dados apoś todas as agregações e
+agrupamentos, sendo que os valores das categorias indicam quantos aplicativos daquela
+categoria um determinado usuário possui, e o valor de cada traço é a nota do usuário para
+aquele traço especı́fico, que varia de 1 a 7.
+
+Tabela 1. Exemplificação dos dados finais para três usuários fictı́cios
+
+Identificador Categoria de Aplicativo Traço de Personalidade
+Usuário C1 C2 C3 ... C45 T1 T2 T3 T4 T5
+
+0001 5 3 10 ... 0 1 5.5 2.5 6 4.5
+0002 4 8 1 ... 2 4.5 5 4 1 1.5
+0003 0 2 3 ... 0 7 3.5 1 2 3
+
+A figura 3 apresenta a quantidade de usuários que possui pelo menos um aplicativo
+daquela categoria, sendo que a categoria que possui mais usuários é a de Comunicação, no
+qual 96 dos 97 usuários (corresponde a 98.97%) possuem pelo menos um aplicativo desta
+categoria. As categorias que possuem menos usuários são: Música, Clima e Bibliotecas e
+demos, com somente um usuário (corresponde à 0.01%).
+
+Figura 3. Quantidade de usuários por categorias
+
+
+
+4. Modelos Preditivos
+
+Para validar a hipótese do trabalho, foram testadas duas abordagens: classificadores para
+predizer se o usuário possui ou não o traço de personalidade e modelo de regressão para
+predizer qual o nı́vel daquele indivı́duo em um determinado traço.
+
+4.1. Modelos de Classificação
+
+Para as entradas dos modelos de classificação, foi realizado um mapeamento para os
+traços de personalidade, sendo 1 caso o usuário possua nota maior ou igual a 5.0, e 0
+caso contrário. Para corrigir o desbalanceamento da entrada, foi aplicada a técnica de
+Undersampling, que consiste em pegar amostras do maior grupo e deixá-lo com o mesmo
+tamanho do grupo menor. Para evitar que o uso desta desta técnica afete os resultados,
+todo o processo foi repetido 30 vezes para cada combinação de entrada. Além disso, a
+técnica PCA (Análise de Componentes Principais) foi aplicada para eliminar possı́veis
+categorias que seriam prejudiciais à predição.
+
+Foi criado um modelo classificador binário para cada um dos 5 traços de persona-
+lidade. Com o objetivo de encontrar os melhores resultados, foram testados 6 algoritmos
+diferentes: LR (Regressão Logı́stica), RF (Random Forest), NB (Naive Bayes), KNN
+(K-Nearest Neighbors), GB (Gradient Boosting) e RN (Rede Neural). Ao utilizar os mo-
+delos preditivos, dividimos os dados em três grupos: treino, validação e teste. Para separar
+as amostras entre treino e validação foi utilizado o K-Fold, totalizando em 30 amostras
+de treino e 30 amostras de validação (uma amostra para cada população gerada no Un-
+dersampling) e as amostras de teste foram retiradas antes do processo realizado para o
+treino e validação, foram retirados 5 usuários que pertencem ao traço de personalidade
+e 5 usuários que não pertencem ao traço de personalidade, totalizando em um grupo de
+teste com 10 indivı́duos para cada traço de personalidade.
+
+A figura 4 apresenta a distribuição da precisão para as 30 execuções e para cada
+um dos cinco traços e cada um dos seis algoritmos. Na figura 4a, temos os resultados
+da precisão para o traço Aberto à Novas Experiências; observando as médias todos os
+classificadores tiveram resultados parecidos, mas o classificador NB teve um resultado
+ligeiramente melhor com uma precisão de 63.35%, revocação de 72.26%, f1-score de
+65.16% e acurácia de 60.21%. Na figura 4b temos os resultados da precisão para o traço
+Agradabilidade; considerando a precisão, o classificador NB obteve o melhor desempe-
+nho com 57.05%, segundo melhor revocação com 56.97%, segundo melhor f1-score com
+53.88% e melhor acurácia com 61.72%. Na figura 4c, temos os resultados da precisão para
+o traço Conscienciosidade, em que o classificador NB foi superior em todas as métricas:
+66.96% em precisão, 78.88% em revocação, 71.14% em f1-score e 66.20% em acurácia.
+Na figura 4d, temos os resultados da precisão para o traço de personalidade Estabilidade
+Emocional, em que o classificador NB foi superior na maioria das métricas, a precisão
+ficou em 68.54%, 44.08% em revocação, 49.5% em f1-score e 62.27% em acurácia. Na
+figura 4e temos os resultados da precisão para o traço de personalidade Extroversão, em
+que o classificador NB foi superior em precisão com 61.71%, terceira melhor revocação
+com 47.34%, segundo melhor f1-score com 49.76% e melhor acurácia com 62.08%.
+
+
+
+(a) Aberto à Novas Experiências (b) Agradabilidade
+
+(c) Conscienciosidade (d) Estabilidade Emocional
+
+(e) Extroversão
+
+Figura 4. Resultados das validações dos modelos para cada traço de personali-
+dade
+
+Afim de simplificar a discussão dos resultados, o algoritmo Naive Bayes foi es-
+colhido por possuir, em geral, os melhores resultados de precisão, revocação e f1-Score.
+Portanto, esse classificador foi utilizado para a realização dos testes (amostras que não
+fizeram parte do treino e validação) e os resultados da precisão podem ser vistos na figura
+5a, revocação na figura 5b e f1-score na figura 5c. A melhor precisão obtida foi no traço
+de personalidade Agradabilidade (62.5%) e a pior precisão obtida foi no traço Estabili-
+dade Emocional e Extroversão (ambos com 50%). O possı́vel motivo dessa diferença é
+que ambos os traços, Estabilidade Emocional e Extroversão, são os que menos possuem
+usuários de acordo com a separação feita entre pertencentes e não-pertencentes ao traço,
+
+
+
+e isto resultou em um modelo com menos informações dos usuários em comparação com
+os outros.
+
+4.2. Modelo de Regressão
+Na modelagem da regressão, o método escolhido foi o de Mı́nimos Quadrados Ordinários
+(OLS). Foi criado um modelo de regressão para cada traço de personalidade, em que a
+variável a ser predita é a nota (1 a 7) do usuário naquele traço. Para as variáveis preditoras,
+foi considerado a quantidade de aplicativos instalados em cada uma das 45 categorias.
+
+Alguns resultados sobre a regressão podem ser encontrados na tabela 2. Pode-se
+perceber que o R2 está acima de 0.82 para todos os traços, o que indica que o modelo
+explica bem a variância da nota de personalidade se comparada com a média. Mesmo
+quando o R2 é ajustado de acordo com o número de variáveis, esse valor ainda é signifi-
+cativo, sendo acima de 0.66 para todos os traços. Por fim, pelos resultados do F-Test, a
+probabilidade abaixo de 0.05 indica que as variáveis preditoras utilizadas no modelo são
+relevantes para a estimativa da nota de personalidade com um nı́vel de confiança de 95%.
+
+(a) Precisão (b) Revocação
+
+(c) f1-Score
+
+Figura 5. Resultados dos testes dos modelos para cada traço de personalidade
+utilizando o Naive Bayes
+
+Neste trabalho todos os traços de personalidade se mostraram positivamente asso-
+ciados a aplicativos da categoria Finanças (considerando um nı́vel de confiança de 95%),
+isso indica que independentemente do traço, os usuários estão adotando a prática de inter-
+net banking, cartões virtuais e por pagamentos online. Todos os traços de personalidade
+
+
+
+se mostraram negativamente associados a aplicativos da categoria Estilo de Vida (consi-
+derando um nı́vel de confiança de 95%), que incluem aplicativos de encontros (Tinder,
+happn, etc.), meditação, dieta, dentre outros. O possı́vel motivo disto seria essa época de
+pandemia, onde as pessoas deixam de utilizar estes aplicativos de encontros e abandonam
+suas rotinas habituais devido a quarentena.
+
+No trabalho [Runhua Xu and Ilic 2016], algumas hipóteses foram validadas, tais
+como: Extroversão é negativamente associado com aplicativos de jogos; Agradabilidade
+é negativamente associado com aplicativos de personalização; Conscienciosidade é ne-
+gativamente associado com aplicativos de música e video; Conscienciosidade é nega-
+tivamente associado com aplicativos de fotografia; Conscienciosidade é negativamente
+associado com aplicativos de personalização. Este trabalho, por outro lado, embora tenha
+os coeficientes negativos para as mesmas categorias, o p-value obtido não é suportado
+para a validação destas hipóteses dentro do nı́vel de confiança de 95%.
+
+Traço R2 R2 Ajus. F-statistic Prob (F-statistic)
+ANE 0.872 0.761 7.853 7.13×10−12
+
+AGR 0.843 0.706 6.185 7.28×10−10
+
+CON 0.833 0.688 5.749 2.81×10−09
+
+EE 0.822 0.667 5.320 1.13×10−08
+
+EXT 0.845 0.710 6.279 5.50×10−10
+
+Tabela 2. Tabela contendo alguns resultados obtidos com a regressão
+
+5. Conclusão e Trabalhos Futuros
+Este trabalho investigou a possibilidade de predizer os traços de personalidades de um
+usuário móvel com base nas categorias de seus aplicativos instalados. Os resultados obti-
+dos foram promissores, com bons resultados em termos de precisão, revocação e f1-score
+para a maioria dos traços analisados. Os resultados de uma regressão também foram inte-
+ressantes, com valores altos de R2. Com isso, foi possı́vel mostrar que somente utilizando
+as categorias dos aplicativos é possı́vel prever os traços de personalidade dos usuários com
+uma margem de erro aceitável.
+
+Como trabalhos futuros, pretende-se levar em consideração as datas em que os
+aplicativos foram atualizados, para que o perfil do usuário em termos de interesses mais
+recentes sejam considerados. Ao utilizar dados como idade e sexo, pode ser possı́vel
+estabelecer correlações com os traços de personalidade, assim sendo possı́vel dizer que
+pessoas com determinada idade tendem a ter mais caracterı́sticas de algum traço, e pessoas
+do determinado sexo tendem a ter mais caracterı́sticas de algum traço, ou mesmo uma
+analisar uma correlação em conjunto.
+
+Referências
+Aline Carneiro Viana, Adriano Di Luzio, K. J.-R. A. M. and Stefa, J. (2018). Accura-
+
+tely inferring personality traits from the use of mobile technology. In HAL Archives
+Ouvertes.
+
+
+
+Doyle, K. O. and Youn, S. (2000). Exploring the traits of happy people. In Social Indica-
+tors Research.
+
+Gokul Chittaranjan, J. B. and Gatica-Perez, D. (2011). Who’s who with big-five: Analy-
+zing and classifying personality traits with smartphones. In 15th Annual International
+Symposium on Wearable Computers, pages 29–36.
+
+Jianqiang Shen, O. B. and Liu, J. (2014). A study of facebook behavior: What does it tell
+about your neuroticism and extraversion? In Computers in Human Behavior.
+
+M. C. Grace, W. Zhou, X. J. and Sadeghi, A.-R. (2012). Unsafe exposure analysis of
+mobile in-app advertisements. In 5th conference on Security and Privacy in Wireless
+and Mobile Networks, pages 101–112.
+
+McCrae, R. R. and Jr., P. T. C. (1999). A five-factor theory of personality. In Handbook
+of personality: Theory and research, pages 139–153.
+
+Raihana Ferdous, V. O. and Mayora, O. (2015). Smartphone app usage as a predictor of
+perceived stress levels at workplace. In International Conference on Pervasive Com-
+puting Technologies for Healthcare.
+
+Runhua Xu, Remo M. Frey, D. V. and Ilic, A. (2015). Towards understanding the im-
+pact of personality traits on mobile app adoption - a scalable approach. In European
+Conference on Information Systems.
+
+Runhua Xu, Remo Manuel Frey, E. F. and Ilic, A. (2016). Understanding the impact of
+personality traits on mobile app adoption – insights from a large-scale field study. In
+Computers in Human Behavior, pages 244–256.
+
+Ryan, T. and Xenos, S. (2011). Who uses facebook? an investigation into the relati-
+onship between the big five, shyness, narcissism, loneliness, and facebook usage. In
+Computers in Human Behavior.
+
+Samuel D. Gosling, P. J. R. and Jr, W. B. S. (2003). In Journal of Research in Personality,
+pages 504–528.
+
+Silva, I. B. and Nakano, T. C. (2011). Modelo dos cinco grandes fatores da personalidade:
+Análise de pesquisas. In Avaliação Psicológica, pages 51–62.
+
+Trinh Minh Tri Do, J. B. and Gatica-Perez, D. (2011). Smartphone usage in the wild: a
+large-scale analysis of applications and context. In International Conference on Mul-
+timodal Interaction.
+
+Yusong Gao, H. L. and Zhu, T. (2014). Predicting subjective well-being by smartphone
+usage behaviors. In International Conference on Health Informatics.
+
+Yves-Alexandre de Montjoye, Jordi Quoidbach, F. R. and Pentland, A. S. (2013). Predic-
+ting personality using novel mobile phone-based metrics. In SBP 2013, pages 48–55.

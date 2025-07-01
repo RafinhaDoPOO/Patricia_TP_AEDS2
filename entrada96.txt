@@ -1,0 +1,429 @@
+﻿Avaliação de um Protocolo de Acesso ao Meio para
+Redes Corporais WBAN na Plataforma GNURadio
+
+Kristtopher Kayo Coelho, Adriele Dutra Souza, José Augusto M. Nacif
+Universidade Federal de Viçosa – Florestal, MG – Brasil
+Email:{kristtopher.coelho, adriele.souza, jnacif}@ufv.br
+
+Resumo—Os gastos relacionados à saúde, além do enve- número de profissionais da área passou a ser insuficiente
+lhecimento populacional, impulsionaram os estudos sobre a ao atendimento da população [2]. A computação ubı́qua
+computação ubı́qua na medicina. As redes corporais sem fio surge como uma solução, com alto grau de mobilidade,
+emergem como uma tecnologia propı́cia ao monitoramento de cujo principal benefı́cio é tornar o cuidado com a saúde
+pessoas em diversos ambientes. Porém, apesar dos notórios disponı́vel em qualquer momento e lugar [3], [4].
+benefı́cios, esta tecnologia apresenta desafios a serem trata- As WBANs são compostas por uma grande diversidade
+dos. Por exemplo, os ambientes em que estas redes estão de dispositivos computacionais. Estes dispositivos geram
+implantadas estão sujeitos a interferências e congestionamentos um elevado volume de dados a serem transmitidos por
+dos canais de comunicação. Existem inúmeras propostas para meio de tecnologias de comunicação sem fio. Para a te-
+tratar problemas similares em redes sem fio de forma geral. lemedicina o presente projeto vai de encontro a alguns
+Entretanto, dadas os fortes requisitos das aplicações médicas, desafios da comunicação [3]. Um deles consiste na baixa
+tais soluções podem não ser apropriadas para WBANs (Wi- disponibilidade de canais dentro da faixa não licenciada
+reless Body Area Network). O protocolo de controle DCAA- de 2,4GHz (industrial, cientı́fica e médica), proporcionando
+MAC1 (protocolo MAC com canal dinamicamente ajustável um ambiente de comunicação congestionado e repleto de
+assı́ncrono) foi projetado especificamente para redes corpo- interferências. Além disso, os requisitos de perda de pacotes
+rais sem fio. Este tem como objetivos a baixa latência e e latência menores que 1% [5] e 200 ms [6] respectivamente,
+a Qualidade de Serviço (QoS). O protocolo ainda possui tornam este cenário de aplicações médicas especialmente
+caracterı́sticas de rádio cognitivo (CR) proporcionando uma desafiador. A inovação tecnológica de rádios cognitivos [7]
+comutação assı́ncrona e rápida dos canais. Este trabalho apre- busca ser uma solução promissora para a escassez de canais
+senta a avaliação de desempenho do protocolo DCAA-MAC de comunicação por meio do uso oportunista do espectro de
+
+radiofrequência. Isto é feito através da utilização da faixas de
+com base nos requisitos especı́ficos da área médica. Além de frequência ociosas, sem interferir na usabilidade do usuários
+torná-lo disponı́vel para pesquisas e aplicações utilizando a que pagam pelo uso de frequências licenciadas (usuário
+plataforma GNURadio. Para esta avaliação, o protocolo foi primário), proprietátio de licença para uso do canal. Quando
+emulado utilizando dispositivos reais os quais simulavam um o usuário primário retoma o uso do canal, o usuário cogni-
+cenário similar a um ambiente hospitalar. Os experimentos tivo recua e muda para outra faixa de frequência que esteja
+apresentaram perda de dados inferior a 1% e latência máxima livre. A utilização desta técnica torna mais eficiente o uso
+em torno de 40 milissegundos relativos aos dados confirmados. da faixa licenciada, promovendo assim um aumento tanto
+
+na qualidade quanto na confiança do serviço de transmissão
+1. Introdução dos dados.
+
+Neste artigo implementamos em um ambiente de teste,
+Os gastos relacionados à saúde e ao envelhecimento po- utilizando a plataforma GNURadio, o protocolo DCAA-
+
+pulacional representam desafios aos paı́ses desenvolvidos e MAC [8], que tem como finalidade controlar o acesso
+em desenvolvimento. Estes gastos aceleraram uma demanda ao meio utilizando um canal dinamicamente ajustável em
+por novos tratamentos médicos com base tecnológica de redes corporais. Utilizamos como ponto de partida para esta
+modo a prover um gerenciamento e monitoramento pro- implementação o protocolo CSMA [9], o qual intermedia os
+ativo de sinais vitais [1]. O estilo de vida moderno vem pacotes entre a camada rede e fı́sica. Além disso, ele realiza
+agravando o surgimento de doenças crônicas degenerativas, a conferência da integridade dos pacotes utilizando CRC.
+como stress, depressão, ansiedade generalizada, entre outras. Suas principais caracterı́sticas são o Carrier Sense e a
+Alguns fatores diretamente associados a este estilo de vida confirmação do recebimento de mensagens por ACK. Desta
+contemporâneo podem ocasionar tais doenças tais como, o forma, torna-se possı́vel ouvir e analisar a qualidade do canal
+sedentarismo e a má alimentação, além do consumo exces- de comunicação e confirmar a entrega das mensagens aos
+sivo de bebidas alcoólicas e cigarros. Consequentemente, o destinatários.
+
+O DCAA-MAC possui além das caracterı́sticas básicas
+1. Código disponı́vel em: https://github.com/kristtopher/DCAA-MAC.git de encapsulamento dos dados e transmissão Broadcasting,
+
+
+
+a técnica de estabelecimento de comunicação conhecida que essas redes possuem requisitos e caracterı́sticas dife-
+como Handshake. Nesta técnica o dispositivo (nó) cliente rentes. Assim, Thomas Schmid em 2006 [10] propôs uma
+solicita o estabelecimento da comunicação através do envio implementação em GNURadio na qual a comunicação entre
+do comando de requisição (RTS). O nó servidor, se dis- os dispositivos atendessem ao padrão IEEE 802.15.4. Esta
+ponı́vel, responde com o comando de associação (CTS). norma define o protocolo compatı́vel para dispositivos de
+Após a confirmação, tem-se um canal dedicado entre os comunicação de baixa velocidade em redes de área pessoal
+dois nós. Os dados serão transmitidos enquanto se fizer (WPAN) [11]. Schmid não implementa toda a pilha do pro-
+necessário ou até que a conexão seja encerrada, permitindo tocolo IEEE 802.15.4, alegando dificuldades para cumprir
+assim uma entrega confiável dos pacotes. A garantia da qua- as restrições de temporização.
+lidade de transmissão é intensificada pela implementação da Bastian Bloessl [12] perseguiu o aumento de desem-
+técnica de Frequency Hopping. Assim, o principal objetivo penho dos protocolos MAC e implementou uma pilha de
+desta estratégia é evitar interferência e melhorar a utilização rede interoperável, com o intuito de cobrir as lacunas e
+do espectro de radiofrequência. Esta técnica permite ao nó as limitações até então encontradas em aplicações GNU-
+avaliar a qualidade dos canais, realizando trocas (saltos) Radio. Toda sua implementação foi disponibilizada como
+entre canais caso perceba-se a presença de interferências. código aberto. Sua implementação tem como base fun-
+Estes saltos são necessários para que se encontre um canal damental o trabalho de Schmid, podendo ser considerada
+livre de interferência e ruı́do dentro da faixa de 2,4GHz. uma evolução. Sua camada MAC é simples e para trans-
+
+A avaliação de desempenho do protocolo foi realizada missão proporciona o encapsulamento dos pacotes com o
+por meio de emulações em dispositivos reais, rádios Ettus cabeçalho IEEE 802.15.4, além de acrescentar o cálculo da
+Research B100, utilizando a plataforma GNURadio. Esta soma de verificação CRC ao quadro para envio imediato.
+plataforma permite o desenvolvedor implementar sistemas Para a recepção o processo se dá em ordem contrária, sua
+de rádio de alto rendimento utilizando um ambiente de de- camada MAC verifica o CRC e remove o cabeçalho. Devido
+senvolvimento rápido e simples. Os resultados demonstram ao fato de envio imediato, a implementação de Bloessl não
+que o DCAA-MAC é capaz de entregar, em média, 99% suporta a funcionalidade de CSMA/CA, contribuindo para
+dos pacotes de dados com latência máxima em torno de o congestionamento da rede.
+40 milissegundos. Isto simulando um cenário similar a um Soluções hı́bridas também foram propostas com o intuito
+ambiente hospitalar, o qual requer uma massiva transmissão de aumentar a flexibilidade da subcamada MAC. Uma delas
+de dados em um curto espaço de tempo . o FS-MAC [9] que proporciona uma alternância dinâmica
+
+As contribuições deste trabalho são a avaliação e a entre os protocolos MAC. Originalmente, este protótipo
+validação do protocolo DCCA-MAC aplicado a dispositivos oscila entre um protocolo MAC baseado em CSMA e outro
+reais simulando ambientes médicos. Além destas, pretende- baseado em TDMA. Vale salientar que o TDMA também
+mos tornar pública a implementação deste protocolo, o qual foi implementado sobre o padrão IEEE 802.15.4, mas assim
+é exclusivamente voltado a atender às restrições impostas como os demais procura ser uma solução genérica para redes
+pelas aplicações médicas. Isto em consequência da falta sem fios e não especı́fica para WBANs. A exigência de
+de opções de protocolos de controle de acesso ao meio regras especı́ficas para coordenar a troca entre os protocolos
+próprios para redes corporais disponı́veis para a plataforma requer uma análise mais sensı́vel do contexto do ambiente.
+GNURadio. Consequentemente, ela gera um custo computacional ele-
+
+O restante do artigo está organizado da seguinte forma: vado. A necessidade da utilização de mensagens de controle
+a Seção 2 discute os trabalhos relacionados; a Seção 3 provoca um custo adicional promovendo uma queda de
+apresenta protocolo DCAA-MAC; a Seção 4 mostra um desempenho se comparado com os protocolos isolados.
+comparativo entre os protocolos apresentados; a Seção 5 Seguindo a linha evolutiva destes protocolos MAC,
+descreve os experimentos realizados para a avaliação do a implementação do DCAA-MAC tem como base o
+protocolo e discute os seus resultados, e por fim, a Seção 6 CSMA [9], a qual propõe um passo além dos demais. O
+apresenta as conclusões e os trabalhos futuros. principal ponto de interesse desta proposta foi o desen-
+
+volvimento de um protocolo exclusivamente voltado para
+aplicações WBANs com caracterı́sticas de rádio cogni-
+
+2. Trabalhos relacionados tivo, ambicionando uma melhor utilização do espectro de
+frequência e atendendo às restrições da área.
+
+Dentre os objetivos da camada MAC estão a correção e o
+contorno aos desafios impostos pelo ambiente fı́sico em que 3. O protocolo
+a rede e os dispositivos se encontram buscando reduzir o im-
+pacto das interferências e proporcionando uma maior vazão Nesta seção, descrevemos as caracterı́sticas do protocolo
+na transmissão de dados. Desde a criação das redes sem fio, DCAA-MAC, cujo objetivo consiste em ser especificamente
+diversos trabalhos foram publicados com intuito de melhorar voltado para WBANs. Seu objetivo principal é a aplicação
+o controle de acesso ao meio. Porém, em sua grande maioria, em áreas médicas. Deste modo, é de grande importância
+esses trabalhos buscam solucionar estes desafios de maneira que atenda aos requisitos da área. O DCAA-MAC permite
+genérica, apresentando soluções para as redes corporais de um compartilhamento eficiente do espectro de frequência
+maneira análoga as soluções de redes locais, mesmo sabendo licenciado. Esta eficiência é garantida pelo uso de técnicas
+
+
+
+de rádio cognitivo, na qual os dispositivos sentem o ambi- verificada por meio do Carrier Sense (2). No cenário onde
+ente e utilizam de espaços vazios (frequências ociosas) no o canal escolhido encontra-se indisponı́vel (3), o nó hiberna
+espectro de frequência para a transmissão dos dados. Deste por um intervalo de tempo (4), para então realizar uma
+modo, é possı́vel proteger os usuários preferenciais do canal. nova verificação de disponibilidade (5). Na situação em
+O DCAA-MAC ainda apresenta um modelo de interação que o canal permanece ocupado, o nó faz a comutação
+assı́ncrono com intuito de prover baixa latência e reconfi- dos canais por meio da técnica Frequency Hopping (6),
+gurabilidade para as WBANs. O protocolo pode ser confi- realizando saltos entre os canais do espectro. A comutação
+gurado para assumir papéis distintos conforme a aplicação é guiada com base na técnica conhecida como Round Robin
+que atue, ou seja, os dispositivos podem ser diferenciados crescente, na qual os canais são ordenados em uma fila
+entre estação base e nó sensor. A seguir apresentamos uma circular com ponto inicial o canal escolhido a priori.
+visão mais detalhada de cada uma destas opções. No cenário em que se depara com um canal em boas
+
+condições de comunicação (7) e existem dados a serem
+3.1. Nós sensores transmitidos, inicia-se o processo de estabelecimento de
+
+um canal confiável de comunicação. Esta comunicação é
+Os nós sensores normalmente são compostos por siste- estabelecida por meio da utilização da técnica Handshake
+
+mas embarcados mais simples, com poder de processamento de três vias. Ao utilizar esta técnica, o nó sensor envia
+e memória limitados. Por estes motivos e aliado ao fato uma mensagem de requisição de comunicação (RTS) (8)
+do monitoramento em tempo real das aplicações WBAN, endereçada à estação base. Em uma conjuntura na qual
+os dados são encaminhados às estações base. A Figura 1 a estação base não possua disponibilidade para receber
+apresenta o fluxograma referente ao comportamento de um os dados, ou apenas não tenha recebido a mensagem a
+nó sensor. ela destinada, há a retransmissão do pacote contendo o
+
+quadro RTS. Estas transmissões são feitas em um tempo
+variável. Na situação em que a estação base sinaliza sua
+disponibilidade com o quadro de CTS (9), o nó passa a
+transmitir todos seus dados (10) sequencialmente à estação.
+Após o término da trasmissão dos dados, o nó sensor sinaliza
+o ocorrido por meio do envio de um quadro de fim de
+transmissão (EOF) (11). Neste ponto, o nó passa a hibernar,
+permanecendo neste estado de suspensão até que sejam
+necessárias novas transferências de dados. Esta hibernação
+entre as comunicações privilegia a eficiência energética por
+parte do nó sensor.
+
+3.2. Estação Base
+A estação base normalmente dispõe de hardware mais
+
+robusto, se comparada aos demais nós. Por este motivo, elas
+são capazes de armazenar e processar dados provenientes de
+diversos nós sensores. A Figura 2 representa o fluxograma
+do algoritmo desta aplicação.
+
+A inicialização do canal (1) também é aleatória, porém a
+estação base realiza o tratamento de alterações no ambiente
+de maneira distinta. Ela ouve o ambiente (2) com o intuito
+de captar sinais de requisição de comunicação provenientes
+dos nós sensores. Portanto, nos momentos os quais não
+são encontradas variações do ambiente (3) contendo qua-
+dros RTS, a estação base realiza a comutação dos canais
+também utilizando a técnica Frequency Hopping (4). Neste
+
+Figura 1. Fluxograma do nó sensor. cenário o uso desta técnica com caracterı́sticas de rádio cog-
+nitivo objetiva a verificação de todo espectro de frequência
+
+Quando um nó sensor desperta para a transmissão de utilizado. Os saltos entre os canais, assim como nos nós
+seus dados, ocorre a inicialização do canal (1). Nesse mo- sensores, obedecem o Round Robin crescente, partindo do
+mento, cada nó sensor seleciona um canal aleatório na faixa canal escolhido na inicialização.
+disponı́vel. É possı́vel escolher com igual probabilidade Ao perceber algum sinal (5) no ambiente, tal qual con-
+qualquer um dos 16 canais compreendidos entre 2,405Ghz tenha um comando de requisição de comunicação (6), o
+e 2,480Ghz, espaçados uns dos outros por 5Mhz. O canal mesmo é verificado. A verificação é necessária para que se
+selecionado será utilizado para tentar se conectar à rede. identifique se este contém uma mensagem válida e destinada
+Após a etapa de seleção do canal, sua disponibilidade é à própria estação base. No cenário em que a mensagem não
+
+
+
+Portanto ele mantém as caracterı́sticas tradicionais do pro-
+tocolo CSMA, adicionando as demais funcionalidades des-
+critas por Lee et al. [8], no o protocolo DCAA-MAC.
+
+A primeira coluna da Tabela 1 lista as principais funcio-
+nalidades apresentadas pelos protocolos discutidos até então.
+As demais colunas mencionam a abrangência de cada uma
+destas utilidades em cada protocolo, incluindo aqueles que
+tratam os problemas dos ambiente de forma genérica e o
+DCAA-MAC.
+
+Tabela 1. COMPARATIVO ENTRE PROTOCOLOS
+
+Funcionalidades Bloessl CSMA DCAA-MAC
+Quadro e Pacote de dados x x x
+Broadcasting (não endereçado) x x x
+Mensagem endereçada x x
+Carrier Sense x x
+Quadro e pacote de ACK x x
+Quadro e Pacote de controle x
+Handshake 3 way x
+Frequency hopping x
+
+x Possui a funcionalidade
+
+Iniciaremos a descrição comparativa abordando as fun-
+cionalidades implementadas por Bloessl, o qual apresenta
+
+Figura 2. Fluxograma da estação base. a proposta mais simples entre os três. As limitações da
+camada MAC desta implementação permitem que ela seja
+capaz apenas de desempenhar atividades básicas. Portanto,
+
+seja endereçada diretamente à estação base (7), esta dedica- está restrito a apenas realizar o enquadramento e empacota-
+se novamente a ouvir o canal. Na situação oposta, quando mento dos dados, adicionando o cabeçalho referente às nor-
+a mensagem é endereçada diretamente à estação base (8) mas IEEE 802.15.4. Outra funcionalidade é a identificação
+e esta encontra-se disponı́vel para estabelecer comunicação, de erros a partir do cálculo da soma de verificação CRC.
+a mesma sinaliza esta situação. A sinalização é feita pelo Após empacotar os dados e adicionar a soma do CRC ao
+envio de um quadro CTS (9), a partir deste marco a recepção quadro, estes são transmitidas via Broadcasting, sem que
+dos dados é aguardada (10). Ao receber cada quadro a sejam endereçadas a algum dispositivo. Essa transmissão
+estação base sinaliza este acontecimento por meio de qua- é feita por um canal definido previamente e direcionada a
+dros de confirmação ACK. Quando ocorre o término dos quaisquer dispositivos os quais estejam ouvindo o mesmo
+recebimentos das quadros, o qual é sinalizado pelo quadro canal e sejam capazes de receber pacotes no padrão IEEE
+(EOF) (11) ou por um perı́odo de inatividade, o canal é 802.15.4. Ao interceptar uma mensagem neste formato, a
+liberado. Em consequência do fim desta comunicação, a ordem dos tratamentos se dá de modo contrário, há primei-
+estação base volta a verificar o ambiente, percorrendo todo ramente a verificação de erro, para logo em seguida realizar
+espectro de frequência em busca de novas comunicações. a remoção do cabeçalho. Por se tratar de um protocolo
+
+Uma grande vantagem técnica do uso desta arquitetura base, tem suas principais funções restritas as descrições
+é a aplicação em um ambiente completamente dessincro- acima. Estas funcionalidades também se fazem presentes
+nizado. Outra vantagem é a utilização dos canais sem a nos demais protocolos descritos a seguir, os quais agregam
+interferência a algum usuário preferencial, o qual não se- outras atribuições com finalidade de atenuar os desafios da
+ria prejudicado, uma vez que seria detectada sua presença comunicação sem fio.
+ocorrendo a comutação de canais por parte da estação base São funcionalidades adicionais presentes no CSMA, a
+e nós sensores. flexibilização no endereçamento das mensagens. Este agora
+
+permite que se envie mensagens a dispositivos conhecidos
+4. Comparativo entre protocolos previamente, ou seja, direcionando o fluxo de dados a
+
+apenas um dispositivo receptor. Além disso, com o intuito
+O objetivo deste trabalho é apresentar a implementação de melhorar a qualidade de serviço, há a confirmação do
+
+do protocolo DCAA-MAC por se propor a contornar e re- recebimento dos quadros pela estação base através de qua-
+duzir os desafios impostos pelo ambiente médico. Expomos dro ACK. Com isso, se alguma mensagem não foi entregue,
+aqui a implementação do protocolo, cujo foco principal é pode ser feito o reenvio da mesma. Porém o grande destaque
+atender às peculiaridades das aplicações WBAN. O DCAA- deste protocolo é a possibilidade de se ouvir o meio por
+MAC é uma evolução do protocolo de CSMA [9], uma vez intermédio do Carrier Sense. Com isto é possı́vel identificar
+que este último serviu como base para a implementação. ruı́dos ou interferências no meio fı́sico, permitindo que o
+
+
+
+dispositivo escolha o melhor momento para o envio das rádios reconfiguráveis reais (Ettus Research B100). Utiliza-
+mensagens, contribuindo de fato para amenizar o conges- mos os rádios associados a dois microcomputadores distin-
+tionamento da rede. tos. Um deles portador de processador Intel core I7 terceira
+
+Comparando diretamente o CSMA e o DCAA-MAC, geração e 6gb de memória ram e o outro portando proces-
+estes apresentam funcionalidades que vão além das ca- sador core I5 da mesma geração e 6GB de memória RAM.
+racterı́sticas básicas apresentadas por Bloessl. O protocolo É de grande importância mencionar estas caracterı́sticas dos
+DCAA-MAC possui outras funcionalidades em relação ao hardwares, uma vez que estas possuem impacto direto no
+CSMA e a implementação de Bloessl. Com a finalidade de desempenho do protocolo e na qualidade dos testes quando
+atender aos requisitos de uma aplicação mais complexa, a utilizada a plataforma GNURadio.
+técnica de Frequency Hopping e o processo de Handshake, Para a apresentação dos resultados neste trabalho, foram
+estão implementadas neste protocolo. Os quadros destinados executados 15 testes. Todos os experimentos simulavam
+a encapsular as mensagens de controle (RTS, CTS, EOF) um cenário de emergência médica, no momento em que
+também são produzidos de acordo com as especificações ocorre uma alta carga de mensagens em um curto inter-
+definidas em [11]. valo de tempo. Por este motivo os experimentos continham
+
+No processo de Handshake, o nó transmissor solicita algumas propriedades especı́ficas. Estas podem ser listadas
+o estabelecimento da comunicação através do envio do inicialmente pelo fato de serem transmitidos 6.400 pacotes
+quadro de requisição ( RTS). Considerando a disponibilidade por nó sensor. O conteúdo útil de cada mensagem possui
+imediata da estação base, ao receber este quadro é enviada 110 bytes de tamanho. Estas mensagens são transmitidas em
+uma confirmação junto ao CTS ao nó transmissor. Após esta intervalos de 150 milissegundos, representando um Stream
+confirmação, tem-se uma comunicação dedicada entre os com duração aproximada de 16 minutos. Isto representa um
+dois nós e os dados serão transmitidos até que a conexão goodput de 723 bytes/segundo quando obtemos uma taxa de
+seja encerrada. Já a técnica do Frequency Hopping permite confirmação de 99,2%.
+que o nó faça uma avaliação prévia da qualidade de um Atendendo aos requisitos das aplicações médicas, o pro-
+canal, neste caso, para o nó transmissor. Caso o mesmo tocolo aguarda pela confirmação do pacote por 200ms. Caso
+possua alguma interferência ou ruı́do, são realizados “saltos” a confirmação exceda este limite, é realizada a retransmissão
+utilizando a banda de frequência de 5MHz. Estes são feitos deste pacote. Se por algum motivo o nó sensor ainda não
+até que se encontre um canal livre de fatores prejudiciais à tenha recebido a confirmação, este pacote é descartado. Os
+comunicação. Para a estação base os “saltos” são realizados rádios B100, simulando nó sensor e a estação base, são
+a cada 50 ms dentro da faixa de 2,4 GHz, de maneira a dispostos de maneira equidistantes de aproximadamente 0,5
+varrer todo o espectro de frequência livre. Em ambos os metro e são equipados com antenas VERT900 e VERT2450
+nós o canal inicial parte de uma escolha aleatória. atuando na faixa de frequência 2,4 à 2,5GHz.
+
+Nestas configurações, a Figura 3 apresenta a função
+de distribuição de probabilidade acumulada para o cenário
+
+5. Experimentos e resultados descrito. Nela é possı́vel observar o ótimo desempenho do
+DCAA-MAC, onde 100% dos pacotes entregues tiveram
+
+Mediante os aprimoramentos mencionados anterior- atraso máximo de 40 milissegundos.
+mente, é possı́vel constatar algumas melhorias referentes
+ao desempenho na transmissão dos dados. A transmissão
+
+ 1
+realizada em um canal fixo provoca uma saturação deste e
+a subutilização dos demais, gerando assim um congestio-
+namento e perdas de pacotes provocadas por interferências  0.8
+
+dos demais nós ou dispositivos externos. As perdas de
+pacotes por qualquer motivo levam a retransmissões de
+
+ 0.6
+dados, as quais aumentam o tráfego no canal e contribuem
+para uma baixa vazão, além de contribuir para um aumento
+no consumo energético. Os problemas desta natureza são  0.4
+
+prontamente contornados com a implantação do Frequency
+Hopping. Pelo lado da utilização do Handshake, é possı́vel  0.2
+suavizar problemas da camada de aplicação uma vez que
+os pacotes recebidos são sempre do mesmo transmissor. DCAA
+
+Não havendo assim a necessidade de maior conferência e  0
+ 0  10  20  30  40  50
+
+ordenação dos dados relativos a cada dispositivo. Outros
+benefı́cios conseguidos através do estabelecimento de um Latencia k (ms)
+canal confiável de comunicação são o aumento na precisão Figura 3. Gráfico da latência.
+e a confiabilidade, uma vez que os problemas com inter-
+ferências foram suavizados. Para fins de validação, o protocolo também foi simulado
+
+Realizamos simulações em laboratório com o auxı́lio utilizando a ferramenta Castalia [13]. Aplicando rigorosa-
+da plataforma GNURadio em conjunto com dispositivos de mente os mesmos parâmetros à simulação, obtivemos os
+
+P[Latencia <= k]
+
+
+
+dados apresentados na Figura 4, onde os sobrepomos aos sobre os outros, por atender bem a estes requisitos. Pelo
+dados reais para uma melhor comparação. Podemos notar fato de ser especificamente voltado a superar os desafios
+assim um comportamento similar entre as aplicações do impostos por redes sensores corporais sem fio, este atendeu,
+protocolo, seja ela em dispositivos reais ou em ambiente conforme esperado, a todas as expectativas. O DCAA-MAC
+simulado. De tal modo que o comportamento da curva é obteve uma alta taxa de entrega de dados aliado a uma baixa
+equivalente até pouco mais de 80% dos dados, em que estes latência.
+foram entregues com pouco mais que 10 milissegundos. Nos Com o intuito de disponibilizar protocolos mais robustos
+pouco menos que 20% restantes há uma disparidade entre as para aplicações em redes corporais, como trabalho futuro
+curvas. Esta desigualdade entre as curvas pode ser explicada propomos a implementação do protocolo de controle de
+pelo fato da simulação considerar o perfeito sincronismo acesso ao meio com múltiplas estações base apresentado
+entre os nós simulados. Sincronismo este que não é possı́vel em [14]. Este trabalho propõe que múltiplas estações base
+em dispositivos reais. Além disso, outro fato importante é coexistam no ambiente médico com o intuito de colaborarem
+a simulação não considerar ruı́do no canal, o que leva ao entre si atendendo assim aos requisitos da área. Com isso,
+dispositivo real uma variação no tempo de reenvio dos pa- propomos ainda realizar um comparativo entre os dados
+cotes, contribuindo assim para uma suavização da curva que apresentados no presente trabalho e os dados obtidos com
+representa os dados reais. Ponderando a análise dos dados este novo protocolo a ser implementado.
+por estes fatores, podemos concluir que o protocolo aplicado
+em dispositivos reais tem um comportamento equivalente ao Referências
+mesmo protocolo simulado, possibilitando deste modo sua
+validação. [1] G. Ragesh and K. Baskaran, “An overview of applications, standards
+
+and challenges in futuristic wireless body area networks,” 2012.
+[2] S. Movassaghi, M. Abolhasan, J. Lipman, D. Smith, and A. Jamali-
+
+pour, “Wireless body area networks: A survey,” IEEE Communicati-
+ons Surveys & Tutorials, vol. 16, no. 3, pp. 1658–1686, 2014.
+
+[3] M. N. Lima, Saúde Móvel: Conceitos, Iniciativas e Aplicações.
+Clube dos Autores, 2010.
+
+[4] I. Augustin, G. P. Ferreira, and A. C. Yamin, “Grade computacional
+como infra-estrutura para a computação pervasiva/ubı́qua,” ERAD -
+Santa Cruz do Sul, 2008.
+
+[5] J.-Y. Yu, W.-C. Liao, and C.-Y. Lee, “A mt-cdma based wireless body
+area network for ubiquitous healthcare monitoring,” in Biomedical
+Circuits and Systems Conference, 2006. BioCAS 2006. IEEE. IEEE,
+2006, pp. 98–101.
+
+[6] S. D. Baker and D. H. Hoglund, “Medical-grade, mission-critical
+wireless networks [designing an enterprise mobility solution in the
+healthcare environment],” IEEE Engineering in Medicine and Biology
+Magazine, vol. 27, no. 2, 2008.
+
+[7] R. Chávez-Santiago, K. E. Nolan, O. Holland, L. De Nardis, J. M.
+Ferro, N. Barroca, L. M. Borges, F. J. Velez, V. Goncalves, and
+
+Figura 4. Gráfico de comparação DCAA simulado x real. I. Balasingham, “Cognitive radio for medical body area networks
+using ultra wideband,” IEEE Wireless Communications, vol. 19, no. 4,
+2012.
+
+6. Conclusão e trabalhos futuros [8] B. Lee, J. Yun, and K. Han, “Dynamic channel adjustable asynchro-
+nous cognitive radio mac protocol for wireless medical body area
+sensor networks,” in Communication and Networking. Springer,
+
+Como há uma semelhança entre as estruturas dos pro- 2011, pp. 338–345.
+tocolos DCAA-MAC e CSMA, levando em consideração
+uma aplicação básica, ambos teriam um desempenho sig- [9] J. R. S. Cordeiro, E. Lanza, D. F. Macedo, and L. F. M. Vieira, “FS-
+
+MAC: Uma Plataforma para a Flexibilização da Subcamada MAC
+nificativo. Entretanto, aplicações mais complexas, como em Redes Sem Fio,” in XXXV Simpósio Brasileiro de Redes de
+em WBANs, exigem funcionalidades às quais garantam a Computadores e Sistemas Distribuı́dos, 2017.
+confiabilidade, precisão e a agilidade na transmissão. O [10] T. Schmid, “Gnu radio 802.15.4 en- and decoding,” UCLA NESL
+presente trabalho apresentou a avaliação de desempenho do TR-UCLA-NESL-200609-06, Tech. Rep, 2006.
+protocolo DCAA-MAC, com base nos requisitos especı́ficos [11] I. C. Society, “IEEE Standard for Information Technology-
+para aplicações médicas, em relação a outros protocolos Telecommunications and Information Exchange between Systems-
+que tratam os problemas em redes sem fio de forma geral. Local and Metropolitan Area Networks- Specific Requirements Part
+Tendo em vista a escassez de materiais disponı́veis sobre 11: Wireless LAN Medium Access Control (MAC) and Physical
+
+Layer (PHY) Specifications,” in LAN/MAN Committee et al. (2007),
+a plataforma GNURadio, o protocolo será disponibilizado 2007.
+para pesquisas e aplicações. [12] B. Bloessl, C. Leitner, F. Dressler, and C. Sommer, “A GNU Radio-
+
+Com base nos resultados obtidos através de experimen- based IEEE 802.15. 4 Testbed,” 12. GI/ITG FACHGESPRÄCH SEN-
+tos, concluı́mos que o protocolo DCAA-MAC leva vantagem SORNETZE, p. 37, 2013.
+
+
+
+[13] A. Boulis, “Castalia: revealing pitfalls in designing distributed algo-
+rithms in wsn,” in Proceedings of the 5th international conference on
+Embedded networked sensor systems. ACM, 2007, pp. 407–408.
+
+[14] B. M. Cremonezi, A. B. Vieira, J. A. M. Nacif, and M. Nogueira, “A
+dynamic channel allocation protocol for medical environment under
+multiple base stations,” in Wireless Communications and Networking
+Conference (WCNC), 2017 IEEE. IEEE, 2017, pp. 1–6.

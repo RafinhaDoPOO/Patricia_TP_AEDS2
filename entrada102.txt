@@ -1,0 +1,293 @@
+﻿A hardware accelerator implementation for
+real-time collision detection
+
+Fredy Augusto M. Alves1, Lucas Bragança da Silva1, Ricardo S. Ferreira3, Peter Jamieson2, José A. Miranda Nacif1
+1Institute of Exact Sciences and Technology, Federal University of Viçosa, Campus UFV-Florestal, Brazil
+
+2College of Engineering and Computing, Miami University, USA
+3Departament of Informatics, UFV, Brazil
+
+fredy.alves@ufv.br, lucas.braganca@ufv.br, ricardo@ufv.br, jamiespa@miamioh.edu, jnacif@ufv.br
+
+Index Terms—Parallel Processor, Hardware Accelerator, Com- of Altera by Intel, the use of FPGAs as accelerators for this
+puter Architecture, Collision Detection type of algorithm was highly affected by memory latency but
+
+this changed with the new platform HARP (Heterogeneous
+I. ABSTRACT Accelerator Research Platform) by Intel which consists of
+
+Collision detection algorithms are used to detect when a Xeon Processor connected to an Altera Stratix V FPGA
+virtual objects collide and the results of these collisions. by a PCI of 8GB/s bandwidth which reduces drastically the
+This type of algorithm is used by many research areas such memory latency. The ODE [2] (Open Dynamics Environment)
+as simulation. automatic path finding, tolerance checking, is an open-source Engine used by a wide variety of games and
+among others. This type of algorithm is processed in real- simulators.
+time. Intel created the HARP Platform which uses a PCI HARP uses the AAL (Accelerator Abstraction Layer) fra-
+with 8GB/s bandwidth, this decreased the memory latency mework to develop applications for it, it uses the service abs-
+allowing real-time processing of fine grain applications traction for implementing applications for accelerators which
+such as collision detection algorithms. In this paper we allows the user to implement a method for accelerating an
+propose a heterogeneous system in order to use the FPGA application which can be called as any other function in a
+on the HARP as an accelerator for collision detection C++ application such as ODE.
+algorithms. Our results show a speedup of 14.5% in In this paper we developed a novel hardware accelerator for
+execution time. spheres collision detection as a proof of concept for optimizing
+
+this type of algorithm on FPGAs. It uses a many-processing
+II. INTRODUCTION units approach to process collisions in parallel with a producer-
+
+With the recent acquisition of Altera by Intel, the tendency consumer approach in order to improve communication effici-
+is that FPGAs will be included in CPUs as accelerators for ency, it also uses pipeline methods to improve the throughput.
+a wide range of applications. Collision detection algorithms The algorithm uses floating point arithmetic. We tested the
+are used to detect when virtual objects collide and the results design on the HARP platform and collected results in real-
+of these collisions. This type of algorithm is used by many time for many ODE simulation benchmarks. We managed to
+research areas such as simulation. automatic path finding, get an improvement of up to 14.5%.
+tolerance checking, among others. Applications can be found This paper is outlined as follows. In section III we briefly
+in games, factory simulators, medical procedures training explain the background of the collision detection algorithm
+applications, virtual reality, etc [1]. and its implementation on the HARP platform. In section IV,
+
+Collision detection in games and simulators are usually we explain how our results were fetched. In section V, we
+implemented in Engines in the form of APIs which can be put our work into perspective. In section VI we present and
+used out-of-the-box. Collision detection in applications such discuss our results. Then, in section VII we conclude our work
+as games and simulators is done in real-time which means and explain the future works for it.
+that collisions are processed as soon as they happen. With the
+increasing complexity of the applications that use this type III. BACKGROUND
+
+of algorithm in order to achieve a better resemblance with A. Collision detection algorithm
+reality, the number of collisions for each simulation step has The ODE offers a collision detection engine, it also provides
+been increasing so finding ways to improve its the efficiency an interface for reimplementing the methods on it. This engine
+is crucial. receives information about the shape and position of each
+
+In a single simulation step we have access to a set of body in a space. At each simulation step, the collision engine
+collision data. One of the most important advantage of FPGAs is responsible for identifying which bodies are colliding and
+over CPUs is its capacity for parallel processing which is returning contact points which are structures responsible for
+ideal for collision detection algorithms. Before the acquisition holding information about the collision.
+
+
+
+B. Contact points Algorithm 1 Spheres collision detection.
+Contact points are structs returned by the collision detection d← DCALCPOINTSDISTANCE3(p1,p2)
+
+engine, they are composed by three attributes: Flow 1: Fake Collision
+• Pos: The position of the contact point in a space. if d > (r1 + r2) then return 0
+• Normal: The resultant vector that is perpendicular to the end if
+
+collision contact point. Flow 2: Grazing Collision
+• Depth: The depth of penetration of the bodies in each if d ≤ 0 then
+
+other. cPos← p1
+
+• G1 and G2: The bodies colliding for the contact point. cNormal← (1, 0, 0)
+cDepth← r1 + r2
+
+C. Sphere Collision detection algorithm Flow 3: Real Collision
+In our case of study, we reimplemented the method for else
+
+collision detection between two spheres, the pseudocode for d1← DRECIP(d)
+this algorithm is on Algorithm 1 with its inner methods. The cNormal← (p1− p2) ∗ d1
+inputs are the position of two spheres in a space (p1 and p2) k ← 0.5 ∗ (r2− r1− d)
+and their respective radius (r1 and r2), all the data is in 32-bit cPos← p1 + cNormal ∗ k
+ieee 754 floating point format. The output is a contact point cDepth← r1 + r2− d
+for the collision. end if
+
+The algorithm begins by calculating the depth for the function DCALCPOINTSDISTANCE3(p1,p2)
+collision and storing it on the variable d. Based on d, the tmp← DSUBTRACTVECTORS3(p1,p2)
+algorithm has three possible execution flows. Flow 1 is when res← DCALCVECTORLENGTH3(tmp)
+the collision doesn‘t happen, we call this a fake collision, Flow return res
+2 is when the bodies barely touch each other, this is a grazing end function
+collision, Flow 3 is when the bodies collide with each other function DSUBTRACTVECTORS3(p1,p2)
+and the collision has a depth, a real collision. Flow 2 almost res← p1− p2
+never happens so we focus our studies on Flow 1 and 3. end function
+
+By studying the data dependencies on the algorithm, we function DCALCVECTORLENGTH3(tmp)
+were able to identify which calculations could be executed in res← sqrt(tmp[0]∗tmp[0]+tmp[1]∗tmp[1]+tmp[2]∗
+parallel. We divided the calculations in stages which happens tmp[2])
+is sequence in a parallel processor such as an FPGA, the end function
+stages are listed on Algorithm 2. In this project we developed
+a Verilog RTL Design to execute those stages. Algorithm 2 Paralell Spheres collision detection.
+
+As we are dealing with bodies in a 3D Space, p1, Stage 1 :
+p2,cNormal, cDepth,cPos are all vectors of size 3 to hold the d← DCALCPOINTSDISTANCE3(p1,p2)
+x, y and z coordinates. This means that each operation on rsum← r1 + r2
+Algorithm 1 which uses any of these vectors is actually 3 psub← p1− p2
+operations. rsub← r2− r1
+
+D. The System architecture Stage 2 :
+d1← DRECIP(d)
+
+The system architecture overview can be seen on Figure 1, d > rsum
+on the FPGA side, in addition to the Accelerator Function r2− r1− d
+Unit (AFU) for the collision detection algorithm on the FPGA, r1 + r2− d
+the system also uses another component provided by Intel, Stage 3 :
+the System Protocol Layer 2 (SPL2) which is responsible cNormal← (psub) ∗ d1
+for memory address translation since the FPGA uses virtual k ← 0.5 ∗ (rsub− d)
+addressing, the shared memory can go up to 2GB. Stage 4 :
+
+The shared memory is divided in sections, the device status cnk ← cNormal ∗ k
+memory (DSM) is a 4kb pinned memory region which holds Stage 5 :
+the status of the device. The control memory is a reserved cPos← p1 + cnk
+memory space for handshake signals between the CPU and the
+FPGA, it is used for start and reset signals. The Src Buffer is
+used by the CPU to send data to the AFU and the Dst Buffer
+is used by the FPGA to send results to the SW application. E. The Sphere Collision Detection AFU
+The VAFU2_CNTXT holds the pointers to the buffers. The AFU is divided into two main components as seen
+
+The CPU side is composed by the ODE simulations and the on the datapath on Figure 2, the Processing Units Controller
+AAL application used to communicate with the AFU. (PUC) and the Sphere Collision Processing Units (SCPUs),
+
+
+
+processed and stopped. The steps for executing a transaction
+from the AAL to the AFU is presented on Figure 3 and works
+as follows:
+
+1) The AAL application gets pointers to the src buffer
+(pSource), destination buffer (pDest) and AFU context
+(pVAFU2_cntxt).
+
+2) The application sends the collision Data to be processed
+to the Source Buffer and starts the SPL.
+
+3) The application sends the start signal and how many
+collisions (nCol) should be processed to the AFU through
+the control memory.
+
+4) The AFU writes its AFU ID to the DSM which is used
+to signal to the CPU that it is running.
+
+5) After the AFU finishes processing the collisions, it signals
+to the CPU that it is done.
+
+Figura 1. System architecture overview. 6) The CPU uses pDest to retrieve the collision processing
+results from the Destination Buffer.
+
+7) The application ends the transaction by freeing the works-
+The handshake signals control protocol is implemented on the pace.
+PUC, it also implements a collector responsible for fetching The application re-execute the collision processing on the
+collision data from the Src Buffer and a Dispatcher responsible AFU X times and compute an average of all the execution
+for writing the collisions processing results to the Dst Buffer. times, this process is done in order to minimize the variations
+Besides the algorithm parallelism based on data dependence on the method for fetching execution time. As the path for
+described on Section III-A, in our architecture we also use executing a type of collision is always the same, it is expected
+a many Processing Units approach, each SCPU process one that the execution time for a certain amount of collisions is
+collision in parallel to the other SCPUs. So, if we have always similar.
+N SCPUs, the collision execution time T for one collision
+processing becomes T/N. The PUC also controls the start and
+reset signals for the SCPUs, it receives from the CPU AAL
+application the number of collisions to be processed Ncol, it
+then execute each SCPU Ncol/N times.
+
+Figura 3. Transaction steps.
+
+B. Collision detection execution time on ODE
+For the ODE, a set of parameterizable benchmarks was
+
+Figura 2. the AFU datapath. developed. The benchmark creates a simulation environment
+with spheres organized in the form of a diamond, it receives
+
+IV. M the maximum height hMax for the diamond from its center
+ETHODOLOGY
+
+as an input parameter in number of spheres. Figure 4 shows
+A. Collision detection execution time on AFU examples of three benchmarks and their respective hMax. It
+
+The AAL framework is service-oriented so it works with is also possible to increase the distance dSph between the
+the concept of transactions. A transaction must be initiated, spheres. After the spheres are created, a force is applied in
+
+
+
+each one pointing to the center of the diamond so they can
+collide.
+
+Figura 5. ODE execution flow.
+
+of speedup but it also uses preloaded data. Works such as [5]
+[6] relies on GPU-CPU based systems to improve collision
+detection.
+
+The main differentials for our work is that we propose a
+real-time collision detection design for real-time processing on
+a CPU-FPGA heterogeneous system without preloaded data,
+our results are executed in a real environment and are given
+in terms of execution time speedup.
+
+VI. RESULTS AND DISCUSSION
+
+Our experiments were conducted by executing sets of real
+collisions on both ODE and the AFU. For the ODE, the tests
+were made using a benchmark of hMax equal to 3 and dSph
+equal to 0. We started with a set of 10 collisions and then
+kept increasing it by 10 until we reached 1000 collisions. We
+presented the results in terms of collisions processing time in
+a graph comparing ODE to the AFU times. For the AFU we
+used 10 SCPUs.
+
+Figura 4. Benchmarks. Figure 6 shows the graph for the sets of real collisions, the
+increasing in execution time is linear as expected since the
+
+In order to get the execution time, the user must specify path to execute a real collision is always the same. Above 250
+how many collisions and their respective type tCol (fake, real collisions, the AFU is always better than the ODE, the reason
+or grazing) should be taken into account. Figure 5 shows the why before this point the ODE is better is because the AFU
+execution flow for getting the ODE spheres collision execution has a configuration time before and after each transaction, this
+times. First the benchmark parameters are set, the simulation configuration time is on average 2000 milliseconds so the AFU
+starts, when an execution of the specified type happens, it is must reach a minimum of collisions in order to compensate
+executed 10 times and the execution time average is added this. With the number of collisions that we collected, we can
+to the total execution time, if the number of collisions nCol reach up to 14.5% speedup on the AFU for real collisions.
+is equal to the maximum number of collisions nColMax, the We then implemented another test where we start with a
+simulation stops and the benchmark returns the total execution set of 1000 collisions and increase it by 1000 until we reach
+time. The benchmarks were created in order to take into 90000 collisions, the results can be seen in Figure 7. For the
+account any optimization made by the processor in a real time HARP tests, the average execution time per collision was 86ns
+application. and for the ODE it was 102ns.
+
+V. RELATED WORKS VII. CONCLUSION AND FUTURE WORK
+
+On [3] an algorithm to solve linear programs is used in In this work we presented a hardware accelerator for a
+order to improve the speed of collision detection algorithms, collision detection algorithm. We implemented a case of
+this paper uses preloaded data with memory initialization files study with Sphere Collision Detection reaching a speedup of
+in an FPGA kit to generate its results. On [4], a collision up to 14.5% with FPGA proven designs running in a real
+detection design for FPGAs using fixed-point arithmetics and environment. The results show that our design is a great option
+bounded error is proposed, its focus is on saving space in for decreasing execution times for this type of algorithm in
+order to improve area overhead, its results are given in terms this new FPGA accelerators reality. As for future works, we
+
+
+
+[5] A. Hermann, F. Drews, J. Bauer, S. Klemm, A. Roennau, and R. Dill-
+mann, “Unified gpu voxel collision detection for mobile manipulation
+planning,” in 2014 IEEE/RSJ International Conference on Intelligent
+Robots and Systems, Sept 2014, pp. 4154–4160.
+
+[6] A. Hermann, F. Mauch, K. Fischnaller, S. Klemm, A. Roennau, and
+R. Dillmann, “Anticipate your surroundings: Predictive collision detection
+between dynamic obstacles and planned robot trajectories on the gpu,” in
+2015 European Conference on Mobile Robots (ECMR), Sept 2015, pp.
+1–8.
+
+Figura 6. Graph for real collisions for 1000 set.
+
+Figura 7. Graph for real collisions for 100000 set.
+
+intend to expand the AFU library to another type of collisions
+detection algorithms in order to produce a new Engine.
+
+ACKNOWLEDGMENTS
+
+We would like to thank UFV for providing us the necessary
+materials and support, we also would like to acknowledge
+the students Connor Blandford and Oakley Katterheinrich
+for participating on the development of the SCPUs during a
+summer internship on the Miami University.
+
+REFERÊNCIAS
+
+[1] H. Wei and W. W. Gen, “A comprehensive fpga implementation of
+collision detection,” in IET International Communication Conference on
+Wireless Mobile and Computing (CCWMC 2011), Nov 2011, pp. 341–
+346.
+
+[2] R. Smith. Open dynamics engine. [Online]. Available:
+http://www.ode.org/
+
+[3] C. H. Wu, S. O. Memik, and S. Mehrotra, “Fpga implementation of
+the interior-point algorithm with applications to collision detection,” in
+2009 17th IEEE Symposium on Field Programmable Custom Computing
+Machines, April 2009, pp. 295–298.
+
+[4] A. Raabe, S. Hochgurtel, J. Anlauf, and G. Zachmann, “Space-efficient
+fpga-accelerated collision detection for virtual prototyping,” in Procee-
+dings of the Design Automation Test in Europe Conference, vol. 2, March
+2006, pp. 6 pp.–.

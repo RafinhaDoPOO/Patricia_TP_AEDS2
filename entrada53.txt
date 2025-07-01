@@ -1,0 +1,519 @@
+﻿Predição de Pesos de Bovinos de Corte
+utilizando Visão Computacional
+
+Roniel N. Barbosa1, Jhonata M. da Costa1, Vı́tor L. G. Silva1, Nathália Souza2,
+Mário Chizzotti2, Ricardo S. Ferreira3, José Augusto M. Nacif1
+
+1Instituto de Ciências Exatas e Tecnológicas – Florestal – MG
+2Departamento de Zootecnia – Viçosa – MG
+3Departamento de Informática – Viçosa – MG
+
+Universidade Federal de Viçosa (UFV)
+
+{roniel.barbosa,jnacif}@ufv.br
+
+Resumo. O monitoramento do peso de bovinos de corte é de extrema im-
+portância para os produtores rurais. Esta proposta busca predizer o peso dos
+animais de forma automática com ênfase na extração de informações presen-
+tes nas imagens, mediante a utilização de visão computacional e algoritmos de
+aprendizado de máquina. Em contraste ao método convencional com balanças
+mecânicas, a nova abordagem propõe a geração de um conjunto de dados con-
+tendo imagens de bovinos, utilizadas para treinar um modelo U-NET capaz de
+realizar a segmentação do animal. Em seguida, são extraı́dos atributos relevan-
+tes e modelos de aprendizado de máquina são treinados para predizer o peso
+do bovino. A implementação da abordagem foi realizada em Python, executada
+nas plataformas Google Colab e Google Cloud Virtual Machines. Os resulta-
+dos obtidos demonstram a eficácia da proposta, com uma Mean Absolute Error
+(MAE) de 12,83kg.
+
+1. Introdução
+O monitoramento do peso do gado de corte é essencial para os produtores do agro-
+negócio, pois permite controlar a saúde dos animais, melhorar a seleção genética
+e determinar o momento ideal para o abate [LUDTKE 2012]. Isso é fundamen-
+tal para o sucesso da produção de carne bovina, uma atividade econômica relevante
+em vários paı́ses, incluindo o Brasil. No primeiro trimestre de 2023, por exemplo,
+o paı́s produziu aproximadamente 2 bilhões de quilos de carne bovina, segundo o
+IBGE [Instituto Brasileiro de Geografia e Estatı́stica 2023]. A bovinocultura desempenha
+um papel fundamental na alimentação global, contando com o auxı́lio da computação
+para impulsionar sua eficiência. Conforme destacado por [Liakos et al. 2018], essa
+combinação estratégica busca aumentar a produtividade, detectar doenças precocemente e
+garantir o fornecimento de proteı́na animal, leite e outros derivados provenientes do gado
+bovino.
+
+Atualmente, a pesagem do gado é predominantemente realizada por meio de
+métodos mecânicos que muitas vezes são rudimentares e envolvem o uso de balanças
+mecânicas expostas ao ambiente, sujeitas a danos causados por forças da natureza e fer-
+rugem [Wang et al. 2021]. Essas balanças exigem manutenção e inspeções constantes
+para evitar resultados imprecisos por falha sistêmica, fazendo com que seja de grande
+importância desenvolver uma abordagem mais simples e robusta para a pesagem.
+
+
+
+As principais contribuições deste trabalho são realizar a predição de peso, com
+ênfase em extrair atributos por meio da visão computacional, e a utilização de modelos de
+aprendizado de máquina para predizer o peso do bovino. A metodologia adotada consiste
+em: i) geração e preparação do conjunto de dados; ii) segmentação do animal e extração
+de métricas relevantes; iii) utilização de modelos de aprendizado de máquina para realizar
+a predição do peso. Essas etapas visam criar um sistema robusto e confiável, capaz de per-
+formar com melhores indicadores em comparação com os métodos atuais. O diferencial
+do nosso trabalho, em comparação com o estado da arte, é a automatização da extração
+dos atributos.
+
+Em relação às métricas de desempenho, nossa abordagem apresenta melhorias
+significativas. Ao utilizar a visão computacional para extrair métricas relevantes do ani-
+mal, obtivemos informações de forma mais rápidas e objetivas, em comparação com a
+extração manual realizada na maioria dos trabalhos atuais. Essa automação aumenta a
+eficiência do processo e reduz a possibilidade de erros humanos. Com isso, espera-se que
+nossos modelos de aprendizado de máquina tenham acesso a dados de qualidade, levando
+a resultados mais precisos na predição do peso dos bovinos.
+
+O restante deste artigo está estruturado da seguinte forma: na seção 2, serão apre-
+sentados os trabalhos relacionados, abordando pesquisas anteriores sobre a predição de
+peso de gado de corte, modelo U-Net e explorando as diferentes abordagens utilizadas.
+Já na seção 3, explicamos de forma simples e intuitiva o funcionamento do modelo de
+segmentação U-NET utilizado. Em seguida, na seção 4, detalharemos a metodologia
+adotada neste artigo, descrevendo o processo de coleta de dados, as técnicas de pré-
+processamento e os modelos utilizados. Os resultados e discussão são discutidos na
+seção 5, com uma análise aprofundada do desempenho dos modelos propostos e uma
+comparação com trabalhos anteriores. Por fim, na seção 6, serão apresentadas as con-
+clusões do estudo, destacando as principais visões, contribuições e possı́veis direções
+futuras de pesquisa.
+
+2. Trabalhos Relacionados
+Durante a revisão da literatura, identificamos estudos relacionados à estimativa de peso
+de animais, segmentação de imagens e extração de informações. Entre os métodos de
+predição explorados, destaca-se o uso de câmeras 3D, que fornecem uma quantidade sig-
+nificativa de informações por meio de registros em formato de dados. Além disso, há
+abordagens que se baseiam exclusivamente na análise de imagens, enquanto outras utili-
+zam a extração manual de métricas como estratégia.
+
+O trabalho realizado por [Gjergji et al. 2020], abordou o mesmo problema e utili-
+zou uma combinação de Recurrent Attention Model (RAM) e Redes Neurais Convoluci-
+onais (CNN’s) para prever o peso de bois das raças Angus e Nellore. Para realizar essa
+previsão, foram coletadas imagens da parte dorsal dos bois, capturadas por câmeras posi-
+cionadas acima do bebedouro. As imagens, em sua resolução original, foram submetidas
+aos modelos de RNA para predizer o peso. O modelo que obteve o melhor desempenho foi
+o EfficientNetB1, com um MAE de 23,19kg. Seu foco estava voltado para a combinação
+dos modelos, enquanto este trabalho explora a extração de atributos automatizada.
+
+Outro estudo significativo na área é o trabalho de [Ruchay et al. 2021], no qual
+foi considerado uma ampla variedade de atributos para treinar os modelos de regressão.
+
+
+
+A extração de atributos foi feita de forma manual e teve como resultado estes atributos:
+altura da cernelha, altura do quadril, profundidade do peito, largura do peito, largura em
+maclocks, largura da colina ciática, comprimento oblı́quo do corpo, comprimento traseiro
+oblı́quo, circunferência do tórax, circunferência do metacarpo, meia circunferência tra-
+seira. Além disso, também foram feitas medições de idade de 1.500 vacas com idade
+entre 2 e 6 anos. Após treinamento, o modelo com o melhor resultado previsto foi o Ran-
+dom Forest Regressor com um MAE de 24,96 Kg. No ano seguinte, [Ruchay et al. 2022]
+apresentou já uma análise comparativa de diversos algoritmos de aprendizado de máquina
+para predição de peso. Em sua análise, o algoritmo que se sobressaiu foi o TreesRegres-
+sor. Em contraste, nosso artigo propõe uma abordagem nova em relação à geração das
+métricas, automatizando a extração para a predição do peso dos animais como já foi su-
+pracitado. Essa abordagem permite obter métricas de forma mais rápida e demonstra
+que, por meio da extração automatizada de atributos, também é possı́vel obter previsões
+precisas.
+
+Um trabalho anterior, proposto por [Miller et al. 2019], investigou uma aborda-
+gem utilizando câmera 3D, visando prever caracterı́sticas de peso de bois vivos e carcaças
+com uma alta precisão mediante aprendizado de máquina. Com o sistema automatizado
+com a câmera 3D, foi possı́vel extrair 60 variáveis preditoras como: comprimentos, altu-
+ras, larguras, áreas, volumes e proporções. A avaliação do modelo se deu com a utilização
+de R2 e RMSE, chegando nas predições de boi R2= 0.7, RMSE = 42, e carcaça de R2=
+0.88, RMSE = 14. Nosso estudo obteve resultados similares mesmo a partir da perspec-
+tiva 2D. Embora a abordagem 3D seja considerada superior em termos de obtenção de
+informações mais detalhadas, é importante ressaltar que ainda conseguimos obter resul-
+tados significativos a partir de uma perspectiva teoricamente inferior.
+
+3. Modelo U-Net
+A U-Net é uma arquitetura de rede neural convolucional (CNN) largamente utilizada para
+trabalhos de segmentação de imagem. Proposto por [Ronneberger et al. 2015], ela se
+destaca por sua eficácia em problemas de segmentação de objetos, especialmente quando
+há poucos dados de treinamento disponı́veis. A arquitetura é composta por uma seção
+de codificador (encoder) e uma seção de decodificador (decoder). Tendo à conexão entre
+essas partes a representação em “U” dessa arquitetura, que permite a troca de informações
+e preserva detalhes importantes durante o processo de segmentação da imagem.
+
+O codificador é responsável por aprender recursos e extrair informações das ima-
+gens de entrada. Geralmente, é composto por camadas de convolução, seguidas por cama-
+das de pooling (downsampling) para reduzir as dimensões espaciais dos recursos. Cada
+camada de convolução é normalmente seguida por uma função de ativação, como ReLU,
+para introduzir não linearidade. A profundidade das camadas convolucionais aumenta à
+medida que avançamos no codificador, permitindo que a rede capture caracterı́sticas mais
+complexas.
+
+O decodificador é responsável por gerar uma máscara de segmentação com a
+mesma resolução da imagem original. Ele recebe as informações do codificador e as
+utiliza para reconstruir a imagem segmentada. O decoder é geralmente composto por ca-
+madas de upsampling (ou transposed convolution) para aumentar as dimensões espaciais
+dos recursos. Em cada camada de upsampling, ocorre uma concatenação com os recursos
+
+
+
+correspondentes do codificador, permitindo que as informações de detalhe sejam propa-
+gadas de volta à imagem reconstruı́da. Após a concatenação, são aplicadas camadas de
+convolução para refinar a segmentação. A saı́da final do decodificador é uma máscara
+de segmentação que indica a probabilidade de cada pı́xel pertencer a uma determinada
+classe.
+
+Na U-Net a arquitetura é projetada para capturar informações contextuais em
+várias escalas, combinando recursos de diferentes resoluções espaciais. Essa capacidade
+de combinar recursos de diferentes escalas ajuda a rede a realizar segmentações preci-
+sas, mesmo quando há uma quantidade limitada de dados disponı́veis. Por esse motivo,
+escolhemos a U-Net como a arquitetura ideal para o nosso trabalho, uma vez que nosso
+conjunto de dados contém cerca de 1.200 imagens de bovinos.
+
+4. Metodologia
+O método proposto neste estudo é fundamentado na extração de informações de imagens
+segmentadas de bovinos de corte visando predizer o peso deles. Ao longo do trabalho,
+foram executados seis etapas distintas, que podem ser vistas na Figura 1. Essas etapas
+foram desenvolvidos para fornecer uma abordagem abrangente e precisa na predição do
+peso do gado, com destaque para a extração automática dos atributos como principal
+diferencial. No decorrer desta seção, cada etapa será detalhada individualmente.
+
+Figura 1. Diagrama do processo
+
+4.1. Etapa I: Gravação de vı́deos e geração de registros
+A etapa inicial do processo ocorre no ambiente de confinamento onde os bois são man-
+tidos. O confinamento é constituı́do por 13 baias, conforme ilustrado na Figura 2, sendo
+que cada baia está equipada com um bebedouro e uma balança instalada em sua base.
+Em nossa coleta foram selecionados somente as baias de numeração de dois ao sete. Para
+capturar os vı́deos, cada balança é monitorada por 3 câmeras, cada uma posicionada para
+capturar um ângulo distinto do boi durante o seu perı́odo de hidratação conforme pode ser
+visualizado na Figura 3.
+
+A balança é ativada quando o boi posiciona sua cabeça pelo sensor localizado na
+parte frontal do bebedouro, como pode ser visto na Figura 4. Isso permite obter o registro
+
+
+
+Figura 2. Distribuição das baias
+
+Figura 3. Imagens das câmeras
+
+do animal no exato momento em que ele utiliza o mecanismo. Durante a interação, são
+gravadas os três ângulos e registrado em uma planilha a identificação do boi, seu peso e
+horário de uso. Esses vı́deos e registros são posteriormente utilizados na etapa seguinte.
+
+Figura 4. Posição do sensor em destaque verde
+
+4.2. Etapa II: Geração do Conjunto de dados
+
+Na segunda etapa, ocorre a execução de um script desenvolvido em Python. Esse script
+realiza a leitura da planilha e identifica o horário em que houve a presença do boi no
+bebedouro. A partir dessa informação, o vı́deo correspondente é acessado para extrair
+o registro daquele instante especı́fico. Nesse processo, a imagem é salva com um tı́tulo
+contendo o peso do animal e é direcionada ao ângulo de extração desejado, que pode ser
+dorsal, lateral ou posterior. Vale ressaltar, para o escopo deste estudo, optamos por utilizar
+apenas as imagens da posição dorsal, deixando a utilização das demais para trabalhos
+futuros.
+
+
+
+4.3. Etapa III: Treinamento, segmentação U-Net e ferramenta de anotações
+A terceira etapa iniciou-se com a geração de máscaras para treinar o modelo de
+segmentação selecionado. Para realizar essa etapa, utilizamos a ferramenta de anotações
+Makesense desenvolvida por [Skalski 2023] em conjunto com um script Python desenvol-
+vido no projeto para ler as anotações e gerar as máscaras correspondentes às imagens. No
+total, foram geradas 1.274 máscaras, cada uma acompanhada por sua respectiva imagem
+do boi. Essas imagens e máscaras foram essenciais para o construir o nosso conjunto de
+treinamento, teste e validação.
+
+A implementação da arquitetura do modelo seguiu o código desenvolvido por
+[Maynard-Reid 2022], disponibilizado pela PyImageSearch University. Foi utilizado a
+biblioteca Keras como base para essa implementação. Durante o processo, analisamos o
+modelo proposto e realizamos ajustes na entrada para adaptá-lo ao nosso problema, de-
+finindo uma resolução de 256x512 pixels. Inicialmente, a imagem possuia a resolução
+de 720x1.280 e foi aplicado um recorde de bordas visando reduzir para 512x1.024. Em
+seguida, implementamos um método de redução de dimensão em 50% para facilitar o
+treinamento e otimizar o uso dos recursos computacionais. Essa redução foi escolhida
+estrategicamente, permitindo que o processo seja revertido para retornar à resolução ori-
+ginal quando necessário, especialmente para etapas que envolvam o uso de imagens de
+resolução diferente. No caso, essa reversão pode ser utilizada na imagem predita, para
+obter uma imagem em resolução original sem distorção.
+
+A configuração utilizada para o treinamento consistiu em dividir os dados da se-
+guinte forma: 80% para treinamento, 10% para validação e 10% para testes. Na etapa de
+compilação do modelo, foram feitas as seguintes escolhas: o otimizador adam, a função
+de perda sparse categorical crossentropy e a métrica accuracy para avaliação do desem-
+penho. Além disso, foi configurado um early stopping com monitoramento da métrica val
+loss e patience=3, o que significa que o treinamento seria interrompido se não houvesse
+melhoria após 3 épocas consecutivas. O número total de épocas de treinamento estipu-
+lado foi de 20. Na Figura 5, apresentamos um teste realizado no qual é possı́vel observar
+a imagem de entrada original e sua máscara correspondente, utilizada para comparação
+com a segmentação gerada.
+
+Figura 5. Segmentação sem ruı́dos
+
+4.4. Etapa IV: Extração de métricas
+Na quarta etapa, realizamos um estudo do software ImageJ desenvolvidor
+por [National Institutes of Health 2023], uma ferramenta de código aberto escrita
+em Java que permite em uma de suas funcionalidades a extração de informação a partir
+das imagens. Ao inserir uma imagem no software, é possı́vel selecionar manualmente
+uma área de análise e obter diversos atributos relevantes. Para automatizar o processo
+
+
+
+propomos a criação de um script que realiza essa tarefa sem a necessidade de usar o
+ImageJ. Nesse código, desenvolvemos uma classe para gerenciar a extração dos atributos,
+utilizando como principais módulos o OpenCV, Feret e PIL.
+
+A classe proposta foi nomeada como AnalyzeMeasurements, realiza análises e
+medições em uma imagem. Ela possui várias propriedades que armazenam os resultados
+das medições realizadas, como área, perı́metro, altura, largura, área de um cı́rculo, raio
+do cı́rculo, parâmetros de uma elipse e parâmetros de medições de diâmetro Feret.
+
+Com o auxı́lio dos instrumentos desenvolvidos nesta etapa, foi possı́vel extrair as
+métricas das máscaras previstas e relacioná-las com o peso dos bovinos exemplificados
+na Figura 6. Essa abordagem nos permitiu obter um conjunto de dados para treinar os
+modelos de predição. Importante ressaltar que cada registro gerado foi associado ao peso
+do bovino correspondente, para o qual o registro de extração foi realizado.
+
+Figura 6. Extração de métricas
+
+4.5. Etapa V: Procedimento de treinamento
+Na quinta etapa, procedemos com a seleção dos modelos de aprendizado de máquina para
+a tarefa de predição. Nossa escolha contemplou uma diversidade de modelos, incluindo o
+KNeighborsRegressor(KNN), GradientBoostingRegressor(GBoost), AdaBoostRegressor,
+XGBRegressor, Lasso, ElasticNet e RandomForestRegressor. Essa abordagem nos permi-
+tiu explorar diferentes algoritmos e técnicas de regressão para obter o melhor desempenho
+na previsão desejada.
+
+Cada um dos modelos selecionados foi treinado com o conjunto de dados gerado
+na etapa anterior, sendo gerado 130 registros para essa fase. Sua divisão se baseou em
+80% para treino e 20% para teste. Para otimizar os hiperparâmetros desses modelos, uti-
+lizamos um método de ajuste de parâmetros proposto por [Bergstra and Bengio 2012].
+Nesse método, os autores descrevem a abordagem de busca aleatória como uma alterna-
+tiva eficiente para otimizar os hiperparâmetros dos modelos de aprendizado de máquina.
+
+Para validar o treinamento dos modelos, utilizamos diversas métricas de avaliação,
+incluindo o Erro Médio Absoluto (MAE), o Erro Quadrático Médio (MSE), a Raiz Qua-
+drada do Erro Quadrático Médio (RMSE), o Erro Percentual Absoluto Médio (MAPE), o
+Erro Médio de Diferença Absoluta (MEDAE) e o Coeficiente de Determinação (R2).
+
+
+
+Essas métricas nos permitiram quantificar o desempenho dos modelos em relação
+à precisão e qualidade das predições realizadas. O MAE, MSE e RMSE medem a
+diferença entre os valores previstos e os valores reais, enquanto o MAPE avalia a por-
+centagem média de erro nas predições. O MEDAE fornece uma medida robusta de erro,
+considerando a mediana das diferenças absolutas.
+
+Por fim, utilizamos o R2, que indica a proporção da variância nos dados de res-
+posta explicada pelo modelo. Esse coeficiente nos ajuda a entender o quanto nosso mo-
+delo está ajustando-se aos dados e quão bem ele pode realizar previsões. Ao considerar
+essas métricas em conjunto, pudemos avaliar e comparar o desempenho dos diferentes
+modelos de aprendizado de máquina em relação à sua capacidade de realizar previsões
+precisas e acuradas.
+
+4.6. Etapa VI: Procedimento de Predição do peso
+Para realizar o procedimento de predição para uma imagem especı́fica, seguimos uma
+sequência de etapas que resultam na geração do registro correspondente. O processo é
+detalhado a seguir:
+
+1. Leitura da imagem: Iniciamos com a leitura da imagem de interesse para a
+predição.
+
+2. Segmentação com o modelo: Utilizamos o modelo de segmentação previamente
+treinado para realizar a segmentação da imagem, identificando o objeto de inte-
+resse (boi).
+
+3. Extração das métricas e geração do registro: A partir da segmentação obtida, ex-
+traı́mos as métricas relevantes relacionadas ao objeto segmentado. Essas métricas
+são utilizadas para compor um registro único contendo as informações necessárias
+para a predição do peso.
+
+4. Predição do peso: Com o registro gerado, alimentamos os modelos de predição
+com as métricas extraı́das. Os modelos aplicam seus algoritmos de aprendizado
+para estimar o peso do animal. Ao final do processo, obtemos o valor predito do
+peso do animal com base nas caracterı́sticas extraı́da da imagem.
+
+Dessa forma, ao seguir o procedimento completo, podemos obter uma estimativa
+precisa do peso para a imagem em questão. É importante destacar que esse processo
+envolve a execução direta etapas anteriores.
+
+5. Resultados e discussão
+Para executar todo o processo, utilizamos as plataformas Google Colab e Google Cloud.
+No Google Cloud, configuramos uma máquina virtual com as mesmas especificações do
+Colab, incluindo 13 GB de RAM, uma CPU Intel Xeon e uma GPU NVIDIA Tesla T4. Os
+modelos foram treinados em um tempo razoável, levando em consideração a abrangência
+do estudo proposto. Essa configuração permitiu que realizássemos os experimentos de
+forma eficiente, aproveitando o poder de processamento da GPU para acelerar o treina-
+mento dos modelos e a análise dos dados de imagem.
+
+Após o treinamento do modelo U-NET, realizamos avaliações para mensurar a
+média de interseção sobre união (IoU) utilizada também em [Ronneberger et al. 2015]
+e a acurácia do modelo. Utilizando nosso conjunto de teste e validação, obtivemos
+
+
+
+uma acurácia de 91% e 96%, respectivamente. Além disso, para ilustrar o processo de
+segmentação realizado, apresentamos exemplos de entradas e saı́das geradas pelo mo-
+delo. Podendo ser vistas nas Figuras 7 e 8.
+
+Figura 7. Segmentação sem ruı́dos
+
+Figura 8. Segmentação com ruı́dos
+
+As representações visuais destacam a eficácia do modelo U-NET na tarefa de
+segmentação dos animais nas imagens, demonstrando sua habilidade em extrair e seg-
+mentar com precisão. Os resultados obtidos nos testes da U-NET foram satisfatórios, o
+que está alinhado com o reconhecimento desse modelo como uma escolha promissora
+para tarefas de segmentação. No entanto, é importante ressaltar que em alguns casos
+podem ocorrer erros de predição, como evidenciado na Figura 8 na segmentação, onde
+ruı́dos estão presentes. Outra situação que pode ocorrer é quando há a presença da cabeça
+do animal na imagem, o que leva a um comportamento indesejado da U-NET ao tentar
+remover e gerar a predição sem essa área. Por esse motivo optamos por segmentar até o
+cupim do boi.No geral, a U-NET mostrou resultados satisfatórios.
+
+Com o objetivo de avaliar e comparar o desempenho dos modelos de regressão,
+foram realizados treinamentos utilizando um conjunto de dados composto por 130 regis-
+tros de animais distintos como foi supracitado. A Tabela 1 apresenta os resultados obtidos
+para cada modelo, considerando as métricas de análise mencionadas anteriormente, como
+o MAE, MSE, RMSE , MEDAE e R2. Essas métricas fornecem uma visão abrangente do
+desempenho de cada modelo em relação à previsão dos pesos dos animais.
+
+A análise dos resultados obtidos revelou informações relevantes sobre o desem-
+penho dos modelos de regressão utilizados no estudo. Inicialmente, observou-se que o
+modelo KNN apresentou um MAE baixo, indicando uma diferença média de aproxima-
+damente 14,64 unidades entre os valores da predição e os valores reais dos pesos (Kg)
+dos animais. Em contraste, o modelo GBoost obteve um MAE de 12,83, evidenciando
+um desempenho superior em relação à média.
+
+Além disso, ao analisar o coeficiente de determinação (R2), que mede a proporção
+da variância nos dados explicada pelo modelo, observou-se que o modelo GBoost obteve
+um valor de 0,875, indicando que cerca de 87,5% da variabilidade dos dados de peso dos
+animais pode ser explicada pelo modelo. Esses resultados sugerem que o modelo GBoost
+
+
+
+Tabela 1. Resultados dos modelos de predição.
+Modelo MAE MSE RMSE MEDAE R2
+
+knn 14,6417 613,3650 24,7662 3,6566 0,7937
+gboost 12,8291 371,5887 19,2766 6,0264 0,8750
+
+adaboost 26,4035 1027,9584 32,0618 22,8873 0,6543
+xgboost 16,5425 655,4355 25,6015 12,1761 0,7796
+Lasso 23,7432 1020,9560 31,9524 18,0434 0,5855
+
+ElasticNet 23,8130 1026,3135 32,0361 18,4164 0,5833
+RandomForestRegressor 18,3096 659,8389 25,6873 12,4143 0,7781
+
+possui uma capacidade superior de capturar as relações entre as variáveis de entrada e a
+variável de saı́da.
+
+Ao considerar as métricas RMSE e MEDAE, verificou-se que o modelo GBoost
+também apresentou desempenho favorável, com valores de 19,28 e 6,03, respectivamente.
+Essas métricas indicam que o modelo GBoost conseguiu minimizar os erros quadráticos
+médios e os erros absolutos medianos, tornando-se uma opção promissora para a previsão
+precisa dos pesos dos animais.
+
+No entanto, é importante destacar que os demais modelos, como Adaboost, XG-
+Boost, Lasso, ElasticNet e RandomForestRegressor, também forneceram resultados sig-
+nificativos, embora com desempenho ligeiramente inferior em comparação ao modelo
+GBoost. Essas descobertas sugerem que, dependendo das necessidades especı́ficas do es-
+tudo, diferentes modelos podem ser considerados como opções viáveis para a predição do
+peso dos animais.
+
+No geral, os resultados obtidos nessa análise fornecem uma visão abrangente
+sobre a eficácia dos modelos de regressão na previsão dos pesos dos animais. Essas
+informações podem ser úteis para futuros estudos e aplicações relacionadas à pecuária,
+permitindo a tomada de decisões mais precisas e informadas no gerenciamento do peso
+dos animais.
+
+6. Conclusão
+Os resultados obtidos neste estudo reforçam a eficácia da abordagem proposta, que com-
+bina visão computacional e algoritmos de aprendizado de máquina, na predição precisa
+do peso de bovinos de corte. Os resultados indicaram que o modelo GBoost apresen-
+tou um desempenho superior em termos de métricas de avaliação, como o MAE, RMSE,
+MEDAE e o coeficiente de determinação R2. Isso sugere que o GBoost é capaz de cap-
+turar com mais precisão as relações entre as variáveis de entrada e a variável de saı́da,
+fornecendo previsões mais precisas do peso dos animais.
+
+A aplicação do modelo U-NET para a segmentação dos animais nas imagens
+revelou-se eficiente na extração de atributos relevantes para a predição do peso. Esse en-
+foque, baseado em técnicas de visão computacional, possibilita um monitoramento mais
+preciso e menos invasivo em comparação com os métodos tradicionais de pesagem. Dessa
+forma, contribui para a eficiência produtiva e auxilia os produtores rurais na tomada de
+decisões estratégicas relacionadas à nutrição e manejo dos animais.
+
+A adoção dessa abordagem pode trazer benefı́cios significativos para a indústria
+
+
+
+pecuária, permitindo um monitoramento contı́nuo do peso dos bovinos e oferecendo in-
+sights valiosos para a gestão eficiente do rebanho. Além disso, os resultados destacam
+o potencial da visão computacional e do aprendizado de máquina como ferramentas pro-
+missoras no contexto do agronegócio, impulsionando a modernização e a adoção de tec-
+nologias avançadas.
+
+No entanto, é importante ressaltar que este estudo representa um ponto de par-
+tida e que ainda há espaço para melhorias e aprimoramentos futuros. Pesquisas adicio-
+nais podem explorar outras técnicas de segmentação e extração de atributos, bem como
+a incorporação de dados adicionais, como informações genéticas e ambientais, para apri-
+morar ainda mais a precisão das previsões.
+
+Vale ressaltar, a utilização de plataformas como o Google Colab e o Google Cloud
+possibilitou a execução eficiente dos experimentos, aproveitando o poder de processa-
+mento da GPU e acelerando o treinamento dos modelos e a análise dos dados de imagem.
+
+Em suma, a abordagem proposta neste estudo demonstrou sua eficácia na predição
+do peso de bovinos de corte, fornecendo uma alternativa viável e precisa para o monitora-
+mento desses animais. Combinando visão computacional e algoritmos de aprendizado de
+máquina, essa abordagem oferece uma solução promissora para a indústria pecuária, me-
+lhorando a produtividade e auxiliando os produtores na tomada de decisões estratégicas.
+
+Agradecimentos
+Gostarı́amos de agradecer CAPES, CNPq (Processo #401839/2021-4), Fapemig (Pro-
+cesso #APQ-02062-21) pelo financiamento a este trabalho.
+
+Referências
+Bergstra, J. and Bengio, Y. (2012). Random search for hyper-parameter optimization.
+
+Journal of machine learning research, 13(2).
+Gjergji, M., de Moraes Weber, V., Otávio Campos Silva, L., da Costa Gomes, R., Luı́s
+
+Alves Campos de Araújo, T., Pistori, H., and Alvarez, M. (2020). Deep learning tech-
+niques for beef cattle body weight prediction. pages 1–8.
+
+Instituto Brasileiro de Geografia e Estatı́stica (2023). Pesquisas trimestrais do abate de
+animais. Acesso em: 08/06, 2023.
+
+Liakos, K. G., Busato, P., Moshou, D., Pearson, S., and Bochtis, D. (2018). Machine
+learning in agriculture: A review. Sensors, 18(8).
+
+LUDTKE, C. B.; DALLA COSTA, O. A. R. R. d. O. S. E. T. F. A. N. B. A. A. P. d. M.
+J. A. d. A. N. C. d. (2012). Bem-estar animal no manejo pré-abate e a influência na
+qualidade da carne suı́na e nos parâmetros fisilógicos do estresse. 1, 1(1):4.
+
+Maynard-Reid, M. (2022). pyimagesearch university-unet segmentation image.
+Miller, G. A., Hyslop, J. J., Barclay, D., Edwards, A., Thomson, W., and Duthie, C.-
+
+A. (2019). Using 3d imaging and machine learning to predict liveweight and carcass
+characteristics of live finishing beef cattle. Frontiers in Sustainable Food Systems, 3.
+
+National Institutes of Health (2023). ImagJ: Image Processing and Analysis in Java.
+National Institutes of Health. Versão 1.54.
+
+
+
+Ronneberger, O., Fischer, P., and Brox, T. (2015). U-net: Convolutional networks for
+biomedical image segmentation. ArXiv, abs/1505.04597.
+
+Ruchay, A., Kober, V., Dorofeev, K., Kolpakov, V., Dzhulamanov, K., Kalschikov, V., and
+Guo, H. (2022). Comparative analysis of machine learning algorithms for predicting
+live weight of hereford cows. Computers and Electronics in Agriculture, 195:106837.
+
+Ruchay, A. N., Kolpakov, V. I., Kalschikov, V. V., Dzhulamanov, K. M., and Dorofeev,
+K. A. (2021). Predicting the body weight of hereford cows using machine learning.
+IOP Conference Series: Earth and Environmental Science, 624(1):012056.
+
+Skalski, P. (2023). Makesense. Makesense Anotation. Disponı́vel em: https://www.
+makesense.ai/. Acessado em 8 de junho de 2023.
+
+Wang, Z., Shadpour, S., Chan, E., Rotondo, V., Wood, K. M., and Tulpan, D. (2021).
+ASAS-NANP SYMPOSIUM: Applications of machine learning for livestock body
+weight prediction from digital images. Journal of Animal Science, 99(2). skab022.

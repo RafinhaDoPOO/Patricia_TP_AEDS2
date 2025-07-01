@@ -1,0 +1,540 @@
+﻿Análise de focos de retrabalho em repositórios de software: um
+estudo em projetos do GitHub
+
+Gustavo Graf de Sousa Gláucia Braga e Silva
+Universidade Federal de Viçosa - Campus Florestal Universidade Federal de Viçosa - Campus Florestal
+
+Florestal, Minas Gerais Florestal, Minas Gerais
+graf.sousa@gmail.com bragaesilva@gmail.com
+
+ABSTRACT e/ou incorretas ou por mudanças ao longo do processo. Retrabalho
+O presente trabalho realiza a análise conjunta de dados em ambi- tem um grande impacto no custo e no prazo, uma vez que consome
+entes de rastreamento de questões (issue tracking) e controle de recursos necessários a outras tarefas do desenvolvimento. Estima-se
+versão. O objetivo é identificar possíveis focos de retrabalho em que 25% a 40% do esforço no desenvolvimento de um software é
+projetos de software, em duas categorias de issues: as que possuem gasto em retrabalho e 70% a 80% do custo do retrabalho é devido
+código associado e aquelas que, embora tenham envolvido muitas a erros nas especificações dos requisitos [9]. Assim, do ponto de
+discussões, não convergiram para código. Os dados foram extraídos vista gerencial, torna-se fundamental identificar e quantificar o
+de projetos armazenados na plataforma GitHub. Para isso, foram retrabalho em um projeto de software, rastreando onde ele ocorre,
+aplicadas análises estatísticas tais como: correlação; regressão múlti- artefatos mais afetados, desenvolvedores envolvidos e tempo gasto
+pla e teste de hipótese. As análises foram realizadas sobre os dados [2, 8].
+relacionados aos seguintes parâmetros: número de commits, número Para realizar as análises sobre retrabalho, repositórios de Gerên-
+de comentários, número de desenvolvedores e número de reaberturas. cia de Configuração de Software (GCS) constituem importantes
+Esses parâmetros foram analisados de forma conjunta, para se veri- fontes de dados já que armazenam o histórico do trabalho da equipe
+ficar quais eram as influências existentes entre eles. Os resultados ao longo do processo. A GCS tem como principais objetivos con-
+obtidos mostraram que os parâmetros selecionados podem ter forte trolar as mudanças que ocorrem nos itens de configuração e as
+relação com focos de retrabalho nas duas categorias de issues avali- versões correspondentes. O processo de GCS abrange todo o ci-
+adas. clo da mudança, desde a identificação de uma issue, passando pela
+
+avaliação da mesma até a execução da mudança e a geração de
+CCS CONCEPTS uma nova versão aprovada do item de configuração. Ao analisar os
+• Software and its engineering→ Software configurationman- dados de GCS, pode-se avaliar quanto esforço foi gasto para corrigir
+agement and version control systems; Software evolution; essa mudança, quantos recursos foram utilizados, se a mudança é
+Software version control; Software libraries and repositories; Main- recorrente, quantas versões foram geradas, dentre outras questões
+taining software; que podem indicar focos de retrabalho neste contexto [1, 11].
+
+Este trabalho tem como objetivo a análise conjunta de dados em
+KEYWORDS ambientes de rastreamento de questões (issue tracking) e controle
+
+de versão para identificação de focos de retrabalho, considerando
+Issue Tracking, Version Control, Supplementary Bug Fixes, Statisti- esforços relacionados a issues com produção de código correspon-
+cal Analyzes, Reopened Bugs dente ou não. Para isso, serão aplicadas análises estatísticas sobre
+ACM Reference Format: dados relacionados aos seguintes parâmetros: número de vezes que
+Gustavo Graf de Sousa and Gláucia Braga e Silva. 2019. Análise de focos de a issue foi reaberta, número de edições recorrentes de um mesmo
+retrabalho em repositórios de software: um estudo em projetos do GitHub. artefato em uma issue, número de envolvidos em uma issue e número
+In Proceedings of CBSoft 2019 (SBES2019). ACM, New York, NY, USA, 9 pages. de mensagens trocadas em uma issue. Como prova de conceito da
+https://doi.org/10.1145/nnnnnnn.nnnnnnn análise proposta, serão avaliados dados de projetos armazenados
+1 INTRODUÇÃO no GitHub, que possuam informações de issue tracking e controle
+
+de versão relacionadas, ou seja, só serão analisados dados em que
+No contexto de um processo de software, retrabalho é todo esforço as modificações nos artefatos tenham sido analisadas via issue.
+utilizado para refazer uma tarefa que foi realizada de forma incor- A análise desenvolvida poderá ajudar gerentes de projetos a iden-
+reta, podendo ser causado pela falha na comunicação, pelo não tificar possíveis focos de retrabalho ao longo do desenvolvimento
+entendimento da tarefa a ser feita, por especificações incompletas de um projeto, verificando se existe alguma relação entre eles e os
+Permission to make digital or hard copies of all or part of this work for personal or parâmetros de análise selecionados. Os resultados da análise podem
+classroom use is granted without fee provided that copies are not made or distributed revelar a influência de um ou mais parâmetros na ocorrência de
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for components of this work owned by others than ACM retrabalho, como por exemplo, a relação de reaberturas em uma
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, issue e o número de commits associados ou discussões recorrentes
+to post on servers or to redistribute to lists, requires prior specific permission and/or a
+fee. Request permissions from permissions@acm.org. em uma issue, envolvendo vários desenvolvedores, mas que não
+SBES2019, Setembro 2019, Salvador, BA convergem para código (sem commit associado) e que possuam ou
+© 2019 Association for Computing Machinery. não reabertura. Diante disso, os gerentes podem definir estratégias
+ACM ISBN 978-x-xxxx-xxxx-x/YY/MM. . . $15.00
+https://doi.org/10.1145/nnnnnnn.nnnnnnn
+
+
+
+SBES2019, Setembro 2019, Salvador, BA B. Trovato et al.
+
+para melhorar a qualidade das especificações, com o intuito de re- alguma demanda de modificação em um artefato de software. É re-
+duzir a quantidade de commits relacionados a uma issue e o número alizado um registro (registro da issue) formalizando essa solicitação,
+de reaberturas e buscar meios de melhorar a qualidade das men- contendo informações de suporte relevantes como detalhes da issue
+sagens trocadas, com o intuito de reduzir falhas na comunicação, identificada, origem e ICs (itens de configuração) envolvidos. Na
+reduzindo o retrabalho e consequentemente, os custos do projeto. etapa de avaliação da issue, primeiramente é realizada uma análise
+
+O presente artigo está organizado da seguinte forma: a Seção da mudança solicitada, podendo esta ser aprovada ou não. Caso
+2 apresenta a fundamentação acerca de retrabalho no contexto seja reprovada, o solicitante é notificado e encerra-se o processo.
+de desenvolvimento de software. Na Seção 3, são apresentadas as Sob a condição de aprovação, denomina-se o responsável para efet-
+análises estatísticas aplicáveis. Os trabalhos relacionados são discu- uar as mudanças requisitadas [3]. Ao iniciar a etapa de execução
+tidos na Seção 4. As medições para identificar focos de retrabalho da mudança, é realizado um checkout dos ICs relacionados à is-
+em repositórios de software são discutidas na seção 5 e na seção 6, sue reportada para que as alterações sejam aplicadas nos mesmos.
+apresenta-se a conclusão do trabalho. No início da etapa de execução da mudança, são realizadas cópias
+
+(checkout) das versões atuais dos ICs envolvidos referentes à issue
+2 RETRABALHO NO CONTEXTO DE aprovada. As modificações solicitadas são efetuadas e futuramente
+
+DESENVOLVIMENTO DE SOFTWARE são inspecionadas com o intuito de verificar se as mudanças foram
+Segundo o padrão Systems and software engineering–Vocabulary corretamente implementadas. Em caso de reprovação, a alteração
+[6], "Retrabalho é a ação tomada para levar à conformidade com é revisada e auditada novamente. Caso ela seja aprovada, a nova
+os requisitos ou especificações um componente não conforme ou versão dos ICs são devolvidas em uma operação de checkin [3].
+defeituoso (tradução nossa)". Este trabalho busca nas três fases do processo da mudança por fo-
+
+Em um processo iterativo e incremental de desenvolvimento de cos de retrabalho para duas categorias de issues: as que não contém
+software, retrabalho é inevitável. Isto acontece pois a cada nova mudanças aplicadas (sem código correspondente) e as que contém
+iteração, pode ser necessário corrigir e/ou refinar uma funcionali- mudanças recorrentes. Para a categoria de issues que não possuem
+dade. Além disto, bugs são encontrados na fase de testes e precisam código correspondente, serão analisados dados das fases de Identifi-
+ser reparados, os requisitos são alterados e novas funcionalidades cação e Avaliação das Issues, porque embora ela não tenha gerado
+são incluídas [5, 10]. No entanto, a quantidade de retrabalho é um código, houve alocação de recursos humanos que demandaram es-
+indicativo de como encaminha-se o progresso do software visto que forço acerca das discussões relacionadas, mas ou a issue não foi
+uma quantia exorbitante pode demonstrar a falta de clareza nos aprovada ou foi abandonada/esquecida. Já para a categoria de issues
+requisitos, e uma pequena quantidade pode indicar pouca revisão e que geraram código, ou seja, a mudança foi aprovada, serão anal-
+testes. [5] isados os dados da fase de Execução da Mudança, avaliando ainda
+
+Para ser capaz de avaliar o retrabalho no desenvolvimento de todos os commits relacionados àquela issue. Nesse último caso, a
+software, é necessário definir métricas para estimá-lo. Usualmente, literatura já aponta que existe retrabalho quando se tem 2 ou mais
+a quantidade de código fonte modificado, a alteração nos requisitos commits associadas a uma issue. Essas mudanças recorrentes são
+e na arquitetura, mudanças recorrentes para uma issue, entre outras, chamadas de Supplementary Bug Fixes (SBF) [1]. SBF enquadram-se
+são utilizadas para a estimativa total do retrabalho [1, 7, 11]. na definição de retrabalho evitável retrospectivo/corretivo, proposta
+
+Fairley e Willshire [5] definem dois tipos de retrabalho: o evo- por [5]. Da mesma forma, apesar de ser uma avaliação controversa
+lutivo ( na literatura, a presença de reaberturas, seja nas fases de Identifi-
+
+evolutionary) e o evitável (avoidable). O segundo pode ser
+subdividido em retrospectivo (retrospective) e corretivo (corrective). cação e Avaliação das Issues ou na fase de Execução da Mudança,
+Essas categorias de retrabalho são categorizadas em bom ( também pode indicar retrabalho. Souza [4], ao investigar retrabalho
+
+good),
+ruim (bad) e terrível (ugly), de acordo com a quantia de retrabalho utilizando como parâmetro mudanças inapropriadas, conclui que há
+(Tabela 1). motivos para não considerar reabertura como um parâmetro para
+
+Neste trabalho serão avaliados e analisados somente focos de se avaliar retrabalho, pois muitas reaberturas acontecem porque o
+retrabalho evitáveis, como por exemplo, os desenvolvedor reabre a issue por engano. An, Khomh e Adams [1]
+
+Supplementary Bug Fixes,
+porque são os que mais causam impacto no desenvolvimento de apresentam que 21.6% a 33.8% dos SBF são reabertos. Por outro lado,
+software uma vez que normalmente são correções de defeitos ou o trabalho também encontrou que 57.5% das issues reabertas não
+tarefas recorrentes, em virtude de especificações incorretas e/ou fazem parte do conjunto de SBF, pois possuem somente um com-
+
+incompletas. mit associado, podendo ter uma forte associação com reaberturas
+inválidas.
+
+2.1 Retrabalho e o Ciclo da Mudança
+A etapa de gerenciamento demudanças tem como finalidade realizar 3 ANÁLISES ESTATÍSTICAS APLICÁVEIS
+o acompanhamento das mudanças solicitadas pelos stakeholders, Neste trabalho, os dados armazenados em repositórios de GCS
+determinar quando elas serão incluídas e definir os custos e im- serão analisados com base em técnicas estatísticas como correlação,
+pactos das mesmas. Ferramentas automatizadas são utilizadas para regressão múltipla e teste de hipótese.
+ajudar no gerenciamento das mudanças requisitadas para garantir A correlação é um método estatístico no qual tenta-se entender
+que elas sejam aplicadas de forma controlada no sistema [10]. como as variáveis se comportam em um cenário, ou seja, através
+
+Conforme mostra a Figura 1, o ciclo de vida da mudança é ini- dela é possível verificar se dois fenômenos estão relacionados. Ela
+ciado quando uma issue é identificada, com o intuito de registrar pode ser positiva, quando a variação dos parâmetros avaliados está
+
+
+
+Análise de focos de retrabalho em repositórios de software: um estudo em projetos do GitHub SBES2019, Setembro 2019, Salvador, BA
+
+Tabela 1: Uma taxonomia de retrabalho iterativo
+
+Tipos de Retrabalho Características Bom, ruim ou terrível ?
+Evolutivo Trabalho realizado em uma versão ante- Bom - Se adiciona valor sem violar o
+
+rior do software no intuito de aprimorar custo ou atrasar o cronograma.
+e agregar valor Ruim - Se violar o custo ou atrasar o
+
+cronograma
+Terrível - Se possui muito "gold plating".
+
+Evitável - Retrospectivo Trabalho realizado em uma versão ante- Bom - Pequenas quantidades são in-
+rior do software na qual os desenvolve- evitáveis; antes agora do que mais tarde.
+dores deveriam ter feito anteriormente Ruim - Se ocorre rotineiramente.
+
+Terrível - Se é excessivo, indica que é
+necessário revisar o processo.
+
+Evitável - Corretivo Trabalho realizado para corrigir defeitos Bom - Se o retrabalho total está dentro
+em versões antigas e na atual de um dos limites.
+software. Ruim - Se resulta em padrões de causa-
+
+efeito.
+Terrível - Se resulta em um processo de
+desenvolvimento descontrolado.
+
+Figura 1: Fases do Processo da Mudança (Adaptado de Braga e Silva[3])
+
+no mesmo sentido ou negativa, quando os variações dos parâmetros Por fim, com o teste de hipóteses é possível aceitar ou rejeitar
+está em sentidos opostos. O coeficiente de correlação varia entre explicações com base em estatísticas [12]. Para a rejeição ou não
+-1 a 1, sendo que, quanto mais próximo de 1 ou -1, mais forte é a da hipótese nula com resultados "estatisticamente significativos"
+associação, e quanto mais próximo de 0, menor é a associação dos , determina-se um nível de significância de 5%, que é um nível
+dados [12]. De acordo com Charles [12], a ferramenta estatística de de significância razoável [12]. Para rejeição ou não da hipótese
+regressão linear "permite quantificar a relação entre uma variável nula foi escolhido como parâmetros o intervalo de significância
+específica e um resultado de interesse enquanto outros fatores são e o valor P. Através do cálculo e comparação dos intervalos de
+controlados". Ao se adicionar várias variáveis na equação linear, a confiança tem-se indícios dos comportamentos analisados. Caso
+análise mostra como as variáveis explicativas impactam na variável haja sobreposição entre os intervalos, não se pode inferir nada sobre
+dependente [12]. Um coeficiente demuita importância ao se analisar os dados. O cálculo do valor P vêm para reforçar o intervalo de
+uma regressão é o coeficiente de determinação, o R2. Ele indica confiança. Devido ao nível de significância ser de 5%, caso o valor
+quanto o modelo de regressão pode explicar os dados sob análise, P encontrado seja menor que 0.05, pode-se rejeitar a hipótese nula.
+podendo variar entre 0 a 1, sendo que quanto mais próximo de 1, Um P valor muito pequeno indica um evento muito incomum.
+mais ele explica a amostra. Por exemplo, um coeficiente de 0.95,
+explicaria 95% da amostra, enquanto umR2 de 0.1 explicaria somente 4 TRABALHOS RELACIONADOS
+10%. Nesta seção são apresentados diversos trabalhos que servirão de
+
+inspiração e referência para o desenvolvimento desta pesquisa.
+
+
+
+SBES2019, Setembro 2019, Salvador, BA B. Trovato et al.
+
+Em uma abordagem apresentada por Rúbio e Gulo [11], é real- com a extensão .xls (Excel) a partir da biblioteca POI disponibilizada
+izada uma análise de commits em projetosOpen Source armazenados pelo Apache 2.
+no GitHub, utilizando de metodologias de mineração de dados para Para a realização das análises estatísticas foi utilizado a lin-
+estabelecer uma classificação do retrabalho de desenvolvedores. guagem de programação Python, versão 6.2.1, em específico a sua
+Foram utilizados três algoritmos diferentes, Decision Trees, Naive biblioteca Pandas. A ferramenta utilizada como IDE para a fazer
+Bayes e K-NM e realizada uma comparação entre eles na qual o algo- estas análises foi o Jupyter Notebook, versão 4.4.03.
+ritmo K-NM apresenta os melhores resultados. O objetivo principal Através da API do GitHub foi possível realizar a coleta das issues
+é identificar se um commit é foco de retrabalho ou não de acordo e os parâmetros avaliados. Para contabilizar o número de commits
+com as informações das atividades dos desenvolvedores. Para a associados a uma issue foi verificado se na descrição do commit
+verificação do modelo proposto, foram analisados 3311 commits. havia o número da issue que ele era destinado. Em caso de positivo,
+Com uma taxa de 70%, o modelo conseguiu predizer se um commit era contabilizado um commit associado a issue. A partir de métodos
+é uma fonte de retrabalho ou não. Por outro lado, a análise proposta específicos da API do GitHub é possível coletar os comentários de
+neste trabalho se baseia em técnicas estatísticas com o intuito de uma issue e com isto determinar o número de comentários e o número
+identificar outros focos de retrabalho em repositórios do GitHub, de envolvidos. O número de envolvidos em uma issue foi contabilizado
+utilizando de outros parâmetros, como por exemplo, número de através dos diferentes autores dos comentários daquela issue. Para
+commits associados a uma issue e número de reaberturas. o cálculo do número de reaberturas foi analisado os eventos da
+
+An, Khomh e Adams [1] realizaram uma pesquisa com o intuito issue. Quando um evento do tipo "reopened" era encontrado, era
+de compreender a relação entre Supplementary Bug Fixes (SBF) e contabilizado uma reabertura para aquela issue. Os dados coletados
+issues que tiveram ao menos uma reabertura. SBF’s são issues que foram armazenados em um arquivo com a extensão .xls que foi
+possuem várias modificações, ou seja, mais de um commit associado. criado através da biblioteca POI. Este arquivo foi lido na ferramenta
+Foi encontrado que 21.6% a 33.8% dos SBF foram reabertos ao menos Jupyter Notebook utilizando a linguagem Python, em específico a
+uma vez, comprovando que a reabertura é um motivo importante biblioteca Pandas.
+na origem de SBF. O presente trabalho aprofunda na relação SBF
+x Reabertura, adicionando outros parâmetros como o número de 5.2 Análises estatísticas realizadas
+desenvolvedores envolvidos e número de comentários em uma Foram extraídos um total de 111575 issues de 17 projetos armazena-
+issue, identificando assim, outros focos de retrabalho. Além disso, dos no GitHub. Para tentar compreender melhor o comportamento
+aqui serão avaliados dados de projetos armazenados no GitHub das issues obtidas, foram realizadas estatísticas descritivas que re-
+que possuam informações de issue tracking e controle de versão sumem a tendência central, a dispersão e a forma da distribuição
+relacionadas entre si. do conjunto de dados. Os resultados obtidos foram sintetizados na
+
+Souza [4] realizou um estudo para compreender a rejeição de Figura 2. Nesta figura é mostrado a média (mean), o desvio padrão
+mudanças e como elas resultam em retrabalho nos projetos. Para (std), o valor mínimo e máximo (min e max) encontrados, e os
+alcançar os objetivos, foi realizada uma análise integrada entre issues percentis (50% e 95%) para os parâmetros avaliados.
+e commits utilizando a técnica de detecção de mudanças rejeitadas. Para se ter certeza do grau de relacionamento entre os parâmet-
+Para identificá-las foram definidas métricas a partir do número de ros, foram calculadas as correlações entre eles os dados conforme
+issues com uma revisão negativa, número de issues revertidos e ilustra a Figura 3. Analisando a tabela pode-se perceber que a cor-
+número de issues reabertos. Apesar da presente pesquisa também relação entre a maioria dos dados é baixa, sendo a maior correlação
+realizar a análise conjunta entre issues e commits e de também de 79.3% entre a quantidade de comentários e usuários envolvidos.
+avaliar reaberturas como possíveis focos de retrabalho, a mesma não Outro dado interessante é a correlação negativa, baixa (16.5%), en-
+faz uma análise específica sobre mudanças aprovadas ou rejeitadas. tre quantidade de usuários envolvidos com quantidade de commits
+
+5 MEDIÇÕES PARA IDENTIFICAR FOCOS DE associados.
+Devido à baixa correlação entre os dados, espera-se que o modelo
+
+RETRABALHO EM REPOSITÓRIOS DE de regressão linear explique pouco os dados, ou seja, o r2 será baixo.
+SOFTWARE Ao fixar a quantidade de commits associados e o número total de
+
+Esta seção apresenta as medições realizadas sobre dados de GCS e comentários, o r2 possui um valor baixo (0.062) e (0.622). Isto quer
+as análises estatísticas aplicadas. dizer que a regressão explica somente 6.2% dos dados em relação aos
+
+Com a finalidade de identificar e avaliar possíveis focos de retra- commits associados e 62.2% em relação aos comentários. Através
+balho, para cada issue, foram mapeados os seguintes parâmetros: dos coeficientes (coefs), pode-se perceber que, por exemplo, caso
+número de commits associados, número de comentários, número todos os parâmetros sejam zero, o número de commits associados
+de envolvidos e número de reaberturas. será de 0.56 e o total de comentários será de -0.64 (linha Intercept).
+
+Além disso, pode-se observar que devido a ser o maior coeficiente,
+5.1 Obtenção dos dados o número de reaberturas é o que mais causa impacto em ambos os
+Para coletar os dados em repositórios armazenados no casos, ou seja, um número alto de reaberturas tende a aumentar o
+
+GitHub, foi
+utilizada a API do GitHub para a linguagem de alto nível Java 1. número de commits e comentários associados a uma issue (Figura 4).
+Para realizar o armazenamento dos dados foram criados arquivos
+
+2Download POI
+1Download API GitHub 3Download Python e Jupyter
+
+
+
+Análise de focos de retrabalho em repositórios de software: um estudo em projetos do GitHub SBES2019, Setembro 2019, Salvador, BA
+
+Figura 2: Descrição dos dados totais
+
+Figura 3: Correlações entre os Dados
+
+Figura 4: Regressão Linear - Fixando Commits e Comentários
+
+Como o método estatístico de regressão não mostrou correlação demais grupos, alterando-se os parâmetros analisados e o grupo
+e não foi capaz de explicar a maioria dos dados, e considerando-se G1.X.
+que retrabalho é um comportamento não padrão (exceção), valores Por fim, para conduzir as análises foram formuladas as seguintes
+acima dos encontrados na Figura 2, ao nível de 95%, foram consid- hipóteses:
+erados como outliers e foram analisados separadamente. Os dados
+foram então separados nos seguintes grupos: • Hipótese Nula: As amostras analisadas (outliers) não são
+
+focos de retrabalho e seu comportamento não se difere dos
+• G1.1: Dados Gerais - Sem Outliers de Commits; do comportamento dos demais dados;
+• G1.2: Dados Gerais - Sem Outliers de Comentários; • HipóteseAlternativa:As amostras analisadas (outliers) são
+• G1.3: Dados Gerais - Sem Outliers de Usuários Envolvidos; focos de retrabalho e seu comportamento se difere do com-
+• G1.4: Dados Gerais - Sem Outliers de Reaberturas; portamento dos demais dados.
+• G2: Outliers de Commits (SBF);
+• G3: Outliers de Comentários;
+• 5.2.1 Criação e análise de G1.1 Dados Gerais - Sem Outliers de Com-
+G4: Outliers de Usuários Envolvidos;
+
+• mits. Após a remoção dos outliers de commits, issues com mais de
+G5: Outliers de Reaberturas. um commit associado (G2), o número total de issues foi para 110215.
+
+Para cada grupo de outliers, foram analisados cada parâmetro Na Figura 5 novamente são apresentadas estatísticas descritivas que
+mapeado separadamente e comparado com o respectivo parâmetro resumem a tendência central, a dispersão e a forma da distribuição
+de G1.X, com o intuito de verificar se a amostra possui comporta- do conjunto de dados.
+mento similar ou não aos do grupo de dados gerais sem o respectivo
+grupo de outlier. Por exemplo, para G2, foram realizadas análises 5.2.2 Analisando G2 - Outlier de Commits (SBF). O grupo G2, out-
+sobre a quantidade total de comentários, número de envolvidos e liers de commits, é constituído de issues que possuem mais de um
+quantidade de reaberturas e os resultados obtidos foram compara- commit associado. Ou seja, todo SBF - Supplementary Bug Fixes
+dos com os resultados de G1.1. Essa análise foi repetida para os pertence ao grupo G2. Ele contém 1360 issues, representando um
+
+
+
+SBES2019, Setembro 2019, Salvador, BA B. Trovato et al.
+
+Figura 5: Descrição dos dados - pós limpeza de outliers de commits
+
+total de 1.21% do conjunto total. Apesar de ser um conjunto pe- 5.2.5 Criação e análise de G1.3 Dados Gerais - Sem Outliers de
+queno, foram realizadas análises para os parâmetros selecionados Usuários Envolvidos. Após a remoção dos outliers de usuários en-
+para tentar compreender o comportamento desses dados. volvidos,issues commais de cinco usuários envolvidos (G4), o número
+
+A Tabela 2 contêm os resultados encontrados das análises em total de issues foi para 107583. Na Figura 7 novamente são apresen-
+G2 e a comparação com o grupo G1.1. Pode-se inferir através dos tadas estatísticas descritivas que resumem a tendência central, a
+resultados obtidos que uma das possíveis causas de SBF seja o dispersão e a forma da distribuição do conjunto de dados.
+resultado da falta de qualidade das mensagens trocadas ou por
+deficiência nas especificações, pois mesmo havendomuita discussão 5.2.6 Analisando G4 - Outliers de Usuários Envolvidos. O grupo G4
+em torno da issue foi necessário diversos commits suplementares. É é formado por um total de 3992 issues, representando 3.57% dos
+interessante notar que mesmo havendo vários commits associados dados gerais. Fazem parte deste grupo issues que possuem mais de
+G2 quase não possui reaberturas. Uma das possíveis causas para o 5 usuários envolvidos.
+baixo número de reaberturas seja a grande quantidade de discussão Na Tabela 4 pode-se visualizar os resultados obtidos através das
+em volta da issue com vários usuários envolvidos. análises e compará-los com os resultados de G1.3. Os resultados
+
+An, Khomh e Adams [1] mostraram que 21.6% a 33.8% dos obtidos são parecidos com os valores do grupo G3, o que pode
+SBF possuem reabertura. Porém ao analisar as reaberturas do con- ser explicado pela alta correlação entre os parâmetros número de
+junto G2 foi encontrado que 94.49% dos SBF não possuem nen- desenvolvedores e número de comentários (Figura 3).
+huma reabertura, valor que difere-se do encontrado por [1]. A
+diferença dos percentuais encontrados pode ter relação com a 5.2.7 Criação e análise de G1.4 Dados Gerais - Sem Outliers de
+quantidade e tamanho dos projetos analisados ou com as carac- Reaberturas. Após a remoção dos outliers de reaberturas,issues com
+terísticas do projeto em si, incluindo número e perfil dos con- ao menos uma reabertura (G5), o número total de issues foi para
+tribuidores/colaboradores e origem e natureza do projeto. 111500. Na Figura 8 novamente são apresentadas estatísticas des-
+
+critivas que resumem a tendência central, a dispersão e a forma da
+distribuição do conjunto de dados.
+
+5.2.3 Criação e análise de G1.2 Dados Gerais - Sem Outliers de
+Comentários. Após a remoção dos outliers de comentários,issues 5.2.8 Analisando G5 - Outliers de Reaberturas. O conjunto de out-
+com mais de doze comentários (G3), o número total de issues foi liers de reaberturas é constituído de issues que possuem ao menos
+para 106837. Na Figura 6 novamente são apresentadas estatísticas uma reabertura. Ele contém um total de 75 issues, representando
+descritivas que resumem a tendência central, a dispersão e a forma 0.06% do conjunto total.
+da distribuição do conjunto de dados. Apesar de ser um conjunto de dados muito pequeno, foram real-
+
+izadas análises para tentar compreender o comportamento destes
+5.2.4 Analisando G3 - Outliers de Comentários. O grupo G3 é for- dados. Foi encontrado que todos os issues (100%) que possuem
+mado por issues que possuem mais de 12 comentários. Esse grupo é ao menos uma reabertura são Supplementary Bug Fix (G2). Dessa
+constituído por 4738 issues, representando 4.24% do conjunto total forma, apesar de ser um conjunto pequeno de dados, não se pode
+de dados. ignorar que reaberturas possam ter relação com retrabalho, como
+
+Na Tabela 3 pode-se visualizar os resultados encontrados das sugere Souza [4], uma vez SBF são reconhecidos na literatura como
+análises em G3 e a compará-los com os resultado obtidos com o retrabalho[1].
+grupo G1.2. Por meio desses resultados, pode-se concluir que há um Na Tabela 5 pode-se observar os resultados obtidos através das
+desperdício em termos de recursos alocados, uma vez que tem-se análises e compará-los com os resultos de G1.4.
+muitos desenvolvedores envolvidos e muita discussão em torno da
+issue, porém a discussão não convergiu para código. Essa ausência 5.2.9 Intervalo de Confiança e Valor P. Para comprovar que as
+de código explicaria o baixo número de reaberturas das issues, já amostras se diferem da população, ou seja, que o comportamento
+que não existem (commits) associados. dos grupos G2 a G5 divergem em relação aos grupos G1.X, foi
+
+realizado o teste de hipótese. Para a aceitação ou rejeição da hipótese
+nula, foi calculado o intervalo de confiança e o valor p. As Tabelas
+
+
+
+Análise de focos de retrabalho em repositórios de software: um estudo em projetos do GitHub SBES2019, Setembro 2019, Salvador, BA
+
+Tabela 2: G2 x G1.1
+
+DataFrame/Parâmetros Comentários Usuários Envolvidos Reaberturas
+(95% dos dados) (95% dos dados)
+
+G2 - Outliers de Commits (SBF) 19 6 94.49% não pos-
+suem
+
+G1.1 - Dados Gerais - Sem Outliers de Commits 11 5 100% não pos-
+suem
+
+Figura 6: Descrição dos dados - pós limpeza de outliers de comentários
+
+Tabela 3: G3 x G1.2
+
+DataFrame/Parâmetros Commits Usuários Envolvidos Reaberturas
+(95% dos dados)
+
+G3 - Outliers de Comentários 72.01% não possuem 15 99.51% não pos-
+suem
+
+G1.2 - Dados Gerais - Sem Outliers de Comentários 95% possuem até 1 4 99.95% não pos-
+suem
+
+Figura 7: Descrição dos dados - pós limpeza de outliers de usuários envolvidos
+
+Tabela 4: G4 x G1.3
+
+DataFrame/Parâmetros Commits Comentários (95% dos Reaberturas
+dados)
+
+G4 - Outliers de Usuários Envolvidos 84.34% não possuem 40 99.60% não pos-
+suem
+
+G1.3 - Dados Gerais - Sem Outliers de Usuários Envolvidos 95% possui até 1 9 99.94% não pos-
+suem
+
+
+
+SBES2019, Setembro 2019, Salvador, BA B. Trovato et al.
+
+Figura 8: Descrição dos dados - pós limpeza de outliers de reaberturas
+
+Tabela 5: G5 x G1.4
+
+DataFrame/Parâmetros Commits Comentários (95% dos Usuários Envolvidos
+dados) (95% dos dados)
+
+G5 - Outliers de Reaberturas 100% são SBF 31 11
+(G2)
+
+G1.4 - Dados Gerais - Sem Outliers de Reaberturas 95% possui até 1 12 5
+
+de 6 a 9 contém os valores obtidos para os intervalos de confiança das mensagens trocadas ou por deficiência nas especificações, pois
+calculados. mesmo havendo muita discussão, 53.75% possuem de 1 a 6 comen-
+
+Analisando os dados, nota−se que ao se comparar os intervalos tários e 24.49% possui mais de 6 comentários, em torno da issue,
+do conjunto de dados G1.X e seus parâmetros (commits, comentários, foram necessário diversas mudanças (commits suplementares). Os
+usuários envolvidos e reaberturas) com os demais, não há interseção, grupos G3 e G4 também devem ser considerados ao se analisar focos
+ou seja, os outliers se diferem dos dados gerais sem outliers. Caso de retrabalho, pois também apresentaram comportamento diferente
+houvesse interseção e ela fosse forte, não seria possível afirmar em relação aos dados gerais. Nesses dois grupos, foi observado que
+nada sobre os dados. apesar das issues terem muita discussão, elas não convergiram para
+
+Pode-se notar que ao calcular o intervalo de confiança para G1.1 código, ou seja, houve um desperdício dos recursos uma vez que o
+em relação ao parâmetro reabertura foi obtido como resultado nan. principal resultado esperado não foi obtido.
+Esta sigla significa que o valor encontrado não é um número (not a
+number). Isto acontece por que no processo de limpeza dos dados
+todas as reaberturas foram retiradas dos dados gerais, uma vez que 6 CONCLUSÃO
+todas as reabertura ocorreram em issues que possuem mais de um Este trabalho apresentou uma abordagem de análise de focos de
+commit associado.
+
+Para reforçar esta afirmação, a Tabela ?? contém os p-valores retrabalho baseada nos parâmetros número de commits, número de
+
+encontrados. Para calculá-los foi utilizado o grupo G1.X e o grupo comentários, número de desenvolvedores e número de reaberturas.
+de outlier correspondente. Por exemplo, para encontrar o p-valor Os resultados obtidos através das análises realizadas em 111575
+de issues de 17 projetos armazenados no GitHub mostraram que os
+
+G2 (outlier de Commits (SBF)) foi utilizado o grupo G1.1: (Dados
+Gerais - Sem outliers de Commmits), e assim sucessivamente. Devido parâmetros selecionados podem ter uma forte relação com focos de
+a eles serem abaixo de 0,05 (5%), significa que a chance de pegarmos retrabalho.
+uma outra amostra nos dados similar a esta amostra do Foram investigadas duas categorias de retrabalho relacionadas
+
+outlier é
+baixa e de fato esses conjuntos de dados (outliers) se diferem dos com as 3 fases do ciclo de vida da mudança. A primeira delas en-
+demais dados da amostra geral. volveu as duas primeiras fases do ciclo da mudança, Identificação da
+
+Através dos resultados obtidos dos intervalos de confiança e Issue e Avaliação da Issue , onde foi possível observar que apesar de
+valores p, a hipótese nula proposta na Seção 5.2 pode ser rejeitada algumas issues envolverem muita discussão e desenvolvedores, não
+e, consequentemente, a hipótese alternativa é aceita. Esta diferença se tem código resultante (commits), ou seja, houve um desperdício
+de comportamentos dos dados nos grupos de dos recursos envolvidos. Foi descoberto ao analisar G3 (outlier de co-
+
+outliers (G2 a G5)
+mostram que os parâmetros selecionados podem ter uma relação mentários) e G4 (outliers de usuários envolvidos) que 72.01% e 84.34%
+forte com o focos retrabalho. Os resultados encontrados por An, das issues não possuem commits associados. A segunda categoria
+Khomh e Adams [1] mostram que reaberturas são um subconjunto de issues analisada abrangeu a última fase do ciclo da mudança,
+de Supplementary Bug Fixes. As amostras analisadas neste trabalho, Execução da Mudança, em que foram analisados dois grupos de
+mostram que todas as issues com reaberturas são SBF. outliers, G2 (outliers de commits (SBF)) e G5 (outliers de reaberturas).
+
+Supplemen-
+tary Bug Fixes também podem ser resultado da falta de qualidade De forma similar aos resultados obtidos por An, Khomh e Adams
+
+
+
+Análise de focos de retrabalho em repositórios de software: um estudo em projetos do GitHub SBES2019, Setembro 2019, Salvador, BA
+
+Tabela 6: Intervalos de Confiança - G1.1 e G2
+
+DataFrame/Parâmetros Comentários Usuários Reaberturas
+G1.1: Dados Gerais - Sem Outliers de Commits (3.291, 3.351) (1.860, 1.883) (nan, nan)
+G2: Outliers de Commits (SBF) (4.682, 5.671) (2.086, 2.435) (-0.167, 0.180)
+
+Tabela 7: Intervalos de Confiança G1.2 e G3
+
+DataFrame/Parâmetros Commits Usuários Reaberturas
+G1.2: Dados Gerais - Sem Outliers de Comentários (0.430, 0.437) (1.652, 1.669) (0.0003, 0.0006)
+G3: Outlier de Comentários (0.313, 0.351) (6.607, 6.892) (-0.135, 0.149)
+
+Tabela 8: Intervalos de Confiança G1.3 e G4
+
+DataFrame/Parâmetros Commits Comentários Reaberturas
+G1.3: Dados Gerais - Sem Outliers de Usuários Envolvidos (0.434, 0.441) (2.794, 2.837) (0.0004, 0.0008)
+G4 - Outliers de Usuários Envolvidos (0.183, 0.222) (17.190, 17.990) (0.002, 0.006)
+
+Tabela 9: Intervalos de Confiança G1.4 e G5
+
+DataFrame/Parâmetros Commits Comentários Usuários
+G1.4: Dados Gerais - Sem Outliers de Reaberturas (0.424, 0.431) (3.308, 3.369) (1.863, 1.887)
+G5: Outliers de Reaberturas (2.258, 3.074) (9.040, 13.812) (3.501, 5.272)
+
+[1], foi encontrado que as reaberturas são um subconjunto dos Sup- and Software 81, 11 (2008), 1968 – 1982. https://doi.org/10.1016/j.jss.2008.01.017
+plementary Bug Fixes. No entanto, para as amostras analisadas, além [3] Gláucia Braga e Silva. 2013. COLMEIA - Um analisador de colaborações baseado
+
+de todas reaberturas encontradas serem também SBF, o percentual em metricas aplicaveis a informações semanticamente integradas em um ambiente
+de GCS. Ph.D. Dissertation. Instituto Tecnológico de Aeronáutica.
+
+obtido foi mais significativo (100%). Além disso, o percentual de SBF [4] Rodrigo Rocha Gomas e Souza. 2015. Inappropriate Software Changes: Rejection
+com reaberturas encontrado neste trabalho foi significativamente and Rework. Ph.D. Dissertation. Universidade Federal da Bahia.
+
+[5] R. E. Fairley and M. J. Willshire. 2005. Iterative rework: the good, the bad, and the
+inferior (94.49%) aqueles encontrados por An, Khomh e Adams (21.6 ugly. Computer 38, 9 (Sept 2005), 34–41. https://doi.org/10.1109/MC.2005.303
+a 33.8%). Uma das possíveis causas de divergência dos resultados [6] IEEE 2010. In Systems and Software engineering - Vocabulary. ISO, New York, NY,
+pode ser o fato da quantidade, tamanho e natureza dos projetos USA, 308.
+
+[7] E. Morozoff. 2010. Using a Line of Code Metric to Understand Software Rework.
+analisados serem diferentes, ou ainda em virtude da relação entre IEEE Software 27, 1 (Jan 2010), 72–77. https://doi.org/10.1109/MS.2009.160
+SBF e reaberturas ainda requerer novas análises. [8] G Ramdoo, Vimla Huzooree. 2015. Strategies to reduce rework in software
+
+Para comprovar a diferença entre os dados das amostras de development on an organisation in Mauritius. International Journal of Software
+out- Engineering & Applications (2015), 9–20. https://doi.org/10.5121/ijsea.2015.6502
+
+liers e os dados limpos, foi utilizado o teste de hipóteses. Através [9] Asra Khalid Ayesha Raana M. Nadeem Majeed Sobia Zahra, Ambreen Nazir.
+da reprovação da hipótese nula e aceitação da hipótese alternativa, 2014. Performing Inquisitive Study of PM Traits Desirable for Project Progress.
+
+International Journal of Modern Education and Computer Science (IJMECS) 6, 2
+proposta no teste de hipótese, pode-se comprovar que há difer- (Feb. 2014), 41–47. https://doi.org/10.5815/ijmecs.2014.02.06
+ença no comportamento dos dados. Essa diferença indica que os [10] Ian Sommerville. 2011. Engenharia de Software (9nd. ed.). PEARSON.
+parâmetros selecionados podem ter uma forte relação com os focos [11] Rúbio Thiago R. P. M. and Carlos A.S.J Gulo. 2015. Characterizing Developer’s
+
+Rework on GitHub Open Source Projects. In Proceedings of the 10th Doctoral
+de retrabalho. Symposium in Informatics Engineering, A. Augusto Sousa and Eugénio Oliveira
+
+Trabalhos futuros podem tentar adicionar às análises parâmetro (Eds.). Doctoral Symposium in Informatics Engineering - DSIE’15, 70–81.
+tais como: origem e perfil do desenvolvedor (colaborador ou con- [12] Charles Wheelan. 2016. Estatística: O que é, para que serve, como funciona. Zahar.
+
+tribuidor); tipo do projeto (mantido por empresa ou comunidade);
+entre outros para se encontrar novos focos de retrabalho ou ainda
+para explicar melhor os parâmetros já selecionados neste trabalho.
+
+REFERENCES
+[1] L. An, F. Khomh, and B. Adams. 2014. Supplementary Bug Fixes vs. Re-opened
+
+Bugs. In 2014 IEEE 14th International Working Conference on Source Code Analysis
+and Manipulation. 205–214. https://doi.org/10.1109/SCAM.2014.29
+
+[2] Lars-Ola Damm, Lars Lundberg, and Claes Wohlin. 2008. A model for software
+rework reduction through a combination of anomaly metrics. Journal of Systems

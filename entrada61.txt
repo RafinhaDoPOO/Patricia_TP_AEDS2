@@ -1,0 +1,549 @@
+﻿Resolução do Problema do Despacho Econômico com Zonas Proibidas de
+Operação utilizando o Bee Algorithm
+
+Marcos Vinı́cius Assis Silva
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcos.assis@ufv.br
+
+Marcus Henrique Soares Mendes
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcus.mendes@ufv.br
+
+RESUMO
+A otimização da distribuição de potência em sistema de energia termoelétrica é vital,
+
+pois os custos de geração são altos, tornando-a cara. O problema do despacho econômico busca
+justamente resolver o problema, por meio da modelagem de um problema de otimização contı́nuo,
+em uma tentativa de minimizar estes custos. Visando buscar mais realismo, este trabalho traz uma
+proposta utilizando o Bee Algorithm, denominado PDEZOPs-BA, para resolver o problema com
+a variante de Zonas de Operação Proibida (ZOP), que adiciona descontinuidade ao problema do
+despacho econômico. Este trabalho apresenta resultados obtidos por meio de estudos de casos
+baseados no problema do despacho econômico com ZOPs, com o intuito de validar o PDEZOPs-
+BA.
+
+PALAVRAS CHAVE. Despacho Econômico, Zonas Proibidas de Operação, Bee Algorithm
+
+ABSTRACT
+
+The optimization of the power distribution in thermoelectric power system is vital, since
+the generation costs are high, making it expensive. The problem of economic dispatch is precisely
+to solve the problem by modeling a continuous optimization problem in an attempt to minimize
+these costs. Aiming for more realism, this paper presents a proposal using Bee Algorithm, called
+PDEZOPs-BA, to solve the problem with the Prohibited Operating Zones(POZ) variant, which adds
+discontinuity to the dispatch problem. This paper presents results obtained through case studies
+based on the problem of economic dispatch with POZs, with the purpose of validating PDEZOPs-
+BA.
+
+KEYWORDS. Economic Dispatch, Prohibited Operating Zones, Bee Algorithm
+
+
+
+1. Introdução
+Amplamente estudado e um dos mais antigos problemas na área de otimização de sistemas
+
+de potência, datado, aproximadamente, de 1920, o problema do despacho econômico foi criado
+por engenheiros como uma forma de se encontrar uma alocação econômica e uma divisão justa,
+no sentido de distribuir a potência entre unidades geradoras em usinas termoéletricas procurando
+atender as demandas de geração do sistema, visando a minimização de custos e respeitando as
+restrições de cada unidade geradora [Jeronymo, 2013]. O problema em si possui muitas variantes
+que visam torná-lo realista. Uma delas é o problema do despacho econômico, considerando Zonas
+Proibidas de Operação (ZOP), que representa restrições operativas de uma unidade geradora de uma
+usina termoelétrica e refletem serviços auxiliares, dentre os quais estão as caldeiras e bombas de
+alimentação e são regiões que devem ser evitadas [Oliveira et al., 2015].
+
+Para problemas como esse, tem-se certa dificuldade de obter-se resultados precisos, ou
+então são até ineficazes, quando modelados por meios de algoritmos convencionais, por se tratar
+de um problema que apresenta descontinuidades. Por isso, abordagens comuns para se resolver
+o problema são por meio de algoritmos evolucionários e meta-heurı́sticas. Este trabalho utiliza o
+Bee Algorithm [Pham et al., 2006], uma meta-heurı́stica baseada no comportamento das abelhas na
+busca por comida.
+
+Comparações com outros trabalhos encontrados na literatura também serão feitas. O
+método proposto em [Oliveira et al., 2015] utiliza o “Bat Algorithm”, uma estratégia baseada no
+comportamento dos morcegos. Alguns resultados obtidos por ele são determinı́sticos. O método
+proposto em [Adhinarayanan e Sydulu, 2007] utiliza o algoritmo “λ-logic”. Para se obter o resul-
+tados, os autores consideram a curva de custo como uma curva contı́nua, resolvendo o problema
+sem levar em consideração as ZOPs em uma primeira execução. Se a solução for infactı́vel, ou
+seja, se alguma das unidades estiver em regiões de ZOPs, uma nova execução do algoritmo é rea-
+lizada, aproximando os resultados obtidos na primeira execução para torná-lo factı́vel. O método
+proposto em [Adhinarayanan e Sydulu, 2008] também obtém os resultados da mesma forma que
+em [Adhinarayanan e Sydulu, 2007], utilizando o algoritmo DSGA, uma versão melhorada de um
+Algoritmo genético. Tanto o DSGA quanto o λ-logic, apresentam eficiência e rapidez na obtenção
+do resultado.
+
+Na Seção 2 será apresentado o Problema do Despacho Econômico. Na Seção 3 será
+definido as Zonas de Operações Proibidas. Na Seção 4 será discutida a abordagem utilizada para a
+resolução do problema. Na Seção 5 serão discutidos os resultados obtidos pelo método proposto, o
+PDEZOPs-BA e, por fim, na Seção 6, serão apresentadas as conclusões sobre o trabalho.
+
+2. Despacho Econômico
+O objetivo de um problema de despacho econômico é encontrar uma distribuição ótima
+
+de potência para um conjunto de unidades geradoras de uma usina termoelétrica visando minimizar
+uma dada função de custo [Martins e Mendes, 2016]. Cada unidade geradora possui caracterı́sticas
+próprias a serem consideradas, como potência mı́nima e máxima para a geração de energia. A
+função objetivo relativa ao problema é a soma da função de custo de todas as unidades geradoras
+(Equação 1). Na formulação básica do problema, suas restrições são quanto à satisfação de uma
+certa demanda de energia do sistema (Equação 2) e também quanto à potencia mı́nima e máxima
+de cada unidade geradora (Equação 3). A formulação do problema pode ser vista a seguir:
+
+∑Ng
+
+MinimizarFT = Fi(Pi) (1)
+i=1
+
+Sujeito a:
+
+
+
+∑Ng
+
+Pi = PD (2)
+i=1
+
+Pmin m
+i ≤ Pi ≤ P ax
+
+i (3)
+
+Em que:
+
+• FT = Custo de geração total;
+
+• Fi = Custo do gerador i;
+
+• Pi = Potência do gerador i;
+
+• PD = Demanda do sistema;
+
+• Pmax
+i = Potência máxima do gerador i;
+
+• Pmin
+i = Potência mı́nima do gerador i;
+
+• Ng = Número de Unidades Geradoras
+
+A função de custo pode ser obtida, de forma aproximada, por meio de uma função
+quadrática [Zhu, 2015], como mostrado na Equação 4.
+
+Fi(Pi) = ai + biPi+ ciP
+2
+i . (4)
+
+Os coeficientes ai,bi e ci são relacionados ao custo operacional de cada unidade gera-
+dora, referentes ao custo de manutenção e operação, custo do combustı́vel utilizado e custo com os
+efluentes provenientes da queima, respectivamente [Oliveira et al., 2015].
+
+Como pode-se perceber na Figura 1, na formulação original do Problema do Despacho
+Econômico, cada unidade geradora do sistema de uma usina termoelétrica, têm sua curva de custo
+contı́nua.
+
+Figura 1: Curva de custo de uma unidade geradora. Fonte: [Jeronymo, 2013]
+
+
+
+3. Zonas Proibidas de Operação
+Com as zonas proibidas de operação(ZOPs), o problema do Despacho Econômico toma
+
+proporções mais realistas. AS ZOPs representam zonas de instabilidade ou com limitações fı́sicas
+de uma unidade geradora de uma usina termoelétrica. Tais zonas adicionam descontinuidade a curva
+de custo de uma unidade geradora que possui essa limitação, como pode ser conferido na Figura 2,
+e devem ser evitadas na geração de energia. Por isso, devem ser adicionadas à formulação original
+do problema, restrições que remetem às ZOPs. As inequações (5),(6) e (7), podem ser conferidas a
+seguir [Oliveira et al., 2015]:
+
+Pmin
+i ≤ Pi ≤ Pn1
+
+i (5)
+
+Pn2
+i ≤ Pi ≤ Pn3
+
+i (6)
+
+Pn4
+i ≤ Pi ≤ Pmax
+
+i (7)
+
+Em que:
+
+• Pn1
+i e Pn3
+
+i referem aos limites superiores da ZOP
+
+• Pn2
+i e Pn4
+
+i referem aos limites inferiores da ZOP
+
+Figura 2: Curva de custo de uma unidade geradora com zonas de operação proibida. Fonte: [Oliveira et al.,
+2015]
+
+4. Bee Algorithm
+Bee Algorithm, ou em português, Algoritmo da Abelha, é um algoritmo de otimização
+
+baseado em inteligência de enxames. A busca por um resultado ótimo, no algoritmo, se baseia no
+processo natural de busca por recursos alimentares que abelhas realizam [Pham et al., 2006]. A
+seguir está descrito, de forma simplificada, como a busca por alimentos é exercida por uma abelha:
+
+• Passo 1:
+
+– Scout Bees são enviadas em busca de patches de flores promissores.
+– A busca é feita aleatoriamente.
+
+• Passo 2:
+
+– As abelhas retornam para a colméia e realizam uma dança (Waggle Dance) para avisar
+as outras abelhas sobre o resultado da busca.
+
+
+
+– A dança é uma forma de direcionar as outras abelhas da colméia na busca.
+
+• Passo 3:
+
+– As abelhas então retornam aos patches de flores, junto com as abelhas recrutadas du-
+rante a dança.
+
+– Quanto mais promissor um patch se apresenta, mais abelhas são recrutadas para obte-
+rem alimento ali, resultando em melhores resultados na busca por alimentos.
+
+• Passo 4:
+
+– O nı́vel de alimentos é monitorado e uma nova dança é realizada.
+– Se aquele patch se manter uma boa escolha, novas abelhas são recrutadas e uma nova
+
+busca é realizada.
+
+O algoritmo possui alguns parâmetros que precisam ser definidos, são eles:
+• n: Quantidade de Scout bees
+
+• m: Quantidade de sites selecionados fora de n sites visitados
+
+• e: Os melhores sites a serem visitados
+
+• nep: Quantidade de abelhas recrutadas para os e melhores sites
+
+• nsp: Quantidade de abelhas recrutadas para os outros sites
+
+• ngh: tamanho inicial de espaço de busca na vizinhança
+Pode-se observar, logo abaixo, o Algoritmo 1 que exemplifica, de forma simplificada, o
+
+funcionamento do Bee Algorithm. A Figura ?? exibe um fluxograma, detalhando o funcionamento
+do mesmo.
+
+Algoritmo 1: Pseudocódigo do algoritmo Bee Algorithm [Pham et al., 2006]
+1 Inicializar população com soluções aleatórias
+2 Avaliar Fitness da População
+3 while Critério de parada não satisfeito do
+4 //Formar nova população
+5 Selecionar sites para busca na vizinhança
+6 Recrutar abelhas para sites selecionados(Mais abelhas para e melhores sites) e
+
+avaliar o Fitness
+7 Selecionar a abelha mais apta cada site
+8 Assinalar as abelhas restantes para busca randômica e avaliar seu fitness
+9 end
+
+Nos passos 1 e 2 deve-se iniciar a população com n abelhas e avaliar o fitness, que neste
+trabalho refere-se ao custo de geração total(FT ), de cada abelha. Cada abelha da população repre-
+senta um sistema de unidades geradoras de uma usina termoelétrica. Nos passos 5 e 6, de acordo
+com o fitness das n abelhas, são escolhidos quais serão os melhores lugares para se realizar a busca
+na vizinhança, lembrando que o espaço de busca na vizinhança é determinado pelo parâmetro ngh.
+Quanto melhor um site for, mais abelhas são recrutadas para busca naquele lugar. No passo 7, a
+abelha que obtiver o melhor fitness em cada espaço de busca, é escolhida para se formar uma nova
+população. Por fim, no passo 8, as abelhas restantes são distribuı́das aleatoriamente, realizando no-
+vas buscas. Tudo isso se dá enquanto o critério de parada não for atendido que, para este trabalho,
+foi definido como sendo o número de gerações.
+
+
+
+5. Resultados
+Para a geração de resultados, foram definidos 3 estudos de casos, com diferentes quanti-
+
+dades de unidades geradoras. Os estudos de caso 1, 2 e 3 irão abordar sistemas contendo 4,15 e 40
+unidades geradoras, respectivamente. Os resultados encontrados foram comparados aos obtidos nos
+seguintes trabalhos: “Bat Algorithm” [Oliveira et al., 2015], “λ-logic” [Adhinarayanan e Sydulu,
+2007]. e o “DSGA” [Adhinarayanan e Sydulu, 2008].
+
+A Tabela 1 mostra os parâmetros utilizados no algoritmo proposto, o PDEZOPs-BA, para
+cada estudo de caso, assim como número de execuções de cada um.
+
+Estudo de Caso 1 Estudo de Caso 2 Estudo de Caso 3
+Num. de Execuções 30 20
+Num. de Gerações 400
+n 6000 12000 16000
+m 120 1080 1440
+e 80 720 960
+nep 300 2100 2800
+nsp 120 1080 1440
+ngh 60 420 560
+
+Tabela 1: Parâmetros utilizados no algoritmo proposto
+
+O PDEZOPs-BA também foi executado considerando a formulação original do problema
+do Despacho econômico, ou seja, sem as ZOPs, com os resultados mostrados na Tabela 2 .
+
+Mı́nimo Máximo Média Desvio Padrão
+Estudo de Caso 1 16383,02 16383,04 16383,03 0,005
+Estudo de Caso 2 32542,32 32542,61 32542,48 0,0522
+Estudo de Caso 3 99363,78 99387,18 99376,25 11,7722
+
+Tabela 2: Resultados da execuções do PDEZOPs-BA, desconsiderando as ZOPs
+
+5.1. Estudo de caso 1
+Para este estudo de caso, foi considerado um sistema de 4 unidades geradoras. Os parâmetros
+
+a, b e c possuem os valores 500, 10 e 0.001, respectivamente, e são iguais para todas as unidades
+geradoras, resultando em uma equação adaptada do problema, que pode ser conferido na Equação
+(8).
+
+Fi(Pi) = 500 + 10Pi+ 0, 001P 2
+i .
+
+(8)
+100 ≤ Pi ≤ 500
+
+O sistema também conta com ZOPs nas Unidades de geração 1 e 2. Cada uma possui
+duas zonas proibidas e estão especificadas na Tabela 3.
+
+Unidade Zona 1(MW) Zona 2(MW)
+1 [200,250] [300,350]
+2 [210,260] [310,360]
+
+Tabela 3: Zonas Proibidas - Estudo de Caso 1
+
+
+
+A Tabela 4 exibe os resultados obtidos na melhor execução do problema, utilizando o
+PDEZOPs-BA, para o estudo de caso 1.
+
+Unidade Potência
+1 350
+2 360
+3 339,98
+4 340,02
+Custo ($/Hora) 16383,30
+
+Tabela 4: Solução Ótima obtida - Estudo de Caso 1
+
+Como pode-se perceber na Tabela 5, para este estudo de caso, o melhor resultado obtido
+nas execuções pelo PDEZOPs-BA é idêntico aos obtidos na literatura.
+
+Valor da funcão objetivo ($/Hora)
+Técnica Desvio Padrão
+
+Mı́nimo Máximo Média
+Bat Algorithm [Oliveira et al., 2015] 16383,3 - - -
+λ-logic [Adhinarayanan e Sydulu, 2007] 16383,3 - - -
+PDEZOPs-BA 16383,3 16383,33 16383,31 0,0095
+
+Tabela 5: Comparação com resultados obtidos na literatura - Estudo de caso 1
+
+5.2. Estudo de caso 2
+
+No estudo de caso 2, o problema possui 15 unidades geradoras. Quatro dessas unidades
+continham ZOPs: As unidades 2, 5, 6 e 12. Elas podem ser conferidas na Tabela 6. Nesse estudo de
+caso, cada unidade tem seus próprios parâmetros a, b e c. Eles estão descritos em [Adhinarayanan
+e Sydulu, 2007].
+
+Unidade Num. de Zonas Zona 1(MW) Zona 2(MW) Zona 3(MW)
+2 3 [185,225] [305,335] [420,450]
+5 3 [180,200] [260,335] [390,420]
+6 3 [230,255] [365,395] [430,455]
+12 2 [30,55] [65,75]
+
+Tabela 6: Zonas Proibidas - Estudo de Caso 2
+
+Na Tabela 7, pode-se conferir a geração ótima encontrada pelo PDEZOPs-BA.
+
+
+
+Unidade Potência
+1 446,94
+2 451,74
+3 130
+4 130
+5 335
+6 456,29
+7 465
+8 60
+9 25
+10 20
+11 20
+12 55,05
+13 25
+14 15
+15 15
+Custo ($/Hora) 32545,10
+
+Tabela 7: Solução Ótima obtida- Estudo de Caso 2
+
+Como pode ser conferido na Tabela 8, os resultados obtidos no experimento ficaram bem
+próximos aos encontrados na literatura.
+
+Valor da função objetivo ($/Hora)
+Técnica Desvio Padrão
+
+Mı́nimo Máximo Média
+Bat Algorithm [Oliveira et al., 2015] 32544,97 - - -
+λ-logic [Adhinarayanan e Sydulu, 2007] 32545,00 - - -
+PDEZOPs-BA 32545,1 32545,41 32545,27 0,0854
+
+Tabela 8: Comparação com resultados obtidos na literatura - Estudo de caso 2
+
+5.3. Estudo de caso 3
+
+Para o estudo de caso 3, fez-se a otimização por meio de 40 unidades geradoras, sendo
+que 25 unidades continham ZOPs. Os parâmetros a,b,c podem ser conferidos em Naresh [Naresh
+et al., 2004] e os limites das ZOPs na Tabela 9.
+
+
+
+Unidade Num. de Zonas Zona 1 (MW) Zona 2 (MW) Zona 3 (MW)
+2 1 [80,85]
+3 1 [82,88]
+9 1 [235,246]
+10 1 [200,211]
+11 1 [213,220]
+12 1 ]213,220]
+28 1 [102,113]
+29 1 [102,113]
+30 1 [102,113]
+7 2 [155,162] [221,235]
+18 2 [307,321] [407,421]
+19 2 [301,310] [421,431]
+20 2 [340,351] [421,431]
+21 2 [340,351] [421,431]
+22 2 [306,320] [440,445]
+23 2 [306,320] [440,445]
+24 2 [370,390] [495,502]
+25 2 [370,390] [495,502]
+26 2 [380,410] [501,520]
+27 2 [380,410] [501,520]
+13 3 [200,211] [290,310] [413,425]
+14 3 [205,217] [306,318] [409,420]
+15 3 [214,230] [277,290] [402,412]
+16 3 [214,230] [277,290] [402,412]
+17 3 [214,230] [277,290] [402,412]
+
+Tabela 9: Zonas Proibidas - Estudo de Caso 3
+
+A tabela 10 apresenta os resultados obtidos na melhor execução do PDEZOPs-BA, para o
+estudo de caso 3.
+
+Unidade Potência
+1 40,84
+2 60
+3 128,67
+4 25,63
+5 26,06
+6 96,75
+7 110
+8 291,64
+9 291,85
+10 130
+11 94
+12 94
+13 125
+14 129,37
+15 125,61
+16 125,03
+
+
+
+17 130,07
+18 386,21
+19 421,7
+20 346,5
+21 389,85
+22 512,65
+23 549,86
+24 537,35
+25 535,53
+26 541,7
+27 513,13
+28 10
+29 10
+30 10
+31 20
+32 20
+33 20
+34 20
+35 18
+36 18
+37 20
+38 25
+39 25
+40 25
+Custo($/Hora) 99383,45
+
+Tabela 10: Solução Ótima obtida - Estudo de Caso 3
+
+Os resultados obtidos pelo PDEZOPs-BA neste estudo de caso, como pode-se perceber na
+Tabela 11, foram ligeiramente maiores quando comparados com os outros resultados na literatura.
+
+Valor da função objetivo ($/Hora)
+Técnica Desvio Padrão
+
+Mı́nimo Máximo Média
+Bat Algorithm [Oliveira et al., 2015] 99322,85 - - -
+Algoritmo DSGA [Adhinarayanan e Sydulu, 2008] 99322,8 - - -
+PDEZOPs-BA 99383,45 99423,36 99403,65 9,0634
+
+Tabela 11: Comparação com resultados obtidos na literatura - Estudo de caso 3
+
+6. Conclusão
+O PDEZOPs-BA obteve bons resultados para o problema do despacho econômico com
+
+ZOPs, conseguindo igualar a melhor solução encontrada pelos algoritmos comparados na literatura,
+no estudo de caso 1 e chegando bem próximo nos estudos de caso 2 e 3, demonstrando que pode
+haver melhorias no algoritmo para lidar com esses dois últimos casos.
+
+Quanto às ZOPs, ficou claro, o quanto a complexidade aumenta no problema com essa
+variante, necessitando um maior poder computacional. Outro fato relevante a se considerar sobre as
+ZOPs é que, observando os resultados obtidos pelo método tradicional do Problema do Despacho
+Econômico, há um leve aumento no custo quando se leva em conta as restrições impostas por este
+tipo de problema.
+
+
+
+Referências
+Adhinarayanan, T. e Sydulu, M. (2007). Reserve constrained economic dispatch with prohibited
+
+operating zones using”/-logic”based algorithm. In Power Engineering Society General Meeting,
+2007. IEEE, p. 1–7. IEEE.
+
+Adhinarayanan, T. e Sydulu, M. (2008). A directional search genetic algorithm to the economic
+dispatch problem with prohibited operating zones. In Transmission and Distribution Conference
+and Exposition, 2008. T&D. IEEE/PES, p. 1–5. IEEE.
+
+Jeronymo, D. C. (2013). Metaheurı́sticas aplicadas ao problema de despacho econômico de energia
+elétrica. Master’s thesis, Curitiba, PR.
+
+Martins, R. N. e Mendes, M. H. S. (2016). Algoritmo genético para o problema do despacho
+econômico de energia elétrica com incertezas. In Anais do XLVIII SBPO, p. 810–817, Rio de
+Janeiro. SOBRAPO.
+
+Naresh, R., Dubey, J., e Sharma, J. (2004). Two-phase neural network based modelling framework
+of constrained economic load dispatch. IEE Proceedings-Generation, Transmission and Distri-
+bution, 151(3):373–378.
+
+Oliveira, E. S., Silva Junior, I. C., Oliveira, L. W., Dias, B. H., e Filgueiras, M. (2015). Despacho
+econômico com zonas de operação proibidas através de otimização bioinspirada. In Bastos Filho,
+C. J. A., Pozo, A. R., e Lopes, H. S., editors, Anais do 12 Congresso Brasileiro de Inteligência
+Computacional, p. 1–6, Curitiba, PR. ABRICOM.
+
+Pham, D. T., Ghanbarzadeh, A., Koç, E., Otri, S., Rahim, S., e Zaidi, M. (2006). -the bees algo-
+rithm—a novel tool for complex optimisation problems. In Intelligent production machines and
+systems, p. 454–459. Elsevier.
+
+Zhu, J. (2015). Optimization of power system operation, volume 47. John Wiley & Sons.

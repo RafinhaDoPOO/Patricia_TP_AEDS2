@@ -1,0 +1,469 @@
+﻿ALGORITMO GENÉTICO PARA O PROBLEMA DO DESPACHO
+ECONÔMICO DE ENERGIA ELÉTRICA COM INCERTEZAS
+
+Rômulo Neves Martins
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+romulo.martins@ufv.br
+
+Marcus Henrique Soares Mendes
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcus.mendes@ufv.br
+
+RESUMO
+A presença das incertezas pode alterar o valor da função objetivo a ser otimizada bem
+
+como os valores das funções de restrição, assim as soluções encontradas podem se tornar inviáveis
+e/ou com custos indesejáveis. Este trabalho propõe uma versão Robusta do Problema do Des-
+pacho Econômico de Energia Elétrica (RPDEEE), onde são consideradas incertezas paramétricas.
+Implementou-se três técnicas para lidar com as incertezas no RPDEEE. As três técnicas foram
+incorporadas em um algoritmo genético a fim de resolver o RPDEEE. Inicialmente, mostrou-se
+que soluções que desconsideram as incertezas (soluções nominais), quando submetidas às incerte-
+zas (solução nominal perturbada), estão suscetı́veis à deterioração significativa em seus valores de
+função objetivo. No experimento, verificou-se que as soluções robustas, obtidas a partir das técnicas
+propostas, têm valores da função objetivo melhores que os das soluções nominais perturbadas. O
+aluno redigiu o texto, modelou o problema, realizou as implementações e os experimentos.
+
+PALAVRAS CHAVE. Otimização Robusta, Incerteza, Computação Evolutiva.
+
+Área Principal: MH - Meta-heurı́sticas, EN - PO na Área de Energia
+
+ABSTRACT
+The presence of uncertainties can change the value of the objective function to be opti-
+
+mized as well as the values of the constraint functions, therefore the achieved solutions can become
+infeasible and/or with undesirable costs. This paper proposes a robust version of the Economic
+Dispatch Problem (EDP), where parametric uncertainties are considered. Three techniques were
+implemented to deal with the uncertainties in the problem. The three techniques were incorporated
+in a genetic algorithm in order to solve the EDP. Inicially, it was shown that solutions that descon-
+sider the uncertainties (nominal solutions), when subjected to the uncertainties (disturbed nominal
+solutions), are susceptible to significant deterioration in their objective values. In the experiment, it
+was verified that the robust solutions, obtained from the proposed techniques, have better objective
+values that the disturbed nominal solutions objective values. The student wrote the text, built the
+mathematical model, implemented the code and performed the experiments.
+
+KEYWORDS. Robust Optimization. Uncertainty. Evolutionary Computation.
+
+Main Area: MH - Metaheuristics, EN - OR in the Energy Area
+
+Artigo submetido ao XLVIII Simpósio Brasileiro de Pesquisa Operacional (SBPO) -
+Vitória - ES, 2016, na modalidade de Prêmio de Iniciação Cientı́fica (PIC).
+
+
+
+1. Introdução
+O Problema do Despacho Econômico de Energia Elétrica (PDEEE) foi criado por enge-
+
+nheiros, por volta de 1920, em busca de uma divisão adequada de carga e alocação econômica das
+unidades geradoras [Jeronymo, 2013]. Com o passar do tempo, foram inseridas caracterı́sticas
+ao problema, de forma a torná-lo mais realista, como por exemplo: o efeito do ponto de válvula.
+Como qualquer problema real, o PDEEE está sujeito às incertezas, como: alterações de pressão e
+temperatura, manutenção mal feita, qualidade do combustı́vel, limites de precisão do equipamento,
+entre outras. Assim, neste trabalho, propõe-se considerar as incertezas no PDEEE. Tal versão do
+problema é denominada: versão Robusta do PDEEE (RPDEEE), que considera a imprecisão na
+potência produzida pelas unidades geradoras; e possui uma função objetivo multidimensional, mul-
+timodal e descontı́nua.
+
+Como esse problema tem alta complexidade foi proposto um Algoritmo Genético (AG)
+robusto com codificação real para resolvê-lo. A meta-heurı́stica algoritmos genéticos foi escolhida
+por ser poderosa para resolver problemas com muitas dimensões, flexı́vel para tratar incertezas e
+possui uma boa velocidade de convergência [Michalewicz, 2013]. A principal contribuição do
+presente trabalho é desenvolver um AG acoplado com técnicas para lidar com incertezas a fim de
+solucionar o RPDEEE na pior atuação das incertezas.
+
+A Seção 2 apresenta o PDEEE; Na Seção 3, apresentam-se os tipos de incertezas; na
+Seção 4, são apresentados os conceitos relacionados à robustez; Na Seção 5, apresentam-se os
+fundamentos da meta-heurı́stica algoritmos genéticos; Na Seção 6, define-se o RPDEEE; Na Seção
+7, descrevem-se a três técnicas usadas para o tratamento de incertezas e o algoritmo desenvolvido;
+Na Seção 8, é apresentado o experimento realizado e sua análise; e por fim, as conclusões são
+apresentadas na Seção 9.
+2. Problema do Despacho Econômico de Energia Elétrica (PDEEE)
+
+O PDEEE constitui-se de uma usina de geração de energia termoelétrica, cujo objetivo é
+encontrar uma distribuição de potência ótima dada uma função de custo que deve ser minimizada.
+A usina dispõe de Unidades Geradoras (UGs), que produzem energia elétrica por meio da queima
+de combustı́vel. Cada UG possui restrições referentes às potências mı́nimas e máximas que podem
+produzir, e uma função de custo pela queima do combustı́vel. O somatório das potências produzidas
+pelas UGs devem atender a uma determinada demanda a cada intervalo de tempo (por exemplo,
+algumas horas); e o custo total é o somatório dos custos de produção de cada UG.
+
+A seguir, encontra-se a formulação matemática, adaptada de Jeronymo [Jeronymo, 2013]
+e Coelho e Mariani [Coelho e Mariani, 2006], para o PDEEE.
+
+A Equação (1) representa a função objetivo do problema, que retorna um valor monetário
+do custo de produção por intervalo de tempo. A Equação (2) é a restrição de igualdade da potência
+produzida com a quantidade de energia demandada. A Equação (3) é uma restrição, que representa
+os limites de produção de cada UGi.
+
+Função Objetivo: ∑n
+minimizar F (P~ ) = aiP
+
+2
+i + biPi + ci + |ei sin(fi(Pmin
+
+i − Pi))| (1)
+i=1
+
+Sujeito a: ∑n
+Pi − PD = 0 (2)
+
+i=1
+
+Pmin
+i ≤ Pi ≤ Pmax
+
+i (3)
+
+Em que P~ é o vetor das variáveis de decisão; Pi é a potência produzida pela UGi (em MW); Pmin
+i
+
+2
+
+
+
+e Pmax
+i são os limites de potência mı́nimos e máximos de cada UGi respectivamente (em MW);
+
+PD é a potência demandada (em MW); ai, bi e ci são constantes relacionadas às caracterı́sticas de
+cada gerador i; ei e fi são constantes relacionadas ao efeito de ponto de válvula; i ∈ N∗ ; n é o
+número de unidades geradoras.
+3. Conceitos de Incertezas
+
+Considerar as incertezas é importante, pois a presença delas pode deteriorar soluções
+nominais [Ben-Tal et al., 2009]. De acordo com a comunidade cientı́fica, existem muitos tipos
+de incertezas. O problema é identificar e caracterizá-las/quantificá-las. [Beyer e Sendhoff, 2007]
+destacam 4 tipos de incertezas:
+
+A – Mudanças do ambiente e das condições de operação, envolvem: temperatura de
+operação, pressão, umidade e alteração das propriedades do material;
+
+B – Tolerâncias de produção e imprecisão do atuador: estão relacionadas com a precisão
+do produto a ser produzido. Uma perturbação das variáveis de decisão;
+
+C – Saı́da do sistema: envolvem imprecisão no cálculo das saı́das do sistema, seja por
+erros em medições ou aproximações para modelos originais;
+
+D – Viabilidade: envolvem as restrições que as variáveis de projeto devem obedecer.
+As incertezas paramétricas estão relacionadas com as variáveis de decisão do problema.
+
+Um exemplo, são as incertezas dos tipos A e B. As incertezas paramétricas estão no escopo deste
+trabalho, pois o PDEEE está sujeito a este tipo de incerteza.
+
+Beyer e Sendhoff [Beyer e Sendhoff, 2007] definem 3 tipos de quantificação das incer-
+tezas: As do tipo determinı́stico, que são determinadas por um intervalo de variação; as do tipo
+probabilı́stico, que descrevem a probabilidade de certo evento ocorrer; e as do tipo possibilı́stico,
+em que são definidas medidas fuzzy que descrevem a possibilidade de certo evento ocorrer.
+4. Conceitos de Robustez
+
+A noção de robustez é um conceito usado para definir as caracterı́sticas esperadas de uma
+solução robusta [Gupta e Rosenhead, 1968].
+
+Existem 4 conceitos clássicos: solução, decisão, conclusão e método robusto [Vincke,
+2003].
+
+• A decisão robusta é aquela que mantém um número relevante de planos para o futuro;
+
+• A solução robusta é boa em todas ou na maioria das versões, sendo que versão é um conjunto
+plausı́vel de valores para as incertezas do modelo;
+
+• A conclusão robusta é válida em todas ou na maioria das versões, sendo que versão é um
+conjunto aceitável para os parâmetros do modelo de decisão;
+
+• O método robusto é o que retorna resultados válidos em todas ou na maioria das versões, em
+que uma versão é um conjunto dos valores possı́veis para as incertezas do problema e para os
+parâmetros do método.
+
+Uma solução, para ser considerada robusta, deve na presença das incertezas, pouco alterar-
+se, manter-se viável / factı́vel e respeitar as restrições definidas para o problema [Mendes, 2013].
+
+A forma de mensurar o desempenho das soluções quando sujeitas às incertezas é chamada
+de medida robusta. As medidas robustas mais comuns são as da função de fitness1 esperada: média
+explicita; média implı́cita; ou cenário de pior caso. A última visa garantir que, mesmo na pior
+atuação das incertezas, serão produzidas soluções factı́veis e com bom desempenho [Goh et al.,
+2007].
+
+Para ilustrar a importância de se obter soluções robustas, na Figura (1) aborda-se um pro-
+blema de maximização. A solução S2 é o ótimo global e a solução S1 é um ótimo local, ambas,
+
+1fitness é um valor numério atribuı́do a uma solução afim de quantificá-la.
+
+3
+
+
+
+dentro do domı́nio xminimo e xmaximo. Neste cenário, as soluções S1 e S2 estão sujeitas às incerte-
+zas na variável de decisão x, e podem variar no intervalo [xS1 − p, xS1 + p] e [xS2 − p, xS2 + p],
+respectivamente. Dessa forma, os valores de F (xS1) e F (xS2) estão suscetı́veis às alterações.
+
+Para o pior caso de atuação das incertezas, F (xS1) é melhor que F (xS2), pois F (xS1 +p)
+é maior que F (xS2 + p). A solução S1 é dita mais robusta que a S2.
+
+Figura 1: Exemplo da atuação de incertezas paramétricas nas soluções S1 e S2.
+
+5. Versão Robusta do Problema do Despacho Econômico de Energia Elétrica (RPDEEE)
+A versão robusta do PDEEE, proposta para este trabalho (RPDEEE), caracteriza-se pela
+
+inserção das incertezas paramétricas no processo de otimização. Adotou-se as incertezas do tipo
+A e B, definidas por Beyer e Sendhoff [Beyer e Sendhoff, 2007], e serão tratadas de forma deter-
+minı́stica. Para otimização robusta foi adotado o método robusto, cujo objetivo é encontrar soluções
+que permanecem factı́veis mesmo no pior caso de atuação das incertezas. A seguir, encontra-se a
+formulação matemática, que considera as incertezas paramétricas.
+
+Função Objetivo:
+
+∑n
+minimizar F (P~m) = aiP
+
+2
+mi + biPmi + ci + |ei sin(fi(Pmin
+
+i − Pmi))| (4)
+i=1
+
+Sujeito a: ∑n
+0 ≤ Pmi − PD ≤ T (5)
+
+i=1
+
+Pmin
+i ≤ Pmi ≤ Pmax
+
+i (6)
+
+Pmi = Pi ± Ppi (7)
+
+(Pmin
+P i + Pmax
+
+i )
+pi = rIi (8)
+
+2
+A Equação (4) representa a função objetivo a ser minimizada na presença de incertezas;
+
+A Equação (5) é um relaxamento da restrição da Equação (2); a Equação (6) determina os limites
+da produção de cada UGi na presença de incertezas; e as Equações (7) e (8) estão relacionadas com
+as perturbações realizadas nas potências produzidas por cada UGi.
+
+4
+
+
+
+r é um número pseudo aleatório entre 0 e 1; P~m é o vetor das variáveis de decisão que
+consideram as perturbações; Pmi é a potência da UGi considerando as incertezas paramétricas Ppi
+na produção da potência nominal Pi; Ii é o percentual unitário de variação (incerteza) que a UGi
+está sujeita, com Ii ∈ R+; T é uma tolerância ligada a um relaxamento da potência demandada (um
+percentual de PD).
+6. Algoritmos Genéticos
+
+Algoritmos Genéticos (AGs) é uma meta-heurı́stica dentro da área de computação evolu-
+cionária [Holland, 1975]. Baseia-se em uma metáfora do processo de seleção natural de Charles
+Darwin e recombinação gênica observados na natureza.
+
+Inicialmente, cria-se uma população inicial de indivı́duos, cada indivı́duo representa uma
+solução viável para o problema. Essa população é alterada com as gerações do algoritmo, a partir
+da seleção dos indivı́duos mais aptos e dos operadores genéticos: cruzamento e mutação. Esses
+operadores combinam soluções, afim de melhorá-las. Assim, com o passar das gerações, há uma
+tendência de convergência para soluções ótimas. No entanto, não há garantias de que o problema
+seja resolvido e nem que a melhor resposta seja obtida [Michalewicz, 2013; Linden, 2006].
+
+As vantagens dos AGs são: aplicação em problemas com demasiado espaço de busca; fa-
+cilidade de implementação; flexibilidade para tratamento de restrições e incertezas; adaptabilidade
+a diversos problemas; e velocidade de convergência [Michalewicz, 2013].
+7. Algoritmo Genético implementado
+
+O algoritmo genético (AG) implementado possui codificação real, por isso os indivı́duos
+são representados como um vetor de n números reais. A etapa de avaliação dos indivı́duos, como
+mostra o fluxograma da Figura (2), pode ser feita de 4 formas (e deve ser escolhida antes da sua
+execução): 1 forma nominal (N), em que as incertezas não são consideradas, assim os valores de Ii
+na Equação (8) são 0; e 3 formas robustas (R1, R2 ou R3) que consideram as incertezas dentro do
+processo de otimização. O critério de parada usado foi um limite de avaliações da função objetivo
+(Equação (4)).
+
+Figura 2: Fluxograma do AG implementado.
+
+7.1. Descrição das técnicas para tratamento das incertezas paramétricas
+As técnicas R1, R2 e R3, adotam a medida robusta baseada no cenário de pior caso. A
+
+seguir, é descrito como cada técnica funciona:
+• Na técnica R1, cada indivı́duo Ji da população de filhos (λ) tem sua fitness determinada
+
+pela pior fitness de uma população (conjunto de amostras) de m indivı́duos perturbados. A
+população de indivı́duos perturbados têm os valores do seu vetor P~m modificados de acordo
+com a Equação (7). Portanto, o pior caso de atuação das incertezas é obtido por meio do uso
+de um conjunto de amostras.
+
+5
+
+
+
+• Na técnica R2, cada indivı́duo Ji da população de filhos (λ) é determinado por uma execução
+interna de outra instância de um AG (AGj). Tal execução objetiva encontrar o pior caso
+de atuação das incertezas para o indivı́duo Ji. O AGj tem a população inicial derivada do
+indivı́duo Ji com o uso da Equação.(7), a seleção é feita por torneio e baseia-se em escolher
+o pior indivı́duo (pior valor de fitness). Ao fim do AGj a fitness do seu pior indivı́duo (isto
+é, aquele que representa o pior caso de atuação das incertezas) substitui o valor de fitness do
+indivı́duo Ji.
+
+• Na técnica R3 cada indivı́duo Ji da população de filhos (λ) têm os elementos do seu vetor P~m
+alterados. A alteração ocorre da seguinte forma: pega-se um elemento de P~m e acrescenta-
+se uma perturbação Ppi ao respectivo elemento Pmi (com o uso da Equação (8)), até que
+seu valor de fitness atinja o maior valor possı́vel dentro de um limite de análises (la). Esse
+procedimento é repetido pra todos os elementos de P~m em Ji.
+
+8. Experimento e Análises
+Foram usados os seguintes parâmetros: População inicial heurı́stica; seleção por ranking;
+
+cruzamento blx-α; mutação múltipla não uniforme; tipo de população µ+ λ; elitismo; tamanho da
+população de pais µ = 16; tamanho da população de filhos λ = 32; probabilidade de cruzamento
+cx = 0, 80; probabilidade de mutação mx = 0, 05 [Michalewicz, 2013; de Lacerda e de Carvalho,
+1999];
+
+PD = 1800; n = 13; m = 100; la = 100 e T = 0, 01; limite de avaliações da função
+objetivo 60000 ∗ n [Cesaro et al., 2014]. Os demais parâmetros estão presentes na Tabela (1) tal
+como em [Jeronymo, 2013].
+
+Tabela 1: Valores de: Pmin
+i , Pmax
+
+i , ai, bi, ci, ei, fi e Ii.
+
+i Pmin
+i Pmax
+
+i ai bi ci ei fi Ii
+1 0 680 0,00028 8,1 550 300 0,035 0,01
+2 0 360 0,00056 8,1 309 200 0,042 0,01
+3 0 360 0,00056 8,1 307 150 0,042 0,01
+4 60 180 0,00324 7,74 240 150 0,063 0,01
+5 60 180 0,00324 7,74 240 150 0,063 0,01
+6 60 180 0,00324 7,74 240 150 0,063 0,01
+7 60 180 0,00324 7,74 240 150 0,063 0,01
+8 60 180 0,00324 7,74 240 150 0,063 0,01
+9 60 180 0,00324 7,74 240 150 0,063 0,01
+
+10 40 120 0,00284 8,6 126 100 0,084 0,01
+11 40 120 0,00284 8,6 126 100 0,084 0,01
+12 55 120 0,00284 8,6 126 100 0,084 0,01
+13 55 120 0,00284 8,6 126 100 0,084 0,01
+
+Fonte: Adaptado de Jeronymo, (2013, p. 69).
+
+O experimento realizado constitui-se de 4 instâncias, cada instância é formada por 100
+amostras. As amostras N , R1, R2 e R3 foram obtidas por execuções do AG implementado, com a
+respectiva técnica de avaliação dos indivı́duos.
+
+Para simular o pior cenário de ocorrência das incertezas sobre as soluções nominais (N ),
+foi criada outra instância (NP ). Cada amostra i emNP é determinada pela pior de 100 perturbações
+em cada amostra i de N .
+
+A Figura (3) mostra um comparativo entre as soluções nominais, nominais perturbadas e
+robustas. As soluções nominais, representadas por (2), são as que apresentam os melhores custos.
+
+6
+
+
+
+As soluções nominais perturbadas, representadas por (M) são as piores, e evidenciam a sensibilidade
+das soluções nominais às incertezas paramétricas.
+
+Figura 3: Instâncias: N , R1, R2, R3 e NP .
+
+Os valores de fitness das soluções nominais encontradas neste trabalho, aproximam-se
+dos melhores resultados disponı́veis na literatura. A melhor solução encontrada, na literatura, tem
+custo 17960, 36MW/h [Cesaro et al., 2014], a deste trabalho é 17960, 50MW/h o que mostra a
+eficiência do AG implementado.
+
+Na Figura (3), todas as soluções robustas estão acima das nominais e abaixo das nominais
+perturbadas. Este resultado é esperado, pois as soluções robustas tendem a ser piores que as soluções
+nominais. Como as soluções robustas estão baseadas no cenário de pior caso, há uma tendência
+delas se aproximarem das nominais perturbadas.
+
+Tabela 2: Estatı́sticas descritivas das instâncias: N , R1, R2, R3 e NP .
+
+Valor da função fitness
+Instância Desvio padrão
+
+Mı́nima Média Máxima
+N 17960,50 18014,57 18084,10 27,18
+R1 17980,30 18099,61 18218,80 47,93
+R2 17991,80 18089,85 18176,50 37,78
+R3 18001,20 18105,18 18207,10 42,21
+NP 18078,60 18160,93 18259,20 34,07
+
+A Tabela (2) contém as estatı́sticas descritivas das instâncias N , R1, R2, R3 e NP . As
+5 instâncias apresentam desvio padrão pequeno, isso indica que o algoritmo encontra resultados
+relativamente próximos da média. Também estão destacados em negrito os seus piores valores, e é
+possı́vel notar que as soluções da instância NP apresentam os piores resultados. Dentre as soluções
+robustas, R2 é a de melhor, pois apresenta menor média e menor desvio.
+
+Como visto no exemplo da Figura (1), uma solução robusta tende a deteriorar-se menos
+
+7
+
+
+
+na presença de incertezas. Este é o caso das soluções robustas obtidas neste trabalho, pois quando
+submetidas às incertezas, as soluções R1, R2 e R3 mantém-se melhores que as soluções nominais
+perturbadas.
+9. Conclusão
+
+As soluções nominais tem um aumento considerál de custo. As soluções robustas obti-
+das com o uso das técnicas R1, R2 e R3 mostram-se melhores que as soluções nominais para o
+RPDEEE, devido à considerável piora nos valores de fitness das soluções nominais quando subme-
+tidas ao pior caso de atuação das incertezas paramétricas. Todas as soluções robustas encontradas,
+mesmo no pior cenário de atuação das incertezas, apresentam custos menores que os das soluções
+nominais perturbadas.
+10. Agradecimentos
+
+Os autores agradecem o apoio financeiro parcial fornecido pela FAPEMIG por meio do
+programa institucional de bolsas de iniciação cientı́fica e tecnológica.
+Referências
+Ben-Tal, A., El Ghaoui, L., e Nemirovski, A. (2009). Robust optimization. Princeton University
+
+Press.
+
+Beyer, H.-G. e Sendhoff, B. (2007). Robust optimization–a comprehensive survey. Computer
+methods in applied mechanics and engineering, 196(33):3190–3218.
+
+Cesaro, E., Czaikoski, G. H., Gonçalves, R. A., Almeida, C., e Venske, J., S. ; Kuk (2014). Evolução
+diferencial com múltiplos vetores experimentais aplicada ao problema do despacho econômico
+de energia elétrica. Encontro Nacional de Inteligência Artificial e Computacional.
+
+Coelho, L. d. S. e Mariani, V. C. (2006). Otimização de despacho econômico com ponto de válvula
+usando estratégia evolutiva e método quase-newton. Learning and Non linear Models-Revista da
+Sociedade Brasileira de Redes Neurais (SBRN), 4(1).
+
+de Lacerda, E. G. e de Carvalho, A. (1999). Introdução aos algoritmos genéticos. Sistemas inteli-
+gentes: aplicações a recursos hı́dricos e ciências ambientais, 1:99–148.
+
+Goh, C. K., Tan, K. C., Cheong, C. Y., e Ong, Y.-S. (2007). Noise-induced features in robust
+multi-objective optimization problems. In Evolutionary Computation, 2007. CEC 2007. IEEE
+Congress on, f. 568–575. IEEE.
+
+Gupta, S. K. e Rosenhead, J. (1968). Robustness in sequential investment decisions. Management
+science, 15(2):B–18.
+
+Holland, J. H. (1975). Adaptation in natural and artificial systems: an introductory analysis with
+applications to biology, control, and artificial intelligence. U Michigan Press.
+
+Jeronymo, D. C. (2013). Metaheurı́sticas aplicadas ao problema de despacho econômico de energia
+elétrica. f. 141. Mestrado em engenharia elétrica, Programa de Pós-Graduação em Engenharia
+elétrica, Universidade Federal do Paraná, Curitiba, 2013.
+
+Linden, R. (2006). Algoritmos genéticos: uma importante ferramenta da inteligência computacio-
+nal. Brasport, 2a edition.
+
+Mendes, M. H. S. (2013). Algoritmos evolucionários intervalares para otimização robusta multi-
+objetivo. f. 119. Doutorado em engenharia elétrica, Programa de Pós-Graduação em Engenharia
+elétrica, Universidade Federal de Minas Gerais, Minas Gerais, 2013.
+
+Michalewicz, Z. (2013). Genetic Algorithms + Data Structures = Evolution Programs. Springer
+Science & Business Media.
+
+Vincke, P. (2003). About robustness analysis. EWG-MCDA Newslett, 3(8):7–9.
+
+8

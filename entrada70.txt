@@ -1,0 +1,584 @@
+﻿Avaliação da Maturidade dos Processos de Gerência de
+Configuração em Projetos Open Source
+
+Leonardo Júnio Alves dos Santos Gláucia Braga e Silva
+Universidade Federal de Viçosa Universidade Federal de Viçosa
+
+Florestal, MG-Brasil Florestal, MG-Brasil
+leonardo.j.santos@ufv.br glaucia@ufv.br
+
+ABSTRACT Esses tipos de produtos são desenvolvidos em repositórios pú-
+With the increasing of contributors and companies in open source blicos de desenvolvimento, como o GitHub, uma plataforma de
+projects it is necessary to study the maturity of the adopted deve- controle de versões amplamente utilizada, onde códigos colaborati-
+lopment processes. This paper proposes quantitative metrics, based vos são hospedados. A ferramenta também oferece funcionalidades
+on the CMMI, MPS.BR and OMM models, to evaluate the maturity de issue tracking, merge, deploy, integração contínua, entre outras.
+of Software Conguration Management (SCG) processes in open No entanto, considerando que a ferramenta deixa a cargo do cola-
+source projects. The metrics were automated and applied on data borador o bom uso dessas funcionalidades, quando se avalia o ciclo
+from 6 projects hosted on GitHub. The results were unsatisfactory, de vida da mudança de forma completa, existem algumas lacunas
+in terms of best practices of the SCG. Furthermore, for all the pro- que podem prejudicar os resultados dos projetos. Como exemplos
+jects were found some gaps in terms of the change control ow and de boas práticas não obrigatórias que cam a cargo dos integrantes
+the traceability of the releases conguration items. do projeto, tem-se: o uso de tags para classicar issues e a rastreabi-
+
+lidade de issues em commits [20]. Diante disso, possíveis melhorias
+CCS CONCEPTS no uxo da ferramenta aliadas à adoção de boas práticas de desen-
+• volvimento poderiam resultar em contribuições mais ecientes e
+Software and its engineering→ Software congurationma- resultados mais satisfatórios.
+
+nagement and version control systems; Software libraries Para que as pessoas possam contribuir da melhor forma possível,
+and repositories; um conjunto de boas práticas de desenvolvimento de software deve
+KEYWORDS estar denido e acessível a todos. Nesse contexto, destacam-se as
+
+diretrizes do processo de Gerência de Conguração de Software
+CMMI, MPS.BR, OMM, controle de mudanças, métricas quantitati- (GCS), que norteiam o controle das mudanças e versões do produto
+vas de software em desenvolvimento. Tais diretrizes são recomenda-
+ACM Reference format: das pelos modelos de maturidade de processos de software CMMI
+Leonardo Júnio Alves dos Santos and Gláucia Braga e SilvaAvaliação da (Capability Maturity Model Intergration), MPS.BR (Melhoria do Pro-
+Maturidade dos Processos de Gerência de Conguração em Projetos Open cesso de Software Brasileiro) e OMM (Open Source Maturity Model).
+Source. 8 páginas. Assim, este trabalho propõe a avaliação do processo de GCS no
+
+universo de projetos open source, segundo alguns dos indicadores
+de qualidade propostos nos modelos CMMI, MPS.BR e OMM, com
+
+1 INTRODUÇÃO o intuito de se avaliar a maturidade dos processos envolvidos e
+No universo de projetosOpen Source, apesar de não haver a denição identicar pontos de melhoria que podem potencializar os resul-
+formal e explícita de um processo, os projetos se desenrolam com tados obtidos. Para cada um dos indicadores selecionados, será
+resultados satisfatórios. Uma das razões para isso pode ser atribuída proposta uma métrica capaz de medi-lo quantitativamente. Por m,
+ao fator motivacional desse universo colaborativo, ou seja, vários o trabalho compreenderá o desenvolvimento de uma ferramenta de
+desenvolvedores, integrantes efetivos de um projeto ou voluntários, software que automatiza a aplicação das métricas propostas sobre
+têm o interesse em contribuir, seja reportando ou corrigindo bugs dados de projetos armazenados em repositórios do GitHub.
+ou ainda produzindo novas versões de código-fonte. Este artigo está estruturado da seguinte forma: na Seção 2, serão
+
+No entanto, mesmo os resultados sendo satisfatórios, uma vez apresentados os principais modelos de maturidade de processo de
+que há produtos de qualidade provenientes do universo OSS (Open software; na Seção 3 é explicado o uxo da mudança no GitHub; a se-
+Source Software), como: Apache, Ubuntu, Node.js, dentre outros já ção 4 descreve alguns trabalhos relacionados; na Seção 5, apresenta-
+conhecidos e consolidados no mercado, alguns ajustes nos processos se o estudo comparativo da maturidade dos processos de GCS em
+aplicados certamente contribuiriam para a melhoria da qualidade projetos open source e a análise dos resultados obtidos da aplicação
+destes produtos e facilitariam o trabalho dos envolvidos. das métricas; e, por m, na Seção 6, são apresentadas as conclusões
+
+do trabalho e as sugestões de trabalhos futuros.
+Permission to make digital or hard copies of part or all of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed 2 MATURIDADE DE PROCESSOS DE
+for prot or commercial advantage and that copies bear this notice and the full citation
+on the rst page. Copyrights for third-party components of this work must be honored. SOFTWARE
+For all other uses, contact the owner/author(s).
+© Copyright held by the owner/author(s). . Os modelos de maturidade CMMI, MPS.BR e OMM têm como obje-
+
+tivo comum servir de referência utilizando práticas para se medir a
+
+
+
+L. Santos et al.
+
+maturidade do processo de desenvolvimento de software de uma Tabela 2: Correspondências entre os Modelos CMMI e
+empresa. OMM[16]
+
+O CMMI é um modelo de referência, escolhido por ser de cunho
+internacional e bastante consolidado no mercado global. Possui três OMM CMMI
+modelos para organizações: CMMI para o Desenvolvimento (CMMI-
+DEV), CMMI para Aquisição (CMMI-ACQ) e CMMI para Serviços Avançado Níveis 2 e 3
+(CMMI-SVC). Neste trabalho, será utilizado como base o CMMI-DEV Intermediário Nível 2
+que possui 22 áreas de processo, sendo que cada área é um cluster Básico Nível 2 (Opcional)
+de práticas relacionadas que, quando implementadas coletivamente,
+satisfazem um conjunto de metas. O CMMI-DEV possui 5 níveis de
+maturidade (Figura 1), sendo o nível 1, o mais baixo, e o 5, o mais Também merece destaque o modelo OMM[19], que também se
+alto (abrange todos os níveis anteriores). Cada nível contém um baseia no CMMI, mas tem foco em projetos OSS. Diferente dos
+conjunto de áreas de processo que precisam ter todas suas metas modelos CMMI e MPS.BR, o modelo OMM possui três níveis de
+atingidas para que uma organização seja certicada em um nível maturidade: Avançado, Intermediário e Básico. Segundo Petrinja
+[24]. [17], esse modelo se destaca dentre os modelos existentes para OSS,
+
+pois engloba mais áreas de processo. A correspondência dos níveis
+dos modelos CMMI e OMM é encontrada na Tabela 2.
+
+2.1 Maturidade em Gerência de Conguração
+A Gerência de Conguração é responsável por estabelecer e manter
+a integridade dos itens de conguração de um projeto[22]. Esses
+itens podem ser códigos fontes, documentações, modelos, hardware,
+ferramentas de testes, dentre outros itens referentes ao desenvolvi-
+mento de software.
+
+Como os modelos MPS.BR e OMM foram baseados no CMMI
+eles abordam os mesmos processos, mas de formas diferentes. A
+Tabela 3 apresenta as correspondências dos indicadores do processo
+de Gerência de Conguração[25] nesses modelos. Dentre os sete
+indicadores do CMMI, este trabalho abordará apenas o CM.SP 1.3,
+CM.SP 2.1 e o CM.SP 2.2, para se avaliar quantitativamente alguns
+processos de projetos de software armazenados no GitHub. A seguir
+são apresentados esses indicadores e as práticas necessárias para
+satisfazê-los.
+
+Figura 1: Níveis de Maturidade do CMMI. (Adaptado de Ma- 2.1.1 CM.SP 1.3 Criar ou liberar baselines. No geral, os modelos
+turity Levels Summary [13]) de maturidade apresentados ressaltam que para estar de acordo
+
+com este indicador é necessário que sejam respeitadas as seguintes
+Outro modelo de maturidade que merece destaque é o MPS.BR, práticas:
+
+que se baseia no CMMI, mas foca em apoiar as micro, pequenas e (1) Obter autorização para criação/liberação de uma baseline.
+médias organizações brasileiras. Este modelo possui os modelos de (2) Formar as baselines somente com itens de conguração
+referência: MPS para Software (MPS-SW), MPS para Serviços (MPS- que estão no sistema de gerenciamento.
+SV) e MPS para Gestão de Pessoas (MPS-RH). O modelo MPS-SW, (3) Documentar todos os itens de conguração contidos nas
+utilizado durante a pesquisa, possui sete níveis de maturidade, de G baseline.
+(Parcialmente Gerenciado) a A (Em Otimização) [21]. A correspon- (4) Disponibilizar as baselines.
+dência entre os modelos MPS.BR e CMMI pode ser vista na Tabela
+1. 2.1.2 CM.SP 2.1 Rastrear solicitações de mudança. Para que uma
+
+solicitação de modicação seja devidamente implementada ela deve
+Tabela 1: Correspondências entre os Modelos CMMI e seguir ao menos os seguintes passos[23]:
+MPS.BR[2] (1) Documentar a solicitação da mudança.
+
+(2) Analisar o impacto da mudança.
+CMMI MPS.BR (3) Avaliar a modicação (aprovada ou reprovada).
+Nível 5 Nível A 2.1.3 CM. SP 2.2 Controlar Itens de Configuração. Este indicador
+Nível 4 Nível B orienta que todas as alterações nos itens de conguração sejam
+Nível 3 Níveis C, D e E controlados, com aplicação das seguintes práticas:
+Nível 2 Níveis F e G (1) Controlar as mudanças dos itens de conguração durante
+Nível 1 - a vida útil do produto.
+
+
+
+Avaliação da Maturidade dos Processos de Gerência de Configuração em Projetos Open Source
+
+Tabela 3: Indicadores de Gerência de Conguração de Software
+
+Indicador CMMI MPS.BR OMM
+Identicar itens de conguração. CM.SP 1.1 GCO2 CM-1.1
+
+Estabelecer um sistema de gerenciamento de conguração. CM.SP 1.2 GCO1 e GCO6 CM-1.2
+Criar ou liberar Baselines. CM.SP 1.3 GCO3 CM-1.3
+
+Rastrear solicitações de mudança. CM.SP 2.1 GCO5 CM-2.1
+Controlar Itens de Conguração. CM.SP 2.2 GCO5 CM-2.2
+
+Estabelecer registros de gerenciamento de conguração. CM.SP 3.1 GCO4 CM-3.1
+Realizar auditorias de conguração. CM.SP 3.2 GCO7 CM-3.2
+
+(2) Obter autorização antes de adicionar itens a uma nova Para que uma mudança seja aprovada no GitHub, ela deve percor-
+versão. rer um uxo de seis fases, conforme representado na Figura 2. Esse
+
+(3) Revisar se as mudanças nos itens não causaram algum uxo engloba desde a solicitação da mudança até a sua integração
+impacto negativo nas baselines. com o produto principal [11].
+
+(4) Documentar as alterações realizadas nos itens e seus moti-
+vos.
+
+3 PRÁTICAS DE GCS NO GITHUB
+Atualmente, o GitHub representa uma das mais utilizadas platafor-
+mas de hospedagem de código aberto e colaborativo, sendo utilizada
+por empresas como Google, Airbnb, IBM, entre outras. Esse tipo
+de ferramenta se torna importante no contexto de projetos OSS
+pois possibilita o controle de versões de um produto em desen-
+volvimento e facilita a manutenção de um projeto como um todo,
+supervisionando atividades como Commits e Pull Requests de uma
+possível contribuição. Além disso, a plataforma ainda possibilita
+integração com outras ferramentas de apoio ao desenvolvimento
+como Atom, Circle CI e Slack, fazendo com que haja um ambiente
+favorável para desenvolvimento de uma mudança [3]. Em virtude
+das características citadas acima, este trabalho utilizou projetos
+armazenados no GitHub para realização das avaliações.
+
+A seguir são listados alguns conceitos importantes no contexto
+do GitHub[6]:
+
+• Issue é a documentação de reclamações, sugestões ou ta-
+refas relacionadas ao projeto.
+
+• Commit é uma alteração em item de conguração.
+• Pull Request é a solicitação da integração das mudanças
+
+realizadas na versão atual do sistema.
+• Release é a forma de criar e fornecer versões de software[4].
+
+Uma consideração importante é que os conceitos de baseline e
+release são relativamente parecidos. Uma baseline representa um
+conjunto de itens de conguração que passaram formalmente pelo Figura 2: Fluxo da Mudança do GitHub (Adaptado de [11])
+controle da mudança, sendo que tais itens representam um estado
+do produto em que este já foi devidamente implementado e testado.
+Quando uma baseline é estabelecida, todo o desenvolvimento do As fases do uxo da mudança no GitHub são descritas a seguir:
+produto passa a acontecer com base no itens nela presentes. Já uma (1) Criar um Branch: Para que uma nova mudança seja de-
+release representa um produto, ou parte dele, que será apresentado senvolvida, é necessário que ela esteja em uma ramicação
+ao cliente, ou seja, a release é composta pelos itens de conguração diferente e isolada do ramo do produto principal. Isto acon-
+que serão entregues ao cliente nal[15]. tece porque o desenvolvimento desta mudança pode acar-
+
+Os modelos de maturidade utilizados neste trabalho consideram retar em bugs não só na própria modicação, como também
+baselines para a disponibilização de versões do produto para o cli- em outra parte do produto. Desta forma, uma modicação
+ente. No entanto, como o GitHub trabalha somente com releases[4], é desenvolvida e testada isoladamente, protegendo outras
+este será o conceito usado para avaliação. funcionalidades de um possível impacto.
+
+
+
+L. Santos et al.
+
+(2) Adicionar commits: Com o ambiente inicial devidamente conexão com a internet para considerar que a ferramenta estabelece
+preparado, a mudança é de fato desenvolvida. Para isso, canais de segurança.
+commits são realizados todas as vezes artefatos do projeto Outro trabalho que pode ser citado é o de Petrinja e Succi[18]
+são alterados, criando assim um histórico da mudança. Vale que utiliza como base o modelo OMM para avaliar projetos open
+lembrar que cada commit deve ter uma mensagem clara source. No contexto citado, os autores utilizaram seis projetos para
+o suciente para indicar o que foi alterado, facilitando o realizar o estudo do OMM no universo FLOSS (Free/Libre Open
+entendimento de terceiros sobre o que está sendo desen- Source Software), concluindo que o modelo é aplicável, além de
+volvido. Outra prática interessante é referenciar issues que trazer benefícios, não só para o universo citado como também para
+motivaram a realização de cada commit, porém esta prá- o desenvolvimento de softwares que serão integrados ao universo
+tica não é obrigatória e, portanto, não é tão amplamente FLOSS futuramente. As notas para cada critério são dadas por ava-
+utilizada como deveria. liadores, o que demanda tempo e conhecimento dos mesmos na
+
+(3) Abrir Pull Request: Uma vez que a mudança já tenha sido área.
+devidamente implementada e testada, deve ser solicitado Por m, Khraiwesh [14] apresenta métricas para avaliar o pro-
+um Pull Request. Isto signica que a mudança será aberta cesso de Gerência de Conguração com base no CMMI. O autor
+para que outras pessoas possam visualizar e realizar outros utilizou o modelo GQM (Goal Question Metrics) para avaliar sete
+testes, ou seja, a mudança será validada por outras pessoas práticas de GCS. Para validação das métricas, um questionário foi
+e posteriormente poderá ser aprovada ou não. A aprovação aplicado em seis empresas de desenvolvimento de software, resul-
+de uma requisição pode representar a inclusão desta em tando na coleta de 100 questionários respondidos por programa-
+uma release, entretanto, somente o dono do projeto pode dores, designers e analistas. Para apuração dos resultados de cada
+aprová-la ou não. prática, Khraiwesh [14] utilizou o método Alpha de Cronbach, que
+
+(4) Analisar a alteração: Antes de a requisição de mudança analisa a distribuição dos valores obtidos como resultado e a sua
+ser aceita, esta será revisada por uma pessoa ou time res- conabilidade. Esse método tem como resultado um valor entre 0
+ponsável. Esta revisão tem como objetivo levantar dúvidas, e 1, onde valores abaixo de 0.5 indicam que os itens avaliados são
+inconsistências, falhas ou outros problemas que podem inconsistentes, sendo necessário valores acima de 0.5 para indicar
+ocorrer. Isto é importante porque qualquer bug encontrado que o resultado foi aprovado. Assim, após a análise dos coecientes
+ainda é passível de correção, pois ainda não foi incorporado alpha, percebeu-se que todas as práticas obtiveram resultados acima
+ao produto principal. Vale lembrar que devem ser abertas de 0.698, indicando a aprovação de todas elas.
+issues para qualquer problema encontrado. Neste trabalho, propõe-se a avaliação da maturidade do processo
+
+(5) Enviar para produção: Caso o Pull Request seja aceito, de Gerência de Conguração de projetos open source, por meio de
+ele deve ser enviado para produção separadamente do pro- métricas baseadas nos modelos de maturidade CMMI, MPS.BR e
+duto principal. Isto acontece porque durante a produção OMM. Essas métricas serão denidas quantitativamente e imple-
+podem ser geradas issues, e caso isso ocorra, o processo mentadas de forma automatizada, sem a necessidade de participação
+de produção deve voltar ao produto original. A produção de colaboradores envolvidos nos projetos.
+representa a última vericação em uma mudança antes de
+esta se juntar a uma nova versão do produto principal. 5 ESTUDO COMPARATIVO DA MATURIDADE
+
+(6) Merge realizado: Caso a mudança passe pela produção,
+esta será incorporada (merge) ao produto principal. Vale res- DOS PROCESSOS DE GCS EM PROJETOS
+saltar que independentemente de uma mudança ser aceita, OPEN SOURCE
+esta ainda pode ser revogada posteriormente. Nesta seção, serão apresentadas as denições e implementações
+
+Com base no uxo descrito acima, percebe-se que apesar das das métricas sugeridas, os projetos selecionados para a avaliação, a
+inúmeras funcionalidades, o GitHub não obriga o referenciamento descrição da automatização das medições e, por m, a discussão e
+de uma issue para que uma mudança seja iniciada, o que faz com análise dos resultados.
+que a documentação de tal mudança que incompleta, dicultando
+a rastreabilidade e o gerenciamento da mesma. 5.1 Denição das métricas
+
+Para realizar as medições quantitativas foram propostas métricas
+4 TRABALHOS RELACIONADOS aplicadas automaticamente sobre dados de projetos open source
+Como um trabalho relacionado pode-se citar a pesquisa de da Silva Oli- armazenados no GitHub, sem a necessidade de consulta a especia-
+veira et al. [1], na qual é feita uma análise de ferramentas para o listas da área ou integrantes dos projetos sob análise. Dessa forma,
+controle de versões de software segundo critérios sugeridos pe- existe uma dependência direta dos dados fornecidos pela API de
+los autores, critérios esses baseados no processo de Gerência de acesso à plataforma GitHub, que impacta diretamente o tipo de
+Conguração do MPS.BR-SW. Para realizar tal análise, os autores análises que podem ser realizadas.
+compararam quatro ferramentas de controle de versão e puderam Para cada um dos indicadores selecionados, foi proposta uma
+concluir que o Git foi a que atendeu o maior número de critérios. métrica, com uma fórmula envolvendo os conceitos mencionados
+Porém, alguns critérios estão subjetivos em relação ao esperado dos na Seção 3, conforme ilustra a Tabela 4. Uma consideração a ser
+resultados da GCS e também é feita uma análise comparativa sobre feita é que o símbolo # foi utilizado para representar a cardinalidade
+ferramentas. Um desses critérios, por exemplo, é a vericação da (número de elementos) de um conjunto. As métricas utilizam como
+
+
+
+Avaliação da Maturidade dos Processos de Gerência de Configuração em Projetos Open Source
+
+parâmetro o conceito de release, pois é o implementado no GitHub. de pull request e toda vez que atender a esta condição o contador
+A seguir são apresentadas explicações das métricas. de releases controladas RC é incrementado. Por m, é calculada a
+
+5.1.1 Métrica CM.SP 1.3. Na Subseção 2.1.1 foram listadas as quantidade de releases que são controladas (RC) em relação ao total
+práticas necessárias para atingir o indicador CM.SP 1.3 do CMMI. de releases (RT).
+As práticas (1) e (4) já são atendidas uma vez que as ferramentas de A métrica CM.SP 2.1 é implementada pelo Algoritmo 2, que
+controle de versão são usadas, porque constituem funcionalidades recebe como parâmetro uma lista contendo todos os pull requests
+básicas. Já as práticas (3) e (4) são metricáveis, por isso, a Métrica (PRT). Depois disso, é executada uma iteração que verica para
+CM.SP 1.3 calcula a proporção de releases que são controladas (RC) cada pull se ele referencia pelo menos uma issue. Caso verdadeiro o
+vericando se todos os itens de conguração contidos nas mesmas contador PRI é incrementado. Por m, é calculada a proporção de
+estão sob gerência de conguração. Assim, o intuito é que a métrica pull requests que referenciam uma issue (PRI) em relação ao total
+seja suciente para analisar a proporção de releases que estão de de pull requests.
+acordo com o sistema de gerência de conguração, ou seja, todos
+os itens de conguração que compõe uma baseline estiveram sob Algorithm 2 Métrica CM.SP 2.1
+gerência de conguração por todo o ciclo de vida. 1: procedure metrica2
+
+5.1.2 Métrica CM.SP 2.1. Esta métrica objetiva quanticar a 2: PRT ←Lista de todos Pull Requests
+proporção de solicitações da mudança que são rastreáveis, ou seja, 3: PRI ← 0. Inicializa o contador do número de pull requests
+possuem referências para uma ou mais issues de acordo com o que referenciam issues.
+descrito na Seção 2.1.1. Para isso, são contabilizados todos os pull 4: for pull ← PRT do
+requests que referenciam uma ou mais issues(PRI) e calcula-se a 5: if f azRe f erenciaIssue(pull) = Verdadeiro then
+proporção destes dentre o conjunto total de pull requests (PRT). 6: PRI ← PRI + 1
+
+7: return (PRI/#PRT )
+5.1.3 Métrica CM.SP 2.2. Para que os itens de conguração
+
+sejam considerados sob gerência de conguração, como o detalhado
+na Seção 2.1.3, é necessário que ocorra controle de todas as questões O Algoritmo 3 implementa a métrica CM.SP 2.2 descrita na Seção
+relacionadas a estes itens. Dessa maneira, esta métrica verica a 2.1.3. Inicialmente, recebe-se uma lista de todos pull requests (PRT)
+proporção dos itens de conguração que estão nas releases (CR) e e uma lista dos identicadores (sha) dos commits que compõe todas
+que passaram pelo ciclo completo da mudança (CPRI). as releases (CR). Então, a lista PRT é percorrida e para cada pull
+
+request avalia-se sua aprovação e se o mesmo faz referência a pelo
+5.2 Implementação das métricas menos uma issue. Se atender a estes dois critérios, os identicadores
+
+dos commits do pull request são adicionados à lista CPRI. Logo
+Esta seção apresenta os pseudocódigos das métricas propostas. Inici- após, é calculado o conjunto intersecção (IC) entre as listas CPRI e
+almente, o Algoritmo 1, apresentado a seguir, implementa a métrica CR. Por m, retorna-se a proporção de itens itens de conguração
+CM.SP 1.3. que passaram pelo controle completo da gerência da mudança em
+
+relação ao total de itens que compõe as versões liberadas (releases).
+Algorithm 1 Métrica CM.SP 1.3
+
+1: procedure metrica1 Algorithm 3 Métrica CM.SP 2.2
+2: PRT ← Lista de todos Pull Requests
+3: RT ← Lista de todas Releases 1: procedure metrica3
+4: CPR ← ∅ . Inicializa a lista vazia. 2: PRT ←Lista de todos Pull Requests
+5: RC ← 0 . Inicializa o contador de Releases Controladas. 3: CR ←Lista do Sha dos Commits de todas as Releases
+6: for pull ← PRT do 4: CPRI ← ∅ . Inicializa a lista vazia.
+7: if pull .дetStatus() = Aprovado then 5: for pull ← PRT do
+8: CPR ← pull .дetShaCommits() 6: if pull .дetStatus() = Aprovado then
+9: for release ← 7: if f azRe f erenciaIssue(pull) = Verdadeiro then
+
+RT do
+8: CPRI ← pull .дetShaCommits()
+
+10: if release .дetListaShaCommits() ⊂ CPR then
+11: RC ← RC + 1 9: IC ← CPRI ∩CR
+12: return (RC/#RT ) 10: return (#IC/#CR)
+
+Esse algoritmo recebe como entrada duas listas: a PRT (lista
+contendo Todos os Pull Request) e RT (lista contendo Todas as 5.3 Seleção dos projetos open source
+Releases) de um determinado projeto. É feita uma ltragem dos pull Para a aplicação das métricas, foram selecionados 6 projetos ar-
+requests aprovados da lista PRT e são adicionados sem repetição mazenados no GitHub. Tais projetos abrangem diferentes tipos de
+na lista CPR, incialmente vazia, os identicadores dos commits que proprietários: empresa, governo e comunidade. Esses projetos são
+compõe cada um. Logo após, para cada release da lista RT é feita explicitados a seguir:
+a vericação se os commits da mesma estão contidos na lista CPR, • Brackets Desenvolvido pela Adobe, este projeto provê um
+ou seja, se todos commits da release pertencem à lista de commits editor de código aberto para a web, escrito em JavaScript,
+
+
+
+L. Santos et al.
+
+Tabela 4: Indicadores selecionados de Gerência de Conguração
+
+CMMI Objetivo Métrica Explicação
+CM.SP 1.3 Criar ou liberar Releases (Baselines). M1 = RC/#RT, sendo RC = quantidade de re- Vericar a proporção de releases que são
+
+leases controladas e RT = conjunto de todas controladas.
+as releases.
+
+CM.SP 2.1 Rastrear solicitações de mudança. M2 = PRI/#PRT, sendo PRI = quantidade Vericar a proporção de solicitações da
+pull request que referenciam issues e PRT = mudança que são rastreáveis.
+conjunto de todos pull requests.
+
+CM.SP 2.2 Controlar Itens de Conguração. M3 = #(CPRI inter CR)/#CR, sendo CPRI Vericar a proporção de itens de con-
+= conjunto de commits de todos os pulls guração que passaram pelo ciclo de vida
+aprovados que apontam uma issue e CR = da mudança.
+conjunto de commits de todas as releases.
+
+HTML e CSS. O projeto começou em 2011 e está dispo- fornecidos pela API. Para cada uma delas, foi criado um arquivo
+nível para contribuição, somando-se, até o momento, 358 JSON para ser manipulado na aplicação criada.
+contribuidores[5]. Depois disso, com a aplicação desenvolvida, e de posse de to-
+
+• Material Design Icons Conjunto de ícones de design da dos os dados, as métricas foram aplicadas sobre os mesmos e os
+Google, dona do repositório. Inicializado em 2014, o projeto resultados encontram-se descritos na próxima seção.
+conta com 18 colaboradores, até o momento[7].
+
+• SAPL Consiste em um Sistema de Apoio ao Processo Legis- 5.5 Discussão e Análise dos Resultados
+lativo que começou em 2015 e conta com 20 colaboradores. Os resultados das métricas aplicadas nos processos dos projetos
+O proprietário do repositório é o Interlegis, Programa de selecionados são apresentados na Tabela 5. As colunas estão dividi-
+Modernização do Legislativo Brasileiro[8]. das em Dados Brutos, Dados Processados e Resultado das Métricas,
+
+• SciELO-Manager Projeto de uma ferramenta de gerencia- que por sua vez, são subdivididas em:
+mento para catalogação de periódicos e artigos, disponível • Dados Brutos:
+em um modelo SaaS (Software as a Service). Atua como – #IT - cardinalidade do conjunto que contém Todas as
+um backbone central de metadados para todos os sistemas Issues;
+e serviços do SciELO (Scientic Electronic Library Online), – #CT - cardinalidade do conjunto que contém Todos
+programa responsável pelo projeto. O desenvolvimento do os Commits;
+SciELO-Manager começou em 2011 e ainda está aberto para – #PRT - cardinalidade do conjunto que contém Todos
+contribuições, possuindo, até o momento, 9 contribuidores os Pull Requests;
+[9]. – #RT - cardinalidade do conjunto que contém Todas as
+
+• Streama Este projeto é um servidor de streaming de mídia Releases.
+auto hospedado que conta com 54 colaboradores. O Strema • Dados Processados:
+está disponibilizado para contribuição desde 2015[10]. – PRI - Quantidade de Pull Requests que referenciam
+
+• Windows Community Toolkit É uma coleção de funções au- Issues;
+xiliares, controles personalizados e serviços de aplicativos. – #CPR - cardinalidade do conjunto que contém Todos
+Ela simplica e demonstra tarefas comuns do desenvol- os Commits dos Pull Requests aprovados;
+vedor, criando aplicativos UWP (Universal Windows Plat- – #CPRI - cardinalidade do conjunto que contém Todos
+form) para o Windows 10. Este projeto começou em 2016, os Commits dos Pull Requests aprovados que referen-
+somando neste período, 178 contribuidores[12]. ciam Issues;
+
+– #CR - cardinalidade do conjunto que contém Todos
+5.4 Automatização das medições os Commits das Releases.
+Para automatização das métricas, foi desenvolvida uma aplicação na • Resultado das Métricas:
+linguagem Java que utiliza a API GitHub para realizar as conexões – M1 - Resultado da Métrica CM.SP 1.3;
+com os repositórios de software. Uma das diculdades de imple- – M2 - Resultado da Métrica CM.SP 2.1;
+mentação foi a deciência da API do GitHub em fornecer alguns – M3 - Resultado da Métrica CM.SP 2.2.
+dados. Assim, algumas das informações necessárias foram baixadas Com os resultados obtidos, é possível perceber que a maioria dos
+por linha de comando. Isto será melhor explicado a seguir. valores para as métricas foi 0.00%, que representa um valor muito
+
+Uma das informações necessárias para a realização desta pes- preocupante do ponto de vista das recomendações dos modelos
+quisa são os dados referentes às releases. Entretanto, a API não de maturidade para os processos de Gerência de Conguração de
+coleta a lista de commits que compõe uma release. Por este motivo, Software. Na Figura 3, apresenta-se a proporção de processos em
+um script foi criado para realizar o download de cada uma das re- projetos cujo resultado atingiu valores não nulos para cada métrica,
+leases através de linha de comando, a partir dos nomes que são ou seja, processos que apresentaram algum nível de maturidade.
+
+
+
+Avaliação da Maturidade dos Processos de Gerência de Configuração em Projetos Open Source
+
+Tabela 5: Informações dos 6 projetos e resultados obtidos para cada uma das métricas.
+
+Projeto Dados Brutos Dados Processados Resultado das Métricas
+#IT #CT #PRT #RT PRI #CPR #CPRI #CR M1 M2 M3
+
+Brackets 9141 17701 5423 110 586 16894 1239 261 0.00% ≈ 10.81% ≈ 4.60%
+Material Design Icons 774 124 91 16 8 37 0 117 0.00% ≈ 8.79% 0.00%
+
+SAPL 1609 4369 796 140 498 2638 1926 285 0.00% ≈ 62.56% ≈ 0.70%
+SciELO-Manager 496 2853 937 87 161 2818 241 250 ≈ 1.15% ≈ 17.18% 7.20%
+
+Streama 557 1406 140 50 18 1100 249 250 0.00% ≈ 12.86% 34.00%
+Windows Community Toolkit 1466 8278 1218 23 67 9128 156 250 0.00% ≈ 5.50% 0.00%
+
+melhor deles recebeu nota 34%. Isto mostra que grande parte dos
+itens de conguração dos projetos não passam por todo o ciclo da
+GCS, não sendo possível rastrear as mudanças ocorridas de forma
+completa.
+
+Na Figura 4, tem-se um gráco do nível de maturidade do pro-
+cesso de desenvolvimento para cada um dos 6 projetos avaliados.
+Nela é possível observar que o SAPL é o projeto que destaca dos
+demais, porém ele só obteve este resultado por causa do resultado
+no indicador CM.SP 2.1 (M2 no gráco), já que para os outros indi-
+cadores ele não conseguiu alcançar o mesmo nível. Por outro lado,
+o projeto Windows Community Toolkit foi o pior avaliado em todas
+as métricas. Este resultado pode ser explicado pelo fato de que os
+colaboradores são incentivados a utilizar o Stack Overow caso
+tenham dúvidas.
+
+Figura 3: Proporção de resultados acima de 0% para cada uma
+das métricas.
+
+Na Figura 3, é possível vericar que a Métrica CM.SP 1.3 (M1),
+que calcula a proporção de baselines que são controladas, obteve
+os piores resultados, sendo que somente o projeto SciELO-Manager
+não apresentou resultados nulos. Ainda assim, o processo desse
+projeto alcançou 1.15% de maturidade para o indicador CM.SP 1.3,
+ou seja, apenas 1 (uma) das 87 releases estava sob gerência de con-
+guração. Isso se deve ao fato de que para ser considerada controlada,
+uma release deve ter todos os itens controlados (commits). Assim,
+se ao menos um único item não for controlado, a release não é
+contabilizada como controlada.
+
+Já a métrica CM.SP 2.1 (M2) obteve 100% dos resultados não Figura 4: Nível de maturidade dos processos de 6 projetos
+nulos. Assim, podemos perceber que a prática de referenciar issues open source para os indicadores estudados.
+nos pull requests é a mais adotada, apesar de ainda car aquém do
+recomendado. Somente o SAPL atingiu um resultado satisfatório,
+cerca de 63% de maturidade no indicador CM.SP 2.1. Um dos fatores Um fator que pode ser responsável pelos resultados obtidos é o
+possíveis para este resultado é que na descrição do projeto uma das forte relacionamento dos indicadores selecionados. Ou seja, caso
+práticas sugeridas é a de solicitar pull request somente após a criação não seja possível realizar a rastreabilidade da mudança pela falta
+de uma issue. Como a Métrica CM.SP 2.1 avalia a quantidade de pull de documentação (CM.SP 2.1), os itens de conguração não serão
+requests que referenciam pelo menos uma issue e os contribuidores considerados controlados (CM.SP 2.2) e, por consequência, as relea-
+do projeto são encorajados a seguir esta prática, o projeto atingiu ses não serão consideradas controlas (CM.SP 1.3). Em razão disso,
+resultados satisfatórios. as métricas são diretamente impactadas, pois se os pull requests
+
+Outra prática ausente nos processos dos projetos avaliados é aprovados não referenciam issues (M2), isso reduz o conjunto de
+a gerência dos itens de conguração. Pode-se perceber isso com commits que podem ser avaliados na Métrica CM.SP 2.2 (M3). Por
+o resultado da Métrica CM.SP 2.2 (M3), pois apesar de, aproxima- consequência, o número de releases totalmente controladas (M1) é
+damente, 66.67% dos projetos terem obtido resultados positivos, o também reduzido.
+
+
+
+L. Santos et al.
+
+6 CONCLUSÃO E TRABALHOS FUTUROS [13] CMMI Institute. 2018. Instituto CMMI - Modelos pré-denidos -
+
+O objetivo deste artigo foi avaliar a maturidade dos processos de níveis de maturidade e capacidade. Retrieved Nov 11, 2018
+from https://cmmiinstitute.com/products/cmmi/cmmi-v2-products/appendices/
+
+Gerência de Conguração por meio de métricas quantitativas ba- predened-model-views-maturity-and-capability-l
+seadas nos modelos de maturidade CMMI, MPS.BR e OMM. As [14] Mahmoud Khraiwesh. 2017. Conguration Management Measures in CMMI.
+
+International Journal of Applied Engineering Research 12, 18 (2017), 7546–7557.
+métricas foram aplicadas para se avaliar dados de 6 projetos open [15] Alexis Leon. 2015. Software conguration management handbook. Artech House.
+source armazenados no GitHub. [16] Etiel Petrinja, Ranga Nambakam, and Alberto Sillitti. 2009. Introducing the
+
+No geral, os resultados obtidos mostraram que o processo de opensource maturity model. In Proceedings of the 2009 ICSE workshop on emerging
+trends in free/libre/open source software research and development. IEEE Computer
+
+desenvolvimento do GitHub deixa a responsabilidade de praticar a Society, 37–41.
+GCS nas mãos dos colaboradores. Em razão disso, as amarrações [17] Etiel Petrinja, Alberto Sillitti, and Giancarlo Succi. 2010. Comparing OpenBRR,
+
+fracas entre as solicitações das mudanças e as documentações dos QSOS, and OMM assessment models. In IFIP International Conference on Open
+Source Systems. Springer, 224–238.
+
+itens de conguração impactam diretamente nos resultados dos [18] Etiel Petrinja and Giancarlo Succi. 2012. Assessing the Open Source Development
+projetos. Isso porque, a falta de um controle mais rígido, no que Processes Using OMM. Advances in Software Engineering 2012 (2012), 1–17.
+
+https://doi.org/10.1155/2012/235392
+compete ao ciclo de vida da mudança, diculta, ou até impossibilita, [19] Qualipso. 2018. OMM. Retrieved Nov 07, 2018 from http://qualipso.icmc.usp.br/
+a rastreabilidade da mudança do código fonte. OMM/
+
+Em virtude dos fatos mencionados, percebe-se que com peque- [20] Risto Salo, Timo Poranen, and Zheying Zhang. 2015. Requirements management
+in GitHub with a lean approach.. In SPLST. 164–178.
+
+nas mudanças no processo do GitHub o processo de GCS poderia [21] Softex 2018. Guias – Softex. Retrieved Nov 01, 2018 from https://www.softex.
+ser melhor controlado. Com a adição de um campo obrigatório br/mpsbr/guias/#toggle-id-7
+
+para referenciamento de pelo menos uma issue durante a criação [22] Ian SOMMERVILLE. 2011. Engenharia de Software (9nd ed.). Vol. I. Pearson
+Prentice Hall, São Paulo, BR.
+
+de um commit, por exemplo, já seria suciente para melhorar a [23] T View. 2005. IEEE Standard for Software Conguration Management Plans.
+rastreabilidade da mudança. IEEE Std 2005 (2005), 1–19.
+
+[24] wibas 2018. CMMI. Retrieved Nov 01, 2018 from ttps://www.wibas.com/cmmi/
+Como trabalhos futuros, sugere-se uma análise considerando um [25] wibas 2018. Conguration Management (CM) (CMMI-DEV).
+
+maior número de projetos com características distintas, tais como: Retrieved Nov 01, 2018 from ttps://www.wibas.com/cmmi/
+maior número de colaboradores, mais populares, com diferentes conguration-management-cm-cmmi-dev
+
+tipos de donos dos repositórios (empresa privada, governo, comu-
+nidade, entre outros), para que se possa analisar os impactos dessas
+características na maturidade dos processos praticados. Outra possi-
+bilidade de trabalho futuro seria avaliar dados de outra ferramenta
+de controle de versão e comparar os resultados com os obtidos para
+o GitHub. Dessa forma, seria possível analisar a inuência do uxo
+de trabalho das ferramentas na maturidade dos processos adotados.
+
+REFERÊNCIAS
+[1] Danne da Silva Oliveira, Heitor Costa, and Paulo Afonso Parreira Júnior. 2016.
+
+Análise de Ferramentas para Controle de Versões de Software no Contexto do
+MPS. BR. I Workshop sobre Aspectos Sociais, Humanos e Econômicos de Software
+(WASHES 2016) (2016).
+
+[2] W. F. FERREIRA. 2009. MPS.BR – um estudo do modelo MPS.BR como benefício
+para as pequenas e médias empresas. Retrieved Dez 12, 2018 from http://www.
+softwarepublico.gov.br/le/17234990/MONOGRAFIA_WILKER_-_MPS.BR.pdf
+
+[3] GitHub. 2018. Build software better, together. Retrieved Nov 11, 2018] from
+https://github.com
+
+[4] GitHub Inc. 2018. About Releases - User Documentation. Retrieved Nov 07,
+2018 from https://help.github.com/articles/about-releases/
+
+[5] GitHub Inc. 2018. adobe/brackets: An open source code editor for the web,
+written in JavaScript, HTML and CSS. Retrieved Nov 28, 2018 from https:
+//github.com/adobe/brackets
+
+[6] GitHub Inc. 2018. GitHub Glossary - User Documentation. Retrieved Nov 07,
+2018 from https://help.github.com/articles/github-glossary/
+
+[7] GitHub Inc. 2018. google/material-design-icons: Material Design icons by Google.
+Retrieved Nov 28, 2018 from https://github.com/google/material-design-icons
+
+[8] GitHub Inc. 2018. interlegis/sapl: Sistema de Apoio ao Processo Legislativo.
+Retrieved Nov 11, 2018 from https://github.com/interlegis/sapl
+
+[9] GitHub Inc. 2018. scieloorg/scielo-manager: Management tool for cataloging
+journals and articles, available in a SaaS model. It acts as a central metadata
+backbone for all the systems and services of SciELO. Retrieved Nov 28, 2018
+from https://github.com/scieloorg/scielo-manager
+
+[10] GitHub Inc. 2018. streamaserver/streama: Self hosted streaming media server.
+Retrieved Nov 28, 2018 from https://github.com/streamaserver/streama
+
+[11] GitHub Inc. 2018. Understanding the GitHub ow · GitHub Guides. Retrieved
+Nov 11, 2018] from https://guides.github.com/introduction/ow
+
+[12] GitHub Inc. 2018. windows-toolkit/WindowsCommunityToolkit: The Windows
+Community Toolkit is a collection of helper functions, custom controls, and app
+services. It simplies and demonstrates common developer tasks building UWP
+apps for Windows 10. The toolkit is part of the .NET Foundation. Retrieved Nov
+28, 2018 from https://github.com/windows-toolkit/WindowsCommunityToolkit

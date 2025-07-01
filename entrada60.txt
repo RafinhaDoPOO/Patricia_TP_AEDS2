@@ -1,0 +1,430 @@
+﻿Uma Ferramenta para Análise Exploratória de Dados da
+Transparência Municipal
+
+Jose Diego Alves Duarte Fabrício Aguiar Silva
+Instituto de Ciências Exatas e Tecnológicas Instituto de Ciências Exatas e Tecnológicas
+
+Universidade Federal de Viçosa Universidade Federal de Viçosa
+Florestal, Brasil Florestal, Brasil
+
+jose.diego@ufv.br fabricio.asilva@ufv.br
+
+RESUMO No Brasil, existe uma lei que define como os dados públicos
+
+Após a criação da Lei de Acesso à Informação, todas as in- devem ser abordados. A Lei no 12.527/2011 - Lei de Acesso
+
+formações produzidas pelos órgãos públicos se tornaram dis- à Informação (LAI) (1) define normas referentes aos gastos
+
+pońıveis publicamente, e desta maneira acesśıveis a todos os públicos da União, dos Estados, dos Munićıpios e do Distrito
+
+cidadãos, salvo aquelas que são sigilosas. Mesmo estando aces- Federal. Nela se define que as informações devem ser dis-
+
+śıveis, isto não significa que estão dispońıveis facilmente em ponibilizadas em meios eletrônicos de forma detalhada para
+
+um formato amigável, ou seja, um formato em que o cida- simples aferição, com livre acesso por qualquer cidadão. Ou
+
+dão comum ao acessá-las possa efetuar uma fácil leitura das seja, é dever da unidade pública divulgar os seus dados.
+
+informações. Com essa Lei, através dos meios eletrônicos criados pelas
+
+O presente trabalho propõe uma solução para a má disponi- instituições públicas, os cidadãos poderiam acessar os dados
+
+bilização dos dados, através de um sistema web que tem como e aferir, analisar e tirar informações a partir dos mesmos. No
+
+objetivo fornecer informações de transparência municipal re- entanto, o que se vê é uma grande quantidade de dados dis-
+
+levantes e de fácil acesso aos usuários. Utilizando as técnicas postos em grupos confusos, que deixa a análise complexa para
+
+de Ciência dos Dados, o sistema desenvolvido é capaz de exi- um cidadão comum. Além disso, seria necessário verificar in-
+
+bir ao usuário informações de múltiplas cidades, formatadas dividualmente os gastos gerados, como também realizar as
+
+de maneira mais objetiva, gerando diversas estruturas como operações necessárias sobre eles. A próxima etapa seria re-
+
+gráficos e relatórios que auxiliam na identificação de posśıveis gistrar todas as informações coletadas, para então, após todo
+
+anomalias relacionadas aos gastos públicos, procedente destas esse esforço, verificar posśıveis anomalias ou posśıveis fraudes.
+
+cidades. Nos sistemas informados anteriormente criados pelas pró-
+prias entidades públicas de forma isolada, foram encontra-
+dos vários dados com formatação própria de cada entidade
+
+Palavras-Chave em questão, pois cada uma define como irá dispor os dados.
+
+Análise de Dados; Anomalias; Transparência Municipal; Assim, muitas divergências foram encontradas entre os mais
+diferentes tipos de portais, o que ocorre com frequência no
+âmbito municipal, já que cada munićıpio é responsável pela
+
+ABSTRACT contratação de empresas para desenvolver o sistema, além de
+After the creation of the Law on Access to Information, all alimentar o banco de dados em questão.
+
+information produced by public entities has become public, O objetivo deste trabalho é desenvolver um sistema Web
+and thus accessible to all citizens, except those that are con- que auxilie os cidadãos na coleta e análise de dados de trans-
+fidential. Even though, this does not mean that it is easily parência municipal. Assim ele auxilia a toda a população,
+available in a user-friendly format, that is, a format in which deixando os gastos públicos mais fáceis de serem entendidos.
+ordinary citizens can easily read the information when they Além disso, através dele será posśıvel reivindicar seus direitos
+access it. e cobrar melhorias nos investimentos públicos, dever de todo
+
+This paper proposes a solution for poor data availability cidadão. Outro ponto é que desta forma, os próprios órgãos
+through a web system that aims to provide relevant munici- públicos se beneficiarão, pois teriam ajuda da população a fim
+pal transparency information and easy access to users. Using de aprimorar o uso dos recursos públicos, além de possúırem
+Data Science techniques, the developed system is able to dis- um sistema eficiente de disponibilização de seus gastos.
+play to the user information from multiple cities formatted in Este texto está organizado da seguinte forma: na Seção 2
+a more objective manner, generating various structures such serão tratados os trabalhos relacionados, os quais utilizaram
+as graphs and reports that help in the identification of pos- fundamentos teóricos semelhantes; na Seção 3 será apresen-
+sible anomalies related to public expenditure, coming from tado o sistema desenvolvido, com uma explicação sobre sua
+these cities. arquitetura e os detalhes do mesmo; na Seção 4 será abordado
+
+o caso de estudo prático de 3 cidades: Pará de Minas, Viçosa
+e São Gonçalo do Rio Abaixo; na Seção 5 são apresentadas a
+
+Keywords conclusão e trabalhos futuros.
+Data Analysis. Anomalies. Transparency. Multiple Cities.
+
+2. TRABALHOS RELACIONADOS
+1. INTRODUÇÃO Atualmente tem ocorrido um crescente interesse por parte
+
+
+
+dos cidadãos a respeito dos gastos públicos, devido a quanti-
+dade de casos referentes a desvios, ou seja, formas iĺıcitas de
+apropriação de bens públicos, comumente feitos por alguns
+governantes de nosso páıs. Mesmo neste cenário, há ainda
+poucos trabalhos relacionados no Brasil, que utilizam tecno-
+logia da informação para análise automática dos dados de
+gestão pública.
+
+Podemos citar nesta frente o trabalho realizado no TCC de
+um dos alunos (2) da Universidade Federal de Viçosa, campus
+florestal, no ano de 2017, que tratou de analisar e apresentar
+informações aos cidadãos sobre os gastos públicos referentes
+a cidade de Pará de Minas -MG. Este apenas envolvia uma Figura 1: Arquitetura do sistema.
+cidade, além de fornecer as informações ainda de uma ma-
+neira restritiva, mas desencadeou a motivação para avançar
+neste projeto e desenvolver um sistema que será descrito neste gasto público corrente lançado pelos seus gestores. Os gastos
+trabalho que possibilitou que várias prefeituras pudessem se são disponibilizados, comumente, em uma ou mais tabelas,
+aderir, além de fornecer várias novas funcionalidades. com suas especificações conforme a lei de acesso à informa-
+
+Um dos trabalhos mais conhecido seria a Operação Sere- ção. Esses gastos são geralmente classificados em diferentes
+nata de Amor (3) que, por meio dos reembolsos efetuados grupos, como por exemplo Funções: são consideradas funções
+por parlamentares (verbas destinadas a transporte, alimen- saúde, educação, administração, segurança pública, entre ou-
+tação, etc), constrói uma grande base de dados, que então é tros; Sub-Funções envolve dados em um escopo mais espećıfico
+analisada utilizando conceitos de Ciência de Dados. Os dados como: comunicação social, policiamento, defesa civil, atenção
+são fornecidos pela Câmara dos Deputados, Receita Federal, básica e dezenas de outros; Órgãos, neste grupo temos classifi-
+entre outros, lembrando que o acesso a essas informações são cações mais espećıficas como no item anterior, como: gabinete
+garantidas por lei. O trabalho é realizado por um grupo de do prefeito, procuradoria geral do munićıpio e dezenas de ou-
+pessoas espalhados pelo Brasil e em outros páıses, com acesso tros.
+remoto ao código. O sistema tem o código fonte aberto para Além de fornecer os dados como acima citados, as empresas
+quem quiser contribuir. responsáveis pelos portais de transparência geralmente dispo-
+
+Relacionado à disponibilização dos dados, um trabalho im- nibilizam uma API para que usuários possam coletar os dados
+portante que podemos citar é o do projeto Brasil.IO (4), que de forma mais automática. Este trabalho utiliza essas API’s
+oferece ferramentas como API’s com os quais os dados podem para a coleta e produção de informação ao usuário final. Elas
+serem adquiridos de uma maneira centralizada e eficiente para facilitam a aquisição e apresentam um padrão na estruturação
+análise posterior como feitas na Operação Serenata de Amor. dos dados, o que proporciona desta maneira gerar informações
+Pois a etapa de coleta dos dados pode ser bem trabalhosa, e a de uma forma mais eficiente a partir deles.
+possibilidade de ter uma ferramenta que fornece esses dados 3.1.2 Preparação dos Dados
+já formatados, de modo a serem usados por aplicações para
+levar informação ao usuário final são de grande valor para os Outro ponto importante é a formatação das informações co-
+projetos que a utilizam de modo que os tornam mais produ- letadas para o padrão brasileiro, informações estas como da-
+tivos, já que uma das etapas do desenvolvimento do sistema tas no padrão dd/mm/aa, como também valores monetários,
+já estará facilmente acesśıvel. que no banco de dados geralmente é usado no padrão ameri-
+
+Outro trabalho interessante a se destacar também é o cha- cano. Dessa forma, conseguimos uma padronização do banco
+mado “Cuidando do Meu Bairro” (3), que utilizando dados de dados, deixando-o flex́ıvel para qualquer outra prefeitura
+como os já mencionados anteriormente, integrado com servi- desejada.
+ços de geolocalização, possibilita que cada pessoa possa veri-
+ficar determinados serviços em tempo real, e reivindicar pos- 3.1.3 Banco de Dados
+śıveis atrasos ou superfaturamentos. Fica evidente a sensibi- Ao que se refere a persistência de dados, a Figura 2 re-
+lidade do projeto frente ao ńıvel de detalhamento necessário presenta a modelagem ultilizada para armazenar os tipos de
+para um bom entendimento dos dados. despesa pública municipal. O modelo é composto por cinco
+
+Diferente dos projetos existentes, o presente trabalho trata tabelas que representam as principais entidades envolvidas:
+de analisar dados de transparência municipal de várias cida-
+des, identificando anomalias nos gastos e comparando uma 1. Favorecido: se refere à pessoa f́ısica ou juŕıdica que for-
+cidade com outras. Até o momento, não foram encontrados nece algum tipo de bem ou serviço para a instituição
+projetos com foco em transparência municipal. pública. Quanto aos metadados temos o nome, CPF e
+
+cargo ao se tratar de pessoas f́ısicas, e nome de fantasia
+
+3. O SISTEMA e CNPJ caso seja pessoa juŕıdica.
+
+2. Empenho: refere-se a um acordo assumido entre a pre-
+3.1 Arquitetura feitura e um favorecido ou fornecedor. Representa a
+
+Na Figura 1 podemos analisar o comportamento geral do oficialização de um contrato vigente, garantindo um dé-
+sistema desenvolvido. Logo em seguida é descrita uma expli- bito que deve ser pago, mediante o cumprimento de um
+cação sobre suas funcionalidades. acordo válido. Cada empenho possui um identificador
+
+único que o representa, sendo esta então a primeira fase
+3.1.1 Portais da Transparência de uma despesa pública. Outros atributos que pode-
+
+O portal de transparência de um munićıpio possui todo mos citar encontrados no Empenho são: Órgãos, que se
+
+
+
+Este componente é responsável por analisar os dados ar-
+mazenados. Para isso, foram elaboradas consultas SQL com
+o intuito espećıfico de análise de despesas, como por exem-
+plo gasto mensal da prefeitura, que podem ser detalhados na
+forma gráfica ou na forma de Relatórios Espećıficos. O prin-
+cipal foco desse componente é selecionar e agrupar parte dos
+dados já preparados e armazenados, os quais possuem carac-
+teŕısticas ou atributos em comum. Com base nessas consultas,
+é posśıvel gerar as informações já mencionadas da melhor ma-
+neira posśıvel de serem apresentadas ao usuário.
+
+Outro item importante a se destacar que podemos encon-
+trar também nesta etapa é a detecção de anomalias que foi
+empregada no sistema para auxiliar aos usuários na detec-
+ção de problemas, indicando posśıveis fraudes. Nos gráficos,
+anomalias são destacadas dos demais valores, para facilitar o
+entendimento do usuário.
+
+Anomalias, são valores que não se adequam ao comporta-
+mento padrão, ou seja, o comportamento esperado do con-
+junto de dados. No contexto deste trabalho, uma anomalia
+é um gasto excessivo em algum item das despesas públicas,
+que pode indicar algum problema ou fraude. As técnicas en-
+contradas na literatura podem serem classificadas em 3, que
+são:
+
+1. Supervisionada: Nesta classificação, um grupo de dados
+
+Figura 2: Modelo Relacional do Banco de Dados uti- é coletado compondo um conjunto para treinamento, de
+
+lizado. forma que posteriormente tais dados sejam rotulados em
+classes espećıficas. Logo depois, cria-se um modelo que
+aprende a classificar dados de acordo com os elementos
+
+refere a dezenas de departamentos que podemos encon- que foram utilizados na fase de treinamento.
+trar dentro de uma instituição pública; e Projetos que
+
+2. Semi-Supervisionada: Também requer uma fase de trei-
+são trabalhos realizados ao longo do tempo envolvendo
+
+namento, mas no entanto o conjunto de treinamento
+as divisões citadas.
+
+contém somente registros normais. Um registro é rotu-
+3. Pagamento: esta tabela se refere ao pagamento efetivado lado como anômalo se o mesmo se distanciar do modelo
+
+por parte da prefeitura ou outro órgão público. Estes normal aprendido.
+podem ocorrer em parcelas que devem totalizar o valor 3. Não-Supervisonada: Já nesta classificação os conheci-
+acordado ou em um pagamento integral. mentos a priori gerados em um grupo de treinamento
+
+4. Cliente: esta tabela faz menção a todas as cidades abor- não existem. Logo o objetivo dessa categoria é desco-
+
+dadas pelo sistema, contendo o identificador da cidade, brir um padrão impĺıcito em um conjunto de dados não
+
+juntamente com o seu respectivo nome. Essa tabela per- rotulados.
+
+mite que o sistema seja utilizado por múltiplas cidades, Neste trabalho, a técnica utilizada para a detecção de ano-
+aumentando assim sua abrangência e contribuição. malias foi a de Desvio Padrão, que tenta encontrar um padrão
+
+no conjunto de dados analisado. Esta é uma maneira de clas-
+5. População: refere-se a todos os munićıpios mineiros e
+
+sificar os dados em dois conhecidos grupos: de dados normais
+suas respectivas populações estimadas. A partir delas
+
+e dados anômalos, ela é uma técnica estat́ıstica largamente
+análises mais detalhadas comparando os diversos muni-
+
+utilizada. Esse método julga como anomalia todos os dados
+ćıpios podem ser feitas. Todas informações nelas conti-
+
+fora do intervalo definido por:
+das vem de fontes do IBGE-Instituto Brasileiro de Ge-
+ografia e Estat́ıstica (5). Um dos problemas enfrenta-
+
+I = x̄± 2SD
+dos é que o IBGE não utiliza os mesmos códigos que
+as API’s citadas anteriormente para referenciar os mu- Onde x̄ representa a média da amostra dos dados e SD é o
+nićıpios. Este problema foi resolvido na aplicação, que desvio padrão.
+logo após o usuario, ou seja, o cidadão comum entrar
+com os dados o sistema busca na coluna que faz menção 3.1.5 Portal Web
+ao nome da cidade e recupera a sua população a partir Por fim, já com os dados armazenados e com todas as infor-
+desta tupla. Logo, o objetivo dessa tabela é permitir mações geradas a partir desses dados, essas informações são
+uma análise relativa de despesas em termos das popula- disponibilizadas de forma clara e de fácil compreensão, em
+ções de diferentes cidades. Ou seja, é posśıvel verificar um portal Web. O portal foi desenvolvido utilizando a lingua-
+se uma cidade espećıfica está investindo muito ou pouco gem de programação Python (6), que oferece diversos recursos
+em saúde por habitante, em relação às outras cidades. para se trabalhar com análise de dados. O framework para
+
+aplicações Web Django (7) foi ultilizado para criar o sistema,
+3.1.4 Processamentos dos Dados este escolhido por fornecer uma ótima base para estruturação
+
+
+
+do projeto, além de diversos outros recursos. Por meio dos Os gráficos gerados servem como apoio para analisar, por
+gráficos e da técnica de detecção de anomalias empregada, o exemplo, onde estão os maiores gastos da prefeitura, onde po-
+usuário pode visualizar de forma amigável as despesas agru- deria existir uma otimização nos gastos públicos como tam-
+padas por diferentes órgãos, funções, sub-funções, favorecidos, bém observar posśıveis discrepâncias, que podem assinalar al-
+dentre outros. Além disso, é posśıvel visualizar anomalias de- gum gasto indevido.
+tectadas de forma fácil nos gráficos. Para gerar esses gráficos no componente Web, foi reali-
+
+Por fim, também é posśıvel visualizar despesas em termos zado agrupamento de cada atributo relevante para o sistema,
+de número de habitantes, comparativamente a outros munićı- sendo: Órgão, Função, Sub-Função, Projeto, Elemento e Diá-
+pios. Existem também relatórios espećıficos, com dados mais rias.
+detalhados, que possibilitam uma busca exata da informação Como podemos ver na Figura 4, os gráficos gerados pelo
+através do campo de busca, além da ordenação da informação sistema possibilitam a maior análise sobre os dados. Estas
+como o usuário achar mais relevante. informações se apresentam no gráfico ao longo dos meses do
+
+O principal objetivo desse componente é que qualquer pes- ano no eixo-x e os respectivos valores em reais no eixo-y como
+soa, vinculada ou não ao projeto, possa analisar os gráficos e mostra o balão de informação. Há uma distinção de cores
+os relatórios dispońıveis, e assim contribuir com a gestão do para melhor visualização e botões acima nos gráficos com o
+uso dos recursos públicos da prefeitura em questão. qual o usuário pode selecionar os atributos que deseja ver ou
+
+não no momento.
+
+4. ESTUDO DE CASO
+4.1 Municípios
+
+Os Portais de Transparência utilizados como caso de estudo
+desse trabalho foram os de Pará de Minas, Viçosa e de São
+Gonçalo do Rio Abaixo, todas cidades situadas no estado de
+Minas Gerais.
+
+As três cidades possuem uma boa estrutura dos dados dis-
+ponibilizados, além de possuirem um bom ńıvel de detalha-
+mento, conforme a Lei de acesso à informação. Foi consi-
+derado o peŕıodo de 01/01/2017 a 31/12/2017 para gerar as
+informações necessárias.
+
+4.2 Interface Inicial
+O sistema conta com uma interface inicial onde através do
+
+botão Cidades, o usuário será direcionado para uma lista de Figura 4: Gráfico de agrupamento individualmente
+cidade cadastradas e no campo de busca o usuário pode pes- por Função.
+quisar pela cidade de interesse. Após escolhida a cidade, o
+sistema é redirecionado para a página da cidade selecionada Na Figura 5, ainda na primeira página do Dashboard, po-
+de onde o usuário pode acessar, através do botão Informações, dem ser encontrados também agrupamentos mensais das ou-
+o Dashboard contendo as mais diversas informações como grá- tras diversas informações que constitui em a esfera dos gastos
+ficos e relatórios espećıficos para a análise das principais in- públicos, como nos gráficos mostrados na figura em questão.
+formações relevantes, além de destaques para as anomalias Neles podemos ver quatro das diversas funções encontradas
+encontradas. Na Figura 3 podemos ver a interface do Dash- na esfera pública.
+board.
+
+Figura 3: Imagem do Dashboard.
+
+Figura 5: Gráfico de agrupamento individualmente
+4.3 Gráficos Gerados por Função.
+
+
+
+Ao longo do Dashboard, podemos encontrar também a aba alternativa encontrada foi a utilização de Relatórios Espećıfi-
+gráficos, onde são disponibilizados outros gráficos espećıficos, cos com os dados dos quais os gráficos foram gerados de forma
+englobando dados desde funções, sub-funções, órgãos, proje- a complementar as informações finais expostas aos usuários.
+tos, elementos e diárias. Na aba gráficos, importantes gráficos Esses relatórios possuem, individualmente, dados mais pontu-
+encontrados são os que comparam as informações da cidade ais, com um objetivo especıfico. Dessa forma, o usuário está
+atual com as demais cidades, destacando entre elas a cidade livre para escolher a melhor maneira de visualizar as informa-
+com maior e menor investimento por habitante nas respecti- ções, sendo a forma que o atenda melhor.
+vas funções, tudo isso possibilitando uma melhor análise de
+informações por parte do usuário, como é mostrado na Figura
+6.
+
+Figura 8: Relatório Espećıfico, com agrupamento por
+Sub-Funções.
+
+Figura 6: Gráfico de agrupamento por Função, que
+compara a cidade atual com as demais, nesta imagem Como podemos ver na Figura 8, os relatórios possibilitam
+temos a Função Saúde. uma melhor análise das informações. Os relatórios utiliza-
+
+dos no sistema trazem paginação que possibilita uma visão
+A Figura 7 mostra um gráfico dos 20 projetos com maiores mais compacta das informações onde o usuário pode escolher
+
+investimentos. A decisão foi tomada devido ao grande volume a quantidade de dados a serem mostrados de maneira que o
+de projetos que podem estar em atividade, e a importância de melhor agrada.
+se destacar os que mais recebem recursos. O mesmo ocorre Nos relatórios também é posśıvel a ordenação das informa-
+para o gráfico de diárias dispońıvel no sistema. ções através dos botões sobre cada coluna do relatório, além
+
+de outro grande ponto que é a busca de informações através
+do campo de pesquisa, que é uma poderosa funcionalidade
+para trazer a informação exata a qual ele procura, de uma
+forma eficaz e rápida.
+
+Na Figura 9 podemos ver o relatório de Elementos ordenado
+pela coluna Total de forma crescente.
+
+E finalmente a Figura 10 nos mostra o relatório Diárias da
+cidade de São Gonçalo do Rio Abaixo, onde foi utilizado o
+termo ’centro’ para busca no campo pesquisa.
+
+Figura 7: Imagem dos 20 projetos com maior inves-
+timento público.
+
+4.4 Relatórios Detalhados
+Nos gráficos gerados, como mostrado anteriormente, as in-
+
+formações fornecidas podem se apresentar muito condensadas, Figura 10: Relatório Espećıfico de Diárias.
+com um grande volume de dados em uma única figura. Isso
+pode ocasionar ao usuário uma dificuldade na leitura das in- Como mostrado na imagem, o campo Pesquisa é uma fun-
+formações, em um aspecto mais espećıfico. Diante disso, uma cionalidade eficiente, que proporciona ao cidadão comum uma
+
+
+
+Podemos concluir que hoje há uma grande necessidade de
+análise dos gastos do poder público, que apesar de existir uma
+lei que rege essa prática, ainda não há grandes iniciativas por
+parte pública. Isto pode ser visto principalmente no âmbito
+municipal, onde várias prefeituras não têm amparo dos pode-
+res públicos superiores para o desenvolvimento de práticas de
+transparência de informações. Ao utilizar recursos visuais em
+forma de gráficos e relatórios, podemos chegar a uma grande
+compreensão dos dados na forma de informações relevantes ao
+usuário, ou seja, ao cidadão comum.
+
+Como trabalhos futuros, podemos acrescentar a aplicação
+de outras técnicas de detecção de anomalias além da uti-
+lizada neste trabalho, juntamente com inteligência artificial
+para análise dos dados. Também podeŕıamos ter um recurso
+de autenticação em que o usuário cadastrado recebe notifica-
+ções de eventuais novas anomalias ocorridas em determinado
+peŕıodo.
+
+Figura 9: Relatório Espećıfico de Elementos, orde- 6. REFERÊNCIAS
+nado pelo Total.
+
+[1]BRASIL. LEI No 12.527. Dispońıvel em:
+<http://www.planalto.gov.br/ccivil 03/ ato2011-2014/
+
+maneira fácil para uma busca exata da informação desejada 2011/lei/l12527.htm>. Acessado em 31/10/2018.
+no banco de dados. [2]ALMEIDA, G. Web analysis: Análise de dados de
+
+transparência municipal. 2017.
+4.5 Anomalias [3]OPERAÇÃO SERENATA DE AMOR. Dispońıvel em:
+
+No Dashboard podemos encontrar a aba de Anomalias, que <https://serenata.ai/>. Acessado em 31/10/2018.
+através da técnica de detecção de anomalias (8), alerta o usuá- [4]BRASIL.IO. Dispońıvel em: <https://brasil.io/home>.
+rio sobre despesas com valores incomuns encontrados, o que Acessado em 30/10/2018.
+constituem suspeitas de posśıveis inconformidades. [5]IBGE. Dispońıvel em: <ftp://ftp.ibge.gov.br/
+
+Estimativas de Populacao>. Acessado em 31/09/2018.
+[6]PYTHON. Dispońıvel em: <https://www.python.org/
+>. Acessado em 31/09/2018.
+[7]DJANGO. Dispońıvel em: <https://www.
+djangoproject.com/>. Acessado em 31/09/2018.
+[8]SANTOS, M.; LINS, P. Avaliação de técnicas
+estat́ısticas para detecção de anomalias aplicadas à
+internet das coisas. REVISTA DE TECNOLOGIA DA
+INFORMAÇÃO E COMUNICAÇÃO, v. 8, n. NO. 1, p.
+13–19, 2018.
+
+Figura 11: Gráfico de anomalias da cidade de Viçosa.
+
+Na Figura 11 podemos ver os gastos referentes a função Ad-
+ministração da cidade de Viçosa. Os gráficos gerados na aba
+de anomalias permitem a fácil identificação dos dados anô-
+malos ao usuário final, o cidadão comun, sendo estes apre-
+sentados em destaque pela cor vermelha e os demais dados
+normais na cor verde. Podemos ver que o maior gasto na fun-
+ção Administração foi na quinta semana do ano, um total de
+R$ 972.204,59, que juntamente com a décima semana do ano
+foram as duas anomalias encontradas neste caso.
+
+Um grande ponto a se destacar é a linha de tendência da
+média apresentada também pelo gráfico que é capaz de aju-
+dar o usuário a entender o comportamento das informações
+analisadas e quais as suas tendências ao longo do tempo.
+
+5. CONCLUSÕES E TRABALHOS FUTUROS

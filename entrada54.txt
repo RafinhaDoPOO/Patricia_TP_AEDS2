@@ -1,0 +1,582 @@
+﻿Um Álbum de Figurinhas integrado ao Instagram como
+Estratégia de Incentivo à Participação no Sistema
+
+myMobiConf
+Aryel Penido Gonçalves da Cruz, Thais Regina de Moura Braga Silva
+
+1Ciência da Computação – Universidade Federal de Viçosa (UFV-caf)
+– Florestal – MG – Brasil
+
+(aryel.cruz, thais.braga)@ufv.br
+
+Resumo. Redes de sensoriamento participativo(RSP) são sistemas nos quais os
+nós que enviam dados são pessoas com dispositivos móveis. Esses sistemas por
+muitas vezes sofrem com a falta de engajamento de seus usuários. O myMobi-
+Conf é um exemplo de RSP de apoio a eventos que conta com uma abordagem
+de gamificação para tentar diminuir essa falta de engajamento. Observando
+RSPs de sucesso como a rede social Instagram, e a presença forte de álbuns de
+figurinhas na cultura brasileira, esse trabalho propõe a implementação de um
+álbum de figurinhas integrado ao Instagram, como uma adição à abordagem
+de gamificação do aplicativo.A implementação do álbum de figurinhas durante
+eventos demonstrou ser eficaz para aumentar o engajamento dos participantes,
+resultando em um retorno mais frequente ao aplicativo ao longo do evento.
+
+1. Introdução
+Redes de sensoriamento participativo (RSPs) são estruturas de comunicação nas quais os
+nós são usuários móveis que enviam dados frequentemente de forma voluntária e ativa
+para um nó central, responsável por receber, interpretar e armazenar os mesmos. Esse
+tipo de rede depende profundamente da vontade das pessoas em participar desse processo,
+fazendo com que o engajamento dos usuários seja visto como um dos maiores desafios no
+desenvolvimento de RSPs[Petersen 2015]. Um dos maiores casos de sucesso deste tipo de
+estrutura é a rede social Instagram 1, um RSP que, segundo relatórios da Meta, soma hoje
+2 bilhões de usuários ativos mensais [Crawford 2022]. São bilhões de sensores enviando
+imagens, localizações, entre outros, de forma voluntária e constante, todos os dias.
+
+O myMobiConf2 é um sistema de apoio à participação em eventos que utiliza es-
+tratégias de gamificação como incentivo para tentar aumentar e manter o engajamento
+dos usuários e garantir um fluxo de dados adequado. Esse trabalho apresenta uma mo-
+delagem, implementação e avaliação de um álbum de figurinhas para o sistema myMo-
+biConf, criado a partir de fotos tiradas durante o evento pelos seus participantes. Esse
+álbum busca combinar o potencial de engajamento do Instagram, alinhado às estratégias
+de gamificação já existentes na tentativa de aumentar a participação dos inscritos em even-
+tos.
+
+As demais seções do trabalho são as seguintes: A seção 2 traz trabalhos relaciona-
+dos à gamificação, álbuns de figurinhas em sistemas computacionais e o uso do Instagram
+
+1https://www.instagram.com/
+2http://www.mymobiconf.caf.ufv.br/
+
+
+
+como forma de incentivo na educação. Na seção 3 são descritos a arquitetura, funciona-
+lidades e implementação do sistema myMobiConf como um todo. A seção 4 apresenta
+o álbum de figurinhas, seus requisitos, modelagem de entidades e implementação sobre
+o sistema existente. Na seção 5 os dados obtidos numa avaliação da funcionalidade são
+discutidos. A conclusão e uma ideação sobre trabalhos futuros podem ser encontrados na
+seção 6.
+
+2. Trabalhos relacionados
+Gamificação é a utilização de elementos do design de jogos fora do contexto de um
+jogo, com o objetivo de motivar e aproximar usuários nos mais diversos tipos de siste-
+mas computacionais[da Silva et al. 2015]. A educação é um terreno fértil para esse tipo
+de elemento. O Duolingo3, por exemplo, é um aplicativo de educação linguı́stica que
+utiliza elementos clássicos da gamificação como pontuação, ofensiva, nı́veis e emblemas
+para tentar garantir constância de seus usuários. Por vezes, novas lições só são desblo-
+queadas mediante troca de pontos ou moedas[da Silva et al. 2015] o que fortalece ainda
+mais a conexão entre o aprendizado de um novo idioma e a gamificação presente nesse
+aplicativo.
+
+A gamificação também é utilizada em outros contextos, como em um aplicativo de
+viagens. [Paffrath and Cassol 2018] apresentam uma abordagem de gamificação voltada
+para esse segmento. O trabalho consistiu em um levantamento por meio de pesquisa para
+definir o perfil de turistas, com perguntas sobre a posse de smartphone ou tablet ,o pla-
+nejamento de itinerários e as ferramentas utilizadas (Google Maps4, FourSquare5, papel e
+caneta). Verificou-se que 96% dos turistas possuı́am smartphone ou tablet, mas o número
+não foi tão alto quando questionados se utilizavam esses recursos para planejar suas vi-
+agens. Portanto, o artigo propõe um sistema com duas frentes: uma plataforma Web na
+qual o turista pode buscar, criar e editar itinerários de viagem, e um módulo mobile no
+qual as informações serão sincronizadas, permitindo que o usuário as leve consigo durante
+a viagem. Além disso, o trabalho propõe uma estratégia de gamificação que pontua ações
+como: Conectar-se ao Facebook6 pela primeira vez no website, compartilhar itinerários,
+criar itinerários, entre outras. Também são concedidas bonificações para atividades de
+check-in em locações do itinerário.
+
+Os álbuns de figurinhas por sua vez fazem parte da cultura brasileira desde antes
+do aumento do uso de smartphones e das possibilidade de gamificação que eles trouxeram.
+Os álbuns surgiram inicialmente ligados ao esporte[Gouvêa 2021], mas não se limitaram
+a ele. Assim como a gamificação, é um recurso amplamente utilizado como incentivador
+na área de educação, como é o caso do álbum de figurinhas virtual implantado no Mu-
+seu de Biologia Professor Mello Leitão (MBML) no Espı́rito Santo. O projeto faz parte
+do programa de Capacitação Institucional da Difusão Cientı́fica do Instituto Nacional da
+Mata Atlântica. Testes foram realizados com um álbum de figurinhas que contava com
+imagens e textos sobre espécies da mata atlântica e o estudo mostrou que 95% dos alunos
+gostariam de utilizar o álbum em ambiente escolar e 66,7% afirmaram que aprenderam
+algo novo[SALAZAR-SOUZA et al. 2019].
+
+3https://pt.duolingo.com/
+4https://www.google.com.br/maps/preview
+5https://foursquare.com/
+6https://www.facebook.com/
+
+
+
+Além disso, o Instagram tem sido explorado como um recurso didático, conforme
+abordado por [Prudente 2018]. Neste estudo, são utilizados os recursos da plataforma,
+como postagens, compartilhamento de imagens/vı́deos por meio de hashtags, a funcio-
+nalidade de enquetes e ”faça sua pergunta”, para auxiliar no ensino de vocabulário da
+lı́ngua inglesa. A experiência então foi realizada após a criação de um perfil especı́fico no
+Instagram para as atividades que seriam propostas. A autora classificou o imediatismo da
+plataforma como uma vantagem, já que as atividades eram incorporadas ao uso cotidiano
+dos alunos, mas também como uma desvantagem, visto que as respostas desapareciam
+após 24 horas. Foi observado ainda que a funcionalidade ”faça sua pergunta”permitiu
+tanto a criação de um ambiente de autoaprendizagem quanto uma aproximação da lı́ngua
+alvo do cotidiano dos alunos.
+
+3. O Sistema myMobiConf
+O myMobiConf, a plataforma escolhida para esse trabalho, é um sistema de apoio à
+participação em eventos desenvolvida pelo NeSPED - Laboratório de Estudos em Sis-
+temas Pervasivos e Distribuı́dos, da Universidade Federal de Viçosa / Campus Florestal.
+
+O myMobiConf conta com dois módulos: o primeiro diz respeito ao organizador
+do evento, implementado como uma plataforma Web. Ele permite que um organizador
+crie, cadastre e conduza eventos. É possı́vel cadastrar informações sobre o evento, sua
+lista de atividades, criar uma configuração de gamificação e enviar notı́cias aos usuários.
+Este módulo foi construı́do utilizando o framework Django7 que é um framework Python8
+
+baseado no padrão MVC feito para o desenvolvimento de sistemas Web de forma fácil e
+rápida. Um organizador do evento pode adicionar mais administradores e colaboradores,
+assim a gestão do evento fica otimizada. Além disso, é possı́vel criar e visualizar ques-
+tionários, visualizar perguntas feitas pelos participantes, adicionar patrocinadores e salas
+off topic em eventos online, bem como visualizar opiniões e notas atribuı́das a atividades
+pelos participantes do evento.
+
+O SGBD(Sistema de Gerenciamento de Banco de Dados) do myMobiConf é o
+MySQL9. Existem duas bases de dados utilizadas pelo myMobiConf, a primeira na qual
+estão todas as entidades dos módulos Web e mobile, assim como as views utilizadas no
+cálculo de pontuações da gamificação. E uma segunda base que é menor e gerada exclu-
+sivamente para o Django de forma a facilitar alguns processos, como a autenticação.
+
+Participantes de um evento utilizam o módulo mobile, implementado como um
+aplicativo feito com Ionic10 e Angular11 contando ainda com uma API implementada
+em PHP12. Nesse aplicativo o usuário consegue se inscrever em um evento, visualizar
+atividades que estão cadastradas e montar sua agenda. O participante de um evento é
+notificado dentro e fora do aplicativo sobre o horário de inı́cio das atividades que escolheu
+adicionar à sua agenda. Além disso, é possı́vel responder a questionários, enviar opiniões
+e perguntas durante as atividades, bem como classificar o conforto térmico e sonoro de
+uma atividade. O sistema conta com uma estratégia de gamificação que visa aumentar
+
+7https://www.djangoproject.com/
+8https://www.python.org/
+9https://www.mysql.com/
+
+10https://ionicframework.com/
+11https://angular.io/
+12https://www.php.net/
+
+
+
+o envio dessas informações, fazendo com que um maior número de usuários as enviem
+mais vezes durante o evento. Como parte da gamificação, os participantes podem ainda
+formar grupos entre si.
+
+A gamificação funciona distribuindo pontos para ações que o usuário pode ter no
+aplicativo. As ações pontuadas atualmente são as seguintes:
+
+• Enviar uma avaliação sobre o conforto térmico uma atividade
+• Enviar uma avaliação sobre a qualidade do áudio de uma atividade
+• Enviar uma avaliação da atividade
+• Responder um questionário
+• Enviar opiniões sobre a atividade
+
+Cada uma dessas ações fornece ao participante uma conquista e pontos no apli-
+cativo. Ao usuário que completa todas as avaliações de uma atividade são concedi-
+dos pontos extras através de uma conquista chamada “Conquista de Atividade com-
+pleta” [Tavares et al. 2019]. Porém conquistas não são a única forma de recompensa na
+gamificação de um evento. Existem ainda troféus, medalhas e insı́gnias. Troféus são
+concedidos aos três primeiros usuários que obtiverem mais pontos em um evento e é
+possı́vel visualizar essa informação nos rankings presentes tanto no módulo Web quanto
+no aplicativo. Medalhas, por sua vez, são emblemas concedidos aos usuários a cada uma
+das conquistas citadas acima. Por fim insı́gnias além de emblemas ainda implementam
+progressão, sendo recebidas ao subir de nı́vel, e estado, representando cada um desses
+nı́veis[Tavares et al. 2019]. Na figura 1 é possı́vel observar o perfil de um usuário, com
+as recompensas citadas acima.
+
+É implementada também uma estratégia de controle para mitigar os riscos de
+spam. O spam pode ocorrer caso usuários tentem obter pontos ilimitados enviando
+opiniões sem parar, gerando comentários sem conteúdo significativo. A estratégia então
+envolve a redução gradual do valor de pontos atribuı́dos a cada opinião enviada pelo
+mesmo usuário, podendo até mesmo resultar em um saldo negativo como forma de
+penalidade. Essa gamificação do sistema myMobiConf que tem como objetivo au-
+mentar a participação de seus usuários e pode ser definida então como um ”jogo com
+propósito”[Tavares et al. 2019].
+
+4. Álbum de figurinhas
+No intuito de potencializar a adesão e participação dos inscritos em um evento ao myMo-
+biConf, foi desenvolvida uma estratégia de incentivo baseada em recompensa social. Essa
+estratégia combina os elementos de gamificação discutidos anteriormente a um álbum de
+figurinhas integrado à rede social Instagram. O objetivo principal é estimular o uso do
+aplicativo e o envio de dados ao longo do evento, promovendo uma maior adesão e incen-
+tivando os participantes a retornarem ao aplicativo diversas vezes durante todo o evento,
+não apenas nos primeiros e últimos dias. Assim, nesta seção serão apresentados: Os
+requisitos levantados para a construção desse álbum, uma discussão sobre a API do Ins-
+tagram e os plugins do Capacitor13, a modelagem feita sobre os sistemas já existentes e a
+implementação do álbum.
+
+13https://capacitorjs.com/
+
+
+
+Figura 1. Perfil da gamificação
+
+4.1. Requisitos Funcionais e Não Funcionais
+Para essa implementação e após estudos relacionados à API do Instagram e seu funcio-
+namento para contas comuns e não comerciais, foram levantados 8 requisitos funcionais,
+sendo 5 deles tidos como essenciais e 3 desejáveis. Existe ainda um último requisito
+não é exibido aqui, mas será abordado mais adiante em trabalhos futuros. Requisitos
+funcionais descrevem funcionalidades ou serviços que os usuários esperam encontrar no
+sistema[Bourque and Fairley 2014]. Os requisitos funcionais podem ser visualizados na
+tabela 1.
+
+CÓDIGO DESCRIÇÃO PRIORI-
+DADE
+
+RF01 O sistema deve permitir a criação de um álbum
+de figurinhas(fotos) ao final de cada evento. Essencial
+
+
+
+RF02 O sistema deve exibir o álbum de figurinhas
+dentro do aplicativo. Essencial
+
+RF03 O sistema deve permitir que álbum de figurinhas
+seja exportado em formato .zip Desejável
+
+O sistema deve permitir que usuários tirem fotos dentro
+RF04 do aplicativo e exportem essas imagens para o Instagram, Desejável
+
+seja nos stories, reels, feed ou chat.
+O sistema deve permitir que usuários enviem essas fotos
+
+RF05 para a avaliação da organização, para caso Essencial
+aprovadas sejam incluı́das no álbum do evento.
+O sistema deve permitir que os organizadores de um evento
+
+RF06 façam a curadoria das imagens enviadas pelos participantes Essencial
+para que possam aceitar ou rejeitar as figurinhas.
+O sistema deve recompensar o usuário com elementos
+
+RF07 de gamificação já existentes como pontos e conquistas
+para as duas ações relacionadas ao álbum Essencial
+(enviar para organização e enviar para o Instagram)
+
+RF08 O sistema deve permitir a criação de álbuns intermediários
+ao longo dos dias do evento Desejável
+
+Tabela 1: Requisitos funcionais
+
+Foram pensados também requisitos não funcionais, os quais descrevem
+como os requisitos funcionais devem ser alcançados e delimitam a forma da
+solução[Bourque and Fairley 2014]. Eles são os seguintes:
+
+CÓDIGO DESCRIÇÃO PRIORI-
+DADE
+
+Sempre que compartilhadas com a organização as
+RNF01 figurinhas(fotos tiradas pelos usuários) devem ser salvas Essencial
+
+no banco de dados para sua utilização posterior.
+Deve ser criada uma moldura para as imagens geradas
+
+RNF02 pelos participantes.Para transmitir a ideia de uma figurinha de Essencial
+álbum
+Pensando no tamanho do banco e que a quantidade de ima-
+gens
+
+RNF03 pode se tornar muito grande as figurinhas devem ser apagadas
+completamente após 10dias do fim do evento. O organizador Essencial
+deve receber um aviso dessa remoção antes da data estipulada
+para que possa exportar as imagens caso deseje
+
+Tabela 2: Requisitos não funcionais
+
+4.2. API do Instagram e plugins do Capacitor
+O Instagram faz uso de um conjunto abrangente de tecnologias em sua construção, in-
+cluindo diversas linguagens, frameworks e bibliotecas. Entre eles, destacam-se o Re-
+
+
+
+act14 e React Native15,desenvolvidos pela própria Meta, além de frameworks open-source
+como o Django REST Framework16. Além disso, o Instagram oferece uma ampla gama de
+integrações e APIs disponı́veis no Meta for Developers17, juntamente com outros recursos
+destinados aos desenvolvedores.
+
+Inicialmente neste projeto considerou-se utilizar o método sharing-to-stories/ 18.
+É importante ressaltar que esse método é encontrado de forma independente, separado
+das APIs mais conhecidas da plataforma, como a Graph19 e Basic-Display20. Mas apesar
+de fornecer algumas opções interessantes, como a construção de molduras nativamente,
+e não ser limitada a um tipo de conta especı́fico, a sharing-to-stories/ possui limitações
+para seu uso conforme necessário para atender aos requisitos deste trabalho. Dentre elas
+podemos citar a existência de diferentes fluxos para iOS e Android, a necessidade de
+receber autorização do usuário para consumir dados da sua conta no Instagram e ainda a
+necessidade de autorização da Meta para utilização de algum recurso deles previamente a
+sua publicação nas lojas de aplicativo.
+
+Para contornar as dificuldades mencionadas anteriormente, a plataforma Capaci-
+tor precisou ser utilizada. O Capacitor é um runtime nativo que abstrai funcionalidades do
+iOS e Android em Web apps, de forma que funcionalidades nativas estejam próximas ao
+desenvolvimento Web. O Cordova21 por sua vez é um framework open source que também
+empacota soluções Html e JavaScript em soluções nativas, porém criado em 2009, conta
+com um número maior de plugins feitos pelo time oficial e pela comunidade. O Capacitor
+foi construı́do pelo Ionic team para substituir o Cordova e por isso ele mantém compatibi-
+lidade com um grande número de plugins do Cordova. Assim foi possı́vel utilizar o plu-
+gin @awesome-cordova-plugins/instagram com o Capacitor. O plugin recebeu todas as
+autorizações necessárias da Meta e atua como uma ponte entre o aplicativo myMobiConf
+e o Instagram, sem armazenar dados do usuário. Isso permitiu redirecionar os usuários
+de forma fluida e segura ao aplicativo do Instagram para finalizar suas publicações, eli-
+minando a necessidade de solicitar permissões adicionais aos participantes do evento ou
+lidar com dados sensı́veis.
+
+4.3. Modelagem
+Nesta seção, serão abordadas a modelagem das classes relacionadas ao álbum, bem como
+as mudanças identificadas como necessárias às classes já existentes no projeto do myMo-
+biConf. A figura 2 apresenta o diagrama de classes referente a essa porção do sistema
+myMobiConf. Para as classes evento, game participante, game configuracao e orga-
+nizador, foram omitidos os atributos e operações que já faziam parte do sistema, sendo
+discutidos apenas os adicionados neste contexto.
+
+Como ponto de partida foi adicionada uma propriedade à classe evento que in-
+dica se durante a criação de um evento o organizador optou ou não pela inclusão do
+
+14https://react.dev/
+15https://reactnative.dev/
+16https://www.django-rest-framework.org/
+17https://developers.facebook.com/
+18https://developers.facebook.com/docs/instagram/sharing-to-stories/
+19https://developers.facebook.com/docs/instagram-api/
+20https://developers.facebook.com/docs/instagram-basic-display-api/
+21https://cordova.apache.org/
+
+
+
+Figura 2. Diagrama de classes álbum de figurinhas
+
+álbum. À classe organizador foi adicionado um método que permite ao responsável pelo
+evento, autorizar ou rejeitar figurinhas submetidas pelos participantes. Seguindo para a
+configuração da gamificação, como o álbum está integrado a essa funcionalidade pré-
+existente foram adicionadas as propriedades pontosAlbum e pontosInstagram à classe
+game configuracao. A primeira informa quantos pontos cada imagem compartilhada
+com a organização recebe e a segunda quantos pontos o participante recebe caso com-
+partilhe essa imagem no seu Instagram pessoal. É o organizador quem faz essa definição
+durante a criação e configuração de um evento.
+
+A classe seguinte é a game participante, responsável por armazenar informações
+sobre o número de vezes que cada usuário realizou as operações de compartilhamento (
+com a organização e em seu Instagram). Esses valores são multiplicados pelos parâmetros
+inseridos pelo organizador durante a configuração da gamificação, permitindo assim a
+determinação dos pontos a serem atribuı́dos a cada participante por suas ações
+
+As próximas classes a serem discutidas são a album figurinhas e ima-
+gem figurinhas. A classe album figurinhas tem a responsabilidade de associar o evento
+a um álbum e suas respectivas figurinhas. Ela é composta pelos atributos idAlbum, idE-
+vento, dataCriacao, publicado e publicadoIntermediario sendo que os dois últimos atribu-
+tos mostram o status do álbum. Além disso, essa classe possui também os métodos pelos
+quais o organizador consegue controlar o álbum no módulo Web do sistema. Com esses
+métodos o organizador pode publicar álbuns intermediários durante o evento, publicar um
+álbum definitivo no último dia do evento e exportar o álbum em um .zip caso deseje.
+
+Por sua vez, a classe imagem figurinhas é responsável por armazenar as imagens
+geradas no evento. Ela é composta por um identificador, a própria imagem gerada pelo
+participante em formato binário, pelo identificador desse participante, a data de criação,
+dois marcadores (um de publicação e um de publicação intermediária) e ainda um status
+
+
+
+geral da imagem. Esse status informa se a imagem ainda não foi avaliada pelo organi-
+zador, se foi rejeitada ou aceita por ele. Além disso, a classe possui um campo opcional
+chamado idAtividadeReferente que permite ao participante informar em qual atividade
+aquela figurinha foi gerada.
+
+4.4. A implementação
+A implementação das classes e operações mencionadas anteriormente ocorreu em duas
+aplicações distintas. A primeira delas é o módulo Web do myMobiConf, onde a perspec-
+tiva do organizador foi desenvolvida com base na implementação existente, utilizando o
+Django. Nesse contexto, foram introduzidos novos campos nas telas já existentes para
+permitir a criação e configuração de um álbum, durante a configuração de um evento.
+Além disso, duas novas páginas foram criadas. A primeira funciona como um menu do
+álbum, na qual o organizador pode visualizar uma prévia de seu álbum, que exibe as
+imagens que já foram aprovadas. Nessa página existem ainda botões que permitem as
+publicações do álbum e sua exportação (ver Figura 3). É nesta página também que é
+exibido um aviso com um link sempre que existirem novas fotos para serem autorizadas.
+Esse link leva o organizador até a página de autorização exibida na Figura 4.
+
+Figura 3. Menu álbum do organizador
+
+No módulo do participante,ou seja, o aplicativo do myMobiConf, foram adici-
+onadas novas páginas. A versão do aplicativo utilizada nesse trabalho, foi desenvolvida
+utilizando a versão 5 do Ionic e a versão 13 do Angular. Foi adicionado ao menu principal
+um item denominado ”Álbum de Figurinhas”, que é composto por dois componentes. O
+primeiro componente permite que o usuário crie uma figurinha, enquanto o segundo com-
+ponente permite que ele visualize o álbum de figurinhas. Ao acessar o menu de criação de
+uma nova figurinha o usuário tem a possibilidade de adicionar uma atividade a ela. Após
+essa etapa, o usuário pode escolher entre abrir a câmera de seu dispositivo para tirar uma
+nova foto ou selecionar uma imagem existente na galeria. Independente do método esco-
+lhido, a imagem adicionada é colocada em uma moldura . Em seguida, são apresentadas
+
+
+
+Figura 4. Avaliar figurinhas
+
+duas opções: a primeira permite compartilhar a figurinha com a organização e a segunda
+possibilita o compartilhamento no Instagram pessoal do participante.
+
+Por fim, a última página adicionada é a de visualização do álbum. Caso o álbum,
+intermediário ou definitivo não tenha sido publicado, ao acessar essa página, o parti-
+cipante visualiza um aviso informando que o organizador ainda não publicou o álbum.
+Após uma publicação intermediária é possı́vel visualizar todas as figurinhas (que tenham
+sido aprovadas) geradas pelos participantes do evento até o momento. No último dia, após
+a publicação definitiva, todas as figurinhas aprovadas são exibidas nesta página. Na figura
+5 é possı́vel visualizar todo o fluxo descrito acima.
+
+5. Avaliação e Resultados
+Para validação e avaliação de usabilidade do álbum, foram conduzidos testes com 5 par-
+ticipantes. Os testes foram realizados de forma remota e consistiam em 4 cenários de uso
+do sistema que foram entregues aos usuários em formato textual. Os usuários deveriam
+então seguir os cenários descritos enquanto as telas de seus dispositivos eram gravadas.
+Esses testes buscam avaliar os seguintes pontos: Quanto tempo um participante de um
+evento demora para interagir pela primeira vez com a funcionalidade do álbum? A fun-
+cionalidade é auto explicativa? A funcionalidade está clara? A funcionalidade funciona
+como um atrativo?
+
+O primeiro cenário simula o dia anterior a um evento, com o objetivo de verificar
+qual item do menu do aplicativo um participante acessa primeiro nesse momento. Foi
+observado que o menu de atividades foi o primeiro a ser acessado por todos os participan-
+tes,indicando que o objetivo principal do aplicativo de apoiar eventos está alinhado com a
+expectativa dos participantes. Além disso, dois dos participantes tentaram enviar pontos
+de conforto sonoro, uma ação que faz parte da gamificação e só está disponı́vel enquanto
+a atividade está ativa.
+
+
+
+Figura 5. Fluxo do álbum no aplicativo
+
+O segundo cenário consistiu em uma exploração adicional do aplicativo, no qual
+os participantes receberam um texto informativo explicando as diferentes formas de
+gamificação existentes no aplicativo, assim como o funcionamento e a atribuição de pon-
+tos de cada uma delas. Ademais os usuários receberam também uma breve explicação
+sobre a funcionalidade do álbum e a forma de pontuação do mesmo. O objetivo desse
+cenário era analisar qual funcionalidade seria mais atrativa para os usuários e identificar
+quais menus eles acessaram primeiro. Os resultados foram os seguintes:
+
+• 3 dos 5 participantes acessaram primeiro seu perfil de gamificação.
+• 1 participante acessou o menu ”Álbum de figurinhas”como primeira interação
+
+após a explicação.
+• 1 participante acessou o menu ”Opinar”.
+
+Os três usuários que inicialmente acessaram o perfil de gamificação são usuários
+que já tiveram experiências anteriores com o myMobiConf em cenários reais, incluindo
+a primeira interação com a gamificação. Portanto, é compreensı́vel que tenham optado
+por acessar seus perfis de gamificação como ação inicial. Além disso, todos os usuários,
+com exceção daquele que escolheu acessar o álbum como primeira ação, posteriormente
+acessaram o menu do álbum como segunda ação.
+
+O terceiro cenário de teste buscava validar a experiência do usuário em relação a
+criação de uma figurinha. Os participantes foram conduzidos a esta página e solicitados
+a criar uma figurinha. Todos os usuários conseguiram criar uma figurinha sem maiores
+dificuldades. Após a criação da figurinha, o roteiro especificava que os participantes deve-
+riam compartilhá-la com a organização e em seu Instagram pessoal. Em relação ao com-
+partilhamento, todos os participantes compartilharam com a organização suas figurinhas.
+Um dos participantes não conseguiu adicionar ao Instagram pois não tinha o aplicativo
+instalado em seu dispositivo. Além disso, um participante compartilhou de duas formas
+
+
+
+diferentes na rede social, a primeira adicionando ao próprio stories e a seguir enviando
+via chat para outro participante do mesmo evento teste.
+
+O último cenário de teste simula o fim de um evento. O usuário era informado que
+aquele era o último dia do evento e que o organizador havia publicado a versão definitiva
+do álbum. O objetivo desse cenário era observar se os usuários voltariam ao aplicativo
+para visualizar o álbum mesmo que as atividades do evento tenham sido encerradas. A
+resposta aqui foi unânime: Todos os participantes do teste voltaram para visualizar o
+álbum.
+
+Após a realização dos testes, com a obtenção de informações quantitativas, foi
+pedido aos participantes para responderem a um formulário. Esse formulário tinha como
+objetivos analisar o quão bem aceito foi o álbum, se o mesmo funciona como um incentivo
+de divertimento e recompensa social e se em um evento real esses participantes utilizariam
+o álbum. As respostas obtidas foram as seguintes:
+
+• Ao serem questionados se utilizariam o álbum em um evento real, 100% dos par-
+ticipantes responderam que sim.
+
+• Ao serem questionados se em um evento real, eles compartilhariam as imagens
+geradas com a organização e/ou em seu próprio Instagram, apenas um usuário
+respondeu que compartilharia apenas com a organização. Todos os outros fariam
+ambas as ações.
+
+• Ao serem questionados se, em um evento com mais de um dia e várias ativida-
+des, com qual frequência utilizariam o álbum, quatro participantes responderam
+que criariam figurinhas pelo menos uma vez por dia de evento, enquanto um dos
+participantes informou que utilizaria pelo menos uma vez por evento.
+
+• Ao serem questionados se, em um evento com participantes conhecidos, eles vol-
+tariam para visualizar o álbum definitivo ao final do evento, todos os participantes
+afirmaram que o fariam.
+
+• Ao repetir a pergunta anterior mas em um evento com participantes desconheci-
+dos, três dos participantes afirmaram que voltariam para visualizar o álbum ge-
+rado, e dois afirmaram que não voltariam nesse caso.
+
+Ao serem questionados qual dos itens de gamificação pré-existentes os participan-
+tes mais utilizariam, as respostas foram variadas como mostra o gráfico na figura 6.
+
+Ao serem questionados se, para o mesmo número de pontos, eles utilizariam o
+álbum ou o item mencionado na pergunta anterior com mais frequência, três participantes
+afirmaram que utilizariam o álbum mais vezes, enquanto dois participantes afirmaram que
+dariam preferência ao item mencionado anteriormente.
+
+Ao serem questionados se o álbum adicionou um elemento divertido à experiência
+de uso do sistema, todos responderam que sim. Além disso, houve um espaço para que os
+participantes expressassem suas opiniões sobre a ideia geral de um álbum de figurinhas
+gerado a partir de fotos. O denominador comum entre todas elas foi a possibilidade de
+registrar e compartilhar momentos do evento com outros participantes.
+
+6. Conclusão e Trabalhos Futuros
+A abordagem do álbum de figurinhas proposta neste trabalho tem como objetivo aumen-
+tar o uso e engajamento dos participantes no aplicativo myMobiConf durante um evento.
+
+
+
+Figura 6. Atividade de gamificação favorita dos participantes
+
+Além de ser concebido como uma adição à gamificação existente no aplicativo, esse tra-
+balho conseguiu atingir o objetivo de engajar os participantes e incentivar o retorno ao
+aplicativo. Adicionalmente, todos os participantes do teste conseguiram utilizar a funci-
+onalidade de forma fácil e intuitiva, reconhecendo o potencial de recompensa social da
+funcionalidade, especialmente quando compartilhada com amigos e colegas. A integração
+com a rede social Instagram na tentativa de fazer com que os usuários se sintam mais
+atraı́dos ao RSP também se mostrou eficaz, proporcionando mais possibilidades de uso e
+incentivando os participantes a utilizarem a plataforma de maneira mais ampla.
+
+Para trabalhos futuros, seria interessante explorar a possibilidade de atribuir pon-
+tos não apenas ao participante que criou a figurinha, mas também aos participantes que
+aparecem nas fotos de outros usuários, assim como aos grupos em que todos os mem-
+bros estejam presentes na figurinha. Além disso, a clássica troca de figurinhas é uma
+ideia que também pode ser explorada, assim como uma maior utilização do Instagram,
+seja para pontuar usuários com base na forma como suas figurinhas são recebidas por sua
+rede, como também para sorteios, cuja condição de participação é o compartilhamento de
+imagens.
+
+Referências
+Bourque, P. and Fairley, R. E. D. (2014). Guide to the Software Engineering Body of
+
+Knowledge. IEEE,computer society, 3rd edition.
+Crawford, D. (2022). Meta q3 2022 earnings call transcript. Acessado em 18 de junho de
+
+2023.
+da Silva, J. C. R., de Oliveira, E. R., and Barbosa, G. A. R. (2015). Caracterização de
+
+estratégias de gamificação em aplicativos móveis educacionais: Um estudo de caso do
+aplicativo duolingo.
+
+Gouvêa, D. R. (2021). Arte que cola! Álbum de figurinhas digital e gamificado para
+ensino de história da arte.
+
+Paffrath, R. E. and Cassol, V. J. (2018). Gaming abroad: o uso de gamificação no projeto
+de um sistema para apoio a turistas.
+
+
+
+Petersen, M. (2015). Sensoriamento participativo: Com ficha catalográfica.
+Prudente, N. L. (2018). O uso da affordance “faÇa sua pergunta” no instagram para ensino
+
+de lÍngua inglesa.
+SALAZAR-SOUZA, M., SENA, E. M. S., and FILHO, A. S. (2019). Álbum de figurinhas
+
+online como ferramenta de educação ambiental em museu de biologia. 22.
+Tavares, S. J. S., Barbosa, D. M., and de Moura Braga Silva, T. R. (2019). Aplicação
+
+de uma abordagem de gamificação em um aplicativo móvel de rede de sensoriamento
+participativo.

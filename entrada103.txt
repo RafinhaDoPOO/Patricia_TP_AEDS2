@@ -1,0 +1,2451 @@
+﻿UNIVERSIDADE FEDERAL DE VIÇOSA
+CAMPUS FLORESTAL
+
+ELENA AUGUSTA ARAUJO
+
+UC-GeM: UMA METODOLOGIA DE DESIGN CENTRADO EM USABILIDADE
+
+FLORESTAL - MINAS GERAIS
+2016
+
+
+
+ELENA AUGUSTA ARAUJO
+
+UC-GeM: UMA METODOLOGIA DE DESIGN CENTRADO EM USABILIDADE
+
+Monografia, apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Orientador: Gláucia Braga e Silva
+
+FLORESTAL - MINAS GERAIS
+2016
+
+
+
+ELENA AUGUSTA ARAUJO
+
+UC-GeM: UMA METODOLOGIA DE DESIGN CENTRADO EM USABILIDADE
+
+Monografia, apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Gláucia Braga e Silva
+
+Thais Regina Moura Braga Silva
+
+Ronan Dutra Mendonça
+
+FLORESTAL - MINAS GERAIS, 2 DE DEZEMBRO DE 2016
+
+
+
+RESUMO
+
+Esse trabalho apresenta a definição de uma metodologia genérica de design centrado em usa-
+
+bilidade para concepção de sistemas Web. Ela foi concebida com base nos princı́pios do pro-
+
+cesso de Design Centrado no Usuário (UCD - User Centred Design), apresentados no site do
+
+consórcio Word Wide Web (W3C). A metodologia define as disciplinas de Análise UX, De-
+
+sign UX e Avaliação UX, suportadas por tarefas que objetivam definir, desenvolver e avaliar
+
+as interfaces de um sistema Web que atendam as caracterı́sticas, necessidades e objetivos dos
+
+usuários. Sua construção foi formalizada no framework Eclipse Process Framework (EPF). O
+
+trabalho apresenta também como a metodologia desenvolvida pode ser aplicada aos modelos de
+
+processo de software Cascata e Iterativo e Incremental.
+
+Palavras-chave:
+User Centred Design; metodologia; usabilidade; modelos de processo; sistemas Web.
+
+
+
+ABSTRACT
+
+This paper presents the definition of a usability centred generic methodology for the conception
+
+of web systems. It was built based on the principles of the User Centred Design Process,
+
+presented by the World Wide Web Consortium (W3C). The methodology defines the disciplines
+
+of UX Analysis, UX Design and UX Evaluation, supported by tasks which define, develop and
+
+evaluate the interfaces of a web system that comply with the users characteristics, needs, and
+
+objectives. Its construction was formalized on the Eclipse Process Framework (EPF). The paper
+
+also presents how the developed methodology can be applied to the Waterfall and Iterative and
+
+Incremental process models.
+
+Keywords:
+User Centred Design; methodology; usability; process models;
+
+
+
+SUMÁRIO
+
+1 INTRODUÇAO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+1.1 Objetivo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.1.1 Objetivos Especı́ficos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.2 Justificativa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.3 Metodologia da Pesquisa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.4 Materiais e Métodos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.5 Organização do Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+
+2 DESIGN CENTRADO NO USUÁRIO E PROCESSOS DE SOFTWARE . . . . 12
+2.1 Princı́pios de Design Centrado no Usuário . . . . . . . . . . . . . . . . . . . . . 12
+2.2 Modelos de processo de software . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.2.1 Modelo Cascata . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.2.2 Modelo Iterativo e Incremental . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+2.3 Trabalhos Relacionados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+
+3 A METODOLOGIA UC-GeM . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+3.1 Análise UX . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+3.1.1 Stakeholders . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+3.1.2 Análise de Usuário . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+3.1.3 Análise de Tarefas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+3.1.4 Análise do Fluxo de Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+3.1.5 Produtos de Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+3.2 Design UX . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+3.2.1 Stakeholders . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+3.2.2 Definição das Soluções de Design . . . . . . . . . . . . . . . . . . . . . . . . . 24
+3.2.3 Design / Re-Design de Protótipos . . . . . . . . . . . . . . . . . . . . . . . . . 25
+3.2.4 Desenvolvimento dos Protótipos Online Funcionais . . . . . . . . . . . . . . . . 25
+3.2.5 Design de Navegação . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+3.2.6 Produtos de Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+3.3 Avaliação UX . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+3.3.1 Stakeholders . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+3.3.2 Avaliação Heurı́stica dos Protótipos Online Funcionais . . . . . . . . . . . . . 28
+3.3.3 Teste de Usabilidade dos Protótipos Online Funcionais . . . . . . . . . . . . . . 29
+3.3.4 Produtos de Trabalho . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+3.4 UC-GeM ilustrada no EPF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+3.5 Aplicação da UC-GeM em um processo de software . . . . . . . . . . . . . . . 34
+3.5.1 Aplicação da UC-GeM no modelo Cascata . . . . . . . . . . . . . . . . . . . . 35
+3.5.2 Aplicação da UC-GeM no modelo Iterativo e Incremental . . . . . . . . . . . . 36
+
+4 CONCLUSÃO E TRABALHOS FUTUROS . . . . . . . . . . . . . . . . . . . . 37
+
+REFERÊNCIAS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+
+
+
+7
+
+1 INTRODUÇAO
+
+Nos últimos anos, o número de aplicações Web e de usuários cresceu exponencialmente. Con-
+
+tudo, tal popularidade não implica necessariamente na satisfação dos usuários, sendo necessário
+
+assim o avanço nos estudos em termos de usabilidade de tais aplicações. Usabilidade é um atri-
+
+buto de qualidade que avalia o quão fácil uma interface de usuário é de usar (NIELSEN, 1994),
+
+a fim de atingir os objetivos especı́ficos de acordo com a eficácia, eficiência e satisfação dos
+
+usuários (ISO, 2010).
+
+A usabilidade é um dos aspectos relacionados à qualidade de uso das interfaces de sis-
+
+temas interativos, sendo um dos mais importantes critérios para aceitação das aplicações, em
+
+particular as aplicações Web (HITZ; LEITNER; MELCHER, 2006). Ela está relacionada à capa-
+
+cidade e à facilidade que os usuários possuem para suas atingir metas de utilização (PRATES;
+
+BARBOSA, 2003). Segundo Puerta (1997), citado por Lopes et al. (2015), a inserção de mo-
+
+delos interativos no processo de desenvolvimento permite a detecção de problemas de design
+
+no inı́cio do processo, uma vez que estes descrevem o comportamento do usuário e o sistema
+
+durante sua interação.
+
+Com intuito de orientar a concepção de sistemas interativos, como por exemplo sites
+
+Web, a norma ISO 9241-210 (ISO, 2010) define o processo de Design Centrado no Humano,
+
+semelhante ao processo de Design Centrado no Usuário (UCD User Centred Design), intro-
+
+duzido por Norman e Draper (1986). Seu intuito é guiar os desenvolvedores na construção de
+
+sistemas interativos, com base nos usuários, suas necessidades e exigências, objetivando tornar
+
+os sistemas mais utilizáveis e úteis. Para isso, a norma propõe métodos que devem ser aplicados
+
+em todo o ciclo de vida do sistema, esclarecendo que o papel da interação deve estar presente
+
+em todo o processo de design e não somente na avaliação.
+
+Trabalhos como Winckler e Pimenta (2002), Pinto (2015) propõem a análise da usabi-
+
+lidade de interfaces apenas na fase de avaliação, ou seja, quando o sistema está pronto para o
+
+uso. Essa análise tardia provê desvantagens, como por exemplo o aumento nos custos de pro-
+
+jeto, retrabalho e a insatisfação dos usuários. Segundo Kapor (1996) para que a integração da
+
+usabilidade seja bem sucedida, ela deve ser incorporada no processo de desenvolvimento o mais
+
+cedo possı́vel e não apenas na fase de testes.
+
+
+
+8
+
+1.1 Objetivo
+
+O presente trabalho objetiva desenvolver uma metodologia genérica de design centrado
+
+em usabilidade para sistemas Web, que estenda os modelos de processo Cascata e Iterativo e
+
+Incremental, com o intuito de favorecer a integração de aspectos de usabilidade já nas etapas de
+
+concepção do sistema.
+
+A metodologia proposta foi denominada UC-GeM (do inglês, Usability Centred Generic
+
+Methodology), pois considerando as contribuições e o valor que ela pode trazer para o design
+
+de sistemas Web, com foco nos usuários, é feita uma alusão à palavra gem, pedra preciosa, na
+
+lı́ngua inglesa.
+
+1.1.1 Objetivos Especı́ficos
+
+Para alcançar o objetivo geral, mostra-se necessário:
+
+• Estudo detalhado sobre técnicas do processo UCD, uma vez que o W3C (2004) apresenta
+
+apenas uma orientação para os passos, sem descrever em detalhes como, quando e por
+
+quem tais passos devem ser executados;
+
+• Estudo de trabalhos relacionados à integração de princı́pios de UCD nos processos de
+
+software;
+
+• Estudo e utilização do framework EPF Composer para formalização da metodologia UC-
+
+GeM;
+
+• Desenvolvimento da metodologia UC-GeM com formalização das técnicas de UCD;
+
+• Elaboração de templates para guiar a produção de artefatos propostos na metodologia.
+
+1.2 Justificativa
+
+Em geral, a análise da usabilidade de sistemas interativos tem sido tratada tardiamente,
+
+apenas na etapa de testes de um sistema, ocasionando baixa satisfação dos usuários, aumento
+
+
+
+9
+
+do retrabalho e consequentemente do tempo do projeto (WINCKLER; PIMENTA, 2002). Diversos
+
+trabalhos propõem a inclusão de técnicas centradas no usuário desde etapas iniciais do processo
+
+de software, como pode ser encontrado em Costabile et al. (2001), Rodrı́guez (2014). Porém,
+
+essas técnicas são aplicadas apenas a processos e modelos de processo especı́ficos, não permi-
+
+tindo ainda sua aplicação genérica. Em termos das diretrizes de design centrado no usuário, o
+
+W3C (2004) apresenta os passos de um processo, mas de forma superficial, sem detalhar como,
+
+quando e por quem tais passos devem ser executados.
+
+Dessa maneira, este trabalho se mostra relevante por apresentar uma metodologia que
+
+documenta de forma centralizada e detalhada os passos do processo UCD propostos pelo (W3C,
+
+2004), descrevendo como, quando e por quem as etapas do processo devem ser executadas.
+
+Além disso, a UC-GeM constitui uma metodologia genérica, adaptável aos modelos de processo
+
+Cascata e Iterativo e Incremental, comumente adotados nos tradicionais processos de software,
+
+possibilitando assim a redução do retrabalho e o aumento da qualidade das interfaces e da
+
+satisfação dos usuários.
+
+1.3 Metodologia da Pesquisa
+
+Para endereçar o desenvolvimento deste trabalho, tarefas de levantamento bibliográfico
+
+foram realizadas na disciplina de Projeto Orientado em Computação I. Nessa etapa, uma revisão
+
+sistemática da literatura foi elaborada com o intuito de guiar a pesquisa. Fontes como livros,
+
+artigos cientı́ficos, teses de doutorado, normas técnicas, tais como a ISO 9241-210 (ISO, 2010)
+
+e a ISO 25010 (ISO/IEC, 2011), e sites de relevância foram utilizados. Já na disciplina de Projeto
+
+Orientado em Computação II, realizou-se a formalização da metodologia proposta.
+
+Em relação ao planejamento da pesquisa, destacam-se as seguintes atividades:
+
+• ATV01: Levantamento bibliográfico sobre usabilidade, princı́pios de UCD, bem como
+
+sua integração aos modelos de processo tradicionais como Cascata e Iterativo e Incre-
+
+mental.
+
+• ATV02: Estudo sobre a utilização do framework EPF Composer para formalizar a meto-
+
+dologia.
+
+• ATV03: Formalização da metodologia com base nos passos propostos pelo W3C (2004).
+
+
+
+10
+
+– ATV03.1: Descrever a disciplina Análise da Experiência de Usuário juntamente
+
+com tarefas propostas e elaborar guias de execução de cada tarefa.
+
+– ATV03.2: Descrever a disciplina Design da Experiência de Usuário juntamente com
+
+tarefas propostas.
+
+– ATV03.3: Descrever a disciplina de Avaliação da Experiência de Usuário junta-
+
+mente com tarefas propostas e elaborar guias de execução de cada tarefa.
+
+1.4 Materiais e Métodos
+
+Para fundamentação dos conceitos relacionados às atividades propostas na metodologia
+
+e definição dos artefatos gerados, o presente trabalho usou, como referência principal, o livro
+
+”Interação Humano-Computador”(BARBOSA; SILVA, 2010).
+
+Para o desenvolvimento da metodologia abordada neste trabalho, foi utilizado o fra-
+
+mework Eclipse Process Framework Composer (EPF Composer1), implementado na versão 2.0
+
+do metamodelo Systems Process Engineering MetaModel (SPEM), proposto pelo consórcio Ob-
+
+ject Management Group (OMG2). O SPEM 2.0 é a notação padrão para modelagem de proces-
+
+sos de desenvolvimento de software e seus componentes, sendo fortemente ligado à linguagem
+
+UML, a fim de definir um conjunto de estereótipos e representações dos elementos do processo.
+
+Diversos processos de Engenharia de Software tais como: Praxis3, OpenUp4, Rational Unified
+
+Process (RUP5) são especificados utilizando o EPF.
+
+A Figura 1 ilustra uma representação do conteúdo (Method Content) e do processo (Pro-
+
+cess) especificado no EPF. O conteúdo expressa elementos para a definição de Produtos de Tra-
+
+balho (Work Product Definition), de Papéis (Role Definition), de Tarefas (Task Definition), Cate-
+
+gorias (Category) e Diretrizes (Guidance). O processo é representado como uma instância dos
+
+elementos definidos no conteúdo, tais como: Atividade (Activity), Uso da Tarefa (Task Use),
+
+Uso do Papel (Role Use), Uso do Produto de Trabalho (Work Product Use) e Diretriz (Gui-
+
+dance). O EPF Composer consiste na principal ferramenta gratuita que suporta o SPEM 2.0.
+
+Seu principal objetivo é fornecer ferramentas para uma gama de processos de desenvolvimento
+1http://projects.eclipse.org/projects/technology.epf
+2http://www.omg.org/spec/SPEM/2.0/
+3http://homepages.dcc.ufmg.br/ wilson/praxis/
+4http://epf.eclipse.org/wikis/openuppt/
+5http://www-01.ibm.com/software/br/rational/
+
+
+
+11
+
+e gerenciamento de software, suportando processos iterativos, ágeis e incrementais.
+
+Figura 1 – Elementos do Metamodelo SPEM 2.0 proposto por OMG (2008).
+
+1.5 Organização do Trabalho
+
+O trabalho está organizado da seguinte forma: O Capı́tulo 2 apresenta as definições do
+
+processo de design centrado no usuário e os modelos de processos tradicionais bem com os tra-
+
+balhos relacionados à pesquisa. O Capı́tulo 3 apresenta a metodologia UC-GeM e considerações
+
+sobre sua aplicação nos modelos de processo de software Cascata e Iterativo e Incremental. Por
+
+fim, o Capı́tulo 4 finaliza com a conclusão e trabalhos futuros.
+
+
+
+12
+
+2 DESIGN CENTRADO NO USUÁRIO E PROCESSOS DE SOFTWARE
+
+Este capı́tulo apresenta os conceitos do design centrado no usuário, descreve os modelos de
+
+processo Cascata e Iterativo e Incremental, bem como discute os trabalhos relacionados que
+
+auxiliaram o desenvolvimento desta pesquisa.
+
+2.1 Princı́pios de Design Centrado no Usuário
+
+O termo Design Centrado no Usuário (User Centred Design) foi popularizado por Do-
+
+nald Norman no livro User-Centered System Design: New Perspectives on Human-Computer
+
+Interaction (NORMAN; DRAPER, 1986). O UCD consiste no processo de design que mantém
+
+o foco no usuário final do sistema a ser desenvolvido, visando exclusivamente seus objetivos,
+
+necessidades e limitações em cada estágio do processo. Dessa maneira, os usuários se tornam
+
+parte essencial do processo de desenvolvimento (ABRAS; MALONEY-KRICHMAR; PREECE, 2004).
+
+De acordo com o W3C (2004) o objetivo do UCD é desenvolver produtos que tenham
+
+elevado grau de usabilidade. A norma ISO 25010 (ISO/IEC, 2011) define usabilidade como um
+
+atributo de qualidade medido através da eficácia, eficiência e satisfação com a qual os usuários
+
+atingem seus objetivos especı́ficos. Segundo Endsley (2016), o UCD é um processo para
+
+concepção de interfaces de usuário que se concentra em metas de usabilidade, caracterı́sticas do
+
+usuário, tarefas e fluxo de trabalho.
+
+Definidos os objetivos, diversos autores tais como Archer (1964), Gould e Lewis (1985)
+
+e W3C (2004) concordam que o processo UCD é fundamentado em três atividades principais:
+
+1. Análise das necessidades dos usuários, a fim de identificar seus objetivos e restrições;
+
+2. Sı́ntese das soluções de design, e
+
+3. Avaliação das soluções com base nos objetivos, reprojetando o produto quando necessário.
+
+Na página do W3C (2004), são apresentados os passos do processo UCD conforme ilus-
+
+tra a Figura 2. Nota-se que as informações apresentadas pelo consórcio são pouco detalhadas,
+
+não definindo como, quando e por quem esses passos devem ser executados. O material apre-
+
+senta brevemente as fases de Análise, Design e Avaliação, apoiadas por suas possı́veis tarefas,
+
+mencionando os artefatos que cada uma delas deve produzir.
+
+
+
+13
+
+Figura 2 – Passos do processo UCD propostos pelo W3C (2004).
+
+A partir dos passos do processo de UCD apresentados pelo W3C (2004), esta pes-
+
+quisa apresentará um detalhamento das fases de Análise, Design e Avaliação, a fim de guiar
+
+a construção de sistemas Web com base em princı́pios de usabilidade. Além disso, essas fases
+
+serão chamadas aqui, respectivamente, de Análise da Experiência de Usuário (Análise UX), De-
+
+sign da Experiência de Usuário (Design UX) e Avaliação da Experiência de Usuário (Avaliação
+
+UX).
+
+Com base nas definições do W3C (2004), planeja-se deixar a metodologia proposta
+
+adaptável aos diferentes processos de software. Para isso, faz-se necessário um entendimento
+
+sobre os tradicionais modelos de processo de software, conforme descrito nas próximas seções.
+
+
+
+14
+
+2.2 Modelos de processo de software
+
+Segundo Sommerville et al. (2009), um processo de software compreende as atividades
+
+necessárias para definir, desenvolver, testar e manter um sistema de software. Essas atividades
+
+são guiadas por representações abstratas que definem os passos necessários para o desenvolvi-
+
+mento de um produto de software, denominadas modelos de processo ou modelos de ciclo de
+
+vida.
+
+Dentre os vários modelos de processo presentes na Engenharia de Software, os mais
+
+conhecidos e utilizados são os modelos de processo Cascata e Iterativo e Incremental, descritos
+
+nas próximas subseções.
+
+2.2.1 Modelo Cascata
+
+O modelo foi inicialmente apresentado por Winston W. Royce (ROYCE, 1970), porém
+
+sofreu refinamentos ao longo do tempo devido a sua caracterı́stica sequencial, incompatı́vel à
+
+realidade dos projetos atuais. Royce (1970) descreve que é possı́vel detalhar todos os requisitos
+
+antes do inı́cio das demais fases do sistema, e que as interações poderiam ser realizadas apenas
+
+entre as fases antecessoras e sucessoras de uma fase especı́fica (Figura 3).
+
+Figura 3 – Adaptação de (BEZERRA, 2002) para o modelo Cascata.
+
+
+
+15
+
+A fase de Levantamento de Requisitos objetiva coletar informações sobre o produto a
+
+ser construı́do, como o comportamento ou caracterı́sticas exigidos do sistema como um todo.
+
+A fase de Análise, por sua vez, descreve o detalhamento dos requisitos com base na negociação
+
+entre os diversos stakeholders. Na fase de Projeto (Design), é feita a descrição computacional
+
+do que o sistema deve fazer, considerando aspectos dependentes de implementação. Já a fase de
+
+Implementação, consiste na codificação de um conjunto de programas ou unidades de programa.
+
+A fase de Testes compreende testar o programa, a fim de avaliar se os requisitos definidos foram
+
+atendidos. Por fim, a fase de Implantação consiste na entrega do sistema desenvolvido.
+
+Devido à caracterı́stica sequencial do modelo Cascata, há uma baixa participação dos
+
+usuários no desenvolvimento do produto, uma vez que eles se envolvem apenas nas fases de
+
+Levantamento de Requisitos e Implantação, ou seja, no inı́cio e no final do processo. Com isso,
+
+diversos problemas podem ocorrer quanto aos aspectos de usabilidade do produto, uma vez os
+
+usuários não participam das outras fases do modelo.
+
+Bezerra (2002) relata que o modelo Cascata foi utilizado por muitos anos, porém devido
+
+à natureza de desenvolvimento de sistemas complexos da atualidade, este modelo foi substituı́do
+
+por abordagens iterativas e incrementais, conforme apresentado na próxima subseção.
+
+2.2.2 Modelo Iterativo e Incremental
+
+O modelo Iterativo e Incremental foi proposto com o intuito de resolver os problemas do
+
+modelo em Cascata. Segundo Bezerra (2002), o modelo divide o processo de desenvolvimento
+
+de um produto em ciclos, como ilustra a Figura 4.
+
+Em cada ciclo, podem ser identificadas as fases análise, projeto, implementação e testes.
+
+Dessa maneira, é alocado um subconjunto de requisitos a ser desenvolvidos, podendo ser refina-
+
+dos nos ciclos subsequentes. Assim, o desenvolvimento evolui de forma iterativa e incremental
+
+de novas funcionalidades até que o sistema completo seja desenvolvido.
+
+A abordagem Iterativa e Incremental, diferente do Cascata, incentiva a participação dos
+
+usuários nas diversas atividades do processo, possibilitando assim, a melhor compreensão dos
+
+requisitos de usuários e diminuindo probabilidades de interpretações erradas dos requisitos le-
+
+vantados. A interação dos usuários com o processo de desenvolvimento provê o aumento na
+
+qualidade de uso do sistema, através dos benefı́cios da experiência de usuário, tais como: au-
+
+
+
+16
+
+Figura 4 – Modelo Iterativo e Incremental proposto por Bezerra (2002).
+
+mento da produtividade, redução do número e gravidade dos erros cometidos e a redução do
+
+custo de treinamento (NORMAN, 2013; RUBIN, 1994).
+
+2.3 Trabalhos Relacionados
+
+Trabalhos apresentados por Ferre, Juristo e Moreno (2005), Costabile et al. (2001) e
+
+Joshi e Sarda (2010) abordam os inclusão técnicas de design centrado nos usuários, nos mo-
+
+delos de processo de software tradicionais. Esses autores afirmam que as técnicas de UCD
+
+devem ser inseridas nas fases iniciais do processo, especificamente nas fases de Levantamento
+
+de Requisitos, Análise e Projeto (Design).
+
+Segundo Ferre, Juristo e Moreno (2005), os requisitos de usuário apresentados na fase de
+
+Análise do processo UCD devem ser definidos durante as fases de Levantamento de Requisitos
+
+e Análise em um processo de Engenharia de Software. Já as fases de Design e Avaliação do
+
+processo UCD devem ser incorporadas à fase de Projeto (Design).
+
+Costabile et al. (2001) incorporam uma extensão do modelo de processo Cascata, a fim
+
+de criar sistemas interativos usáveis. Para isso, os autores propõem a inserção de três tarefas ao
+
+modelo, denominadas: 1) Análise de Usuário e Análise de Tarefas; 2) Cenários e Especificação
+
+de Interfaces de Usuário; 3) Prototipação e Testes.
+
+Joshi e Sarda (2010) propõem um framework elaborado com base em quatro perguntas a
+
+serem respondidas com intuito de organizar as fases, atividades e produtos resultantes do design
+
+
+
+17
+
+centrado em usuário. Segundo os autores, esse framework pode ser usado em qualquer processo
+
+de desenvolvimento de software.
+
+Esses trabalhos apresentam propostas para inserção das técnicas de design centrado
+
+nos usuários a modelos e métodos de processo de Engenharia de Software. Apesar dessas
+
+técnicas serem guiadas por trabalhos importantes da literatura, nenhum deles apresenta diretri-
+
+zes bem definidas, guiadas por stakeholders especı́ficos, e principalmente formalizadas em um
+
+framework reconhecido como o EPF.
+
+Em contrapartida, Rodrı́guez (2014) propõe uma extensão do processo OpenUP Básico1
+
+para inclusão de atividades centradas no usuário formalizadas no framework EPF. O autor de-
+
+fine tarefas a serem executadas, como também stakeholders especı́ficos que devem conduzir a
+
+aplicação de tais tarefas e produzir artefatos. A extensão originou-se de uma análise feita quanto
+
+a capacidade que o processo possui em relação aos aspectos de usabilidade. Para isso, o autor
+
+avaliou os nı́veis de maturidade do OpenUP Básico, definidos com base no Modelo de Maturi-
+
+dade de Usabilidade (UMM-ISO - Usability Maturity Model), proposto pela norma ISO 25010
+
+(ISO/IEC, 2011). Como resultado, a análise apontou que o processo não atendia às diretrizes
+
+definidas pelo UMM-ISO. Apesar do autor apresentar uma extensão viável para a inclusão dos
+
+princı́pios de usabilidade ao OpenUP Básico, a solução se restringe apenas a este processo, não
+
+sendo possı́vel aplicá-la diretamente a outros.
+
+Tomando como base o trabalho de Rodrı́guez (2014), mas buscando suprir as deficiências
+
+da dependência de um único processo de software, a metodologia UC-GeM, proposta no pre-
+
+sente trabalho, é construı́da de forma que seja adaptável aos modelos de processo Cascata e
+
+Iterativo e Incremental, comumente utilizados nos processos de software mais conhecidos na
+
+literatura e mais utilizados na indústria de software. Além disso, a metodologia apresenta di-
+
+retrizes bem definidas, guiadas por tarefas, que geram artefatos que incorporam os aspectos
+
+de usabilidade, e são executadas por stakeholders especı́ficos. Por fim, como a metodologia
+
+é formalizada por meio de um framework reconhecido como o EPF, toda a sua documentação
+
+é condensada em um único ambiente navegável que permite ao usuário acessar todo o seu
+
+conteúdo de uma forma orientada e amigável.
+
+1http://epf.eclipse.org/wikis/openuppt/
+
+
+
+18
+
+3 A METODOLOGIA UC-GeM
+
+O presente capı́tulo apresenta a formalização da metodologia UC-GeM conforme ilustra a Fi-
+
+gura 5. Esse diagrama apresenta as atividades que foram definidas nas três disciplinas de
+
+Análise da Experiência de Usuário (Análise UX), Design da Experiência de Usuário (Design
+
+da UX) e Avaliação da Experiência de Usuário (Avaliação UX). Essas disciplinas estendem
+
+as disciplinas de Análise e Design presente nos tradicionais modelos de processos de software
+
+(Cascata e Iterativo e Incremental) para que as interfaces de um sistema Web sejam desenvolvi-
+
+das com base em princı́pios de usabilidade.
+
+Figura 5 – Diagrama de atividades da UC-GeM.
+
+
+
+19
+
+As seções a seguir apresentam as definições de cada disciplina da UC-GeM juntamente
+
+com os stakeholders, tarefas e templates para os artefatos propostos.
+
+3.1 Análise UX
+
+A disciplina de Análise UX objetiva conhecer quem são os usuários que irão utilizar
+
+o sistema Web, quais são suas necessidades e objetivos segundo as tarefas que eles executam.
+
+Essa disciplina é composta por três tarefas: Análise de Usuário, Análise de Tarefas e Análise
+
+do Fluxo de Trabalho.
+
+3.1.1 Stakeholders
+
+Para a disciplina de Análise UX, Rodrı́guez (2014) propõe os stakeholders Especialista
+
+UX, Representantes de Usuários e Usuários Finais.. Esses profissionais são descritos por meio
+
+de um conjunto de caracterı́sticas necessárias para inclusão de técnicas do design centrado no
+
+usuário a um modelo de processo de software.
+
+O Especialista UX deve ser um profissional com elevado conhecimento sobre técnicas
+
+e processos do design centrado no usuário. Ele possui o papel de planejar e questionar as ati-
+
+vidades relacionadas à experiência de usuário, intermediando a comunicação entre os diversos
+
+stakeholders (ex: Representantes de Usuários, Usuários Finais, Designer UX, Avaliador UX,
+
+Analistas, Arquitetos de Software).
+
+Os Representantes de Usuários compreende um subconjunto de todos os usuários, no
+
+qual deve ser envolvido em todas as disciplinas da metodologia. Eles devem possuir um elevado
+
+nı́vel de conhecimento sobre os requisitos do sistema, para que possam assim, saber expres-
+
+sar suas opiniões sobre as decisões necessárias no processo. No contexto desta metodologia,
+
+recomenda-se um representante de usuário para cada perfil categorizado. É necessário que es-
+
+tes representantes comuniquem-se com os demais usuários para que estejam em comum acordo
+
+sobre suas decisões.
+
+Os Usuários Finais compreendem todos os usuários que de alguma maneira utilizarão o
+
+sistema, consistindo no principal papel no contexto desta metodologia. Para que se alcance o
+
+
+
+20
+
+objetivo de desenvolver produtos com elevado ı́ndice de usabilidade, esses usuários devem pro-
+
+ver informações sobre suas caracterı́sticas, comportamentos, habilidades, dificuldades e tarefas
+
+que executam.
+
+3.1.2 Análise de Usuário
+
+Esta tarefa objetiva otimizar a interação e a experiência de usuário com base nas ca-
+
+racterı́sticas relevantes das pessoas que utilizarão o sistema. As informações necessárias para
+
+execução dessa tarefa devem ser obtidas durante a atividade de Análise de Requisitos, comu-
+
+mente encontrada nos principais modelos de processo de software. Dentre essas informações,
+
+destacam-se: requisitos funcionais; requisitos não funcionais; atores e casos de uso; estórias de
+
+usuários, dentre outros. Essa tarefa define os seguintes propósitos:
+
+• Definir quais informações dos usuários deverão ser coletadas;
+
+• Estabelecer quais técnicas serão utilizadas para coleta desses dados;
+
+• Definir perfis de usuário baseados nas caracterı́sticas comuns presentes nos diversos papéis.
+
+Para cumprir essa tarefa, os seguintes passos são necessários:
+
+1. O Especialista UX deve selecionar quais critérios fará parte da coleta dos dados dos
+
+usuários. Recomenda-se a utilização do critérios propostos por Barbosa e Silva (2010),
+
+apresentados no artefato de Identificação das Caracterı́sticas de Usuários (Apêndice 4).
+
+2. Para coletar os dados, podem ser usadas as técnicas tradicionais de coleta de requisitos,
+
+tais como entrevistas, questionários, brainstorming, como sugere Dix (2009).
+
+3. Os perfis de usuário são definidos com base nos dados coletados no passo 1, permitindo
+
+agrupá-los conforme as caracterı́sticas e objetivos comuns de acordo com o papel que
+
+exercem no sistema. Ressalta-se a importância de se identificar todos os perfis de usuário
+
+para que as interfaces do sistema sejam compatı́veis com as diversidades identificadas.
+
+
+
+21
+
+3.1.3 Análise de Tarefas
+
+Essa tarefa objetiva o melhor entendimento sobre as tarefas executadas por diferentes
+
+perfis de usuário, como eles as executam e por que eles as executam. Nesse contexto, as tarefas
+
+são definidas em termos dos objetivos que os usuários querem ou necessitam atingir. Para isso,
+
+o propósito desta tarefa consistem em:
+
+• Definir as tarefas e possı́veis subtarefas que deverão ser implementadas, relacionando os
+
+perfis de usuário que as executam.
+
+• Elaborar a Matriz de Tarefas por Perfil de cada Papel.
+
+Com intuito de atingir o propósito acima, é necessário a execução dos seguintes passos:
+
+1. O Especialista UX deve selecionar quais tarefas e possı́veis subtarefas serão implementa-
+
+das. Para isso, recomenda-se a utilização dos Casos de Uso (previamente documentados)
+
+e os Perfis de Usuário (coletados na tarefa de Análise de Usuário). Cada tarefa deve ser
+
+definida de acordo com os seguintes critérios: Tempo médio gasto na execução das tarefas
+
+e subtarefas; Grau de importância para os diferentes perfis de usuários; e Dificuldade de
+
+execução da tarefa. A dificuldade de execução pode ser calculada com base no cálculo do
+
+nı́vel de complexidade da tarefa, fornecido por técnicas de estimativas tais como Análise
+
+de Pontos por Casos de Uso. (KARNER, 1993).
+
+2. A elaboração da Matriz de Tarefas por Perfil de cada Papel consiste em apresentar com
+
+qual frequência um determinado perfil de usuário executa uma tarefa. Cada perfil perten-
+
+cente a um papel (atores dos Casos de Uso), deve ser relacionado às tarefas que execu-
+
+tam de acordo com as frequências: A-Alta: executada frequentemente por um perfil de
+
+usuário; M- Média: executada em nı́vel médio; e B- baixa: raramente executada.
+
+Ambos os passos são documentados no artefato Frequência de Execução da Tarefa, mos-
+
+trado no Apêndice 4.
+
+
+
+22
+
+3.1.4 Análise do Fluxo de Trabalho
+
+A tarefa de Análise do Fluxo de Trabalho compreende a identificação dos possı́veis
+
+cenários do sistema (BARBOSA; SILVA, 2010). A metodologia UC-GeM sugere que os cenários
+
+sejam desenvolvidos apenas para as tarefas que possuem frequência alta de execução para os
+
+diferentes perfis de usuário. Essas informações são descritas no Artefato de Frequência de
+
+Execução das Tarefas (Apêndice 4). Cada cenário compreende descrever uma estória sobre as
+
+pessoas realizando determinadas tarefas. Essas estórias são descritas por meio de atores e perfis
+
+de usuário, executando tais tarefas, de acordo com seus com objetivos especı́ficos.
+
+Cada cenário deve possuir um tı́tulo que descreve brevemente a situação; os atores que
+
+compõe cada cenário; uma descrição da situação inicial em que os atores se encontram; e uma
+
+referência a outros cenários que permitam aos atores atingir os mesmos objetivos de diferentes
+
+maneiras (BARBOSA; SILVA, 2010).
+
+3.1.5 Produtos de Trabalho
+
+A Figura 6 apresenta os artefatos gerados na disciplina de Análise UX, relacionando
+
+quais stakeholders devem executar as tarefas presentes na disciplina. A seta contı́gua repre-
+
+senta o stakeholder responsável por tais tarefas e a seta pontilhada representa quais staholders
+
+secundários interagem com as mesmas.
+
+Os artefatos recomendados na disciplina de Análise UX foram propostos neste traba-
+
+lho, a partir das tarefas descritas. Esses artefatos compreendem as saı́das de cada tarefa e
+
+são consequentemente utilizados como entradas para as atividades posteriores. Os artefatos de
+
+Identificação das Caracterı́sticas de Usuários e Frequência de Execução de Tarefas possuem
+
+templates que objetivam guiar os utilizadores da UC-GeM. É importante ressaltar que todos
+
+esses artefatos compreendem entradas para a disciplina de Design UX. Será com base neles,
+
+que os stakeholders responsáveis irão desenvolver as soluções de design.
+
+
+
+23
+
+Figura 6 – Artefatos da Análise UX e stakeholders envolvidos.
+
+3.2 Design UX
+
+A disciplina de Design UX é uma disciplina iterativa, pois pode revelar necessidades de
+
+voltar nas tarefas anteriores, a fim de desenvolver interfaces com o usuário que melhor expres-
+
+sam suas necessidades e objetivos. Para isso, segundo Sommerville et al. (2009), as interfa-
+
+ces devem ser desenvolvidas em dois estágios apresentados nesta metodologia como Soluções
+
+de Design e Protótipos Online Funcionais. As Soluções de Design são apresentadas na UC-
+
+GeM nas tarefas de Definição das Soluções de Design e Design / Re-Design de Protótipos e os
+
+Protótipos Online Funcionais nas tarefas de Desenvolvimento dos Protótipos Online Funcionais
+
+e Design de Navegação.
+
+As seções a seguir apresentam as definições de cada disciplina da UC-GeM juntamente
+
+com os stakeholders, tarefas e templates para os artefatos propostos
+
+3.2.1 Stakeholders
+
+Os stakeholders envolvidos nesta disciplina compreendem o Designer UX e Represen-
+
+tantes de Usuários. O Designer é o stakeholder responsável por executar as tarefas presentes
+
+
+
+24
+
+na disciplina de Design UX. Esse deve ser um profissional criativo e que possua domı́nio tec-
+
+nológico sobre as ferramentas de design, a fim de prover a experiência de usuário com base nas
+
+caracterı́sticas e objetivos de usuários, categorizados anteriormente.
+
+O papel dos Representantes de Usuários nesta disciplina é averiguar se o processo evolu-
+
+tivo das soluções de design e dos protótipos funcionais satisfazem às necessidades dos usuários.
+
+É de sua responsabilidade prover informações ao Designer UX sobre qual o fluxo de tarefas me-
+
+lhor representa suas experiências; opinar sobre a disposição dos elementos de tela, tais como
+
+cores, imagens, botões, dentre outros.
+
+3.2.2 Definição das Soluções de Design
+
+Esta tarefa objetiva explorar as diferentes alternativas de design suportadas pelos arte-
+
+fatos da disciplina de Análise UX. Para isso, é necessário um estudo das soluções que melhor
+
+se adequam aos requisitos de usuário. Na UC-GeM, essas soluções são descritas por meio de
+
+Protótipos em Papel, Storyboards e Mockups Online.
+
+1. Protótipos em Papel consistem nos protótipos iniciais desenhados com auxı́lio de papel
+
+e caneta. Esses protótipos são fáceis de desenvolver e podem então, economizar tempo
+
+permitindo a verificação das ideias importantes com usuários (COSTABILE et al., 2001).
+
+2. A técnica de storyboards objetiva descrever a interação entre os usuários e o sistema,
+
+de acordo com os cenários especificados. Ela utiliza uma sequência de desenhos ou
+
+ilustrações que representam os estados das interfaces Web, a partir da interação usuários-
+
+sistema. É como um roteiro desenhado, lembrando uma estória em quadrinhos sem
+
+balões. Suas principais vantagens são: economia de tempo e dinheiro, antecipando pro-
+
+blemas que poderiam ocorrer na implementação das interfaces de usuários; e facilidade
+
+na visualização das propostas de interface desde a fase inicial.
+
+3. Os Mockups Online constituem a representação mais próxima da solução dos Protótipos
+
+Online Funcionais. São conhecidos como representações de alta fidelidade, uma vez que
+
+apresentam o desenho completo das interfaces. A sua construção deve ser automatizada,
+
+incorporando as decisões a respeito de tamanhos, posições, cores, fontes e outros (BAR-
+
+BOSA; SILVA, 2010).
+
+
+
+25
+
+É importante ressaltar que o Designer UX responsável pode decidir selecionar uma ou
+
+mais soluções de design a serem implementadas. Essas soluções, por sua vez, serão projetadas
+
+na tarefa de Design / Re-Design de Protótipos.
+
+3.2.3 Design / Re-Design de Protótipos
+
+O objetivo desta tarefa é desenvolver e refinar as soluções de design selecionadas que
+
+melhor expressam os requisitos da experiência de usuário. Como todo processo de design, o
+
+desenvolvimento dessas soluções deve ser iterativo. Cada atividade pode revelar necessidades
+
+de voltar a soluções anteriores, a fim de revisar ou ampliar uma solução.
+
+Caso a solução selecionada atenda aos requisitos de usuário, uma nova solução pode ser
+
+construı́da. Se a solução não atender aos requisitos de usuários, deve haver um refinamento até
+
+que se atenda às necessidades e objetivos especificados. A iteração pode ser aplicada quantas
+
+vezes for necessário, delimitados apenas por tempo e recursos disponı́veis (BARBOSA; SILVA,
+
+2010).
+
+Uma vez que soluções de design foram projetadas, a próxima tarefa é desenvolver os
+
+protótipos online funcionais e elaborar o design de navegação das telas. Ressalta-se que essas
+
+tarefas podem ser executadas em paralelo.
+
+3.2.4 Desenvolvimento dos Protótipos Online Funcionais
+
+A tarefa de Desenvolvimento dos Protótipos Online Funcionais compreendem em pro-
+
+jetar protótipos automatizados e vinculados por hiperlinks com base nas soluções de design
+
+descritas na seção 3.2.3. É importante atentar ao fato que esses protótipos possivelmente irão
+
+sofrer modificações, uma vez que eles serão avaliados na disciplina de Avaliação UX, junta-
+
+mente com artefatos gerados na tarefa de Design de Navegação.
+
+
+
+26
+
+3.2.5 Design de Navegação
+
+O objetivo desta tarefa é representar a navegação do usuário por meio das relações de
+
+todas as interfaces do sistema Web através dos Protótipos Online Funcionais. Essas relações
+
+ilustram quais caminhos devem ser percorridos através da lógica da execução das tarefas. Dessa
+
+forma, é importante entender as sequências de ações que são familiares aos usuários, provendo
+
+um feedback da conclusão de tais tarefas (NIELSEN, 1994). Rodrı́guez (2014) sugere que o
+
+artefato dos Mapas de Navegação seja projetado por meio de diagramas da UML, ilustrando o
+
+caminho e a integração das diversas telas.
+
+3.2.6 Produtos de Trabalho
+
+A Figura 7 apresenta os artefatos gerados na disciplina de Design UX, relacionando
+
+quais stakeholders devem executar as tarefas presentes na disciplina.
+
+Figura 7 – Artefatos do Design UX e stakeholders envolvidos.
+
+O Designer UX deverá selecionar quais soluções de design melhor expressam as carac-
+
+terı́sticas dos usuários por meio dos Protótipos em Papel, Storyboards e Mockups Online. Uma
+
+vez que as soluções foram definidas, elas devem ser desenvolvidas e posteriormente projetar os
+
+
+
+27
+
+Protótipos Online Funcionais e os Mapas de Navegação.
+
+3.3 Avaliação UX
+
+A disciplina de Avaliação UX objetiva avaliar se Protótipos Online Funcionais possuem
+
+qualidade de uso, ou seja, se eles atendem aos objetivos e necessidades dos usuários, detalhados
+
+na fase de Análise UX. Essa disciplina é fundamental em qualquer processo de desenvolvimento
+
+que busque produzir sistemas interativos e de alta qualidade (BARBOSA; SILVA, 2010). As ta-
+
+refas presentes nessa disciplina são: Avaliação Heurı́stica dos Protótipos Online Funcionais e
+
+Teste de Usabilidade dos Protótipos Online Funcionais. Ambas as tarefas são iterativas, sendo
+
+necessário voltar à tarefa de Design / Re-Design de Protótipos sempre que a avaliação encontrar
+
+inconsistências nos protótipos. Cada tarefa possui seus objetivos especı́ficos, sendo fundamen-
+
+tal serem executadas em sequência, assim como apresenta o W3C (2004).
+
+As seções a seguir apresentam as definições de cada disciplina da UC-GeM juntamente
+
+com os stakeholders, tarefas e templates para os artefatos propostos
+
+3.3.1 Stakeholders
+
+Para a disciplina de Avaliação UX, destaca-se o stakeholder Avaliador UX, responsável
+
+por guiar a avaliação da usabilidade do sistema Web, realizados por meio das tarefas de Avaliação
+
+Heurı́sticas e Teste de Usabilidade dos protótipos online funcionais. Para exercer esse papel,
+
+é necessário conhecimento sobre métodos de avaliação de usabilidade e possuir domı́nio do
+
+negócio (RODRÍGUEZ, 2014). Os Representantes de Usuários na disciplina de Avaliação UX,
+
+participam dos artefatos relacionados a tarefa de Teste de Usabilidade dos Protótipos Online
+
+Funcionais.
+
+
+
+28
+
+3.3.2 Avaliação Heurı́stica dos Protótipos Online Funcionais
+
+Avaliação Heurı́stica é um método de avaliação por inspeção proposto por Nielsen e
+
+Molich (1990) que objetiva avaliar interfaces interativas. Esse método é conduzido pelo Avali-
+
+ador UX e visa orientar os avaliadores na inspeção sistemática das interfaces do sistema Web,
+
+buscando problemas que comprometam a usabilidade. Os autores relatam que esse processo
+
+deve ser realizado por diversos avaliadores, onde cada um verifica o sistema individualmente.
+
+Com intuito de guiar a avaliação heurı́stica, a metodologia UC-GeM apresenta uma
+
+adaptação das três atividades do método de avaliação heurı́stica propostas por Barbosa e Silva
+
+(2010): Preparação; Coleta e Interpretação dos Dados e Consolidação dos Resultados.
+
+A atividade de Preparação objetiva os avaliadores a:
+
+1. Conhecer o contexto do sistema Web, quais são os Perfis de Usuário, a Frequência de
+
+Execução de Tarefas de cada perfil, e os Cenários em que as tarefas são executadas;
+
+2. Selecionar qual ou quais tela(s) dos Protótipo(s) Online Funcional(ais) será(ão) avali-
+
+ada(s);
+
+3. Selecionar quais heurı́sticas serão aplicadas (disponı́veis no Apêndice 4);
+
+4. Selecionar os avaliadores que serão recrutados. Nessa etapa, é aconselhável que os avali-
+
+adores tenham domı́nio do negócio e conheçam sobre técnicas de experiência de usuário.
+
+5. Preparar o Roteiro para Avaliação Heurı́stica (ilustrado no Apêndice 4);
+
+A atividade de Coleta e Interpretação dos Dados compreende em avaliar individual-
+
+mente as interfaces e seus elementos, considerando todas as heurı́sticas selecionadas. Para cada
+
+heurı́stica violada, o avaliador deve anotar o local, e a gravidade do problema. O local corres-
+
+ponde à tela e ao elemento de interface a heurı́stica foi violada. A gravidade do problema é
+
+classificado segundo Nielsen e Molich (1990) como:
+
+• Cosmético: não precisam ser reparados a menos que haja tempo no cronograma do pro-
+
+jeto;
+
+• Pequeno: o problema deve receber prioridade baixa;
+
+• Grande: o problema deve receber prioridade alta e impacta em fatores de usabilidade;
+
+
+
+29
+
+• Catastrófico: o problema impede a execução das tarefas, sendo extremamente importante
+
+reparar-lo;
+
+Para Consolidação dos Resultados, é necessário que os avaliadores discutam sobre os
+
+problemas encontrados em cada tela, objetivando entrar em um comum acordo sobre a gravi-
+
+dade dos problemas encontrados. Dessa maneira, deve-se julgar quais problemas deverão ser
+
+corrigidos e então, submetê-los à tarefa de Design / Re-Design de Protótipos.
+
+Considera-se aprovado, o Protótipo Online Funcional que não apresente problemas de
+
+usabilidade ou quando o grau de gravidade do(s) problema(s) encontrado(s) for igual a 1 ou 2,
+
+decidido em comum acordo entre os avaliadores. Neste momento, o protótipo é submetido à ta-
+
+refa de Teste de Usabilidade dos Protótipos Online Funcionais. Como documentação da tarefa,
+
+a metodologia UC-GeM propõe o guia para o Resultado da Avaliação Heurı́stica, apresentado
+
+no Apêndice 4.
+
+3.3.3 Teste de Usabilidade dos Protótipos Online Funcionais
+
+Teste de Usabilidade é um método de avaliação por observação, que visa avaliar a usa-
+
+bilidade de um sistema interativo com base nas experiências de uso dos usuários (RUBIN, 1994).
+
+Esse método consiste em verificar se o Protótipo Online Funcional provê a realização das tarefas
+
+definidas pelos perfis de usuário com base em seus objetivos. Faz-se necessário o recrutamento
+
+de um membro de cada um dos perfis de usuário para cada frequência de execução das tarefas,
+
+disponı́veis no artefato de Frequência de Execução de Tarefas (Apêndice 4).
+
+Esta tarefa também apresenta uma adaptação das atividades do método de teste de usa-
+
+bilidade proposto por Barbosa e Silva (2010), que compreende as atividades de: Preparação;
+
+Coleta e Interpretação dos Dados e Consolidação dos resultados. A atividade de preparação da
+
+avaliação do teste de usabilidade objetiva:
+
+1. Conhecer o contexto do sistema Web, quais são os perfis de usuário, a frequência de
+
+execução de tarefas de cada perfil e os cenários em que as tarefas são executadas;
+
+2. Selecionar qual ou quais tela(s) do Protótipos Online Funcional(ais) serão avaliadas;
+
+3. Selecionar os perfis de usuário que executam as tarefas presentes nos protótipos. Os
+
+usuários que representarão cada perfil devem preencher o Termo de Consentimento para
+
+
+
+30
+
+avaliação (disponı́vel no Apêndice 4); e
+
+4. Preparar o Roteiro para o Teste de Usabilidade, apresentado no Apêndice 4;
+
+Na atividade de Coleta e Interpretação dos Dados o Avaliador UX deve por sua vez:
+
+• Disponibilizar o roteiro no qual o usuário deverá seguir de acordo com o cenário de
+
+execução da tarefa;
+
+• Observar as reações dos usuários. Recomenda-se gravar em áudio e vı́deo os usuários
+
+executando as tarefas a eles submetidas.
+
+• Conduzir uma entrevista ou questionário aos participantes, com intuito de coletar a opinião
+
+dos mesmos com base na sua experiência de uso.
+
+Na atividade de Consolidação dos Resultados, o Avaliador UX deverá relatar a lista de
+
+problemas reportados pelos usuários em cada tela do protótipo, sumarizando os dados coletados
+
+em tabelas ou gráficos no artefato de Resultado do Teste de Usabilidade (Apêndice 4). Desta
+
+maneira, deve-se julgar quais problemas deverão ser corrigidos e submeter o protótipo à tarefa
+
+de Design / Re-Design de Protótipos, quando for o caso.
+
+3.3.4 Produtos de Trabalho
+
+A Figura 8 ilustra os produtos de trabalho da disciplina de Avaliação UX juntamente
+
+com os stakeholders envolvidos.
+
+Os produtos de trabalho gerados na tarefa de Avaliação Heurı́stica dos Protótipos Online
+
+Funcionais são o Roteiro para Avaliação Heurı́stica e o Resultado da Avaliação Heurı́stica, ela-
+
+borados exclusivamente por avaliadores, pois o objetivo é inspecionar os protótipos de maneira
+
+rápida e técnica, buscando por problemas que comprometam a usabilidade. Já os artefatos ge-
+
+rados na tarefa de Teste de Usabilidade são o Termo de Consentimento, o Roteiro para o Teste
+
+de Usabilidade e o Resultado do Teste de Usabilidade. Esses artefatos devem ser desenvolvidos
+
+pelo Avaliador UX e Representantes de Usuários, uma vez que esses são quem executarão o
+
+teste.
+
+
+
+31
+
+Figura 8 – Artefatos da Avaliação UX e stakeholders envolvidos.
+
+3.4 UC-GeM ilustrada no EPF
+
+A Figura 9 ilustra como a metodologia UC-GeM foi formalizada no framework EPF.
+
+O framework é definido a partir de métodos de conteúdos e processos, como descrito ante-
+
+riormente na seção 1.4. Os métodos de conteúdo suportam: Pacotes de Conteúdo (Content
+
+Packages), Categorias Padrão (Standard Categories) e Categorias Personalizadas (Custom Ca-
+
+tegories).
+
+Foram criados três pacotes de conteúdo, referenciando as disciplinas Análise UX, De-
+
+sign UX e Avaliação UX, respectivamente. Para cada disciplina, foram definidos seus respecti-
+
+vos papéis, tarefas, produtos de trabalho e guias de utilização. Os guias de utilização permitem
+
+criar templates, exemplos, materiais de suporte, ferramentas, dentre outros. Nesta metodologia,
+
+foram utilizados guias de templates e material de suporte.
+
+Nas Categorias Padrão, definem-se as disciplinas e os Conjuntos de Papéis (Roles Sets).
+
+Para cada disciplina, adiciona-se as tarefas que pertencem à mesma, e o framework faz a re-
+
+
+
+32
+
+Figura 9 – Configuração da UC-GeM no EPF.
+
+ferência de todos os papéis e produtos de trabalho vinculados às tarefas inseridas. De maneira
+
+semelhante, os Conjuntos de Papéis permitem agrupar os papéis definidos.
+
+As Categorias Personalizadas agrupam os diversos métodos de conteúdo que se deseja
+
+publicar no site resultante. Pode-se observar, na Figura 9, que foi definido a Categoria Persona-
+
+lizada ”versao1.0”e adicionadas a ela as categorias que se deseja publicar.
+
+A Figura 10 apresenta a tela inicial do site da metodologia UC-GeM, gerado a partir
+
+das configurações de conteúdo do EPF. Pode-se perceber com base na Figura 10 que todas as
+
+Categorias Personalizadas inseridas são listadas na aba mais à esquerda, juntamente com seus
+
+subconjuntos. Através da página inicial do site, o usuário pode navegar por todo o conteúdo
+
+da metodologia. Usando o menu lateral (Figura 10), é possı́vel acessar todas as disciplinas
+
+definidas, bem como as suas tarefas, artefatos, templates e stakeholders envolvidos. Este mate-
+
+rial constitui um guia de orientação para a construção de sistemas Web guiados por técnicas de
+
+usabilidade que pode ser usado nos diversos processos presentes nos ciclos de vida Cascata e
+
+
+
+33
+
+Iterativo e Incremental.
+
+Figura 10 – Tela inicial da UC-GeM.
+
+As Figuras 11, 12 e 13 ilustram a descrição das disciplinas Análise UX, Design UX e
+
+Avaliação ux, respectivamente, bem como o detalhamento de suas tarefas. As tarefas de cada
+
+uma das disciplinas podem ser acessadas por meio do menu lateral ou nos links de navegação.
+
+Figura 11 – Tela da disciplina de Análise UX.
+
+
+
+34
+
+Figura 12 – Tela da disciplina de Design UX.
+
+Figura 13 – Tela da disciplina de Avaliação UX.
+
+3.5 Aplicação da UC-GeM em um processo de software
+
+Esta seção descreve como a metodologia UC-GeM é adaptada aos modelos de processo
+
+Cascata e Iterativo e Incremental.
+
+
+
+35
+
+3.5.1 Aplicação da UC-GeM no modelo Cascata
+
+A Figura 14 apresenta quais fases do modelo Cascata são estendidas pelas disciplinas
+
+propostas na UC-GeM. A disciplina Análise UX estende as fases de Levantamento de Requisi-
+
+tos e Análise de Requisitos. Como explicado na subseção 2.2.1, essas fases objetivam coletar
+
+informações do sistema a ser desenvolvido e detalhá-las conforme as definições dos usuários.
+
+Assim, as tarefas destas fases devem ocorrer em conjunto com as tarefas de Análise de Usuário
+
+e Análise de Tarefas, estabelecidas na disciplina de Análise UX. Com isso, as informações co-
+
+letadas nessas tarefas auxiliam os stakeholders a compreender o que os usuários esperam do
+
+sistema, garantindo assim o melhor detalhamento dos requisitos levantados.
+
+Figura 14 – Extensão do modelo de processo Cascata com a UC-GeM.
+
+As disciplinas Design UX e Avaliação UX estendem a fase de Projeto, onde ocorre
+
+a descrição computacional do sistema sob desenvolvimento. Essas disciplinas objetivam a
+
+definição e o desenvolvimento das diversas soluções de design, avaliadas por meio de protótipos
+
+que melhor expressam os requisitos de usuário coletados durante as fases anteriores. Dessa ma-
+
+neira, os protótipos serão implementados apenas após serem aprovados pelas tarefas descritas
+
+na disciplina Avaliação UX. Isso diminui a ocorrência de retrabalho durante o desenvolvimento,
+
+pois os problemas de usabilidade podem ser identificados com base nos protótipos funcionais,
+
+e não apenas após a fase de Implementação, evitando-se a propagação de problemas de usabi-
+
+lidade ao longo do processo de desenvolvimento. Por fim, ressalta-se que os protótipos devem
+
+ser avaliados, refinados e reavaliados até que se tenha a satisfação dos usuários garantida.
+
+
+
+36
+
+3.5.2 Aplicação da UC-GeM no modelo Iterativo e Incremental
+
+A extensão do modelo Iterativo e Incremental, com a aplicação da UC-GeM se dá, con-
+
+forme ilustra a Figura 12.
+
+Figura 15 – Extensão do modelo Iterativo e Incremental com a UC-GeM.
+
+Nota-se que essa adaptação ocorre de maneira semelhante àquela feita ao modelo de
+
+processo Cascata, ilustrada na Figura 14. Essa semelhança ocorre devido à estrutura análoga
+
+dos modelos. Porém, é válido destacar, nesse caso, que a iteratividade presente no modelo
+
+Iterativo e Incremental também se propagam para as disciplinas da UC-GeM.
+
+Com base no que foi apresentado nesta subseção, percebe-se que a adaptação dos mo-
+
+delos de processo à metodologia UC-GeM ocorre de forma simples, sem que seja necessário
+
+a modificação das fases presentes em tais modelos. Dessa maneira, a UC-GeM pode ser facil-
+
+mente adotada nos processos de software que seguem os modelos Cascata e Iterativo e Incre-
+
+mental e, até mesmo, em outros processos com pequenas adaptações. Ressalta-se que a UC-
+
+GeM tende a oferecer melhores resultados quando aplicada a processos baseados no modelo
+
+Iterativo e Incremental, por ele enfatizar a participação ativa do usuário, elemento fundamental
+
+para o sucesso da metodologia.
+
+
+
+37
+
+4 CONCLUSÃO E TRABALHOS FUTUROS
+
+Este trabalho apresentou a metodologia genérica do design centrado em usabilidade, denomi-
+
+nada UC-GeM. Essa metodologia foi desenvolvida com base nos princı́pios do processo UCD
+
+propostos pelo W3C (2004). A metodologia definiu as disciplinas de Análise UX, Design UX e
+
+Avaliação UX, suportadas por tarefas que objetivam definir, desenvolver e avaliar as interfaces
+
+de uma sistema Web que atendam as caracterı́sticas, necessidades e objetivos dos usuários.
+
+Para formalização da UC-GeM foi utilizado o framework EPF, que possibilita a construção
+
+e publicação de processos guiados por tarefas, stakeholders, artefatos, templates e diversos
+
+outros guias de utilização. A relevância do framework amplia a possibilidade de adoção da
+
+metodologia, pois o mesmo é bem conhecido e utilizado em processos tradicionais tais como
+
+OpenUp e RUP.
+
+Ressalta-se que a metodologia possibilita a inserção de caracterı́sticas do design cen-
+
+trado em usuário nos modelos de processo Cascata e Iterativo e Incremental, a fim de prover
+
+interfaces com elevado grau de usabilidade. Isso ocorre de forma simples, sem que seja ne-
+
+cessário a modificação das fases presentes em tais modelos. Dessa maneira, é possı́vel que os
+
+diversos processos que adotam os modelos Cascata e Iterativo e Incremental possam também
+
+inserir caracterı́sticas de usabilidade em suas atividades.
+
+Com a adoção da UC-GeM, apesar de mais atividades serem inseridas em um processo
+
+de software, os ganhos obtidos com o aumento da qualidade final do produto, a satisfação
+
+dos usuários e a redução de retrabalho, justificam o esforço dispendido nas fases iniciais do
+
+desenvolvimento.
+
+Como trabalhos futuros, objetiva-se a aplicação da metodologia em projetos de software
+
+que adotem os modelos Cascata e Iterativo e Incremental, executando caso necessário os devi-
+
+dos refinamentos. Objetiva-se também a disponibilização da mesma em algum meio, como o
+
+W3C, por exemplo. Por fim, vislumbra-se a avaliação do comportamento da metodologia no
+
+universo das abordagens ágeis.
+
+
+
+38
+
+REFERÊNCIAS
+
+ABRAS, C.; MALONEY-KRICHMAR, D.; PREECE, J. User-centered design. Bainbridge, W.
+Encyclopedia of Human-Computer Interaction. Thousand Oaks: Sage Publications, Citeseer,
+v. 37, n. 4, p. 445–456, 2004.
+
+ARCHER, L. B. Systematic method for designers. [S.l.]: Council of Industrial Design, 1964.
+
+BARBOSA, S. D. J.; SILVA, B. S. da. Interação humano-computador. [S.l.]: Elsevier, 2010.
+
+BEZERRA, E. Princı́pios de análise e projeto de sistema com uml. Rio de Janeiro: CAMPUS:
+Elsevier, 2002.
+
+COSTABILE, M. F. et al. Usability in the software life cycle. Handbook of software
+engineering and knowledge engineering, World Scientific Publishing Company, v. 1, p.
+179–192, 2001.
+
+DIX, A. Human-computer interaction. [S.l.]: Springer, 2009.
+
+ENDSLEY, M. R. Designing for situation awareness: An approach to user-centered design.
+[S.l.]: CRC press, 2016.
+
+FERRE, X.; JURISTO, N.; MORENO, A. M. Which, when and how usability techniques
+and activities should be integrated. In: Human-Centered Software Engineering—Integrating
+Usability in the Software Development Lifecycle. [S.l.]: Springer, 2005. p. 173–200.
+
+GOULD, J. D.; LEWIS, C. Designing for usability: key principles and what designers think.
+Communications of the ACM, ACM, v. 28, n. 3, p. 300–311, 1985.
+
+HITZ, M.; LEITNER, G.; MELCHER, R. Usability of web applications. Web engineering:
+The discipline of systematic development of web applications, 2006.
+
+ISO. ISO 9241 Ergonomics of human-system interaction — Part 210: Human-
+centred design for interactive systems. International Organization for Standar-
+dization, 2010. International Organization for Standardization. Disponı́vel em:
+<https://www.iso.org/obp/ui/#iso:std:iso:9241:-210:ed-1:v1:en>. Acesso em: 28/06/2016.
+
+ISO/IEC. ISO/IEC 25010:2011:Systems and software Quality Requirements and Evaluation
+(SQuaRE) — System and software quality models. Março 2011. International Organization for
+Standardization. Disponı́vel em: <http:https://www.w3.org/WAI/EO/2003/ucd>. Acesso em:
+28/06/2016.
+
+JOSHI, A.; SARDA, N. Evaluating relative contributions of various hci activities to usability.
+In: SPRINGER. International Conference on Human-Centred Software Engineering. [S.l.],
+2010. p. 166–181.
+
+KAPOR, M. A Software Design Manifesto, reprint in Winograd, T.(ed.): Bringing Design to
+Software. [S.l.]: Reading (MA): Addison-Wesley, 1996.
+
+
+
+39
+
+KARNER, G. Resource estimation for objectory projects. Objective Systems SF AB, Citeseer,
+v. 17, 1993.
+
+LOPES, A. et al. Evaluating HCI Design with Interaction Modeling and Mockups. [S.l.], 2015.
+
+NIELSEN, J. Usability engineering. [S.l.]: Elsevier, 1994.
+
+NIELSEN, J.; MOLICH, R. Heuristic evaluation of user interfaces. In: ACM. Proceedings of
+the SIGCHI conference on Human factors in computing systems. [S.l.], 1990. p. 249–256.
+
+NORMAN, D. A. The design of everyday things: Revised and expanded edition. [S.l.]: Basic
+books, 2013.
+
+NORMAN, D. A.; DRAPER, S. W. User centered system design. New Perspectives on
+Human-Computer Interaction, L. Erlbaum Associates Inc., Hillsdale, NJ, 1986.
+
+OMG. Software & Systems Process Engineering Metamodel Specification Version 2.0. 2008.
+Object Management Group. Disponı́vel em: <http:https://www.omg.org/spec/SPEM/2.0/>.
+Acesso em: 15/08/2016.
+
+PINTO, F. C. Avaliação de usabilidade sob a perspectiva de transparência: um estudo de caso
+do sistema comprasnet. UNIVERSIDADE FEDERAL DE PERNAMBUCO, 2015.
+
+PRATES, R. O.; BARBOSA, S. D. J. Avaliação de interfaces de usuário–conceitos e métodos.
+In: Jornada de Atualização em Informática do Congresso da Sociedade Brasileira de
+Computação, Capı́tulo. [S.l.: s.n.], 2003. v. 6.
+
+PUERTA, A. R. A model-based interface development environment. IEEE Software, IEEE,
+v. 14, n. 4, p. 40–47, 1997.
+
+RODRÍGUEZ, A. Extending openup to conform with the iso usability maturity model. In:
+SPRINGER. International Conference on Human-Centred Software Engineering. [S.l.], 2014.
+p. 90–107.
+
+ROYCE, W. W. Managing the development of large software systems. In: LOS ANGELES.
+proceedings of IEEE WESCON. [S.l.], 1970. v. 26, n. 8, p. 328–338.
+
+RUBIN, J. Handbook of Usability Testing New York. [S.l.]: John Wiley & Sons, Inc, 1994.
+
+SOMMERVILLE, I. et al. Engenharia de software. [S.l.]: Addison Wesley São Paulo, 2009.
+253 p.
+
+W3C. Web Accessibility Initiative (WAI). Notes on User Centered Design Process
+(UCD). Fevereiro 2004. WORLD WIDE WEB CONSORTIUM. Disponı́vel em:
+<http:https://www.w3.org/WAI/EO/2003/ucd>. Acesso em: 28/06/2016.
+
+WINCKLER, M.; PIMENTA, M. S. Avaliação de usabilidade de sites web. Escola de
+Informática da SBC SUL (ERI 2002) ed. Porto Alegre: Sociedade Brasileira de Computação
+(SBC), v. 1, p. 85–137, 2002.
+
+
+
+40
+Apêndice A - Identificação das Características dos Usuários
+
+<Nome do Projeto>
+
+Identificação dos Usuários Data <dd/mmm/yy>
+
+<Nome do Projeto>
+
+Identificação das Características dos Usuários 
+
+[Nota:  Esse  documento  registra  dados  dos  usuários  envolvidos  no  sistema a  ser  desenvolvido.  Para  isso,  propõe-se  diversas
+perguntas a serem respondidas pelos usuários sobre diferentes aspectos. Com o levantamento dessas questões será possível agrupar
+os usuários em diferentes perfis de usuário.]
+
+ 1 Introdução  
+
+[Introdução dos objetivos do artefato e escopo de utilização.]
+
+ 2 Questões a serem respondidas 
+
+[Essas questões devem ser respondidas por todos os usuários para que os perfis sejam identificados.] 
+
+ 2.1 Dados dos usuários
+
+a) Dados demográficos
+
+b) Qual a sua idade? 
+
+c) Qual o seu gênero? 
+
+d) Qual é seu status econômico?
+
+ 2.2 Definir o propósito e objetivos do sistema conforme o ponto de vista dos usuários: 
+
+a) Para você, qual o propósito do sistema? 
+
+b) Qual a sua visão sobre o sistema? 
+
+c) Quais objetivos você pretende alcançar com a implementação do sistema? 
+
+ 2.3 Experiencia profissional 
+
+a) Qual papel você exerce atualmente?
+
+b) Qual sua experiência exercendo esse papel? Por quanto tempo exerce tais atividades?
+
+c) Quantos anos você exerce atividades nesta companhia? 
+
+Autor: Elena Augusta Araujo
+
+
+
+41
+Apêndice A - Identificação das Características dos Usuários
+
+<Nome do Projeto>
+
+Identificação dos Usuários Data <dd/mmm/yy>
+
+d) Quais são suas responsabilidades? 
+
+e) Quais são seus objetivos profissionais? 
+
+ 2.4 Qualificações
+
+a) Qual seu nível de escolaridade? 
+
+b) Qual seu campo de conhecimento? O que você mais gosta de aprender?
+
+c) Quais línguas você fala? 
+
+d) Você  utiliza  alguma  gíria  em  seu  ambiente  profissional?  Se  sim,  quais  você
+determina importantes para esse projeto? 
+
+ 2.5 Tarefas
+
+a) Descreva quais tarefas você exerce no seu ambiente de trabalho?
+
+b) Dessas tarefas, quais você considera mais importantes, não tão importante e pouco
+
+importantes? 
+
+c) Qual a frequência que estas tarefas são executadas? (Diariamente,  semanalmente,
+
+mensalmente, anualmente) .
+
+d) A quanto tempo você exerce essas tarefas? 
+
+ 2.6 Habilidades de aprendizado
+
+a) Como são suas habilidades de leitura? 
+
+b) Você se sente entusiasmado em aprender coisas novas? 
+
+c) Você prefere aprender com outras pessoas ou sozinho? 
+
+d) Você prefere o aprendizado teórico – assistindo algum tutorial-  ou  prefere aprender
+
+de maneira prática? 
+
+ 2.7 Experiência com tecnologia
+
+a) A quanto tempo você utiliza computadores?
+
+Autor: Elena Augusta Araujo
+
+
+
+42
+Apêndice A - Identificação das Características dos Usuários
+
+<Nome do Projeto>
+
+Identificação dos Usuários Data <dd/mmm/yy>
+
+b) Quais suas habilidades com esses dispositivos? 
+
+c)  Quais desses dispositivos você utiliza regularmente?
+
+d) Quais softwares você utiliza regularmente? 
+
+ 2.8 Atitudes e valores
+
+a) Você costuma assumir riscos e encontra novas formas de trabalhar? 
+
+b) Você  evita  novas  experiências,  seguindo  caminhos  que  já  foram  testados
+
+anteriormente? 
+
+c) Você prefere ser ensinado passo a passo como será uma nova tarefa? 
+
+Autor: Elena Augusta Araujo
+
+
+
+Apêndice B - Frequência de Execução de Tarefas 
+Roteiro para Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 43
+
+ 
+Frequência de Execução de Tarefas 
+
+[Nota: Este documento objetiva prover o melhor entendimento sobre quais são/serão as tarefas executadas por diferentes 
+perfis de usuários. Para isso, previamente são definidas quais tarefas deverão ser implementadas e suas relações com os 
+perfis que usuário que as executam. Para definição das tarefas, recomenda-se a utilização do documento de Casos de Uso.] 
+
+1) Introdução:  
+
+[Introduza uma breve descrição do documento e seu escopo de atuação]  
+
+2) Papéis:  
+
+[Definição de todos os papéis presentes no sistema – recomenda-se a utilização dos atores documentados nos 
+modelo de Casos de Uso.] 
+
+a) Papel 1:  
+b) Papel 2:  
+c) Papel n. 
+
+3) Descrição dos Perfis de Usuário:  
+
+[Descrição de todos os perfis coletados na atividade de Análise de Usuário.] 
+
+a) [Perfil 1:] 
+b) [Perfil 2:] 
+c) [Perfil n:] 
+
+4) Descrição das tarefas:  
+
+[Descrever todas as  tarefas e possíveis subtarefas que deverão ser incorporadas ao sistema conforme ilustra a 
+Tabela 1. Quanto maior o nível de detalhamento (tempo de duração da tarefa/subtarefa , nível de importância e 
+nível de dificuldade), melhor o entendimento sobre a tarefa e quem deverá executá-la. ] 
+
+a)   Tarefa 1: 
+
+i) Subtarefa 1: 
+ii) Subtarefa  2: 
+
+iii) Subtarefa  n: 
+b) Tarefa 2: 
+
+i) Subtarefa 1: 
+ii) Subtarefa  2: 
+
+iii) Subtarefa  n 
+c)  Tarefa 3: 
+
+i) Subtarefa 1: 
+ii) Subtarefa  2: 
+
+iii) Subtarefa  n 
+ 
+
+ 
+
+
+
+ 
+Roteiro para Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 44
+
+ 
+
+5) Treinamentos necessários:  
+
+​ [Treinamento necessário para que determinados perfis de usuário executem  a tarefa em questão.] 
+
+6) Saídas Esperadas:  
+
+[Nota: Saídas esperadas são as mensagens que o sistema deve retornar ao usuário assim que a tarefa for 
+completada. Ex: Campos não preenchidos corretamente.]  
+
+7) Informações Adicionais​:  
+
+[Todas as informações necessárias para que as tarefas sejam completadas da melhor forma possível, 
+garantindo a usabilidade do sistema.] 
+
+Tabela 1 – Descrição das tarefas executadas pelos Perfis de Usuário 
+
+ Descrição das  Tarefas Descrição dos Usuários Saídas  
+esperadas Informações 
+
+adicionais  
+Nº Tarefa/ Duração  Nível de Nível de Perfis de Treinamento  
+
+Subtarefa (hrs:min) importância dificuldade Usuário necessário Feedback 
+1   Tarefa 1        
+
+1.1 Subtarefa 1        
+1.2 Subtarefa 2        
+1..n Subtarefa n        
+
+2  Tarefa 2         
+2.1 Subtarefa 1        
+2.2 Subtarefa 2        
+2..n  Subtarefa n        
+
+n  Tarefa n        
+n.1 Subtarefa 1        
+n.2 Subtarefa 2        
+n..n  Subtarefa n        
+
+ 
+
+Matriz de Papel-Perfil-Tarefa:  
+
+[Nota: A Tabela 2 apresenta a matriz Papel-Perfil-Tarefa como uma abordagem que indica com qual 
+frequência um determinado perfil de usuário executa uma tarefa. A partir dessa informação, pode-se projetar 
+protótipos de interface e consequentemente telas, que atendam melhor às necessidades dos usuários. Os níveis 
+de frequência são representadas por: A-Alta: executada frequentemente por um perfil de usuário; M- Média: 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+ 
+
+
+
+ 
+Roteiro para Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 45
+
+ 
+executada em nível médio por um perfil de usuário; e B- baixa: raramente executada por um perfil de usuário.]  
+
+Tabela 2 – Matriz Papel-Perfil-Tarefa  
+
+ Perfil Tarefa Tarefa 2 Tarefa 3 Tarefa 4 Tarefa 5 Tarefa 6  
+1 
+
+ Perfil 1       
+Papel 1 Perfil 2       
+
+Perfil 3  B     
+Papel 2 Perfil 4       
+
+Perfil 5       
+Papel 3 Perfil 6       
+Papel n Perfil n       
+
+6) ​Descrição dos ​Stakeholders:  
+
+[Descreva quais os stakeholders participaram na execução desta tarefa.] 
+ 
+
+Nome Descrição Responsabilidades 
+[Nome] [Descrição do papel [Responsabilidades no artefato] 
+
+executado no processo] 
+Nome Descrição Responsabilidades 
+
+ 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+ 
+
+
+
+Apêndice C - Roteiro para Avaliação Heurística 
+Roteiro para Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 46
+
+ 
+ 
+
+Roteiro para Avaliação Heurística 
+[Este documento objetiva fornecer um guia para condução da avaliação heurística dos Protótipos Online Funcionais. ] 
+
+1. Informações dos avaliadores:  
+[Descrição breve sobre os avaliadores, citando o nome completo e o papel desempenhado.]  
+
+2. Telas dos Protótipos Online Funcionais:  
+[A Tabela 1 apresenta a descrição das telas dos protótipos que serão avaliadas. Para cada tela é atribuído um código para 
+facilitar as referências nas etapas posteriores. É necessário a descrição do nome da tela bem como um cenário de execução 
+para mesma.] 
+
+Tabela 1 - Descrição das telas dos Protótipos Online Funcionais 
+Código Nome da tela Descrição do cenário de execução 
+
+T1 Descreva o nome da tela. Ex: Cadastro de Descrição sobre o cenário de execução  
+aluno 
+
+T2   
+
+Tn   
+ 
+
+3. Heurísticas aplicadas: 
+ [Para cada heurística selecionada, faz-se necessário a denominação de um código, bem como o nome da heurística e uma 
+breve definição para mesma. A Tabela 2 ilustra alguns exemplos de heurísticas de Nielsen (1993).] 
+
+Tabela 2 - Heurísticas propostas por Nielsen (1994). 
+Código Nome da Heurística Definição da Heurística 
+
+H1 [Visibilidade do estado do sistema.] [O sistema deve manter seus usuários informados 
+sobre os acontecimentos com base em suas ações, 
+proporcionando assim, feedbacks.] 
+
+H2 [Correspondência entre o sistema e o mundo [O sistema deve utilizar palavras, conceitos e jargões 
+real.] do conhecimento dos usuários, seguindo as 
+
+convenções do mundo rea.]  
+ 
+
+H3 [Controle e liberdade do usuário.]  [A interface deve permitir que os usuários façam e 
+desfaçam suas ações.]  
+ 
+ 
+
+H4 [Consistência e padronização.]  [Os usuários devem compreender os termos utilizados 
+nas interfaces.]  
+ 
+
+H5 [Reconhecimento ao invés de memorização.]  [A interface e os ícones devem ser objetivos, podendo 
+ser reconhecidos rapidamente.] 
+
+H6 [Flexibilidade e eficiência de uso.] [A interface deve ser flexível à usuários novatos e 
+experientes. Deve possuir acelerados (botões de 
+comandos e barras de ferramentas ou teclas de 
+atalho).]  
+ 
+
+H7 [Projeto estético e minimalista.] [A interface deve ser objetiva, evitando informações 
+extras e irrelevantes.] 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+
+
+
+ 
+Roteiro para Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 47
+ 
+
+H8 [Prevenção de erros.] [Projetar as interfaces de usuários de maneira 
+cuidadosa evitando erros.] 
+ 
+
+H9 [Ajude os usuários a reconhecerem, [Mensagens de erros devem ser expressas em 
+diagnosticarem e se recuperarem de erros. linguagem simples, indicando o problema e sugerindo 
+ soluções.] 
+
+H10 [Ajuda e documentação.] [O sistema deve oferecer ajuda aos usuários, por meio 
+de documentação detalhada e de alta qualidade. As 
+informações devem ser focadas nas tarefas 
+executadas.] 
+ 
+
+ 
+4. Execução da avaliação:  
+[​Para execução da avaliação, cada tela deverá ser analisada com base na(s) heurística(s) selecionada(s). Para cada tela, uma 
+ou mais heurísticas podem ser violadas. Nesse contexto, faz-se necessário a descrição do problema que viola as respectivas 
+heurísticas, bem como o local em que o problema foi encontrado (por exemplo botões, caixas de texto, etc), a gravidade do 
+problema e uma breve recomendação para solução. A gravidade é categorizada em quatro níveis de acordo com Nielsen 
+(1993):]  
+
+​ 1) Cosmético: não precisam ser reparados a menos que haja tempo no cronograma do projeto; 
+​ 2) Pequeno: o problema deve receber prioridade baixa; 
+
+​ 3) Grande: o problema deve receber prioridade alta e impacta em fatores de usabilidade; 
+​ 4) Catastrófico: o problema impede a execução das tarefas, sendo extremamente importante repará-lo;  
+
+ 
+ 
+
+a. Tela X: ​[A Tabela 3 ilustra o resultado das avaliações devem ser registradas no artefato “Resultado 
+da Avaliação Heurística”, presente na tarefa de “Avaliação Heurística dos Protótipos Online 
+Funcionais”.]  
+
+ 
+
+Heurística(s) Descrição do problema Local Nível de Recomendação 
+ Violadas gravidade (1 a 4) 
+
+H1: Descrição do(s) problema(s) local onde o Nível de gravidade Recomendações sobre 
+encontrado(s) que violam as problema foi do(s) problema(s) possíveis ajustes que os 
+heurísticas selecionadas. encontrado: encontrados avaliadores consideram 
+
+botão, caixa de importantes para que a 
+texto, etc; heurística seja satisfeita 
+
+H2:     
+
+Hn     
+
+ 
+Referências: 
+
+● Nielsen J. Usability Engineering. New York, NY: Academic Press; 1993. 
+ 
+ 
+ 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+
+
+
+Apêndice D - Resultado da Avaliação Heurística 
+Resultado da Avaliação Heurística 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 48
+
+ 
+Resultado da Avaliação Heurística 
+
+ 
+1. Objetivo:  
+
+[O artefato objetiva apresentar o relatório dos resultados da avaliação heurística dos protótipos online funcionais e 
+classificar quais telas deverão ser reprojetadas e quais serão submetidas à tarefa de Teste de Usabilidade dos protótipos 
+online funcionais.] 
+ 
+
+2. Sumário da avaliação:  
+2.1. Problemas reportados e heurísticas violadas por avaliador  
+[Neste item, são descritos os problemas que cada avaliador reportou conforme as heurísticas violadas e o nível de 
+gravidade de cada problema. O nível de gravidade deve ser indicado em comum acordo pelos avaliadores. ] 
+
+ 
+
+Tela X 
+
+Avaliador  Problemas reportados  Heurísticas violadas Gravidade 
+
+    
+ 
+
+Avaliador 1    
+
+   
+
+    
+ 
+
+Avaliador 2    
+
+   
+
+Avaliador n     
+ 
+
+3. Consolidação dos resultados  
+[A consolidação dos resultados deverá ser feita em comum acordo entre os avaliadores conforme a gravidade de cada 
+problema. As telas dos protótipos online funcionais que foram avaliadas com pontuação >=3 para o nível de gravidade, 
+deverão ser submetidos a tarefa de Desenvolver/Refinar Protótipos Online Funcionais para re-design dos protótipos. Nos 
+casos em que a gravidade for <=2, os protótipos poderão ser submetidos à atividade de Teste de Usabilidade dos 
+Protótipos Online Funcionais.] 
+ 
+
+Tela  Status 
+
+Tela 1  ​[Aprovada] 
+
+Tela 2 [Reprovada] 
+
+Tela  n  ​[Aprovada] 
+ 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+ 
+
+
+
+Apêndice E - Termo de Consentimento  
+Termo de Consentimento 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 49
+ 
+[Este documento objetiva assegurar que os usuários estão de acordo com os testes a serem realizados. Esse 
+modelo é apresentado por Barbosa e Silva (2010)]  
+
+Termo de Consentimento 
+Somos uma equipe de consultoria da «empresa», que está participando do projeto do 
+sistema «nome e breve descrição do sistema». Nessa etapa do projeto, queremos conhecer 
+o que algumas das pessoas que irão «usar o/ser afetadas pelo» sistema pensam a respeito 
+do «sistema atual/processo atual» e como imaginam que o novo sistema deveria apoiar o 
+seu trabalho. Estamos realizando uma série de pesquisas, e solicitamos seu consentimento 
+para a realização e gravação de uma entrevista. Para decidir sobre o seu consentimento, é 
+importante que você conheça as seguintes informações sobre a pesquisa: Os dados 
+coletados durante a entrevista destina-se estritamente a atividades de análise e 
+desenvolvimento do sistema «nome do sistema». 
+ 
+Nossa equipe tem o compromisso de divulgar os resultados de nossas pesquisas para o 
+cliente. A divulgação desses resultados pauta-se no respeito à sua privacidade, e o 
+anonimato dos participantes será preservado em quaisquer documentos que elaborarmos. 
+O consentimento para a entrevista é uma escolha livre, feita mediante a prestação de todos 
+os esclarecimentos necessários sobre a pesquisa. A entrevista pode ser interrompida a 
+qualquer momento, segundo a sua disponibilidade e vontade. Nossa equipe encontra-se 
+disponível para contato atravé​ s do e-mail «e​ -mail ». 
+ 
+De posse dessas informações, gostaríamos que você se pronunciasse acerca da entrevista: 
+ 
+( ) Dou meu consentimento para a sua realização. 
+( ) Não consinto com a sua realização. 
+ 
+_______________________________          __________ 
+«local»,                                                            «data» 
+ 
+_________________________________               ________________________________ 
+«assinatura do entrevistador»                                  «nome do entrevistador»  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[Referência:] 
+[BARBOSA, S. D. J.; SILVA, B. S. da. Interação humano-computador. [S.l.]: Elsevier, 2010.]  
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+ 
+
+
+
+Apêndice F - Roteiro para o Teste de Usabilidade  
+Roteiro para o Teste de Usabilidade 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 50
+
+ 
+
+Roteiro para o Teste de Usabilidade 
+[Este documento objetiva fornecer um guia para condução do Teste de Usabilidade dos Protótipos Online Funcionais.] 
+
+1. Telas dos Protótipos Online Funcionais:  
+[A Tabela 1 apresenta a descrição das telas dos protótipos que serão avaliadas. Para cada tela é atribuído um código para 
+facilitar as referências nas etapas posteriores. É necessário a descrição do nome da tela bem como um cenário de execução 
+para mesma.] 
+
+Tabela 1 - Descrição das telas dos Protótipos Online Funcionais 
+ 
+
+Código Nome da tela Descrição do cenário de execução 
+
+T1 [Descreva o nome da tela. Ex: Cadastro de [Descrição sobre o cenário de execução ] 
+aluno] 
+
+T2   
+
+Tn   
+ 
+
+2. Perfis de Usuários:  
+[Descrever quais perfis de usuários irão participar da avaliação. Recomenda-se ao menos um usuário que represente cada 
+nível de frequência para execução das tarefas presentes nos protótipos. Esta informação é obtida no artefato de 
+“Frequência de execução de tarefas”, contido na tarefa de Análise de Tarefas (disciplina Análise UX). ] 
+ 
+3. Definir metas de usabilidade: ​[Definir quais metas de usabilidade deverão ser alcançadas. Nielsen (1993) 
+
+descreve cinco metas para que o sistema Web atinja elevado grau de usabilidade como apresenta a Tabela 2.]  
+Tabela 2 - Metas de usabilidade proposta por Nielsen (1993). 
+
+Meta Descrição 
+[Facilidade de aprendizagem]  [O sistema deve ser fácil de assimilar pelo utilizador, para 
+
+que este possa começar a trabalhar rapidamente.] 
+
+[Eficiência] [O sistema deve ser eficiente para que o utilizador, depois de 
+o saber usar, possa atingir uma boa produtividade.] 
+
+[Facilidade de memorização] [O sistema deve ser facilmente memorizado, para que depois 
+de algum tempo sem o utilizar, o utilizador se recorde como 
+usá-lo.] 
+
+[Segurança] [O sistema deve prever erros, evitar que os utilizadores os 
+cometam e, se o cometerem, permitir fácil recuperação ao 
+estado anterior.] 
+
+[Satisfação] [O sistema deve ser usado de uma forma agradável, para que 
+os utilizadores fiquem satisfeitos com a sua utilização.] 
+
+ 
+4. Objetivos avaliados: 
+ [Descrever quais serão os objetivos do Teste de Usabilidade. Barbosa e Silva (2010) apresentam em seu trabalho exemplos 
+para os objetivos da avaliação, como ilustra a Tabela 3.  
+ 
+ 
+
+Tabela 3 - Objetivos para o Teste de Usabilidade. 
+ 
+
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+
+
+
+ 
+Roteiro para o Teste de Usabilidade 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 51
+ 
+
+Código do Objetivo Exemplos de Objetivos a serem coletados 
+
+O1 [Tempo para conclusão da tarefa.] 
+
+O2  [Número de erros cometidos.] 
+
+O3 [Número de acessos ao sistema de ajuda.]  
+
+O4 [Número de usuários que não conseguiram realizar a tarefa.] 
+
+O5 [Número de vezes que os usuários se desviaram do caminho mais eficiente.] 
+ 
+
+ 
+5. Técnicas para Condução do Teste:  
+[Detalhar as técnicas que serão utilizadas para coleta dos dados da avaliação. Ex: questionários, entrevistas, gravações em 
+vídeos, etc.] 
+ 
+
+​ 6. Execução da avaliação: [Para execução da avaliação, cada tela deverá ser analisada com base nos objetivos 
+desejados para um determinado cenário. Para a avaliação dos protótipos online funcionais, o Avaliador UX deverá 
+disponibilizar o roteiro no qual o usuário deverá seguir, e observar quais são suas reações. Recomenda-se gravar em 
+áudio e vídeo os usuários executando as tarefas a eles submetidas. Ao final, o avaliador deve conduzir uma entrevista 
+ou questionário com os usuários, com intuito de coletar a opinião dos mesmos com base na sua experiência de uso.] 
+
+ 
+ 
+Referências: 
+
+● Nielsen J. Usability Engineering. New York, NY: Academic Press; 1993. 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+
+
+
+Apêndice G - Resultado do Teste de Usabilidade 
+Resultado do Teste de Usabilidade 
+
+<Nome do Projeto> <Data: dd/mm/aaaa> 52
+
+ 
+Resultado do ​Teste de Usabilidade 
+
+1. Objetivo:  
+[O artefato objetiva apresentar o relatório dos resultados do Teste de Usabilidade dos protótipos online funcionais e 
+classificar quais telas deverão ser reprojetadas e quais serão submetidas a fase de implementação.] 
+ 
+
+2. Sumário da avaliação: ​Note: Neste item, são apresentados quais metas e objetivos foram selecionados para a 
+execução do Teste de Usabilidade]. 
+
+2.1. Apresentar quais metas de usabilidade foram consideradas :  
+[Apresentar quais metas de usabilidade foram consideradas para guiar o teste, como ilustra a Tabela 1.]  
+
+Tabela 1 - Descrição das metas de usabilidade 
+Nome da Meta Descrição da Meta 
+
+[Facilidade de [O sistema deve ser fácil de assimilar pelo utilizador, para que este possa 
+aprendizagem]  começar a trabalhar rapidamente.] 
+
+[...]  [...]  
+ 
+
+2.2. Apresentar quais objetivos foram considerados  
+ [Apresentar quais os objetivos foram consideradas para guiar o teste, como ilustra a Tabela 2.]  
+
+Tabela 2 - Descrição dos objetivos a serem avaliados 
+Código Descrição do Objetivo 
+
+O1 [Tempo para conclusão da tarefa.] 
+
+[...]  [...]  
+
+ 
+2.3. Resultado da aplicação  
+[Neste item, são descritos para cada tela avaliada o comportamento dos usuários na execução dos objetivos 
+definidos, bem como o tempo que gasto para atingir tais objetivos, como apresenta a Tabela 3. Com base nessa 
+análise o Avaliador deve submeter quais telas deverão ser reprojetadas.] 
+
+Tabela 3 - Resultado da execução teste de usabilidade. 
+Tela X 
+
+Usuário  Objetivos Tempo 
+
+ [O1: descrição do comportamento do usuário 1 [Tempo de Execução do Usuário 1 na 
+Usuário 1 diante do objetivo 1 ] avaliação do objetivo 1] 
+
+[O2: descrição do comportamento do usuário 1 Tempo de Execução do Usuário 1 na 
+diante do objetivo 2 ] avaliação do objetivo 2] 
+
+ [O1: descrição do comportamento do usuário 2 Tempo de Execução do Usuário 2 na 
+ diante do objetivo 1 ] avaliação do objetivo 1] 
+
+Usuário 2 [O2: descrição do comportamento do usuário 2 Tempo de Execução do Usuário 2 na 
+diante do objetivo 2 ] avaliação do objetivo 2] 
+
+ [O1: descrição do comportamento do usuário n Tempo de Execução do Usuário n na 
+Usuário n diante do objetivo 1 ] avaliação do objetivo 1] 
+
+ 
+Autor​: Elena Augusta Araujo 
+
+ 
+ 
+
+
+
+ 
+ 
+ 
+
+53
+
+[O2: descrição do comportamento do usuário n  
+diante do objetivo 2 ] 
+
+ 
+Consolidação dos resultados ​A consolidação dos resultados deverá ser feita pelo avaliador com base na 
+análise do comportamento dos usuários bem como nos questionários ou entrevistas que o mesmo pode aplicar. É 
+válido ressaltar que esta metodologia não apresenta os modelos de tais técnicas. A partir dessa análise, o 
+avaliador apresenta quais telas deverão ser reprojetadas.] 
+
+ 
+Tela  Status 
+
+Tela 1  ​Aprovada 
+
+Tela 2 Reprovada 
+
+Tela  n Aprovada  
+ 
+ 
+ 
+
+ 
+Autor​: Elena Augusta Araujo

@@ -1,0 +1,682 @@
+﻿Uma abordagem de gamificação com base em game studies
+aplicada a um curso de Ciência da Computação
+
+Rodrigo Oliveira Figueiredo1, Daniel Mendes Barbosa1
+
+1Universidade Federal de Viçosa – Campus Florestal
+Rodovia LMG 818, km 06 – 35690-000 – Florestal – MG – Brasil
+
+{rodrigo.o.figueiredo,danielmendes}@ufv.br
+
+Abstract. This paper evaluates the application of a gamification approach based
+on researches on the field of study known as “game studies” to a freshman
+computer science class, since both these areas have a weak connection in the
+literature. In order to achieve it, an approach to aspects that aim to generate
+fun in games is merged with aspects to rise motivation among those involved in
+gamification applications. This approach lasts for the whole semester, and the
+students who had an active participation showed better levels of performance,
+socialization and interest on computer science classes and the university campus,
+as well as a decrease in the average level of computer science evasion.
+
+Resumo. Este trabalho avalia a aplicação de uma abordagem de gamificação
+com base em pesquisas na área de game studies, cuja conexão na literatura é
+pouco frequente, em uma turma de primeiro perı́odo de Ciência da Computação.
+Com esta finalidade, é proposta uma abordagem com caracterı́sticas que visam
+gerar diversão em jogos em conjunto com caracterı́sticas que buscam aumentar
+a motivação de envolvidos em aplicações de gamificação. A abordagem desen-
+volvida se deu durante todo o semestre letivo, e os alunos com participação ativa
+apresentaram melhores nı́veis de desempenho, socialização e interesse no curso
+e no campus da universidade, bem como observou-se uma diminuição no nı́vel
+esperado de evasão do curso em questão.
+
+Introdução
+Atualmente, várias instituições, tanto acadêmicas como empresariais, têm como um desafio
+encontrar formas de manter seus envolvidos motivados a realizar suas tarefas. Uma
+potencial solução que vem sendo discutida pela comunidade acadêmica recentemente é o
+uso da gamificação: um método que consiste em aplicar certas caracterı́sticas de jogos em
+tarefas reais, com o objetivo de motivar os envolvidos [Burke 2014].
+
+No ambiente acadêmico, um dos maiores públicos vı́timas de desmotivação são
+os próprios alunos das instituições. Ainda que já existam certos aspectos de jogos nestes
+ambientes, como o sistema de pontos e aprovação, ainda é possı́vel observar baixas
+taxas de concluintes em comparação com a quantidade de alunos matriculados por curso
+[INEP 2016]. Manter os estudantes motivados a continuar estudando e a obter notas mais
+altas é um tı́pico problema que poderia ser explorado com a aplicação de gamificação.
+
+Pesquisas recentes mostram, porém, que a gamificação tem apresentado resultados
+muito variados, dependendo do meio e da forma como é aplicada. Existem trabalhos como
+o de [Hanus and Fox 2015], que mostram que a técnica pode até piorar o desempenho
+
+
+
+e a motivação dos envolvidos. Enquanto outros estudos como o de [Fotaris et al. 2016]
+apresentam melhorias significativas nestes mesmos aspectos. Estes resultados apenas
+explicitam a necessidade da exploração de abordagens de gamificação, de forma a descobrir
+quais as melhores formas e os melhores meios para aplicá-la.
+
+Este trabalho busca explorar estudos na área conhecida por Game Studies e suas
+definições de elementos que criam jogos divertidos, com o intuito de mesclar estes concei-
+tos aos elementos que geram motivação descritos em estudos sobre gamificação. O objetivo
+final é avaliar se o desenvolvimento e a aplicação de uma abordagem de gamificação
+com base em Game Studies em uma turma de primeiro perı́odo do curso de ciência da
+computação pode obter resultados positivos em aumento na motivação, interação com
+outros estudantes e professores, ou interesse no curso e no campus UFV-Florestal, quando
+comparados a turmas de perı́odos anteriores.
+
+Gamificação e Game Studies
+
+Gamificação é a aplicação de elementos e princı́pios de jogos em ambientes que não
+envolvem jogos [Huotari and Hamari 2012]. O livro ”Gamify” [Burke 2014] é um dos
+guias mais conhecidos sobre este assunto: o autor discute conceitos essenciais para
+este estudo, como os erros comuns na aplicação de gamificação e a importância de se
+criar uma abordagem orientada ao “jogador” ao invés dos objetivos finais, chamada
+
+“player-centric design”. Este tipo de desenvolvimento direcionado da técnica traz ideias
+essenciais para este trabalho como a necessidade de conhecer o público alvo ou de criar
+significados para as recompensas. Fora estes conceitos, Brian Burke também oferece os
+passos para o desenvolvimento de uma abordagem de gamificação, que foram aplicados
+neste trabalho em conjunto com conceitos do livro “Reality is Broken” de Jane McGonigal
+[McGonigal 2011].
+
+O livro “Understanding Video Games” [Egenfeldt-Nielsen et al. 2013] é a base
+para a outra área de estudo deste trabalho. Os autores descrevem os conceitos da área
+conhecida por game studies, cuja nomenclatura em português ainda não é bem definida,
+sendo algumas vezes referenciada como “estudo dos jogos” [Teixeira 2008] ou “ludologia”
+[Pinheiro and Branco 2006], que trata do estudo dos jogos, do ato de jogá-los e de seus
+impactos na cultura e nos jogadores [Nieborg and Hermes 2008]. Estes conceitos são
+importantes no que tange à compreensão dos motivos por trás da diversão e do engaja-
+mento dos jogadores ao participar de jogos, e necessários para o desenvolvimento de uma
+abordagem de gamificação baseada em game studies.
+
+Por outro lado, o livro “Reality is Broken” [McGonigal 2011] apresenta ideias
+similares às deste trabalho. A autora descreve vários exemplos de jogos e aplicações de
+gamificação que visam melhorar a qualidade de vida ou facilitar na execução de certas
+tarefas do dia-a-dia. Apesar de não fazer uso dos termos “gamificação” ou “game studies”,
+o livro lista catorze “consertos para a realidade” que mesclam ideias de gamificação e
+design de jogos com o objetivo de compreender o que mantém as pessoas motivadas. Tais
+“consertos” incluem, por exemplo, a presença de obstáculos desnecessários, diversão com
+estranhos e recompensas significativas, que são, de forma geral, conceitos fortemente
+ligados às definições de jogos de Roger Caillois [Caillois 1990] e foram essenciais para o
+desenvolvimento e aplicação da abordagem de gamificação deste trabalho.
+
+
+
+Trabalhos Relacionados
+O estudo de Panagiotis Fotaris et al. [Fotaris et al. 2016] apresenta um exemplo positivo
+da aplicação de gamificação em salas de aula. Esse estudo faz uso dos jogos “Who Wants
+to Be a Millionaire?” e “Kahoot!” em conjunto com a plataforma online “Code Academy”
+para motivar os alunos em uma aula de programação em Python. O professor utiliza todas
+estas ferramentas em um estilo de aula onde ele age, na maior parte do tempo, como o
+apresentador de um programa de perguntas e respostas. Suas aulas são dadas em três
+intervalos de vinte minutos cada, e toda semana o professor é responsável por trazer novos
+desafios em sala, com o objetivo de manter os alunos entretidos. Como resultado, a turma
+em estudo apresenta melhor desempenho em foco, participação, disposição e frequência,
+quando comparada a um grupo de controle.
+
+Por outro lado, o estudo de Michael Hanus e Jesse Fox [Hanus and Fox 2015] é
+um exemplo de efeitos negativos da gamificação na educação. Estes autores dividem
+uma amostra de oitenta alunos de um curso de comunicação em duas turmas, onde uma
+delas deve participar das atividades de gamificação enquanto a outra é utilizada como
+grupo de controle. A técnica aplicada na turma testada consiste na disponibilização de um
+quadro para os alunos, contendo uma tabela de classificação que mostra, em ordem, os
+pseudônimos dos estudantes que realizaram mais “conquistas” e possuem mais “medalhas”.
+Os termos “conquista” e “medalha”, nesse estudo, são usados para representar as figuras
+do quadro dadas como recompensas para os alunos que completam as tarefas opcionais.
+Para avaliar o desempenho, a motivação intrı́nseca, o esforço e a satisfação dos estudantes,
+quatro questionários foram aplicados para as duas turmas no decorrer do semestre. Os
+pesquisadores concluem que, dependendo da forma como uma abordagem de gamificação
+é aplicada, ela pode diminuir o interesse do aluno na área de estudo.
+
+Problema
+A aplicação de gamificação em ambientes variados teve um crescimento notável em sua
+discussão no meio acadêmico a partir de 2011, como descrito no estudo de Hamari,
+Koivisto e Sarsa [Hamari et al. 2014]. Por isso, diferentes tipos de abordagem têm sido
+usados em diferentes meios para a aplicação deste método, nem sempre com resultados
+positivos. O estudo citado faz um resumo dos trabalhos sobre este assunto nos últimos
+anos e discute como evoluções na abordagem, no estudo da teoria e na coleta de resultados
+em aplicações de gamificação são necessários.
+
+Ao observar as descrições das abordagens dos trabalhos analisados em
+[Hamari et al. 2014], principalmente naqueles com resultados negativos similares ao es-
+tudo de Michael Hanus e Jesse Fox [Hanus and Fox 2015], percebe-se que há uma falta
+de conexão explı́cita entre as áreas de gamificação e game studies. Mesmo o livro de
+Jane McGonigal [McGonigal 2011], ao oferecer catorze “consertos para a realidade” e
+implicitamente conectar as duas áreas, não realiza uma análise sobre como criar esse tipo
+de conexão e potencialmente evitar fatores que podem vir a desmotivar os participantes.
+
+Entretanto, esta ligação possui potencial para impactar positivamente a aplicação
+da técnica de gamificação em meios variados, pois estudos na área de game studies e
+game design frequentemente exploram os passos necessários para que exista diversão em
+jogos [Egenfeldt-Nielsen et al. 2013, Fullerton 2014], enquanto o principal objetivo de
+uma aplicação de gamificação é utilizar aspectos de jogos que gerem motivação e aplicá-
+
+
+
+los a ambientes em que esta motivação é importante em seus envolvidos [Burke 2014].
+Portanto, para o desenvolvimento de uma abordagem eficaz de gamificação, pode ser
+interessante, e talvez essencial, realizar e explorar as seguintes questões: Por que jogos são
+divertidos? E por que a realidade não é?
+
+Diversão é um conceito subjetivo e, portanto, atividades divertidas variam muito de
+pessoa para pessoa. Apesar disso, jogos geralmente trabalham com quatro diferentes tipos
+de diversão, que envolvem elementos como triunfo pessoal, curiosidade, relaxamento, en-
+tusiasmo e laços sociais [Lazzaro 2004]. Para alcançar algumas destas formas de diversão,
+designers de jogos se orientam a partir de vários aspectos que podem ser implementados
+com o objetivo de gerar o mesmo tipo de gancho emocional que estes tipos de diversão
+geram. Alguns exemplos são: Criação de tomadas de decisão interessantes, competição
+contra oponentes, progressão notável, interação social, fantasias, coleções, eventos em
+escala épica, alto nı́vel de participação, entre outros [Fullerton 2014, McGonigal 2011].
+
+A realidade, por sua vez, pode ser frustrante e apresentar aspectos contrários àqueles
+implementados em jogos com o intuito de se gerar diversão: De forma geral, os obstáculos
+reais são obrigatórios e baseados em responsabilidades, a perspectiva de crescimento ou
+progressão pode ser lenta, decisões possuem consequências reais, recompensas podem
+ser raras, pouco significativas ou parecer não apresentar uma forte conexão com a tarefa
+que a gera, etc. Então, se as pessoas buscam estes tipos de aspectos e diversão em jogos,
+é razoável pensar que a aproximação dos jogos em nossas tarefas reais tenha resultados
+positivos no que tange à diversão, à motivação e até mesmo ao desempenho dos envolvidos
+[McGonigal 2011].
+
+Diversão x Motivação
+De modo geral, é possı́vel perceber que os termos “motivação” e “diversão” são muito
+usados pelos autores que se referem a gamificação e game studies, respectivamente, como
+o objetivo de seus objetos de estudo. Porém, os mesmos termos não costumam sur-
+gir na literatura destas áreas quando opostas (“motivação” não é um termo frequente
+em game studies e “diversão” geralmente não surge em estudos sobre gamificação)
+[Ermi and Mäyrä 2005, Jenkins sd, Howard 2008, Kent 2001, Rutter and Bryce 2006,
+Hamari 2013, Eickhoff et al. 2012, Fitz-Walter et al. 2011, Hamari and Koivisto 2013,
+Witt et al. 2011]. Apesar desta diferença, ambos os conceitos possuem definições muito
+próximas e talvez pudessem ser buscados em conjunto, assim como as áreas de estudo
+exploradas neste trabalho.
+
+Diversão trata-se da sensação de distração prazerosa que o indivı́duo obtém ao
+realizar uma tarefa agradável, que gere entretenimento ao mesmo [de Holanda 2010].
+Jogos são considerados divertidos por incluı́rem em seu design caracterı́sticas como
+atividades opcionais, alto nı́vel de participação e progressão notável, entre outras
+[McGonigal 2011, Fullerton 2014]. Frequentemente, quando designers de jogos buscam
+criar um jogo divertido para certo público, estes fazem uso de alguns mecanismos com o
+objetivo de motivar seus jogadores a continuarem imersos no jogo, como progressão em
+nı́veis ou sistemas de tomada de decisão com consequências notáveis.
+
+Motivação, por outro lado, é formada por um conjunto de fatores (externos ou
+internos) que geram desejo ou energia de forma a determinar a ação de um indivı́duo
+[de Holanda 2010]. Tarefas motivadoras geralmente incluem caracterı́sticas como auto-
+
+
+
+nomia para se tomar decisões, espaço para maestria ou progressão e significado ou o
+sentimento de fazer parte de algo maior, entre outras [Burke 2014]. Pela natureza das
+definições e meios de se alcançar motivação e diversão, pode-se concluir que estes termos
+estão muito próximos. Não é estranho que um indivı́duo motivado perca a noção de
+tempo durante a execução de uma tarefa ou dedique-se exclusivamente a ela, o que são
+caracterı́sticas geralmente associadas a tarefas divertidas.
+
+Estas similaridades são importantes, pois, partindo destes pressupostos, pode ser
+possı́vel alcançar uma abordagem de gamificação que gere motivação por ser divertida.
+Consequentemente, pode ser possı́vel que o desenvolvimento e aplicação de uma aborda-
+gem de gamificação com conceitos de design de jogos e game studies seja mais efetiva que
+a aplicação de caracterı́sticas de jogos isoladas como rankings, medalhas, pontos, etc.
+
+Desenvolvimento da Abordagem
+Este trabalho apresenta uma abordagem que mescla conceitos de gamificação e game
+studies, almejando aumentar nı́veis de motivação e diversão dos envolvidos. A aborda-
+gem definida possui três “camadas” de jogos: Um jogo de cartas, o “desafio final” e as
+“missões”.
+
+A camada mais baixa abrange um jogo de cartas completo e independente, que
+pode ser jogado entre os envolvidos a qualquer momento, desde que eles tenham coletado
+cartas previamente. A camada intermediária busca encorajar os envolvidos a coletar o
+maior número de cartas possı́veis ao adicionar um desafio final, que propõe um objetivo
+para a coleta de cartas, no qual o participante tem a opção de desafiar e tentar vencer
+um oponente pré-definido com um baralho poderoso, de onde ele poderia obter uma
+recompensa relacionada às suas responsabilidades reais. Por fim, a camada mais alta
+envolve os conceitos de gamificação, utilizando as cartas do jogo como recompensas para
+a realização de “missões” que, por sua vez, são tarefas importantes para o contexto em que
+a gamificação foi aplicada.
+
+Esta abordagem foi aplicada a uma turma de cinquenta e cinco alunos do primeiro
+perı́odo de ciência da computação na Universidade Federal de Viçosa - Campus Florestal.
+O objetivo desta aplicação é avaliar e discutir o nı́vel de motivação, interesse pelo curso e
+campus, interação com outros estudantes novatos, veteranos e professores, e desempenho
+nas matérias do primeiro perı́odo em comparação com a turma do ano anterior, para
+encontrar respostas para as seguintes perguntas: Há diferenças significativas entre o nı́vel
+de motivação, interesse, socialização ou desempenho das turmas de primeiro semestre
+com e sem a aplicação desta abordagem de gamificação baseada em game studies? Caso
+haja diferença, é possı́vel estabelecer relações entre aplicação da abordagem e a turma
+estudada?
+
+Lord of Florestal
+“Lord of Florestal” é o jogo de cartas de mesa criado para cobrir a camada mais baixa
+da abordagem desenvolvida. O jogo segue uma versão simplificada de uma unificação
+das regras dos jogos “Yu-Gi-Oh! Trading Card Game”1, “Magic: The Gathering”2 e
+
+1Jogo de cartas colecionáveis desenvolvido e publicado pela Konami no ano de 1997, baseado nos
+quadrinhos japoneses “Yu-Gi-Oh!” de Kazuki Takahashi lançado em 1996 [Yugioh-card 2013].
+
+2Jogo de cartas colecionáveis criado por Richard Garfield e publicado em 1993 pela Wizards of the Coast
+[Duffy 2015].
+
+
+
+Figura 1. Exemplo da carta “Python” do jogo desenvolvido “Lord of Florestal”.
+
+“Hearthstone: Heroes of Warcraft”3, que são conhecidos por serem jogos de cartas bem
+sucedidos [Konami 2009, Duffy 2015, Mahardy 2014].
+
+O jogo possui setenta cartas únicas que variavam em “poder” e “raridade”, dis-
+tribuı́das em missões com dificuldades equivalentes a estas caracterı́sticas. Ou seja, uma
+missão muito fácil, como visitar o Laboratório de Engenharia de Sistemas Computacionais
+da UFV-Florestal, tem uma carta fraca e comum como recompensa, enquanto uma missão
+muito difı́cil como resolver uma série de exercı́cios interdisciplinares desafiadores possui
+uma carta forte e rara como recompensa.
+
+Além disso, foi dada muita atenção ao design das cartas em si. Como pode ser
+observado na Figura 1, cada carta tem um nome, uma imagem e uma descrição que faziam
+brincadeiras ou trocadilhos com objetos, conteúdos didáticos, pessoas e situações rotineiras
+da vida dos estudantes de ciência da computação da universidade, além de muita cautela
+para que estes nomes, imagens e descrições não contenham informações ofensivas ou
+equivocadas. Esta atenção nas informações contidas nas cartas é necessária para se tentar
+fazer com que as cartas em si sejam divertidas, para que exista a possibilidade das mesmas
+se tornarem recompensas significativas mesmo para aqueles que não tinham interesse em
+jogar o jogo “Lord of Florestal”.
+
+Desafiando o Lorde
+Os alunos participantes podiam, a qualquer momento, desafiar o “Lorde” do jogo, que
+era o responsável pela organização do projeto. O desafio foi tratado como a camada
+intermediária desta abordagem e consistia em uma simples partida do jogo “Lord of
+Florestal” contra o “Lorde”, em que o vencedor ganhava uma carta aleatória do oponente
+como recompensa. Além disso, caso o aluno fosse o vencedor, ele conquistava o direito de
+receber um bônus de 10% em sua nota na última prova da disciplina de Programação.
+
+A condição da derrota neste desafio (dar uma carta aleatória ao oponente) tinha o
+propósito de servir tanto como um incentivo como quanto um risco ao aluno, pois caso
+o aluno vencesse a partida, ele teria a chance de obter uma das cartas únicas do baralho
+
+3Jogo online de cartas colecionáveis gratuito desenvolvido pela Blizzard Entertainment e publicado no
+ano de 2014 [IGN 2014].
+
+
+
+Figura 2. Exemplo geral de um vale-carta do jogo desenvolvido “Lord of Flores-
+tal”.
+
+do “Lorde”, mas caso perdesse, deveria abrir mão de uma de suas cartas conquistadas. O
+risco ao aluno era necessário para evitar uma possı́vel situação em que um ou mais alunos
+buscassem o desafio diversas vezes seguidas, o que poderia ser uma brecha para trapaças.
+
+Missões
+As missões, que possibilitavam aos alunos a obtenção de cartas como recompensas, faziam
+parte da camada mais alta da abordagem. Todos os estudantes do primeiro perı́odo de
+2017 tinham acesso a várias missões que envolviam tarefas pertinentes às disciplinas
+ou ao conhecimento sobre o curso de Ciência da Computação e o campus Florestal da
+Universidade Federal de Viçosa.
+
+Estas missões eram divididas em dois tipos: Missões anunciadas e missões secretas,
+de forma que as anunciadas possuı́am instruções que eram passadas durante as aulas
+ou pelo portal online da universidade diretamente aos alunos participantes, enquanto as
+secretas deveriam ser descobertas pelos próprios alunos sem nenhum tipo de instrução ou
+dica. Alguns exemplos de missões usadas estão descritos abaixo:
+
+• Missão Anunciada: Resolva um exercı́cio da disciplina de Matemática Discreta no
+quadro da sala de aula;
+• Missão Secreta: Faça uma pergunta fora da sala de aula a um dos professores do
+
+curso de ciência da computação que não lecionam para o primeiro perı́odo, a qual
+seja considerada relevante à formação do aluno;
+
+Para que o sistema de missões funcionasse, foi necessária a colaboração de vários
+professores do Instituto de Ciências Exatas e Tecnológicas do campus Florestal da Univer-
+sidade Federal de Viçosa, alguns alunos de perı́odos mais avançados de diferentes cursos e
+alguns funcionários responsáveis por serviços diversos do campus. Esses colaboradores
+tinham em suas posses alguns “vale-cartas”, que se tratavam de pequenos pedaços de papel
+com uma marca d’água que continha uma assinatura do responsável pelo projeto e o nome
+da carta que seria dada como recompensa. Um exemplo de um vale-carta pode ser visto na
+Figura 2.
+
+Ao cumprir uma missão e receber o vale-carta de algum colaborador, o aluno
+deveria encontrar o responsável pelo projeto para trocar o seu vale-carta por uma carta real.
+Dessa forma, era possı́vel ter o controle de que missões estavam sendo cumpridas pelos
+alunos, sem que houvesse maior carga de responsabilidade sobre os colaboradores.
+
+Conceitos Utilizados
+Os passos iniciais na construção desta abordagem foram feitos de forma a evitar a criação
+de recompensas sem significado e a obrigatoriedade de participação, pois estes parecem
+ser fatores recorrentes em abordagens de gamificação, como no estudo de Fotaris et al.
+[Fotaris et al. 2016]. Além disso, as caracterı́sticas implantadas que sugerem afastamento
+
+
+
+destes fatores são especialmente importantes por serem comuns às áreas de desenvol-
+vimento de jogos e game studies [Fullerton 2014, Egenfeldt-Nielsen et al. 2013], ao de-
+senvolvimento de abordagens de gamificação [Burke 2014] e aos consertos da realidade
+propostos por Jane McGonigal [McGonigal 2011]. São estas:
+
+• Recompensas significativas: Para que houvesse significado nas recompensas das
+tarefas envolvidas na abordagem de gamificação, foi pensado um jogo que possuı́sse
+um contexto além da gamificação em si, no qual estas recompensas poderiam ser
+utilizadas;
+• Obstáculos voluntários: Os estudantes do primeiro perı́odo de Ciência da
+
+Computação não seriam obrigados a participar das tarefas de gamificação ou
+do jogo desenvolvido.
+
+Em seguida, foram utilizadas as seguintes caracterı́sticas já estabelecidas de
+gamificação, que poderiam apresentar melhores resultados no aumento da motivação
+intrı́nseca dos indivı́duos envolvidos, com base no trabalho de Brian Burke [Burke 2014]:
+
+• Definição do público alvo: Pela experiência com turmas anteriores de Ciência da
+Computação e pela idade dos alunos, era esperado que estes possuı́ssem alguma
+familiaridade com jogos MMO (Massively Multiplayer Online). Portanto, a in-
+clusão de referências a jogos deste estilo nas missões e o desenvolvimendo de
+um jogo de cartas do gênero “Trading Cards Game” para a camada mais baixa
+teoricamente seriam boas escolhas, principalmente considerando o recente sucesso
+de jogos como “Hearthstone: Heroes of Warcraft” e “Yu-Gi-Oh! Duel Links”
+[Mahardy 2014, Konami 2017];
+• Objetivos simples com uma clara sequência de passos: Todas as missões desen-
+
+volvidas para a camada mais alta possuı́am objetivos menores como concluir uma
+lista de exercı́cios, usar um livro da biblioteca, falar com um professor, dentre
+outros. Estes objetivos em conjunto teriam o potencial de fazer com que o aluno
+estabelecesse um comportamento mais disciplinado e que o capacitasse a obter
+boas notas;
+• Evolução com o tempo: Conforme o decorrer do semestre, algumas missões se
+
+tornavam indisponı́veis e outras passavam a existir, dando novas cartas como
+recompensas;
+• Competição com colaboração: Os alunos possuı́am maiores chances de concluir
+
+missões ao colaborarem entre si, mesmo que o jogo de cartas fosse de natureza
+competitiva.
+
+Por fim, buscou-se incluir o maior número possı́vel de consertos da realidade
+[McGonigal 2011] e de elementos dramáticos presentes em jogos divertidos, descritos por
+Tracy Fullerton [Fullerton 2014], com o objetivo de alcançar os quatro tipos de diversão
+[Lazzaro 2004] citados anteriormente. Estas caracterı́sticas foram aplicadas da seguinte
+forma:
+
+• Boas chances de sucesso: Os alunos não tinham nada a perder em seu dia-a-dia por
+consequência do jogo de cartas ou da não participação dele. Além disso, aqueles
+que se esforçavam para concluir mais missões tendiam a ter cartas mais poderosas;
+• Diversão com estranhos e interação social: Os participantes eram encorajados a
+
+interagir entre si ou com professores, funcionários e estudantes de outros perı́odos,
+
+
+
+que geralmente estavam envolvidos no mesmo projeto e eram instruı́dos a ser bem
+receptivos;
+• Escala épica e história: Certas missões possuı́am uma narrativa fictı́cia que possuı́a
+
+o objetivo de gerar uma imersão aos alunos em uma história de fantasia que envolvia
+grandes desafios, vilões, viagens espaciais, entre outros;
+• Coleção: As cartas eram desenvolvidas de forma que, caso o aluno não tivesse
+
+interesse em jogar, talvez pudesse vir a desenvolver um interesse por conhecê-las
+ou colecioná-las;
+• Progressão Notável: Os alunos podiam facilmente perceber o próprio progresso de
+
+acordo com o número e o poder das cartas que conseguiam acumular;
+• Feedback imediato: Os estudantes podiam imediatamente perceber que concluı́ram
+
+uma missão, devido à distribuição dos “vale-cartas”, que geralmente estavam em
+posse de colaboradores responsáveis por missões especı́ficas.
+• Exploração e descoberta: Para alunos do primeiro perı́odo, conhecer o campus UFV-
+
+Florestal e a área acadêmica era uma atividade de exploração que foi fortemente
+incentivada com a adição de várias missões que tinham como objetivo primário
+conhecer locais ou se comunicar com colaboradores.
+
+Resultados
+Esta seção descreve a metodologia de coleta de dados e a análise destes dados geradas
+após a aplicação da abordagem na turma de alunos que ingressaram no curso de Ciência
+da Computação durante o primeiro semestre de 2017. A discussão sobre os resultados
+encontrados será descrita na seção de considerações finais.
+
+Coleta de Dados
+Para a coleta de dados, a turma de alunos participantes recebeu um questionário inicial
+logo após a apresentação do projeto. Esse questionário recebeu trinta e uma respostas e
+buscava coletar informações sobre a expectativa dos alunos em relação ao projeto, além de
+outros dados pertinentes ao inı́cio da aplicação da abordagem desenvolvida, como idade,
+familiaridade com jogos, conhecimento das regras de “Hearthstone”, “Yu-Gi-Oh!” ou
+“Magic”, quantidade de horas gastas em estudo e jogos diariamente, entre outros.
+
+Um segundo questionário foi disponibilizado à mesma turma quando restavam
+cerca de quarenta dias para o fim do perı́odo de aulas, com o objetivo de coletar dados
+sobre participação ativa no projeto e nı́vel de influência em diferentes aspectos referentes à
+vida acadêmica que os alunos acreditavam ter recebido. Este questionário foi respondido
+por quarenta e cinco alunos, e incluı́a questões para buscar informações sobre quantidade
+de cartas coletadas, satisfação com o decorrer do projeto, nı́vel de diversão das diferentes
+camadas da aplicação de gamificação, entre outras.
+
+Além disso, um terceiro questionário foi passado a trinta e seis alunos que ingressa-
+ram em anos anteriores, para que fosse possı́vel realizar uma comparação entre estes alunos
+e aqueles que participaram do projeto. Esse questionário continha perguntas adaptadas do
+segundo questionário para participantes do projeto, com exceção das questões referentes à
+abordagem aplicada. As adaptações nas questões remontavam ao momento em que estes
+alunos cursavam os seus respectivos primeiros perı́odos.
+
+Por fim, foram usados dados do campus Florestal da Universidade Federal de
+Viçosa para obtenção das taxas de evasão durante o primeiro perı́odo dos anos anteriores
+
+
+
+e, com a devida autorização dos alunos, foram coletados dados sobre notas e evasão
+da turma que ingressou no primeiro semestre de 2017, para que fosse possı́vel analisar
+informações relacionadas a desempenho acadêmico. Como as notas foram coletadas antes
+do fim do perı́odo de aulas, foi assumido que a quantidade de pontos distribuı́dos até o
+momento seriam considerados como a pontuação total da disciplina, e as notas dos alunos
+foram ajustadas em porcentagens de acordo com este modelo. As disciplinas analisadas
+foram Cálculo Diferencial e Integral I, Fı́sica I, Programação e Matemática Discreta,
+que compõem quatro das seis disciplinas ofertadas no primeiro perı́odo de Ciência da
+Computação desta instituição.
+
+Análise dos Dados
+
+É importante ressaltar que, conforme as respostas dos questionários, 77,4% dos alunos da
+turma em que o projeto foi aplicado de fato conheciam as regras de pelo menos um dos
+três jogos de cartas utilizados como base para o desenvolvimento das regras de “Lord of
+Florestal”. Além disso, 83,9% destes alunos consideraram a proposta divertida, e dos alu-
+nos que disseram ter participação ativa no projeto até a aplicação do segundo questionário,
+79,2% disseram que o projeto superou ou se manteve dentro de suas expectativas.
+
+Os alunos que disseram ter participação ativa no projeto correspondem a 53,3% da
+quantidade de alunos que responderam ao segundo questionário. Do grupo de alunos que
+não teve uma participação ativa, 57,1% disseram que tinham vontade de participar, mas
+não puderam por motivos pessoais. Dentre estes motivos, os mais comuns foram: “falta de
+tempo” (76,2%) e “não morava em Florestal” (38,1%). A questão de participação ativa
+também pode ser comparada com a quantidade de cartas coletadas por aluno. Dessa forma,
+foi possı́vel observar que 66,7% dos alunos que disseram ter participação ativa realmente
+haviam coletado mais que a quantidade mı́nima para uma partida do jogo, enquanto 80,9%
+dos alunos que afirmaram não ter participado ativamente possuı́am menos que esta mesma
+quantidade.
+
+Considerando as respostas sobre participação ativa no projeto, foi possı́vel determi-
+nar as seguintes informações sobre desempenho da turma: dos alunos que participaram
+ativamente, 58,33% possuı́am mais de sessenta pontos (mı́nimo necessário para aprovação)
+em pelo menos duas disciplinas, enquanto 23,81% dos alunos que não tiveram participação
+ativa conseguiram chegar a este mesmo resultado. A média de pontuação da turma em
+todas as disciplinas foi de 45,40 com desvio padrão de 29,07, mas a média aplicada apenas
+aos participantes ativos foi de 50,80 com desvio padrão de 30,65, enquanto a média para
+os alunos que não participaram ativamente foi de 38,41 com desvio padrão de 25,48. Estes
+padrões também ocorreram nas médias de cada disciplina analisada de forma isolada.
+
+Ao comparar as informações sobre participação ativa com horas diárias de estudo
+fora de sala de aula e com a opinião dos alunos sobre a influência do projeto em suas
+atividades acadêmicas, observou-se que 20% dos alunos que não participaram ativamente
+diziam estudar mais de três horas por dia, enquanto 38,09% dos participantes ativos
+diziam dedicar essa quantidade de tempo aos estudos. Já em relação à influência do
+projeto, 57,14% dos alunos que não participaram ativamente responderam que o projeto
+não influenciou de forma alguma em suas notas, presença em sala, interesse no curso ou
+interesse no campus. Por outro lado, 75% dos participantes ativos responderam que o
+projeto influenciou positivamente nas mesmas categorias.
+
+
+
+Figura 3. Gráfico da escala de nı́vel de interesse no curso de Ciência da
+Computação durante o primeiro perı́odo das turmas de 2017 e dos anos ante-
+riores.
+
+A taxa de evasão do curso de Ciência da Computação durante o primeiro perı́odo
+dos alunos que ingressaram em 2017 foi de 7,27%, enquanto a média para a mesma taxa
+dos cinco anos anteriores tem o valor de 19,14%.
+
+As questões que buscavam medir interesse no curso de ciência da computação e
+interesse no campus UFV - Florestal apresentavam escalas de 1 a 5, nas quais 1 significava
+“nem um pouco interessado”, 3 significava “levemente interessado” e 5 significava “muito
+interessado” , já as questões que mediam satisfação com notas e com frequência em
+sala apresentavam escalas de 1 a 9, onde 1 significava “muito insatisfeito”, 5 significava
+“indiferente” e 9 significava “muito satisfeito”. Em todas estas escalas, os alunos que
+ingressaram em 2017 tendiam a ter respostas mais positivas que os alunos de anos anteriores.
+Um exemplo dessa diferença em respostas pode ser vista na Figura 3. Além disso, 79,2%
+dos alunos que participaram ativamente do projeto relataram que as “missões” de “Lord of
+Florestal” aumentavam suas motivações para realizar tarefas acadêmicas.
+
+Por fim, foi possı́vel estabelecer diferenças entre socialização com outros alunos,
+pois 88,9% dos alunos da turma de 2017 disseram ter tido contato com alunos de anos
+anteriores de outros cursos, enquanto 63,9% dos alunos dos anos anteriores analisados
+relataram a mesma experiência. Fora isso, houve uma diferença considerável em contato
+com professores fora de sala de aula, com 48,9% dos alunos de 2017 apresentando esta
+experiência contra 19,4% dos alunos dos anos anteriores.
+
+Considerações finais
+A partir da análise dos resultados, observa-se que em todos os aspectos analisados, os
+participantes ativos do projeto tendiam a ter respostas mais positivas, incluindo a análise
+de suas notas. Pode-se perceber também, que a evasão dos alunos foi notavelmente menor
+que o esperado para o curso de Ciência da Computação no campus estudado. Além disso,
+as respostas mais positivas refletem o nı́vel de interesse e socialização dos alunos da turma
+de 2017, que possuem maior interesse e interagiram mais com professores e outros alunos,
+comparados a turmas anteriores durante seus respectivos primeiros perı́odos. Os nı́veis de
+
+
+
+motivação, de acordo com os próprios alunos, também tiveram influências positivas devido
+à aplicação da abordagem desenvolvida.
+
+As limitações deste estudo no que tange ao tamanho das turmas, ao tempo de
+aplicação e de coleta de resultados impedem a afirmação de que um dos resultados es-
+pecı́ficos estudados influenciou diretamente o comportamento dos alunos. Apesar disso, é
+possı́vel afirmar que, ao analisar todo o conjunto de resultados, há uma relação entre bons
+nı́veis de desempenho, socialização e interesse com a participação ativa no projeto.
+
+Considerando a quantidade de cartas coletadas e as respostas dos alunos para as
+perguntas sobre diversão nos questionários analisados, é possı́vel perceber que a turma
+teve uma boa recepção à abordagem, considerando-a divertida em vários aspectos. Esta
+receptividade colaborou para os bons resultados obtidos, e reforça a ideia de que a junção
+entre estudos da área de game studies com estudos de gamificação pode ser uma solução
+interessante para manter os envolvidos interessados.
+
+É importante ressaltar que a forma como o estudo foi realizado levou em
+consideração o interesse prévio dos alunos em jogos de cartas similares a “Lord of Flores-
+tal”, o que significa que a abordagem aplicada a turmas distintas pode apresentar resultados
+consideravelmente diferentes. Porém, com uma análise cautelosa do público alvo, é
+possı́vel utilizar a mesma base teórica e os mesmos conceitos para o desenvolvimento de
+uma abordagem com um ou mais jogos não similares a “Lord of Florestal”.
+
+Referências
+Burke, B. (2014). Gamify: How Gamification Motivates People to Do Extraordinary
+
+Things. Bibliomotion, 1 edition.
+Caillois, R. (1990). Os Jogos e os Homens. Cotovia, 1 edition.
+de Holanda, A. B. (2010). Dicionário Aurélio da Lı́ngua Portuguesa. Editora Positivo, 8
+
+edition.
+Duffy, O. (2015). How magic: the gathering became a pop-culture hit – and where it goes
+
+next. https://www.theguardian.com/technology/2015/jul/10/
+magic-the-gathering-pop-culture-hit-where-next?CMP=fb_gu.
+
+Egenfeldt-Nielsen, S., Smith, J. H., and Toscana, S. P. (2013). Understanding Video
+Games: The Essential Introduction. Routledge, 2 edition.
+
+Eickhoff, C., Harris, C. G., de Vries, A. P., and Srinivasan, P. (2012). Quality through
+flow and immersion: Gamifying crowdsourced relevance assessments. 35th Annual
+International ACM Conference on Research and Development in Information Retrieval.
+
+Ermi, L. and Mäyrä, F. (2005). Fundamental components of the gameplay experience:
+Analysing immersion. volume 3. DiGRA ’05 - Proceedings of the 2005 DiGRA
+International Conference: Changing Views: Worlds in Play.
+
+Fitz-Walter, Z., Tjondronegoro, D., and Wyeth, P. (2011). Orientation passport: Using
+gamification to engage university students. volume 23. 23rd Australian Computer-
+Human Interaction Conference.
+
+Fotaris, P., Mastoras, T., Leinfellner, R., and Rosunally, Y. (2016). Climbing up the
+leaderboard: An empirical study of applying gamification techniques to a computer
+programming class. The Electronic Journal of e-Learning, 14(2):94–110.
+
+
+
+Fullerton, T. (2014). Game Design Workshop: A Playcentric Approach to Creating
+Innovative Games. CRC Press, 3 edition.
+
+Hamari, J. (2013). Transforming homo economicus into homo ludens: A field experiment
+on gamification in a utilitarian peer-to-peer trading service. volume 12. Electronic
+Commerce Research and Applications.
+
+Hamari, J. and Koivisto, J. (2013). Social motivations to use gamification: An empirical
+study of gamifying exercise. volume 21. ECIS 2013 Completed Research.
+
+Hamari, J., Koivisto, J., and Sarsa, H. (2014). Does gamification work? – a literature
+review of empirical studies on gamification. pages 1–10. 47th Hawaii International
+Conference on System Science.
+
+Hanus, M. D. and Fox, J. (2015). Assessing the effects of gamification in the classroom: A
+longitudinal study on intrinsic motivation, social comparison, satisfaction, effort and
+academic performance. Computers & Education, 80(1):152–161.
+
+Howard, J. (2008). Quests: Design, Theory, and History in Games and Narratives. A K
+Peters/CRC Press, 1 edition.
+
+Huotari, K. and Hamari, J. (2012). Defining gamification - a service marketing perspective.
+16th International Academic Mindtrek Conference.
+
+IGN (2014). Hearthstone: Heroes of warcraft. http://br.ign.com/
+hearthstone-heroes-of-warcraft.
+
+INEP (2016). Sinopse estatı́stica da educação superior 2015. http://portal.inep.
+gov.br/basica-censo-escolar-sinopse-sinopse.
+
+Jenkins, H. (s.d). Games, the new lively art. http://web.mit.edu/21fms/
+People/henry3/GamesNewLively.html.
+
+Kent, S. L. (2001). The Ultimate History of Video Games: From Pong to Pokemon and
+Beyond...the Story Behind the Craze That Touched Our Lives and Changed the World.
+Three Rivers Press, 1 edition.
+
+Konami (2009). Yu-gi-oh! card sales set new world record. http://www.konami.
+jp/topics/2009/0807/index-e.html.
+
+Konami (2017). Mobile game ”yu-gi-oh! duel links”started global release in 150 countries
+and regions! https://www.konami.com/games/corporate/en/news/
+release/20170111/.
+
+Lazzaro, N. (2004). Why we play games: Four keys to more emotion without story. Game
+Developers Conference 2004, 9(1).
+
+Mahardy, M. (2014). Hearthstone reaches 20 million players, plans mo-
+bile release soon. http://www.ign.com/articles/2014/09/15/
+hearthstone-reaches-20-million-players-plans-mobile-release-soon.
+
+McGonigal, J. (2011). Reality is Broken: Why Games Make Us Better and How They Can
+Change the World. The Penguin Press, 1 edition.
+
+Nieborg, D. B. and Hermes, J. (2008). What is game studies anyway? European Journal
+of Cultural Studies, 11(2):131–147.
+
+
+
+Pinheiro, C. M. and Branco, M. A. (2006). Uma tipologia dos jogos. Sessões do Imaginário,
+11(15):33–39.
+
+Rutter, J. and Bryce, J. (2006). Understanding Digital Games. SAGE Publications Ltd, 1
+edition.
+
+Teixeira, L. F. B. (2008). Criticismo ludológico: Simulação ergódica (jogabilidade) vs
+ficção narrativa. Observatorio, 2(1):321–332.
+
+Witt, M., Scheiner, C., and Robra-Bissantz, S. (2011). Gamification of online idea
+competitions: Insights from an explorative case. volume 41. INFORMATIK 2011 -
+Informatik schafft Communities.
+
+Yugioh-card (2013). Yu-gi-oh! trading card game tag dueling rules. http://www.
+yugioh-card.com/en/league/dueling/tag_dueling.html.

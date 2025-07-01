@@ -1,0 +1,2224 @@
+﻿UNIVERSIDADE FEDERAL DE VIÇOSA
+CAMPUS FLORESTAL
+
+JANAÍNA MENDES DE OLIVEIRA
+
+AVALIAÇÃO DE USABILIDADE EM APLICATIVOS PARA
+APOIO À PARTICIPAÇÃO EM EVENTOS
+
+FLORESTAL
+2016
+
+
+
+JANAÍNA MENDES DE OLIVEIRA
+
+AVALIAÇÃO DE USABILIDADE EM APLICATIVOS PARA APOIO À
+PARTICIPAÇÃO EM EVENTOS
+
+Monografia apresentada ao Curso de Ciência
+da Computação da Universidade Federal de
+Viçosa - campus de Florestal como requisito
+para obtenção do título de bacharel em Ci-
+ência da Computação.
+Orientador: Thaís Regina de Moura Braga
+Silva
+Coorientador: Gláucia Braga e Silva
+
+FLORESTAL
+2016
+
+
+
+JANAÍNA MENDES DE OLIVEIRA
+
+AVALIAÇÃO DE USABILIDADE EM APLICATIVOS PARA
+APOIO À PARTICIPAÇÃO EM EVENTOS
+
+Monografia apresentada ao Curso de Ciência
+da Computação da Universidade Federal de
+Viçosa - campus de Florestal como requisito
+para obtenção do título de bacharel em Ci-
+ência da Computação.
+
+APROVADA EM: 02 de dezembro de 2016
+
+Thaís Regina de Moura Braga Silva
+Orientadora
+
+UFV-Florestal
+
+Fabrício Aguiar Silva
+UFV-Florestal
+
+Marcus Henrique Soares Mendes
+UFV-Florestal
+
+FLORESTAL
+2016
+
+
+
+Agradecimentos
+
+A Deus pela oportunidade que me foi concedida de estar aqui concluindo esse curso
+e por todas as coisas boas que Ele me proporcionou durante o curso.
+
+Agradeço por Ele ter sido a minha fonte de fé, e ter me ajudado em todas as horas.
+Aos meus pais Marlene e Efigênio, por todo apoio que me deram durante esses
+
+últimos anos. Sem eles eu não teria chegado até aqui. Agradeço pelos conselhos, ajuda,
+estímulo e principalmente pela paciência e fé que tiveram comigo, mesmo quando eu não
+acreditava em mim.
+
+Ao meu irmão Ronne, que foi a pessoa que sonhou esse curso junto comigo desde
+o início, ficando até mais feliz do que eu quando descobri a aprovação na universidade.
+Ele foi a pessoa que mais me estimulou e me fez enxergar que desistir, não é a solução
+de alguns problemas. Além disso, me ensinou a ter coragem de enfrentar as coisas e não
+ter medo de tentar algo novo. Sou imensamente grata por tudo que fez por mim nestes
+últimos anos.
+
+À minha orientadora Thaís, por toda a ajuda dada na preparação deste trabalho.
+Sua orientação permitiu que eu pudesse colocar minhas ideias em ordem, e concluir esse
+trabalho de uma maneira satisfatória.
+
+À minha coorientadora Gláucia, que também contribuiu para a realização deste
+trabalho, sugerindo novas ideias e abordagens que complementassem a minha pesquisa.
+Sua contribuição foi muito significativa.
+
+Aos meus amigos que fiz durante o curso, que me ajudaram muito em todos os
+momentos que precisei deles. Com certeza vou levar todos para sempre comigo, como
+pessoas especiais que conheci aqui.
+
+Aos participantes das avaliações feitas neste trabalho, que contribuíram para a
+conclusão deste.
+
+
+
+Resumo
+
+Nos últimos anos a evolução da tecnologia proporcionou mudanças significativas de grande
+impacto principalmente nos dispositivos móveis. As funcionalidades oferecidas pelos celu-
+lares nos dias atuais facilitam bastante a realização de algumas tarefas, que antes só eram
+disponibilizadas por desktops. É importante destacar que os aplicativos móveis precisam
+ser práticos, como também interativos de uma maneira agradável com seus usuários. As-
+sim, o objetivo deste trabalho é realizar a avaliação de usabilidade de dois aplicativos,
+Whova e MyMobiConf, que são para apoio à participação em eventos. Serão utilizados
+dois tipos de avaliação, sendo a avaliação heurística, que conta com o apoio de um checklist
+para apontar falhas de usabilidade por um olhar mais técnico, e o teste de usabilidade,
+que objetiva focar na experiência do usuário em si, destacando os fatores de facilidade
+de aprendizagem e satisfação no uso. Os resultados obtidos, apontaram um maior nível
+de satisfação pelo usuário em relação as funcionalidades oferecidas pelo MyMobiConf.
+Enquanto o Whova apresentou melhores resultados em relação ao aspecto técnico de suas
+interfaces.
+
+Palavras-chaves: Avaliação Heurística, Teste de Usabilidade, Aplicações Móveis.
+
+
+
+Abstract
+In recent years the evolution of technology has brought significant changes of great im-
+pact, especially on mobile devices. The features offered by today’s cell phones make it
+much easier to perform some tasks, which were previously only available through textit
+desktops. It is important to note that mobile applications need to be practical, but they
+also need to interact in a pleasant way with their users. Thus, the objective of this work is
+to perform the usability evaluation of two applications, Whova and MyMobiConf, which
+are used for supporting participation in events. Two types of evaluation will be used, the
+heuristic evaluation, which is supported by a checklist in order to indicate usability fail-
+ures through a technical look, and the usability test, which already aims to focus on the
+user experience in Highlighting the factors of ease of learning and satisfaction in use. The
+results obtained indicated a higher level of user satisfaction compared to the functionality
+offered by MyMobiConf. While Whova presented better results compared to the technical
+aspect presented by their interfaces.
+
+Key-words: Heuristic Evaluation, Usability test, Mobile Applications.
+
+
+
+Lista de ilustrações
+
+Figura 1 – Número de erros . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+Figura 2 – Opinião geral sobre o aplicativo MyMobiConf . . . . . . . . . . . . . . 25
+Figura 3 – Opinião geral sobre o aplicativo Whova por grupos . . . . . . . . . . . 25
+Figura 4 – Grau de dificuldade na utlização: MyMobiConf X Whova . . . . . . . . 26
+Figura 5 – Facilidade de aprendizado: MyMobiConf X Whova . . . . . . . . . . . 26
+Figura 6 – Opinião sobre rapidez de acesso: MyMobiConf . . . . . . . . . . . . . . 26
+Figura 7 – Rapidez de acesso no Whova por grupos . . . . . . . . . . . . . . . . . 27
+Figura 8 – Clareza e objetividade: MyMobiConf X Whova . . . . . . . . . . . . . 27
+Figura 9 – Satisfação na utilização: MyMobiConf X Whova . . . . . . . . . . . . . 27
+Figura 10 – Classificação de utilização/necessidade: MyMobiConf X Whova . . . . 28
+Figura 11 – Possível utilização futura: MyMobiConf X Whova . . . . . . . . . . . . 28
+
+
+
+Lista de tabelas
+
+Tabela 1 – Aparelhos utilizados . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+Tabela 2 – Tempo gasto para realizar as tarefas de cada aplicativo . . . . . . . . . 24
+
+
+
+Sumário
+
+1 Introdução . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.1 Objetivo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.2 Justificativa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.3 Organização do texto . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+
+2 Fundamentação Teórica . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.1 Bases Teóricas . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.2 Avaliação Heurística . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+2.3 Teste de Usabilidade . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.4 Análise de Usabilidade no contexto de Aplicativos Móveis . . . . . . . . . 15
+2.5 Trabalhos Relacionados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+
+3 Avaliação de Usabilidade: Whova X MyMobiConf . . . . . . . . . . . . . . . 18
+3.1 Sistemas de Apoio à Participação em Eventos . . . . . . . . . . . . . . . . 18
+
+3.1.1 Whova . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+3.1.2 MyMobiConf . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+
+3.2 Avaliação de Usabilidade para Dispositivos Móveis . . . . . . . . . . . . . . 19
+3.2.1 Avaliação Heurística . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+3.2.2 Teste de Usabilidade . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+4 Resultados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+4.1 Avaliação Heurística . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+4.2 Teste de Usabilidade . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+4.2.1 Facilidade de aprendizagem . . . . . . . . . . . . . . . . . . . . . . 23
+4.2.2 Satisfação no uso . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+
+5 Conclusão e Trabalhos Futuros . . . . . . . . . . . . . . . . . . . . . . . . . 29
+
+Referências . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+APÊNDICE A Documentação Avaliação Heurística . . . . . . . . . . . . . . . 32
+APÊNDICE B Documentação Avaliação com Usuários . . . . . . . . . . . . . 43
+APÊNDICE C Telas avaliadas na Avaliação Heurística . . . . . . . . . . . . . 46
+APÊNDICE D Resultado das telas avaliadas . . . . . . . . . . . . . . . . . . . 53
+
+
+
+9
+
+1 Introdução
+
+Diante da crescente evolução da Internet, as grandes empresas que trabalham com
+tecnologia e aparelhos eletrônicos puderam disponibilizar seus serviços de uma maneira
+mais eficiente. Com isso, a popularização de tablets e smartphones trouxe consigo o sur-
+gimento de uma gama diversificada de aplicativos dos mais variados segmentos, para
+facilitar e auxiliar a vida de seus usuários. Perry, Eichler e Resende (2013), destacam que
+o surgimento de celulares portáteis possibilitou uma maior interação e comunicação entre
+as pessoas, principalmente pelos serviços de compartilhamento em tempo real. Isso só foi
+possível pela evolução da tecnologia nos últimos anos, que permitiu que mais funcionali-
+dades fossem oferecidas, além das básicas já existentes, que envolvem ligações, mensagens,
+calculadora, agenda, entre outras.
+
+Segundo Ribeiro (2007), é necessário destacar o fato de que os dispositivos móveis
+exigem um pouco mais de atenção devido a algumas restrições físicas, o que limita um
+pouco a apresentação de aspectos que não encontram a mesma dificuldade quando se fala
+em computadores de mesa. O tamanho da tela por exemplo, que é considerado um tipo
+de restrição, faz com que as informações sejam apresentadas em um formato minimizado
+para que as opções principais não deixem de estar visíveis (NETO, 2013).
+
+Para um melhor aproveitamento desses aplicativos, é necessário que suas interfaces
+consigam oferecer as funcionalidades de modo que o usuário possa realizar suas tarefas
+encontrando o mínimo possível de dificuldades em sua utilização. Assim, é possível obter
+êxito e satisfação em seu uso, tirando proveito de todas as suas funcionalidades, promo-
+vendo uma futura utilização pelo usuário sem grandes problemas. Como essa questão de
+usabilidade voltada para dispositivos móveis é recente, é de se esperar que as pesquisas
+sobre a área também estejam em desenvolvimento, até mesmo porque esses dispositivos
+apresentam muitas características consideradas únicas, dificultando um pouco a realização
+de testes mais padronizados já que estes foram modelados para dispositivos computacio-
+nais convencionais (MACHADO, 2010).
+
+Dentro desse contexto, o trabalho objetiva analisar e estudar um pouco mais a
+fundo os conceitos de usabilidade propostos pela literatura para a formulação de interfaces
+mais produtivas para aplicativos móveis. Sabe-se que a interface é algo fundamental em
+um produto, pois ela faz a ligação entre quem usa e o que é disponibilizado pelo sistema
+em questão. O sistema precisa mostrar seu potencial também no projeto de interface com
+o usuário, para que este consiga atender às expectativas deste. Além do mais, essa parte do
+projeto de software influencia no sucesso e confiabilidade do sistema (SOMMERVILLE,
+2007). Caso a interface não disponha de um design eficiente e intuitivo, as funcionalidades
+do aplicativo não poderão ser aproveitadas e utilizadas de uma maneira produtiva. Além
+
+
+
+Capítulo 1. Introdução 10
+
+do fato de que, situações como essa levam alguns usuários às vezes a desistir de usar o
+aplicativo novamente, o que é algo grave e não desejável.
+
+1.1 Objetivo
+O objetivo geral deste trabalho é realizar avaliação de usabilidade em dois aplica-
+
+tivos voltados para apoio à participação em eventos, por meio de uma avaliação heurística
+e um teste de usabilidade. Estas avaliações buscam avaliar a qualidade das interfaces dos
+aplicativos MyMobiConf e Whova, fazendo um comparativo entre eles com os resultados
+obtidos.
+
+1.2 Justificativa
+Existem na literatura alguns trabalhos que também fazem validações e avalia-
+
+ções sobre usabilidade em dispositivos móveis. Trabalhos semelhantes executam um tipo
+de método, porém com um maior nível de detalhe, focando em um público-alvo mais
+específico. Neste trabalho, a proposta é realizar a combinação de duas avaliações, particu-
+larmente para um tipo de aplicativo específico, sendo aplicativos direcionados para apoio
+à participação em eventos. Esta combinação, proporciona um resultado mais abrangente,
+apresentando tanto uma visão mais técnica, quanto uma mais focada em experiência de
+uso, dos problemas encontrados. Os aplicativos de apoio à participação em eventos foram
+escolhidos para este trabalho, por serem aplicativos novos no mercado, e também pelo
+fato da autora ser integrante de um núcleo de estudos responsável pela criação de um
+sistema desse tipo.
+
+1.3 Organização do texto
+Este trabalho está organizado da seguinte forma: o capítulo 2 apresenta a funda-
+
+mentação teórica e os trabalhos relacionados ao tema. O capítulo 3 explica mais detalha-
+damente a metodologia utilizada e os procedimentos realizados para avaliar os aplicativos
+móveis. O capítulo 4 apresenta os resultados obtidos com os métodos de avaliação empre-
+gados e o capítulo 5 apresenta a conclusão e trabalhos futuros.
+
+
+
+11
+
+2 Fundamentação Teórica
+
+A evolução da tecnologia apresentou claramente melhorias e inovações que trou-
+xeram benefícios para diversos contextos no mundo todo. Os primeiros celulares ofere-
+ciam recursos muito limitados quando comparados aos aparelhos atuais. Com o passar do
+tempo, eles foram ganhando novas funcionalidades que influenciaram em sua estrutura
+física, peso, tamanho da tela, entre outros (ANJOS, 2012). Essas características passaram
+a influenciar profundamente o projeto de interface desses aparelhos, pois é preciso que
+haja uma interface amigável ao usuário e ao mesmo tempo algo funcional, tornando a
+interação humano-computador algo produtivo. Falhas de desenvolvimento em interfaces
+podem ocasionar o fracasso de um projeto inteiro, gerando uma rejeição deste (SOUZA;
+COSTA, 2006).
+
+2.1 Bases Teóricas
+Tomando como base os estudos referentes a esse cenário de evolução da telefonia
+
+móvel, a realização deste trabalho conta com alguns estudos semelhantes e propostas de
+soluções interessantes. Para a elaboração desta pesquisa, foram utilizados trabalhos com
+um mesmo objetivo que é a importância da usabilidade em interfaces, juntamente com sua
+interação com usuários. O trabalho de Nielsen (1994) foi a base da fundamentação sobre
+usabilidade, trazendo conceitos e definições que guiaram o entendimento da importância
+de interfaces mais intuitivas e de melhor qualidade para o usuário. Adicionalmente, traz
+guias e recomendações para a elaboração de avaliações em interfaces de sistemas variados,
+em destaque a avaliação heurística explicada com mais detalhes na próxima seção. As
+10 heurísticas criadas por ele também foram utilizadas como base para a elaboração
+do checklist utilizado por Krone (2013). Esse checklist foi utilizado neste trabalho para
+apoio à realização da avaliação heurística, contendo 37 perguntas direcionadas a encontrar
+falhas de usabilidade especificamente em interfaces para dispositivos móveis. O fato deste
+trabalho ser todo direcionado para dispositivos móveis foi o principal motivo da escolha
+e utilização deste checklist. Já o trabalho de Holanda(2014) foi o principal guia para
+a realização deste trabalho, pois o foco também é a avaliação de um aplicativo móvel,
+fazendo a combinação de dois métodos que foram a avaliação heurística e o teste de
+usabilidade. Os critérios referentes à facilidade de aprendizagem e satisfação no uso, foram
+os mesmos utilizados neste trabalho para o teste de usabilidade e uma adaptação do
+seu questionário referente ao teste de usabilidade serviu como base para quantificar os
+resultados dos dois aplicativos voltados para apoio à participação em eventos utilizados
+no presente trabalho.
+
+
+
+Capítulo 2. Fundamentação Teórica 12
+
+2.2 Avaliação Heurística
+A definição de usabilidade está ligada à qualidade da interação que um usuário tem
+
+ao utilizar uma interface (NIELSEN, 1994). As avaliações de usabilidade buscam avaliar
+a qualidade de interfaces de um sistema, tentando verificar se aquele produto se mostra
+intuitivo o bastante, a ponto de não ter tantos ou quase nenhum tipo de falha que afete
+na utilização pelo usuário possuindo uma qualidade no mínimo aceitável. Esta avaliação
+pode ser classificada em dois tipos: caráter formativo e somativo. O caráter formativo
+é caracterizado pelo fato de a avaliação ser feita durante o processo de desenvolvimento
+do software, já o somativo é quando a avaliação é realizada com o sistema finalizado
+(PÁDUA, 2012).
+Segundo PÁDUA (2012), podem ser considerados objetivos gerais desse tipo de avaliação:
+
+• verificar a qualidade da interface em termos de sua adequação para que os principais
+atributos de usabilidade sejam alcançados;
+
+• validar os requisitos e metas de usabilidade, verificando o desempenho dos usuários
+face aos objetivos estabelecidos;
+
+• validar a eficácia da interação humano-computador face à efetiva realização das
+tarefas por parte dos usuários;
+
+• verificar a eficiência dessa interação, face aos recursos empregados;
+
+• obter dados qualitativos que sirvam de insumo para uma melhoria da qualidade da
+interface;
+
+• obter indícios da satisfação ou insatisfação (efeito subjetivo) que a interface possa
+trazer ao usuário.
+
+E os objetivos específicos são:
+
+• avaliar o desempenho, constatar, observar e registrar problemas efetivos de usabili-
+dade durante a interação;
+
+• obter métricas objetivas para eficácia, eficiência e produtividade do usuário na inte-
+ração com o sistema. Por exemplo, podem ser analisadas métricas relacionadas ao
+tempo gasto, a quantidade de incidentes ou de erros dos usuários, passos desneces-
+sários na realização de tarefas e busca de ajuda, dentre outros;
+
+• diagnosticar as características do desenho que provavelmente atrapalham a interação
+por estarem em desconformidade com padrões implícitos e explícitos de usabilidade;
+
+• prever dificuldades de aprendizado na operação do sistema;
+
+
+
+Capítulo 2. Fundamentação Teórica 13
+
+• avaliar o desempenho dos usuários, na utilização do sistema, em relação aos atributos
+de usabilidade considerados mais importantes como, por exemplo, produtividade,
+prevenção de erros, facilidade de aprendizagem e retenção do conhecimento de como
+utilizar o sistema.
+
+A avaliação heurística se encaixa como um tipo de método de avaliação analítica,
+na qual os avaliadores buscam encontrar problemas de usabilidade em interfaces, a fim de
+que melhorias possam ser feitas por meio de análises, em relação aos problemas encontra-
+dos (PRATES; BARBOSA, 2003). Segundo Nielsen (1994), a avaliação heurística pode
+ser definida como um tipo de avaliação que busca encontrar problemas de usabilidade em
+interfaces, seguindo um conjunto de heurísticas, que são basicamente tomadas de decisão
+que encontram respostas adequadas para questões difíceis, que guiam o avaliador. Esta
+avaliação não envolve usuários, mas sim especialistas que tenham um conhecimento maior
+sobre usabilidade, fornecendo uma visão mais técnica na avaliação. Nielsen (1994), propôs
+um conjunto de 10 heurísticas a serem consideradas nesse tipo de avaliação que são:
+
+• visibilidade do estado do sistema: mantenha os usuários informados sobre o que está
+acontecendo, através de feedback adequado e no tempo certo.
+
+• correspondência entre o sistema e o mundo real: utilize conceitos, vocabulário e
+processos familiares aos usuários.
+
+• controle e liberdade do usuário: forneça alternativas e “saídas de emergência”.
+
+• consistência e padronização: palavras, situações e ações semelhantes devem signifi-
+car conceitos ou operações semelhantes; caso haja convenções para o ambiente ou
+plataforma escolhidos, estas devem ser obedecidas.
+
+• prevenção de erro: tente evitar que o erro aconteça, informando o usuário sobre as
+consequências de suas ações ou, se possível, impedindo ações que levariam a uma
+situação de erro.
+
+• ajuda aos usuários para reconhecerem, diagnosticarem e se recuperarem de erros:
+mensagens de erro em linguagem simples, sem códigos, indicando precisamente o
+problema e sugerindo de forma construtiva um caminho remediador.
+
+• reconhecimento em vez de memorização: torne objetos, ações e opções visíveis e
+compreensíveis.
+
+• flexibilidade e eficiência de uso: ofereça aceleradores e caminhos alternativos para
+uma mesma tarefa; permita que os usuários customizem ações frequentes.
+
+• design estético e minimalista: evite porções de informação irrelevantes. Cada uni-
+dade extra de informação em um diálogo compete com as unidades de informação
+relevantes e reduz sua visibilidade relativa.
+
+
+
+Capítulo 2. Fundamentação Teórica 14
+
+• ajuda e documentação devem ser fáceis de buscar, focadas no domínio e na tarefa
+do usuário, e devem listar passos concretos a serem efetuados para atingir seus
+objetivos.
+
+Esta avaliação é realizada por 3 a 5 avaliadores, conforme orientações de Nielsen.
+No geral, esse método contém procedimentos de avaliação individual, e posteriormente
+esses resultados individuais são compartilhados e discutidos entre os avaliadores para um
+refinamento em prol da identificação dos problemas a serem resolvidos. Em seguida, os
+problemas são categorizados de acordo com um grau de gravidade (PRATES; BARBOSA,
+2003):
+
+• 0 – Não concordo que isto seja um problema (este valor pode resultar da avaliação
+de um especialista sobre um problema apontado por outro especialista)
+
+• 1 – Problema cosmético: não precisa ser consertado a menos que haja tempo extra
+no projeto
+
+• 2 – Problema pequeno: o conserto deste problema é desejável, mas deve receber
+baixa prioridade
+
+• 3 – Problema grande: importante de ser consertado; deve receber alta prioridade
+
+• 4 – Catastrófico: é imperativo consertar este problema antes do lançamento do
+produto.
+
+2.3 Teste de Usabilidade
+Os testes de usabilidade visam encontrar problemas de usabilidade em interfaces
+
+de acordo com a utilização que os usuários fazem destas. Neste caso, os usuários testam
+as funcionalidades do sistema, reportando possíveis problemas de interação em sua utili-
+zação. A execução deste teste, que geralmente é feita em laboratório, possibilita encontrar
+problemas e identificar possíveis melhorias futuras, para o sistema avaliado. Os fatores
+de usabilidade avaliados são: facilidade de aprendizado, facilidade de uso, eficiência de
+uso e produtividade, satisfação do usuário, flexibilidade, utilidade e segurança no uso
+(PRATES; BARBOSA, 2003). Alguns tipos de métricas usadas neste teste são: tempo
+para se executar uma tarefa, número de erros executados, porcentagem de usuários que
+conseguiram sair de um erro encontrado, porcentagem de usuários que ficaram satisfeitos
+com a aplicação a ser testada (PRATES; BARBOSA, 2003).
+
+
+
+Capítulo 2. Fundamentação Teórica 15
+
+2.4 Análise de Usabilidade no contexto de Aplicativos Móveis
+Os aplicativos móveis sobressaíram-se nos últimos anos, pela disponibilidade de
+
+acesso e facilidade de uso de funcionalidades que antes só eram disponibilizadas pelo
+computador. Há uma gama diversificada de aplicativos, atendendo aos mais variados
+gostos e perfis de usuários. Segundo Weiss (2003), para que um dispositivo móvel possa
+ser classificado com tal, é necessário atender à três características:
+
+• Deve funcionar sem a utilização de cabos, exceto quando se faz necessário;
+
+• Deve funcionar sem precisar de nenhum tipo de apoio, como mesas por exemplo,
+somente com a utilização das mãos já seria o suficiente;
+
+• Devem permitir suporte a conectividade com à Internet, e adição de aplicações.
+
+Essas aplicações ganham um destaque por sua diferenciação com os desktops, não
+sendo necessário ficar preso a um ambiente, para se ter acesso a algumas informações ou
+mesmo funcionalidades que são dadas por esse sistema HOLANDA (2014). Isso acarreta
+mais um motivo para a necessidade de uma interface bem elaborada, objetivando que o
+usuário consiga extrair o máximo possível do aplicativo que está utilizando. Insatisfação no
+uso pode ocasionar uma má impressão perante o usuário e até mesmo a desistência no uso
+deste aplicativo, o que é algo não desejável. Mesmo os dispositivos móveis, apresentando
+características como mobilidade, por exemplo, é necessário também destacar que eles
+possuem restrições que fazem essa diferenciação em relação ao desktop, que merecem
+destaque pelas suas particularidades. O tamanho da tela, a entrada de dados, memória,
+bateria, rede, conectividade, entre outros aspectos fazem com que uma atenção maior
+seja dada a esses dispositivos, para que se criem aplicações que funcionem de maneira
+adequada, possibilitando ao usuário uma utilização satisfatória. Pode-se dizer que essas
+limitações, citadas anteriormente, são as que mais impactam na criação de aplicativos e
+posteriormente no seu sucesso ou não. O principal problema é que nem todas as orientações
+sobre usabilidade em desktops podem ser empregadas em dispositivos móveis, devido à
+suas particularidades de formato. Ketola e Röykkee (2001 apud NEVES, 2005), sugerem
+que a usabilidade voltada para dispositivos móveis é definida e composta por:
+
+1. disponibilidade dos serviços de rede (infra-estrutura);
+
+2. facilidade do uso e disponibilidade dos serviços;
+
+3. utilidade dos serviços do dispositivo como um todo, incluindo configuração default;
+
+4. prontidão para ser usado;
+
+5. informação do status do dispositivo exibida;
+
+
+
+Capítulo 2. Fundamentação Teórica 16
+
+6. o quão útil e disponível o material de suporte ao usuário está;
+
+7. acessórios;
+
+8. a interoperabilidade de dispositivos e serviços.
+
+O não atendimendo de algumas recomendações sobre esse estudo pode gerar um descon-
+forto no usuário e um mau aproveitamento do sistema em si.
+
+2.5 Trabalhos Relacionados
+Foram encontrados alguns trabalhos na literatura que também focaram suas pes-
+
+quisas em dispositivos móveis e realizaram alguns métodos de avaliação em prol de uma
+melhor interação homem-máquina do usuário com essas interfaces. Holanda(2014) apre-
+senta a combinação de dois métodos de avaliação em seu trabalho, sendo a avaliação
+heurística com apoio de um checklist, buscando avaliar o aplicativo “Onde Fica? UFC”
+por um olhar mais técnico. E o teste de usabilidade foi utilizado com foco em usuários
+reais, tendo como forma de coleta de dados um questionário proposto por ele, a fim de
+avaliar a satisfação no uso.
+
+Krone (2013), elaborou o checklist utilizado juntamente com a avaliação heurística,
+baseado nas 10 heurísticas de Nielsen. O destaque deste trabalho foi o foco na elaboração
+de perguntas que abordassem exclusivamente o ambiente móvel e suas especificidades,
+como pode ser visto em perguntas mais objetivas que tem uma maior relação com este
+tipo de ambiente.
+
+Perry, Eichler e Resende (2013) mostraram uma outra abordagem de avaliação
+de um aplicativo móvel chamado Mobiteste, focando somente em teste de usabilidade,
+utilizando para isso um questionário com perguntas mais focadas em satisfação no uso.
+Este trabalho também buscou realizar comparações entre aplicativos semelhantes ao que
+foi avaliado.
+
+Neto (2013) apresenta um novo conjunto de heurísticas voltadas exclusivamente
+para dispositivos móveis, utilizando por base as heurísticas de Nielsen. Para a validação
+destas heurísticas, este autor fez a aplicação destas, comparando-as com as de Nielsen,
+usando para isso os aplicativos do Facebook, Twitter, Foursquare e Gmail.
+
+Machado(2010) buscou em seu trabalho tratar de aspectos de ergonomia para a
+terceira idade, utilizando como forma de coleta de dados um questionário voltado para as-
+pectos de usabilidade de interfaces de celulares comuns. Neste caso, a autora propõem que
+sejam feitas melhorias e adaptações em funcionalidades comuns de celulares, facilitando
+assim o acesso pelos idosos.
+
+
+
+Capítulo 2. Fundamentação Teórica 17
+
+O objetivo aqui foi focar na avaliação de dois aplicativos: Whova e MyMobiConf,
+que são voltados para um mesmo perfil de usuário, comparando-os e apresentando re-
+sultados que mostram a qualidade das interfaces avaliadas e sua relação de satisfação
+com os usuários. Com o checklist do trabalho de Krone(2013), objetivou-se realizar a
+avaliação heurística, servindo de um meio de guia para a realização desta. O trabalho de
+Holanda(2014), guiou a realização do teste de usabilidade utilizando os critérios de faci-
+lidade de aprendizagem e satisfação no uso. E o trabalho de Nielsen(1994), serviu como
+base sobre o contexto de usabilidade em geral, trazendo recomendações e guias sobre a
+elaboração de interfaces de sistemas. A ideia é que se faça uma complementação de co-
+nhecimento nessa pesquisa, por meio dos métodos de avaliação utilizados por cada autor
+mencionado, dentro do contexto dos aplicativos de apoio à participação em eventos.
+
+
+
+18
+
+3 Avaliação de Usabilidade: Whova X My-
+MobiConf
+
+Este capítulo apresentará com um maior nível de detalhes toda a metodologia por
+trás da execução das avaliações de usabilidade com usuários, baseadas nos aplicativos
+Whova e MyMobiConf.
+
+A criação de sistemas que auxiliam a participação das pessoas em eventos tem
+se tornado mais frequente nos dias atuais. É muito comum os organizadores dos eventos
+criarem seu próprio aplicativo com o intuito de auxiliar os participantes de todas as ati-
+vidades programadas. Isso proporciona maior facilidade de acesso a essas atividades, não
+precisando mais de uma programação impressa por parte do participante. Esses sistemas
+de apoio à participação em eventos proporcionam maior aproveitamento do evento em si,
+e maior praticidade em relação às informações deste. Dois exemplos deste tipo de sistema
+são os aplicativos Whova e MyMobiConf, que serão mais detalhados na seção seguinte.
+
+3.1 Sistemas de Apoio à Participação em Eventos
+Os sistemas de apoio à participação em eventos tornam possível uma melhor in-
+
+teração entre organizadores, participantes e patrocinadores. A partir da realização do ca-
+dastro do evento feito pelo organizador, o participante consegue se cadastrar neste evento
+e em suas atividades, de maneira prática e rápida. Isso se torna bem útil principalmente
+para os participantes, que conseguem ter acesso ás informações do evento em qualquer
+lugar e a qualquer hora, podendo se organizar melhor, sem contar com o acesso rápido as
+informações.
+
+3.1.1 Whova
+O aplicativo Whova pertence a uma startup de San Diego na Califórnia, que é
+
+utilizado principalmente para o networking em eventos empresariais, culturais, reuniões,
+entre outros (WHOVA, 2016). O seu grande destaque é o networking disponibilizado para
+os participantes que criam um perfil no aplicativo, possibilitando uma interação entre os
+envolvidos antes e após os eventos. Isto beneficia tanto o organizador, o participante e
+os patrocinadores possibilitando que haja uma maior interação entre eles. Este aplicativo
+está há algum tempo no mercado, sendo conhecido internacionalmente e usado no mundo
+todo. Para poder se cadastrar em algum evento o usuário precisa entrar com um id,
+fornecido pelo organizador do evento por uma questão de organização e segurança, já que
+qualquer pessoa pode ter acesso ao aplicativo.
+
+
+
+Capítulo 3. Avaliação de Usabilidade: Whova X MyMobiConf 19
+
+3.1.2 MyMobiConf
+O aplicativo MyMobiConf é direcionado para participação em qualquer tipo de
+
+evento. Ele possibilita o auxílio e gerenciamento de eventos para os participantes, que
+montam sua própria agenda de acordo com os eventos disponíveis, e para os próprios
+organizadores que conseguem obter um feedback do evento que estão organizando. Foi
+desenvolvido pelo Nesped(Núcleo de Estudos em Sistemas Pervasivos e Distribuídos da
+UFV-Florestal) e já foi utilizado pela primeira vez em um evento na mesma universidade,
+intitulado V SECOM (Semana da Computação). Teve um número considerável de down-
+loads e posteriormente obteve um feedback dos participantes do evento, para melhorias
+futuras (SCAPE, 2016).
+
+3.2 Avaliação de Usabilidade para Dispositivos Móveis
+Tomando por base, a grande popularidade e utilização dos dispositivos móveis nos
+
+dias atuais, o trabalho em si busca estudar mais a fundo a importância que interfaces
+bem projetadas causam em um aplicativo móvel. Já que esses sistemas se tornaram tão
+presentes e indispensáveis no dia a dia das pessoas, é necessário que se dê uma maior
+atenção para esses tipos de sistemas.
+
+3.2.1 Avaliação Heurística
+A avaliação heurística foi realizada com o auxílio do checklist proposto por Krone
+
+(2013) no seu trabalho de validação de heurísticas voltadas exclusivamente para celula-
+res touchscreen, assim como o trabalho de Holanda(2014), que realizava uma avaliação de
+usabilidade em um aplicativo móvel, devido as especificidades propostas por esse checklist,
+atendendo ao contexto da avaliação. Esse checklist foi adaptado inicialmente do traba-
+lho de Krone (2013), onde originalmente continha 92 perguntas, mas que passando por
+refinamentos da própria autora chegou a 48 perguntas. Com algumas adaptações feitas
+por Holanda(2014), houve também a adição de um espaço em aberto para a colocação de
+uma descrição do problema, grau de severidade e possível solução sugerida. Com o intuito
+de tornar mais objetiva e prática a avaliação heurística deste trabalho, foi realizado um
+último refinamento do checklist até então com 48 perguntas, para 37 perguntas, feito pela
+autora deste trabalho. O motivo dessa alteração se deve ao fato de que algumas perguntas
+não se mostravam significativas para o contexto que está sendo analisado aqui, por isso a
+eliminação de algumas.
+
+Para a execução da avaliação, foram selecionadas três pessoas consideradas aptas,
+de acordo com seus conhecimentos e contato com dispositivos móveis, para conseguir
+avaliar as telas escolhidas com um olhar mais técnico, produzindo melhores resultados
+neste contexto. As telas foram escolhidas pelas funcionalidades semelhantes em relação aos
+
+
+
+Capítulo 3. Avaliação de Usabilidade: Whova X MyMobiConf 20
+
+dois aplicativos. Todos os três são alunos do curso de Ciência da Computação. A orientação
+passada inicialmente foi que os avaliadores utilizassem os dois aplicativos de modo que
+entendessem as funcionalidades disponibilizadas por eles, podendo assim entender melhor
+sobre o funcionamento de ambos. Em seguida, o checklist foi disponibilizado, como forma
+de guiar os três avaliadores, com as questões referentes ao contexto sendo avaliado.
+
+Cada avaliador respondeu a esse checklist individualmente, de acordo com as telas
+que foram catalogadas dos dois aplicativos, como pode ser visto no Apêndica C. O resul-
+tado desta avaliação gerou um documento para cada avaliador contendo descrições mais
+detalhadas das telas identificadas com problemas, sua gravidade e uma possível proposta
+de solução. Após todas as ações individuais feitas, os três avaliadores se reuniram para
+eliminar falhas repetidas, fazendo uma nova consolidação dos dados por meio de um re-
+finamento (HOLANDA, 2014). Por fim, o resultado final pode ser visto no Apêndice D
+.
+
+3.2.2 Teste de Usabilidade
+O teste de usabilidade, que foi mais detalhado na seção 2.3, tem como objetivo
+
+avaliar as interfaces de um sistema pela visão do usuário propriamente dito. Por isso, neste
+teste foram convidadas 8 pessoas, separadas em dois grupos, sendo um de alunos do curso
+de Ciência da Computação denominado CdC, e o outro grupo de alunos de outros cursos
+da universidade, sendo denominado Leigos. Cada grupo continha 4 participantes, sendo
+que no dia de realização do teste só 3 participantes do grupo Leigos compareceram. A
+escolha em separar os participantes do teste em dois grupos, teve como objetivo fazer um
+comparativo de desempenho entre eles, de acordo com o resultado dos testes. Os usuários
+do grupo Leigos, foram denominados de L1, L2, L3 e L4, já os do grupo CdC foram
+denominados de CdC5, CdC6, CdC7 e CdC8.
+
+Os participantes foram inicialmente orientados sobre o funcionamento do teste em
+questão. A primeira orientação foi que cada um lesse a primeira seção do documento
+disponibilizado pelo Google Docs, que continha uma breve descrição dos aplicativos que
+estavam sendo avaliados, e como se daria o andamento das próximas ações.
+
+A documentação a ser utilizada no teste foi confeccionada utilizando o Google
+Docs, para um melhor acesso aos participantes e também para uma facilitação na análise
+dos dados depois de sua execução. Ele foi dividido em 4 seções para uma melhor visuali-
+zação e entendimento dos participantes. A primeira seção continha um texto explicando
+o que seria feito no teste, como também uma breve descrição de cada aplicativo sendo
+avaliado. A seção 2 pedia para que as informações como marca, modelo e sistema ope-
+racional do celular que iria ser utilizado fossem identificadas. A seção 3 pedia para que
+o participante realizasse os cenários que foram impressos e passados para cada um. Es-
+tes cenários tratavam basicamente de ações que os usuários precisavam realizar em cada
+
+
+
+Capítulo 3. Avaliação de Usabilidade: Whova X MyMobiConf 21
+
+aplicativo, como forma de avaliação de cada um deles. Os cenários foram os seguintes:
+
+Cenário 1: Faça o seu cadastro no aplicativo e em seguida cadastre-se em um evento
+de seu interesse.
+Cenário 2: Adicione quatro atividades de seu interesse. Em seguida remova 2 das que você
+selecionou.
+Cenário 3: Visualize a descrição de cada atividade que você selecionou e avalie cada uma
+delas.
+Cenário 4: Cancele a sua participação no evento selecionado.
+
+Os cenários 1 e 4 tiveram uma pequena variação na execução nos dois aplicativos,
+pelo fato de que o aplicativo Whova não disponibiliza acesso aos eventos cadastrados nele
+sem um identificador, disponibilizado somente pelos organizadores do evento selecionado.
+Entretanto, é oferecido um aplicativo demonstrativo, que ilustra como os eventos real-
+mente cadastrados são mostrados aos participantes. Isso não afetou as análises, pois o
+aplicativo demonstrativo simulava todas as funcionalidades que eram esperadas.
+
+Destaca-se o fato de que as tarefas de cada cenário foram semelhantes nos dois
+casos, para que fosse possível fazer uma comparação das funcionalidades que os dois
+aplicativos tinham em comum. A escolha dos cenários foi feita de modo a abordar as
+ações básicas que os usuários teriam ao utilizar aquele sistema, representando assim uma
+interseção entre os dois aplicativos.
+
+A seção 4 continha um questionário(Apêndice B) adaptado de Holanda(2014), que
+tinha por objetivo avaliar a satisfação de uso em relação aos aplicativos. Cada partici-
+pante respondeu a esse teste duas vezes, uma para cada aplicativo em questão. Todos os
+participantes foram orientados a usar um aplicativo para gravar as ações executadas por
+eles, chamado AZ Screen Recorder (PLAY, 2016), com o intuito de facilitar a análise dos
+resultados, buscando identificar os erros e dificuldades apresentadas.
+
+As métricas de avaliação utilizadas foram o tempo gasto para realizar as tarefas
+solicitadas nos cenários e o número de erros cometidos. O teste foi realizado no dia 03 de
+novembro, em um laboratório de informática da universidade.
+
+
+
+22
+
+4 Resultados
+
+4.1 Avaliação Heurística
+A avaliação heurística contou com a participação de três estudantes do curso de
+
+Ciência da Computação da UFV – Florestal, que foram considerados aptos para partici-
+par, dado o contato que os mesmos possuem com aplicativos móveis e, principalmente,
+julgamento crítico e técnico para avaliar.
+
+No total foram 10 telas avaliadas, sendo as telas T1, T2, T3, T4 e T9 do aplicativos
+Whova e as telas T5, T6, T7, T8 e T10 do aplicativo MyMobiConf.
+
+A escolha das telas se deu pelas funcionalidades mais importantes oferecidas pelos
+dois aplicativos, de modo que fossem semelhantes em ambos, possibilitando compará-los.
+
+Na primeira parte da avaliação heurística, cada avaliador respondeu ao checklist
+individualmente, apontando os problemas encontrados, o grau de severidade e uma possí-
+vel solução do problema(ver checklist no Apêndice A). Posteriormente, os três se reuniram
+para uma discussão dos problemas e falhas apontados, com o intuito de se chegar a um
+refinamento do que foi discutido entre eles, considerando que alguns problemas foram
+repetidos, sendo encontrados pelos três.
+
+Após uma reunião realizada entre os três avaliadores para a discussão das falhas
+encontradas nas 10 telas avaliadas, chegou-se a um resultado mais apurado sobre os pro-
+blemas, o grau de severidade e uma possível solução de comum acordo dos três.
+
+O Apêndice D mostra o resultado das telas avaliadas com mais detalhes e suas
+propostas de soluções. No geral foram identificados 13 problemas de usabilidade nas telas
+selecionadas, sendo que somente as telas T1, T4 e T10 não apresentaram nenhum tipo
+de reclamação. Pelas discussões feitas entre os avaliadores, o fato de maior destaque foi
+que os dois aplicativos não se mostram intuitivos para o usuário, após a realização de
+cadastro em algum evento. O sentimento geral do usuário desses aplicativos, de acordo
+com os avaliadores, é de desconhecimento sobre o que deve ser feito ou como os mesmos
+devem ser usados, já que nenhum dos dois apresenta nenhum tipo de orientação sobre
+o cadastro das atividades. Outro ponto que merece destaque é o fato de que o aplica-
+tivo MyMobiConf apresenta algumas falhas técnicas, que não prejudicam a utilização do
+aplicativo pelo usuário, porém precisam ser corrigidas, pelo fato de causarem um pouco
+de desorientação. Um exemplo disso, seria a opção de cancelar a participação no evento,
+onde a mensagem de feedback é "Inscrito com sucesso", o que está incorreto. O tamanho da
+fonte em algumas telas prejudicou um pouco a visualização de algumas informações, como
+também o tamanho de algumas imagens, que se apresentaram demasiadamente grandes.
+
+
+
+Capítulo 4. Resultados 23
+
+A avaliação aconteceu nos meses de setembro e outubro de 2016.
+
+4.2 Teste de Usabilidade
+Para a execução deste teste, foram utilizados quatro modelos de celular.
+
+Modelo Marca Sistema Operacional
+MotoE2 Motorola Android 5.0.1
+MotoG1 Motorola Android 5.0.1
+
+Asus Zenfone Go Asus Android 5.0.1
+Samsung J5 Samsung Android 5.0.1
+
+Tabela 1 – Aparelhos utilizados
+
+Pelo fato de 3 dos 7 participantes não terem espaço de memória no celular para
+fazer os downloads dos aplicativos pedidos no teste, e também por não terem celular
+com o sistema operacional Android superior a 5.0, os modelos MotoE2 e MotoG1 foram
+utilizados por mais de uma pessoa. Por esse motivo, a duração do teste foi de 1 hora
+e 40 minutos, pois quem não tinha celular para realizar o teste teve que esperar quem
+estava utilizando os celulares disponíveis terminar suas tarefas. Somente duas pessoas
+tinham um celular compatível com o sistema operacional Android 5.0 e espaço de memória
+suficiente, que foram os donos dos celulares Asus Zenfone Go e Samsung J5. Apesar das
+orientações passadas para a realização do teste, um usuário do grupo Leigos não fez as
+devidas gravações solicitadas, sendo possível aproveitar somente o questionário respondido
+por ela.
+
+4.2.1 Facilidade de aprendizagem
+Duas métricas foram utilizadas para avaliar a facilidade de aprendizagem, que
+
+foram o tempo gasto para executar todas as tarefas e o número de erros que foram
+cometidos. Todos os usuários gastaram muito tempo para iniciar as tarefas como pode ser
+visto na tabela abaixo, por se sentirem desorientados quanto ao cadastro das atividades.
+Isso aconteceu nos dois aplicativos. Por isso, o tempo gasto por eles foi significativo.
+
+Por meio da análise dos vídeos que continham as ações do usuários, foi possível
+perceber que eles tiveram dificuldade em conseguir se situar no aplicativo MyMobiConf
+pelo fato de não ser tão intuitivo, ter que se inscrever primeiro em um evento e depois
+se cadastrar em algumas atividades. Já no caso do Whova, houve um problema parecido,
+só que neste caso as atividades não ficaram tão intuitivas para eles se cadastrarem, pois
+ficavam na opção de agenda. Nenhum usuário conseguiu realizar o cenário 4 do aplicativo,
+e um deles realizou logout no aplicativo pensando estar realizando este cenário que pedia
+para cancelar à participação no evento.
+
+
+
+Capítulo 4. Resultados 24
+
+Usuários Whova MyMobiConf
+L2 7 minutos e 43 segundos 4 minutos e 42 segundos
+L3 1 minuto e 55 segundos 2 minutos e 51 segundos
+
+CdC5 5 minutos e 1 segundo 4 minutos
+CdC6 9 minutos 2 minutos e 9 segundos
+CdC7 7 minutos e 10 segundos 3 minutos e 15 segundos
+CdC8 7 minutos e 10 segundos 6 minutos e 42 segundos
+
+Tempo médio 4.66 minutos 2.925 minutos
+Desvio Padrão 3.385863996 2.029174709
+Tabela 2 – Tempo gasto para realizar as tarefas de cada aplicativo
+
+No total, foram cometidos 37 erros na execução de tarefas do Whova e 10 no
+MyMobiConf, como pode ser observado com mais detalhes no gráfico abaixo.
+
+Figura 1 – Número de erros
+
+4.2.2 Satisfação no uso
+Em relação à satisfação no uso, o documento utilizado para avaliação e análise
+
+foi o questionário correspondente ao Apêndice B. Este questionário possuia 9 perguntas,
+que tiveram por objetivo avaliar a satisfação no uso dos dois aplicativos. Para facilitar a
+análise dos resultados, foram confeccionados alguns gráficos comparativos em relação as
+respostas referentes aos dois aplicativos. E por meio desses gráficos ficou bem evidente
+que o aplicativo Whova não teve um bom julgamento pelos usuários, principalmente por
+ter se mostrado muito confuso e com uma interface muito poluída. O MyMobiConf teve
+uma melhor avaliação, porém alguns usuários por meio da questão aberta reclamaram
+do fato de também não ser tão intuitivo ter que se cadastrar em um evento primeiro e
+depois clicar em atividades para poder ter acesso a todas as atividades do evento e poder
+se cadastrar em alguma delas. Os gráficos a seguir foram confeccionados para ilustar os
+resultados das 8 perguntas do questionário (Apêndice B).
+
+Em relação à primeira pergunta (figura 2), houve uma separação dos gráficos do
+
+
+
+Capítulo 4. Resultados 25
+
+Whova, pelo fato das respostas dos dois grupos terem sido bem diferentes. O MyMobiConf,
+como pode ser visto, agradou aos dois grupos de maneira satisfatória. Já o Whova não
+teve um resultado parecido para nenhum dos dois grupos, sendo considerado Ruim por 2
+dos 4 integrantes do grupo CdC.
+
+Figura 2 – Opinião geral sobre o aplicativo MyMobiConf
+
+Figura 3 – Opinião geral sobre o aplicativo Whova por grupos
+
+O gráfico referente à questão 2 (figura 4) não precisou ser separado por grupo,
+pois os resultados foram parecidos entre os dois grupos. Os participantes encontraram
+maiores dificuldades de utilização no Whova, tendo bons resultados para o MyMobiConf.
+A escala de 1 a 5, indica 1 para pouca dificuldade e 5 para grande dificuldade. A pergunta
+de número 3 (figura 5) que se referia à facilidade de aprendizagem de uso do aplicativo,
+também apresentou bons resultados para o MyMobiConf, quando comparado ao Whova.
+Este último aplicativo pelo fato de não ser tão intuitivo deixou um pouco a desejar nesse
+quesito.
+
+A questão 4 (figura 7) também teve o gráfico do Whova dividido pela resposta
+dos dois grupos, pela divergência que tiveram. Como pode ser observado, o grupo CdC
+não considerou o Whova com uma interface de fácil acesso às informações, principalmente
+pela grande quantidade de opções que ela oferece.
+
+As respostas da questão 5 (figura 8), também mostraram resultados mais positivos
+para o MyMobiConf, em relação à clareza e objetividade do aplicativo.
+
+
+
+Capítulo 4. Resultados 26
+
+Figura 4 – Grau de dificuldade na utlização: MyMobiConf X Whova
+
+Figura 5 – Facilidade de aprendizado: MyMobiConf X Whova
+
+Figura 6 – Opinião sobre rapidez de acesso: MyMobiConf
+
+A questão 6 (figura 9) avaliava a satisfação do usuário ao utilizar o aplicativo e
+os dois grupos apresentaram resultados parecidos em relação a cada aplicativo.O MyMo-
+biConf obteve 57,1% correspondente a 4 participantes da classificação "Bom"e os outros
+3 correspondentes a 42,9% classificaram sua satisfação como "Muito bom". O Whova foi
+classificado como "Ruim"por 57,1% dos participantes, tendo somente 2 participantes que
+se sentiram satisfeitos.
+
+A pergunta 7 (figura 10) fez o questionamento sobre o quão necessário é o aplicativo
+em si, e mais da metade dos participantes julgou os dois aplicativos como pouco necessário.
+
+
+
+Capítulo 4. Resultados 27
+
+Figura 7 – Rapidez de acesso no Whova por grupos
+
+Figura 8 – Clareza e objetividade: MyMobiConf X Whova
+
+Figura 9 – Satisfação na utilização: MyMobiConf X Whova
+
+Por fim, a pergunta de número 8 apresentada na figura 11, questionava se na
+prática, o participante usaria o aplicativo em um evento. O MyMobiCOnf obteve 100%
+de respostas "Sim", indicando que todos os participantes o usariam em um evento, e o
+Whova obteve 71,4% com essa mesma resposta.
+
+Em relação à questão 9 do questionário que foi uma pergunta aberta, serão apre-
+sentados aqui os comentários e sugestões dos usuários.
+MyMobiConf
+
+
+
+Capítulo 4. Resultados 28
+
+Figura 10 – Classificação de utilização/necessidade: MyMobiConf X Whova
+
+Figura 11 – Possível utilização futura: MyMobiConf X Whova
+
+• “O aplicativo se mostra bastante funcional para um evento, tive alguma dificuldade
+no início da utilização por não saber o que fazer após me inscrever em um evento.
+Acredito que um pequeno tutorial para a primeira utilização do app seria de grande
+ajuda. Quando se retira a inscrição de um evento a mensagem que aparece é "inscrito
+com sucesso".
+
+• “Aplicativo demorou a iniciar. Não sei se é devido a conexão com rede ou é problema
+do aparelho.”
+
+• “Faltou alguma informação para a primeira utilização do usuário, por exemplo na
+tela de atividades se não há eventos, ela fica em branco, poderia ter alguma mensa-
+gem avisando para cadastrare em um evento.”
+
+Whova
+
+• “Não consegui realizar o roteiro proposto para o teste, aplicativo muito confuso.”
+
+• “Poderia ser menos carregado, com opções mais objetivas e claras.”
+
+• “A interface é muito poluída com ícones, fica confuso na primeira impressão.”
+
+
+
+29
+
+5 Conclusão e Trabalhos Futuros
+
+Neste trabalho, foi realizada uma avaliação de usabilidade em dois aplicativos que
+tem um mesmo perfil de público-alvo. Os dois aplicativos, Whova e MyMobiConf, que são
+direcionados ao apoio à participação em eventos, foram avaliados utilizando-se a avaliação
+heurística e teste de usabilidade.
+
+A utilização dos dois métodos de avaliação apresentou bons resultados, pois cada
+um apresentou visões e aspectos complementares de acordo com os avaliadores envolvidos.
+
+A realização da Avaliação Heurística com o uso de checklist apresentou bons resul-
+tados, apontando falhas mais técnicas,considerando que os avaliadores tinham um olhar
+mais rigoroso para um melhor resultado na execução do método.
+
+Nesta avaliação o MyMobiConf apresentou mais falhas técnicas,quando comparado
+com o Whova, que teve poucos problemas identificados e com menor grau de severidade.
+
+O teste de usabilidade apresentou uma visão um pouco diferente em relação a
+avaliação anterior, possibilitando focar mais na experiência de utilização do usuário.
+
+Os resultados obtidos mostram que as interfaces do Whova, que continham um
+imenso número de informações e funcionalidades, desagradaram, os usuários por não te-
+rem clareza na hora de acessar alguma função específica. Isso foi percebido no tempo
+de execução das tarefas propostas, onde este aplicativo apresentou os maiores tempos e
+também posteriormente os maiores erros cometidos pelos usuários. O aplicativo MyMo-
+biConf agradou mais, pelo fato de ser bem simples e menos carregado do que o Whova,
+facilitando mais a execução e entendimento de suas funcionalidades. Entretanto, algumas
+reclamações apontaram que o aplicativo não deixa tão claro o que se deve fazer primeiro
+para conseguir ter acesso a algumas funções.
+
+Destaca-se aqui a importância de mais avaliações deste tipo, para cada vez mais
+melhorar o desenvolvimento e elaboração de interfaces mais intuitivas e interativas para
+o usuário final.
+
+Como propostas de trabalhos futuros, destaca-se a ampliação da pesquisa utili-
+zando outros métodos de avaliação de usabilidade, buscando envolver mais aplicativos e
+mais funcionalidades destes.
+
+
+
+30
+
+Referências
+
+ANJOS, T. P. dos. DESCOMPLICANDO O USO DO TELEFONE
+CELULAR PELO IDOSO: DESENVOLVIMENTO DE INTERFACE
+DE CELULAR COM BASE NOS PRINCÍPIOS DE USABILIDADE
+E ACESSIBILIDADE. Dissertação (Universidade Federal de Santa Catarina,
+Centro Tecnológico. Programa de Pós-Graduação em Engenharia de Produção)
+— UNIVERSIDADE FEDERAL DE SANTA CATARINA, 2012. Disponível em:
+<https://repositorio.ufsc.br/handle/123456789/100596>.
+HOLANDA, M. A. B. AvaliaÇÃo de usabilidade do aplicativo onde fica?- ufc
+em dispositivos mÓveis com sistema android. 2014. Disponível em: <http:
+//www.repositoriobib.ufc.br/000012/000012d8.pdf>.
+KETOLA, P.; RÖYKKEE, M. The three facets of usability in mobile handsets. In: CHI
+2001 Workshop: Mobile Communications: Understanding Users, Adoption &
+Design. [s.n.], 2001. Disponível em: <http://citeseerx.ist.psu.edu/viewdoc/download?
+doi=10.1.1.3.4302&rep=rep1&type=pdf>.
+KRONE, C. Validação de heurísticas de usabilidade para celulares touchscreen. Grupo
+de Qualidade de Software–UFSC. Florianópolis, 2013.
+MACHADO, L. V. AVALIAÇÃO DA ERGONOMIA E USABILIDADE DE
+DISPOSITIVOS MÓVEIS PARA TERCEIRA IDADE. 2010. UNIBALSAS -
+FACULDADE DE BALSAS.
+NETO, O. J. M. Usabilidade da interface de dispositivos móveis: heurísticas
+e diretrizes para o design. Dissertação ((Mestrado em Ciências de Computação e
+Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação) —
+Universidade de São Paulo, São Carlos, 2013. Disponível em: <doi:10.11606/D.55.2013.
+tde-07012014-110754>.
+NEVES, J. M. M. Estudo de Usabilidade em Sistemas Móveis com Foco em
+PDAs. Dissertação (Trabalho final (mestrado profissional) - Universidade Estadual de
+Campinas, Instituto de Computação.) — Unicamp, Campinas, SP, 2005.
+NIELSEN, J. Usability engineering. [S.l.]: Elsevier, 1994.
+PÁDUA, C. d. S. Engenharia de usabilidade–material de referência. UFMG, Belo
+Horizonte, MG. Disponível em:< http://homepages. dcc. ufmg. br/˜
+clarindo/arquivos/disciplinas/eu/material/referencias/apostila-usabilidade.
+pdf>. Acesso em 17/11/2016, v. 23, 2012.
+PERRY, G. T.; EICHLER, M. L.; RESENDE, G. Avaliação de usabilidade do mobiteste,
+um aplicativo educacional para dispositivos móveis. InfoDesign-Revista Brasileira
+de Design da Informação, v. 9, n. 2, p. 70–87, 2013.
+PLAY, G. AZ Screen Recorder. 2016. Disponível em: <https://play.google.com/
+store/apps/details?id=com.hecorat.screenrecorder.free&hl=pt_BR>.
+
+
+
+Referências 31
+
+PRATES, R. O.; BARBOSA, S. D. J. Avaliação de interfaces de usuário–conceitos
+e métodos. In: Jornada de Atualização em Informática do Congresso da
+Sociedade Brasileira de Computação, Capítulo. [S.l.: s.n.], 2003. v. 6.
+RIBEIRO, D. F. Estudo de interface humano-máquina em dispositivos móveis.
+Florianópolis, UFSC, 2007.
+SCAPE. 2016. Disponível em: <http://cpro13640.publiccloud.com.br/scape/Index.php>.
+SOMMERVILLE, I. Engenharia de software, 8a edição, tradução: Selma shin shimizu
+mel-nikoff, reginaldo arakaki, edilson de andrade barbosa. São Paulo: Pearson
+Addison-Wesley, v. 22, 2007.
+SOUZA, L. S.; COSTA, I. Fatores impactantes nos projetos de interface com o usuário
+de software de dispositivos móveis. Anais do XXVI ENEGEP, p. 1–8, 2006.
+WEISS, S. Handheld usability. [S.l.]: John Wiley & Sons, 2003.
+WHOVA. 2016. Disponível em: <https://whova.com/faq/what-is-whova/>.
+
+
+
+32
+
+APÊNDICE A – Documentação Avaliação
+Heurística
+
+
+
+FORMULÁRIO PARA AVALIAÇÃO HEURÍSTICA DE APLICATIVOS PARA CELULARES
+TOUCHSCREEN
+
+Nome do avaliador:
+
+Nome do aplicativo:                      Sistema Operacional:
+
+Marca/Modelo do Dispositivo: 
+
+Heurísticas Questões Não Sim N.A* Em caso de violação da
+heurística, deve-se
+
+descrever:
+Visibilidade  do  status 1. Para cada ação do usuário o aplicativo Local onde ocorre:______________
+
+do sistema oferece  feedback  imediato  e  adequado
+Descrição do 
+
+sobre seu status? problema:_____________________
+
+Por exemplo, após tarefas como envio de _____________________________
+_____________________________
+
+email, adição, exclusão e carregamento de
+arquivo,  exibir  uma  mensagem  de Severidade (1-4):_______________
+
+confirmação  do  tipo  "e‐mail  enviado", Sugestão de solução:_____________
+
+"arquivo excluído". _____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+2.  As  mensagens  sobre  o  status  do Local onde ocorre:______________
+
+aplicativo possuem uma linguagem clara e
+Descrição do 
+
+concisa? problema:_____________________
+Por  exemplo,  os  títulos  das  telas  e  das _____________________________
+
+_____________________________
+mensagens  de  erro  são  de  fácil
+compreensão. Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Correspondência 3. O significado de símbolos e ícones são Local onde ocorre:______________
+
+entre  o  sistema  e  o compreensíveis e intuitivos?
+Descrição do 
+
+mundo real Utilizar  ícones  e  símbolos  fáceis  de problema:_____________________
+
+reconhecer e relacionar com a tarefa a qual _____________________________
+_____________________________
+
+estão associados.
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+
+
+Controle e Liberdade 4. É o usuário quem inicia e encerra tarefas Local onde ocorre:______________
+
+do Usuário e não o aplicativo?
+Descrição do 
+
+Por  exemplo,  aguardar  o  usuário  teclar problema:_____________________
+
+enter  após  preencher  o  campo  de  busca _____________________________
+_____________________________
+
+para iniciar a tarefa.
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+5.  É  possível  retornar  a  tela  anterior  a Local onde ocorre:______________
+
+qualquer momento?
+Descrição do 
+
+Seja a partir da navegação por abas, de um problema:_____________________
+
+botão  voltar  do  aplicativo  ou  do  próprio _____________________________
+_____________________________
+
+celular.
+Severidade (1-4):_______________
+
+6. O aplicativo deixa claro qual o próximo Sugestão de solução:_____________
+
+passo para realizar a tarefa? _____________________________
+_____________________________
+
+Como a partir de um botão para avançar ou _____________________________
+
+nota de explicação. _____________________________
+_____________________________
+
+Consistência  e 7. As telas com o mesmo tipo de conteúdo Local onde ocorre:______________
+
+Padrões possuem o mesmo título?
+Descrição do 
+
+Por  exemplo,  todas  as  telas  de  busca problema:_____________________
+
+possuem o mesmo título. _____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+8.  Controles  e  botões  se  distinguem  do Local onde ocorre:______________
+
+restante do layout,  deixando evidente que
+Descrição do 
+
+são clicáveis? problema:_____________________
+
+Por  exemplo,  diferenciar  os  botões _____________________________
+_____________________________
+
+aplicando  sombra  ou  outro  recurso  para
+simular relevo. Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+9.  Todas  as  informações  textuais  do Local onde ocorre:______________
+
+aplicativo utilizam o mesmo idioma?
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+10. Funções diferentes são apresentadas de Local onde ocorre:______________
+
+maneira distinta ao usuário?
+Descrição do 
+
+Por  exemplo,  funções  diferentes  como problema:_____________________
+salvar  e  cancelar  não  são  representadas _____________________________
+
+_____________________________
+pelo mesmo nome ou ícone.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+11. Funções semelhantes são apresentadas Local onde ocorre:______________
+
+de forma similar?
+Descrição do 
+
+Por exemplo, usa o mesmo ícone ou rótulo problema:_____________________
+de botão para a mesma funcionalidade em _____________________________
+
+_____________________________
+telas diferentes ou propõe a mesma forma
+de  entrada  de  dados  para  uma  mesma Severidade (1-4):_______________
+
+funcionalidade em diferentes telas. Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+12.  Controles  que  realizam  a  mesma Local onde ocorre:______________
+
+função ficam em posições semelhantes na
+Descrição do 
+
+tela? problema:_____________________
+Por exemplo, se em uma tela o botão para _____________________________
+
+_____________________________
+avançar  ficam no lado direito,  nas  outras
+telas esse mesmo botão também estará no Severidade (1-4):_______________
+
+lado direito. Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+13.  A forma  de  navegação  é  consistente Local onde ocorre:______________
+
+entre as telas no aplicativo?
+Descrição do 
+
+Mantêm  o  mesmo  tipo  de  navegação problema:_____________________
+(rolagem  vertical,  rolagem  horizontal, _____________________________
+
+_____________________________
+menus ou abas) em todas as telas.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+
+
+14.  As  informações  textuais  são Local onde ocorre:______________
+
+apresentadas de forma padronizada?
+Descrição do 
+
+Apresenta  informações  textuais problema:_____________________
+
+semelhantes na mesma disposição e com o _____________________________
+_____________________________
+
+mesmo tratamento visual (tamanho, tipo e
+cor da fonte). Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+15.  Os  dados  e  mensagens  mais Local onde ocorre:______________
+
+importantes  encontram‐se  na  posição
+Descrição do 
+
+padrão  dos  aplicativos  para  esta problema:_____________________
+
+plataforma? _____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+16. Em campos onde existe a necessidade Local onde ocorre:______________
+
+de inserção de dados isso é evidente?
+Descrição do 
+
+Por exemplo, ter uma caixa de texto com problema:_____________________
+cursor. _____________________________
+
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Reconhecimento  em 17.  O aplicativo  utiliza  em seus  textos  e Local onde ocorre:______________
+
+vez de lembrança rótulos,  uma  linguagem  habitual  e
+Descrição do 
+
+conhecida pelo usuário do aplicativo? problema:_____________________
+Evitando  termos  técnicos  ou  muito _____________________________
+
+_____________________________
+específicos de determinada área.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+
+
+
+_____________________________
+_____________________________
+_____________________________
+
+18.  Os  títulos  das  telas  descrevem Local onde ocorre:______________
+
+adequadamente seu conteúdo?
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de 
+solução:_______________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Flexibilidade  e 19.  O  aplicativo  funciona  corretamente, Local onde ocorre:______________
+
+Eficiência de Uso sem  apresentar  problemas  durante  a
+Descrição do 
+
+interação? problema:_____________________
+Por exemplo, travar ou ter botões que não _____________________________
+
+_____________________________
+funcionam no primeiro clique.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+20. As tarefas são relativamente simples de Local onde ocorre:______________
+
+serem executadas?
+Descrição do 
+
+Por exemplo, uma tarefa pode ser completa problema:_____________________
+em poucos passos. _____________________________
+
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+21.  As  funções  mais  utilizadas  são Local onde ocorre:______________
+
+facilmente acessadas?
+Descrição do 
+
+As  funções  mais  utilizadas  devem  ser problema:_____________________
+acessadas  sem  precisar  rolar  ou  navegar _____________________________
+
+_____________________________
+entre muitas telas.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+
+
+
+_____________________________
+_____________________________
+_____________________________
+
+22. O aplicativo utiliza objetos (ícones) ao Local onde ocorre:______________
+
+invés de botões?
+Descrição do 
+
+Por  exemplo,  utilizar  um  ícone  de problema:_____________________
+impressora  ao  invés  de  utilizar  a  palavra _____________________________
+
+_____________________________
+impressora.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+23.  Todas  as  telas  mantêm  acessíveis Local onde ocorre:______________
+
+menus e funções comuns do aplicativo?
+Descrição do 
+
+Por  exemplo,  em aplicativos  de  conta  de problema:_____________________
+email a caixa de entrada é acessível a partir _____________________________
+
+_____________________________
+de todas as telas do aplicativo.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Estética  e  Design 24.  São  exibidas  apenas  informações Local onde ocorre:______________
+
+Minimalista relacionadas  a  tarefa  que  esta  sendo
+Descrição do 
+
+realizada? problema:_____________________
+Por  exemplo,  na  tela  de  cadastro,  outras _____________________________
+
+_____________________________
+informações não devem ser exibidas.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+25.  São  usados  textos  somente  quando Local onde ocorre:______________
+
+estes são realmente indispensáveis?
+Descrição do 
+
+Por  exemplo,  não  oferecer  instruções problema:_____________________
+textuais muito longas. _____________________________
+
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+
+
+_____________________________
+
+26.  O  menu  é  esteticamente  simples  e Local onde ocorre:______________
+
+claro?
+Descrição do 
+
+Com opções fáceis de encontrar, dispostas problema:_____________________
+em uma ordem lógica e com títulos curtos. _____________________________
+
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+27.  O  aplicativo  exibe  quantidades Local onde ocorre:______________
+
+pequenas de informações em cada tela?
+Descrição do 
+
+Sem texto ou imagens em excesso. problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+28. Os títulos de telas/janelas e rótulos de Local onde ocorre:______________
+
+botões/links são curtos?
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+29.  Em  textos,  o  uso  de  abreviaturas  é Local onde ocorre:______________
+
+evitado?
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+
+
+Pouca  interação 30. A navegação do aplicativo é intuitiva? Local onde ocorre:______________
+
+homem/dispositivo Por exemplo, é fácil chegar à tela desejada.
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Interação  Física  e 31. Possui botões com tamanho adequado Local onde ocorre:______________
+
+Ergonomia ao clique?
+Descrição do 
+
+Por  exemplo,  evitando  botões  muito problema:_____________________
+pequenos  causando  a  seleção  da  opção _____________________________
+
+_____________________________
+errada.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+32. A área clicável dos botões e links ocupa Local onde ocorre:______________
+
+toda a dimensão dos mesmos?
+Descrição do 
+problema:_____________________
+
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+Legibilidade e Layout 33.  O  espaçamento  entrelinhas  utilizado Local onde ocorre:______________
+
+favorece a leitura?
+Descrição do 
+
+Nem  muito  grande,  para  não  aumentar problema:_____________________
+desnecessariamente  a  rolagem,  e  nem _____________________________
+
+_____________________________
+muito pequeno dificultando a leitura.
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+
+
+34.  As  fontes  utilizadas  favorecem  a Local onde ocorre:______________
+
+leitura?
+Descrição do 
+
+Em termo de tamanho, tipo e estilo. problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+35. Os ícones possuem contraste suficiente Local onde ocorre:______________
+
+em relação ao plano de fundo?
+Descrição do 
+problema:_____________________
+_____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+36. Os textos tem contraste suficiente em Local onde ocorre:______________
+
+relação ao plano de fundo?
+Descrição do 
+
+Por exemplo, evitando texto cinza claro em problema:_____________________
+
+num fundo branco. _____________________________
+_____________________________
+
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+37.  O  alinhamento  utilizado  favorece  a Local onde ocorre:______________
+
+leitura?
+Descrição do 
+
+Por  exemplo,  dando  preferência  para problema:_____________________
+
+alinhamento  justificado  ou  esquerdo  para _____________________________
+_____________________________
+
+texto corrido.
+Severidade (1-4):_______________
+
+Sugestão de solução:_____________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+_____________________________
+
+N.A * = Não se aplica
+
+
+
+Anotações:________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+ _________________________________________________________________________________________________
+
+Adaptado de Krone(2013) e Holanda(2014)
+
+Referências:
+
+KRONE, C. Validação de heurísticas de usabilidade para celulares touchscreen. Grupo de 
+Qualidade de Software–UFSC. Florianópolis, 2013.
+
+HOLANDA, M. A. B. AVALIAÇÃO DE USABILIDADE DO APLICATIVO ONDE FICA?- UFC
+EM DISPOSITIVOS MÓVEIS COM SISTEMA ANDROID. 2014.
+
+
+
+43
+
+APÊNDICE B – Documentação Avaliação
+com Usuários
+
+
+
+Questionário de avaliação dos aplicativos Whova e MyMobiConf
+
+1) Qual é a sua opinião geral sobre o aplicativo?
+○ Ruim
+○ Razoável
+○ Bom
+○ Muito Bom
+○ Excelente
+
+2) Em uma escala de 1 a 5 indique o seu grau de dificuldade na utilização do aplicativo em questão.
+○ 1
+○ 2
+○ 3
+○ 4
+○ 5
+
+3) Qual sua opinião sobre a facilidade de aprendizagem de uso do aplicativo?
+○ Ruim
+○ Razoável
+○ Bom
+○ Muito Bom
+○ Excelente
+
+4) Qual sua opinião em relação ao aplicativo considerando a rapidez do acesso às informações?
+○ Ruim
+○ Razoável
+○ Bom
+○ Muito Bom
+○ Excelente
+
+5) Com relação à clareza e objetividade, como você classifica o aplicativo?
+○ Ruim
+○ Razoável
+○ Bom
+○ Muito Bom
+○ Excelente
+
+6) De forma geral, como você avalia sua satisfação ao utilizar o aplicativo?
+○ Ruim
+○ Razoável
+○ Bom
+○ Muito Bom
+○ Excelente
+
+7) Quão necessário você classifica o aplicativo?
+○ Muito necessário
+○ Pouco necessário
+
+
+
+○ Não necessário
+
+8) Na prática você usaria o aplicativo em um evento?
+○ Sim
+○ Não
+
+9) Você gostaria de deixar algum comentário?
+________________________________________________________________________________
+________________________________________________________________________________
+________________________________________________________________________________
+________________________________________________________________________________
+
+
+
+46
+
+APÊNDICE C – Telas avaliadas na
+Avaliação Heurística
+
+
+
+GUIA INFORMATIVO SOBRE AVALIAÇÃO HEURÍSTICA
+
+A avaliação heurística é um método de inspeção no qual os avaliadores
+buscam verificar possíveis problemas em interfaces de usuário. O termo foi
+criado por Jakob Nielsen, que é um grande pesquisador sobre a área de
+usabilidade.
+
+Nesta trabalho, uma adaptação  do trabalho de Krone (2013) contendo 37
+heurísticas  direcionadas  para  interfaces  de  aplicativos  touchscreen será
+utilizado. A ideia principal é que os resultados apontados por essa avaliação
+auxiliem  na  identificação  de  potenciais  problemas  na  interface
+investigadas,  apontando  um grau  de  severidade  em relação  ao  que  for
+encontrado. 
+
+Nielsen(1994), aponta como graus de severidade, a relação abaixo:
+
+Gravidade 1 – Problema que pode ser resolvido caso haja tempo disponível
+
+Gravidade 2 – Problema pequeno de baixa prioridade
+
+Gravidade 3 – Problema grande de alta prioridade, sendo recomendado ser
+consertado o quanto antes.
+
+Gravidade  4  -  Problema  catastrófico,  é  necessário  consertá-lo  antes  de
+lançar o produto final.
+
+Os aplicativos que serão avaliados são o myMobiConf e o Whova. Ambos
+são  focados  para  auxílio  e  facilitação  de  participantes  em  eventos,
+proporcionado  uma  melhor  interação  com  o  evento  e  os  outros
+participantes. Ambos estão disponíveis para o sistema operacional Android.
+
+O aplicativo myMobiConfi  é direcionado especialmente para eventos de
+cunho acadêmico. Ele possibilita um auxílio e gerenciamento de eventos
+para os participantes, que montam sua própria agenda de acordo com os
+eventos disponíveis, e para os próprios idealizadores que conseguem obter
+um feedback do evento que estão organizando. 
+
+Já o Whova é um aplicativo de San Diego na Califórnia, que é utilizado
+principalmente  para  o  networking em  eventos  empresariais,  culturais,
+reuniões,  entre  outros.  O  seu  grande  destaque  é  o  networking
+disponibilizado para  os  participantes  que criam um perfil  no aplicativo,
+possibilitando uma interação antes e após os eventos pelos envolvidos.
+
+
+
+Interfaces avaliadas
+
+Descrição: Tela de cadastro  - Whova
+Tela: T1
+
+Descrição: Apresentação do evento selecionado - Whova
+Tela: T2
+
+
+
+Descrição: Agenda completa do evento selecionado
+Tela: T3 
+
+Descrição: Agenda pessoal com as atividades selecionadas – Whova
+Tela: T4
+
+
+
+Descrição: Tela de cadastro – myMobiConf
+Código: T5
+
+Descrição: Tela de informações sobre o evento - myMobiConf
+Código: T6
+
+
+
+Descrição: Agenda completa do evento selecionado – myMobiConf
+Tela: T7
+
+Descrição: Especificação de um evento da agenda pessoal - myMobiConf
+Tela: T8
+
+
+
+Descrição: Descrição de um evento selcionado na agenda pessoal – Whova
+Tela: T9
+
+Descrição: Agenda pessoal com as atividades selecionadas – myMobiConf
+Tela: T10
+
+
+
+53
+
+APÊNDICE D – Resultado das telas
+avaliadas
+
+
+
+Resultado das telas avaliadas
+T1
+
+Descrição do Problema
+
+Severidade (1-4)
+
+Sugestão de solução
+
+T2
+
+Descrição do Problema Ícone indicando a  opção de voltar,
+não  funciona  como  deveria,  sendo
+um pouco confusa sua função. 
+
+Severidade (1-4) 2
+
+Sugestão de solução Retirar o botão, mudar o símbolo ou
+dar  alguma  resposta  ao  usuário
+quando tal botão é selecionado. 
+
+T3
+
+Descrição do Problema A  seta  representando  “Voltar”  é
+muito pequena, quase imperceptível.
+
+Severidade (1-4) 3
+
+Sugestão de solução Aumentar o tamanho do símbolo
+
+T4
+
+Descrição do Problema
+
+Severidade (1-4)
+
+Sugestão de solução
+
+T5
+
+Descrição do Problema O sistema  não  auxilia  o  usuário  a
+identificar o que deve ser feito após
+se cadastrar no aplicativo. 
+
+Severidade (1-4) 2
+
+Sugestão de solução Criar  um  tutorial  básico  de
+
+
+
+utilização  da  ferramenta,
+apresentando  seu  uso  e  suas
+funcionalidades,  dentro  do  próprio
+aplicativo. 
+
+T5
+
+Descrição do Problema Na opção “Ou crie uma conta” para
+ter acesso ao aplicativo o título da
+janela  é “Signup” que é um termo
+em inglês. Isso pode ser um pouco
+confuso  para  um  usuário  que  não
+tenha conhecimento da língua.
+
+Severidade (1-4) 2
+
+Sugestão de solução Alterar  o  título  da  janela  para
+cadastro.
+
+T5
+
+Descrição do Problema Quando se tenta logar no aplicativo
+sem ter conexão com a internet, ele
+não informa nenhuma mensagem de
+falha  na  conexão  ou  mesmo  sem
+conexão com alguma rede.
+
+Severidade (1-4) 2
+
+Sugestão de solução Exibir  alguma  mensagem  pro
+usuário indicando falta de conexão
+com a rede.
+
+T6
+
+Descrição do Problema Ao  clicar  na  opção  “desinscrever-
+se”,  o  feedback  recebido  é  a
+mensagem “inscrito com sucesso!”.
+O que vai contra a intenção inicial
+ao clicar no botão. 
+
+
+
+Severidade (1-4) 2
+
+Sugestão de solução Alterar  a mensagem da notificação
+ao usuário. 
+
+T6
+
+Descrição do Problema As  imagens  relacionadas  aos
+eventos  são  demasiadamente
+grandes,  dificultando  a
+navegabilidade no aplicativo 
+
+Severidade (1-4) 3
+
+Sugestão de solução Reduzir tamanho das imagens
+
+T7
+
+Descrição do Problema Retirar várias atividades da agenda
+requer  que  a  aba  do  dia  seja
+constantemente reaberta. 
+
+Severidade (1-4) 2
+
+Sugestão de solução Evitar que a aba com a data do dia
+das  atividades  seja  minimizada  a
+cada  remoção  de  atividade
+realizada.
+
+T7
+
+Descrição do Problema Dificuldades  para  entender  que  a
+minha  agenda  pessoal  deveria
+conter  atividades  previamente
+selecionadas em outra opção. 
+
+Severidade (1-4) 2
+
+Sugestão de solução Quando  a  agenda  pessoal  estiver
+vazia,  adicionar  uma  pequena
+instrução  ou  ícone  que  ilustre  a
+necessidade  de  se  ir  à  tela  de
+
+
+
+atividades  e  selecioná-las  para  que
+estas apareçam na agenda. 
+
+T7
+
+Descrição do Problema Dependendo  do  tamanho  do  nome
+do  evento  seu  título  acaba  se
+sobrepondo  ao  botão  voltar
+existente no aplicativo, o que acaba
+por  dificultar  a  visibilidade  do
+usuário 
+
+Severidade (1-4) 3
+
+Sugestão de solução Reduzir  o  texto  de  alguma  forma.
+Ex: abreviando certas partes. 
+
+T7
+
+Descrição do Problema A palavra “voltar” é desnecessária,
+já  que  a  seta  já  é  intuitiva  na  sua
+função.  Além  de  que  o  nome  do
+evento quase se confunde com essa
+palavra.
+
+Severidade (1-4) 2
+
+Sugestão de solução Remoção da palavra “Voltar”
+
+T8
+
+Descrição do Problema O campo de busca retorna o nome
+de uma atividade pesquisada, porém
+ele mostra a data do evento, sendo
+necessário  primeiro  clicar  na  data
+pra depois clicar na atividade em si.
+
+Severidade (1-4) 3
+
+Sugestão de solução Retornar na busca a atividade sendo
+procurada, e não a data em si.
+
+
+
+T9
+
+Descrição do Problema Os detalhes de localização e hora da
+atividade  selecionada,  estão  com
+uma letra muito pequena.
+
+Severidade (1-4) 3
+
+Sugestão de solução Aumentar a fonte
+
+T10
+
+Descrição do Problema
+
+Severidade (1-4)
+
+Sugestão de solução

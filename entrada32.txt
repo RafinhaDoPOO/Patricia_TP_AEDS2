@@ -1,0 +1,540 @@
+﻿The Great Revolution: um jogo sério para apoiar o
+ensino da revolução industrial em disciplinas de
+
+história
+Mário Sérgio Araújo Cabral Daniel Mendes Barbosa
+
+Instituto de Ciências Exatas e Tecnológicas Instituto de Ciências Exatas e Tecnológicas
+Universidade Federal de Viçosa - Campus UFV-Florestal Universidade Federal de Viçosa - Campus UFV-Florestal
+
+Florestal, Brasil Florestal, Brasil
+mario.cabral@ufv.br danielmendes@ufv.br
+
+Resumo—Com a inclusão digital, cada vez mais as pessoas nos e-sports, para testar a habilidade entre os jogadores e
+começam a utilizar os jogos eletrônicos como meio de entreten- servir como entretenimento para quem os acompanham, ou
+imento. Esta plataforma pode ser utilizada de diversas formas até mesmo no meio acadêmico, em que os jogos podem ser
+diferentes, inclusive como um método de ensino, mesclando o
+entretenimento e o conteúdo, para que o aluno possa aprender usados para desenvolver certas habilidades de seus jogadores.
+algum conteúdo de forma interativa e podendo também desen- Algumas das habilidades que podem ser desenvolvidas são:
+volver outras habilidades dependendo do estilo do jogo. Mas as habilidades cognitivas, a estimulação do aprendizado por
+há uma grande complexidade na criação de jogos educativos, exploração, o desenvolvimento da coordenação motora, e a
+como a definição do conteúdo que será ensinado, da jogabilidade possı́vel estimulação da competitividade entre os jogadores.
+que será utilizada, das tecnologias que estarão envolvidas, do
+processo de avaliação da qualidade do jogo, entre outros pontos No entanto, desenvolver jogos especificamente com a finali-
+importantes. Por isso é fundamental analisar diversos fatores dade de aprendizado de seus jogadores traz um desafio extra:
+para começar um projeto que tenha o objetivo de ensinar algum conciliar as caracterı́sticas do jogo em si com o conteúdo a
+conteúdo à partir de jogos. Este trabalho mostra todo o processo ser aprendido pelos jogadores.
+que foi realizado para a criação do escopo, do desenvolvimento Neste contexto, o principal objetivo deste trabalho é de-
+e da avaliação de um jogo sério, chamado The Great Revolution,
+com o objetivo de ensinar sobre a Revolução Industrial. Para senvolver um jogo sério para apoiar o ensino da Revolução
+isso, foram utilizadas ferramentas de desenvolvimento de jogos, Industrial em disciplinas de história, chamado The Great Rev-
+como o Tiled e o Unity, além de alguns padrões para desenvolver olution. Consequentemente, também queremos mostrar como
+roteiros e scripts para a criação da história do jogo. Foi aplicado foi todo o processo de pensar e desenvolver um jogo com
+ainda um método de avaliação para medir a qualidade do este intuito. Ou seja, queremos mostrar como foi construı́do
+jogo. O jogo desenvolvido foi aplicado em turmas do ensino
+médio do Campus UFV Florestal e foi avaliado utilizando o o roteiro do jogo, quais ferramentas foram utilizadas para o
+Método MEEGA+ e a escala Likert, por meio de um formulário desenvolvimento, como foram segregadas as cenas, como os
+para que os alunos avaliassem o jogo e suas caracterı́sticas. conteúdos foram inseridos, como foi feita a aplicação do jogo
+Desta forma, conseguimos uma taxa de 83,64% de respostas e como foi feita a avaliação deste método de aprendizado.
+positivas e 10,30% de respostas negativas. No geral, tivemos Para a criação do roteiro e da história que envolve o mundo
+resultados bem satisfatórios e conseguimos abordar todo o fluxo
+de criação de um jogo para ser utilizado no aprendizado de algum do jogo relacionado a este trabalho, foi utilizada a técnica de
+conteúdo especı́fico, desde a criação da história do jogo, até o estruturação de roteiro denominada a ”Jornada do Herói”, que
+seu desenvolvimento e aplicação nas turmas. Também tivemos foi inicialmente definida por Joseph Campbell em seu livro
+como resultado, a criação de um fluxograma para o melhor chamado ”The Hero with a Thousand Faces” [1], no qual ele
+entendimento do processo de desenvolvimento de um jogo, o qual define um padrão de desenvolvimento de histórias que pode
+pode ser utilizado como base para facilitar na criação de outros
+projetos. ser aplicado em qualquer roteiro, podendo ser utilizado para a
+
+Palavras-chave—jogo educativo, jornada do herói, roteiro de construção e para identificação dos atos de histórias já criadas.
+jogos, revolução industrial, ensino médio, unity, meega+, likert Para a construção deste jogo utilizamos duas ferramentas
+
+principais, que foram: a ferramenta Tiled, que é um software
+I. INTRODUÇÃO de edição de mapas, que utilizamos para construir todas
+
+Com o crescimento do mercado de games nos últimos anos, as cenas do jogo; o motor gráfico de jogos Unity, que é
+os jogos vêm se tornando cada vez mais presentes na vida das amplamente utilizado no mercado para o desenvolvimento de
+pessoas, pois são uma plataforma que permite uma experiência jogos. Utilizamos também o método MEEGA+ [3], com o
+única de vivenciar algo de uma forma totalmente diferente e qual medimos a qualidade do jogo e do desempenho que
+inovadora. Com isto, percebemos que os jogos hoje em dia ele teve em relação ao aprendizado dos alunos, por meio de
+estão sendo utilizados em diversas aplicações diferentes, como um formulário com algumas perguntas fechadas e abertas que
+
+
+
+foram disponibilizadas para os alunos que jogaram o nosso • A travessia do primeiro limiar: o herói inicia a sua jornada
+jogo. de forma que ele não consiga mais voltar ao seu dia-a-dia
+
+Como principais resultados deste trabalho, podemos comum;
+destacar que, em sua grande maioria, os alunos responderam • Provas, aliados e inimigos: o herói se aventura pelo ”novo
+que conseguiram aprender algo relacionado ao conteúdo pas- mundo” que ele encontra e faz amigos e inimigos;
+sado. Também há o fato de que 73,3% dos alunos que respon- • Aproximação da caverna secreta: o herói se aproxima do
+deram o formulário jogam principalmente em smartphones, o lugar que centraliza a história principal de sua jornada;
+que é muito importante para a concepção e criação do jogo, • A provação: o herói se depara com o seu maior desafio,
+pois é uma plataforma bem diferente das demais, quando se podendo experienciar mortes e renascimentos;
+pensa na usabilidade e jogabilidade. No geral, também tivemos • A recompensa: o herói é recompensado por conseguir
+83,64% dos resultados positivos, 10,30% negativos e 6,06% vencer seu maior desafio;
+neutros. • O caminho de volta: o herói retorna para o seu dia-a-dia
+
+Neste trabalho também construı́mos um fluxograma para comum ou segue para um último destino;
+auxiliar no desenvolvimento de jogos sérios, com o objetivo • A ressurreição: o herói experiência um momento final de
+de facilitar o entendimento de como se dá todo este processo morte e renascimento que o permite voltar para o mundo
+de criação. comum;
+
+O restante do trabalho foi organizado da seguinte forma: • O retorno com o elixir: o herói retorna com algo que
+a Seção II apresenta os conceitos utilizados na construção possa melhorar o seu mundo.
+do jogo; a Seção III apresenta alguns trabalhos relacionados; B. Método MEEGA+
+a Seção IV os materiais e métodos utilizados; a Seção V
+apresenta o jogo em si: The Great Revolution; a Seção VI O Método MEEGA+ [3] tem o objetivo de medir a qual-
+apresenta os resultados da avaliação do jogo criado e a Seção idade de jogos e do desempenho que eles têm em relação
+VII as conclusões. ao aprendizado dos alunos no contexto em que são aplicados,
+
+sendo dividido em duas seções que são subdivididas em várias
+II. FUNDAMENTAÇÃO TEÓRICA partes, que são:
+
+Por consequência da evolução do mercado de games e do • O modelo MEEGA+: Objetivo, Fatores de qualidade, Pro-
+entretenimento, houve uma grande estimulação na criação e jeto de pesquisa, Questionários, Análise dos resultados e
+no aprimoramento de técnicas para o desenvolvimento de Escala da qualidade do jogo;
+histórias e jogos mais cativantes, que prendam os seus clientes • O processo MEEGA+: Escopo, Planejamento, Execução,
+cada vez mais, de forma que continuamente temos padrões Análise e Apresentação.
+sendo criados para atender a este objetivo. De acordo com Este método utiliza a escala Likert para a construção
+o estilo e proposta do jogo, são utilizadas técnicas diferentes das perguntas que serão disponibilizadas aos envolvidos na
+para a sua criação, e neste caso, vamos utilizar técnicas de aplicação do jogo, sendo uma escala de 1 (discordo completa-
+construção de roteiros e também algumas ferramentas para a mente) a 5 (concordo completamente) em que a pessoa deverá
+construção do próprio jogo. selecionar umas dessas opções para definir a sua resposta para
+
+cada pergunta. Além disso, também há campos abertos para
+A. Jornada do Herói que os jogadores possam dizer o que acharam do jogo e o que
+
+pode ser melhorado.
+Para a criação do roteiro deste jogo foi utilizada a técnica
+
+de estruturação de roteiro denominada ”Jornada do Herói”, C. Consciência Histórica
+originada inicialmente por Joseph Campbell em seu livro Em [7] temos a definição de consciência histórica, que se
+chamado ”The Hero with a Thousand Faces” [1], e fu- dá pelo entendimento do contexto e de como acontecimentos
+turamente aprimorada por Christopher Vogler. No livro de do passado e do presente ocorreram, além da utilização destes
+Joseph, alguns padrões e sequências são determinados para conhecimentos e desta consciência para a tomada de diversos
+que a construção de uma história seja feita de forma mais tipos de decisões no futuro. Por isso é muito importante se
+simplificada, dividindo o roteiro em 17 atos. Posteriormente, atentar na construção do conteúdo que será passado para o
+Christopher Vogler fez uma adaptação destes atos em sua obra aluno, para que este conteúdo esteja bem estruturado e que
+”A Jornada do Escritor” [2], resultando em apenas 12 atos. consiga cumprir com o seu objetivo de ensinar algo ao aluno
+Estes atos são: e também para ajudar na formação dessa consciência histórica
+
+• O mundo comum: o herói se vê em seu dia-a-dia comum; em cada um dos jogadores.
+• O chamado à aventura: o incidente inicial que desen-
+
+cadeia a história; D. Benefı́cios no Uso de Jogos Didáticos
+• Recusa do chamado: o herói se encontra relutante em Com a aplicação de jogos em diversas áreas e contex-
+
+aceitar o chamado; tos diferentes, é perceptı́vel que os jogos podem ajudar a
+• Encontro com o mentor: o herói ganha confiança para desenvolver diversas habilidades de seus jogadores. O alto
+
+prosseguir na aventura; desempenho dos jogadores em esportes eletrônicos pode ser
+
+
+
+visto como um bom exemplo na evolução de habilidades, investigações sobre situações de desaparecimentos polı́ticos,
+no qual o jogador geralmente deve desenvolver habilidades utilizando-se de interpretações e produções históricas. Por
+comunicativas para informar o seu time sobre o que está meio da leitura de documentos e da visualização de algumas
+acontecendo na partida, deve desenvolver seu reflexo para fotos encontradas no jogo, o autor se propõe a desenvolver a
+realizar alguma jogada especı́fica, entre outras coisas. Em [8] empatia e a consciência histórica do jogador, com o objetivo
+podemos ver alguns dos possı́veis benefı́cios da utilização de de ensinar sobre os problemas que ocorreram naquela época
+jogos didáticos na educação: e o que se pode aprender com os erros do passado. Neste
+
+• Desenvolvimento das habilidades cognitivas; trabalho, também foi dito que é muito importante a valorização
+• Desenvolvimento da coordenação motora; do diálogo entre o educador e o educando, visando respeitar
+• Habilidade de interpretação de personagens; todas as vivências dos alunos e tentando sempre ter confrontos
+• Habilidades de socialização; de ideias à partir da argumentação, para uma evolução mútua
+• Estimulação da criatividade para resolução de problemas. do conhecimento.
+Além destes pontos citados acima, podem existir diversos Todos estes jogos apresentados e este trabalho possuem o
+
+outros possı́veis benefı́cios especı́ficos associados a este tipo mesmo objetivo: agregar algum conhecimento ao jogador. Seja
+de utilização de jogos, no qual cada ponto depende do tipo e algum conhecimento concreto de alguma disciplina de exatas
+foco do jogo em questão. ou de humanas, ou seja algum conhecimento de como lidar
+
+com algum tema complexo e mais amplo, como o bullying.
+III. TRABALHOS RELACIONADOS Cada um possui um foco especı́fico e formas diferentes de se
+
+Nesta seção vamos abordar alguns trabalhos que estão chegar no mesmo objetivo.
+relacionados com o mesmo objetivo deste artigo, ou seja, que IV. MATERIAIS E MÉTODOS
+abordam jogos sérios que tenham a principal meta de ensinar
+algum conteúdo aos seus jogadores. Nesta seção serão discutidos os materiais utilizados no
+
+Em [4] foi criado um jogo chamado Maze Code, tem trabalho e os métodos de desenvolvimento e avaliação do jogo.
+o objetivo de ajudar alunos do ensino superior de Ciência A. Materiais
+da Computação no aprendizado de conceitos relacionados a
+programação. Este jogo utiliza-se da retórica procedural e do Para a construção do jogo, foram utilizadas três ferramentas,
+design participativo na sua construção. O Maze Code segue o que são:
+gênero Escape Room, no qual o jogador pode se movimentar 1) Tiled - Editor de Mapas: Na construção dos mapas
+livremente pelo mapa criado, podendo interagir com diversos deste jogo foi utilizada a ferramenta Tiled1, que possui uma
+ambientes e itens espalhados pelo jogo. Assim como no The usabilidade muito simples e que ajudou a agilizar a construção
+Great Revolution, este jogo se baseia na exploração e interação das cenas utilizando os assets corretamente, além de criar as
+de ambientes para instigar a curiosidade do aluno. Além disso, colisões do mapa separando tudo por camadas, tanto os assets
+existem alguns problemas que são encontrados no decorrer quanto as colisões. Ao exportar os projetos criados no Tiled
+do jogo, os quais o jogador deve resolver utilizando um e importá-los na Unity, automaticamente todas as camadas e
+ambiente gráfico denominado terminal. Estes problemas são colisões já são configuradas.
+simples e comumente utilizados em disciplinas de introdução Inicialmente é necessário criar uma mapa e informar o
+à programação. tamanho necessário, definindo também a orientação do mapa,
+
+Em [5] foi abordada a forma em que narrativa do jogo o formato das camadas e a ordem de renderização, como na
+Nilub é passada para os seus jogadores, através da sua arte Figura 1.
+e design. Este jogo apresenta o sério problema do bullying Após isso, é necessário criar as camadas de acordo com o
+de uma forma leve e educativa, no qual os personagens são que será utilizado no jogo, em que a ordem de cima para baixo
+retratados a partir de um teatro de fantoches. Este jogo foi feito irá influenciar qual camada ficará acima da outra, sendo a
+em 3D e o jogador pode explorar ambientes, resolver puzzles camada superior a que estará sobrepondo todas as outras, como
+e entrar em combates de ação. Nilub aborda principalmente a na Figura 2. Também é possı́vel definir quais serão camadas
+parte artı́stica e a forma com que o propósito do jogo é passado de terrenos e objetos.
+ao jogador, utilizando-se de toda uma simbologia e uso das Por fim, basta importar os assets que serão utilizados e eles
+cores apropriada para o conteúdo e o seu público alvo, que no ficarão disponı́veis no canto inferior direito, para que possam
+caso são crianças acima de 10 anos. Além de um público alvo ser inseridos no mapa, como é possı́vel ver na Figura 3.
+diferente, neste trabalho focamos muito mais no aprendizado 2) Unity - Motor Gráfico de Jogos: Na construção deste
+de um conteúdo especı́fico: a Revolução Industrial. Mas é jogo foi utilizada a Unity2, que é muito utilizada no mercado
+importante perceber que alguns jogos neste contexto vão de jogos. Ela foi escolhida por ser gratuita e por ter uma
+abordar questões mais amplas no ambiente escolar, e não curva de aprendizado muito menor do que outras ferramentas,
+somente os conteúdos a serem aprendidos nas disciplinas. devido à facilidade da utilização das diversas funcionalidades
+
+Em [7] foi apresentado o jogo Arquivo 7.0, o qual é ambi- disponı́veis. Além disso, a Unity também facilita na geração
+entado no perı́odo do Regime Civil-Militar no Brasil. Este é 1Tiled - https://www.mapeditor.org/
+um jogo investigativo de tabuleiro, em que o jogador realizará 2Unity - https://unity.com/
+
+
+
+editor de códigos Visual Studio Code3 e algumas extensões
+dele para a utilização da linguagem C#.
+
+B. Método de Desenvolvimento
+Inicialmente, foi desenvolvido um Game Design Document
+
+(GDD), o qual definiu diversos aspectos relacionados ao
+projeto como um todo, antes mesmo de se definir qual o roteiro
+e qual seria o conteúdo inserido para o aprendizado dos alunos.
+Neste documento foram feitas definições tais como: descrição
+breve do jogo, principais caracterı́sticas do jogo, público alvo,
+plataforma, como seria a jogabilidade do jogo, quais seriam
+suas mecânicas, como o jogo seria salvo em cada etapa, e por
+fim, quais seriam as telas.
+
+Em seguida, foi definido que a Revolução Industrial seria
+o contexto retratada no jogo e que ele teria uma fase para
+cada ato da ”Jornada do Herói”, ou seja, seria necessário criar
+uma história dividida em 12 cenas. Para isso, foi utilizado um
+padrão de criação de roteiros, baseado no padrão encontrado
+em ”Uma proposta de roteiro para game educativo com base
+no design de narrativa digital interativa” [6]. Este padrão
+
+Figura 1. Criação de um novo mapa. define que o roteiro deve ser construı́do separando cena
+por cena e definindo uma série de detalhes relacionados a
+elas, como: número e nome da cena, espaço em que a cena
+ocorre, descrição breve do que acontece na cena, personagens
+envolvidos, ações e mecânicas envolvidas na cena, músicas
+que serão reproduzidas na cena, objetos utilizados, objetivo do
+jogador, objetivo da aprendizagem e, por fim, algumas notas
+e observações, como na Tabela I.
+
+Após construir o roteiro das 12 cenas, foi necessário criar
+um script para desenvolver melhor cada uma dessas cenas,
+informando como cada parte iria acontecer, quais seriam as
+falas de cada personagem, e quais seriam as ações que deve-
+riam ser tomadas pelo jogador e pelos personagens primários
+e secundários, como podemos ver na Figura 4.
+
+Figura 2. Configuração de camadas.
+
+Figura 4. Exemplo de parte do script da primeira cena.
+Figura 3. Aba principal de utilização do Tiled.
+
+Após tudo isso, foi possı́vel começar o desenvolvimento de
+fato do jogo, utilizando o Tiled para a construção dos mapas
+
+final do jogo, pois, com ela, é possı́vel gerar jogos para mobile, e o Unity para a construção do aplicativo do jogo, pois todo
+desktop e até mesmo consoles. o conteúdo necessário para cada cena já estava criado e bem
+
+3) Visual Studio Code - Editor de Código: Para o desen-
+volvimento dos códigos relacionados ao jogo foi utilizado o 3Visual Studio Code - https://code.visualstudio.com/
+
+
+
+Tabela I referentes à experiência de jogar o nosso jogo, questionando,
+ESTRUTURA DE ROTEIRIZAÇÃO QUE FOI UTILIZADA. por exemplo, se o roteiro criado despertava a atenção, se
+
+Número da cena 3 as curiosidades inseridas no jogo eram interessantes e se os
+Nome da cena Caos na Grande Noite alunos conseguiram aprender algo relacionado a Revolução
+
+Espaço narrativo Bares e becos da grande cidade. Industrial.
+Descritores narrativos Na Grande Noite, que é um evento que
+
+ocorre nos bares onde diversas pessoas 3) Sugestões de Melhorias: Por fim, foram feitas perguntas
+participam, haverá um problema no bar em sobre os pontos positivos e negativos do jogo, o que poderia
+que o protagonista se encontra, levando-o ser melhorado e o que os alunos acharam da experiência
+a tomar uma decisão muito arriscada que
+pode comprometer sua jornada nesta de aprender algo a partir de jogos. Esse foi o único tópico
+grande cidade ou levá-lo a um caminho totalmente opcional e com campos abertos para os alunos
+que ele jamais imaginaria (o impacto desta terem total liberdade para responder.
+escolha irá ocorrer próximo a batalha
+final). O jogo construı́do neste trabalho foi apresentado em qua-
+
+Personagens Protagonista, antagonista, mentor e pessoas tro turmas do ensino médio do campus UFV-Florestal, com
+da festa alunos do segundo e terceiro ano. Inicialmente, foi feita uma
+
+Ação (mecânica básica) O personagem inicialmente poderá andar
+pelas ruas festivas da cidade na Grande apresentação para os alunos, onde foi explicado o objetivo
+Noite e escolher um bar para festejar. Com deste trabalho, como seria feita a instalação do jogo em seus
+isto ele pode conversar com personagens celulares e como poderiam avaliar o jogo pelo formulário.
+dentro do bar e descobrir coisas novas
+sobre o jogo. Além disso, terá a capacidade Após a apresentação foram disponibilizados o link de down-
+de realizar uma escolha muito importante load do jogo para celulares Android e o link para o formulário
+para o desenvolvimento da história. de avaliação.
+
+Música O ambiente terá um clima de festa e talvez
+com músicas da época. Além disso, no
+momento da decisão arriscada, será D. Visão Geral de Todo o Processo de Criação do Jogo
+utilizada uma trilha sonora de suspense.
+
+Objetos Apresentar jogos e costumes da época. Nesta seção vamos abordar sobre todo o processo de criação
+Objetivo do jogador Conversar com os personagens presentes
+
+na cena para conhecer mais sobre as do jogo, de forma resumida, mostrando um fluxograma para
+culturas da grande cidade, e tomar uma facilitar no entendimento de como o jogo deste trabalho foi
+difı́cil decisão. criado.
+
+Objetivo da aprendizagem Ensinar sobre culturas cultivadas na época.
+Notas A cena deve ser inicialmente divertida e Inicialmente desenvolvemos um Game Design Document
+
+bem tensa no final. (GDD), no qual definimos o escopo do jogo, a jogabilidade, o
+contexto histórico a ser retratado e algumas outras definições
+básicas. Em seguida construı́mos o roteiro e os scripts
+
+separado. Com isso, foi possı́vel criar cena a cena, seguindo seguindo os padrões adotados em ”A Jornada do Herói”. O
+os passos que estavam definidos no roteiro e no script, criando conteúdo que será utilizado no aprendizado dos jogadores deve
+os mapas de acordo com o contexto de cada cena e criando o ser incluı́do na história do jogo ou na própria jogabilidade.
+fluxo que o jogador deveria seguir em cada etapa. Por fim, foi Em seguida, é necessário desenvolver os ambientes (mapas)
+gerado um arquivo do tipo apk para ser instalado em celulares que serão utilizados no jogo, com auxı́lio da ferramenta Tiled.
+do tipo Android, com todo o jogo finalizado. Com estes mapas criados, é necessário desenvolver a estrutura
+
+do jogo e aplicar tudo que foi desenvolvido até aqui. Por
+C. Método de Avaliação fim é necessário, gerar um aplicativo que será utilizado na
+
+Para a avaliação do jogo, utilizamos o método MEEGA+ plataforma desejada, disponibilizar o jogo para os jogadores e
+[3], definindo inicialmente um escopo do que era necessário aplicar algum método de avaliação para medir a qualidade
+avaliar, composto por três tópicos: Contexto dos Alunos, do jogo. No caso deste trabalho, utilizamos a plataforma
+Usabilidade e Experiência do Jogo e Sugestões de Melhorias. Android para gerar o aplicativo do jogo e aplicamos o método
+
+1) Contexto dos Alunos: É importante avaliar o contexto MEEGA+ para fazer a avaliação dele. Todo este processo pode
+em que os alunos estão inseridos, para poder analisar o restante ser visto na Fig. 5.
+dos dados com maior precisão. Portanto, criamos perguntas
+para saber se os alunos jogam, com qual frequência e em qual V. O JOGO
+plataforma (smartphone, notebook, desktop e console) eles
+mais jogam. Estas perguntas são importantes para sabermos O jogo se ambienta em um mundo fictı́cio, porém baseado
+se a aplicação de jogos que tem a finalidade de aprendizado na época da Revolução Industrial, no qual o personagem
+poderia ser realmente inclusiva ou não, visando utilizar a principal se encontra especificamente em uma fazenda e sua
+plataforma mais utilizada para a sua aplicação. jornada principal se direciona à cidade grande, onde ele irá
+
+2) Usabilidade e Experiência do Jogo: Neste tópico foi se deparar com diversos aspectos referentes àquela época.
+utilizada a escala Likert para medir as respostas dos alunos O principal objetivo do jogo é passar ao aluno algumas
+às perguntas referentes a usabilidade do jogo, incluindo o informações dessa época e tentar instigar o interesse do mesmo
+processo de instalação. Além disso, também fizemos perguntas para aprender mais sobre este assunto.
+
+
+
+do jogo. Inicialmente ele pode andar com o direcional que está
+indicado na tela do próprio jogo como na Fig. 6, podendo se
+movimentar na vertical e na horizontal.
+
+Figura 6. Interface padrão.
+
+Ele também pode estabelecer diálogos com outros person-
+agens, podendo ler tudo o que é dito e avançar conforme ele
+desejar como na Fig. 7.
+
+Figura 5. Fluxograma do processo de desenvolvimento de um jogo.
+
+A. História do Jogo
+O jogo se baseia na época da Revolução Industrial, onde
+
+o protagonista vive em uma fazenda no interior, com seu
+pai e sua mãe. Eles possuem alguns animais, alimentos e
+equipamentos que são muito comuns nestes ambientes. Porém, Figura 7. Interface de diálogo.
+alguns estranhos invadem sua propriedade e roubam alguns
+animais e equipamentos. Durante esta invasão, ele descobre Neste jogo também há batalhas, nas quais o jogador poderá
+que estas pessoas são da capital e que estão obedecendo ordens atacar e se curar, em um sistema de rodadas, em que cada
+de um grupo muito maior, e por causa disso, após ele perder rodada um dos envolvidos na batalha deve realizar um ataque
+para eles, ele decide ir em direção à capital e avançar em sua ou uma cura, como na Fig. 8.
+nova jornada.
+
+Lá ele enfrenta diversos desafios e encontra novas amizades
+e inimigos, fazendo-o evoluir cada vez mais. Na capital, o
+protagonista vai se deparar com diversos aspectos e itens
+que referenciam a época da Revolução Industrial, como, por
+exemplo, quadros, desenhos e costumes.
+
+Por fim, ele se depara com seu maior desafio e deve
+enfrentá-lo, utilizando todo o conhecimento que ganhou ao
+longo de sua jornada, podendo fazer uma escolha que pode
+impactar diretamente o futuro de sua caminhada.
+
+B. Jogabilidade
+Este jogo é 2D e foi criado com base em uma jogabilidade Figura 8. Interface de batalha.
+
+simples e fácil de implementar, justamente para demonstrar
+que é possı́vel fazer um jogo mesmo sem precisar de uma Além disso, há uma cena em que o personagem se encontra
+equipe especializada para isso. Porém, mesmo sendo simples, em um museu como na Fig. 9, onde ele pode ver vários
+o jogador pode fazer algumas coisas diferentes em cada etapa quadros, artes e objetos relacionados à Revolução Industrial.
+
+
+
+Lá ele pode visualizar esses objetos e ver algumas informações Tabela II
+sobre eles, como mostrado na Fig. 10. ITENS SOBRE A USABILIDADE DO JOGO.
+
+Índice do item Item
+1 Foi fácil de instalar e começar a jogar o
+
+jogo
+2 Foi fácil aprender a jogar o jogo
+3 A jogabilidade do jogo é simples
+4 Os textos do jogo são fáceis de ler
+5 Os botões do jogo são fáceis de clicar
+
+Tabela III
+PORCENTAGEM DE RESPOSTAS EM CADA ITEM SOBRE A USABILIDADE DO
+
+JOGO.
+
+Índice do item DT DP NCND CP CT
+1 6,67% 0,00% 0,00% 20,00% 73,33%
+2 6,67% 0,00% 0,00% 26,67% 66,67%
+
+Figura 9. Cena do museu. 3 6,67% 0,00% 0,00% 26,67% 66,67%
+4 6,67% 0,00% 6,67% 20,00% 66,67%
+5 6,67% 0,00% 13,33% 20,00% 60,00%
+
+A. Contexto dos alunos
+
+Inicialmente foram realizadas perguntas sobre o contexto
+em que os alunos se encontram. Os resultados desta seção
+são: 60% dos alunos que responderam o formulário são do
+terceiro ano e 40% do segundo; 93,3% dos alunos já jogaram
+algum jogo e e 6,7% nunca jogaram; 57,1% dos alunos jogam
+com baixa frequência, 28,6% jogam com média frequência,
+e 14,3% dos alunos jogam com muita frequência; 73,3% dos
+alunos jogam principalmente em smartphones, 13,3% jogam
+
+Figura 10. Visualização dos items do museu. em consoles, 6,7% jogam em computadores desktop e 6,7%
+jogam em notebooks.
+
+C. Arte B. Usabilidade e Experiência
+
+A arte do jogo foi inspirada em jogos da franquia ”Zelda”, Para avaliar a usabilidade e a experiência do jogador uti-
+um dos jogos clássicos da geração de jogos 2D. Além disso, lizamos a escala Likert, criando vários itens de avaliação sobre
+algumas áreas foram inspiradas em bares, ruas e construções cada seção, ou seja, cada ponto especı́fico, no qual cada aluno
+da época da Revolução Industrial, com o objetivo de ambientar poderia avaliar cada um desses itens. A escala utilizada é a
+o usuário na época em que o jogo se passa. Em algumas seguinte: Discordo Totalmente (DT); Discordo Parcialmente
+cenas também é possı́vel ver alguns quadros e artes que eram (DP); Não Concordo e Nem Discordo (NCND); Concordo
+referentes à época, juntamente com alguns textos relacionados Parcialmente (CP); Concordo Totalmente (CT). As abreviações
+à essas artes, justamente para explicar para o jogador qual o desta escala são utilizadas nas tabelas III e V.
+contexto desses objetos. Inicialmente temos a seção de usabilidade, na qual os itens
+
+que foram avaliados podem ser encontrados na Tabela II. Os
+VI. RESULTADOS resultados da avaliação dos itens desta seção de usabilidade
+
+podem ser encontrados na Tabela III.
+Nesta seção vamos analisar os dados resultantes da Também foi feito um outro conjunto de itens sobre a
+
+aplicação do jogo em turmas do ensino médio do Campus experiência que o jogador teve ao jogar o nosso jogo, como
+UFV-Florestal, no qual 15 alunos jogaram o jogo disponibi- pode ser visto na Tabela IV. Os resultados da avaliação dos
+lizado e responderam o formulário com o objetivo de avaliar a itens desta seção de experiência podem ser encontrados na
+qualidade e desempenho do jogo com relação ao aprendizado Tabela V.
+dos alunos, construı́do a partir do método MEEGA+ [3] Com as respostas obtidas podemos perceber que grande
+e sobre os três tópicos do escopo de avaliação que foram parte das respostas foram positivas, somando um total de
+definidos: Contexto dos Alunos, Usabilidade e Experiência do 83,64% de respostas positivas e 10,30% de respostas negativas.
+Jogo e Sugestões de Melhorias. Tivemos também um total de 6,06% de respostas neutras.
+
+
+
+Tabela IV Obtivemos muitos resultados relevantes e positivos neste
+ITENS SOBRE A EXPERIÊNCIA DO JOGO. trabalho, como a demonstração de que 73,3% dos alunos que
+
+Índice do item Item responderam ao questionário utilizam principalmente smart-
+1 A história do jogo é interessante phones para jogar, o que nos mostra que esta é uma plataforma
+2 As curiosidades dentro do jogo são que pode ajudar a difundir a cultura de ensino a partir de jogos,
+
+interessantes
+3 Eu consegui aprender algo sobre a época justamente por ser uma plataforma mais acessı́vel do que as
+
+da Revolução Industrial enquanto jogava outras e muito mais presente na vida das pessoas. Também
+4 Eu acho que aprender de forma interativa é é importante salientar que tivemos um total de 83,64% de
+
+melhor avaliações positivas e apenas 10,30% de avaliações negativas,
+5 Eu acho que aprender jogando é mais fácil
+
+do que lendo um livro ou tendo uma aula o que significa que o jogo foi bem aceito entre os jovens que
+6 Eu acho que é mais fácil aprender alguma participaram deste trabalho.
+
+coisa quando o conteúdo está associado à Por fim, há alguns pontos que foram levantados e que
+um entretenimento
+
+gostarı́amos de melhorar em trabalhos futuros, como: construir
+a parte sonora do jogo, para que a imersão seja muito maior e
+
+Tabela V
+PORCENTAGEM DE RESPOSTAS EM CADA ITEM SOBRE A EXPERIÊNCIA DO que a conexão do aluno com o jogo seja melhor; adicionar
+
+JOGO. novas interações no jogo para que permita que o jogador
+possa realizar escolhas dentro do jogo, fazendo com que ele
+
+Índice do item DT DP NCND CP CT
+1 6,67% 6,67% 13,33% 20,00% 53,33% tenha mais controle de como a história do seu personagem se
+2 6,67% 6,67% 0,00% 26,67% 60,00% desenvolverá; criar outros jogos para auxiliar no aprendizado
+3 6,67% 6,67% 6,67% 26,67% 53,33% de outros momentos históricos ou disciplinas.
+4 6,67% 6,67% 6,67% 0,00% 80,00%
+5 13,33% 0,00% 20,00% 40,00% 26,67% REFERÊNCIAS
+6 6,67% 6,67% 0,00% 33,33% 53,33%
+
+[1] Joseph Campbell, ”The Hero’s Journey: Joseph Campbell on His Life and
+Work”, California: New World Library, 3rd edition, pp. 186-187, 2003.
+
+[2] Christopher Vogler, ”A Jornada do Escritor: Estrutura Mı́tica para Es-
+C. Sugestões de Melhorias critores”, Editora Aleph, 1ª edição, 11 de junho de 2015.
+
+Esta seção foi totalmente opcional e os alunos poderiam es- [3] G. Petri and C. G. von Wangenheim, ”MEEGA+: A Method for the
+Evaluation of the Quality of Games for Computing Education”, SBC –
+
+crever respostas abertas para cada pergunta. Foram realizadas Proceedings of SBGames, 2019.
+perguntas para saber quais os pontos positivos e negativos [4] J. G. Neto, P. H. P. Marcolino, P. Ferreira and D. M. Barbosa,
+do jogo, o que poderia ser melhorado no mesmo e o que os ”Maze Code: Retórica Procedural Aplicada ao Ensino de Lógica de
+
+Programação”, SBC – Proceedings of SBGames, 2021.
+alunos acharam da experiência do aprendizado utilizando uma [5] A. F. de Castro, B. G. Baptista, É. de C. Grasso, R. C. de Souza, A.
+abordagem mais interativa como esta. A implementação da M. Mol, M. S. Nery and R. R. da Mota, ”Eu sou diferente e isso não
+parte sonora do jogo, a correção de alguns problemas visuais importa: A arte do jogo Nilub”, SBC – Proceedings of SBGames, 2014.
+
+[6] D. Jorge Teixeira, D. Márcia Cruz and B. Santos Gonçalves, ”Uma
+e a adição de novas jogabilidades foram alguns dos pontos proposta de roteiro para game educativo com base no design de narrativa
+apontados pelos alunos para futuras melhorias e correções. digital interativa”, Revista Metamorfose, vol. 2, n. 1, 252-275, maio de
+Por fim, a última pergunta que trata sobre a experiência 2017.
+
+[7] L. B. Carissimi and R. Radünz, ”Arquivo 7.0: jogos e o ensino de
+de se aprender algo utilizando um método de ensino mais História”, MÉTIS: história & cultura – vol. 16, n. 31, 2017.
+interativo, que no caso foi o jogo, teve apenas respostas [8] F. de Melo Reis and R. Barbosa Bitencourt, ”Games no Ensino de
+positivas, somando um total de 8 alunos que responderam a História: Aplicação na Disciplina de História no Ensino Fundamental”,
+
+SBC – Proceedings of SBGames, 2016.
+esta pergunta.
+
+VII. CONCLUSÃO
+
+Este trabalho foi construı́do com o foco no desenvolvimento
+e na aplicação de um jogo sério em turmas do ensino médio
+com o principal objetivo de auxiliar alunos no aprendizado de
+disciplinas de história, no contexto especı́fico da Revolução
+Industrial.
+
+Além disso, este trabalho também contribui com a criação
+de um fluxograma para o auxı́lio no desenvolvimento de jogos
+sérios, buscando facilitar o entendimento de como é este
+processo, e como cada etapa é importante para a sua conclusão.
+
+Muitos pontos e processos do desenvolvimento desse jogo
+foram abordados neste artigo, justamente com o intuito de
+esclarecer as dificuldades e desafios de se criar inteiramente
+um jogo sério. Estas dificuldades se dão desde a criação do
+roteiro e script do jogo, até o desenvolvimento de fato das
+cenas do jogo e de seu fluxo no Tiled e no Unity.

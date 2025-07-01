@@ -1,0 +1,411 @@
+﻿Universidade Federal de Viçosa 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+EasyTest: An approach for automatic test cases generation 
+from UML Activity Diagrams 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+Aluno: Fernando Augusto Diniz Teixeira 
+      
+Orientadora: Gláucia Braga e Silva 
+ 
+Formato do trabalho: Artigo científico 
+ 
+Congresso de Submissão: 14th International Conference on Information 
+Technology: New Generations (ITNG 2017) 
+ 
+Qualis: B1 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Florestal 
+
+2016 
+
+
+
+EasyTest: An approach for automatic test cases
+generation from UML Activity Diagrams
+
+Fernando Augusto Diniz Teixeira, Glaucia Braga e Silva
+Institute of Technologics and Exact Sciences
+
+Federal University of Viçosa - UFV
+Florestal, Minas Gerais, Brazil
+
+Email:{fernando.augusto,glaucia}@ufv.br
+
+Abstract—The test cases generation is one of the great Assuming that the earlier a defect is found the
+challenges for the Software Test Community because of cheaper it is to fix it, the Model-Based Testing
+the development efforts and costs to create, validate and (MBT) technique appears to be promising. MBT
+test a large number of test cases. The automation of this
+process increases testing productivity and reduce labor consists of using various types of formal models
+hours. One technique that has been adopted to automate to derive a set of test cases. MBT has a better
+test cases generation is Model Based Testing (MBT). This performance than code-based approaches because
+paper proposes the EasyTest approach to generate test it is a mixed approach of source code and re-
+cases from UML Activity Diagrams aiming to integrate quirements specification for testing the software [2].
+Modeling, Coding and Test stages in a software process Furthermore, MBT is more promising in terms of
+and to reduce costs and development efforts. The proposed cost because the generated test cases can be used as
+approach suggests an early detection of defects even in
+the modeling stage to prevent that unidentified defects are starting point for the construction of a defect-free
+embedded in the coding stage. The work also presents code. Unified Modeling Language (UML) models
+the use of the generated test cases before and after the have long been used with the MBT technique be-
+coding stage. To verify the proposed approach, this work cause they have a lot of relevant information about
+also presents the EasyTest Tool to provide interoperability system specification for test case design [3].
+with the JUnit framework. We propose an approach called ”EasyTest” to
+
+Keywords-Test Automation; Model Based Testing; Gray- generate test cases from UML activity diagrams
+Box Testing; JUnit; TDD. aiming to integrate Modeling, Coding and Test
+
+stages in a software process and to reduce costs
+1. INTRODUCTION and development efforts. The EasyTest approach
+
+Empirical studies show that the test activity con- suggests an early detection of defects even in the
+sumes a significant part of costs and development modeling stage to prevent that unidentified defects
+efforts and this expense becomes often cost-time are embedded in the coding stage. The generated
+prohibitive. The test cases generation represents a test cases can be used in two scenarios: before and
+complex task in the test process because of the after the coding stage. If no code was produced,
+development effort and cost to create, validate and the test cases generated from the UML activity dia-
+test a large number of test cases. To deal with grams can be used by developers to produce defect-
+this complexity some tools automate the generation free code with Test Driven Development (TDD).
+of test cases from produced source code. Despite Otherwise, after the coding stage, the generated test
+the benefits with automation, this technique still cases can be executed to verify (according to model
+has problems to verify all system functionalities specifications) and validate (expected behavior of
+scenarios [1]. Furthermore, once a software defect an operation) the produced code in a test execution
+is found the code must be fixed and verified again. tool. To verify and to automate the proposed ap-
+This process causes rework, delays and increases proach this work also presents the EasyTest Tool
+the development costs. that provides interoperability with the JUnit frame-
+
+
+
+work. alternative flows and branch conditions, enabling
+The paper is organized as follows: In Section 2, an easier application of the TDD for program-
+
+some related works are discussed. The EasyTest ap- mers. Latorre [13] shows how Unit Test-Driven
+proach is presented in Section 3. Section 4 addresses Development (UTDD), a TDD subcategory, has a
+the EasyTest tool. Finally, in Section 5, we discuss good performance in learning and application with
+some conclusion and future works. programmers of different skill levels. Janzen and
+
+Saiedian [14] highlight how automated tools for unit
+2. RELATED WORKS tests have assisted improvements of TDD itself.
+
+There are different techniques and tools proposed Based on the work of Linzhang et al. [7], the
+for the automated generation of test cases. Some proposed approach consists of a gray-box test tech-
+tools generate test cases from source code, but as nique. This technique deals with problems which
+mentioned by Shamshiri et al. [1] some tools did used to be ignored by both black-box and white-box
+not present good test results for all the required techniques. It extends the logical coverage criteria
+functionalities. of white box technique and finds all the possible
+
+Several studies address the use of MBT technique paths from the model which describes the expected
+to generate test cases from different types of design behavior of an operation. Then it generates test
+and specification models. Nebut et al. [4] propose a cases which can satisfy the path conditions expected
+test case generation approach from UML Use Case by black-box technique.
+models and emphasize problems with interpretation
+caused by the use of natural language. Some re- 3. EASYTEST APPROACH
+
+searches address the generation of test cases from This section presents an automatic approach to
+UML Class models and Object Constraint Language generate test cases from UML activity diagrams
+(OCL) specifications [5], [6]. using gray-box technique. The EasyTest approach
+
+Some works present techniques for transforming comprises three phases, as shown in Figure 1: 1)
+UML activity diagrams into graphs to generate test importing activity diagrams in XMI; 2) test cases
+cases [7], [8] and provide tools to validate their generation; and 3) applying test cases.
+proposals. However, these studies did not show a
+way to integrate the technique with other stages of 3.1. Phase 1 - Importing activity diagrams in XMI
+a software process. Phase 1 aims to obtain and extract relevant in-
+
+Pakinam et al. [3] extend the work of Linzhang et formation, about test case generation process, from
+al. [7] to provide an architecture for automated gen- XMI activity diagrams and then provide it to Phase
+eration of test cases from UML Activity Diagrams 2. These information comprise properties of ac-
+although they don’t present an implementation of tivities (vertices) and flows (edges). XMI (XML
+the proposal. Jena et al. [2] propose an approach metadata Interchange) standard is defined by OMG
+similar to the work of Pakinam et al. [3] which (Object Management Group) and is widely used for
+uses a genetic algorithm to reduce the number of exchanging metadata between UML modeling tools.
+test cases while keeping the same coverage. Phase 1 uses activity diagrams drawn in different
+
+Test case generation techniques are commonly UML modeling tools as long as they have been
+evaluated regarding the coverage criterion [9]–[11]. exported to XMI according to OMG specification.
+This criterion is one of the key metrics for eval- The EasyTest approach proposes interoperability
+uating the techniques performance. Other metrics with different types of UML modeling tools, import-
+such as time, cost, effort and generation complexity ing XMI files in order to reuse activity diagrams
+are also considered in the quality evaluation of the previously drawn to avoid rework. This strategy
+generated test cases [12]. is cheaper in terms of effort and time than those
+
+The set of generated test cases can be used before applied in other works that require the manual
+the coding stage to produce defect-free code using design of activity diagrams in their tools [7], [8].
+the Test-Driven Development (TDD) strategy. These To illustrate the use of EasyTest approach in a real
+test cases provide a meaningful representation of case of development process, we adopt a case study
+
+
+
+Fig. 2. Activity Diagram for the operation ”Create Complaint”
+
+3.2. Phase 2 - Test Cases Generation
+Phase 2 is responsible for processing the XMI
+
+Fig. 1. EasyTest Approach Activity Diagram to find Test Paths and then gen-
+erate the final test cases. This phase was based on
+some techniques proposed by [2], [3], [15].
+
+The development of this phase is comprised by
+four steps that are presented below as well as the
+
+based on a Control System for Aedes Aegypti that applied improvements proposed in this work.
+is being developed in an academic interdisciplinary 3.2.1. Activity Dependency Table (ADT) Gener-
+project at Federal University of Viçosa - campus ation: The first step of this phase is the ADT gen-
+Florestal. For Phase 1, an Activity Diagram was eration to present inputs, outputs and dependencies
+produced to represent an use case from this system of all activity diagram elements. Figure 3 shows the
+that refers to an operation called ”Create Complaint” generated ADT for the Activity Diagram (Figure 2).
+used by citizens to report an occurrence of Aedes The elements are described at each row of the
+Aegypti vector in an infested area. table. The table columns present information about
+
+The activity diagram mentioned above is illus- element name, inputs, expected outputs, dependen-
+trated in Figure 2. This diagram was produced in cies relationships between elements and edges val-
+Oracle JDeveloper 12c tool (version 12.1.3.0.0) and ues in some cases. The elements containing the term
+exported to XMI format. ”Validate” in the ADT correspond to the Decision
+
+Nodes of the Activity Diagram.
+It is important to note that some edges in the 3.2.2. Activity Dependency Graph (ADG) Gen-
+
+diagram contain labels with textual stereotypes rep- eration: After the ADT generation the next step is
+resenting data flow for that edge. For example, the the ADG generation. The symbols in ADT become
+edge ”String::Reference Point” contains the variable vertices in ADG and dependencies of each symbol
+name ”Reference Point” of the type ”String” from become edges between the corresponding vertices.
+the activity ”Get Reference Point” to ”Get Descrip- The ADG generation is a significant part of the
+tion”. Values like that are relevant for the successful EasyTest approach to gather test paths correspond-
+generation of test cases in Phase 2. ing to the activity diagram.
+
+
+
+impacts directly the test cases quality. The algorithm
+was built aiming to satisfy the criterion ”Transition
+Coverage”. As defined in [9] and [16], Transition
+Coverage intends to verify all transitions in the
+activity diagram. The transition coverage result is a
+ratio between the verified transitions and all Activity
+Diagram transitions. This criterion guarantees that
+each loop condition is checked and an iteration is
+executed at least one time. By this way, we also
+guarantee that other coverage criteria as ”Activity
+Coverage” and ”Branch Coverage” are satisfied. The
+”Activity Coverage” intends to verify all Activity
+States in the Activity Diagram. The ”Branch Cov-
+erage” intends to verify all conditions branches in
+the Activity Diagram so that all edges are checked.
+
+Based on the ”Transition Coverage” and using
+the generated ADG (Figure 4) the following Test
+Paths were obtained:
+
+Test Path 1: 0, 1, 2, 3, 4, 5, 7, 9, 11, 14, 13
+Test Path 2: 0, 1, 2, 3, 4, 5, 7, 9, 12, 11, 14, 13
+Test Path 3: 0, 1, 2, 3, 4, 6, 8, 10, 13
+Test Path 4: 0, 1, 2, 1, 2, 3, 4, 5, 7, 9, 11, 14, 13
+
+Fig. 3. Generated ADT
+
+Another criterion that could be considered is ”All
+Figure 4 shows the generated ADG for the ADT Activity Path Coverage”. This criterion intends to
+
+(Figure 3). verify all different activity sequences from the Initial
+Node to the Final Node. Considering this criterion
+for the ADG shown in Figure 4 we would get six
+Test Paths. The choice of the ”Transition Coverage”
+was based on the fact that if the loop is executed at
+least one time and a Final Node is reached, other
+tests for the same loop condition are not required.
+Thereby, the ”Transition Coverage” can provide the
+same coverage with fewer test cases.
+
+3.2.4. Test Cases Generation: The last step of
+Phase 2 is the test cases generation from the ADT
+and Test Paths. According to the number of Test
+Paths, this step generated four Test Cases for the
+given Example. Figure 5 shows one of these gener-
+
+Fig. 4. Generated ADG ated test cases in Phase 2 of the EasyTest approach.
+It can be observed that all input and output values
+
+3.2.3. Test Paths Generation: For the generation of each path vertice are detailed as well as the input
+of Test Paths from the ADG generated previously, and output values of the test case.
+we developed an algorithm based on the depth-first
+search for graphs. The final set of Test Cases are 3.3. Phase 3 - Applying Test Cases
+defined from the resulting test paths. Phase 3 has the purpose of applying the gen-
+
+The strategy used to generate these Test Paths erated test cases in the test execution and coding
+
+
+
+to verify all functionalities and their flows, thus
+compensating for the time required to develop the
+activity diagrams.
+
+To verify this scenario, the authors made a quick
+single experiment to develop a defect-free code ap-
+plying TDD for the operation ”Create Complaint”.
+For the experiment, the code was produced based
+on test cases generated by the approach and the
+activity diagram (Figure 2). From these resources,
+it was possible to quickly identify conditional and
+iterative blocks as well as the possible values for
+each flow.
+
+For the experiment, we used EClEmma, a free
+Java code coverage tool. This tool was used to
+
+Fig. 5. Example of a Generated Test Case
+evaluate the line coverage of the produced code and
+a coverage of nearly 92% was achieved. This result
+highlights the quality of the generated test cases and
+
+stages. In the EasyTest approach, the resulting test how much the code is compatible with the activity
+cases can be used to verify or produce code in diagram. However, other experiments will be made
+any programming languages. Different Test Cases to check the results for different contexts.
+Execution tools can be used in this approach as 3.3.2. After Coding Stage - Exporting generated
+long as a mapping has been designed to adapt the Test Cases: In this scenario, we have an activity
+test cases for the code structure used in the selected diagram and a code made for it. The source code
+tool. is used to verify if it matches with the results of
+
+Phase 3 comprises two usage scenarios within the test cases execution, that is, if the code exe-
+the software development process: before and after cution logic is consistent with the activity diagram
+the coding stage. The possibility of application in expected behavior. Otherwise, it is necessary to
+different scenarios allows a better adherence of the evaluate the changes required in the code to satisfy
+testing activity in the software development process. the modeling specifications. As long as the code is
+The two different scenarios are discussed bellow. compatible with the model we have a valid test for
+
+3.3.1. Before Coding Stage - Test Driven Devel- all code functionalities and flows.
+opment (TDD): In this scenario, TDD is applied to Also, we have an automatic generation of test
+build defect-free code. Once the test cases have been code that comprises the generated test cases for
+generated, in addition to a meaningful representa- execution in any Test Execution Tool. To achieve
+tion of alternative flows and branch conditions, the this, it is required a mapping between the generated
+process of developing code becomes much simpler test cases and the technical structure of the selected
+because the code structure will be guided by these tool.
+resources. As shown by [13], When test driven Once the activity diagram is source code in-
+development is applied with unit tests, we have a dependent, we assign generic names to classes
+good performance in learning and application with and operations which will later be adjusted by
+programmers of different skill levels. testers/programmers.
+
+Although in the TDD context models are not
+usually created, the EasyTest approach can provide 4. EASYTEST TOOL
+
+advantages in terms of time and effort because of the To verify the EasyTest approach, we developed
+automatic generation of test cases. In addition, the a Java tool called ”EasyTest tool” that provides
+approach can help programmers to produce defect- automatic support for the Phases 2 and 3. According
+free code from the beginning of the development to the Phase 1 of the approach, EasyTest Tool
+software process because they can use test cases uses activity Diagrams represented in XMI files.
+
+
+
+This tool version provides, in step ”Adapting Test REFERENCES
+Cases”, test cases for Java through a mapping for [1] S. Shamshiri, R. Just, J. M. Rojas, G. Fraser, P. McMinn,
+integration with the JUnit framework. and A. Arcuri, “Do automatically generated unit tests find real
+
+The EasyTest tool provides an interface where for faults? an empirical study of effectiveness and challenges (t),” in
+Automated Software Engineering (ASE), 2015 30th IEEE/ACM
+
+each generated test cases, specific instructions and International Conference on. IEEE, 2015, pp. 201–211.
+fields are displayed so the tester/programmer can [2] A. K. Jena, S. K. Swain, and D. P. Mohapatra, “A novel
+insert the required test data. In addition, the interface approach for test case generation from uml activity diagram,”
+
+in Issues and Challenges in Intelligent Computing Techniques
+displays a dynamic graph highlighting correspond- (ICICT), 2014 International Conference on. IEEE, 2014, pp.
+ing Test Paths for each Test Case to support the 621–629.
+filling of fields by the user. With this resources the [3] P. N. Boghdady, N. L. Badr, M. Hashem, and M. F. Tolba,
+
+tool can generate a code for JUnit capable to test all “A proposed test case generation technique based on activity
+diagrams,” International Journal of Engineering & Technology
+
+functionalities and flows, reducing efforts and time IJET-IJENS, vol. 11, no. 03, 2011.
+of creating test cases and increasing quality of test [4] C. Nebut, F. Fleurey, Y. Le Traon, and J.-M. Jezequel, “Au-
+
+cases in spite programmers of different skill levels. tomatic test generation: A use case driven approach,” IEEE
+Transactions on Software Engineering, vol. 32, no. 3, pp. 140–
+155, 2006.
+
+5. CONCLUSION AND FUTURE WORK [5] C.-K. Chang and N.-W. Lin, “Utgen: A black-box method-level
+unit-test generator for junit test-platform,” in Trustworthy Sys-
+
+This work presented the EasyTest approach of tems and Their Applications (TSA), 2015 Second International
+Conference on. IEEE, 2015, pp. 1–7.
+
+automatic test cases generation from UML activity [6] F. Bouquet, C. Grandpierre, B. Legeard, F. Peureux, N. Vacelet,
+diagrams and addressed the use of these test cases and M. Utting, “A subset of precise uml for model-based
+
+in two scenarios: before and after the coding stage. testing,” in Proceedings of the 3rd international workshop on
+Advances in model-based testing. ACM, 2007, pp. 95–104.
+
+For the first scenario, the approach supplies TDD [7] W. Linzhang, Y. Jiesong, Y. Xiaofeng, H. Jun, L. Xuandong,
+programmers with relevant information about the and Z. Guoliang, “Generating test cases from uml activity
+
+functionality logic in order to ease the process of de- diagram based on gray-box method,” in Software Engineering
+Conference, 2004. 11th Asia-Pacific. IEEE, 2004, pp. 284–291.
+
+veloping a defect-free code. For the second scenario, [8] C. Mingsong, Q. Xiaokang, and L. Xuandong, “Automatic test
+the approach proposes an automatic generation of case generation for uml activity diagrams,” in Proceedings of
+
+test code that comprises the test cases to execute the 2006 international workshop on Automation of software test.
+ACM, 2006, pp. 2–8.
+
+them in any Test Execution Tool. To verify this [9] M. Chen, P. Mishra, and D. Kalita, “Coverage-driven automatic
+scenario, the EasyTest tool was developed to provide test generation for uml activity diagrams,” in Proceedings of the
+
+interoperability with JUnit. 18th ACM Great Lakes symposium on VLSI. ACM, 2008, pp.
+139–142.
+
+The EasyTest is based on gray-box technique, [10] M. Chen, X. Qiu, W. Xu, L. Wang, J. Zhao, and X. Li, “Uml
+allowing the identification of problems which used activity diagram-based automatic test case generation for java
+
+to be ignored by both black-box and white-box tech- programs,” The Computer Journal, vol. 52, no. 5, pp. 545–556,
+2009.
+
+niques as it extends the logical coverage criteria and [11] J. A. McQuillan and J. F. Power, “A survey of uml-based
+finds all the paths from the designed model, which coverage criteria for software testing,” Department of Computer
+
+describes the expected behavior of an operation. Science. NUI Maynooth, Co. Kildare, Ireland, 2005.
+[12] P. B. Nirpal and K. Kale, “A brief overview of software
+
+Based on some experiments and observations, testing metrics,” International Journal on Computer Science
+the EasyTest approach can provide some gains in and Engineering (IJCSE), vol. 3, no. 1, pp. 204–211, 2011.
+
+terms of cost, effort and time. This gains can be [13] R. Latorre, “Effects of developer experience on learning and
+applying unit test-driven development,” IEEE Transactions on
+
+observed in contexts such as: reuse of activity Software Engineering, vol. 40, no. 4, pp. 381–395, 2014.
+diagrams previously designed; earlier detection of [14] D. S. Janzen and H. Saiedian, “Test-driven development: Con-
+
+defects before coding stage; support for the defect- cepts, taxonomy, and future direction,” Computer, vol. 38, no. 9,
+pp. 43–50, 2005.
+
+free code development; and increase in the test case [15] P. N. Boghdady, N. L. Badr, M. A. Hashim, and M. F. Tolba,
+quality because the use of a gray-box technique. “An enhanced test case generation technique based on activity
+
+For future works, we intend to make more exper- diagrams,” in Computer Engineering & Systems (ICCES), 2011
+International Conference on. IEEE, 2011, pp. 289–294.
+
+iments for the two scenarios of the EasyTest Phase [16] R. K. Swain, V. Panthi, and P. K. Beher, “Generation of test
+3, involving a set of senior testers/programmers to cases using activity diagram,” International journal of computer
+
+evaluate and refine the EasyTest approach. science and informatics, vol. 2, no. 2, pp. 2231–5292, 2013.

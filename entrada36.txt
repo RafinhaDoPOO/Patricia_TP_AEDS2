@@ -1,0 +1,672 @@
+﻿Censeo: um aplicativo para avaliação de disciplinas por meio
+de rede de sensoriamento participativo
+
+Vitor H. O. Silva1, Daniel Mendes Barbosa1
+
+1Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa (UFV)
+Campus Florestal
+
+Florestal – MG – Brazil
+
+vitor.h.oliveira@ufv.br, danielmendes@ufv.br
+
+Abstract. A much debated issue in educational institutions is how to evaluate
+the teaching-learning process. Traditionally, assessments are carried out using
+forms applied at the end of each school term. This work proposes a continuous
+assessment, class by class, from a network of participatory sensing, with the
+objective of generating more detailed metrics for the faculty. With this objective,
+the Censeo application was created, carrying out a case study with the use of it
+by three classes of a higher course. At the end of this, a system evaluation form
+was applied and the results demonstrated the effectiveness and capacity of this
+participatory sensing network in generating data and analysis in the context of
+student evaluation of teaching.
+
+Resumo. Uma questão muito debatida nas instituições de ensino é a forma de
+se avaliar o processo de ensino-aprendizagem. Tradicionalmente, as avaliações
+são realizadas por meio de formulários aplicados ao final de cada perı́odo le-
+tivo. Este trabalho propõe uma avaliação contı́nua, aula a aula, a partir de uma
+rede de sensoriamento participativo, com o objetivo de gerar métricas mais de-
+talhadas para o corpo docente. Com este objetivo, foi criado o aplicativo Cen-
+seo, realizando um estudo de caso com a utilização do mesmo por três turmas de
+um curso superior. Ao final deste, foi aplicado um formulário de avaliação do
+sistema e os resultados demonstraram a eficácia e a capacidade desta rede de
+sensoriamento participativo em gerar dados e análises no contexto da avaliação
+do aluno sobre o ensino.
+
+1. Introdução
+A Avaliação do Aluno Sobre o Ensino (AASE) do termo em inglês Student Evaluation of
+Teaching(SET) [Spooren et al. 2013] é uma ferramenta utilizada em instituições educaci-
+onais, com o intuito de analisar e aprimorar o ensino. A AASE vem sendo continuamente
+estudada nas últimas décadas com o objetivo de compreender quais são os principais as-
+pectos a serem avaliados e as melhores maneiras de se avaliar. Todavia, isto é alvo de
+diversos debates, tanto no contexto de instituições brasileiras, como em instituições inter-
+nacionais. Esse debate se dá acerca de fatores como a legitimidade de tais avaliações, a
+falta de concordância sobre aspectos de avaliações, a complexidade da interpretação dos
+resultados e fatores externos que não são levados em consideração [Spooren et al. 2013].
+
+Além disso, existem outros fatores que dificultam a AASE, tais como a
+negação de docentes frente às crı́ticas recebidas e a carência em análises por parte de
+
+
+
+instituições ou órgãos superiores sobre a forma mais adequada de realização de AASEs
+[Silveira and da Rocha 2016]. Outro ponto de ressalva referente a este tipo de avaliação é
+a temporalidade para aplicação dos testes avaliativos, sendo geralmente realizados ao final
+de cada semestre. Dessa forma, falhas que surgem durante a realização do perı́odo letivo
+só serão levantadas ao final deste quando as mesmas não necessitam mais de atenção.
+
+Assim, o objetivo deste, dado o contexto, é desenvolver um sistema com base
+em Participatory Sensor Networks (PSNs) - Rede de Sensoriamento Participativo para
+automatizar a avaliação AASE, de forma contı́nua, gerando métricas em tempo hábil
+de reestruturação para o corpo docente e discente, e assim, promover o melhor fluxo
+do conhecimento entre estes. Serão avaliados quais serão os desafios e ganhos reais
+na aplicação dessa rede neste sistema. PSN diz respeito à utilização de redes remotas
+compostas por pessoas (por exemplo sistemas de GPS interativos com vários usuários)
+para captação e análise dos dados em tempo de coleta [Silva 2014]. As PSNs dispõe
+como intuito, a melhora da compreensão do espaço e a tomada de decisões sobre este,
+possibilitando uma nova interação com o meio, principalmente para sensoriamento em
+tempo simultâneo à captura dos dados, pode-se utilizar destas redes para realizar censos,
+avaliações entre outros.
+
+Alguns trabalhos relacionados a este trabalho são de [Pilla 2007], que também
+visa desenvolver um sistema para avaliação, porém focado no contexto do e-learnig, e o
+trabalho de [Tavares et al. 2021], que se utiliza de PSNs para avaliar eventos.
+
+O restante do trabalho foi organizado da seguinte forma: a Seção II apresenta a
+fundamentação teórica; a Seção III descreve os materiais e métodos do trabalho; a Seção
+IV detalha o estudo de caso realizado; a Seção V discute os resultados obtidos; e a Seção
+VI as conclusões.
+
+2. Fundamentação Teórica
+Em consequência ao contexto atual de pandemia de COVID-19, vivenciado pelo setor de
+ensino-aprendizagem, ao qual foi imposto um novo modelo educacional sustentado pelas
+tecnologias digitais e pautado nas metodologias da educação hı́brida [Gusso et al. 2020,
+Pasini et al. 2020], o presente estudo buscou modelos de AASE capazes de abranger tanto
+aulas presenciais, como aulas online (e-learning).
+
+2.1. Modelos de avaliação para aulas presenciais
+Usando metanálises1 e revisões da literatura [Spooren et al. 2013, Uttl et al. 2017,
+Coffey and Gibbs 2001], dos quais realizaram inquirições de diversos estudos, que ela-
+boraram modelos de avaliação de efetividade do ensino. Dentre estes, destaca-se
+o Students’ Evaluations of Educational Quality (SEEQ)[MARSH 1982], baseado em
+análises psicométricas2 [Guilford 1954] e os estudos sobre tal, desenvolvem-se há mais
+de três décadas. Sua validade vem sendo discutida e avaliada em diversos traba-
+lhos, sendo que sua confiabilidade em relação aos questionários são de 0.88 a 0.97
+([Marsh 2007, Coffey and Gibbs 2001, Richardson 2005]). Outro ponto forte de credi-
+bilidade é que este torna-se amplamente usado em universidades por todo os Estados
+Unidos e o Reino Unido [Marsh 2007].
+
+1Abordagem estatı́stica que combina resultados relevantes para responder uma questão.
+2Especialidade da psicologia dedicada à elaboração de testes e avaliações através de procedimentos
+
+altamente avançados
+
+
+
+O modelo SEEQ compreende 9 fatores de estudos, responsáveis por avaliar deter-
+minadas áreas do ensino: aprendizagem, entusiasmo, organização, interação em grupo,
+relacionamento, amplitude, exame, tarefas e geral. E com base neste o modelo, embasa
+31 perguntas para um questionário de avaliação do ensino.
+
+2.2. Modelos de avaliação para aulas online
+Em análise sobre AASE focada em contextos virtuais, determinou-se dois modelos bases
+de avaliação de aulas online, que serão referenciados aqui como Modelo de Lee e Modelo
+de Salloum.
+
+O modelo instituı́do por Ming-Chi Lee [Lee 2010], se baseia em 4 modelos
+especı́ficos: modelo de confirmação de expectativa (ECM)[Bhattacherjee 2001], mo-
+delo de aceitação de tecnologia (TAM)[Davis 1985], teoria do comportamento planejado
+(TPB)[Ajzen 1991] e teoria do fluxo[Csikszentmihalyi 1997]. Este modelo de Lee, em-
+basado por tais modelos e por demais artigos da literatura, sugere 10 indicadores de qua-
+lidade do ensino: confirmação, utilidade percebida, facilidade de uso percebida, prazer
+percebido, concentração, satisfação, atitude, norma subjetiva, controle de comportamento
+percebido e intenção de continuidade.
+
+O modelo de Salloum[Salloum et al. 2019] visa reunir literaturas dos 12 anos an-
+teriores a 2019, sobre a aceitação do e-learning que se utilizam do modelo TAM como
+pesquisa. Dessa forma, os autores efetuaram uma averiguação dos indicadores mais pro-
+eminentes nas literaturas revisadas, e assim realizaram uma pesquisa de campo, de modo
+a validar tais indicadores escolhidos. Posto isto, para realização dessas pesquisas eles ela-
+boraram um modelo constituı́do por 3 módulos: sistema de caracterı́sticas, qualidade do
+conteúdo e qualidade da informação. E assim, com caracterı́sticas relacionadas a cada
+modelo elaborou-se a criação de 13 indicadores: acessibilidade, uso real, atitude em
+relação ao uso, intenção comportamental de usar, ludicidade do programa, autoeficácia
+com computadores, qualidade do conteúdo, prazer percebido, qualidade da informação,
+percepção de facilidade de uso, utilidade percebida, norma subjetiva e qualidade do sis-
+tema. Em sequência, os autores apresentam 59 perguntas relacionadas com os fatores
+para a realização de um questionário de avaliação.
+
+3. Materiais e métodos
+Foram gerados, como materiais para o trabalho, o modelo de avaliação Censeo, uma
+aplicação móvel com um sistema de gamificação e um formulário de avaliação do sistema
+e do objeto de pesquisa.
+
+3.1. Modelo de avaliação Censeo
+Dados os modelos que foram estudados, realizou-se a construção do modelo Censeo e um
+questionário de avaliação, o qual se adapta à realidade e ao contexto de nossa pesquisa,
+que será mais debatida na seção de estudo de caso. Para isso, foram analisados os indica-
+dores discutidos nos modelos estudados, adaptando-os quando necessário, ou até mesmo
+descartando aqueles que não se aplicam.
+
+Como resultado, foram selecionados os seguintes indicadores: Utili-
+dade Percebida(UP)[Lee 2010, Salloum et al. 2019], Percepção De Facilidade De
+
+
+
+Uso (PFU)[Lee 2010, Salloum et al. 2019], Prazer Percebido/Ludicidade do Pro-
+grama (PP/LP)[Lee 2010, Salloum et al. 2019], Concentração (Con.)[Lee 2010],
+Qualidade do Conteúdo/Qualidade da Informação (QC/QI)[Salloum et al. 2019],
+Aprendizagem (Apren.)[Marsh 2007], Organização (Org.)[Marsh 2007], Interação
+do Grupo (IG)[Marsh 2007], Amplitude (Amp.)[Marsh 2007] e Tarefas/Exames
+(T/E)[Marsh 2007].
+
+Ao todo, compilou-se 10 indicadores com 60 perguntas, responsáveis pela
+avaliação do ensino. Sendo em média 5 perguntas atrelada a cada indicador. As per-
+guntas foram retiradas ou embasadas em diversos trabalhos diferentes, dentre estes os
+próprios modelos bases. Na Tabela 1 é possı́vel visualizar a relação dos indicadores com
+as perguntas.
+
+Portanto, na aplicação do questionário será realizado um embaralhamento das per-
+guntas e dentre estas, somente uma de cada fator será escolhida para compor o ques-
+tionário final e isso será feito para cada aluno. O único cenário que terá uma abordagem
+diferente será o das aulas avaliativas3, em que serão usados somente os indicadores: UP,
+QC/QI, Apren., Amp., T/E. Contudo, T/E terá 3 perguntas, diferente das demais que terão
+somente 1 pergunta relacionada. Compilando no total 7 perguntas, com o intuito de ser
+um questionário mais enxuto e com mais ênfase na atividade avaliativa.
+
+Os resultados das pesquisas com os alunos serão analisados com base em técnicas
+estatı́sticas. E assim, por meio de tais análises, os educadores poderiam investigar e des-
+cobrir possı́veis pontos de melhorias em sua forma de lecionar.
+
+3.2. Sistema Censeo
+
+A aplicação Censeo possui duas visões, uma para alunos e outra para professores. As
+visões compreendem 4 módulos: Gerência das Aulas, Avaliação, Ranking/Métricas e
+Sugestão. O módulo de Gerência das Aulas permite que o professor gerencie suas aulas
+e turmas. Essas aulas, quando finalizadas, são enviadas para avaliações dos alunos no
+módulo de Avaliação. Tais resultados geram métricas e pontuações que são expostas tanto
+para o professor como para o aluno no módulo de Ranking/Métricas.Por fim, o módulo
+de Sugestão permite que o professor crie tópicos de sugestões para os quais os alunos
+possam opinar e também classificar as opiniões expostas pelos alunos em boa, regular ou
+ruim, onde esta classificação terá efeito no módulo de gamificação
+
+Para desenvolvimento do aplicativo Censeo utilizaram-se as tecnologias Flutter4,
+para criação da aplicação móvel5 e Django6, para criação do servidor7. Como ferramentas
+auxiliares utilizou-se: MySQL8, para banco de dados, Figma9, para realização do Design,
+MySql Workbench10, para gerência e realização dos diagramas de Banco de dados, AWS
+
+3Os tipos de aula presentes no sistema serão discutidos na sessão Desenvolvimento e visão geral
+4https://flutter.dev/
+5https://github.com/VitorHugoOli/Censeo front.git
+6https://www.djangoproject.com/
+7https://github.com/VitorHugoOli/Censeo back.git
+8https://www.mysql.com/
+9https://www.figma.com/
+
+10https://www.mysql.com/products/workbench/
+
+
+
+Tabela 1. Perguntas por fatores de avaliação modelo Censeo
+
+Tópico Perguntas Origem
+O aprendizado remoto melhorou meu desempenho ? [Lee 2010] Adaptada
+Sinto que o aprendizado remoto aumenta minha eficácia no aprendizado ? [Lee 2010] Adaptada
+
+UP Sinto que o aprendizado remoto se tornou útil em meu ensino ? [Lee 2010] Adaptada
+Minha produtividade é elevada com a utilização do ensino remoto ? [Salloum et al. 2019] Adaptada
+O conteúdo ministrado é relevante para sua formação ? [CPA UFMG 2012]
+O conteúdo ministrado vai de encontro com seus objetivos ? Autoral
+
+Você está tendo facilidade em operar as ferramentas do ensino remoto? [Lee 2010] Adaptada
+O material de estudo está sendo de fácil acessibilidade ? [NAU 2019]
+
+PFU As ferramentas usadas pelo professor estão exigindo muito esforço mental ? [Salloum et al. 2019] Adaptada
+Os meios que o professor está utilizando estão com fácil acesso ? Autoral
+As ferramentas utilizadas estão atendendo minhas necessidades ? Autoral
+
+O uso do ensino remoto está sendo prazeroso ? [Lee 2010] Adaptada
+Sente que o sistema remoto é interessante ? [Lee 2010] Adaptada
+
+PP/LP As ferramentas tecnológicas usadas despertam mais interesse pelo conteúdo ? [Salloum et al. 2019] Adaptada
+Os ambientes do ensino remoto são agradáveis ? [Salloum et al. 2019] Adaptada
+Sinto que o ensino remoto me ajuda a melhorar minha criatividade ? [Salloum et al. 2019] Adaptada
+As experiências das ferramentas tecnológicas auxiliam no seu ensino ? [Salloum et al. 2019] Adaptada
+
+Os ambientes de ensino são agradáveis ? Autoral
+Você está confortável em usar as funções e serviços das tecnologias propostas ? [Lee 2010] Adaptada
+A aula oferece informação completa sobre o conteúdo? [Lee 2010] Adaptada
+
+Con. Você foi capaz de absorver as informações da aula ? Autoral
+O instrutor está se apresentando de forma amigável ? [Marsh 2007] Adaptada
+O instrutor se manteve aberto para busca de ajuda fora dos horários da disciplina? [Marsh 2007] Adaptada
+O instrutor foi amigável ao solucionar dúvidas ? [Marsh 2007] Adaptada
+
+As informações adquiridas através das tecnologias do sistema remoto atendem a sua necessidade ? [Salloum et al. 2019] Adaptada
+Os conteúdos lecionados estão atualizados o suficiente para suas necessidades ? [Salloum et al. 2019] Adaptada
+O conteúdo está sendo transmitido de forma clara? [Salloum et al. 2019] Adaptada
+
+QC/QI As informações propostas fora das aulas assı́ncronas são complementares para o seu conhecimento ? [Salloum et al. 2019] Adaptada
+O conteúdo está sendo exposto de uma forma interessante ? [Salloum et al. 2019] Adaptada
+Estão sendo usados bons exemplos e ilustrações ? [MIT Registrar’s Office 2018]
+Seus conhecimentos prévios estão sendo suficientes para acompanhar a disciplina ? [NAU 2019]
+
+A disciplina está sendo desafiadora e estimulante ? [Marsh 2007] Adaptada
+Você aprendeu algo que considera valioso ? [Marsh 2007]
+
+Apren. Seu interesse no assunto aumentou como consequência deste curso ? [Marsh 2007] Adaptada
+Você está conseguindo ter uma boa compreensão dos conteúdo e dos conceitos ? [MIT Registrar’s Office 2018] Adaptada
+Você está conseguindo visualizar aplicações para o conteúdo ? [MIT Registrar’s Office 2018] Adaptada
+
+As explicações do professor estão sendo claras ? [Marsh 2007] Adaptada
+Os materiais do curso estão sendo bem preparados e cuidadosamente explicados ? [Marsh 2007] Adaptada
+
+Org. O conteúdo condiz com a ementa ? Autoral
+O plano de estudos está sendo seguido como proposto ? [Marsh 2007] Adaptada
+Os objetivos da disciplina estão bem definidos ? [MIT Registrar’s Office 2018]
+O conteúdo ministrado de forma sı́ncrona está disponı́vel para futuras consultas ? Autoral
+
+Você está sendo incentivado a participar das discussões da disciplina ? [Marsh 2007] Adaptada
+Está vendo espaço para compartilhar suas ideias e conhecimento ? [Marsh 2007] Adaptada
+
+IG As respostas para as perguntas estão sendo significativas ? [Marsh 2007] Adaptada
+Sou incentivado a participar, discutir e expressar minhas idéias ? [UFV 2004]
+Você está sendo encorajado a realizar perguntas e participar das aulas ? [MIT Registrar’s Office 2018]
+
+O instrutor está comparando as implicações de várias teorias ? [Marsh 2007] Adaptada
+O instrutor está / apresentou o histórico ou a origem das ideias / conceitos desenvolvidos em aula ? [Marsh 2007] Adaptada
+
+Amp. O instrutor permite/demonstra o desenvolvimento de diferentes abordagens para um determinado problema? [Marsh 2007] Adaptada
+A bibliografia artefatos externos estão sendo interessantes ? Autoral
+O professor estimula o estudo fora dos horários da disciplina ? Autoral
+O instrutor está discutindo adequadamente os desenvolvimentos atuais no campo de estudo ? [Marsh 2007] Adaptada
+
+Leituras / textos necessários foram valiosos ? [Marsh 2007]
+As atribuições contribuı́ram para a apreciação / compreensão Autoral
+O feedback sobre os exames / materiais avaliados foi valioso [Marsh 2007]
+
+T/E O método de avaliação foi justo e apropriado [Marsh 2007]
+Os materiais classificados testaram o conteúdo do curso conforme enfatizado ? [Marsh 2007]
+Os exames/tarefas estão mensurando que está sendo lecionado, de forma condizente ? [MIT Registrar’s Office 2018]
+Há relação entre aulas teóricas e práticas ? [UFV 2004]
+
+RDS11, para hospedagem do banco de dados, Heroku12 para hospedar o servidor e Google
+
+11https://aws.amazon.com/rds/
+12https://id.heroku.com/
+
+
+
+Play13 e App Store14 para hospedagem e distribuição da aplicação mobile.
+
+3.3. Gamificação
+Para melhor engajamento dos usuários frente ao sistema, principalmente para os alunos,
+baseou-se em [Deterding et al. 2011], para elaborar uma abordagem de gamificação den-
+tro do Sistema Censeo, baseado em três pontos de estı́mulos.
+
+O primeiro ponto de estı́mulo é o sistema de pontuação, no qual o aluno em
+questão adquire novos pontos ao avaliar novas aulas e realizar sugestões para suas res-
+pectivas turmas. Ao avaliar novas aulas, ainda há uma nuance: no caso de ser uma aula
+sı́ncrona, o tempo que o aluno demora para realizar a avaliação contado a partir do fim da
+aula influencia em sua pontuação total15. A partir desse sistema de pontos é gerado um
+ranking entre a turma, e como estı́mulo para competição, foi acordado com os professores
+que os alunos com melhor classificação no ranking ganhassem uma quantidade de pontos
+extras ao final do semestre.
+
+Já o segundo ponto de estı́mulo é correspondente aos strikes,em que o aluno ga-
+nhará emblemas conforme sua velocidade em realizar as avaliações diárias. Desta forma,
+serão desenvolvidos quatro gêneros distintos de emblemas: fire, cold fire, snow e cactus.
+À vista disso, quando o discente avalia todas as atividades em tempo hábil (menos de 20
+minutos), este ganhará o emblema fire; se realizar todas as avaliações, mas fora do tempo
+previsto, receberá o emblema cold fire; caso deixe de realizar algumas avaliações, recebe-
+se o emblema snow; e por fim, se não realizar nenhuma avaliação ou poucas, este adquire
+o emblema cactus.
+
+O último ponto de estı́mulo é o sistema de avatares: dado o desempenho do dis-
+cente durante a semana anterior, o mesmo será bonificado com até dois avatares, shine,
+caso avaliem todas as aulas e normal, caso avalie boa parte delas.
+
+3.4. Formulário de avaliação do sistema
+De modo a se avaliar aspectos do aplicativo Censeo como usabilidade, experiência
+e objetivo da pesquisa construiu-se um formulário com 11 perguntas de usabilidade
+e experiência(UI/UX) e 6 perguntas sobre o objetivo do trabalho, sendo destas 3
+para alunos e 3 para professores. Para a construção do formulário foram usadas as
+heurı́sticas de Kumar e Goundar [Kumar and Goundar 2019] baseado no trabalho de Ni-
+elsen [Nielsen and Molich 1990], que descrevem 13 heurı́sticas sobre UI/UX, focadas em
+aplicativos de aprendizagem móvel. Foram selecionadas 11 heurı́sticas, as quais possuı́am
+um maior enfoque nas caracterı́sticas do presente trabalho. Em sequência, para realização
+das perguntas relacionadas a cada uma das heurı́sticas, baseou-se em [Raposo 2007] e
+[Nielsen 2020].
+
+4. Estudo de caso
+Foi realizado um estudo de caso com três turmas de diferentes disciplinas, com um to-
+tal de 109 alunos mais 3 professores, durante o Perı́odo Hı́brido de Transição(PHT), na
+Universidade Federal de Viçosa(UFV) campus Florestal.
+
+13https://play.google.com/store/apps
+14https://www.apple.com/app-store/
+15Mais detalhes sobre o sistema de pontuação podem ser encontrado nas documentações dentros dos
+
+repositórios dos sistemas(nota de rodapé 7).
+
+
+
+A implantação do aplicativo sucedeu-se do dia 05/12/22 a 15/03/22, dentro do
+PHT da UFV, após um acordo entre todos os docentes, sobre como se daria a utilização
+do aplicativo. Foi criado um vı́deo tutorial para os professores e uma apresentação de
+demonstração do aplicativo para os alunos. Ao todo no sistema foram contabilizadas 74
+aulas, das quais 20 foram assı́ncronas e 54 sı́ncronas. E de usuários ativos, que utilizaram
+ao menos uma vez do aplicativo, foram 37 alunos e 3 professores.
+
+Durante a realização do estudo de caso, houve alguns relatos de falhas no apli-
+cativo tais como: lentidão, avaliações pendentes duplicadas, telas em branco e incon-
+sistência da proporção do aplicativo em certos dispositivos. A falha quanto a lentidão se
+deveu à má utilização do Object Relational Mapper (ORM) Django, o qual fazia várias
+consultas desnecessárias ao banco. Já as avaliações duplicadas fora devido a uma erro de
+lógica na verificação das aulas em aberto para avaliação, ao passo que o erro de tela em
+branco no front-end se deu devido à falta de tratativas que geram exceções. Tais erros
+foram endereçados em tempo hábil, sendo disponibilizadas duas novas versões.
+
+O perı́odo PHT apresentou diversas dificuldades, principalmente por se tratar de
+um perı́odo com a missão de realizar a transição do ensino remoto para o ensino presen-
+cial. Todavia, devido à variante Ômicron da Covid-19, decidiu-se por cancelar a volta
+do ensino presencial. Outro desafio deste perı́odo é que os alunos ingressantes ainda não
+haviam tido contato presencial com o corpo docente e discente, tornando mais difı́cil a
+comunicação. Por fim, este perı́odo teve uma menor duração, e ainda foi dividido em duas
+partes, separadas por um recesso de aproximadamente um mês.
+
+Durante o final da primeira parte do perı́odo PHT, de 05 a 22/12/21, percebeu-se
+um baixo engajamento dos alunos e professores com o sistema. Na tentativa de se esti-
+mular um maior uso, implantaram-se novas funcionalidades e estimulou-se a utilização
+do sistema por meio de apresentações em aula. Para os alunos, adicionou-se o disparo
+de notificações. Já para os professores, devido à dificuldade de conciliação de tempo,
+tomou-se a decisão de tentar tornar o sistema o mais autônomo possı́vel. Desta forma, as
+aulas foram cadastradas previamente no inı́cio do perı́odo, e ao final de cada aula a mesma
+fecha-se automaticamente e é enviada para avaliação do aluno. Ao final do semestre, foi
+aplicado o formulário de avaliação do sistema.
+
+5. Resultados
+O aplicativo e o formulário geraram uma quantidade de dados satisfatória para análise.
+
+5.1. Aplicativo
+As 3 turmas com seus respectivos dados serão referenciadas como Turma 1, Turma 2 e
+Turma 3.
+
+A Tabela 2 demonstra a relação do total de alunos de cada turma em comparação
+com a quantidade de alunos ingressantes e engajados no aplicativo.
+
+No total, foram 53 aulas avaliadas pelos alunos, sendo 49 dessas do tipo teóricas e
+4 avaliativas, totalizando 134 avaliações, sendo 123 completas. Para a turma 1, esperava-
+se um total de 306 avaliações em relação ao total de alunos ingressantes e obteve-se
+74(24,1%) avaliações, sendo 71 completas. Para a turma 2, presumia-se um total de 234
+avaliações e obteve-se 48(20,5%), sendo 45 completas. Já para a turma 3, esperava-se
+572 avaliações e obteve-se 12(2,1%), sendo 7 completas.
+
+
+
+Tabela 2. Dados de participação dos alunos
+
+Turma 1 Turma 2 Turma 3
+Alunos 36 22 53
+Ingressantes 17 13 44
+Taxa de Ingressantes 47,22% 59,09% 83,02%
+Engajados 11 8 7
+Taxa de engajamento 64,71% 61,54% 15,91%
+
+Foram capturadas 1352 respostas, sendo 130 respostas de cada caracterı́stica, com
+exceção da Tarefa/Exame(T/E) que possui um total de 182 respostas. A turma 1 obteve
+um total de 760 respostas, sendo 121 para T/E e 71 para as demais. A turma 2, por sua
+vez, recebeu 472 respostas, destas 49 para T/E e 47 para as demais. Por fim, a turma 3
+recebeu 120 respostas, sendo 12 de todas as caracterı́sticas.
+
+A Tabela 3 mostra a pontuação média final para as turmas em relação a cada ca-
+racterı́stica. Observa-se também a evolução temporal das caracterı́sticas para a turma 1,
+na Figura 1, sendo que tal resultado se assemelha aos das outras turmas. E em última
+análise, também foi realizada a disposição das pontuações médias das turmas por per-
+gunta do questionário na Tabela 4, que mostra somente os resultados que possuem mais
+relevância para a discussão.
+
+Tabela 3. Pontuação das turmas por caracterı́sticas
+
+Amp. Apren. Con. IG Org. PFU PP/PL QC/QI T/E UP
+Truma 1 4,51 4,20 4,49 4,68 4,73 4,49 3,99 4,51 4,49 4,30
+Truma 2 4,34 3,87 4,26 4,55 4,47 4,28 3,40 4,13 4,35 3,49
+Truma 3 4,33 4,17 4,33 4,33 4,58 4,67 4,17 4,25 4,17 3,92
+Média Geral 4,39 4,08 4,36 4,52 4,59 4,48 3,85 4,29 4,33 3,90
+
+Figura 1. Caracterı́sticas por aula turma 1
+
+As participações dos alunos em cada turma foi, em geral, da grande maioria, bem
+como o engajamento, que apresentou resultados interessantes, com exceção da turma 3,
+que obteve a menor taxa de comprometimento, mesmo possuindo a maior quantidade
+de participantes. Tal resultado se deve ao fato de esta possuir a maior quantidade de
+alunos ingressantes na universidade e, em geral, estes não apresentam uma grande taxa
+
+
+
+Tabela 4. Tabela de perguntas e pontuação média
+
+Pergunta Pontuação Qualificação
+Turma 1
+
+O uso do ensino remoto está sendo prazeroso ? 3,23 PP/PL
+Seu interesse no assunto aumentou como consequência deste curso ? 3,56 Apren.
+Você está conseguindo ter uma boa compreensão dos conteúdo e dos conceitos ? 3,80 Apren.
+Minha produtividade é elevada com a utilização do ensino remoto ? 3,93 UP
+A bibliografia artefatos externos estão sendo interessantes ? 3,94 Amp.
+Os ambientes do ensino remoto são agradáveis ? 4,00 PP/PL
+Sente que o sistema remoto é interessante ? 4,00 PP/PL
+Sinto que o aprendizado remoto aumenta minha eficácia no aprendizado ? 4,00 UP
+
+Turma 2
+Sinto que o ensino remoto me ajuda a melhorar minha criatividade ? 3,00 PP/PL
+As ferramentas tecnológicas usadas despertam mais interesse pelo conteúdo ? 3,40 PP/PL
+Seu interesse no assunto aumentou como consequência deste curso ? 3,44 Apren.
+Você aprendeu algo que considera valioso ? 3,63 Apren.
+Os conteúdos lecionados estão atualizados o suficiente para suas necessidades ? 3,67 QC/QI
+Você foi capaz de absorver as informações da aula ? 3,71 Con.
+O conteúdo está sendo exposto de uma forma interessante ? 3,78 QC/QI
+Sinto que o aprendizado remoto aumenta minha eficácia no aprendizado ? 3,88 UP
+Você está conseguindo ter uma boa compreensão dos conteúdo e dos conceitos ? 3,92 Apren.
+
+Turma 3
+A disciplina está sendo desafiadora e estimulante ? 3,00 Apren.
+Sou incentivado a participar, discutir e expressar minhas idéias ? 3,00 IG
+Os conteúdos lecionados estão atualizados o suficiente para suas necessidades ? 3,00 QC/QI
+Seus conhecimentos prévios estão sendo suficientes para acompanhar a disciplina ? 3,00 QC/QI
+O feedback sobre os exames / materiais avaliados foi valioso 3,00 T/E
+O conteúdo está sendo transmitido de forma clara? 3,33 QC/QI
+Você foi capaz de absorver as informações da aula ? 3,50 Con.
+Sente que o sistema remoto é interessante ? 3,50 PP/PL
+O método de avaliação foi justo e apropriado 3,50 T/E
+Você aprendeu algo que considera valioso ? 3,67 Apren.
+Sinto que o ensino remoto me ajuda a melhorar minha criatividade ? 3,67 PP/PL
+As atribuições contribuı́ram para a apreciação / compreensão 3,67 T/E
+A bibliografia artefatos externos estão sendo interessantes ? 3,75 Amp.
+
+de participação em projetos complementares. Além disso, os resultados demonstram que
+a gamificação não obteve um efeito tão assertivo dado a taxa de avaliações recebidas em
+relação ao que era esperado, em função de que obtivemos uma baixa expressividade dos
+alunos que ingressaram no aplicativo.
+
+Quanto aos dados em relação à pontuação por caracterı́stica, observa-se que PP/PL
+obteve um resultado abaixo das médias das demais caracterı́sticas, e como pode ser visto
+na 4, esse baixo resultado deve-se, principalmente, ao descontentamento com o perı́odo
+remoto. Esse descontentamento pode também ser visualizado nos dados de UP, que
+também obteve um baixo resultado, principalmente pelas perguntas relacionadas ao de-
+sempenho dado ao ensino remoto.
+
+Os resultados adquiridos com o estudo de caso não mostram uma evolução signi-
+ficativa das caracterı́sticas ao longo do tempo. Todavia, pode-se presumir que caso hou-
+vesse mais tempo de coleta de dados a avaliação ficaria mais clara em um espaçamento
+de tempo maior. Porém, é notória a mudança dos dados entre cada aula, o que pode ser
+um indı́cio de que a cada conteúdo discutido, a forma de se lecionar pode ter um impacto
+diferente e substancial. Quanto à parte de sugestões não foi possı́vel relatar os resultados,
+já que não houve a utilização dessa funcionalidade.
+
+5.2. Formulário de avaliação do aplicativo Censeo
+No formulário obtemos ao todo 11 respostas para os alunos e 3 respostas para professores.
+Na tabela 5, são exibidos os resultados para cada alvo.
+
+As respostas dos docentes ao formulário expôs uma baixa pontuação, sobretudo no
+
+
+
+Tabela 5. Resultado formulário de avaliação dos alunos e professores
+
+Tipo Perguntas Professores Alunos
+Media Desvio Media Desvio
+
+UI/UX O aplicativo foi consistente em lhe dar feedback sobre todas as suas ações realizadas no mesmo. 3,33 1,53 4,36 1,29
+UI/UX A navegação pelo aplicativo foi de forma natural, sem muitos gargalos. 3,33 1,53 4,45 1,21
+UI/UX O fluxo do aplicativo lhe permitiu realizar todas as tarefas esperadas. 3,67 1,15 4,64 1,21
+UI/UX O fluxo do aplicativo foi consistente. De forma que pelo app a interface parecia semelhante sem um agre- 4,00 1,00 5,00 0,00
+
+gado de novas informações.
+UI/UX Os erros eram tratados e expostos de forma consistente. 2,67 0,58 4,45 1,21
+UI/UX As ações e os objetivos de cada tela eram claras. 3,33 1,53 4,82 0,40
+UI/UX O fluxo do aplicativo para as tarefas corriqueiras, foi eficiente. 4,00 1,00 5,00 0,00
+UI/UX As telas possuem as informações de forma consciente e pontual. De modo a atender sua utilidade de forma 3,67 1,15 5,00 0,00
+
+prática.
+UI/UX Nas telas onde era necessário realizar comandos(Clicar em um botão, entrar com um texto, selecionar entre 3,67 1,53 4,82 0,40
+
+opções), estes eram simples.
+UI/UX As abas do aplicativo estavam intuitivas e bem posicionadas. 3,67 1,53 4,73 0,47
+UI/UX Os ı́cones representavam com consistência a ação/informação realizada pelo mesmo. 4,00 1,00 4,45 1,21
+Objetivo O aplicativo conseguiu fornecer métricas para melhora de sua didática em sala de aula. 3,33 1,53 - -
+Objetivo A aba de sugestão dos alunos foi útil. 1,67 1,15 - -
+Objetivo Você sentiu que o rendimento dos alunos surtiram efeitos, após as crı́ticas realizadas pelos mesmos. 2,33 1,15 - -
+Objetivo O aplicativo conseguiu fornecer métricas para o melhor entendimento das dificuldades enfrentadas em cada - - 4,55 0,69
+
+turma.
+Objetivo Você se sentiu motivado para realizar as avaliações e fazer as demais atividades do aplicativo. - - 4,27 0,90
+Objetivo Você sentiu que suas avaliações surtiram efeitos práticos em sala de aula. - - 3,55 1,13
+
+objeto de pesquisa. Fatores como: a insuficiência na instrução quanto ao uso do sistema,
+a usabilidade não intuitiva (dado a baixa pontuação em UI/UX) e o pouco tempo de uso,
+exemplificam o resultado obtido. Além disso, outro tópico considerável é o desvio padrão
+elevado entre tais resultados, que evidencia o aspecto de que alguns professores dispuse-
+ram de uma melhor orientação quanto ao estudo de caso. Observa-se ainda que por não ter
+havido sugestões por parte dos alunos, a pergunta sobre esta funcionalidade recebeu uma
+pontuação inferior às demais. Por fim, a pergunta voltada para avaliar se os professores
+conseguiram obter métricas para o auxı́lio didático, alcançou uma baixa pontuação, mas
+isto pode ser decorrente de uma falha na exposição mais clara das métricas capturadas.
+
+Em contrapartida, o resultado dos alunos apresentou uma pontuação superior,
+mostrando um nı́vel elevado de instrução e melhor usabilidade por parte do discente. Ou-
+tra repercussão interessante é que, apesar de a gamificação não ter conseguido capturar
+uma boa parcela de alunos, como mostrado nos resultados anteriores, para os estudantes
+mais engajados no aplicativo a gamificação foi um bom método de motivá-los a realizar
+as avaliações. Também foi constatado que os alunos não tiveram uma percepção muito
+positiva que suas avaliações estavam sendo consideradas pelo corpo docente.
+
+6. Conclusão
+Pode-se concluir que o objetivo de desenvolver um sistema baseado em PSN para
+aplicação de AASE, pode ser alcançado, visto que, em um curto perı́odo foi obtida uma
+quantidade relevante de dados que possibilitou várias análises, tanto para o corpo docente
+quanto para o discente. Foi possı́vel ainda ter uma avaliação mais detalhada, por aula, ao
+invés da avaliação semestral tradicionalmente aplicada nas instituições de ensino.
+
+Este estudo abre várias possibilidades de novas pesquisas tanto quanto à vali-
+dade do modelo proposto, como para a evolução do sistema para melhor exposição das
+métricas, além de funcionalidades que garantam uma maior taxa de engajamento. Outra
+possibilidade em relação ao modelo de avaliação e ao sistema seria o cruzamento de dados
+do sistema com os dados de notas dos alunos em sala de aula, para melhor avaliação do
+modelo e alerta aos docentes sobre quais estudantes necessitam de mais atenção e quais
+são os possı́veis pontos de falhas dadas as métricas capturadas pelo sistema.
+
+
+
+Referências
+Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human
+
+Decision Processes, 50(2):179–211.
+Bhattacherjee, A. (2001). Understanding information systems continuance: An
+
+expectation-confirmation model. MIS Quarterly, 25(3):351.
+Coffey, M. and Gibbs, G. (2001). The evaluation of the student evaluation of educational
+
+quality questionnaire (SEEQ) in UK higher education. Assessment & Evaluation in
+Higher Education, 26(1):89–93.
+
+CPA UFMG, P.-R. d. G. U. (2012). Resultado da avaliação de turmas e professores.
+Accessed: 2022-03-12.
+
+Csikszentmihalyi, M. (1997). Flow and the psychology of discovery and invention. Har-
+perPerennial, New York, 39.
+
+Davis, F. D. (1985). A technology acceptance model for empirically testing new end-
+user information systems: Theory and results. PhD thesis, Massachusetts Institute of
+Technology.
+
+Deterding, S., Dixon, D., Khaled, R., and Nacke, L. (2011). From game design elements
+to gamefulness: defining”gamification”. In Proceedings of the 15th international aca-
+demic MindTrek conference: Envisioning future media environments, pages 9–15.
+
+Guilford, J. P. (1954). Psychometric methods.
+Gusso, H. L., Archer, A. B., Luiz, F. B., Sahão, F. T., Luca, G. G. d., Henklain, M.
+
+H. O., Panosso, M. G., Kienen, N., Beltramello, O., and Gonçalves, V. M. (2020).
+Ensino superior em tempos de pandemia: diretrizes à gestão universitária. Educação
+& Sociedade, 41.
+
+Kumar, B. A. and Goundar, M. S. (2019). Usability heuristics for mobile learning appli-
+cations. Education and Information Technologies, 24(2):1819–1833.
+
+Lee, M.-C. (2010). Explaining and predicting users’ continuance intention toward e-
+learning: An extension of the expectation–confirmation model. Computers & Educa-
+tion, 54(2):506–516.
+
+MARSH, H. W. (1982). SEEQ: A RELIABLE, VALID, AND USEFUL INSTRUMENT
+FOR COLLECTING STUDENTS' EVALUATIONS OF UNIVERSITY TEACHING.
+British Journal of Educational Psychology, 52(1):77–95.
+
+Marsh, H. W. (2007). Students’ evaluations of university teaching: Dimensionality, re-
+liability, validity, potential biases and usefulness. In The scholarship of teaching and
+learning in higher education: An evidence-based perspective, pages 319–383. Sprin-
+ger.
+
+MIT Registrar’s Office, M. (2018). Online subject evaluation user guide.
+NAU (2019). Relatório de avaliação dos cursos de graduação da fce.
+Nielsen, J. (2020). 10 usability heuristics for user interface design.
+Nielsen, J. and Molich, R. (1990). Heuristic evaluation of user interfaces. In Proceedings
+
+of the SIGCHI conference on Human factors in computing systems, pages 249–256.
+
+
+
+Pasini, C. G. D., CARVALHO, E. d., and Almeida, L. H. C. (2020). A educação hı́brida
+em tempos de pandemia: algumas considerações. Observatório Socioeconômico da
+COVID-19 (OSE), 9.
+
+Pilla, B. S. (2007). Desenvolvimento de um sistema de avaliação de e-learning corpora-
+tivo.
+
+Raposo, A. (2007). Avaliação heurı́stica.
+Richardson, J. T. E. (2005). Instruments for obtaining student feedback: a review of the
+
+literature. Assessment & Evaluation in Higher Education, 30(4):387–415.
+Salloum, S. A., Alhamad, A. Q. M., Al-Emran, M., Monem, A. A., and Shaalan, K.
+
+(2019). Exploring students’ acceptance of e-learning through the development of a
+comprehensive technology acceptance model. IEEE Access, 7:128445–128462.
+
+Silva, T. H. (2014). Estudo em larga escala da dinâmica de cidades e do comportamento
+social urbano usando redes de sensores participativos.
+
+Silveira, J. T. and da Rocha, J. B. T. (2016). Avaliação do ensino por alunos. Revista
+Iberoamericana de Evaluación Educativa, 9.2(2016).
+
+Spooren, P., Brockx, B., and Mortelmans, D. (2013). On the validity of student evaluation
+of teaching. Review of Educational Research, 83(4):598–642.
+
+Tavares, S. J. S., Barbosa, D. M., and Silva, T. R. d. M. B. (2021). Aplicação de uma
+abordagem de gamificação em um aplicativo móvel de rede de sensoriamento partici-
+pativo.
+
+UFV, C. (2004). Avaliação de disciplinas. Accessed: 2022-03-12.
+Uttl, B., White, C. A., and Gonzalez, D. W. (2017). Meta-analysis of faculty's teaching ef-
+
+fectiveness: Student evaluation of teaching ratings and student learning are not related.
+Studies in Educational Evaluation, 54:22–42.

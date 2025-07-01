@@ -1,0 +1,609 @@
+﻿FOUD: Um Framework Oportunístico e Ciente de Contexto
+para Upload de Dados Corporativos
+
+Valdiney Soares de Araújo, Thais Regina de Moura Braga Silva
+Instituto de Ciências Exatas - Universidade Federal de Viçosa - Campus Florestal (UFV)
+
+{valdiney.araujo, thais.braga}@ufv.br
+
+RESUMO ned, and which normally need to be sent to a central ser-
+
+Diversas organizações precisam coletar dados onde o acesso ver, may arrive late and / or error. This paper presents
+
+a Internet é comprometido. Peŕıcias, levantamentos topo- an alternative that aims to facilitate the service of compa-
+
+gráficos, minerações, reportagens, estudos biologicos e fisca- nies or government agencies that work with data collection
+
+lizações ambientais são exemplos destas atividades, que na under these conditions. It is an framework, opportunistic
+
+maioria das vezes são realizadas em zonas rurais, onde a tec- and context-aware, aimed at constructing systems for upload
+
+nologia de rede sem fio não funciona ou funciona com alcance data collected in areas where access to network technology
+
+reduzido. Dessa maneira, os dados obtidos, e que normal- is of low quality or non-existent. The model produced for
+
+mente precisam ser enviados para um servidor central, po- the framework performs the sending of data when verifying
+
+dem chegar com atraso e/ou erros. Este trabalho apresenta network availability, prioritizing the use of the network in
+
+uma alternativa que visa facilitar o serviço de empresas ou situations in which energy and data packet are available.
+
+orgãos governamentais que trabalham com coleta de dados The implementation of this model for Android showed that
+
+nestas condições. Trata-se de um framework, oportuńıstico it is possible to develop it for a particular system in par-
+
+e ciente de contexto, voltado para a construção de sistemas ticular, and that it can contemplate particularities of each
+
+para upload de dados coletados em áreas onde o acesso à system, such as the contexts, meta data of the files and more
+
+tecnologia de rede é de baixa qualidade ou inexistente. O appropriate transmission logics in each case.
+
+modelo produzido para o framework realiza o envio de dados
+quando verifica disponibilidade de rede, priorizando o uso da Keywords
+rede em situações em que energia e pacote de dados estão Mobile Data Upload, Opportunistic Transmission, Context-
+dispońıveis. A implementação desse modelo para o Android awareness
+mostrou que é posśıvel desenvolvê-lo para um sistema con-
+creto em particular, e que o mesmo pode contemplar parti- 1. INTRODUÇÃO
+cularidades de cada sistema, como os contextos, metadados
+
+É indiscut́ıvel o impacto da mobilidade no cenário tecnoló-
+dos arquivos e lógicas de transmissão mais adequados em
+
+gico atual, impulsionando o desenvolvimento de dispositivos
+cada caso.
+
+móveis e seus aplicativos, bem como de interfaces para co-
+municação sem fio. As pessoas estão preferindo pagar mais
+
+Palavras-Chave e até, algumas vezes, abrir mão de requisitos importantes,
+
+Upload de Dados Móveis, Transmissão Oportuńıstica, Sen- como a segurança da informação e a privacidade do usuário,
+
+sibilidade ao Contexto a ficarem presos a um computador de mesa. No entanto,
+a instalação destas tecnologias ainda possuem alto custo e
+não estão dispońıveis em todos os locais. Em áreas rurais
+
+ABSTRACT por exemplo, nem sempre encontramos interfaces de rede de
+Many organizations need to collect data where Internet ac- comunicação sem fio que garanta conexão com a Internet de
+cess is compromised. Skills, surveying, mining, reporting, boa qualidade.
+biological studies, and environmental monitoring are exam- Em particular, funcionários públicos e corporativos que
+ples of these activities, most of which are carried out in rural precisam frequentemente coletar dados em áreas onde a co-
+areas where wireless network technology does not work or nexão sem fios com a Internet é ruim ou inexistente, tais
+operate at a reduced range. In this way, the data obtai- como as zonas rurais, acabam não usufruindo de todo po-
+
+tencial das tecnologias móveis. Profissionais como topógra-
+fos, biólogos, peritos, repórteres, entre outros, ainda hoje
+precisam anotar dados coletados em papéis ou guardar suas
+informações em aplicativos offline para posteriormente fa-
+
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed zerem o upload dos mesmos em um servidor. Este é um
+for profit or commercial advantage and that copies bear this notice and the full citation processo dispendicioso e propenso a erros pois há o risco de
+on the first page. To copy otherwise, or republish, to post on servers or to redistribute perda das anotações ou esquecimento de quais dados devem
+to lists, requires prior specific permission and/or a fee. ser enviados.
+SBSI 2019 Maio 20 – 24, 2019, Aracaju, sergipe, Brazil Geralmente, esses tipos de serviços são feitos por usuá-
+
+Copyright SBC 2018. rios que migram por diversas regiões em um mesmo turno
+
+
+
+de trabalho. Durante estes trajetos, é provavel que estas aplicativos que farão a geração/coleta dos arquivos, possi-
+pessoas passem temporariamente por áreas de cobertura de bilite, de forma automática, a monitoração dos peŕıodos de
+Wifi e/ou 3G que poderiam ser aproveitadas para transmis- presença de conexão e envio dos arquivos nestes momentos,
+são parcial e/ou total dos dados. Em outras palavras, os utilizando a disponibilidade de rede da forma mais adequada
+profissionais têm a oportunidade de transmitir seus dados, posśıvel, de acordo com os interesses do aplicativo e as carac-
+mas muitas vezes essa oportunidade é desperdiçada. Surge teŕısticas dos dados, do dispositivo móvel e da comunicação
+assim a idéia de construir o FOUD - Framework Oportuńıs- em utilização.
+tico para Upload de Dados Móveis, que facilite a construção Não foram encontrados na literatura trabalhos cujo obje-
+de aplicativos que queiram aproveitar a presença de uma in- tivo seja o mesmo do abordado neste artigo. Por outro lado,
+terface de rede sem fio, mesmo que temporária, monitorando pode-se considerar como relacionados, trabalhos que lidam
+o ambiente no qual o dispositivo esteja inserido, principal- de alguma maneira com o upload de dados móveis, porém
+mente no tocante à caracteŕısticas da própria conexão, para com o foco diferente.
+realizar a transmissão da melhor forma posśıvel, em termos Os trabalhos [10, 5, 7] exploram a questão da infraestru-
+de diferentes critérios, tais como confiabilidade, segurança, tura do lado do servidor ou ainda da nuvem para a qual será
+consumo energético do dispositivo, dentre outros. feita o upload de dados coletados por dispositivos móveis.
+
+Para tanto, o framework FOUD foi desenvolvido de ma- Neles, questões referentes à configuração, escolha e conexão
+neira a ser oportuńıstico e ciente de contexto. Uma atividade sem fio à nuvem de armazenamento de dados são tratadas,
+interativa pode ser considerada oportuńıstica quando ante- bem como procura-se abordar a melhor forma de se realizar
+cipada por alguém e acontece por acaso [8]. O framework o armazenamento em si dos dados enviados.
+é oportuńıstico porque monitora as interfaces de rede do Nosso trabalho difere-se destes devido ao fato de que o fra-
+dispositivo móvel utilizado, verificando a disponibilidade de mework FOUD foi inteiramente desenvolvido para ser utili-
+conexão. Detectada a disponibilidade ele estabelece cone- zado pelo aplicativo que é executado no dispositivo móvel e
+xão com o servidor e a usa para fazer upload. De acordo que fará o envio dos dados. Ele considera, como premissa,
+com [6], o contexto funciona como um conjunto de restri- que o servidor ou nuvem exista e que funcione corretamente,
+ções que influenciam o comportamento de um sistema. O sem contudo lidar com as questões de melhoria de acesso ou
+FOUD é ciente de contexto porque é capaz de avaliar dife- funcionamento interno deste.
+rentes parâmetros, como por exemplo aqueles relacionados Em [9] pode ser encontrado um trabalho ligado à área
+à transmissão, de forma cont́ınua. Informações sobre, por de Redes Tolerantes à Atrasos e Interrupções (Delay To-
+exemplo, custo de uso e qualidade histórica da conexão po- lerant Networks - DTNs), cujo foco está na proposição de
+dem ser utilizadas para decidir quando e como os dados serão abordagens ligadas à infraestrutura da rede. Neste tipo de
+transmitidos. O contexto é utilizado para informar ao apli- artigo, pressupõe-se que os dispositivos móveis atravessarão
+cativo que há chance real de sucesso no upload de dados, e peŕıodos de desconexão, e que, portanto, são necessárias es-
+portanto, deve iniciá-lo. tratégias internas à própria rede que possam garantir, tanto
+
+Um aspecto importante do framework FOUD é a sua ex- quanto posśıvel, a entrega dos dados a serem comunicados.
+tensibilidade, sendo adaptável às necessidades de cada sis- O dispositivo móvel e suas aplicações não são envolvidos nas
+tema. O desenvolvedor, ao usar o FOUD na implementação estratégias que visam contornar os peŕıodos de interrupção
+do aplicativo de seu sistema, poderá escolher as tecnologias de acesso, e sim os elementos internos à rede e seus pro-
+de transmissão a serem utilizadas, bem como a lógica para tocolos. As DTNs, inclusive, consideram a desconexão não
+efetuar o envio dos dados. No que diz respeito ao uso de apenas do dispositivo móvel que deseja realizar a transmis-
+contextos, o FOUD permite a personalização que os desen- são de dados, mas de todos os elementos que compõem a
+volvedores precisam. rede de comunicação. O framework FOUD, por sua vez,
+
+O framework FOUD para upload de dados corporativos não trata da possibilidade de desconexão interna na rede de
+pressupõe que os aplicativos que o utilizarão são formados comunicação. Ele apenas considera que o dispositivo móvel
+por uma parte móvel e um servidor. A parte móvel contém passará por peŕıodos de conexão intermitente e realiza um
+o aplicativo, implementado com a utilização do framework, trabalho para utilizar os peŕıodos de acesso da melhor forma
+que roda em dispositivos como smartphones e tablets. Atra- posśıvel.
+vés dela, os usuários do sistema coletam e enviam seus dados. Podemos ainda ressaltar que já existem ferramentas dispo-
+O servidor, localizado em nuvem, recebe e armazena estes ńıveis no mercado para a realização de download e upload de
+dados. dados armazenados em nuvem, as quais podem ser utilizadas
+
+Este artigo está organizado da seguinte forma: A Seção a partir de diversos tipos de equipamentos computacionais,
+2 possui os trabalhos relacionados encontrados. A Seção inclusive de dispositivos móveis. Exemplos de ferramentas
+3 apresenta o modelo genérico do framework. Uma imple- como essas são o DropBox [1], GoogleDrive [2] e o OneDrive
+mentação do FOUD para o Android pode ser encontrada na [3]. As principais diferenças entre essas ferramentas, e a pro-
+Seção 4. Na seção 5 temos um estudo de caso. Finalmente, posta apresentada pelo framework FOUD, residem no fato
+a Seção 6 descreve as considerações finais e os trabalhos fu- de que as mesmas não mantém o foco apenas no upload, além
+turos. de precisarem lidar com a questão de sincronização de arqui-
+
+vos. Tais soluções não se configuram como um framework e
+2. TRABALHOS RELACIONADOS não disponibilizam APIs, de maneira que possam ser utili-
+
+zadas de forma integrada no desenvolvimento de aplicativos
+O trabalho apresentado neste artigo lida com a questão de
+
+de coleta de dados/arquivos.
+efetuar upload de arquivos de diversos tipos em um servidor
+remoto, em uma situação de presença intermitente de cone-
+xão à Internet. Entretanto, o foco está na apresentação de
+um framework que, ao ser utilizado no desenvolvimento dos
+
+
+
+INÍCIO
+
+Repositório de 
+Dados
+
+Tempo Para
+Nova Dados a Enviar?
+
+Verificação
+
+ Não 
+
+FIM
+ Sim 
+
+ Não 
+
+Tempo Para Há Tem Energia
+Nova Interface  Sim Suficiente?
+
+Verificação Ativa?
+
+ Não Sim
+
+Rede
+Controlada?
+
+Não Sim
+
+Não Não
+
+Interface 
+Há Dados na Classificar 
+
+Sim Permanece Construir Fila Sim Permite TX ? Repositório de Contextos
+Fila? Interface
+
+Ativa?
+Interfaces | Dispositivo | Usuário
+
+Sim
+Não
+
+Transmistir FIM
+
+Não
+
+Retirar dados da Sim Transmitido Armazenar Dados 
+Fila com Sucesso? Contextuais
+
+Figura 1: Roteiro para funcionamento do FOUD
+
+3. O MODELO DO FRAMEWORK FOUD Neste diretório são criadas três pastas: ”A enviar”, ”Envi-
+O FOUD trabalha com a ideia de que o usuário do apli- ando” e ”Enviados”. A pasta ”A enviar” é onde o aplicativo
+
+cativo móvel deve gerar diversos tipos de arquivos de da- constrúıdo deve dispor seus arquivos para upload. Enquanto
+dos, os quais serão colocados em um diretório padrão para as condições iniciais de funcionamento do framework não
+transmissão oportuńıstica. O framework então, verificando forem satisfeitas, estes arquivos permanecem nesta pasta.
+a quantidade de energia no dispositivo e presença de conexão Satisfeitas estas condições iniciais, os arquivos são transfe-
+de rede, constrói uma fila de transmissão com os arquivos ridos para a pasta ”Enviando”. Cada arquivo transmitido é
+que estão no diretório, utilizando para tanto, critérios con- movido para a pasta ”Enviados”.
+figuráveis de prioridade. As informações utilizadas para a O repositório de contextos é onde se encontra o conjunto
+construção dessa fila são obtidas de metadados dos arquivos de informações utilizadas para tomada de decisão do fra-
+a serem transmitidos, bem como de repositórios de dados mework quanto à transmissão de arquivos. Ele é constitúıdo
+contextuais mantidos pelo FOUD. Por fim, os arquivos vão por duas partes: um banco de dados e por estruturas de da-
+sendo transmitidos, um a um, de acordo com a ordem da dos a serem criadas pelo desenvolvedor.
+fila, havendo chance de retransmissão em caso de falha, mas O banco de dados é utilizado para guardar informações
+com preservação da conexão. Arquivos transmitidos com su- sobre transmissões de arquivos, como identificação da rede,
+cesso são removidos da fila. A fila só é reconstrúıda, caso o tamanho do arquivo transmitido e tempo de transmissão.
+fluxo do framework retorne ao seu ponto inicial, sendo que Quanto às estruturas de dados a serem criadas pelo desen-
+isso acontece quando a conexão é perdida ou quando todos volvedor, estas servem para o armazenamento de variáveis
+os uploads previstos na fila são executados. que possuem alguma relação com a transmissão de arquivos.
+
+O framework atua sobre três pilares principais: repositório Geralmente, estas variáveis estarão vinculadas ao disposi-
+de arquivos, repositório de contexto e núcleo de transmissão tivo, ao usuário ou à própria interface de rede. Atualmente
+oportuńıstica. No roteiro ilustrado na figura 1, podemos ver um dispositivo possui inúmeros sensores que podem ser mo-
+o repositório de arquivos e de contextos através de dois śım- nitorados com vista a auxiliar no processo de upload de da-
+bolos representativos de base de dados. O restante do roteiro dos. São sensores de movimentos (aceleração e rotação),
+é o que denominamos núcleo de transmissão oportuńıstica. ambientais (temperatura, pressão, iluminação e umidade) e
+
+O repositório de arquivos constitui uma estrutura criada até de posição (orientação), que podem apresentar alta cor-
+no framework que permite o monitoramento de arquivos dis- relação com a qualidade de transmissão de arquivos ou até
+postos em diretórios pré-determinados. O framework FOUD mais que isso, uma relação de causalidade. Mesmos que estes
+cria um diretório no dispositivo onde o aplicativo é instalado. elementos não estejam relacionados diretamente com a qua-
+
+
+
+lidade de uploads, eles podem ser importantes para permitir o FOUD executará a tarefa de ”Armazenar Dados Con-
+aos desenvolvedores uma marcação para transmissão de seus textuais”. Esta fase constitui em persistir dados referentes
+arquivos. Um calendário, por exemplo, poderia ser utiliza- à transmissão. Na etapa posterior, ”Transmitido com Su-
+dos para transmitir um arquivo em determinada data. Este cesso?”, verifica-se como foi a transmissão do arquivo. No
+framework não traz restrições quando ao número de sensores caso de insucesso no upload e confirmada a incapacidade de
+ou variáveis a serem utilizados. Qualquer sensor existente, envio do arquivo por esta interface de rede, retonar-se para a
+acoplado de forma independente ou inserido nativamente em etapa inicial, onde o FOUD fica aguardando nova conexão.
+futuros dispositivos, poderá ser monitorado. Quanto maior No caso de sucesso na transmissão, o arquivo transmitido
+o número de sensores, mais rico é o contexto no qual o fra- é retirado da fila - etapa ”Retirar Dados da Fila” e na
+mework se embasa para tomada de decisão no que se refere sequência é verificada a existência de outros arquivos a serem
+à transmissão dos arquivos. transmitidos - etapa ”Há Dados na Fila?”. Confirmada
+
+O núcleo de transmissão oportuńıstica, último pilar ci- a existência de mais arquivos, um novo arquivo assume po-
+tado, é a parte central do framework. Este controlador geral sição para próxima transmissão. Caso contrário, o ciclo é
+interliga, de forma possivelmente desacoplada, todos os ele- reiniciado.
+mentos genéricos necessários para uma transmissão eficiente
+de dados e se resume em verificar as restrições de funcio- 4. IMPLEMENTAÇÃO DO FOUD PARA O
+namento do FOUD, ordenar os arquivos monitorados pelo SISTEMA OPERACIONAL ANDROID
+repositório de arquivos e transmiti-los. Acompanhando o
+roteiro ilustrado na figura 1, obteremos maiores detalhes. 4.1 Uso da biblioteca WorkManager
+
+As três primeiras etapas, ”Dados a Enviar?”, ”Há In-
+terface Ativa?” e ”Tem Energia Suficiente? constituem Desde o Android Marshmallow, uma série de mudanças es-
+
+as restrições básicas para o seu funcionamento. Isso quer tão sendo realizadas a fim de garantir a segurança, economia
+
+dizer que o funcionamento do FOUD está condicionado à de energia e memória dos dispositivos. As versões recentes
+
+existência de arquivos e que nenhum arquivo encontrado no do Android tornam estas limitações muito mais rigorosas,
+
+diretório padrão será transmitido caso não haja rede dis- principalmente no que se refere a execução de serviços em
+
+pońıvel e uma quantidade de energia preestabelecida que segundo plano.
+
+mantenha o dispositivo móvel em funcionamento após a re- A execução de tarefas em background no Android leva
+
+alização do upload. Entendemos por quantidade de energia em consideração um amontoado de fatores. Se o aplicativo
+
+preestabelecida, uma porcentagem especificada pelo desen- estiver em execução, estas tarefas podem ser realizadas no
+
+volvedor, que indique o ńıvel mı́nimo permitido para ińıcio mesmo processo através de Threads, senão, outras formas
+
+do procedimento de transmissão. mais aprimoradas deverão ser utilizadas e a escolha de cada
+
+Atendidas estas restrições, o próximo passo a ser conside- uma destas formas ainda dependerá da versão do Android
+
+rado é verificar se a interface de rede a qual o dispositivo (ńıvel da API). O WorkManager condensa estas possibili-
+
+se conectou possui algum tio de controle no que se refere dades e permite restringir a execução de tarefas à certas
+
+ao uso de pacotes de dados adquiridos da operadora - etapa condições estabelecidas pelo desenvolvedor, como interface
+
+”Interface Controlada?”. Podemos ter uma interface de de rede ativa, por exemplo.
+
+rede sem controle sobre uso de pacotes, ou com controle, na O WorkManager é destinado a tarefas que exigem uma ga-
+
+qual o uso deste pacote de dados é limitado ou proibido pelo rantia de que o sistema as executará mesmo se o aplicativo
+
+usuário final. Tratando-se de interface de rede controlada for encerrado, como o upload de dados do aplicativo para um
+
+na qual é proibido o uso de pacote de dados, o FOUD não servidor [4]. A biblioteca permite ainda, agendar tarefas in-
+
+tenta utilizar esta rede para transmissão de arquivos. dividuais em um intervalo especificado, encadear sequências
+
+Uma vez que a interface de rede encontrada permita, a de tarefas ou cancelá-las. O seu uso no framework FOUD
+
+prinćıpio, a transmissão dos dados, é boa a hora para nos garante sua execução em background e reduz a sua comple-
+
+preocuparmos com as informações preliminares a seu res- xidade.
+
+peito. Na etapa deste roteiro denominada ”Classificar In- 4.2 Diagrama de Classes
+terface”, estas informações serão recuperadas do banco de
+
+O framework foi implementado conforme apresentado no
+dados do repositório de contextos, quando houverem, e são
+
+diagrama de classes da figura 2. Este diagrama obedece o ro-
+consideradas essenciais para a etapa posterior, ”Construir
+
+teiro apresentado na seção anterior e nele também podemos
+Fila”, quando priorizaremos o posicionamento dos arquivos.
+
+observar os três pilares do framework FOUD: A classe Re-
+O desenvolvedor deverá construir algoritmos para ordena-
+
+positorioDeDados, a classe EstatisticaDAO, que representa
+ção dos arquivos e lógicas para escolha destes algoritmos em
+
+parte do repositório de contextos e, por fim, a classe Nucleo-
+tempo de execução. Portanto, cada mudança nos atributos
+
+DeTransmissaoOportunistica. A fim de facilitar a leitura, a
+do contexto monitorado poderá culminar na execução de um
+
+descrição do papel de cada uma destas classes será realizada
+algoritmo de ordenação diferente.
+
+de cima para baixo no diagrama.
+A próxima etapa, ”Interface Permanece Ativa?”, se
+
+Neste diagrama temos a classe Foud, uma classe de fron-
+faz necessária devido a movimentação constante do dispo-
+
+teira que se relaciona com outras de forma semelhante ao
+sitivo. Mesmo sob abrangência de uma mesma interface de
+
+padrão de projeto Façade. Ao instanciar esta classe o de-
+rede, esta movimentação pode trazer experiências diversas
+
+senvolvedor deve passar como parâmetro uma classe que
+relacionadas a qualidade de transmissão. Somente após con-
+
+estende da classe NucleoDeTransmissaoOportunistica. A
+firmação das condições de conexão é que se pode progredir
+
+classe Foud é responsável por chamar métodos estáticos das
+e passar para próxima etapa: ”Transmitir”.
+
+classes CriadorDiretorio e GerenciadorFoud.
+Na etapa de transmissão, o arquivo pode ter sido trans-
+
+A classe CriadorDiretorio possui um método estático
+mitido com sucesso ou não. Após a etapa de transmissão,
+
+denominado criarDiretorio( ), que cria o diretório principal
+
+
+
+Figura 2: Diagrama de Classes FOUD
+
+do framework no dispositivo e três subdiretórios: ”A enviar”, A classe EstatisticaDAO é utilizada para persistir infor-
+”Enviando” e ”Enviados”. mações como nome e tamanho do arquivo, identificação da
+
+A classe GerenciadorFoud possui um método estático rede e tempo de transmissão. O banco de dados utilizado é
+denominado iniciar( ), que aciona o ControleNucleo, um con- o SQLite.
+trolador do sistema. Neste diagrama temos também duas interfaces: Estrate-
+
+A classe ControleNucleo estende da classe Worker . giaTransmissao e EstrategiaOrdenacao. Estas interfa-
+Esta é uma condicionante ao utilizar a biblioteca WorkMa- ces, agregadas a classe NucleoDeTransmissaoOportunistica,
+nager. Ao estender a classe Worker, temos de sobrescrever atuam conforme os preceitos do padrão de projeto Strategy.
+o método doWork( ), onde é realizado todo trabalho em se- Desta forma, podemos implementar cada uma das interfa-
+gundo plano. No nosso framework este trabalho se resume ces quantas vezes forem necessárias. Estas estratégias po-
+em chamar o método transmitir( ) da classe NucleoDeTrans- dem ser alternadas em tempo de execução, de acordo com
+missaoOportunistica. as lógicas criadas pelo desenvolvedor e os contextos em que
+
+A classe central do framework é denominada NucleoDe- o dispositivo estiver inserido.
+TransmissaoOportunistica. Trata-se de uma classe abs-
+trata que se encaixa no padrão de projetos Template Method.
+O desenvolvedor deve estender esta classe e sobrescrever os 5. ESTUDO DE CASO
+seus métodos. É através destes métodos que podemos criar Para utilizar o FOUD, o desenvolvedor deve importar a
+condições lógicas para execução do framework e alteração respectiva biblioteca e seguir os seguintes passos:
+das estratégias de transmissão e de ordenação. O princi-
+pal objetivo desta classe é transmissão de arquivos. Resu- 1. Criar classe(s) de contexto.
+midamente sua atuação é verificar a existência de arquivos
+junto a classe RepositorioDeDados, ordená-los e transmiti-
+los. Informações referentes a cada transmissão de arquivo
+são persistidas em um banco de dados através da classe Es-
+tatisticaDAO.
+
+A classe RepositorioDeDados é responsável por manter Figura 3: Criação de classes de contexto.
+uma lista temporária de todos arquivos a serem transmiti-
+dos. Ela monitora o diretório do framework a fim de manter As classes de contexto (figura 3) devem ser criadas
+estas listas atualizadas. pelo desenvolvedor. Estas classes são as responsáveis
+
+
+
+por armazenar variáveis que possuem alguma correla-
+ção com a transmissão de arquivos. Para efeito deste
+estudo de caso, criamos duas classes de contexto: Ba-
+teria e InterfaceDeRede.
+
+2. Criar classe(s) que implementem a interface “Estrate-
+giaOrdenacao”.
+
+Figura 6: Estendendo a classe NucleoDeTransmis-
+saoOportunistica.
+
+lógica deve retornar uma das classes que implementa
+a interface ”estrategiaOrdenacao”. De forma seme-
+lhante, O método obterTransmissao( ) deve conter ló-
+gicas para escolha do algoritmo de transmissão de ar-
+quivos a ser utilizado pelo FOUD. Estes algoritmo(s)
+se encontra(m) em classe(s) que implementa(m) a in-
+terface ”estrategiaTransmissao”.
+
+Figura 4: Implementando Ordenações. 5. Instanciar a classe FOUD no aplicativo A figura 7 ilus-
+tra a Criação de um método no aplicativo para que,
+
+Ao implementar a interface ”EstrategiaOrdenacao” o quando chamado, instancie a classe Foud passando
+método ordenarLista( ) deve ser sobrescrito. Este mé- como parâmetro a subclasse de NucleoDeTransmissa-
+todo deve conter algum algoritmo de ordenação que, oOportunistica.
+frente a um determinado contexto, será executado para
+priorizar a transmissão de arquivos de acordo com suas
+caracteŕısticas. A figura 4 ilustra a implementação de
+três tipos de ordenação: por tamanho, data de criação
+e extensão de arquivo.
+
+3. Criar classe(s) que implementem a interface “Estrate-
+giaTransmissao”.
+
+Figura 7: Instanciando o FOUD no aplicativo.
+
+Como forma de testar as funcionalidades do framework, foi
+criado um aplicativo com apenas uma interface (Activity) e
+um Botão (Button). Arquivos de diferentes tamanhos e ex-
+tensões foram copiados manualmente para o diretório prin-
+cipal de envio: a pasta ”A enviar”. Ao clicar no botão, o
+framework é executado em background e o algoritmo para
+
+Figura 5: Implementando a transmissão. transmissão dos arquivos para o servidor é iniciado. Se-
+guindo os mesmos passos do ińıcio desta seção, vamos apre-
+
+Ao implementar a interface ”EstrategiaTransmissao” o sentar como foi realizada a construção deste aplicativo.
+método transmitir( ) deve ser sobrescrito. Este método Inicialmente foram criadas duas classes de contexto, Ba-
+deve conter algum protocolo de transmissão. Podemos teria (figura 8) e InterfaceDeRede. Estas classes possuem
+ter várias classes que implementam esta estratégia. O métodos através dos quais é possivel extrair o ńıvel da bate-
+método de cada uma destas classes será invocado de ria do dispositivo e a identificação da interface de rede ativa,
+acordo com o contexto monitorado. A figura 5 ilustra respectivamente. O objetivo é criar um pequeno contexto de
+esta implementação. exemplo, que influencie na tarefa de transmitir arquivos.
+
+4. Estender a classe abstrata “NucleoDeTransmissaoO-
+portunistica”.
+
+Conforme ilustrado pela figura 6, ao estender a classe
+”NucleoDeTransmissaoOportunistica”, os métodos ob-
+terAutorizacao( ), obterEstrategiaOrdenacao( ) e ob-
+terEstrategiaTransmissao( ) devem ser sobrescritos. O
+método obterAutorizacao( ) deve conter um algoritmo
+que represente a lógica para o funcionamento do FOUD.
+Ao encontrar um lógica que retorne true o framework
+será executado. O método obterEstrategiaOrdenacao(
+) deve conter lógicas para escolha do algoritmo de or-
+denação a ser executado em um dato contexto. Cada Figura 8: Criação de classes contexto no Android.
+
+
+
+Posteriormente criamos as subclasses de ordenação e trans- e menor ou igual a sessenta, a estratégia de ordenação
+missão. Como descrito, foram criadas três classes que apre- seja de ”tamanho”, com disposição de arquivos na fila
+sentam diferentes algoritmos de ordenação, sendo as clas- por ordem ascendente.
+ses Tamanho, DataCriacao e Extensao (figura 4). Como Se o ńıvel da bateria for maior ou igual a noventa, e ti-
+subclasse de transmissão criamos apenas uma, que utiliza o vermos uma interface de rede com identificação (SSID)
+protocolo http. predeterminada, a estratégia de ordenação utilizada
+
+será a de ”extensão de arquivo”, onde arquivos com
+extensões de v́ıdeo ”mp4” estejam dipostos nos primei-
+ros lugares na fila.
+
+Para os demais casos, a estratégia de ordenação uti-
+lizada será a de ”data de criação”, com disposição de
+aquivos na fila por ordem ascendente.
+
+• Lógica de transmissão: aqui, estamos retornando o
+protocolo http para qualquer caso.
+
+Através deste teste foi posśıvel simular uma aplicação real,
+com upload de dados de acordo com as regras estabelecidas.
+O banco de dados começou a ser alimentado e proporcionará
+execução de estratégias mais inteligentes.
+
+6. CONSIDERAÇÕES FINAIS E TRABALHOS
+FUTUROS
+
+Este trabalho apresentou a proposta de um framework que
+Figura 9: Um dos algoritmos de ordenação utilizados
+
+pode ser utilizado por qualquer entidade corporativa ou go-
+(vista parcial).
+
+vernamental com interesse em transmissão oportuńıstica e
+ciente de contexto de dados móveis, coletados em localida-
+
+As lógicas criadas ao estender a classe abstrata ”Nucle- des com acesso inexistente ou intermitente com a Internet.
+oDeTransmissaoOportunistica” são apresentadas na figura Foi apresentado o modelo genérico deste framework, que é
+10. Posteriormente há uma descrição de cada uma destas extenśıvel e, portanto, adaptável, no que diz respeito à esco-
+lógicas. lha dos tecnologias de transmissão, lógica de envio e contex-
+
+tos a serem utilizados. Além disso, apresentou-se também a
+implementação deste modelo para o sistema Android, bem
+como o uso do mesmo no desenvolvimento de um aplicativo
+de exemplo.
+
+Podemos considerar para trabalhos futuros:
+
+• Implementação de mecanismos de inferência, de modo
+a permitir a transmissão mais inteligente de arquivos
+baseando-se nos dados contextuais acumulados pelos
+aplicativos que utilizam este framework. Pacotes de
+arquivos poderiam ser formados para uma transmissão
+mais oportuńıstica, utilizando previsões.
+
+• Adaptação do framework para possibilitar trabalho com
+sites offline, como se estivéssemos online, no que se re-
+fere ao preenchimento de formulários.
+
+• Permição de modificações sobre os arquivos antes da
+transmissão. Desta forma podeŕıamos escolher alguns
+arquivos, de acordo com suas caracteŕısticas (nome ou
+extensão, por exemplo), compactá-los e criptografá-los
+antes de transmit́ı-los.
+
+Figura 10: Lógicas para transmissão de arquivos no
+Android.
+
+• Lógica de funcionamento: Criamos uma lógica que faça
+com que o funcionamento do framework fique sujeito
+a ńıvel de bateria acima de cinquenta por cento.
+
+• Lógica de ordenação: criamos uma lógica garatindo
+que, em caso de ńıvel de bateria maior que cinquenta
+
+
+
+7. REFERÊNCIAS
+[1] https://www.dropbox.com. Acesso em: 06 de dez. de
+
+2018.
+[2] https://www.google.com/drive. Acesso em: 06 de dez.
+
+de 2018.
+[3] https://onedrive.live.com. Acesso em: 06 de dez. de
+
+2018.
+[4] httpshttps://developer.android.com/topic/libraries/
+
+architecture/workmanager. Acesso em: 15 de dez. de
+2018.
+
+[5] N. Aminzadeh, Z. Sanaei, and S. H. Ab Hamid. Mobile
+storage augmentation in mobile cloud computing:
+Taxonomy, approaches, and open issues. Simulation
+Modelling Practice and Theory, 50:96–108, 2015.
+
+[6] M. Bazire and P. Brézillon. Understanding context
+before using it. In International and Interdisciplinary
+Conference on Modeling and Using Context, pages
+29–40. Springer, 2005.
+
+[7] E. Benkhelifa, T. Welsh, L. Tawalbeh, Y. Jararweh,
+and A. Basalamah. User profiling for energy
+optimisation in mobile cloud computing. Procedia
+Computer Science, 52:1159–1165, 2015.
+
+[8] R. E. Kraut, R. S. Fish, R. W. Root, and B. L.
+Chalfonte. Informal communication in organizations:
+Form, function, and technology. In Human reactions
+to technology: Claremont symposium on applied social
+psychology, pages 145–199, 1990.
+
+[9] Y. Li, M. Qian, D. Jin, P. Hui, Z. Wang, and S. Chen.
+Multiple mobile data offloading through disruption
+tolerant networks. IEEE Transactions on Mobile
+Computing, 13(7):1579–1596, 2014.
+
+[10] B. Zhou, A. V. Dastjerdi, R. N. Calheiros, S. N.
+Srirama, and R. Buyya. A context sensitive offloading
+scheme for mobile cloud computing service. In Cloud
+Computing (CLOUD), 2015 IEEE 8th International
+Conference on, pages 869–876. IEEE, 2015.

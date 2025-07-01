@@ -1,0 +1,534 @@
+﻿International Research Journal of Advanced Engineering and Science 
+ ISSN (Online): 2455-9024 
+ 
+ 
+
+ANIN: Investment Analysis Environment 
+ 
+
+João Victor Magalhães Souza1, Fernando de Souza Bastos2 
+
+1,2Institute of Exact and Technological Sciences, Federal University of Viçosa, Florestal, Minas Gerais, Brazil-35690000 
+ 
+ 
+
+Abstract— Due to the availability and ease of handling our financial assets of B3 and also allows the application of Markowitz 
+resources by applications, investments in variable income have Theory (MARKOWITZ, 1959). We believe, therefore, that 
+become popular and have become, over the last few years, one of the our application can assist investors in making a more assertive 
+first options for people looking for alternatives to monetize their investment decision in variable income.  
+capital. However, many applications that have tools of interest to 
+investors are paid or depend on some level of knowledge in II. MATERIAL AND METHODS 
+programming languages. In this context, we present the present work 
+that provides a free interactive dashboard created from the Shiny We use an R software package called BatchGetSymbols 
+package of the R language that applies the Machine Learning (PERLIN, 2020) which provides, from reading Yahoo Finance 
+algorithm called XGBoost to predict the closing price of assets. Our financial data, the daily opening, closing, highest price, lowest 
+application also provides asset price charts by periods of interest to price, among other variables, of the assets since 2015. We then 
+the investor, price boxplot, candlestick charts and has a screen that gathered data on the most traded assets on the Brazilian stock 
+provides results from the Markowitz Theory. Thus, we believe that the exchange since 2015, the list of which can be found in 
+application created has the potential to help investors, especially 
+
+Appendix A. When specifying an asset to be monitored, the 
+beginners, to make more assertive decisions about investments in 
+
+index of the responsible exchange and the period to be parsed, 
+variable income on the São Paulo Stock Exchange. Finally, we 
+present comparisons of the prediction results observed using the the library returns a dataset containing several attributes. The 
+XGBoost algorithm and an artificial neural network used in the areas most important for the development of this project are: 
+of artificial intelligence and deep learning called Long Short-Term • ref.date: variable responsible for holding the dates; 
+Memory (LSTM). We observed that the results obtained by applying • price.open: variable responsible for showing the opening 
+the XGBoost algorithm present better results in most cases. price of an asset on a given date; 
+ 
+
+• price.high: variable responsible for showing the highest 
+Keywords— Investments, Machine Learning, Markowitz Theory, 
+
+price of an asset on a given date; 
+Stock Exchange, XGBoost. 
+
+• price.low: variable responsible for showing the lowest 
+I. INTRODUCTION  price of an asset on a given date; 
+
+When we want to make investments in variable income, it is • price.close: variable responsible for showing the closing 
+
+important to analyze two aspects: the first refers to technical price of an asset on a given date; 
+
+and quantitative analyzes on the behavior of the price of the • price.adjusted: variable responsible for showing the 
+
+asset that we want to invest and the second, no less important, closing price of an asset after adjustments for splits and 
+
+is based on fundamental analysis, which is a study more in- dividends on a given date; 
+
+depth information about the company and about the market • volume: variable responsible for showing the available 
+related to the asset.  trading volume of an asset on a given date. 
+
+Both analyzes depend on a large amount of time and We then perform some analysis to find missing data, 
+dedication on the part of the investor. There are, however, typing errors and/or other problems that could make some 
+several software and applications that have methods capable important information contained in the data unfeasible. We 
+of helping you. Still, most of these apps are paid or rely on made the necessary corrections and produced a database to be 
+technical knowledge to be used by interested people. n this used in the construction of the ANIN. 
+way, this work proposes to create and make available, free of Even so, given the great complexity of our problem, which 
+charge, an Investment Analysis Environment (ANIN) that is the prediction of the closing price of an asset on the stock 
+includes a prediction tool for the closing price of the most exchange, we need to complement our database by creating 
+traded shares on the Brazilian stock exchange B3. Based on the other variables to apply the Machine Learning algorithm. We 
+work promoted by Hiransha (2018), whose purpose was to then searched for some strategies in Feature Engineering area, 
+predict and compare the results obtained from the prediction for the creation of new variables to increase the efficiency of 
+of prices of assets traded on the Indian stock exchange via our predictions. 
+Deep Learning models, we implemented the price prediction According to Brownlee (2020), Feature Engineering is 
+from the application of the Machine Learning algorithm called understood as the process of transforming raw data into 
+XGBoost. Such an algorithm has a simpler implementation variables that best represent the underlying problem. We use 
+and was able to produce results like the Long Short-Term this process to create features (or variables) to increase the 
+Memory (LSTM) model used by Hiransha (2018) in his quality of the information to be passed to the Machine 
+article. Learning model. Basically, we have two aspects in this work 
+
+In addition, our application includes Time Series charts, for the process of creating new features: 
+boxplot and candlestick charts of prices of the most traded 
+
+79 
+ 
+
+João Victor Magalhães Souza and Fernando de Souza Bastos, “ANIN: Investment Analysis Environment,” International Research Journal 
+of Advanced Engineering and Science, Volume 7, Issue 3, pp. 79-83, 2022. 
+
+
+
+International Research Journal of Advanced Engineering and Science 
+ ISSN (Online): 2455-9024 
+ 
+ 
+• Knowledge-Based Features: to create these features, we column received the closing price of the day i+1, i ∈ {1,2,3, … 
+
+evaluate existing attributes and external knowledge to , N-1}. In this way, it is easy to see that the Nth entry received 
+create new variables. Below we present some variables no value. Our interest is fill in this entry, in such a way that 
+created that will be of interest to us for the application of the value found will be an estimate of the day's closing price 
+the XGBoost algorithm: N+1. The Figure 1 illustrates how this process, popularly 
+o Derivative: Indicates the daily rate of change of an known as variable shifting, is performed: 
+
+attribute;  
+
+o Moving Average and Standard Deviation: The 
+objectives of these features are to present the average 
+and dispersive behavior, respectively, of the attributes 
+considered at intervals of three days; 
+
+o Deltas: Unlike previous approaches that are calculated 
+singularly, that is, each new feature comes from just  
+one existing input variable, this approach combines the Fig. 1. Target creation process. 
+
+ 
+differences between pairs of input variables. Some new 
+
+In this way, we have a dataset ready to be used. XGBoost 
+input attributes created were: 
+
+is a Machine Learning algorithm based on decision tree 
+▪ High-Low: It presents the amplitude of variation in 
+
+models that uses the concepts of ensemble and gradient 
+the price of an asset on a given day; 
+
+boosting to build an optimized algorithm (CHEN; 
+▪ High-Close: Calculates the difference between the 
+
+GUESTRIN, 2016). Unlike the conventional Decision Trees 
+highest price and the closing price of an asset on a 
+
+approach, this algorithm produces several Decision Trees 
+given date; 
+
+(ensembles) and has techniques to minimize the error 
+▪ Low-Close: Calculates the difference between the 
+
+associated with the predictions made in each of the generated 
+lowest price and the closing price of an asset on a 
+
+trees (gradient boosting). 
+given date; 
+
+As, in general, different Decision Trees are generated, 
+▪ Close-Open: Calculates the ratio of the difference 
+
+XGBoost offers a much more significant generalization 
+between the closing price and the opening price of 
+
+capacity when compared to simpler tree strategies, precisely 
+an asset on a given day; 
+
+because it operates on distinct subsets of data, allowing the 
+▪ High-Open: Calculates the difference between the 
+
+reconsideration of the importance of a feature during the tree 
+highest price and the opening price of an asset on a 
+
+creation process. 
+given date; 
+
+Furthermore, with the use of XGBoost, additional steps in 
+▪ Low-Open: Calculates the difference between the 
+
+the data pre-processing process such as input and/or 
+lowest price and the opening price of an asset on a 
+
+substitution of values and data normalization do not need to be 
+given date; 
+
+performed, unlike when using Neural Network algorithms, 
+o Previous Closing Price: The purpose of this feature is 
+
+such as Long Short -Term Memory (LSTM). In this case, it is 
+to map some trend in tomorrow's closing price based 
+
+necessary to carry out these pre-processing steps and adapt the 
+on previous days' closing price. 
+
+data format to the Time Series format. With XGBoost we can 
+• Purely Mathematical Variables: This proposal looks 
+
+create several models for each user interaction with the 
+exclusively at the data, its objective is to include 
+
+system, a fact that is not feasible with an LSTM due to the 
+information without a clear semantic proposal, that is, we 
+
+delay in training time. 
+can insert attributes created by the researcher to be 
+
+Finally, we emphasize the importance of our work, since, 
+evaluated by the algorithm during its execution. For each 
+
+traditionally, most problems that involve prediction of values 
+variable initially present in the database, we create other 
+
+in stock exchanges or commercial applications make use of 
+variables as mentioned below: 
+
+Neural Network algorithms, especially the Recurrent ones, and 
+o Integral calculus: Implements the calculation of the 
+
+our article presents a simpler algorithm of Machine Learning, 
+sum of a variable every 3 days; 
+
+with very similar or better results than those produced with 
+o Polynomial Combinations: We multiply pairs of 
+
+Neural Network algorithms, according to comparisons 
+variables and square each of the variables in the 
+
+presented in the results section. 
+database. 
+
+To measure the quality of predictions made by the 
+Although quantity does not denote quality in Data Science, 
+
+XGBoost model compared to the LSTM model, we used the 
+at the end of this process, we were able to include information 
+
+Mean Absolute Error (MAE), the Mean Squared Error (MSE) 
+that was not previously perceptible. We did not perform any 
+
+and the Mean Absolute Percentage Error (MAPE) of the 
+redundancy analysis between the variables, since XGBoost, 
+
+prediction. Given an input of size n, the Mean Absolute Error 
+the algorithm we use for the prediction, already decides which 
+
+(MAE) is the absolute mean of the difference between the 
+variables are most relevant. 
+
+predicted value and the actual value and can be written, 
+As we want to predict the closing price of an asset chosen 
+
+mathematically, as: 
+by the user one day in advance, we create a new column in the 
+database, called “price.close.tomorrow”, which will be our 
+target variable. The database has N rows each row i of this 
+
+ 
+
+80 
+ 
+
+João Victor Magalhães Souza and Fernando de Souza Bastos, “ANIN: Investment Analysis Environment,” International Research Journal 
+of Advanced Engineering and Science, Volume 7, Issue 3, pp. 79-83, 2022. 
+
+
+
+International Research Journal of Advanced Engineering and Science 
+ ISSN (Online): 2455-9024 
+ 
+ 
+where Pi is the predicted value and Ri is the actual value. The • n-estimators: 1500; 
+Mean Squared Error (MSE) is a more sensitive error metric to • learning-rate: 0.05; 
+predictions that are further from the true value: • max-depth: 12; 
+
+• subsample: 0.8. 
+We present below the prediction results of the assets 
+
+ B3SA3.SA, VALE3.SA and BBAS3.SA obtained after the 
+In addition, we have the Mean Absolute Percentage Error 
+
+application of XGBoost and the LSTM algorithm, the latter is 
+(MAPE) of the prediction, calculated as: 
+
+also implemented in Python and was used via the TensorFlow 
+library of Abadi et al. (2015). 
+
+In the charts of Figures 2, 3 and 4 we visualize the real price 
+ 
+
+The Investment Analysis Environment (ANIN) that we and the predictions obtained via XGBoost and LSTM from 
+
+created was built in the R language using the shiny package, August/2021 to April/2022. We also consider, in Tables 1 to 3, 
+
+created by Chang et al. (2021). To apply the XGBoost P as the set of daily predicted values and R as the set of real 
+
+algorithm, whose library is implemented in Python (CHEN; values of the asset, both in the same period shown in the 
+
+GUESTRIN, 2016), t was necessary to use the R package graphs. 
+
+called reticulate created by Ushey, Allaire and Tang (2022). 
+uch a package communicates the R language with Python 
+code. Our environment also includes pages with graphs that 
+show variations in the prices of the most traded assets in B3 
+and a page with the Markowitz Theory implemented for user 
+evaluation. 
+
+Finally, it is important to remember that the exact forecast 
+of the closing price, for the investor, may not be as valuable as 
+the trend information of this price, that is, knowing if this 
+price will appreciate, depreciate or remain stable the next day.  
+That said, we also propose a calculation of the percentage of Fig. 2. Comparison between the real value and the predictions of the closing 
+
+accuracy of the trend of the predictions made by XGBoost. prices of the asset B3SA3.SA using XGBoost and LSTM algorithms. 
+
+We consider i to be any business day, Ri to be the actual  
+
+closing price of a given asset on day i and Pi to be the We can see in Figure 2 that the price values estimated by 
+
+prediction made for day i, we can, then calculate the XGBoost and LSTM are visually close to the real value and, 
+
+assertiveness of the trend as follows: in general, follow the trend of the price change movement. 
+Furthermore, in Table 1 we observe small values of MAE, 
+
+hits = 0 MSE and MAPE for the two algorithms. 
+mistakes = 0  
+if (Ri-1 – Ri ≤ 0) and (Ri-1 - Pi ≤  0) then TABLE I. Statistics for comparison of predictions made for asset B3SA3.SA 
+     hits = hits + 1      #Uptrend or stability hit. via XGBoost and LSTM. 
+
+else Predictions metrics for B3SA3.SA. 
+Algorithm MAE MSE MAPE R2 
+
+     if (Ri-1 – Ri > 0) and (Ri-1 - Pi  >  0) then 
+XGBoost 0.53 0.39 3.12 0.78 
+
+          hits = hits + 1      #Downtrend hit. LSTM 0.34 0.18 2.53 0.89 
+     else  
+          mistakes = mistakes + 1    #Wrong trend. 
+
+ On the other hand, in Figure 3, it is possible to notice that 
+ XGBoost does not follow the period between September/2021 
+ III. RESULTS and beginning of March/2022 and that LSTM presented a 
+
+In the link https://dashboard-st5shwubpq-uc.a.run.app/, we more assertive correspondence in relation to the behavior of 
+can view the Investment Analysis Environment (ANIN). on the curve of the real price. 
+
+the page, choose a certain asset and obtain the prediction of 
+the asset's closing price for the next business day as a result. In 
+addition to being able to verify the percentage of hits of the 
+trend of the last ten days and the margin of error of the 
+prediction. 
+
+Before releasing our application, we performed some 
+analysis to evaluate the results. We then divide the data set 
+into training and testing, as percentages, 
+
+• Training set: 90% of the database; 
+• Test set: 10% of the database.  
+
+To apply the XGBoost algorithm with the xgboost library Fig. 3. Comparison between the real value and the predictions of the closing 
+
+we use the following hyperparameters, prices of the asset VALE3.SA using XGBoost and LSTM algorithms. 
+
+ 
+
+81 
+ 
+
+João Victor Magalhães Souza and Fernando de Souza Bastos, “ANIN: Investment Analysis Environment,” International Research Journal 
+of Advanced Engineering and Science, Volume 7, Issue 3, pp. 79-83, 2022. 
+
+
+
+International Research Journal of Advanced Engineering and Science 
+ ISSN (Online): 2455-9024 
+ 
+ 
+
+In addition, observing the MAE, MSE, MAPE and R2 efficient than the use of an LSTM model. However, whenever 
+metrics from Table 2, the discrepant difference between the possible, we recommend a hybrid approach, given the 
+values obtained using LSTM and XGBoost is visible. That is, particularities of each asset and each Machine Learning 
+in the case of the asset VALE3.SA, the LSTM algorithm model. In addition, Deep Learning models tend to present 
+presented better results than XGBoost. better and more consistent results with a greater volume of 
+
+ data. XGBoost shows good results, even in small samples. 
+TABLE II. Statistics for comparison of predictions made for asset VALE3.SA Finally, we performed the prediction of the closing value 
+
+via XGBoost and LSTM. of all assets for a period of 10 business days (11/06/2022 to 
+Predictions metrics for VALE3.SA. 
+
+24/06/2022) and calculated the percentage of trend hit by 
+Algorithm MAE MSE MAPE R2 
+
+XGBoost 11.76 183.54 13.07 -0.27 XGBoost. Below, we present the results of the 10 assets with 
+LSTM 5.12 36.64 7.10 0.74 the highest percentage of hits in the period. 
+
+  
+TABLE V. Top 10 stocks with the best trend hit percentages by XGBoost in 
+
+the analyzed period. 
+Trend hit for all assets. 
+
+Ranking Asset Name Trend Hit 
+1º HYPE3.SA 80.00% 
+2º CSAN3.SA 80.00% 
+3º B3SA3.SA 80.00% 
+4º PCAR3.SA 70.00% 
+5º MULT3.SA 70.00% 
+6º MGLU3.SA 70.00% 
+7º LREN3.SA 70.00% 
+8º ENBR3.SA 70.00% 
+
+ 9º VIVT3.SA 70.00% 
+Fig. 4. Comparison between the real value and the predictions of the closing 
+
+10º TOTS3.SA 70.00% 
+prices of the asset BBAS3.SA using XGBoost and LSTM algorithms. 
+
+  
+
+For the asset BBAS3.SA, we can visually observe better The Table 5 then shows that, for example, 80.00% of the 
+
+results from XGBoost, when compared to LSTM, as shown in predictions for the asset HYPE3.SA that pointed to an 
+
+Figure 4. Note that the XGBoost prediction curve more increase, stability or decrease for the following day were 
+
+accurately follows the actual price curve when compared to assertive. Another interesting point is that, for about 52% of 
+
+the LSTM prediction curve. Furthermore, Table 3 corroborates assets, our XGBoost model hit at least 50% trend in the 
+
+the fact that XGBoost's predictions better correspond to the analyzed period. 
+
+reality of the real behavior of the asset with a low MAE, MSE IV. SOURCE-CODE 
+and high value of R2 which is not occurs when we analyze the 
+values obtained using the LSTM. All the source code for the construction of the ANIN as 
+
+ well as the files for generating the analysis can be found at: 
+TABLE III. Statistics for comparison of predictions made for asset https://github.com/JoaoVictorMagalhaesSouza/ANIN. 
+
+BBAS3.SA via XGBoost and LSTM. 
+Predictions metrics for BBAS3.SA. APPENDIX 
+
+Algorithm MAE MSE MAPE R2 
+All assets used 
+
+XGBoost 0.50 0.42 1.53 0.91 
+ABEV3.SA EGIE3.SA MRVE3.SA 
+
+LSTM 1.69 3.21 5.16 0.34 
+B3SA3.SA ELET3.SA MULT3.SA 
+
+ BBAS3.SA ELET6.SA PCAR3.SA 
+We can notice that some results favor the use of LSTM BBDC3.SA EMBR3.SA PETR3.SA 
+
+and others of XGBoost. Therefore, the following data seeks to BBDC4.SA ENBR3.SA PETR4.SA 
+
+BBSE3.SA ENEV3.SA PRIO3.SA 
+define which approach generally excels in the MAE, MSE, 
+
+BEEF3.SA ENGI11.SA QUAL3.SA 
+MAPE and R2 metrics, considering all 67 assets listed in 
+
+BRAP4.SA EQTL3.SA RADL3.SA 
+Appendix A. BRFS3.SA EZTC3.SA RAIL3.SA 
+
+ FLRY3.SA RENT3.SA 
+BRKM5.SA 
+
+GGBR4.SA SANB11.SA 
+TABLE IV. Comparison of the XGBoost and LSTM algorithms applied to the BRML3.SA 
+
+GOAU4.SA SBSP3.SA 
+67 most traded assets on the Brazilian Stock Exchange. CCRO3.SA 
+
+GOLL4.SA SULA11.SA 
+Predictions metrics for all assets. CIEL3.SA 
+
+HYPE3.SA SUZB3.SA 
+Minor Minor  Minor Major 
+
+Algorithm CMIG4.SA ITSA4.SA TAEE11.SA 
+MAE MSE MAPE R2 
+
+COGN3.SA ITUB4.SA TIMS3.SA 
+XGBoost 40 assets 41 assets 41 assets 41 assets CPFE3.SA JBSS3.SA TOTS3.SA 
+
+LSTM 27 assets 26 assets 26 assets 26 assets CPLE6.SA JHSF3.SA UGPA3.SA 
+ CSAN3.SA KLBN11.SA USIM5.SA 
+Looking at the Table 4, it is possible to notice a much CSNA3.SA LCAM3.SA VALE3.SA 
+
+superior performance of XGBoost in all evaluated metrics. CVCB3.SA LREN3.SA VIVT3.SA 
+CYRE3.SA MGLU3.SA WEGE3.SA 
+
+These analyzes indicate that, for most of the assets used in this 
+ECOR3.SA MRFG3.SA 
+
+study, the implementation of an XGBoost model is more  
+
+82 
+ 
+
+João Victor Magalhães Souza and Fernando de Souza Bastos, “ANIN: Investment Analysis Environment,” International Research Journal 
+of Advanced Engineering and Science, Volume 7, Issue 3, pp. 79-83, 2022. 
+
+
+
+International Research Journal of Advanced Engineering and Science 
+ ISSN (Online): 2455-9024 
+ 
+ 
+
+ACKNOWLEDGMENT [5] HIRANSHA. NSE Stock Market Prediction Using Deep-Learning 
+Models. International Conference on Computational Intelligence and 
+
+We thank Google LLC for the financial support of this Data Science, 2018. 
+project. [6] MARKOWITZ, Harry M. Portfolio Selection: Efficient Diversification 
+
+of Investments. [S.l.: s.n.], 1959. 
+
+REFERENCES https://cowles.yale.edu/sites/default/files/files/pub/mon/m16-all.pdf. 
+Monography (Economics), Yale University, New York, United States of 
+
+[1] ABADI, Martín et al. TensorFlow: Large Scale Machine Learning on America. 
+Heterogeneous Systems. [S.l.: s.n.], 2015. [7] PERLIN, Marcelo. BatchGetSymbols. Brasil: [s.n.], 2020. https://cran.r-
+https://www.tensorflow.org/https://www.tensorflow.org/. Software project.org/web/packages/BatchGetSymbols/BatchGetSymbols.pdfhttps:
+available from tensorflow.org. //cran.r-
+
+[2] BROWNLEE, Jason. Discover Feature Engineering, How to Engineer project.org/web/packages/BatchGetSymbols/BatchGetSymbols.pdf. 
+Features and How to Get Good at It. Machine Learning Magistery, 2020. [8] USHEY, Kevin; ALLAIRE, JJ; TANG, Yuan. reticulate: Interface to 
+
+[3] CHANG, Winston et al. shiny: Web Application Framework for R. [S.l.: ’Python’. [S.l.: s.n.], 2022. https://CRAN.R-
+s.n.], 2021. https://CRAN.R-project.org/package=shinyhttps://CRAN.R- project.org/package=reticulatehttps://CRAN.R-
+project.org/package=shiny. R package version 1.7.1. project.org/package=reticulate. R package version 1.25. 
+
+[4] CHEN; GUESTRIN. Proceedings of the 22nd ACM SIGKDD  
+International Conference on Knowledge Discovery and Data Mining. In: 
+p. 785. 
+
+ 
+ 
+ 
+
+83 
+ 
+
+João Victor Magalhães Souza and Fernando de Souza Bastos, “ANIN: Investment Analysis Environment,” International Research Journal 
+of Advanced Engineering and Science, Volume 7, Issue 3, pp. 79-83, 2022.

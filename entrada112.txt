@@ -1,0 +1,1864 @@
+﻿PEDRO HENRIQUE NOGUEIRA SILVA 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+Modelagem de uma Ferramenta de Apoio à Participação em 
+Eventos SCAPE como um Sistema de Sensoriamento Partici-
+pativo 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+Florestal - MG 
+Curso Ciência da Computação da UFV – Campus Florestal 
+
+2015 
+
+1 
+ 
+
+
+
+PEDRO HENRIQUE NOGUEIRA SILVA 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Modelagem de uma Ferramenta de Apoio à Participação em 
+Eventos SCAPE como um Sistema de Sensoriamento Partici-
+pativo 
+ 
+ 
+ 
+
+Projeto Orientado em Computação  
+apresentado ao Curso de Ciência da Computação  
+
+da Universidade Federal de Viçosa – Campus Florestal, 
+ como requisito parcial para obtenção  
+
+do título de Bacharel em Ciência da Computação. 
+ 
+ 
+             Orientador: Prof. Dra. Thais Regina de Moura Braga Silva 
+
+Coorientador: Prof. Ms. Fabrício Aguiar Silva 
+ 
+ 
+
+ 
+ 
+
+Florestal - MG 
+Curso Ciência da Computação da UFV – Campus Florestal 
+
+2015 
+
+2 
+ 
+
+
+
+ 
+Universidade Federal de Viçosa – Campus Florestal 
+
+Curso de Ciência da Computação 
+ 
+ 
+ 
+ 
+ 
+
+Projeto Orientado a Computação intitulado Modelando a Ferramenta de Apoio à Participa-
+ção em Eventos SCAPE como um Sistema de Sensoriamento Participativo, de autoria do 
+estudante Pedro Henrique Nogueira Silva, aprovado pela banca examinadora constituída 
+
+pelos seguintes professores: 
+ 
+ 
+
+ 
+_________________________________________________ 
+
+Prof. Dra. Gláucia Braga e Silva 
+Curso de Ciência da Computação da UFV – Campus Florestal 
+
+ 
+ 
+ 
+
+_________________________________________________ 
+Prof. Dr. Antônio Carlos Fava de Barros 
+
+Curso de Ciência da Computação da UFV – Campus Florestal 
+ 
+ 
+
+_________________________________________________ 
+Prof. Ms. Daniel Mendes Barbosa 
+
+Curso de Ciência da Computação da UFV – Campus Florestal 
+ 
+
+Florestal, 17 de novembro de 2015 
+ 
+
+3 
+ 
+
+
+
+SUMÁRIO 
+ 
+1 – Apresentação ............................................................................................................ 5 
+
+1.1 – Introdução ............................................................................................................ 5 
+1.2 – Objetivos .............................................................................................................. 5 
+
+1.2.1 – Objetivo Geral ............................................................................................... 5 
+1.2.2 – Objetivo Específico ....................................................................................... 5 
+
+1.3 – Trabalhos Relacionados .......................................................................................... 6 
+1.3.1 – Trabalhos de Referência................................................................................... 6 
+1.3.2 – Aplicações para auxílio a eventos .................................................................... 8 
+1.3.3 – Padrões de mobilidade e sociais que podem ser encontrados ......................... 9 
+1.3.3.1 – Padrões de Mobilidade .................................................................................. 9 
+1.3.4 – Discussão Sobre Trabalhos Relacionados ..................................................... 10 
+
+2 –Sistema Sensível ao Contexto para Apoio à Participação em Eventos – SCAPE ........ 10 
+3 – Redes de Sensoriamento Participativo e camadas de sensoriamento ........................ 12 
+
+3.1 – Redes de Sensoriamento Participativo ................................................................. 12 
+3.2 – Camadas de Sensoriamento ................................................................................. 13 
+
+3.2.1 – Introdução ....................................................................................................... 13 
+3.3 – Processamento das camadas de sensoriamento .................................................. 16 
+
+4 – Modelagem do SCAPE como uma ferramenta RSP .................................................... 18 
+4.1 – Introdução ............................................................................................................. 18 
+4.2 – Modelagem da Extensão do SCAPE ..................................................................... 19 
+
+4.2.1 – Modelagem de Classes .................................................................................. 20 
+4.2.1.2 – Receber Informação .................................................................................... 21 
+
+4.3 – Alterações no banco de dados .............................................................................. 22 
+5 – Prova de conceito ........................................................................................................ 23 
+
+5.1 – Aplicativo ............................................................................................................... 23 
+5.1.1 – Localização ..................................................................................................... 23 
+5.2.2 – Opiniões dos participantes.............................................................................. 24 
+5.1.3 – Modificações da aplicação .............................................................................. 24 
+
+5.2 – Banco de dados .................................................................................................... 29 
+6 – Conclusão .................................................................................................................... 30 
+Referências ........................................................................................................................ 31 
+Apêndice I – Detalhamentos da modelagem da extensão do sistema. ............................. 32 
+Apêndice II – Detalhamentos dos casos de usos realizados na execução da modelagem 
+do sistema. ........................................................................................................................ 38 
+ 
+
+4 
+ 
+
+
+
+1 –APRESENTAÇÃO 
+ 
+
+1.1 – Introdução 
+ 
+
+Ao considerarmos a realização de um evento, seja ele social, esportivo, acadêmico, 
+dentre outros, o volume de dados movimentados por seus participantes é alto, além de 
+ser sazonal e localizado. Em linhas gerais, os participantes buscam informações sobre 
+horários, atividades, localização, assuntos ligados ao evento, bem como trocam mensa-
+gens, comentários, imagens e vídeos. Entretanto, os participantes do evento realizam es-
+sas tarefas de modo individual e desordenado, o que pode deixá-los insatisfeitos por não 
+conseguirem as informações necessárias, corretas ou atuais. Isso desestimula os partici-
+pantes e degrada a percepção dos mesmos quanto à qualidade do evento. Mesmo nos 
+casos em que o participante não se sinta prejudicado, ele poderá ter a sensação de que 
+poderia ter sido melhor atendido ou orientado, de forma a aproveitar ao máximo as ativi-
+dades oferecidas pelo evento. Com este intuito foi criado um sistema para apoio a partici-
+pantes e gestores de evento denominado Sistema Sensível ao Contexto para Apoio à 
+Participação em Eventos ou SCAPE, desenvolvido durante o projeto PIBIT.  
+
+Com a modernização dos meios de comunicação, tanto aparelhos e estruturas de te-
+lecomunicações, o acesso à internet em qualquer localidade e o compartilhamento de in-
+formações permitiu a criação de aplicações que, visão cada vez mais o relacionamento 
+interpessoal e entre usuário e localidade. Com este intuito podemos destacar que estas 
+aplicações estão se comportando cada vez mais como Sistemas de Sensoriamento Parti-
+cipativo. Esses sistemas têm como estrutura principal as Redes de Sensores Participativo 
+que, utiliza o compartilhamento de dados através de seus usuários. Trazendo este concei-
+to para a ferramenta SCAPE podemos desenvolver novas funcionalidade para uma me-
+lhor interação entre os participantes e o evento. 
+
+ 
+
+1.2 – Objetivos 
+ 
+1.2.1 – Objetivo Geral 
+
+ 
+O trabalho descrito consiste em apresentar uma modelagem para o Sistema Sensível 
+
+ao Contexto para Apoio à Participação em Eventos (SCAPE), tornando-o uma ferramenta 
+capaz de enviar e coletar dados, estes serão compartilhados pelos participantes sobre o 
+evento em que os mesmos estão inscritos, desenvolver uma extensão capaz de criar a 
+interação dos participantes com o evento.  
+1.2.2 – Objetivo Específico 
+
+ 
+A modelagem consiste em permitir de forma clara e funcional o compartilhamento de 
+
+dados para futuramente serem analisados, estes poderão ser de tipos diferentes e serem 
+utilizados de formas diferentes. O trabalho consiste em aplicar modificações que possam 
+tornar a ferramenta SCAPE em um sistema de sensoriamento participativo, tornando-o 
+tanto um sorvedouro de dados como também um coletor de informações.  
+
+5 
+ 
+
+
+
+ 
+
+1.3 – Trabalhos Relacionados 
+ 
+ Os trabalhos destacados a seguir foram utilizados para auxiliar na modelagem da 
+ferramenta, descrever conceitos e padrões dos temas abordados.  
+1.3.1 – Trabalhos de Referência 
+ 
+ Burke et al. (2006) introduz o conceito de rede de sensoriamento participativo, onde 
+cada dispositivo móvel, através do compartilhamento de informações se interagem. Inici-
+almente o trabalho consiste em analisar e destacar os principais pontos para a criação 
+dessas redes de sensoriamento: aumentar a credibilidade dos dados, a qualidade, priva-
+cidade e o compartilhamento deles, tentando atingir escalas cada vez maiores de usuá-
+rios participativos. 
+ 
+
+No dia a dia são encontradas diversas formas de serem feitas tais implantações, 
+com o intuito de criar e gerenciar a coleta de dados, muito desses dados seriam coletados 
+e transmitidos de forma automática, exemplo: Ao passar por um determinado ponto, seria 
+gerado uma informação e está compartilhada naquele momento. Seguindo o autor, tem-
+se uma introdução para implantação de uma das possíveis camadas da rede e o seu pro-
+tocolo, neste caso a camada serviria para aumentar a credibilidade dos dados coletados, 
+usando por exemplo a localização, o tempo e possíveis dados já coletados anteriormente. 
+ 
+ As aplicações, aderentes ao conceito de rede de sensoriamento participativo, utili-
+zam de sensores moveis, que são a colaboração entre os dispositivos e seu proprietá-
+rio/operador, em atividades próprias para coletas de dados, como pesquisas e tarefas que 
+serão executadas em background sem que o usuário perceba, muitas das vezes se utili-
+zando de feedbacks da rede e das localizações. Para que isso ocorra de forma satisfató-
+ria, devem ser melhorados constantemente os algoritmos e componentes mecânicos, pois 
+muito dos dados coletados são obtidos de componentes e sensores. Com isso percebe-se 
+que, um dos principais motivos para o pleno funcionamento da coleta de dados juntamen-
+te com o seu aumento em quantidade e credibilidade, deve-se a componentes cada vez 
+mais precisos, que irão fornecer dados cada vez mais correlacionados, como localização 
+e tempo, por exemplo. 
+ 
+ Silva (2014) mostra em seu trabalho uma forma de correlacionar dados obtidos a-
+través das mídias sociais e assim inseri-los em um respectivo contexto. Mídias sociais 
+baseadas em localização são bastante populares nos dias atuais, graças à popularização 
+dos smartphones e o acesso prático a internet. Aplicativos como: Foursquare, Instragram, 
+Waze e outros, podem ser vistos como rede de sensoriamento participativo. Através dos 
+dispositivos moveis, usuários podem facilmente coletar e filtrar dados sobre o ambiente 
+em que estão. Neste caso, cada dispositivo e seu usuário seriam um nó na rede de sen-
+sores participativos. 
+
+O autor apresenta em seu trabalho, as camadas de sensoriamento que tem como 
+principal função, armazenar, classificar e posteriormente analisar os dados coletados. As 
+camadas na rede de sensores participativos permitem o estudo em larga escala de um 
+determinado aspecto monitorado, com análise do histórico de tempo e padrões, podendo 
+ser melhor entendidos o comportamento social-urbano de diferentes regiões e podendo 
+
+6 
+ 
+
+
+
+ser expandido para escalas cada vez maiores.  Ao realizar uma análise mais profunda de 
+uma única camada podem ser melhor visualizados a suas possíveis causas naquele ins-
+tante, graças à coleta de dados em “quase” tempo real. Já a análise de um conjunto de 
+camadas pode mostrar a possibilidade de construção de aplicações mais sofisticadas. No 
+entanto, isso não é tarefa fácil, uma vez que esses dados, pela larga escala de coleta, 
+devem ser analisados e filtrados. 
+ 
+
+É apresentado pelo autor uma maneira de organizar e criar tais camadas, classifi-
+cando-as como primitiva e contextual. Uma camada de sensoriamento primitiva é com-
+posta por dados básicos provenientes diretamente do sorvedouro/fonte, descrevendo as-
+pectos específicos de localizações geográficas no espaço, tempo e usuários contribuintes. 
+Uma camada contextual representa contexto ou conhecimento obtido através da trans-
+formação dos dados disponíveis em uma ou mais camadas primitivas. 
+ 
+ Tilak (2013) demonstra em seu trabalho uma possível classificação das redes de 
+sensoriamento e demonstra possíveis fatores que irão determinar a criação das aplica-
+ções que irão utilizar a abordagem de redes de sensoriamento participativo. Os celulares 
+possuem cada vez mais recursos, energia, processamento e suportam aplicações mais 
+sofisticadas. As novas gerações de celulares possuem cada vez mais sensores, e os já 
+utilizados são cada vez mais precisos e com o acesso prático a internet. Assim, os celula-
+res se tornam uma excelente plataforma de sensoriamento. 
+ 
+ As redes de sensoriamento participativo podem ser classificadas em três categori-
+as: 
+ 
+
+i. Projeto e Investigação coletiva: Os participantes estão presentes em todas as 
+fases do ciclo de vida do projeto e, coletivamente, definem os objetivos da pes-
+quisa e os recursos que serão utilizados. 
+
+ 
+ii. Contribuição Pública: Os participantes estão envolvidos na coleta de dados, 
+
+mas não na definição dos objetivos da pesquisa e nem dos recursos que utiliza-
+ram para a pesquisa. 
+
+ 
+iii. Para uso pessoal e reflexão: Participantes são indivíduos separados, a pesqui-
+
+sa é focada em descobrir e aperfeiçoar. De acordo com rotinas dos participan-
+tes os dados serão analisados e depois tomadas às decisões, o participante 
+não está presente. 
+
+ 
+Através dessa análise têm-se algumas etapas para a criação de aplicações de sensoria-
+mento participativo: 
+ 
+
+i. Recrutamento e coordenação: Os participantes fornecem hardware necessário 
+(por exemplo, sensores externos) e orientação para a instalação e configuração 
+do software apropriado. Os participantes também são informados sobre o aces-
+so aos dados, segurança, e políticas de privacidade qualquer decisão só será 
+tomada com o consentimento do mesmo. 
+
+ 
+
+7 
+ 
+
+
+
+ii. Aquisição de dados: participantes agora equipados com software necessário, 
+hardware, e conhecimento da aplicação iniciam a coleta de dados. 
+
+ 
+iii. Transferência de dados: Os dados recolhidos são movidos para um centro de 
+
+dados para o armazenamento e processamento de longo prazo. Participantes 
+selecionam como serão feitas essas operações de troca de informação. 
+
+ 
+iv. Gerenciamento e armazenamento dos dados: O gerenciamento e armazena-
+
+mento são feito de forma simples e já conhecida, através de banco de dados. 
+ 
+
+v. Análise e leitura dos dados: Os dados recolhidos serão processados antes que 
+possam fornecer qualquer resultado, isto envolve filtragem e processamento 
+dos dados. 
+
+ 
+vi. Feedback: Têm-se os resultados, e agora serão feitas as devidas tomadas de 
+
+decisões. 
+ 
+
+As aplicações criadas são primeiramente produzidas para escalas menores de RSP. 
+Entretanto, como as aplicações que utilizam desse meio são fadadas ao sucesso, elas 
+acabam tendo grandes escalas de transmissão de dados. O paradigma utilizado nas RSP 
+tem como objetivo o envolvimento maciço dos usuários, garantindo alta taxa de coleta de 
+dados, podendo trazer positivas mudanças em escala social. 
+ 
+1.3.2 – Aplicações para auxílio a eventos 
+ 
+ Alguma aplicação, assim como o SCAPE, tem como principal foco o auxílio dos 
+usuários a participação em eventos. Mas objetivos diferentes, normalmente possuem de-
+talhamento de um único evento ou comunidade. Algumas aplicações que podemos desta-
+car são: O Google I/O 2014, projetado para o evento de mesmo nome. Outra aplicação é 
+a UGuide UFOP, criada para auxiliar os alunos da Universidade Federal de Ouro Preto.  
+  
+
+Na Google I/O 2014, a Google Inc. projetou um aplicativo para o auxílio no evento. 
+Permitindo que o usuário explore a agenda da conferência e crie um cronograma perso-
+nalizado do evento, e antes do começo de cada item escolhido, o envio de lembretes para 
+que o mesmo não perca o horário da apresentação escolhida. O aplicativo possui um ma-
+pa da conferência para se localizar, e para os usuários que não estão presentes a ferra-
+menta oferece a opção de assistir as palestras ao vivo. Existe também uma interação com 
+a rede social Google+, para troca de informações entre os participantes. 
+ 
+
+UGuide é um projeto desenvolvido pela Universidade Federal de Ouro Preto e tem 
+como intuito auxiliar os estudantes. Contém um mapa com os principais locais utilizados 
+pelos estudantil como: prédios da universidade, pontos turísticos e repúblicas;informações 
+sobre o dia a dia da universidade tais como notícias da UFOP, o cardápio do refeitório, 
+locais das aulas e contatos na instituição; divulgação de eventos na cidade, acesso ao 
+AnunciaUFOP e integração com as redes sociais Twitter e Facebook. 
+
+8 
+ 
+
+
+
+ 
+1.3.3 – Padrões de mobilidade e sociais que podem ser encontrados 
+ 
+ Tendo como base para esse trabalho como os usuários da aplicação irão se com-
+portar, podemos encontrar alguns padrões. Tais padrões já observados podem auxiliar 
+nas tomadas de decisões para possíveis resultados e feedbacks ao usuário. Alguns pa-
+drões sociais e de mobilidade, que poderão ser utilizados no andamento do projeto, já 
+foram estudados e encontrados na literatura. Como estamos utilizando como base para 
+esse trabalho a tese de Silva (2014), destacaremos alguns padrões utilizados pelo mes-
+mo. 
+ 
+1.3.3.1 – Padrões de Mobilidade 
+ 
+ Song et al. (2010, apud SILVA, 2014, p. 12) analisou 50,000 usuários de celulares 
+e mostrou que a mobilidade dos usuários é bastante previsível.Isto é um importante fluxo 
+de dados das mídias sociais ao se pensarmos que, o percurso do usuário está sendo de-
+senhado através dos locais que o mesmo esteve e compartilhou e não pelo GPS ou da-
+dos providos do celular. 
+ 
+ Cheng et al. (2011, apud SILVA, 2014, p. 12)ao verificar cerca de 22 milhões de 
+check-ins compartilhados por serviços de localização (Foursquare é responsável por 
+53,5% do total). Foi encontrado que usuários seguem padrões simples e reproduzíveis, e 
+também status sociais, juntamente com fatores geográficos e econômicos. 
+ 
+ Cho et al. (2011, apud SILVA, 2014, p. 13) investigou padrões da mobilidade hu-
+mana através de três conjuntos de dados: check-ins, em dois serviços de compartilha-
+mento de localização, dados da localização do celular. Eles estavam interessados em de-
+terminar a frequência com que os usuários se movimentavam e para onde os mesmos se 
+deslocavam. Observaram que para médias e pequenas distâncias em curtos espaços de 
+tempos as redes sociais não influenciavam, já em longas distâncias o fator que mais influ-
+enciava eram as redes sociais. 
+
+ 
+Nguyen, e Szymanski, (2012, apud SILVA, 2014, p. 13)utilizando Gowalla, rede so-
+
+cial baseada na localização, criaram e validaram modelos de mobilidade humano e rela-
+cionamento. Os autores propuseram um modelo de mobilidade baseado em amizades. 
+  
+1.3.3.2 – Padrões Sociais 
+ 
+ Scellato et al. (2011, apud SILVA, 2014, p. 16)estuda propriedades espaciais com 
+base nas localizações das redes sociais, e apontam que em 40% dos links sociais estão 
+em um raio de 100 km. Esses links são mais heterogêneos se os usuários se relacionam 
+com uma mesma comunidade. 
+ 
+ Cranshaw et al. (2010, apud SILVA, 2014, p. 17) introduzem um novo conjunto de 
+características para trilha a localização afim de analisar contextos sociais a partir da regi-
+ão geográfica. 
+ 
+
+9 
+ 
+
+
+
+ Quercia et al. (2012, apud SILVA, 2014, p. 17) estudam como as comunidades digi-
+tais se comporta na vida real.Testa como teorias sociais da vida real estão presentes em 
+redes sociais. 
+  
+1.3.4 – Discussão Sobre Trabalhos Relacionados 
+ 
+ A aplicação SCAPE foi idealizada para auxiliar em eventos de quaisquer nichos, 
+tornando-se assim uma ferramenta que atenda a diversos eventos, ao contrário das apli-
+cações mostradas, UGuide UFOP e Google I/O 2014, que estão inseridas em eventos e 
+ambientes específicos.  
+  
+ Este projeto consiste em inserir o contexto de redes de sensoriamento participati-
+vos discutidos por Burke et al. (2006) ao SCAPE, trazendo assim funcionalidades que di-
+ferenciam do projeto inicial,utilizando como base o trabalho de Silva (2014) para criação 
+domodelo do sistema como um todo e utilizando a ideia de camadas de sensoriamento 
+para armazenamento de dados e posteriormente analise dos mesmos. O trabalho de Tilak 
+(2013) contribui com possíveis características para a criação tanto das aplicações e das 
+redes de sensoriamento. Podendo assim utilizar tais conceitos para determinar o caminho 
+a seguir nesse novo enfoque que será dado ao SCAPE, podemos adequar assim o siste-
+ma como um sistema de contribuição pública, por utilizar de dados provenientes dos usu-
+ários a partir de objetos de pesquisas já definidos pelos criadores dos eventos. 
+ 
+
+2 –SISTEMA SENSÍVEL AO CONTEXTO PARA APOIO À PARTICIPA-
+ÇÃO EM EVENTOS – SCAPE 
+
+ 
+Sistema para o auxílio a participação em eventos, ou seja, um software para auxili-
+
+ar tanto organizador quanto participantes. O sistema consiste de duas partes que se rela-
+cionam entre si: uma parte web, composta pelo site pelo qual os organizadores irão inserir 
+os dados dos eventos e, uma parte móvel, que é um aplicativo para celular, na qual os 
+participantes terão acesso a toda agenda do evento. 
+
+O sistema web foi criado especificamente para o organizador. Deste modo o parti-
+cipante não tem acesso ao mesmo. No site de criação de eventos, o organizador deve 
+inserir os dados do evento como, local e atividades que compõem o evento, entre outros 
+dados para a manutenção do mesmo, esses serão armazenados no banco de dados do 
+sistema, que será utilizado pelo aplicativo móvel.  
+
+A parte móvel do sistema é direcionada ao participante. O aplicativo acessa o ban-
+co de dados criado pelo sistema web contendo todas as informações, agenda as ativida-
+des e palestras que irão compor o evento. Assim, o participante pode criar sua própria 
+agenda, que será salva no dispositivo móvel para futuros acessos. Além disso o aplicativo 
+móvel possui outras funcionalidades como, o direcionamento do ouvinte ao local da ativi-
+dade, alarmes antes do início das palestras, a integração entre os diversos participantes 
+através de uma rede social criando eventos paralelos. Assim, com os dois sistemas fun-
+cionando integralmente, temos a formação do SCAPE: um sistema para o auxílio tanto ao 
+organizador quanto aos participantes em eventos de qualquer espécie, tais como esporti-
+vas, educacionais, empresariais dentre outras. 
+
+10 
+ 
+
+
+
+As figuras 1 e 2 descrevem as funcionalidades do projeto. O diagrama de casos de 
+uso do sistema mostra as funcionalidades já desenvolvidas, tanto do sistema web quanto 
+da aplicação para dispositivos moveis. O diagrama entidade relacional do banco de dados 
+original, com as tabelas que serão povoadas pelos organizadores do evento através da 
+interface web. 
+
+(Figura1) Diagrama de casos de uso do SCAPE 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+11 
+ 
+
+
+
+(Figura 2) Diagrama entidade relacionamento do banco de dados 
+
+ 
+ 
+
+ 
+
+3 – REDES DE SENSORIAMENTO PARTICIPATIVO E CAMADAS DE 
+SENSORIAMENTO 
+ 
+3.1 – Redes de Sensoriamento Participativo 
+ 
+ Redes de Sensoriamento Participativo (RSPs) ou do inglês Participatory Sensor 
+Networks (PSNs) pode ser definido como, um fenômeno de monitoramento em larga es-
+cala com participação ativa dos nós. Estes que são compostos de uma junção entre usuá-
+rios e seus dispositivos móveis, por isso temos essa abordagem da colaboratividade dos 
+usuários em se disponibilizarem para o envio e compartilhamento de informações referen-
+te ao local sensoreando. Partindo dessa abordagem podemos destacar os componentes 
+que formam as redes de sensoriamento participativo: nós, sistemas de sensoriamento 
+participativo e as redes de sensoriamento. 
+ 
+ Sistemas de Sensoriamento Participativo (SSPs) ou do inglês Participatory Sensing 
+System (PSSs), como Instagram e o Foursquare, combinam características de redes so-
+ciais online com serviços baseados em localizações. Nesses tipos de sistemas as pesso-
+as conectadas podem disponibilizar grandes quantidades de informações em tempo real. 
+Outro aspecto importante dos PSSs são os tipos de dados compartilhados pelos usuários, 
+em particular, baseados na localização. Esses dados podem ser obtidos através de sen-
+sores físicos, por meio de observações feitas pelos usuários, definidos em tempo e espa-
+ço, obtidos de forma manual ou automática, estruturados ou não e compartilhados de 
+forma voluntária ou não.   
+
+12 
+ 
+
+
+
+ 
+ As RSP utilizam principalmente de dispositivos portáteis, que possuem a capacida-
+de, individualmente, de realizar observações relevantes. Em uma RSP, os nós consistem 
+de usuários juntamente com seu dispositivo móvel, fornecendo ao sistema dados sobre o 
+contexto. Em comparação com as redes de sensores tradicionais, que tem um alto custo 
+associado à sua construção em grande escala. As RSPs, em contrate, tem acesso prático 
+aos dados de diferentes contextos em todo mundo, em tempo real. Por essas característi-
+cas as RSPs têm um grande potencial de sensoriamento em escala global (SILVA,2014). 
+ 
+ Similar as redes de sensores sem fio tradicionais, as RSPs possuem algumas ca-
+racterísticas que a diferenciam como: Os nós são entidades móveis autônomas composta 
+de pessoa e seu dispositivo móvel; o custo da rede é distribuído entre os nós, fornecendo 
+uma escala global; sensoriamento depende da participação das pessoas; os nós transmi-
+tem os dados diretamente; os nós não sofrem limitações energéticas; o nó coletor não 
+tem controle sobre os outros nós (SILVA, 2014). 
+ 
+ Podem assim ser destacados importantes pontos das redes de sensoriamento par-
+ticipativo. Os serviços disponibilizados pelas mesmas podem ser considerados diversos, 
+desde: apenas um compartilhamento de localização, a um sensoriamento completo de um 
+determinado local como: localização, informações do clima, opinião pessoal do usuário e 
+qualquer outra informação que seja relevante naquele momento.  
+ 
+
+Dispositivos móveis possuem hardwares cada vez melhores facilitando as informa-
+ções que podem ser obtidas de um determinado local. Atrelando isto com os serviços dis-
+ponibilizados, podeser destacado o fácil compartilhamento dos dados, proveniente da uti-
+lização de tais serviços, algo que se tornar prático e comum devido ao fácil acesso à in-
+ternet. Algo que alguns anos atrás era difícil e ao mesmo tempo caro, tanto pelo valor dos 
+celulares como também as operadoras que não trabalhavam com esse acesso em larga 
+escala. Esse fácil acesso permite hoje que os sistemas de sensoriamento enviem uma 
+grande quantidade de dados compartilhados, e quando trabalhamos com essa grande 
+quantidade de dados em uma rede de sensoriamento participativo, podemos ter uma di-
+mensão de escalas enormes e até globais. Com os diversos avanços, um dos empecilhos 
+das redes de sensores comuns é o sensoriamento em larga escala e o consumo de ener-
+gia pelos nós, algo que pode ser facilmente contornado nas RSPs, uma vez que, cada nó 
+é independente e as aplicações criadas são voltadas para grandes escalas de usuários.  
+ 
+3.2 – Camadas de Sensoriamento 
+ 
+3.2.1 – Introdução 
+ 
+ Camadas de sensoriamento representam dados, que por sua vez são atributos. 
+Esses dados representados pelas camadas de sensoriamento são obtidos através de um 
+respectivo tipo de sensoriamento. Podemos ter como exemplo os webservices de condi-
+cionamento climático, que obtém os dados providos de uma WSN (Wireless Sensor Net-
+work) através de sensores, trazendo dados de forma uniforme. Já nas RSPs podemos 
+obter os mesmos dados através de sensores dos dispositivos móveis ou mesmo informa-
+
+13 
+ 
+
+
+
+ções disponibilizadas pelo usuário. Esses dados são separados e armazenados de acor-
+do com suas categorias. 
+ 
+ Utilizando com base para esse projeto o trabalho de Silva (2014), podemos classifi-
+car as camadas de sensoriamento, destacar as suas características, definir os atributos 
+que serão utilizados para uma melhor consulta dos dados armazenados e posteriormente 
+irão ajudar na retirada de informações desses dados brutos. 
+ 
+
+(Figura 3) Camadas de sensoriamento da cidade de Nova York (SILVA, 2014). 
+ 
+
+ 
+  
+ 
+ Silva (2014) demonstra na figura 3 a idéia de camadas de sensoriamento, mos-
+trando quatro tipos de camadas para uma cidade: alerta de tráfego, check-ins, condições 
+climáticas e fotos de localidades.  Os dados são obtidos através das várias redes sociais, 
+como Waze, Foursquare, Weddar e Instragram. Com este conceito de camadas de senso-
+riamento, temos a separação dos dados pelo seu conteúdo ou até mesmo, pelo método 
+utilizado para obtenção dos dados. 
+ 
+
+(Figura 4) Exemplo representativo das camadas de sensoriamento (SILVA, 2014). 
+ 
+
+ 
+ 
+
+ 
+
+14 
+ 
+
+
+
+ Na figura 4, Silva (2014) exemplifica o processo para obtenção de dados, assumin-
+do que a RSP deriva os dados vindos de mídias sociais diversas. Nessas redes sociais, 
+os usuários podem, entre outras atividades, dar check-ins em localidades e deixar suas 
+opiniões dos locais visitados, fotos dos locais. No exemplo, podemos definir duas cama-
+das, uma para check-ins, contendo os check-ins dos usuários e a outra contendo os tipos 
+de localidades. Quando analisamos as mesmas podemos inferir os locais mais visitados e 
+o tipo de lugar que está mais popular em uma determinada região. 
+ 
+ Utilizando essa abordagem, podem assim ser definidas as estruturas para a cria-
+ção das camadas de sensoriamento. Os dados compartilhados devem ser armazenados 
+com determinadas características para serem analisados futuramente. 
+ 
+
+• t : tempo de intervalo quando o dado foi criado. 
+• a : localização do dado quando o mesmo foi gerado. 
+• s : tipo de dado. 
+• u : um ou mais IDs do usuário que gerou o dado. 
+
+  
+Cada camada possui um variável h, representando o status da mesma, isto é, se a 
+
+mesma está atividade ou não em um determinado tempo. Abaixo, seguem alguns exem-
+plos de camadas de sensoriamento. 
+ 
+
+•  Check-ins ( Foursquare). 
+•  Tipos de localidades (Foursquare); 
+•  Alertas de tráfego (Waze); 
+•  Fotos de locais (Instagram); 
+•  media de renda de uma área(Census); 
+• Condições climáticas (The Weather Channel); 
+• Nível de ruídos (Noises Tube); 
+
+ 
+ O processo de criação das camadas de sensoriamento pode ser voltado para even-
+tos em larga escala, e o estudo das mesmas podem nos disponibilizar informações como, 
+monitoramento em tempo (quase) real, observar padrões em longos períodos. As cama-
+das de sensoriamento podem ser aplicadas a diversos contextos da computação urbana, 
+por exemplo, ajudar a entender o comportamento das cidades e seus habitantes em dife-
+rentes regiões do mundo, respondendo rapidamente mudanças inesperadas.  
+  
+
+O uso das camadas de sensoriamento na literatura atualmente é geralmente feito 
+de forma individual. Individualmente o uso das camadas pode ainda ser de muita utilida-
+de, mas quando analisamos juntamente mais camadas, podemos encontrar dados e in-
+formações de extrema usabilidade na construção de novas aplicações. Infelizmente essas 
+aplicações não são fáceis de se construir, e os resultados podem variar de locais para 
+locais. Entretanto, a análise de diferentes camadas de sensoriamento de uma determina-
+da cidade, podem contribuir para a construção de aplicações mais robustas e direciona-
+das.(SILVA, 2014) 
+ 
+
+15 
+ 
+
+
+
+3.3 – Processamento das camadas de sensoriamento 
+ 
+ No trabalho de Silva (2014), é destacado algumas operações que podem ser feitas 
+sobre as camadas de sensoriamento, tirando assim maior proveito das mesmas e retiran-
+do delas as informações desejadas. Como pode ser visto na figura 5. 
+ 
+
+(Figura 5) Representação das camadas de sensoriamento e os dados compartilhados ao lon-
+go do tempo (SILVA, 2014). 
+
+ 
+ 
+ Para trabalhar com camadas precisamos representá-las em um plano de trabalho, 
+que contém uma ou mais camadas. Esse plano de trabalho representa uma ou mais ca-
+madas, de acordo com as funcionalidades que desejamos implementar. Destacados nas 
+figuras 6 e 7. 
+ 
+
+(Figura 6) Combinação por localidades (SILVA, 2014). 
+
+ 
+ 
+
+ 
+ 
+
+(Figura 7) Combinação por usuários (SILVA, 2014). 
+
+ 
+ 
+
+16 
+ 
+
+
+
+ Os planos de trabalho gerados são estruturas com dados brutos, que podem ser 
+facilmente manipuladas. De posse de um plano de trabalho, podemos aplicar determina-
+das operações para assim manipulá-los e obter estruturas mais refinadas e informações 
+para as decisões. Podemos verificar abaixo as operações descritas por Silva (2014): 
+ 
+
+• uGRAPH (undirected graph): Espera queum plano de trabalho. Resulta em um gra-
+fo não direcionado. Essa operação cria, a partir de um plano de trabalho, um grafo 
+G = (V,E) não direcionado, que consiste em um conjunto de nós V e um conjunto 
+de arestas E. Cada chave ki no plano de trabalho representa um nó vi 2 V , e os 
+dados que são indexados por ki são atributos de vi. Uma aresta e = (vi, vj) pode ser 
+adicionada conectando os nós vi e vj dependendo da análise desejada, que é ex-
+pressa através de algumas operações específicas, que descrevemos a seguir. Ini-
+cialmente, E = ?. Todas as variáveis do plano de trabalho são incorporadas no gra-
+fo gerado; 
+ 
+
+• dGRAPH (directed graph): Espera um plano de trabalho. Resulta em um grafo di-
+recionado. A operação cria um grafo direcionado respeitando a operação uGRA-
+PH; 
+
+ 
+• CNG (change): Espera um plano de trabalho, um ID da camada e um status (0 ou 
+
+1). Resulta em um plano de trabalho com as modificações impostas pela mudança 
+de h. Essa operação altera o status atual de uma camada através de h. Se o status 
+informado é igual a 0 então a camada em questão é desabilitada. Essa camada 
+pode ser reabilitada posteriormente. 
+ 
+
+• dEDGE (directed edge): Espera um grafo direcionado resultante de um plano de 
+trabalho combinado por localidade. Resulta em um grafo com arestas direcionadas. 
+A operação cria uma aresta direcionada do nó vi para o nó vj se e somente se pelo 
+menos um mesmo usuário compartilhou um dado, em qualquer camada, no local 
+representado pelo nó vj logo após o compartilhamento de um dado, também em 
+qualquer camada, em uma localização representada pelo nó vi. O peso de uma a-
+resta representa o número total de transições realizadas a partir de vi para vj con-
+siderando transições de todos os usuários. 
+ 
+
+• DEL: Espera um grafo G e um inteiro t. Resulta em um subgrafo derivado de G. A 
+operação apaga arestas ei 2 E (E é o conjunto de arestas de G), com peso wi < t. 
+Todas estas operações mencionadas, com as devidas adaptações, são adequadas 
+para camadas primitivas e contextuais. Existem ainda operações específicas para 
+criar camadas contextuais, como as operações mostradas a seguir: 
+ 
+
+• fPOIS (find POIs): Espera um plano de trabalho representando uma camada de 
+sensoriamento. Resulta em um plano de trabalho contendo PDIs. A operação iden-
+tifica pontos de interesse (PDIs), que são obtidos aplicando o algoritmo em áreas 
+geográficas desejadas. 
+ 
+
+• fSIGHTS (find sights): Espera um plano de trabalho contendo PDIs. Resulta em um 
+grafo contendo pontos turísticos. A operação identifica pontos turísticos a partir de 
+um grafo GPDIs = (V,E), onde os nós vi 2 V são as áreas a dos PDIs identificados 
+em uma determinada região geográfica pré-definida 
+
+ 
+
+17 
+ 
+
+
+
+4 – MODELAGEM DO SCAPE COMO UMA FERRAMENTA RSP 
+ 
+
+4.1 – Introdução 
+ 
+ A proposta de criação de uma extensão para o sistema é tornar o SCAPE uma a-
+plicação que utilizará os conceitos de redes de sensores participativos, disponibilizando 
+para os usuários novas funcionalidades. Assim o aplicativo desenvolvido não será apenas 
+um auxiliar para os possíveis participantes do evento, mas, um sorvedouro de dados. 
+ Como a aplicação foi desenvolvida para o sistema Android, o mesmo já disponibili-
+za algumas ferramentas que gerenciam o acesso a determinados elementos, esses que 
+auxiliarão na obtenção dos dados. Os dados utilizados serão obtidos de formas específi-
+cas para as funcionalidades desejadas, como vistos nas seções anteriores. Partindo des-
+ses conceitos, tanto da modelagem da RSP em si, como do possível funcionamento do 
+SCAPE em um evento. Podemos destacar alguns possíveis exemplos dos dados obtidos 
+e os possíveis feedback. Ou seja, como visto nas seções anteriores, temos alguns exem-
+plos das possíveis camadas primitivas e contextuais. 
+ 
+
+• Opiniões sobre as atividades; 
+ 
+
+• Melhores atividades; 
+ 
+
+• Atividades mais visitadas; 
+ 
+
+• Interação com o local das atividades; 
+ 
+
+• Interação com as atividades 
+ 
+Partindo da premissa que nas redes de sensoriamento participativo o usuário deve es-
+
+tar apto e disposto a compartilhar um determinado dado, podemos criar uma forma onde o 
+participante do evento ao compartilhar um determinado dado seja de forma padronizada. 
+Assim, podemos criar formas eficientes tanto para armazenagem como também classifi-
+cação. Após essa classificação, podemos utilizar um dos possíveis padrões destacados 
+na seção 1.3 para não apenas criar as funcionalidades desejadas, mas termos um próprio 
+feedback em termos de pesquisa, o comportamento dos participantes em um evento. 
+ Ao trazermos esse pensamento comportamental e inseri-lo no ambiente do SCA-
+PE, podemos trilhar assim um possível caminho de desenvolvimento desse trabalho. 
+Quando utilizamos as possíveis posições geográficas dos participantes, revendo os e-
+xemplos já citados, podemos destacar possíveis comportamentos dos mesmos, tanto 
+quanto a um público em geral como também a um participante em particular. Como pri-
+meiro projeto, trabalharemos a modelagem e as modificações com o foco em um público 
+
+18 
+ 
+
+
+
+geral, tendo uma maior quantidade de dados possivelmente teremos melhores dados para 
+serem analisados. Quando diminuímos a escala de dados coletados, focando em apenas 
+um usuário. Abrimos nosso leque de funcionalidades, podemos traçar perfis de participan-
+tes e tentar melhor adequá-los em um evento.  
+
+Decidido o público alvo do projeto, devemos buscar os dados a serem utilizados 
+para desenvolver as novas funcionalidades do SCAPE. A princípio, podemos destacar as 
+localizações dos participantes em um possível evento, podemos destacar que os partici-
+pantes têm suas próprias opiniões e comentários sobre o evento. Trazendo essas ideias 
+para um espaço menor podemos dizer que, um evento é composto por atividades (pales-
+tras, mesas redondas, mini-cursos e afins). Essas possuem determinadas localizações, e 
+tais atividades ainda, são compostas por participantes que naquele determinado momento 
+estão formulando possíveis opiniões tanto sobre a atividade em si, como também o ambi-
+ente ao seu redor. Se utilizarmos esses dois conceitos, posicionamento e opiniões, po-
+demos trilhar um caminho sólido para seguirmos durante este trabalho. 
+ Utilizando os conhecimentos das redes de sensoriamento participativo, a modela-
+gem de camadas de sensoriamento juntamente com os padrões de mobilidade, destaca-
+dos nas seções anteriores, pode criar um sistema de sensoriamento participativo que em 
+primeiro instante, pode disponibilizar as atividades mais visitadas juntamente com possí-
+veis opiniões sobre os seus conteúdos. 
+
+4.2– Modelagens da Extensão do SCAPE 
+ 
+ Para executar as alterações na aplicação deve ser compreendidos como serão rea-
+lizados os envios de dados pelo participante e posteriormente os feedbacks para os 
+mesmos. Depois organizado idéias e recursos para tornar isso possível, visto que, duran-
+te a implementação original dos sistemas utilizou-se ferramentas e funcionalidades dispo-
+nibilizadas pela API, que serão utilizadas na criação e execução das novas funcionalida-
+des. Para realizar e testar essa modelagem idealizada para o sistema Será permitido que 
+os usuários possam compartilhar suas localizações e suas opiniões sobre as atividades. 
+  Podem ser definidas as modificações que serão usadas para a criação da modela-
+gem partindo dos novos casos de usos. As novas funcionalidades serão dadas aos parti-
+cipantes do evento, permitindo que, os mesmos enviem dados e recebam informações 
+sobre o evento. Como mostrado na figura 8. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+19 
+ 
+
+
+
+(Figura 8) Diagrama de casos de usos modificado 
+
+ 
+ 
+4.2.1 – Modelagem de Classes 
+ 
+4.2.1.1 – Enviar Dados 
+ 
+ A partir dos casos de uso, “Enviar Dados”, a nova funcionalidade será responsável 
+por enviar os dados coletados para o banco de dados, esta funcionalidade deverá enviar 
+os dados com alguns atributos básicos já destacados no trabalho de Silva (2014) e vistos 
+na seção 3. 
+
+(Figura 9) Diagrama de classe para o caso de uso “Enviar Dados”.
+
+ 
+
+20 
+ 
+
+
+
+ Ao observar a figura 9, os atributos contidos na classe serão enviados ao banco de 
+dados para futuramente serem utilizados na criação das camadas primitivas que serão 
+destacadas nos próximos tópicos. Os dados enviados devem conter: 
+
+• Localização do dado compartilhado; 
+• O exato momento em que o dado foi compartilhado; 
+• O identificador de quem enviou aquele dado; 
+• E o tipo de dado que está sendo enviado naquele momento; 
+
+O objeto da classe Dado, representa qualquer tipo de dado bruto a ser enviado, 
+podem-ser assim coletados dados dos mais diversos tipos,desde que os mesmo sejam 
+tratados corretamente no momemto do armazenamento no banco de dados. 
+
+Nas classes herdadas de enviarDados, o método EnviaDados() é responsável por 
+enviar os dados coletados no smartphone e enviá-los ao banco de dados, este método 
+contém as implementações para enviar os dados a serem armazenados no banco de 
+dados, o método GerarLocalizacao() utiliza os recursos da API de programação para os 
+dipositivos android, utiliza a classe LocationManager para obter a posição geogagráfica 
+do dipositivo móvel e assim estar compartilhando juntamente com o dado disponibilizado. 
+ 
+4.2.1.2– Receber Informação 
+ 
+ Como destacado anteriormente, as modificações feitas no sistema traz novas 
+características ao SCAPE, o sistemas não é somente um sorvedouro de dados mas 
+também um gerenciador de informações. Estas informações serão geradas e gerenciadas 
+através deste caso de uso, podendo assim criar funcionalidades diversificadas para cada 
+tipo de informação que deseja transmitir para os participantes do evento. 
+ O processo inicialmente parte da premissa do recebimento de dados brutos, 
+armazenados no banco de dados, e criação das camadas primitivas contendo os dados 
+que serão utilizados, as camadas serão criadas utilizando implementações da classe 
+abstrata CamadaPrimitiva(), essa classe irá receber os dados de acordo com o tipo de 
+dado bruto que será coletado, os dados deverão ser semelhantes. Após a coleta de dados 
+e criação das Camadas Primitivas, a aplicação ficará responsável também por criar as 
+Camadas Contextuais. Estas irão gerar as informações para os participantes do evento a 
+partir da análise dos dados de uma ou mais Camadas Primitivas, esse gerenciamento fica 
+por conta da implementação da classe abstrata CamadaContextual(); 
+ A figura 10 representa o diagrama de classes desta modelagem para que a 
+aplicação receba dados e possa gerar as informações para os participantes. 
+
+21 
+ 
+
+
+
+(Figura 10) Diagrama de classes responsável por demonstrar a criação das camadas primitivas e contextuais.
+
+ 
+
+A classe CamadaPrimitiva ficará responsável por obter os dados provenientes do 
+banco de dados e criar um meio de alocá-los em memória no dispositivo móvel para 
+futuramente serem utilizados para análise.  
+ As classes que irão ser herdadas da classe CamadaPrimitiva devem possuiro 
+método para a criação da mesmas, gerenciando os dados obtidos do banco de dados, os 
+mesmo serão obtidos através do método RecebeDados(), que ficara responsável por 
+fazer o acesso ao banco. Já o método principal CamadaPrimitiva() terá a 
+responsabilidade de gerenciar os dados obtidos pelo método anteriomente citado, 
+armazenando os dados no dispositivo móvel. Os dados de uma camada primitiva devem 
+ser semelhates, possuindo algo em comum como: mesmo tipo ou destinado a um mesmo 
+usuário, exemplos disto é uma camada primitiva destinada ao compartilhamento da 
+localização de vários usuários ou uma camada primitiva contendo os dados 
+compartilhados de um único usuário. 
+ A classe CamadaContextual tem como função gerar informações para os usuários, 
+neste caso os participantes dos eventos e utilizadores da aplicação. As camadas 
+contextuais como já foi dito nas seções anteriores, tem como propostar analisar e fornecer 
+informações, está análise parte do gerenciamento das camadas primitivas. 
+ Com os dados já armazenados nos dispostivos móveis, neste momento as 
+camadas primitivas já foram criadas e armazenadas, a implementação da classe 
+CamadaContextual consiste em utilizar os dados disponíveis das camadas primitiva para 
+gerar contexto, onde serão aplicados na forma de funcionalidades adcionais a aplicação. 
+Os métodos destas classe consiste basicamente em obter e analisar, o método principal 
+CamadaContextual() consiste em acessar as camadas primitivas armazenadas no 
+dispositivo móvel e separá-lás de acordo com o que deseja ser informado ao usuário final. 
+ O método GerarInformacao() consiste basicamente da análise que será feita sobre 
+as camadas primitivas já selecionadas, no final teremos os dados separados e 
+selecionados fornando assim a camada contextual. Ao final deste processo podemos 
+gerar as informações e transmitir ao usário, no caso, o participante. 
+
+ 
+4.3 – Alterações no banco de dados 
+ 
+ Como visto na seção 2 referente ao SCAPE, o mesmo possui um banco de dados 
+web no qual estão armazenadas as informações referentes ao evento, e no mesmo serão 
+
+22 
+ 
+
+
+
+armazenadas as informações referentes as camadas de sensoriamento. Como foi decidi-
+do, começaremos com a busca de um padrão de mobilidade e social, partindo primeiro 
+pela criação das camadas de localização e opiniões dos participantes do evento. 
+ As camadas de sensoriamento irão armazenar os dados compartilhados pelos par-
+ticipantes, esses dados contêm informações básicas condizentes com os estudos feitos 
+por Silva (2014). As alterações no banco de dados partirão das tabelas a serem criadas, 
+estas irão conter os dados descritos na seção 3.2, contendo os atributos relacionados a 
+localização, tempo que o dado foi compartilhado, identificador do usuário e qualquer outro 
+dado que esteja sendo compartilhado naquele momento. 
+ Estas novas tabelas criadas serão responsáveis por armazenar os dados que irão 
+povoar as camadas primitivas, nelas estarão armazenados os dados brutos separados 
+pelas funcionalidades desejadas. Estes dados serão enviados ao banco de dados através 
+das funcionalidades disponibilizadas na aplicação para smartphones.  
+
+5 –PROVA DE CONCEITO 
+  
+
+5.1– Aplicativo 
+ 
+5.1.1 – Localização 
+ 
+ Como explicado anteriormente, compartilhando as localizações podemos traçar 
+informações referentes tanto em grande escala como também focadas em um único ser. 
+Nessa visão estaríamos criando funcionalidades para buscar as atividades mais visitadas, 
+como também traçar o gosto de um único usuário através de suas atividades visitadas. 
+Para esse trabalho utilizaremos uma visão mais generalista, não trabalharemos com per-
+fis pessoais no momento, podendo buscar esta outra abordagem em trabalhos futuros. 
+ Quando pensamos em localizações podemos encontrar alguns pequenos proble-
+mas em relação a precisão do posicionamento, isto é, quando estamos utilizando a apli-
+cação que necessita do componente GPS no smartphones, inicialmente os mesmos po-
+dem parecer impreciso, retornando uma posição central e um raio nas imediações como 
+forma de tentar mostrar um melhor resultado para a localização exata, ou ainda, podemos 
+deparar com uma alta taxa de precisão, tornando qualquer movimentação muito sensível 
+para o posicionamento correto. 
+ Os dois problemas citados estão ligados com o método escolhido para triangular o 
+posicionamento do smartphone. Quando trabalhos com posicionamento global, podemos 
+escolher dois métodos a princípio para utilizar. O mais comum e preciso é a utilização do 
+componente GPS do próprio dispositivo móvel. Por ser algo muito preciso e de fácil alte-
+ração, os dados recolhidos através desse método devem sofrer uma filtragem antes e 
+possivelmente uma equiparação ao dado já armazenado da localização da atividade. O 
+outro método disponibilizado é a triangulação a partir da rede de telefonia, algo que pode 
+ser impreciso. Tornando esse método menos inseguro, em relação a sua confiabilidade, 
+mas, não sofre com a constante alteração de valores. Visto os problemas e o desempe-
+nho dos métodos citados acima, devemos encontrar uma forma de processar os dados 
+coletados antes de quaisquer analises e, como estaremos trabalhando com locais onde 
+muitas atividades podem estar ocorrendo ao mesmo tempo e em locais próximos. Vemos 
+
+23 
+ 
+
+
+
+que a utilização do componente GPS dos smartphones pode se tornar a mais adequada 
+para o projeto. 
+5.2.2 – Opiniões dos participantes 
+ 
+ Uma boa maneira de identificar a excelência em um evento é utilizando as opiniões 
+dos participantes do mesmo. Com esse intuito, e também, tentando aumentar a interação 
+dos participantes com o evento, foi elaborada a funcionalidade que permite o envio das 
+opiniões sobre a atividade que o participante está naquele momento. 
+ Normalmente encontramos opiniões sendo compartilhadas sobre um assunto, ou 
+filme, ou música, de algumas formas. As mais utilizadas são os textos redigidos sobre o 
+assunto ou algo a se opinar, ou por meio de classificação. Como foi citado nas seções 
+anteriores, podemos encontrar padrões para uma melhor análise dos dados, nesse caso, 
+podemos utilizar um meio de classificação das atividades que compõem um evento. Essa 
+padronização, torna fácil o envio, armazenamento e posteriormente análise das opiniões 
+tornando rápido e fácil o feedback para os usuários com as opiniões do público sobre as 
+atividades. 
+ 
+5.1.3 – Modificações da aplicação 
+ 
+ Podemos ver na figura 12 a adição de novos casos de usos, exemplificando a pro-
+posta de modelagem do sistema.  
+ (Figura 12) Diagrama de casos de uso referente a aplicação da modelagem no sistema 
+
+ 
+. 
+
+ 
+
+24 
+ 
+
+
+
+  Para desenvolver essas novas funcionalidades do sistema, teremos que criar no-
+vas classes para a aplicação do SCAPE, tanto as classes que servirão de auxílio para 
+qualquer nova funcionalidade desejada, como também as classes para demonstrar a im-
+plementação da modelagem do sistema.  
+ Primeiramente foram implementadas as classes para a construção dos envios de 
+dados ao banco de dados do sistema, seguindo o diagrama de classes acima podemos 
+destacar a criação de duas novas classes que foram herdadas da classe principal respon-
+sável pelos envios de dados. Essas classes ficam responsáveis por popular as tabelas do 
+banco de dados localização e opinião.  
+ A classe EnviaLocalizacao fica a cargo de enviar a localização do participante na-
+quele no momento do compartilhamento do dado, criando condições para que a posição 
+do mesmo seja atrelada um determinado local em um evento, tentando evitar que possí-
+veis coordenadas fora dos padrões do evento sejam compartilhadas.  
+ A classe EnviaOpiniao tem como responsabilidade enviar a opinião do participante 
+sobre uma determinada atividade em um evento, foi criado uma classificação para as opi-
+niões dos participantes, por mais que seja um método que não atenda da melhor maneira 
+todos os usuários, torna-se fácil a análise padronizada das mesmas para futuros feed-
+backs.  
+ 
+
+(Figura 13) Diagrama de Classe. Modificação realiza no sistema, envio de dados ao banco 
+
+ 
+ Com a finalização do envio de dados pela aplicação, a mesma deixa de ser apenas 
+um sorvedouro de dados e passa a ser neste instante um coletor de dados e gerenciador 
+de informações. 
+ As classes responsáveis por essa coleta são as classes CamadaPriLocalizao e 
+CamadaPriOpiniao, destacadas na figura abaixo, estas classes serão herdadas da classe 
+CamadaPrimitiva e tem como função acessar o banco de dados e coletar os dados das 
+tabelas criadas para cada uma delas, como já foi dito as camadas primitivas devem ter 
+dados semelhantes ou do mesmo tipo ou possuir algo em comum entre elas como, os 
+dados fornecidos de um único usuário ou dados de uma única localidade. 
+
+25 
+ 
+
+
+
+ Ao final destes processo teremos duas camadas primitivas criadas e prontas para 
+serem utilizadas, as mesmas serão armazenadas no dipositivo móvel, utilizando recursos 
+que o próprio dispositivo nos proporciona. 
+
+(Figura 14) Diagrama de classe contendo as classes para a criação das camadas primitivas
+
+ 
+ Com as camadas primitivas devidamente criadas e armazenadas no dispositivo, 
+podemos criar as camadas contextuais para utilização e geração de informações para 
+disponibilizar aos participantes do evento, Como será mostrado na figura abaixo, criamos 
+duas camadas contextuais para demonstrar a modelagem de RSP, a Camada Contextual 
+localização e a Camada Contextual Localização e Opinião. 
+ A classe responsável pela utilização das camadas primitivas é a classe 
+CamadaContextual, está classe também é abstrata assim qualquer criação de novas 
+camadas contextuais devem partir da implementação da mesma. Como foram 
+implementadas duas camadas contextuais, a camada contextual referente a localização 
+será gerenciada pela classe CamadaConLocalizacao, já a camada contextual que irá 
+manipular os dados de localização e opnião sera gerenciada pela classe 
+CamadaConlocaOpini. 
+ A classe CamadaConLocalizacao ficaráa cargo de gerenciar a camada primitiva 
+localização, demonstrando assim um exemplo de manipulação de uma única camda 
+primitiva. Esta camada tem como função gerar informações sobre as localizações dos 
+participantes em um evento. Neste caso, para uma melhor visualização desta camada foi 
+escolhida que as análises sobre as posições dos participantes teriam como feedback as 
+atividades mais visitadas pelos usuários em um evento. Criando assim um ranking com 
+base nas posições dos participantes. Já a classe CamadaConLocaOpini irá demonstrar a 
+manipulação de duas ou mais camadas primitivas. Neste exemplo, iremos trabalhar com 
+as duas camadas primitivas, tanto a camada de localização como também a camada de 
+opinião. Trabalhando com as duas juntamente, deixamos de ter opiniões “soltas” e pas-
+samos a combiná-las com as localizações compartilhadas no momento do envio das opi-
+niões. Assim podemos classificar uma determinada atividade pelo gosto dos participantes 
+que estão presentes no local. 
+ 
+ 
+ 
+ 
+
+26 
+ 
+
+
+
+(Figura 15) Diagrama de classe, criação das camadas contextuais. 
+
+ 
+ As figuras 16 e 17 mostram as funcionalidades enviar localização e enviar opinião 
+sobre as atividades. 
+ 
+
+(Figura 16) Funcionalidade referente ao envio da localização do participante 
+
+ 
+ 
+
+(Figura 17) Funcionalidade referente ao envio das opiniões do participante 
+
+ 
+ 
+ As figuras 18 e 19 demonstram como os feedbacks ao participante podem ser de-
+monstrados. Para demonstrar a modelagem, temos um ranking contendo as atividades 
+
+27 
+ 
+
+
+
+mais visitadas pelos participantes e, na descrição de uma atividade a classificação da 
+mesma de acordo com as opiniões dos participantes que estão nela. 
+ 
+
+(Figura 18) Demonstração do ranking com as atividades mais visitadas de um evento 
+ 
+
+ 
+
+ 
+ 
+(Figura 19) Demonstração da classificação das atividades de acordo com a opinião dos participantes 
+
+ 
+ 
+
+ 
+ 
+
+28 
+ 
+
+
+
+5.2 – Banco de dados 
+ 
+Como visto nas seções anteriores, as camadas de sensoriamento podem ser definidas 
+através das funcionalidades desejadas, como foi definido nesse primeiro instante faremos 
+uma abordagem mais focada em projetar uma modelagem para o sistema, assim a fun-
+cionalidades serão mais objetivas. Criaremos as tabelas no banco de dados de acordo 
+com as propostas definidas, em um primeiro instante foi definido que iremos implementar 
+funcionalidades referentes a localização e opinião dos participantes, nesse caso será adi-
+cionada duas tabelas novas no banco de dados do sistema. Uma tabela irá armazenar os 
+dados referente a localização do participante e outra tabela irá armazenar os dados refe-
+rente a opinião do participante. 
+ A tabela referente a localização será criada armazenando o Id do participante, 
+mesmo atributo já existente no banco, e suas coordenadas será feito uma de se enqua-
+drar na localização da atividade. O SCAPE foi idealizado para funcionar como uma ferra-
+menta completa no auxílio a eventos, a mesma tem em seu banco as informações das 
+atividades como suas localizações em coordenadas. Assim, devemos criar uma maneira 
+de analisar as posições próximas da localização da atividade, pois quando o participante 
+enviar sua localização o mesmo deve ser enquadrado em alguma das possíveis ativida-
+des do evento. A tabela que irá conter as informações sobre a opinião do participante, 
+assim como na tabela de localização, o atributo que irá armazenar as opiniões estará a-
+trelado ao Id do participante já existente no banco de dados. Inicialmente trabalharemos 
+com opiniões já padronizadas, como forma de estudo para a criação correta da modela-
+gem do sistema, futuramente abriremos espaço para informações mais detalhadas. Nesse 
+caso, as opiniões serão informações básicas e padronizadas. 
+
+Na figura a seguir temos as tabelas adicionadas, as novas tabelas serão utilizadas 
+no armazenamento dos dados compartilhados pelos usuários, representando as camadas 
+de sensoriamento de localização e opinião. 
+
+ 
+(Figura 11) Tabelas adicionadas ao banco de dados para armazenar os dados compartilhados 
+
+ 
+ 
+
+ 
+ 
+
+29 
+ 
+
+
+
+6 – CONCLUSÃO 
+ 
+ Trabalhando com redes de sensores participativas expande-se o poder do sensori-
+amento de localidades, com um custo relativamente baixo ficando apenas dependente da 
+opção ou não dos nós compartilharem dados na rede. Com este intuito, foi criada a mode-
+lagem para o SCAPE para torná-lo uma ferramenta de interação entre participante e e-
+vento, permitindo que participantes participem diretamente do evento, ao compartilharem 
+seus dados de acordo com as funcionalidades implementadas. Neste trabalho como e-
+xemplificação, foram escolhidas duas formas dos participantes estarem interagindo ativa-
+mente com o evento, expondo suas opiniões e compartilhando suas localizações de ma-
+neira a retiramos informações que possam contribuir com uma melhor análise do evento. 
+ Como trabalhos futuros planejam-se criar novas funcionalidades que se enquadre 
+melhor aos eventos, permitindo que participantes possam interagir ativamente com as 
+atividades em que os mesmos estão presentes, e com o final desta criação e melhorias 
+também na interface com o usuário para um melhor entendimento da aplicação planeja-
+mos utilizar a ferramenta primeiramente em eventos de pequeno porte, para teste e as 
+possíveis correções, futuramente para eventos de grande porte. 
+ O SCAPE será utilizado na SECOM 2016 da UFV Campus Florestal, para primeiro 
+teste tendo como objetivo a análise correta das funcionalidades e como estas irão criar a 
+interação entre aplicação e participantes. Futuramente, a ferramenta será utilizada em 
+eventos maiores, estendendo a participantes que não estejam no contexto da área da 
+computação e possivelmente encontrem dificuldades para interagir corretamente com a 
+aplicação e o evento, como a Semana do Produtor Rural 2016 e o SIA 2016, ambos na 
+UFV Campus Florestal. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+30 
+ 
+
+
+
+REFERÊNCIAS 
+ 
+(SILVA, 2014) - SILVA, Thiago Henrique. ESTUDO EM LARGA ESCALA DA DINÂMICA 
+DE CIDADES E DO COMPORTAMENTO SOCIAL URBANO USANDO REDES DE 
+SENSORES PARTICIPATIVOS. 2015. 165 f. Tese (Doutorado) - Curso de Ciência da 
+Computação, Instituto de Ciências Exatas, Universidade Federal de Minas Gerais, Belo 
+Horizonte, 2014. 
+(TILAK, 2013) - TILAK, Sameer. Real-World Deployments of Participatory Sensing Appli-
+cations: Current Trends and Future Directions. Isrn Sensor Networks, [s.l.], v. 2013, p.1-
+8, 2013. Hindawi Publishing Corporation. DOI: 10.1155/2013/583165. Disponível em: 
+<http://downloads.hindawi.com/journals/isrn.sensor.networks/2013/583165.pdf>. Acesso 
+em: 17 nov. 2015. 
+(BURKE et al., 2006) - J. Burke, D. Estrin, M. Hansen, A. Parker, N. Ramanathan, S. 
+Reddy, M. B. Srivastava. 2006. Participatory Sensing. In the Proceedings of the Interna-
+tional Workshop on World-Sensor-Web (WSW'2006), ACM, October 31, 2006, Boulder, 
+CO, U.S.A. In: (SILVA, 2014) 
+(SONG et al., 2010) - Song, C., Qu, Z., Blumm, N., and Barabási, A.-L. (2010). Limits of 
+predictability in human mobility. Science, 327(5968):1018—1021In: (SILVA, 2014) 
+(CHENG et al., 2011) - Cheng, Z., Caverlee, J., Lee, K., and Sui, D. Z. (2011). Exploring 
+Millions of Footprints in Location Sharing Services. In Proc. of the Fifth Int’l Conf. on 
+Weblogs and Social Media (ICWSM’11), Barcelona, SpainIn: (SILVA, 2014) 
+(CHO et al., 2011) - Cho, E., Myers, S. A., and Leskovec, J. (2011). Friendship and mo-
+bility: user movement in location-based social networks. In Proceedings of the 17th 
+ACM SIGKDD international conference on Knowledge discovery and data mining, KDD 
+’11, pages 1082--1090, San Diego, California, USA. ACM.In: (SILVA, 2014) 
+(CRANSHAW et al., 2010) - Cranshaw, J., Toch, E., Hong, J., Kittur, A., and Sadeh, N. 
+(2010). Bridging the gap between physical location and online social networks. In 
+Proceedings of the 12th ACM International Conference on Ubiquitous computing, pages 
+119--128, Pittsburgh, USA. ACM.In: (SILVA, 2014) 
+(NGUYEN, T.; SZYMANSKI, B. K., 2012) - Nguyen, T. and Szymanski, B. K. (2012). Us-
+ing location-based social networks to validate human mobility and relationships 
+models. arXiv preprint arXiv:1208.3653.In: (SILVA, 2014) 
+(SCELLATO et al., 2012) - Scellato, S., Noulas, A., Lambiotte, R., and Mascolo, C. (2011). 
+Socio-spatial Properties of Online Location-based Social Networks. In Proc. of the 
+Fifth Int’l Conf. on Weblogs and Social Media (ICWSM’11), Barcelona, Spain. AAAI. In: 
+(SILVA, 2014) 
+(QUERCIA et al., 2012) - Quercia, D., Capra, L., and Crowcroft, J. (2012). The social 
+world of twitter: Topics, geography, and emotions. In The 6th international AAAI 
+Conference on weblogs and social media, Dublin.In: (SILVA, 2014) 
+ 
+
+31 
+ 
+
+
+
+APÊNDICE I – DETALHAMENTOS DA MODELAGEM DA EXTENSÃO 
+DO SISTEMA. 
+  
+ Regras de Negócio de 1 a 9 e os Requisitos Funcionais da aplicação de 1 a 4, já 
+foram definidos no relatório final da bolsa PIBIT do projeto SCAPE: Sistema Sensível ao 
+Contexto para Apoio à Participação em Eventos. 
+ 
+
+Regras de Negocio 
+ 
+RN10 – Os participantes poderão ou não enviar dados.  
+RN11 – Os participantes devem estar cientes dos tipos de dados que serão enviados ao 
+servidor. 
+RN13 – Os participantes devem receber feedbacks dos dados compartilhados. 
+
+Requisitos Funcionais 
+ 
+APP-RF05 – O sistema deve informar qual o tipo de dado que será compartilhado. 
+
+APP-RF05.1 – O sistema deve conter funcionalidades especificadas sobre cada ti-
+po de dado que será enviado, separadamente. 
+
+APP-RF06 – O sistema deve coletar os dados do servidor, analisar e gerar informações 
+para os participantes do evento. 
+
+APP-RF06.1 – O sistema deve, se necessário, coletar tipos de dados diferentes a-
+fim de melhorar a análise dos dados e gerar informações mais detalhadas. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+32 
+ 
+
+
+
+Detalhamento dos casos de usos. 
+ 
+Enviar Dados (UC15) 
+ 
+Sumário: Participante do evento envia dados para o servidor. 
+Ator primário: Participante 
+Ator secundário: Servidor 
+Pré-condições: O dispositivo móvel deve estar apto a acessar a rede para envio de dados. 
+Fluxo Principal 
+
+1. O participante acessa a funcionalidade de envio de dados através da rede social do 
+aplicativo. 
+
+2. O sistema solicita ao participante o tipo de dado que o mesmo deseja enviar. 
+3. O participante entra com os dados a serem enviados. 
+4. Os dados são enviados para o Servidor e o caso de uso termina. 
+
+Fluxo Alternativo (3): Falha no envio de dados – Servidor off-line  
+a. Caso o servidor esteja off-line o usuário deve aguarda um momento, caso de uso 
+
+prossegue a partir do passo 3. 
+ 
+
+Pós-condições: Os dados enviados pelos participantes são armazenados em tabelas, com 
+outros dados semelhantes. 
+Regras de negócio: RN11 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+33 
+ 
+
+
+
+Receber Informação (UC16) 
+ 
+Sumário: Participante do evento recebe informações sobre o evento 
+Ator primário: Participante 
+Ator secundário: Servidor 
+Pré-condições: Devem existir dados no servidor para que as funcionalidades implementa-
+das possam gerar informações. 
+Fluxo Principal 
+
+1. O participante acessa a funcionalidade de receber informação a partir da rede 
+social da aplicação. 
+
+2. A aplicação acessa o servidor contendo os dados. 
+3. Os dados do servidor são acessados, utilizando o UC17 – Criar camadas primi-
+
+tivas. 
+4. Após criadas as camadas primitivas , é utilizado o UC18 – Criar camadas con-
+
+textuais. 
+5. As camadas contextuais irão retornar informações sobre o evento. 
+6. As informações são transmitidas ao Participante e o caso de uso se encerra. 
+
+Fluxo Alternativo (2): Servidor indisponível no momento. 
+a. Caso a conexão com o servidor falhe, o usuário deve aguarda um momento e 
+
+entrar novamente na funcionalidade, Caso de uso recomeça do passo 1. 
+Pós-condições: As informações são transmitidas ao Participante pelas funcionalidades, de 
+acordo com as implementações das mesmas. 
+Regras de negócio: RN13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+34 
+ 
+
+
+
+Criar Camadas Primitivas (CSU17) 
+ 
+Sumário: O sistema cria camadas primitivas contendo os dados provenientes do banco de 
+dados do servidor. 
+Ator primário: Participante 
+Ator secundário: Servidor 
+Pré-condições: O participante deve acessar a rede social da aplicação afim de receber as 
+informações provenientes dos dados compartilhados, UC16 – Acessar Rede Social. 
+Fluxo Principal 
+
+1. A aplicação acessa o banco de dados do sistema 
+2. Dados armazenados nas tabelas do banco de dados são transferidos para aplica-
+
+ção. 
+3. Serão criadas as camadas primitivas com os dados proveniente do banco de dados 
+
+do Servidor. 
+4. Os dados provenientes do servidor são utilizados para popular as camadas primiti-
+
+vas 
+5. As camadas primitivas são armazenadas no dispositivo móvel. 
+6. As camadas primitivas estão prontas para uso e o caso de uso termina. 
+
+Fluxo Alternativo (1): Servidor indisponível no momento. 
+a. Caso o servidor esteja indisponível a aplicação tenta novamente acessar o servi-
+
+dor durante um espaço de tempo. Caso de uso segue do passo 1. 
+Pós-condições: As camadas primitivas contendo os dados são armazenadas no banco de 
+dados do dispositivo móvel. 
+Regras de Negócio: RN13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+35 
+ 
+
+
+
+Criar Camadas Contextuais (UC18) 
+ 
+Sumário: O sistema cria camadas contextuais e gera informações para os participantes. 
+Ator Primário: Participante 
+Ator Secundário: Servidor 
+Pré-condições: Devem existir camadas primitivas já disponíveis no dispositivo móvel para 
+serem analisadas.  
+Fluxo Principal 
+
+1. A aplicação acessa as camadas primitivas armazenadas no dispositivo móvel. 
+2. As camadas contextuais são criadas a partir da utilização da camada primitiva cor-
+
+respondente. 
+3. Os dados da camada primitiva são analisados. 
+4. Após a análise são geradas informações. 
+5. As informações serão utilizadas nas funcionalidades e o caso de uso se encerra. 
+
+Fluxo alternativo (3): Utilização de mais de uma camada primitiva 
+a. A camada contextual pode utilizar mais de uma camada primitiva para sua análise, 
+
+assim o caso de uso prossegue a partir do passo 2. 
+ 
+Regras de Negócio: RN13 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+36 
+ 
+
+
+
+Diagrama de sequência 
+ 
+Diagrama de sequência – Envia Dados 
+ 
+ Diagrama de sequência do envio de um objeto da classe dado, desde a criação do 
+mesmo até o envio para o banco de dados. 
+ 
+
+ 
+ 
+Diagrama de sequência – Receber Informação 
+ 
+ Diagrama de sequência contendo os objetos criados para que seja executada a 
+geração de informação na aplicação do dispositivo móvel. 
+ 
+
+ 
+
+37 
+ 
+
+
+
+APÊNDICE II – DETALHAMENTOS DOS CASOS DE USOS REALIZA-
+DOS NA EXECUÇÃO DA MODELAGEM DO SISTEMA. 
+ 
+
+Detalhamento casos de usos. 
+ 
+Enviar Localização (UC19) 
+ 
+Ator Primário: Participante 
+Ator Secundário: Servidor 
+Pré-condição: O dispositivo móvel deve estar apto a acessar a rede para envio de dados 
+e o GPS ativado. 
+Fluxo Principal 
+
+1. O participante acessa a funcionalidade de envio de dados através da rede social do 
+aplicativo. 
+
+2. O sistema solicita ao participante a confirmação do compartilhamento da posição 
+atual do mesmo. 
+
+3. Será criado um dado com as coordenadas geográficas do participante. 
+4. Os dados são enviados para o Servidor e o caso de uso termina. 
+
+Fluxo Alternativo (4): Falha no envio de dados – Servidor off-line  
+a. Caso o servidor esteja off-line o usuário deve aguarda um momento, caso de uso 
+
+prossegue a partir do passo 3. 
+ 
+Pós-condições: As localizações dos participantes, compartilhadas pelos mesmos, são ar-
+mazenadas em uma tabela no banco de dados do servidor. 
+Regras de negócio: RN11 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+38 
+ 
+
+
+
+Enviar Opinião (UC20) 
+ 
+Ator Primário: Participante 
+Ator Secundário: Servidor 
+Pré-condição: Participante deve estar disposto a compartilhar dado acessando a rede so-
+cial da aplicação, UC16 – Acessar Rede Social. 
+Fluxo Principal 
+
+1. O participante acessa a funcionalidade de envio de dados através da rede social do 
+aplicativo. 
+
+2. O sistema solicita ao participante a opção de compartilhar a opinião sobre a ativi-
+dade em que o participante está. 
+
+3. Será criado um objeto do tipo dado com a opinião do participante. 
+4. O objeto será enviado para o Servidor e o caso de uso termina. 
+
+Fluxo Alternativo (4): Falha no envio de dados – Servidor off-line  
+a. Caso o servidor esteja off-line o usuário deve aguarda um momento, caso de uso 
+
+prossegue a partir do passo 3. 
+ 
+Pós-condições: As opiniões dos participantes, compartilhadas pelos mesmos, são arma-
+zenadas em uma tabela no banco de dados do servidor. 
+Regras de negócio: RN11 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+39 
+ 
+
+
+
+Receber Atividades mais visitadas (UC21) 
+ 
+Sumário: O sistema cria camada contextual analisando os dados armazenados nas ca-
+madas primitivas e gerando informações, mostrando ao participante as atividades mais 
+visitadas. 
+Ator primário: Participante 
+Ator secundário: Servidor 
+Pré-condições: O participante deve acessar a rede social da aplicação afim de receber as 
+informações provenientes dos dados compartilhados, UC16 – Acessar Rede Social. 
+Fluxo Principal 
+
+1. A aplicação acessa o banco de dados do sistema 
+2. Dados contendo as localizações dos participantes, armazenados na tabela do ban-
+
+co de dados são transferidos para aplicação. 
+3. Será criada a camada primitiva contendo as localizações dos participantes no e-
+
+vento. 
+4. As camadas primitivas serão armazenadas no dispositivo móvel. 
+5. Inicia a criação da camada contextual, utilizando a camada primitiva contendo os 
+
+dados armazenados. 
+6. A camada contextual analisa as posições dos participantes, comparando com as 
+
+posições de cada atividade. 
+7. Cria-se um ranking contendo com as atividades mais visitadas. 
+8. A lista com as atividades mais visitadas é transmitida aos participantes e o caso de 
+
+uso se encerra. 
+Regras de Negócio: RN13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+40 
+ 
+
+
+
+Receber Opinião das atividades (UC22) 
+ 
+Sumário: O sistema cria camada contextual analisando os dados armazenados nas ca-
+madas primitivas e gerando informações, mostrando ao participante a opinião geral sobre 
+o conteúdo da atividade específica. 
+Ator primário: Participante 
+Ator secundário: Servidor 
+Pré-condições: O participante deve acessar a rede social da aplicação afim de receber as 
+informações provenientes dos dados compartilhados, UC16 – Acessar Rede Social. 
+Fluxo Principal 
+
+1. A aplicação acessa o banco de dados do sistema 
+2. Dados com as localizações e as opiniões dos participantes, armazenados nas ta-
+
+belas do banco de dados são transferidos para aplicação. 
+3. Serão criadas as camadas primitivas contendo as localizações, e as opiniões dos 
+
+participantes no evento, separadamente. 
+4. As camadas primitivas serão armazenadas no dispositivo móvel. 
+5. Inicia a criação da camada contextual, utilizando as camadas primitivas contendo 
+
+os dados armazenados. 
+6. O sistema analisa as posições dos participantes, através das camadas contextuais, 
+
+comparando com as posições de cada atividade. 
+7. Analisa a opinião do participante referente a atividade especificada e, classifica a 
+
+mesma. O caso de uso se encerra. 
+Pós-condições: A classificação da atividade é mostrada ao participante quando se acessa 
+os detalhes da mesma. 
+Regras de Negócio: RN13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+41

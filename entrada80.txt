@@ -1,0 +1,1058 @@
+﻿Algoritmo genético aplicado à otimização de um perfil aerodinâmico de 
+
+uma aeronave rádio controlada 
+
+ 
+
+ Wesley Cardoso Silva (UFV-CAF) wesley.cardoso@ufv.br  
+
+ 
+
+Resumo: O projeto de uma aeronave rádio controlada é constituído de uma série de fatores que 
+
+exigem do projetista decisões minuciosas acerca de cada parte da aeronave. Em grande parte das 
+
+vezes, tais decisões estão diretamente relacionadas à experiência do projetista, de forma que o 
+
+sucesso do projeto depende muito do conhecimento deste desenvolvedor. Neste trabalho é proposto 
+
+o uso de um algoritmo genético na otimização de um perfil aerodinâmico de asa, com o objetivo 
+
+de auxiliar nas decisões de projeto da aeronave para maximizar a carga transportada pelo veículo 
+
+aéreo, considerando as regras da competição SAE BRASIL AeroDesign. Os dados gerados foram 
+
+obtidos por meio da equação analítica original da distância e por uma expressão aproximada 
+
+gerada por programação genética. Como resultado são realizadas comparações dos valores 
+
+obtidos tanto com a equação analítica quanto com a expressão aproximada. Os resultados obtidos 
+
+apresentaram configurações de perfis aerodinâmicos satisfatórios capazes de transportar massas 
+
+cujos valores superam alguns perfis aerodinâmicos conhecidos na literatura. 
+
+Palavras-chave: Algoritmo genético; Otimização; AeroDesign. 
+
+1.Introdução 
+
+A competição SAE BRASIL AeroDesign é um programa que desafia estudantes a se 
+
+envolverem em um projeto multidisciplinar que visa a construção de uma aeronave capaz de 
+
+atender requisitos conflitantes como minimização do peso da aeronave e maximização da carga 
+
+transportada por ela, instrumentação e ensaios em voos dos protótipos (SAE, 2019). Esse desafio, 
+
+realizado anualmente, impulsionou o surgimento da equipe Acauã na Universidade Federal de 
+
+Viçosa- Campus Florestal, que desde o ano de 2011 participa da competição. Inicialmente a equipe 
+
+foi formada por estudantes do curso de física, no entanto, atualmente é composta por discentes de 
+
+outras áreas como engenharia e ciência da computação.  
+
+Projetar um VANT (Veículo Aéreo Não Tripulado) exige dos desenvolvedores 
+
+conhecimentos que são adquiridos de experiências anteriores, que influenciam em decisões 
+
+1 
+ 
+
+
+
+assertivas sobre vários aspectos importantes da construção da aeronave. As possibilidades são 
+
+inúmeras, portanto, é necessário que se tenha uma ideia que norteie o projeto e recursos que 
+
+auxiliem na tomada de decisão, de forma que possam ser adaptados às necessidades e 
+
+características de um determinado problema.  
+
+Em Pellegrini (2015) a pergunta norteadora trata-se do comprimento de pista necessário 
+
+para a decolagem e pouso de uma aeronave. Tendo em vista um fator importante que é a distância 
+
+máxima que o VANT pode percorrer, distância essa que é fornecida pela competição, assim será 
+
+preciso encontrar os parâmetros ideais, de partes específicas da aeronave para se alterar, e também 
+
+é necessário saber quais seriam seus melhores valores para obtenção de um bom projeto. 
+
+Em Hua et al (2003) é destacada a importância da experiência do projetista para a 
+
+construção da aeronave e o surgimento de métodos para redução dessa dependência. Diante das 
+
+mais variadas possibilidades de solução, torna-se necessário que os envolvidos no projeto tenham 
+
+ferramentas que deem respaldo positivo para as decisões tomadas e até mesmo reduza o tempo 
+
+dedicado a determinadas tarefas.  
+
+Nesse contexto, a computação evolucionária é uma técnica que possui potencial para 
+
+auxiliar no desenvolvimento do projeto de um VANT. O presente trabalho objetiva resolver, por 
+
+meio de um algoritmo genético, um problema de otimização da distância percorrida por um VANT 
+
+em sua decolagem, a fim de se determinar neste projeto a carga máxima que essa aeronave 
+
+conseguirá transportar. 
+
+ 
+
+2. Otimização em aero design 
+
+ Desde melhorias no processo de desenvolvimento de uma aeronave até o aperfeiçoamento 
+
+de perfis aerodinâmicos, a otimização em aerodesign tem sido proposta como uma das mais 
+
+confiáveis alternativas para obtenção de bons resultados para os mais variados projetos. As 
+
+demandas apresentadas pela competição SAE BRASIL AeroDesign podem ser vistas como uma 
+
+subárea dos problemas de aerodesign dos quais os algoritmos genéticos atendem com eficácia e 
+
+podem gerar inovações para soluções de problemas em outros setores da aviação.  
+
+ Com a otimização tão presente em soluções diversas, vale ressaltar propostas como em Da 
+
+Silva, Gelaim e Egert (2016) que apresentam o desenvolvimento de metodologia automatizada para 
+
+obtenção de um layout de aeronave, a qual leva em conta um número de 1563 perfis aerodinâmicos 
+
+2 
+ 
+
+
+
+conhecidos e, pelo uso de algoritmo genético, obtém-se resultados que levam em consideração a 
+
+distância percorrida na decolagem. Destaca-se também Ng e Leng (2002) que apresentam 
+
+configurações para aeronaves rádio controladas que priorizam a redução de peso e obtenção de 
+
+parâmetros geométricos com métodos auxiliares ao algoritmo genético, como um algoritmo 
+
+gerador de malhas para obtenção de parâmetros da forma da asa e do aerofólio. 
+
+Portanto, pela variedade e versatilidade de soluções que os algoritmos genéticos fornecem 
+
+para os problemas, este trabalho apresenta mais uma alternativa para obtenção de valores da carga 
+
+transportada pela aeronave, fornecendo assim alguns parâmetros de perfis aerodinâmicos para sua 
+
+asa capazes de satisfazer tais demandas. 
+
+ 
+
+3. Descrição do problema 
+
+A abordagem inicial proposta para este trabalho consistia em utilizar uma equação analítica 
+
+específica que envolve a carga paga (carga transportada pelo VANT) a fim de maximizá-la. 
+
+Entretanto, isolar a carga paga da expressão não foi algebricamente possível, pois a equação em 
+
+questão é transcendental. Sendo assim, uma possível abordagem é a obtenção de uma expressão 
+
+equivalente gerada por programação genética na qual seja possível isolar a carga paga. Até o 
+
+momento, conseguiu-se obter diversas expressões aproximadas de qualidade, mas em nenhuma 
+
+delas foi possível isolar a carga paga ainda. Desta forma, os experimentos realizados neste trabalho 
+
+consistiram na utilização de um algoritmo genético, o qual possui como função objetivo a equação 
+
+analítica original da distância ou sua expressão aproximada gerada por programação genética, para 
+
+se obter perfis aerodinâmicos de asa e em seguida realizar um estudo comparativo entre os valores 
+
+obtidos por essas duas expressões. 
+
+A equação da distância, embora não envolva explicitamente a carga paga1 em seus termos, 
+
+apresenta grande potencial para a solução do problema por também envolver parâmetros 
+
+importantes na obtenção de um perfil aerodinâmico de asa e estar associada à massa total do 
+
+conjunto aeronave e carga transportada.  
+
+                                                 
+1 A equação da distância tem em seus termos a massa total, que consiste na soma da massa da aeronave e da carga 
+paga. 
+
+3 
+ 
+
+
+
+As características da asa, especialmente seu formato na projeção horizontal influenciam 
+
+fortemente sobre o seu desempenho, de forma a comprometer a estabilidade do voo e a máxima 
+
+sustentação (ROSA, 2006). Com base nesses conceitos a escolha de perfil aerodinâmico para a asa 
+
+é de extrema importância e se encaixa perfeitamente nos requisitos levantados para obtenção de 
+
+um modelo matemático que envolva a distância e massa da carga. 
+
+O perfil aerodinâmico pode ser definido como uma superfície construída com o intuito de 
+
+se obter uma reação aerodinâmica pelo escoamento do fluido ao seu redor (RODRIGUES, 2014). 
+
+Pela análise do perfil pode-se notar características geométricas que influenciam diretamente no 
+
+desempenho do avião e são responsáveis tanto pela sustentação da aeronave durante o voo quanto 
+
+para a decolagem. A Figura 1 apresenta características geométricas de um perfil aerodinâmico. 
+
+ 
+Figura 1- Características geométricas de um perfil aerodinâmico. Fonte Rodrigues (2014). 
+
+4. Metodologia 
+
+ Otimização de projetos de aerodesign com foco no perfil aerodinâmico, levando em 
+
+consideração elementos que são influenciados pelas características geométricas, como o 
+
+coeficiente de sustentação, tem se apresentado como uma possibilidade de bons resultados e por 
+
+isso vem sendo muito explorada, como em Ng e Leng (2002) que apresenta uma análise sobre 
+
+soluções conhecidas como a montagem dos componentes do VANT diretamente na asa para se 
+
+excluir a necessidade de uma fuselagem, uma configuração em que a aeronave não possui cauda, 
+
+e também propõe um projeto que se destaca por acrescentar uma solução que inclui um elemento 
+
+o qual os autores chamam de “vazamento de fluxo”. 
+
+Assim, o problema encontrado visa propor um perfil aerodinâmico que resulte em bons 
+
+valores de carga transportada pelo VANT, sendo solucionado pelo uso da equação da distância 
+
+como função objetivo e tendo como variáveis de decisão M, CLMax, Alphao e ao. A Tabela 1 
+
+4 
+ 
+
+
+
+apresenta a definição das variáveis que serão usadas como genes no algoritmo genético e seus 
+
+respectivos valores de máximo e mínimo que serão utilizados como restrições de cada variável. 
+
+TABELA 1 - Variáveis de decisão com restrições de limite e descrição. 
+Símbolo  Mínimo Máximo Unidade Descrição 
+
+ 
+
+ao 0,100 0,150 (°)−1 Coeficiente linear curva cl-alfa perfil 
+αo -2,224 -0,050 ° Ângulo de ataque para sustentação nula 
+
+clmax 1,000 1,300 adm Coeficientede sustentação máxima 
+M 2,303 2,997 Kg Massa total (massa vazio + massa carga paga) na decolagem 
+
+A equação da distância, que será a função objetivo ou fitness do problema é apresentada na 
+
+Equação 3 em função das Equações 1 e 2, essa equação corresponde à distância que a aeronave 
+
+deverá percorrer durante a decolagem, dado um conjunto de parâmetros que serão calculados a 
+
+partir da atribuição de valor das variáveis de decisão e de constantes previamente definidas. 
+
+ 
+
+ 
+
+A Tabela 2 mostra as variáveis calculadas e suas respectivas faixas de valores aceitáveis. A 
+
+execução da função fitness depende do cálculo prévio dessas variáveis, sendo que estas também 
+
+possuem dependência dos valores das variáveis de decisão, portanto a ordem de execução da 
+
+função fitness começa com a definição de valores aceitáveis para Alphao, M, CLMax e ao, para 
+
+em seguida executar as funções que calculam os valores dessas variáveis e finalizar aplicando tais 
+
+valores na função fitness. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+5 
+ 
+
+
+
+TABELA 2 - Variáveis calculadas. 
+
+ 
+
+A Tabela 3 apresenta as constantes calculadas que são usadas para obtenção de algumas 
+
+variáveis calculadas. 
+
+Tabela 3 - Tabela de constantes calculadas. 
+
+Símbolo Valor Unidade Fórmula    
+
+Φ 0,852 adm  
+
+AR 4,971 adm     
+
+As constantes apresentadas na Tabela 4 estão presentes na equação da distância, ou são 
+
+necessárias para se calcular algum valor o qual esta equação dependerá. Vale ressaltar que a 
+
+distância representada por d na Tabela 4 não é a mesma distância que se pretende calcular na fitness. 
+
+A distância contida na Tabela 4 é o tamanho máximo de pista que o avião pode percorrer durante 
+
+a decolagem na competição.  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+6 
+ 
+
+
+
+TABELA 4 - Tabela de constantes. 
+
+Símbolo Valor   Unidade Descrição       
+S 0,340  𝑚2 Área da asa   
+b 1,300  m Envergadura da asa   
+
+A1 -0,026  N* s/m Coeficiente angular da curva T(v) 
+C1 10,800  N Coeficiente linear da curva T(v) 
+g 9,780  m/s Gravidade   
+
+ρ 1,225 kg/ Densidade do ar 
+   
+
+ 
+
+Coeficiente de arrasto 
+CDo 0,033 adm  
+
+ parasita  
+Coeficiente de atrito 
+
+μ 0,030 adm 
+ estático   
+
+ 
+
+M0 1,200  Kg Massa da aeronave vazia  
+d 59,00  m Distância percorrida na decolagem 
+ef 0,980  adm Razão de eficiência da asa  
+h 0,195  m Altura da asa   
+γ 1,300  adm Fator de segurança na decolagem 
+K 0,087  adm Fator K    
+Λ 0,524  radiano Ângulo de enflechamento  
+
+rad 57,300   °/rad Grau       
+
+ 
+
+4.1 Algoritmo genético  
+
+De acordo com Von Zuben (2000) a computação evolucionária pode ser vista como técnicas 
+
+e procedimentos, bioinspirados, genéricos e adaptáveis, utilizados para obtenção da solução de 
+
+problemas complexos, em que outras técnicas são ineficazes ou não são aplicáveis. Neste trabalho 
+
+a aplicação da computação evolucionária se dá pelo uso de um algoritmo genético, o qual possui a 
+
+estrutura descrita pela Figura 2. 
+
+ 
+
+7 
+ 
+
+
+
+ 
+Figura 2 - Fluxograma de funcionamento do algoritmo genético.  
+
+Uma breve explicação das funções descritas no fluxograma pode ser dada começando pela 
+
+função População Inicial que tem como característica importante a geração de uma população a 
+
+qual seus indivíduos são vetores de números reais no presente trabalho, de tamanho definido pela 
+
+quantidade de variáveis de decisão do problema. Os valores atribuídos a cada posição do vetor são 
+
+chamados de genes e são definidos pela restrição de cada variável de decisão e inicialmente gerados 
+
+de forma aleatória.  
+
+A função Avaliação do Desempenho se dá pela aplicação dos valores da população na 
+
+função objetivo, sendo que cada indivíduo gerará uma solução e seu desempenho está associado 
+
+ao quão boa é essa solução para o problema.  
+
+A Seleção é uma forma de se obter os melhores indivíduos, de modo que todos participem 
+
+desse processo, levando em consideração os resultados dos indivíduos, obtidos na função objetivo, 
+
+8 
+ 
+
+
+
+como um fator decisivo para definir seu grau de aptidão para participar da próxima geração. O 
+
+método utilizado neste trabalho para realizar a seleção foi o método Torneio de tamanho dois.  
+
+O Cruzamento é uma função que combina os genes de dois indivíduos e gera um novo 
+
+indivíduo, esse cruzamento possui uma taxa que define qual percentual da população irá cruzar, 
+
+uma vez que essa taxa faz parte dos parâmetros de cada algoritmo genético é possível que até toda 
+
+a população faça parte do cruzamento. A taxa utilizada neste trabalho foi de 50% de probabilidade 
+
+de cruzamento, sendo que este cruzamento foi polarizado. 
+
+A Mutação ocorre em apenas um percentual da população, o qual é definido como 
+
+parâmetro do algoritmo, e pode ser explicada como uma perturbação do indivíduo que modifica 
+
+parte de seus genes. O método utilizado foi de mutação não uniforme e a probabilidade de 
+
+ocorrência é inicialmente igual a 30%, sendo diminuída ao longo das gerações. E finalmente a 
+
+função Elitismo que pode ser definida como a seleção dos indivíduos que apresentaram melhor 
+
+desempenho e, portanto, farão parte da nova geração. Em todos os experimentos realizados neste 
+
+trabalho foram feitas cinquenta execuções com cem iterações cada, para uma população de oitenta 
+
+indivíduos 
+
+Para o caso específico deste trabalho, a programação genética foi utilizada como uma 
+
+ferramenta para obtenção de uma expressão equivalente para a equação da distância, a fim de tentar 
+
+obter uma expressão na qual a carga paga pudesse ser isolada. Desta forma vale ressaltar que as 
+
+técnicas de programação genética e algoritmo genético fazem da parte da computação 
+
+evolucionária, e por estarem nesse mesmo grupo apresentam características comuns como o fato 
+
+de fazerem uso de operadores de cruzamento, seleção e mutação. A diferença entre estas técnicas 
+
+se destaca na forma como suas características são apresentadas e o formato em que são 
+
+representadas as soluções (FOGEL, 2000 apud FRANZEN, 2002). 
+
+ Como no algoritmo genético, a programação genética começa com uma população inicial 
+
+gerada de forma aleatória, entretanto os indivíduos são programas de computador compostos por 
+
+funções e terminais apropriados ao domínio do problema, representados por estruturas de árvores 
+
+sintáticas. Essas funções podem ser operações aritméticas, funções lógicas e até mesmo funções 
+
+matemáticas padrões (KOZA, 1992).  
+
+ 
+
+ 
+
+9 
+ 
+
+
+
+5. Experimentos e resultados 
+
+ Foram realizados quatro experimentos com o objetivo de encontrar um perfil aerodinâmico 
+
+de asa para um VANT que fosse capaz de ter um bom desempenho na competição. O primeiro 
+
+experimento realizado fornece informações a respeito da distância mínima e máxima que a 
+
+aeronave deverá percorrer e seus respectivos parâmetros de perfil aerodinâmico. 
+
+O segundo experimento é direcionado a se obter o maior valor de massa transportada pelo 
+
+VANT realizando minimizações da distância em várias etapas, obtendo em cada uma delas um 
+
+novo perfil aerodinâmico, sendo que a cada etapa o valor da faixa de massa é acrescida de uma 
+
+quantidade pré-determinada, fornecendo ao fim do experimento uma evolução da distância com 
+
+relação à massa transportada.  
+
+O terceiro experimento é semelhante ao segundo, entretanto não se estabelece uma faixa de 
+
+variação para a massa, essa massa é definida com um valor fixo para cada minimização. A ideia de 
+
+se fixar o valor de massa surgiu por não ter sido possível isolar a carga paga de sua expressão 
+
+analítica. Desta forma, neste experimento resolve-se sucessivos problemas de minimização, sendo 
+
+que cada minimização consiste em uma etapa e a cada etapa o valor de massa é acrescido de 0,05 
+
+Kg.  
+
+O quarto experimento fixa os valores de ao, Alphao e CLmax para se minimizar a distância, 
+
+obtendo assim valores para a massa total. Os valores fixos dos parâmetros são configurações de 
+
+perfis aerodinâmicos conhecidos que se pretende verificar o máximo de massa transportada com 
+
+uma distância de até 59 metros.  
+
+5.1 Primeiro experimento: perfis aerodinâmicos para distância mínima e máxima 
+
+O primeiro experimento realizado é desenvolvido em duas etapas, a primeira consiste em 
+
+minimizar a distância percorrida pela aeronave a fim de se obter um comprimento base de pista 
+
+que servirá como parâmetro de referência para o projeto. Este comprimento mínimo poderá ajudar 
+
+o projetista a desenvolver a aeronave com a noção do menor valor disponível para ser percorrido e 
+
+até mesmo obter premiação para equipe em casos que se valorize a mínima distância percorrida na 
+
+decolagem. Portanto pretende-se com esse experimento descobrir o perfil que levanta voo 
+
+utilizando o menor comprimento de pista disponível. 
+
+10 
+ 
+
+
+
+Na segunda etapa executa-se o algoritmo com o intuito de maximizar a distância, dentro de 
+
+uma faixa que respeite as normas da competição, e encontrar o melhor valor de massa. Ou seja, 
+
+objetiva-se descobrir o perfil que levanta voo utilizando o maior comprimento de pista disponível.  
+
+Desta forma, ao final das duas etapas será possível oferecer uma faixa de distância mínima e 
+
+máxima que a aeronave precisará para a decolagem sendo que a cada distância mínima ou máxima 
+
+um perfil aerodinâmico é obtido, bem como um valor total de massa. 
+
+A Figura 3 apresenta o desempenho do algoritmo para minimização utilizando a fórmula 
+
+original da distância e uma aproximação obtida por programação genética (vide anexo A). Ressalta-
+
+se que a expressão aproximada gerada por programação genética possui valores de 0,843 e 2,664 
+
+para a raiz do erro quadrático médio no treinamento e na validação, respectivamente. 
+
+40
+
+35
+
+30
+
+25
+
+20
+
+15
+
+10
+
+5
+
+0
+1 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49
+
+Execução do algoritmo
+
+Expressão analítica original Expressão obtida por programação genética
+
+Figura 3 - Gráfico de resultados da minimização da distância. 
+
+Na Tabela 5 é possível ver que os valores obtidos pela equação analítica da distância 
+
+apresentaram pouca discrepância entre si, entretanto se comparados aos resultados obtidos pela 
+
+fórmula gerada por programação genética nota-se uma diferença considerável. Nos dados usados 
+
+para treinamento da programação genética, o menor valor de distância utilizado foi 35,21 metros, 
+
+sendo que ao realizar a minimização, o resultado obtido foi abaixo deste valor e, portanto, passou 
+
+a ser uma extrapolação ao que foi treinado. Provavelmente por essa razão, o erro ficou acentuado 
+
+em boa parte das execuções.  
+
+Vale ressaltar que ao minimizar a distância percorrida pelo VANT todos os valores de 
+
+massa obtidos para o perfil foram de 2,303 kg, esse valor é o mínimo, configurado como restrição 
+
+11 
+ 
+
+Distância em metros (m)
+
+
+
+do valor da massa no algoritmo, e já era esperado pelo fato da massa influenciar no desempenho 
+
+do aeromodelo em fatores importantes como alcance de velocidade máxima na decolagem. A 
+
+configuração para o perfil que obteve melhor desempenho, ou seja, menor distância para 
+
+decolagem, com a expressão analítica original foi ao: 0,100, alphao: -2,133, CLMax: 1,300, M: 
+
+2,303 e para a expressão obtida por programação genética foi ao: 0,101, alphao: -1,300, CLMax: 
+
+1,224, M: 2,309. Foi realizado um teste com os parâmetros que geraram o menor valor de distância 
+
+obtido na expressão equivalente, aplicando-os na expressão analítica original. O resultado obtido 
+
+foi de 35,062 metros, sendo que na expressão equivalente o valor de distância resultante foi de 
+
+1,016 metro. 
+
+TABELA 5 - Resultados da minimização da distância. 
+
+Mínimo 
+Versão (m) Média(m) Máximo(m) Desvio Padrão (m) 
+
+Fórmula original 31,220 31,348 31,534 0,072 
+
+Fórmula gerada por programação genética 1,016 23,609 34,910 14,509 
+
+A Figura 4 apresenta os valores alcançados na maximização da distância, os resultados 
+
+obtidos foram 59 metros, sendo que 60 metros é o máximo permitido pelas regras da competição. 
+
+Este 1 metro é definido como faixa de segurança usada para que ocorra a rotação da aeronave. 
+
+3,500
+
+3,000
+
+2,500
+
+2,000
+
+1,500
+
+1,000
+
+0,500
+
+0,000
+0 10 20 30 40 50 60
+
+Execução do algoritmo
+
+Expressão analítica original Expressão obtida por programação Genética
+
+Figura 4 - Gráfico dos valores de massa obtidos na maximização da distância.  
+
+12 
+ 
+
+Massa em quilogramas (kg)
+
+
+
+Os resultados alcançados, na maximização da distância, pela equação obtida por 
+
+programação genética não extrapolou a faixa de erro e a configuração de perfil aerodinâmico para 
+
+o modelo que atingiu melhor desempenho, ou seja, maior massa total foi  ao: 0,105 , alphao: -
+
+1,828, CLMax: 1,263 M:  2,785 para a fórmula original e para expressão obtida por programação 
+
+genética foi ao: 0,101, alphao: -1,482, CLMax:1,298, M: 2,858. 
+
+A Tabela 6 apresenta dados estatísticos para comparação do desempenho das duas 
+
+expressões utilizadas.  
+
+TABELA 6 - Resultados da massa para o uso de 59 metros de pista na decolagem (máxima distância). 
+
+Versão Mínimo (Kg) Média (Kg) Máximo (Kg) Desvio Padrão (Kg) 
+
+Expressão analítica original 2,331 2,552 2,785 0,112 
+
+Expressão gerada por programação 
+genética 2,373 2,567 2,858 0,096 
+
+ 
+
+5.2 Segundo experimento: obtenção do maior valor de massa 
+
+O segundo experimento implementado foi desenvolvido com o objetivo de se alcançar os 
+
+maiores valores de massa transportada pelo VANT utilizando a expressão analítica original da 
+
+distância como função objetivo para o problema. A Figura 5 apresenta um algoritmo em alto nível 
+
+que descreve o funcionamento do experimento 2. 
+
+01 Massa mínima = 2,303 kg; 
+02 Massa máxima = Massa mínima + 0,05 Kg; 
+03 Minimiza distância; 
+04 Se distância é menor que 59 metros: 
+05      Massa mínima = Massa máxima; 
+06      Voltar para o passo 2; 
+07 Fim Se 
+
+ 
+
+Figura 5 - Algoritmo do Processo de minimização da distância do experimento 2. 
+
+O segundo experimento apresentou melhor desempenho em relação ao aumento de massa 
+
+transportada pelo avião, sendo 2,853 kg o maior valor de massa atingido, tendo como parâmetro 
+
+máximo de massa definido em 2,997 kg e perfil aerodinâmico gerado com configuração de ao: 
+
+0,100, alphao: -2,209, CLMax: 1,300, M: 2,853. O perfil obtido foi testado com o procedimento 
+
+13 
+ 
+
+
+
+do experimento 4 deste trabalho, que confirmou o valor de massa alcançado. Os resultados do 
+
+experimento 2 são apresentados no gráfico da Figura 6, os valores representados pela linha 
+
+tracejada correspondem à massa obtida quando a distância extrapolou 59 metros. 
+
+70,000
+
+60,000
+
+50,000
+
+40,000
+
+30,000
+
+20,000
+
+10,000
+
+0,000
+2,303 2,353 2,403 2,460 2,503 2,570 2,603 2,691 2,703 2,784 2,803 2,853 2,873 2,916
+
+Massa em quilogramas (Kg)
+
+2P,8e7r3fis que respeitam 59 metros 2P,9e1rf6is que excedem 59 metros
+
+Figura 6 - Gráfico da minimização de distância por faixa de massa. Fonte: Autores (2019). 
+
+ 
+
+Foi realizado também um teste da expressão aproximada com os valores dos parâmetros 
+
+obtidos na fórmula original, sendo que o valor de distância alcançado nessa expressão foi de 57,253 
+
+m. Este valor não é exatamente igual, entretanto deve-se considerar o erro da fórmula aproximada. 
+
+5.3 Terceiro experimento: minimização da distância  
+
+O terceiro experimento é semelhante ao segundo, entretanto não se estabelece uma faixa de 
+
+valor mínimo e máximo para a massa. Neste experimento fixa-se o valor da massa e a minimização 
+
+é realizada, em seguida, assim como no experimento 2, a massa é acrescida de 0,05 Kg e é 
+
+executada uma nova minimização. Este processo inicia-se com o mesmo valor de massa do 
+
+segundo experimento, que é 2,303 Kg, e finaliza quando a distância ultrapassar 59 metros.  
+
+Os resultados deste experimento estão na Figura 7 e apresentaram valores próximos aos 
+
+obtidos no experimento 2. O maior valor de massa obtido nesse experimento, para uma distância 
+
+válida, foi de 2,853 Kg e distância de 58,319 metros, o perfil aerodinâmico tem a configuração ao: 
+
+14 
+ 
+
+Distância em metros (m)
+
+
+
+0,100, alphao: -2,050, CLmax: 1,300 e M: 2,853. A linha tracejada representa os valores que 
+
+extrapolaram a distância máxima permitida de 59 metros. 
+
+70
+
+60
+
+50
+
+40
+
+30
+
+20
+
+10
+
+0
+2,303 2,353 2,403 2,453 2,503 2,553 2,603 2,653 2,703 2,753 2,803 2,853 2,863 2,873 2,903
+
+Massa em quilogramas (Kg)
+
+2P,8e7rf3is que respeitam 59 metros 2P,e9r0fi3s que excedem 59 metros
+
+Figura 7 - Gráfico da minimização de distância por faixa de massa.  
+
+5.4 Quarto experimento: otimização utilizando perfis aerodinâmicos conhecidos 
+
+O quarto experimento consiste em fixar os parâmetros ao, Alphao e CLmax, utilizando 
+
+valores conhecidos para eles e realizar a maximização da distância, utilizando a expressão analítica 
+
+original como função objetivo e deixando apenas a massa variar. Os valores fixos dos parâmetros 
+
+fazem parte de perfis aerodinâmicos conhecidos e que possuem grande potencial para um bom 
+
+projeto. Neste experimento, para cada perfil, foram 50 execuções do algoritmo, com 100 iterações 
+
+cada, em todas execuções de um mesmo perfil o valor de massa obtido foi exatamente o mesmo, 
+
+os valores encontrados estão presentes na Tabela 7. 
+
+TABELA 7 – Resultados da maximização da distância com apenas a massa variando. 
+
+Nome do perfil 
+M (Kg) ao ( (°)−1) Alphao (°) Clmax (adm) 
+
+aerodinâmico 
+
+Fauvel 2,618 0,134 -0,050 1,240 
+
+Zagi 2,365 0,122 -1,430 1,025 
+
+Fx05h 2,77 0,103 -2,200 1,242 
+
+Hortenstandard 2,514 0,138 -0,968 1,164 
+Mh78 2,639 0,141 -0,144 1,271 
+
+6. Conclusão 
+
+ A utilização de um algoritmo genético, como ferramenta para projetos de aerodesign, vem 
+
+se mostrando como um recurso poderoso e versátil para obtenção de modelos satisfatórios, de 
+
+15 
+ 
+
+Distância em metros (m)
+
+
+
+acordo com as mais variadas demandas. Neste trabalho foi possível comprovar sua eficiência na 
+
+obtenção de valores de distância para desenvolvimento do VANT e também encontrar um perfil 
+
+capaz de carregar maior massa que perfis de grande potencial para bons projetos, já conhecidos na 
+
+literatura. Obtém-se também um esclarecimento maior a respeito da utilização de uma expressão 
+
+gerada por programação genética, ressaltando que na etapa 2 do experimento 1 a programação 
+
+genética apresentou resultados satisfatórios em todas as execuções.  
+
+ 
+
+7. Trabalhos futuros 
+
+Como trabalho futuro pretende-se realizar a otimização do perfil aerodinâmico da asa 
+
+utilizando uma equação que envolva a carga paga. Uma expressão analítica para a função objetivo 
+
+do modelo já foi obtida, porém algebricamente não consegue-se isolar um termo (Carga paga) que 
+
+é justamente o que se pretende maximizar. Assim, essa carga paga aparece múltiplas vezes na 
+
+expressão analítica. Será preciso encontrar um meta-modelo preciso em que a carga paga fique 
+
+isolada, ou seja, em função dos outros parâmetros da expressão analítica, sendo que a programação 
+
+genética poderá ser uma alternativa viável para obtenção deste meta-modelo. 
+
+ 
+
+Referências 
+
+DA SILVA, L. J., GELAIM, T. R, EGERT, F. A. Desenvolvimento de uma metodologia numérica automatizada para 
+
+layout mais eficiente de uma aeronave rádio controlada. Congresso SAE Brasil 2016, São Paulo. 
+
+FOGEL, David B. Toward a New Philosophy of Machine Intelligence. New York IEE: press, 2000. 270 p. Apud: 
+
+FRANZEN, Evandro. Estudo e implementação da programação genética para síntese de fala. 2002. 113 f. Dissertação 
+
+(Mestrado em Ciência da Computação) – Instituto de Informática, Universidade Federal do Rio Grande do Sul, Porto 
+
+Alegre. 12 p. 
+
+HUA, J., KONG, F. M., LIU, P. J., ZINGG, D. W. (2003), Optimization of Long Endurance Airfoils, Proceedings of 
+
+21st AIAA Apllied Aerodynamics Conference, Orlando, Florida, Junho de 2003. AIAA-2003-3500. 
+
+KOZA, J., R. Genetic Programming: On the Programming of Computers by Means of Natural Selection. Cambridge: 
+
+The MIT press, 1992. 74 p. 
+
+PELLEGRINI, C. RODRIGUES, M. S. (2015). Um Estudo Analítico da Dinâmica da Decolagem e do Pouso de 
+
+Aeronaves com Forças Dependentes da Velocidade, Revista Brasileira de Ensino de Física. 
+
+RODRIGUES, L.E.M.J., Fundamentos da Engenharia Aeronáutica com Aplicações ao Projeto SAE-Aerodesign: 
+
+Aerodinâmica e desempenho. Salto/SP . 1 ed., 2014. 29 p. 
+
+16 
+ 
+
+
+
+ROSA, E., Introdução ao Projeto Aeronáutico: uma contribuição à Competição SAE Aerodesign. Florianópolis: 
+
+UFSC/GRANTE : Ed Tribo da Ilha,2006. 3 p. Aerodesign”; UFSC. 
+
+SAE; (2019). Disponível em: http://portal.saebrasil.org.br/programas-estudantis/sae-brasil-aerodesign, acesso em 
+
+24/05/2019. 
+
+T.T.H., Ng, G.S.B. Leng, 2002, “Application of Genetic Algorithms to Conceptual Design of a Micro-Air Vehicle”. 
+
+Engineering Applications of Artificial Intelligence 15 (2002) 439–445. 
+
+VON ZUBEN, F. J. Computação Evolutiva: uma abordagem pragmática. I Jornada de Estudos em Computação de 
+
+Piracicaba e Região, v. 1, pp. 25-45, Piracicaba, 2000. 
+
+ 
+
+ 
+
+  
+
+17 
+ 
+
+
+
+ANEXO A - Expressão aproximada obtida por programação genética utilizada no artigo. 
+
+Fitness = ((((((0.37868414897573366)^5.*(AR)^8)+((((6.0)^9+((AR+(PI+1.0))+(8.0+-
+7.698317371377549E-6)))+((10.0.*(W.^5.0))+(7.0-(((-
+0.005043618983894127+(7.0.*9.0)).*(5.0)^9)-
+(5.0)^9))))+((AR)^8+((W+((((d+PI).*(PI+(10.0.*10.0)))+(W.^5.0))+((((W.^((5.0+PI)+(10.0./(4.0
++-1.991075058403559E-22))))+(((((((((6.936378014207371E-5-(((d-
+((7.0)^6.*(((((2.0+(0.43925120450922883+((d+(W.*(0.16121381059170636+(W.*((0.05052589
+3975211233.*PI).*(PI.^gamma))))))+((Vestol-
+3.0)+((((9.0+(0.07215306759316831./d))+10.0).*(((((W+(W+(W+(PI+8.0))))./((2.0./CLmax)+W
+))+W).*4.0).*10.0))+(-
+0.001985643557259871+(5.0.^Vestol)))))))./((5.0)^8.*d))+W)+6.0)+5.742803557345638E-
+16)))-(6.0)^8)-(((8.0+(9.0.^2.0)).*(5.0)^9)+7.0)))-(5.0./W))./0.9361046727713672)-PI)-
+((((((((((((C1./((AR)^8.*rad))./(AR.*rad))-10.0)-(((((((5.0+C1).^W))^9-
+(5.0.*((Vestol+(((5.0.^Vestol)./1.0)-(Vestol./PI))))^1))./(((2.0./-5.134563998045419E-4)-
+(6.0.^Vestol))./((AR)^7-
+W))).*(7.0)^11)+9.0))+(10.0.^Vestol))./((5.0)^8.*d))+(d./((CLto)^9.*d)))./(7.245307304147787E
+-27+10.0))./((6.0--1.9910750584035587E-
+17)+(((5.0.^8.0)./(7.0.*rad))+(Vestol+7.0))))+(W.*6.0)).*(5.0)^9)+(5.0-5.0)))-
+(5.0.^Vestol))./((AR)^8.*rad))-7.0))^8).*1.9910750584035584E-9)-
+(4.0.*((1.9910750584035584E-9+((((-1.9910750584035585E-11.^(5.0.^9.0))+(PI+(8.0-
+(((W.*(9.0.*6.0)).*(9.0)^9)-((1.0.*(7.801366840135759E-9-10.0)))^9))))+-
+6.790362861114142E-12).*(Vestol+W)))./(5.0)^10)))))+((((10.0+(3.0.*7.0)).*(((((((8.0)^8.*d)-
+a)+(((((9.0+(2.0+(1.0.*(((W.*(((5.0.*((((6.0+((5.0)^9.*0.7826917258867383))+W)+(Vestol./-
+1.9910750584035584E-10))+4.0))+(((((1.0.*(AR-(((((Vestol+W)+9.0)+d).*(5.0)^10)./1.0)))-
+(5.0.^Vestol))./((AR)^8.*rad))-7.0))^8).*W))+PI)+10.0))))./((5.0)^7.*d))-9.0)-
+W)+((((((((1.0+(5.0.^Vestol))+(((3.0.^3.0).*(6.0+((9.0.^((5.0+W)./(((5.0+(6.365629622122103E-
+20.*((rad+(3.0)^9).*(((9.0.*(10.0+((W.^8.0)+(d.^Vestol))))./((AR)^8.*rad))--
+0.024026208882933733))))-(Vestol./(5.0.*g)))+0.996449947767231))).*(((d+(((8.0+((6.0-
+3.0)+(PI+(((((5.0.*(5.0.^Vestol))+(2.0.*((AR.^Vestol)+(5.0.^Vestol))))+(1.0.*0.7628220713883
+095))+(10.0./(((6.4504650089662255E-12+(((((W+5.0)-(1.9910750584035586E-
+13+((d./(0.0014165125553585525.*0.23341562201389776))+(((W.^3.0)+(5.0.^Vestol))-
+((4.0.^2.0)+(0.22907228452529416-d))))))./((5.0)^8.*d))-1.4556096529172386E-
+25))^7).*1.9910750584035584E-
+9).*(3.0.*0.025565852688161517))))+9.0))))./((AR)^8.*rad))+W))+10.0)+10.0))))+((2.0+-
+3.1509080730551724E-22)+(-1.691538909489053E-
+10+(((10.0.^(0.031833965259038546.^PI)).*(((Vestol./0.44750021369798676).^(4.0+-
+1.991075058403559E-22))-
+(6.0)^9))+(5.0.^Vestol))))))./((AR)^8.*d))+W).*((((d+10.0)./((((1.942684525202057E-5-
+((3.0861815382895624E-5--6.634444987632672E-9)-(AR+((W+((((7.0)^10-
+(6.0.^Vestol))./((AR)^8.*5.0))./((5.0.^(7.0./(alphao)^8))-4.0))).*(9.475310111670767E-19+((1.0-
+((10.0.*(((1.9910750584035587E-
+16.*(W.^Vestol))+(5.0.^(5.0+(PI./10.0)))).^(((((AR.^Vestol)./(5.0.^10.0))+W).^1.0)-
+rad)))+3.0)).*3.0))))))./((CLto)^9.*9.0))-(6.0.^Vestol))./((AR)^9.^PI))).*(7.0)^10).*1.0))--
+4.771370569295084E-
+6)./((10.0.^AR).*(W+d)))./d)))./((5.0)^8.*d))+((d+(alphao)^9).*((7.0.^3.0)-W)))+((5.0.*((((rad-
+(AR.^Vestol))./((AR)^7.*rad))+rad)+10.0)).*((((6.919665232152939E-
+
+18 
+ 
+
+
+
+7+((6.0.*(3.0.*((9.0.*W).*(7.0-((10.0.*(W.^5.0))+((9.0.^6.0)-
+(((7.0+(8.0.*8.0)).*(5.0)^9)+W)))))))+((Vestol./(2.0)^7)./(((9.0+((0.7248078447781285.*(((((0.2
+1517561038607058-W)./PI)-
+W)+(0.6140768587350608.*((5.0.*(W+Vestol)).*10.0)))./((PI)^7+(6.0./(9.0.*((5.0+((((5.0-
+(5.0.^Vestol))./(Vestol+W))-Vestol))^7).*1.9910750584035584E-
+9))))))+(ao.^3.6285384227440544E-4))).^(alphao.*(0.024572646010304844.^(7.0-
+(((5.0.*((Vestol.^PI)-(9.0.*10.0)))./rad)-(6.0+-6.790362861114141E-
+11))))))./((rad+(9.0+W)).*(6.0)^11)))))./((AR)^9.*rad))+2.0)+((10.0+((10.0.*(5.0.*((((((((4.0.^(0.
+34853353352055005.^W))+d)./((8.0-(5.5631483737001036E-11+(8.0.*10.0)))-((((2.0+alphao)-
+Vestol).^1.0)--7.533622324461258E-4))))^10-(9.0./(((2.0.^3.0)-(1.0+5.0))-
+W))).*6.0)+9.0)+rad)))./((4.0.*0.07033032374258939)+CLmax)))-
+(W+9.0))))))./1.0)+(5.0.^Vestol))))))./((AR)^8.*d))+W)+W) 
+ 
+
+19

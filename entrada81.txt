@@ -1,0 +1,790 @@
+﻿Detecção de câncer de pele do tipo melanoma utilizando 
+técnicas de processamento digital de imagem e redes neurais 
+
+artificiais 
+
+Thiago A. Carvalho1, Antônio C.F. Barros1 
+
+1 Universidade Federal de Viçosa (UFV), Florestal, Brasil 
+
+{thiago.a.carvalho,acfava}@ufv.br 
+
+ 
+
+Resumo. O câncer de pele é um dos mais comuns tipos de câncer no Brasil, dentre 
+ele se encontra o melanoma um dos tipos de tumor maligno responsável por 
+muitas mortes. O presente trabalho visa realizar a detecção de melanomas por 
+meio do processamento digital de imagens realizando análise sobre a simetria, 
+cor, irregularidade de bordas e classificando por meio de redes neurais 
+artificiais. 
+
+1. Introdução 
+
+ O Instituto Nacional de Câncer [INCA s.d] descreve o câncer de pele como o mais 
+frequente no Brasil, correspondendo a cerca de 30% de todos os tumores malignos 
+registrados em todo o país, dessa porcentagem o melanoma representa apenas 3% do 
+diagnóstico. Apesar de pouca ocorrência, o diagnóstico do melanoma requer uma atenção 
+maior, pois ele é classificado como o tipo mais grave, devido à sua alta possibilidade de 
+provocar disseminação do câncer para outros órgãos. 
+
+ O diagnóstico do melanoma é realizado através da avaliação visual, seguido pela 
+comprovação de biópsia. Na avaliação visual são observadas alterações de cor, tamanho 
+ou forma [Dimatos, 2009]. Por isso, na área da dermatologia existe uma demanda 
+crescente do uso de técnicas de processamento digital de imagens de pele contendo lesões, 
+pois nem mesmo os profissionais mais experientes conseguem identificar com eficácia. 
+Conforme [Friedman, 2008], essas técnicas facilitam a detecção precoce dos melanomas 
+e assim diminuem o número de biópsias realizadas em lesões benignas [apud Thiago 
+Pradi, 2012].  
+
+ De acordo com [Gonzalez & Woods, 2010] o processamento digital de imagem 
+define-se por “o conjunto de métodos e técnicas capazes de transformar imagens de forma 
+que estas tornem-se mais adequadas à visão humana ou à análise computacional”. A área 
+de processamento digital de imagens vem evoluindo continuamente ao longo dos anos, 
+com um aumento significativo de estudos envolvendo modelagem matemática, redes 
+neurais, processamento de imagens coloridas, compressão de imagens, reconhecimento 
+de imagens e sistemas de análise de imagens. Esse avanço representa atualmente um 
+ponto de apoio importante em diversas áreas da medicina. 
+
+ Diante deste cenário, desenvolveu-se no presente trabalho um algoritmo para 
+identificação e detecção de melanomas a partir da obtenção, segmentação e classificação 
+das imagens utilizando redes neurais artificiais. 
+
+ 
+
+
+
+ 
+
+2. Fundamentação teórica 
+
+2.1. Melanoma 
+
+ O melanoma cutâneo maligno é um tipo de câncer de pele que tem origem nos 
+melanócitos (células produtoras de melanina, substância que determina a cor da pele), e 
+constitui cerca de 3% dos tumores cutâneos malignos, apresentando crescente incidência 
+e alta letalidade. Em 2018, no Brasil, a estimativa foi de 6.260 novos casos, sendo 2.920 
+homens e 3.340 mulheres [INCA, 2018].  
+
+ O melanoma pode surgir a partir da pele normal ou de uma lesão pigmentada. A 
+manifestação da doença na pele normal inicia após o aparecimento de uma pinta escura 
+com bordas irregulares acompanhada de coceira e descamação. Em casos de uma lesão 
+pigmentada pré-existente, ocorre aumento no tamanho, alteração na coloração e na forma 
+da lesão, que passa a apresentar bordas irregulares [INCA s.d]. 
+
+ A presença de assimetria da lesão, bordas irregulares e mal definidas, alterações 
+de cor e diâmetro maior que 6 mm, podem ser identificadas por meio de uma técnica 
+chamada ABCD que auxilia no diagnóstico precoce. 
+
+ 2.1.1 Técnica ABCD 
+
+ A técnica ABCD é um conjunto de regras visuais proposta em 1994 por Wilhelm 
+Stolz para facilitar o diagnóstico dos três tipos de câncer de pele: carcinoma basocelular, 
+carcinoma espinocelular e melanoma. A metodologia leva em consideração os seguintes 
+critérios para definição de malignidade [Sociedade Brasileira de Dermatologia, S.d].  
+
+As características da lesão consideradas pela metodologia fundamentam-se em 
+identificadores como: assimetria (A); irregularidade das bordas (B); variabilidade de 
+cores (C) e estruturas diferenciais (D). 
+
+ 
+Tabela 1: Diagnóstico de melanoma pela técnica abcd. 
+
+Assimetria: Lesões malignas possuem 
+grandes probabilidades de serem 
+
+cancerosas malignas. 
+  
+
+Borda irregular: Geralmente lesões 
+malignas possuem contornos irregulares. 
+
+  
+Cor heterogênea: Geralmente os 
+
+melanomas possuem coloração interna 
+com grande variação das intensidades 
+
+ entre marrom e preta, podendo ter regiões 
+em branco ou azuladas. 
+
+ 
+
+
+
+ 
+
+Diâmetro maior que 6mm: 
+Frequentemente os melanomas são 
+maiores do que 6 mm de diâmetro, 
+
+crescem e mudam de forma rapidamente. 
+ 
+
+ 
+
+ 
+
+2.2 Processamento digital de imagem 
+
+ O processamento de imagens tem como principal função facilitar a visualização e 
+o entendimento da imagem a fim de adequá-la para análises quantitativas através de 
+técnicas de correções de defeitos, realces das regiões de interesse nas imagens, extração 
+e tratamento de dados quantitativos realizado pelo computador. [Gomes, 2001] 
+
+  As etapas para o processamento digital de imagem são apresentadas na Figura 1.O 
+primeiro passo do processo é a aquisição da imagem e sua digitalização em formatos 
+compatíveis.Após, tem-se o pré-processamento da imagem que tem como o objetivo a 
+melhora da imagem para que as próximas etapas sejam bem-sucedidas.  
+
+ Após o pré-processamento, vem a etapa de segmentação. O papel básico da 
+segmentação é separar a imagem em partes ou objetos de interesse que por muitas vezes 
+não é adequado sendo necessário realizar o estágio de pós-processamento.  
+
+  A imagem de saída do pós-processamento está pronta para fornecer as imagens 
+para a etapa de extração de atributos, sendo esta a parte quantitativa da sequência. Nesta 
+etapa, algumas características das imagens são extraídas, resultando em um tipo de valor 
+numérico. 
+
+ 
+
+ 
+Figura 1: Etapas de um sistema de processamento de imagens digitais [Silva, 2014] 
+
+ 
+
+ 
+
+
+
+ 
+
+ 
+
+ 2.2.1 Filtro e segmentação 
+
+ As imagens obtidas em ambientes não controlados normalmente apresentam 
+ruídos que interferem no seu reconhecimento. Estes ruídos podem ser provocados por 
+sujeira no objeto ou câmera, excesso de brilho ou sombras, e outras interferências na 
+qualidade da imagem. Nesta etapa de filtragem, são aplicados filtros espaciais, baseados 
+em operações de pixels, para remoção destes efeitos indesejados. 
+
+ Após a filtragem o objeto desejado deve ser separado do fundo. Para tal, é aplicado 
+uma segmentação da imagem, normalmente criando uma máscara binária com valores de 
+0 e 1, sendo 1 o objeto de destaque e 0 o fundo. Através de uma operação AND desta 
+máscara com a imagem original, o fundo é anulado, ficando em destaque apenas o objeto 
+desejado. 
+
+ 2.2.2 Reconhecimento e interpretação 
+
+ A execução da etapa do reconhecimento e a interpretação de imagem, pode ser 
+realizada através dos algoritmos de classificação. 
+
+ [Araújo,2017] define que classificação de imagens é o processo de extração de 
+informações em imagens para reconhecer padrões e objetos homogêneos. Um objeto pode 
+ser definido por padrões como textura, cor, forma, dimensões etc. E o reconhecimento 
+individual destes padrões pode caracterizar um objeto como um todo, ou seja, em uma 
+classe [Gonzalez & Woods, 2010]. 
+
+ De acordo com a literatura os classificadores mais utilizados para o 
+reconhecimento de imagens são: KNN, SVM, Naive Bayes e as Redes Neurais artificiais. 
+
+ 2.2.3 Redes Neurais 
+
+ As Redes neurais artificiais são técnicas computacionais matemáticas que têm 
+capacidade para solucionar problemas por intermédio de circuitos simples que simulam 
+o funcionamento e o comportamento do cérebro humano [Braga,2007]. Uma das grandes 
+aplicações das redes neurais artificiais é a sua utilização para reconhecimentos de padrões, 
+tendo sido utilizada por [Haffemann, 2014] para a identificação de células cancerígenas.  
+
+  Uma rede neural é um sistema paralelo e distribuído, formado por unidades de 
+processamento simples, que tem a capacidade para armazenar conhecimento a partir do 
+processo de aprendizado na qual forças de conexão entre neurônios conhecidas como 
+
+ 
+
+
+
+ 
+
+pesos sinápticos são utilizados para armazenar o conhecimento adquirido e torná-lo 
+disponível para uso [Ortega, 2009]. 
+
+ Assim como uma rede neural biológica, as unidades básicas da RNA são os 
+neurônios e cada um pode ser representado graficamente como na Figura 2. 
+
+ 
+
+ 
+
+  
+
+ 
+
+  
+
+ 
+
+ 
+
+ 
+
+ 
+Figura 2: Diagrama de uma rede neural MLP 
+
+  
+
+ A utilização de somente um neurônio torna-se limitada a resolução dos problemas, 
+por isso é necessário a combinação em uma estrutura de camadas, sendo cada camada 
+composta por um número diferente de neurônios, formando-se assim uma rede neural 
+denominada Perceptron Multicamadas (“Multi Layer Perceptron — MLP”).  Às MLP 
+são treinadas a partir de um conjunto de entradas e saídas conhecidas, utilizando 
+algoritmo backpropagation. Neste treinamento, os pesos (bias) intermediários da rede são 
+ajustados para reconhecer um novo padrão de entrada dentro de uma das classes pré-
+determinadas como saída, sua arquitetura é demonstrada na Figura 3. 
+
+  
+
+ 
+
+ 
+Figura 3: Arquitetura de um MLP [Data Science Academy,2019] 
+
+  
+
+ 
+
+
+
+ 
+
+ Nas MLP as funções de ativação exercem um papel importante pois decidem se 
+um neurônio deve ser ativado ou não. Ou seja, se a informação que o neurônio está 
+recebendo é relevante para a informação fornecida ou deve ser ignorada. A função de 
+ativação é a transformação não linear que fazemos ao longo do sinal de entrada. Esta saída 
+transformada é enviada para camada subsequente como entrada. Quando não temos a 
+função de ativação, os pesos e bias simplesmente fazem uma transformação linear [Data 
+Science Academy, 2019]. 
+
+ 
+ Na atualidade, com a finalidade de projetar redes neurais existem duas funções de 
+ativação mais utilizadas, a função ReLU e a Sigmóide. 
+
+ A função ReLU (Figura 4), é definida como f(x) = máx (0, x) em relação a outras 
+funções de ativação, ela tem como vantagem a não ativação de todos os neurônios ao 
+mesmo tempo, pois quando as entradas forem negativas, ela será convertida em zero e o 
+neurônio não será ativado, tornando a rede esparsa, e assim sendo mais eficiente. [Data 
+Science Academy, 2019] 
+
+ 
+
+Figura 4:Gráfico da função ReLU 
+
+ 
+
+  A função Sigmóide, cujo gráfico tem a forma sigmoidal (Figura 5), é definida 
+como uma função estritamente crescente que exibe um balanceamento adequado entre 
+comportamento linear e não linear. Um exemplo de função sigmoide é a função logística 
+definida pela Equação 1. 
+
+𝐿
+𝑓(𝑥) =   
+
+1 + 𝑒−𝑘(𝑥−𝑥0)
+
+Equação 1 
+
+ 
+
+Onde: 
+
+ 𝑥 − 𝑥0 é o parâmetro de inclinação da função Sigmóide, quando o parâmetro de 
+inclinação se aproxima do infinito, a função sigmóide se torna simplesmente uma função 
+
+ 
+
+
+
+ 
+
+constante. Enquanto a função constante assume o valor de 0 ou 1, uma função Sigmóide 
+assume um intervalo contínuo de valores entre 0 e 1. [Haykin,2001]  
+
+ 
+
+Figura 5: Gráfico da função Sigmóide 
+
+ 
+
+ Para auxiliar na construção de redes neurais pode ser utilizado bibliotecas que 
+fornecem ferramentas a fim de simplificar o desenvolvimento. Uma das principais 
+bibliotecas utilizadas para a implementação de redes neurais e algoritmos de deep 
+learning é o Keras, pois é uma biblioteca totalmente integrada as bibliotecas de 
+TensorFlow, facilitando a sua utilização. Ela provê uma estrutura que permite compilar 
+redes neurais combinando camadas de diferentes dimensões e funções de ativação, 
+tornando o ciclo de desenvolvimento de novos modelos de aprendizado de máquina muito 
+mais rápido, simplificada e eficiente. [Chollet,2019] 
+
+ 
+
+3. Trabalhos Relacionados 
+
+ O trabalho desenvolvido por [Botelho, 2007] utiliza redes neurais artificiais para 
+a detecção de câncer de pele. O autor caracteriza as imagens por cor, textura e forma. 
+Como resultado notou-se que, mesmo utilizando uma das técnicas mais simples de 
+caracterização de imagens, ou seja, o histograma em tons de cinza, e um dos primeiros 
+algoritmos de rede neural desenvolvidos, o trabalho teve bons resultados atingindo uma 
+taxa de 69 % de acertos.  
+
+ O modelo de  reconhecimento de câncer de pele do tipo melanoma proposto por  
+[Frutoso, 2016] é executado em duas etapas na qual é realizado a extração de 
+características da imagem, com base na regra ABCD e após isso é executado a 
+classificação das mesmas utilizando três algoritmos diferentes DMC, KNN com taxas de 
+acerto superiores a 70% e Naive Bayes com taxas de acerto superiores 90%.  
+
+ O SKAN – Skin Scanner [Xavier et al. 2017] é uma ferramenta que procura 
+distinguir imagens de câncer de pele de imagens que contenham outros tipos de lesões 
+cutâneas por meio de técnicas adaptativas. Assim como a abordagem anterior a 
+identificação de imagens de melanoma se baseia na regra ABCD. Os resultados foram 
+feitos com uma amostra de 20 imagens e o algoritmo adaptativo se mostrou eficiente, 
+
+ 
+
+
+
+ 
+
+com precisão de 95% ,em relação ao método não adaptativo nas análises de borda cor e 
+diâmetro tendo como acerto a classificação 18 imagens contra 11 do método não 
+adaptativo.  
+
+ Nesta seção foi possível acompanhar a evolução cronológica dos métodos, no qual 
+pode-se observar um aumento de eficácia, oriundo de novas metodologias. O diferencial 
+deste trabalho, está sendo a proposta de uma combinação de dados obtidos pelo 
+processamento de imagens (cor, simetria e bordas) e dados históricos clínicos dos 
+pacientes (idade aproximada, tamanho clínico em mm, casos de melanoma na família, 
+espessura do melanoma em mm e sexo). 
+
+4. Metodologia 
+
+ O sistema foi desenvolvido em cinco módulos, conforme demonstrado abaixo.   
+
+Pré 
+Aquisição de Extração de Criação do 
+
+Processamento Clasificação
+imagem características dataset
+
+da imagem
+
+ 
+
+ A linguagem para desenvolvimento utilizada foi a Python, em associação com as 
+bibliotecas OpenCv e PIL. 
+
+ A OpenCV (Open Source Computer Vision) é uma biblioteca de código aberto 
+inicialmente desenvolvida pela Intel com objetivo de auxiliar a manipulação e análise de 
+imagens e vídeos. Atualmente possui mais de 500 funções com suporte as principais 
+linguagem de programação como C++, Python, Ruby e Java.    
+
+ O PIL é uma biblioteca para a linguagem de programação Python que adiciona 
+suporte a edição (conversão para tons-de-cinza, rotação, escala, zoom etc.) e gravação de 
+imagens 2D em diferentes formatos (TIFF, GIF, BMP, PICT, JPEG, PNG). [Aclark, 
+2017] 
+
+ Na próxima seção será detalhado o funcionamento de cada módulo e suas 
+características. 
+
+4.1. Aquisição das imagens 
+
+ As imagens utilizadas neste trabalho foram obtidas a partir da base de dados da 
+ISIC [ISIC, 2016] que é uma instituição de colaboração internacional acadêmica e 
+industrial com a finalidade de ajudar a reduzir a mortalidade por melanoma. A base de 
+dados contém 23.906 imagens de lesões, sendo essas 19.373 benignas, 2.286 malignas e 
+2.247 não classificadas. Neste trabalho utilizou-se uma amostragem aleatória de 2000 
+imagens, sendo 1000 classificadas malignas e 1000 benignas.  
+
+ Todas as imagens da base de dados são rotuladas tendo atributos como a idade 
+aproximada, sítio anatômico geral, tamanho clínico - diâmetro mais longo (mm) ,tipo de 
+diagnóstico, casos de melanoma na família, classe de melanoma, índice mitótico de 
+
+ 
+
+
+
+ 
+
+melanoma, espessura do melanoma (mm) tipo de melanoma, tipo de nevo, histórico 
+familiar de melanoma e sexo. 
+
+4.2. Pré Processamento 
+
+ Módulo responsável por carregar as imagens a ser processada e padronizar seu 
+tamanho no formato 300 x 300 e entregar para o módulo de segmentação e filtro de ruídos. 
+
+ 4.2.1 Segmentação e filtro de ruídos  
+
+ O módulo tem como função a limpeza da imagem a ser processada, retirando 
+assim pelos, pele e ruídos.  
+
+ 4.2.2 Filtro de mediana  
+
+ O primeiro passo do módulo é a aplicação do filtro de mediana 3x3, sendo este 
+bastante discutido na literatura, pois tem por  finalidade suavizar ruído do tipo impulsivo 
+em sinais e imagens digitais.  
+
+ 4.2.3 Binarização da imagem  
+
+ Esse passo faz com que a imagem colorida seja convertida para tons de cinza e 
+dilatada para que tenha como efeito aumentar partículas, preencher buracos e conectar 
+componentes próximos. 
+
+ 4.2.4 Segmentação da imagem 
+
+ Neste processo, divide-se a imagem em regiões que correspondem as áreas de 
+interesse da aplicação. Para isso utiliza-se o algoritmo de thresholding que tem por 
+objetivo determinar um valor constate de intensidade para cada pixel de imagem. Caso a 
+intensidade do pixel for maior que o valor devido o pixel será  convertido na cor branca, 
+caso contrário será convertida na cor preta. 
+
+4.3. Extração de características 
+
+  Esse processo é realizado após a segmentação e é muito importante pois a escolha 
+desses dados é fundamental para se obter bons resultados na etapa de classificação. Esse 
+módulo tem como objetivo a realização de extração de características provenientes das 
+lesões, como análise de cor, textura, simetria e contagem de contornos. 
+
+ 4.3.1 Características de Cor 
+
+ Nesta parte do módulo através das análises das imagens obtidas pelo histograma 
+de cores RGB, é possível distinguir as lesões malignas das benignas, pois o melanoma 
+tem uma grande variedade de tons de cores e com isso seu histograma apresenta maior 
+distribuição.  
+
+ O RGB é um sistema de cores em que o Vermelho (Red), o Verde (Green) e o 
+Azul (Blue) são combinados de várias formas com a finalidade de reproduzir um largo 
+espectro cromático. Para isso plotou-se o gráfico Variação de cores versus Frequência de 
+
+ 
+
+
+
+ 
+
+Pixels e calculou-se a média e o desvio padrão de cada cor (vermelho, verde e azul) para 
+a imagem que representa a lesão benigna e a imagem que representa a lesão maligna. A 
+partir destes valores, foram novamente calculados a média das médias e a média dos 
+desvios padrão.  
+
+ 4.3.2 Análise de simetria 
+
+ Nesta etapa é realizado o cálculo relacionado a assimetria da lesão, para tal foi 
+proposto os seguintes passos: 
+
+A. Converter a imagem colorida para tons de cinza; 
+
+B. Aplicar filtro gaussiano para redução da granulosidade da imagem, com 
+
+objetivo de não comprometer a etapa de detecção de borda; 
+
+C. Binarizar a imagem para delimitar o limiar da lesão; 
+
+D. A partir da imagem binarizada, são encontrados os contornos da imagem 
+
+e caso ainda ocorram a existência de pequenos resíduos na imagem, é 
+
+escolhido o maior contorno encontrado; 
+
+E. Quanto mais a forma do contorno encontrada se parecer com uma elipse, 
+
+menos deformações existirão nas bordas. Então altos valores desta 
+
+variável indicam uma deformação da imagem obtida em relação a uma 
+
+figura geométrica simétrica. 
+
+ 4.3.3 Análise de bordas irregulares 
+
+ Ela tem como principal característica a contagem de contornos presentes em uma 
+lesão de pele e para sua realização foram propostos os seguintes passos: 
+
+A. A imagem é convertida para tons de cinza; 
+
+B. É aplicado a detecção de borda de canny; 
+
+C. É realizado uma contagem das bordas encontradas no passo anterior. 
+
+4.5. Criação do dataset 
+
+ Para a criação do dataset, serão utilizados os resultados obtidos na etapa anterior 
+(cor, simetria e bordas) em formato CSV juntamente com o histórico das lesões 
+fornecidos pelo dataset da ISIC como idade aproximada, tamanho clínico em mm, casos 
+de melanoma na família, espessura do melanoma em mm e sexo, totalizando em 9 
+atributos. 
+
+4.6. Classificação 
+
+ 
+
+
+
+ 
+
+ Neste módulo foi desenvolvido uma rede neural artificial com a utilização dos 
+atributos previsores do dataset criado e o dataset de atributos classes com as respostas. 
+
+ Para a construção da rede neural, foram selecionados 75% dos dados para o 
+treinamento da rede e 25% para validação. 
+
+ Desenvolveu se uma rede neural feedforward densa ou totalmente conectada. 
+Feedforward, pois os dados fluem em uma única direção, isto é, eles não voltam para 
+camadas anteriores nem retornam para as mesmas camadas. Densa, devido a todos os 
+neurônios de uma camada anterior serem conectados com todas as entradas da camada 
+subsequente. 
+
+ Tem-se na primeira camada da rede neural as 9 entradas com atributos do dataset, 
+na camada oculta contendo 5 neurônios com a função de ativação ReLU e na camada de 
+saída apenas 1 neurônio com função de ativação Sigmóide. 
+
+5. Resultados  
+
+Nesta seção serão apresentados os resultados obtidos com a utilização da metodologia 
+anterior. 
+
+5.1 Pré Processamento 
+
+ 5.1.1 Filtro de mediana  
+
+Na figura 6 está apresentada a comparação da imagem após a aplicação do filtro de 
+mediana. 
+
+ 
+Figura 6: (a) Imagem original; (b) imagem após aplicação do filtro de mediana. 
+
+ 5.1.2 Binarização e segmentação da imagem 
+
+Na figura 7 apresenta-se os resultados da aplicação da binarização e segmentação da 
+imagem. 
+
+ 
+
+ 
+
+
+
+ 
+
+ 
+
+Figura 7: (a) imagem convertida para tons de cinza; (b) binarização da imagem;(c) 
+segmentação da imagem 
+
+5.2 Extração de características 
+
+ 5.2.1 Características de Cor 
+
+Nesta seção apresenta-se o histograma de uma lesão maligna (Figura 8) e de uma lesão 
+benigna ( Figura 9 ). Os valores da média e do desvio padrão são apresentados no Quadro 
+1. 
+
+ 
+Figura 8: Histograma de uma lesão melanoma média  
+
+ 
+
+  
+
+ 
+
+
+
+ 
+
+ 
+Figura 9:Histograma de uma lesão benigna 
+
+Quadro 1 
+
+ 
+ Média Desvio Média  Desvio  
+
+Melanoma Melanoma Não Melanoma Não Melanoma 
+RED 214.14 11.05 20.6 16.31 
+
+GREEN 214.15 10.90 20.6 15.92 
+BLUE 214.19 10.41 20.59 14.82 
+
+Média Total 214.16 10.78 20.59 15.68 
+
+ 
+
+ Ao observar o eixo x correspondente a variação de cor, observa-se uma maior 
+distribuição de cores para a lesão maligna, como esperado. 
+
+ 5.2.2 Análise de simetria 
+
+𝑒𝑖𝑥𝑜 𝑥
+ Ao se utilizar a relação 𝑠𝑖𝑚𝑒𝑡𝑟𝑖𝑎 =   em relação a elipse traçada no exterior 
+
+𝑒𝑖𝑥𝑜 𝑦
+como figura 10, obtemos valores de relação entre 0 e 1,onde valores próximos de 0 temos 
+uma lesão simétrica ou seja benigna e valores próximos a 1 uma lesão não simétrica que 
+possivelmente seja um melanoma. 
+
+ 
+
+ 
+
+
+
+ 
+
+ 
+Figura 10: Relação entre o eixo x e y de uma lesão maligna. 
+
+ 5.2.3 Análise de bordas irregulares 
+
+ Na figura 11 temos o resultado antes e após a aplicação do filtro de detecção de 
+borda de canny de uma lesão maligna e na figura 12 de uma lesão benigna.  
+
+ 
+Figura 11: a) Lesão maligna original; b) Lesão maligna utilização do algoritmo de 
+
+borda de canny. 
+
+ 
+Figura 12: (a) Lesão benigna original; (b) Lesão benigna utilização do algoritmo de 
+
+borda de canny. 
+
+ A partir da contagem de bordas das figuras 11 e 12, temos que para lesões 
+benignas a contagem de contornos de uma lesão benigna resulta em valores igual a 1, 
+enquanto em lesões malignas a contagem de contornos é em média superiores a 3. 
+
+5.3 Classificação 
+
+ Na Figura 13 apresenta-se um trecho do código em Python para criação de uma 
+rede neural. 
+
+ 
+
+
+
+ 
+
+ 
+
+Figura 13:Criação da arquitetura da rede neural utilizando Keras. 
+
+ Os resultados obtidos serão demonstrados na matriz de confusão (Tabela 2) que é 
+uma ferramenta muito utilizada para avaliações de modelos de classificação 
+em aprendizado de máquina. 
+
+ 
+Tabela 2: Matriz de Confusão 
+
+ Melanoma Não Melanoma Acurácia 
+Melanoma 222 28 88,80% 
+Não Melanoma 40 210 84,00% 
+
+ A partir do teste foram encontradas as especificações da rede para sua melhor 
+convergência. A rede neural artificial convergiu para um erro médio de 13,6%.  
+
+ Comparando os resultados dos trabalhos relacionados na Tabela 3, pode-se 
+observar que nossos resultados foram satisfatórios e o valor obtido se manteve dentro da 
+faixa de valores dos resultados relatados na literatura. 
+
+ 
+Tabela 3: Comparação de resultados 
+
+Método Proposto Precisão 
+Frutoso 2016 - KNN Superior a 90% 
+
+95% 
+Xavier 2017 - SKAN – Skin Scanner 
+
+69% 
+Botelho 2007 - Redes neurais artificiais 
+
+86,40% 
+Método Proposto 
+
+ Apesar das taxas elevadas de acerto obtidas pela rede neural artificial proposta, 
+pode-se sugerir para implementação futura, a inserção de uma camada oculta com a 
+mesma topologia de 5 neurônios utilizando a função de ativação ReLU e a inserção de 
+otimizadores disponível na biblioteca do Keras como ADAM. 
+
+6. Conclusão 
+
+ Neste trabalho foi apresentado um vetor características misto, utilizando dados 
+obtidos da imagem juntamente com dados da anamnese clínica realizado pelo profissional 
+
+ 
+
+
+
+ 
+
+de saúde. A metodologia apresentada se demonstrou bastante eficaz tendo a taxa de 88,4% 
+de precisão para os dados utilizados. 
+
+ Este resultado incentiva a analisar outras arquiteturas de redes para classificação, 
+seleção de mais atributos para o padrão ABCD discutido, além de testar classificadores 
+que talvez possam obter melhores resultados. 
+
+7. Referências 
+
+ACADEMY, Data Science. Deep Learning Book, 2019. Disponível em: 
+<http://deeplearningbook.com.br/funcao-de-ativacao/>. Acesso em: 03 maio 2019. 
+
+ACLARK. Pillow 2.2.2. Disponível em: <https://pypi.org/project/Pillow/2.2.2/>. Acesso 
+em: 02 dez. 2017. 
+
+ARAÚJO, Agnes Silva de. Classificação de imagens de Sensoriamento Remoto. 
+Londrina: Notas de Aula, 2017. Color. 
+
+BOTELHO, Glenda Michele. Processamento de Imagens no Auxílio à Detecção de 
+Câncer de Pele utilizando Redes Neurais Artificiais. 2007. 66 f. TCC (Graduação) - 
+Curso de Ciência da Computação, Universidade Federal de Goiás, Catalão, 2007. 
+Disponível em: <https://dcc.catalao.ufg.br/up/498/o/Glenda2007.pdf>. Acesso em: 29 
+maio 2019. 
+
+ BRAGA, A. P., Carvalho, A. P. L., e Ludermir, T. B. (2007). Redes neurais artificiais: 
+teoria e aplicações. LTC, Livros Técnicos e Científicos. 
+
+CHOLLET, F. Keras. [S.l.]: GitHub, 2015.  
+
+DIMATOS, D. C. MELANOMA CUTÂNEO NO BRASIL, Arquivos Catarinenses de          
+Medicina - Volume 38 - Suplemento 01. 2009. 
+
+FRUTUOSO, Rômulo Lopes et al. Uso de algoritmos de reconhecimento de padrões 
+aplicados ao problema de câncer de pele do tipo melanoma. Anais do 11. Congresso 
+Brasileiro de Inteligência Computacional, [s.l.], v. 1, n. 1, p.1-6, 11 mar. 2016. SBIC. 
+http://dx.doi.org/10.21528/cbic2013-321. 
+
+GONZALEZ, Rafael C.; WOODS, Richard E. Processamento de Imagens Digitais. São 
+Paulo: Pearson Education do Brasil, 2010. 
+
+HAYKIN, Simon. Redes Neurais: Princípios e prática. Porto Alegre RS:Bookman, 2001. 
+
+INCA. Câncer de pele melanoma. Disponível em:<https://www.inca.gov.br/tipos-de-
+cancer/cancer-de-pele-melanoma>. Acesso em: 16 fev. 2019. 
+
+ISIC Archive, The International Skin Imaging Collaboration: Melanoma Project. 
+201.Acesso 12 de Maio de 2019. Disponível em: <”https://isic-archive.com/#”>. 
+
+ORTEGA, Gustavo Victor Chávez; Vellasco, Marley M. B. R. Redes Neurais na 
+Identificação de Perdas Comerciais do Setor Elétrico. Rio de Janeiro, 2008. 184p. 
+Dissertação de Mestrado - Departamento de Engenharia Elétrica, Pontifícia 
+Universidade Católica do Rio de Janeiro.  
+
+SILVA, Bruno Ramon de Almeida e. Sistema de contagem automática de objetos 
+utilizando processamento digital de imagens em dispositivos móveis. 2014. 65 f. 
+
+ 
+
+
+
+ 
+
+Dissertação (Mestrado) - Curso de Programa de Pós-graduação em Ciência da 
+Computação, Universidade do Estado do Rio Grande do Norte., Mossoró, 2014.

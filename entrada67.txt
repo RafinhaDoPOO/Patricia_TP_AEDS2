@@ -1,0 +1,356 @@
+﻿CCEdu: uma aplicação para facilitar o primeiro contato
+com a lógica de programação
+
+Edson Noboru Hamakami1, Daniel Mendes Barbosa1
+
+1Instituto de Ciências Exatas e Tecnológicas
+Universidade Federal de Viçosa (UFV)
+
+Florestal – MG – Brasil
+
+{edson.hamakami,danielmendes}@ufv.br
+
+Abstract. The search for more sophisticated tools and teaching methods have
+grown significantly in recent years, especially due to the scarcity of relevant and
+low priced artifacts in the context of programming logic learning. It was realized
+the need to introduce knowledge of computer science area in basic education a
+long time ago. To make this possible, this kind of knowledge should be presented
+from an early age, instigating the child’s imagination with a more practical and
+fun material. With this in mind we have built an educational toy that aims to
+teach and entertain children from 6 years of age, presenting programming logic
+friendlier than older and conservative methods of teaching, along with low cost
+attached to it’s simple built. We performed tests with children to experiment the
+toy, and analyzing the data collected based on the proposed age range, we could
+observe that the essence of the application, of teaching the basis of sequential
+programming logic, was achieved.
+
+Resumo. A busca de ferramentas e métodos de ensino mais sofisticados e algo
+que a cada dia ganha mais força, principalmente pela escassez de artifícios re-
+levantes e de baixo custo no âmbito do aprendizado da lógica da programação.
+É de tempos que se nota a necessidade da introdução dos conhecimentos da área
+da computação no ensino básico. Para que isso seja possível, as materias de-
+vem ser apresentadas desde cedo instigando a imaginação e o lúdico da criança
+com um material mais prático e divertido. Pensando dessa forma foi contruído
+um brinquedo educacional que tem como finalidade ensinar e entreter crianças
+a partir de 6 anos de idade, apresentando a lógica de programação de forma
+mais amigável do que os métodos mais antigos e conservadores de ensino, além
+de ter um baixo custo atrelado a sua simplicidade de construção. Foram apli-
+cadas atividades para as crianças testarem o brinquedo, e analisando os dados
+coletados com base na faixa etária proposta, pôde ser observado que a essên-
+cia da aplicação, de ensinar a base da lógica sequencial de programação, foi
+alcançada.
+
+1. Introdução
+Mecanismos de ensino e ferramentas são utilizadas em diversas áreas da educação, como
+por exemplo na matemática, história e na programação. Há uma imensa gama destas fer-
+ramentas que possibilitam a passagem de conhecimento de forma mais sucinta e objetiva
+[Candau and e Koff 2015]. Pode-se destacar os jogos didáticos e os brinquedos educa-
+tivos, uma vez que estes são aplicáveis a todas as faixas etárias. A intuitividade dos
+
+
+
+apetrechos e a diversão que eles podem proporcionar facilitam e intensificam a fixação
+dos conteúdos e conceitos propostos a serem repassados. Dessa maneira, conteúdos antes
+complexos para determinadas faixas etárias podem ter o seu entendimento simplificado
+no decorrer do aperfeiçoamento desses mecanismos de aprendizagem [Kafai 1995].
+
+Todos esses apetrechos tem ganhado cada vez mais atenção para serem aperfeiçoa-
+dos. Diante da velocidade com que o mundo evolui e a necessidade de propor novas técni-
+cas, há uma preocupação em estar utilizando o melhor mecanismo disponível no momento
+assegurando um aproveitamento melhor de atividades em geral [Pimenta et al. 2013].
+
+Com a utilização de instrumentos no auxílio da passagem de conhecimento, pode
+se promover diferentes benefícios aos indivíduos que os utilizam. Os brinquedos educa-
+tivos, por exemplo, promovem a socialização [Cunha 2005]. Essa socialização contribui
+para formação da personalidade e para o estímulo e raciocínio de um indivíduo, insti-
+gando assim esquemas mentais e a ordenação de espaço e tempo. Os brinquedos podem,
+ainda, desenvolver concomitantemente as partes: motora, cognitiva e afetiva, além de de-
+senvolver habilidades como a rapidez, a força, a concentração, a destreza e a coordenação
+deste indivíduo. Desta forma a absorção do conhecimento pode ser conduzida de forma
+mais objetiva, intuitiva e divertida. Em geral, as ferramentas e apetrechos necessitam de
+aperfeiçoamento contínuo [Pimenta 2000].
+
+Este trabalho está organizado da seguinte forma: na seção 2 é feita uma descrição
+do problema e do objetivo do trabalho; na seção 3 são discutidos trabalhos relacionados;
+na seção 4 a solução proposta é detalhada; na seção 5 os resultados são apresentados e na
+seção 6 tem-se as conclusões e trabalhos futuros.
+
+2. Problema e Objetivo
+
+A tecnologia está cada vez mais inserida a todas as áreas da educação. É essencial pos-
+suir conhecimento de métodos e de aplicações de recursos computacionais para o auxílio
+de resoluções de problemas das diversas áreas de atuação. O poder computacional pode
+encontrar as soluções dos problemas de forma mais rápida e até mesmo mais precisas.
+Pode-se notar a ligação da computação às diversas áreas, não somente nas exatas, mos-
+trando assim a importância e a influência que a lógica de programação tem sobre o ensino
+como um todo [Wing 2006].
+
+O desenvolvimento de novos métodos são sempre propostos e colocados em prá-
+tica. No entanto grande parte das ferramentas que são criadas para a inserção dos jovens
+na lógica de programação possuem um custo relativamente elevado. Dessa forma o co-
+nhecimento se torna mais restrito ao público com poder aquisitivo maior.
+
+Apesar de estudos e melhorias no desenvolvimento de novos métodos para o en-
+sino, as disciplinas ainda possuem carência em materiais que possibilitem o aprendizado
+da lógica de programação de forma sucinta, intuitiva, objetiva e que tenha um custo baixo.
+
+Como a cada dia a necessidade de se adquirir conhecimento se torna mais precoce,
+o intuito deste trabalho é de propor um protótipo de brinquedo funcional: um aplicativo
+de controle virtual que possa ser instalado em celulares, enviando comandos sequenciais
+de movimento para um carrinho físico de baixo custo, com finalidade de introduzir a base
+da lógica de programação a jovens de forma divertida e barata.
+
+
+
+3. Trabalhos Relacionados
+Com a crescente necessidade de atualização de métodos de ensino da lógica de programa-
+ção, muitos trabalhos surgem buscando proporcionar um ensino mais simples e completo.
+Nesse meio há um programa cujo uso vem se popularizando junto às aulas de programa-
+ção para jovens, crianças e pessoas de todas as idades com diferentes níveis de conheci-
+mento. O programa se chama Scratch e foi criado pelo grupo Lifelong Kindergarten do
+MIT Media Lab. Com essa aplicação muitos artigos envolvendo o estudo da utilização
+da mesma em paralelo com outras ferramentas vem proporcionando novos artigos e pes-
+quisas. O trabalho de [Resnick et al. 2009] mostra o quanto a aplicação pode ajudar no
+aprendizado da programação fazendo praticamente o que o usuário bem entender, como
+por exemplo criar histórias, animações ou até mesmo jogos/quizzes. Todos esses jogos
+são possíveis de serem publicados no próprio domínio da aplicação, possibilitando assim
+que outras pessoas que porventura a utilizarem possam desenvolver outros conhecimen-
+tos dependendo da aplicação que desejarem testar/usar no repositório de aplicativos do
+Scratch.
+
+Em contrapartida há trabalhos como o de [Horn et al. 2009] que mostra os ganhos
+não muito relevantes quando o método utilizado em testes apenas usam de partes gráficas
+virtuais, consequentemente proporcionando pequenos ganhos no momento da aprendi-
+zagem. Dessa forma, defendem que as ferramentas de auxílio que possuem de alguma
+forma uma interação mais próxima e física entre os indivíduos tem mais ganhos, facili-
+tando assim o trabalho em equipe, o compartilhamento de outros conhecimentos entre as
+pessoas e o prolongamento da atividade entre os participantes.
+
+Também há trabalhos que dão o foco no entretenimento, como por exemplo em
+jogos. Neles o intuito é prender a atenção do usuário fazendo com que com a prática e o
+entendimento do fluxo das fases do jogo vá se desenvolvendo a base da matéria em ques-
+tão, a lógica de programação. No artigo de [Forquesato and Borin 2018] é proposto a uti-
+lização de um jogo/aplicação para transpassar a essência da programação, onde o jogador
+movimenta um personagem com a finalidade de percorrer um caminho pré-determinado
+em cada fase. Os movimentos executados pelo personagem são feitos conforme o joga-
+dor monta as sequências de comando. A cada fase do jogo há um problema diferente para
+ser resolvido. Dessa maneira o conhecimento é passado aos poucos ao jogador de forma
+divertida e descontraída.
+
+Nos trabalhos mais antigos já existia essa preocupação na criação de novos méto-
+dos e ferramentas que auxiliassem o desenvolvimento do conhecimento. Como no artigo
+[McNerney 2004], o pesquisador evidencia a evolução dos métodos mais fáceis e diverti-
+dos de se passar a lógica de programação em forma de um resumo com uma visão geral
+histórica da pesquisa computacional do MIT, desde os meados dos anos 60 até o ano de
+2003 quando o artigo foi criado. Nele é exposta as diversas variações e evoluções de inter-
+faces físicas para o desenvolvimento de métodos avançados para crianças desenvolverem
+a forma de pensar utilizando jogos livres, consequentemente adquirindo conhecimento da
+área da computação.
+
+Com base nas referências citadas, a solução proposta juntou os métodos e ferra-
+mentas citadas de forma a conseguir entregar tanto a parte de interface gráfica, quanto a
+parte física de interação com o usuário, seguindo a ideia de ser um brinquedo/aplicação
+que auxiliasse no desenvolvimento da lógica de programação de forma divertida, simples
+
+
+
+e de custo reduzido.
+
+4. Solução
+A solução proposta consiste na elaboração de um protótipo funcional de um brinquedo,
+composto de um aplicativo instalado em um celular que simula um controle virtual e um
+carrinho físico de baixo custo que executa comandos recebidos vindos do controle.
+
+Visando a simplicidade e a objetividade da utilização do controle, foi projetado
+uma interface simples e intuitiva. O controle possui ao todo seis peças virtuais de mo-
+vimentação (Figura 1). Quatro peças são utilizadas para movimentos individuais (para
+frente, para trás, para esquerda e direita), e as outras duas, função 1 e função 2, são usadas
+no conjunto de movimentos em sequência.
+
+Figura 1. Peças Virtuais de Movimentação
+
+A área "PRINCIPAL"(Figura 2) possibilita o encaixe de todas as seis peças em seu
+setor. Logo no início deste setor, há um botão com formato triangular (botão de "Play")
+usado para iniciar a execução de todo o fluxo de comandos criado. O fluxo é enviado,
+comando a comando, para o carrinho executá-los enquanto aguarda uma resposta caso o
+comando tenha sido ou não executado. Este mesmo botão, ao ser clicado, enquanto está
+em formato de quadrado (símbolo de "Parar"), possibilita a interrupção da execução dos
+movimentos e consequentemente a suspensão do envio dos comandos.
+
+As peças de funções representam um conjunto de comandos sequenciais criados
+pelo usuário. Pode-se ter acesso a criação dessas sequências entrando na aba "FUN-
+ÇÕES"(Figura 3). As áreas de encaixe são identificadas pelas tonalidades de rosa (função
+1) e roxo (função 2). Além disso possuem a identificação "F1"e "F2"referente a qual fun-
+ção aquela área de comandos pertence. Nessas áreas podem-se arrastar as peças de movi-
+mentação única (para frente, para trás, para esquerda e direita) criando assim a sequência
+de movimentos desejada. As funções possuem como limitação apenas a quantidade de
+possibilidades disponíveis de peças e pelo número máximo de comandos sequenciais en-
+caixáveis para cada função, totalizando quatorze espaços.
+
+Diferentes cores, símbolos, texturas e fontes foram usadas para representar cada
+uma das peças/componentes da aplicação. As escolhas foram feitas para proporcionar um
+ambiente mais amigável e agradável para o usuário.
+
+O carrinho foi construído visando simplicidade, uma vez que sua peças deveriam
+ser de baixo custo, para que o produto final pudesse receber um valor bem abaixo do en-
+
+
+
+Figura 2. Fluxo de Comandos Principal
+
+Figura 3. Fluxo de comandos das Funções
+
+
+
+contrado no mercado. Na construção dele foi utilizado o ESP8266 um controlador chinês
+com processamento semelhante a um arduino, juntamente com um módulo de comuni-
+cação sem fio, além de uma bateria portátil para recarga de celulares e dois pequenos
+motores de baixa precisão, todos esses componentes distribuídos em uma estrutura de 15
+por 15 centímetro em acrílico, sendo assim todos os componente de baixo custo. Sim-
+plesmente ele executa os comandos que são recebidos vindo da aplicação, verificando
+qual ação deve ser executada e a cada comando executado é emitido uma mensagem res-
+posta para o controle, avisando-o que o próximo comando já pode ser enviado para ser
+executado.
+
+Para implementar toda a aplicação foi elaborado um fluxo de execução, conforme
+exibido na Figura 4. O controle disponibiliza as peças de encaixe e os espaços para a
+formação da sequência de comandos. Ao clicar no botão de iniciar é feito o envio de co-
+mandos ao carrinho. A aplicação cria vetores que guardam a sequência de comandos que
+devem ser executados, qual posição de encaixe a aplicação deve alterar a cor de exibição
+de executando/executado e qual é a página onde a aplicação deve estar enquanto ocorre
+o envio dos comandos. Logo após esses vetores serem criados e preenchidos, inicia-se
+o envio de comando a comando. A cada mensagem enviada, o controle espera a res-
+posta, verificando se foi ou não executado com sucesso a movimentação. Se realizado
+com sucesso parte-se para o próximo comando de envio; caso contrário é reenviado o
+mesmo comando anterior. Já no carrinho há um microcontrolador que recebe as mensa-
+gens, verifica seu índice e o seu movimento. Caso o índice seja de um comando ainda não
+executado é realizado a movimentação do mesmo, caso contrário, o carrinho envia uma
+resposta para o controle pedindo o próximo movimento conforme o índice do comando
+esperado.
+
+Dessa maneira evita-se que o carrinho deixe de executar comandos gerados por
+algum tipo de falha/perda de dados durante a comunicação, garantindo a execução de
+todos os comandos selecionados e enviados.
+
+5. Resultados
+Após todo o processo de planejamento e levantamento das funcionalidades, visando en-
+treter e contribuir com uma forma de aprendizado mais acessível financeiramente, foi
+concluída a construção do protótipo de brinquedo educativo. Para que a validação da
+ferramenta pudesse ser efetivamente testada, entregando a possível utilização no meio
+de ensino e entretenimento de baixo custo, elaborou-se um roteiro com atividades para
+levantar dados que possibilitassem esboçar de forma mais clara o entendimento da utili-
+zação da ferramenta, avaliando assim se os indivíduos conseguiram ou não executar as
+atividades propostas.
+
+O roteiro tinha como parte inicial uma introdução do brinquedo, logo em seguida
+era apresentado um breve resumo da utilização do controle, introduzindo o funcionamento
+dele ao indivíduo, mostrando passo a passo as possibilidades disponíveis de movimenta-
+ção das peças e de seus comandos enviados para o carrinho e executados.
+
+Após a breve introdução do manuseio da aplicação, era então passada a primeira
+atividade, uma de nível fácil. Nela o usuário do brinquedo devia movimentar o carrinho
+até uma área demarcada, de aproximadamente 60 centímetros de distância do ponto ini-
+cial do carrinho. Para que ele concluísse era necessário que o carrinho andasse três vezes
+
+
+
+Figura 4. Fluxograma de Execução
+
+para frente e parasse em cima da área de chegada. Já a segunda atividade foi classificada
+como de nível médio. Nela o indivíduo teria que guiar o carrinho com os comandos de
+forma que ele percorresse um percurso em "L", andando três vezes para frente e duas para
+a direita. E por fim na última atividade foi requisitado que o participante fizesse o carri-
+nho percorrer um caminho maior e mais complexo. Ele faria um percurso em formato de
+"S"invertido, com características das atividades anteriores, com dificuldade maior justa-
+mente pelo aumento do número de movimento exigidos para resolução e sendo assim a
+terceira atividade seria de nível difícil. Todas essas atividades ainda eram aplicadas em
+uma segunda etapa onde os indivíduos agora deveriam utilizar as peças de funções para
+auxiliarem em suas resoluções. Todas as etapas foram aplicadas a jovens de 6 a 9 anos de
+idade.
+
+Os resultados foram obtidos conforme os indivíduos conseguiam executar ou não
+as atividades e com quanto tempo que eles necessitavam para finalizar a tarefa. No entanto
+cada atividade possuía um tempo máximo estipulado, sendo a de nível fácil 5 minutos, a
+
+
+
+de nível médio 7 minutos e a de nível difícil com 10 minutos de duração.
+Na Figura 5 pode-se notar que praticamente todos os indivíduos conseguiram fi-
+
+nalizar a atividade de nível fácil. Já no gráfico de atividades de nível médio os dados
+mostram que apenas 60% dos indivíduos conseguiram executar até o fim dela, enquanto
+no gráfico de pizza das atividades de nível difícil mostra o que número de indivíduos fina-
+lizaram a atividade foi a mesma da atividade de nível médio, porém ao acrescentar a peça
+de "Função"nas atividades, os gráficos mostraram que houve uma queda na porcentagem
+de participantes que conseguiram conclui-las, mas ainda assim manteve uma quantidade
+de conclusões aceitável, podendo ser verificado nos gráficos da Figura 6.
+
+Figura 5. Gráfico de atividades concluídas de nível fácil, médio e difícil sem
+utilizar função
+
+6. Conclusão
+A cada dia que se passa a necessidade de se adquirir conhecimento se torna mais precoce.
+Tendo em vista essa demanda, propôs-se um protótipo de brinquedo funcional, um con-
+trole virtual que envia comandos sequenciais de movimento para um carrinho físico, com
+a finalidade de introduzir a base da lógica de programação. O desenvolvimento do modelo
+proposto foi baseado nos pontos mais relevantes dos trabalhos estudados. Características
+diversas foram levadas em consideração, chegando em um exemplar que pudesse ser uti-
+lizado na aplicação de uma pesquisa para saber a real aceitação do brinquedo como uma
+possível ferramenta de baixo custo para o ensino da lógica sequencial de programação.
+
+O resultado obtido da pesquisa aplicada, mostrou que há melhorias a serem feitas,
+pois apesar dos resultados serem satisfatórios para uma primeira versão, há uma dificul-
+dade que pode ser notada quando se começa a utilizar um determinado número de peças,
+sendo assim a adaptação de algum artifício que possa exemplificar ou esboçar ao usuário
+do controle as peças selecionadas e seus respectivos comandos que serão enviados aos
+carrinhos.
+
+
+
+Figura 6. Gráficos de atividades concluídas de nível fácil, médio e difícil utili-
+zando função
+
+Dessa forma pode-se concluir que apesar do protótipo de brinquedo ainda neces-
+sitar de melhorias em sua usabilidade, foi possível comprovar que a essência da aplicação
+de passar a lógica sequencial de programação, de forma a entreter o usuário, foi alcan-
+çada. Com os dados recolhidos foi possível levantar trabalhos futuros, como a utilização
+do brinquedo junto a um tabuleiro físico e moldável, possibilitando assim criar diversas
+fases para que a criança possa treinar a lógica, além de disponibilizar diversas capas per-
+sonalizáveis para o carrinho, possibilitando assim trabalhar cada vez mais com o lúdico
+da criança, podendo transformar o simples carrinho em algum personagem que ela possa
+controlar e principalmente aumentar a vida útil do brinquedo como um todo.
+
+Referências
+Candau, V. M. F. and e Koff, A. M. N. S. (2015). A didática hoje: reinventando caminhos.
+
+In Didática, currículo e saberes escolares. Educação & Realidade.
+Cunha, N. H. S. (2005). Brinquedos Desafios e Descobertas. Vozes, 1a edition.
+Forquesato, L. E. T. and Borin, J. F. (2018). Kids block coding game: A game to introduce
+
+programming to kids. Workshop sobre Educação em Computação (WEI_CSBC).
+Horn, M. S., Solovey, E. T., Crouser, R. J., and Jacob, R. J. (2009). Comparing the
+
+use of tangible and graphical programming languages for informal science education.
+In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems,
+pages 975–984.
+
+Kafai, Y. B. (1995). Minds In Play: Computer Game Design as a Context for Children’s
+Learning. Lawrence Erlbaum Associates, 1a edition.
+
+McNerney, T. S. (2004). From turtles to tangible programming bricks: explorations in
+physical language design. pages 326–337. Personal and Ubiquitous Computing.
+
+
+
+Pimenta, S. G. (2000). A pesquisa em didática (1996 – 1999). In Didática, currículo e
+saberes escolares. DPA Editora.
+
+Pimenta, S. G., Fusari, J. C., Almeida, M. I. D., and Franco, M. A. D. R. S. (2013). A
+construção da didática no gt didática – análise de seus referenciais. In Revista Brasi-
+leira de Educação.
+
+Resnick, M., Maloney, J., Monroy-Hernández, A., Rusk, N., Eastmond, E., Brennan, K.,
+Millner, A., Rosenbaum, E., Silver, J., Silverman, B., and Kafai, Y. (2009). Scratch:
+programming for all. In Communications of the ACM, pages 60–67.
+
+Wing, J. M. (2006). Computational thinking. pages 33–35. Communications of the ACM.

@@ -1,0 +1,527 @@
+﻿Migrating a System for Event Participation Assistance to the
+Microservices Architecture
+
+Victor Guerra Veloso Elena Augusta Araujo Thais R. de M. Braga Silva
+Universidade Federal de Viçosa Universidade Federal de Lavras Universidade Federal de Viçosa
+Florestal, Minas Gerais, Brasil Lavras, Minas Gerais, Brasil Florestal, Minas Gerais, Brasil
+
+victorgvbh@gmail.com elena.araujo@posgrad.ufla.br thaisrmb@gmail.com
+ABSTRACT arquiteturas compostas por uma única unidade lógica executável,
+Monolithic architecture systems, which are systems composed of a denominada arquiteturas monolíticas [33]. Nessa arquitetura, todas
+single logical and executable unit, are, in general, hard to scale once as funcionalidades são integradas, fazendo com que qualquer alte-
+any modification made in a small part of the system requires it to ração realizada em uma pequena parte da aplicação exija que essa
+be rebuilt and redeployed as a whole. One way to ease this aspect, seja reconstruída e reimplantada [29]. Escalar sistemas de software
+which is even more problematic in bigger information systems, monolíticos torna-se um grande desafio quando algumas funciona-
+is to follow modern low cost architecture proposals, as the one lidades são muito requisitadas. Nesses casos, todo o software deve
+that advises the microservices usage. However, migrating legacy ser escalado, acarretando em funcionalidades pouco requisitadas
+monolithic systems specifically to the microservice scenario is a consumindo grande quantidade de recursos [33].
+challenging task, with proposals and background still incipient Com o objetivo de contornar os problemas enfrentados com a
+within the literature. This work consists of a migration proposal implantação de sistemas monolíticos em ambientes distribuídos,
+to the microservice architecture of a monolithic system for event abstrações que utilizam serviços como elementos principais de
+participation assistance and the comparison of the software quality implementação, tal como a Arquitetura de Microsserviços, têm sido
+between the resulting product and the old version. For the migra- propostos [15, 27, 33].
+tion results study and evaluation it was applied the metrics lines of Fowler e Lewis definem o estilo arquitetural de microsserviços
+code, comments rate, time of features conclusion and rework rate, como uma abordagem para desenvolver uma única aplicação como
+those points to a maintainability degradation caused by the mono- uma suite de serviços independentes, cada um executando em seu
+lith complexity, which doesn’t happen so steeply in the microser- próprio processo e se comunicando por meio de mecanismos le-
+vice architecture. After all, it is concluded that the microservice ves através de uma API(Application Programming Interface) que
+architecture adoption contributed to increased team expectation, utiliza o protocolo HTTP (Hypertext Transfer Protocol) [15]. Nessa
+development efficiency, good practices usage inducement, test de- arquitetura, uma aplicação monolítica deve ser dividida em serviços
+velopment ease and speed of feature release to production (Time to que implementam funcionalidades específicas, garantindo assim
+market). baixo acoplamento e alta coesão, além de permitir agilidade, flexi-
+
+bilidade, escalabilidade e reusabilidade [9, 16, 30]. Desta forma, a
+KEYWORDS arquitetura de microsserviços compreende uma abordagem pode-
+Arquitetura de Sistemas, Microsserviços, Eventos rosa para manutenibilidade de Sistemas da Informação, uma vez
+
+que novos microsserviços podem ser desenvolvidos e integrados
+ACM Reference Format: com impacto reduzido no restante da aplicação, quando surgem
+Victor Guerra Veloso, Elena Augusta Araujo, and Thais R. de M. Braga novas necessidades no negócio [4].
+Silva. 2019. Migrating a System for Event Participation Assistance to the Diversas instituições que mantinham sistemas monolíticos, estão
+Microservices Architecture. In SBSI ’19: Simpósio Brasileiro de Sistemas de
+Informação, May 20–24, 2019, Aracaju, Sergipe. ACM, New York, NY, USA, considerando a adoção da arquitetura de microsserviços [25, 34].
+7 pages. Segundo Taibi et al.[31] as principais motivações estão associadas a
+
+redução do alto custo de manutenção e o aumento da escalabilidade
+1 INTRODUÇÃO de seus serviços. Por outro lado, Luz et al.[20] apresenta a falta
+
+de um critério de decomposição como um problema crítico. Isso
+Ao longo dos últimos anos, mudanças progressivas vêm ocorrendo se agrava ainda mais quando considera a arquitetura monolítica
+na maneira tradicional em que as empresas estruturam seus re- uma etapa prévia e necessária de amadurecimento da equipe e do
+cursos da tecnologia da informação, guiadas pela necessidade de projeto no desenvolvimento para um determinado domínio [14].
+desenvolver aplicações distribuídas e escaláveis [8, 15]. Na ma- O Sistema de Apoio à Participação em Eventos é um sistema
+neira tradicional, os sistemas de software são implementados por desenvolvido para oferecer apoio à participação em eventos, tanto
+Permission to make digital or hard copies of all or part of this work for personal or para organizadores como para participantes. Ele é composto por
+classroom use is granted without fee provided that copies are not made or distributed um website, por meio do qual eventos são criados e gerenciados,
+for profit or commercial advantage and that copies bear this notice and the full citation
+on the first page. Copyrights for components of this work owned by others than the e um aplicativo, utilizado durante um evento para obtenção de in-
+author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or formações e envio de feedback. As principais funcionalidades desse
+republish, to post on servers or to redistribute to lists, requires prior specific permission sistema voltadas para o organizador de um evento são: cadastro,
+and/or a fee. Request permissions from permissions@acm.org.
+SBSI ’19, May 20–24, 2019, Aracaju, Sergipe criação de evento, inserção de atividades, questionários, notícias e
+© 2019 Copyright held by the owner/author(s). Publication rights licensed to ACM. patrocinadores para um evento e visualização de opiniões, notas
+
+
+
+SBSI ’19, May 20–24, 2019, Aracaju, Sergipe Victor G. Veloso
+
+e respostas à questionários, enviadas pelos participantes de um na literatura. As Seções 3 e 4 trazem, respectivamente, os detalhes
+evento. Por outro lado, para os participantes, os principais serviços sobre o trabalho de migração para arquitetura de microsserviços
+são: cadastro, seleção de um evento, visualização de programação realizado para um sistema de apoio à participação em eventos, bem
+e montagem de agenda para um evento, visualização de patroci- como o impacto deste observado por meio de métricas de qualidade
+nadores e notícias inseridas pelo organizador do evento, envio do de software. Por fim, as conclusões e alguns possíveis trabalhos
+respostas à questionários de um evento e envio de notas sobre ati- futuros podem ser encontrados na Seção 5.
+vidades de um evento. No que diz respeito à esse últimos serviço,
+cada participante pode enviar, para cada atividade, uma nota sobre
+sua qualidade, bem como sobre o conforto térmico e o sonoro per- 2 TRABALHOS RELACIONADOS
+cebidos durante a mesma. O Sistema de Apoio à Participação em
+Eventos é um sistema desenvolvido por uma equipe de professo- Trabalhos que apresentam experiências de migração entre arqui-
+res e alunos de um núcleo de pesquisa em sistemas pervasivos e teturas monolíticas e de microsserviços, bem como aqueles que
+distribuídos de uma instituição pública de ensino superior. As prin- apresentam ferramentas, frameworks ou estratégias de migração,
+cipais tecnologias envolvidas com o projeto do sistema são Ionic, podem ser considerados relacionados ao trabalho descrito neste
+Django e MySQL, tendo sido o mesmo desenvolvido inicialmente artigo. A seguir estão descritos os principais trabalhos da literatura
+com arquitetura monolítica. neste recorte, bem como é apresentada Tabela 1, que condensa as se-
+
+É fácil observar que o Sistema de Apoio à Participação em Even- melhanças e diferenças entre eles, com destaque para as diferenças
+tos é um sistema aplicável a cenários bastante distintos, uma vez trazidas pelo atual trabalho.
+que existem eventos de porte e características bastante diferentes. Fan and Ma descrevem a migração de um sistema de gerência
+Além disso, o número de eventos ocorrendo simultaneamente em de artigos condensados monolítico para a arquitetura de micros-
+um período é também bastante variável. Sendo assim, é corriqueira serviços, como forma de ilustrar seu processo de migração [13].
+a necessidade de rearranjo das capacidades para diferentes serviços Esse trabalho descreve a utilização de conceitos de Domain-Driven
+
+oferecidos, o que não é um trabalho fácil quando existe baixa coesão Design (DDD), como contextos delimitados para identificação dos
+e, principalmente, alto acoplamento. Soma-se à essa dificuldade, o serviços. Ainda, esse utilizou-se de tecnologias, que, conforme a
+fato de que a equipe de trabalho é frequentemente alterada, pois é cultura DevOps, automatizam todo o processo de montagem, testes
+formada por estudantes. Assim sendo, a migração da arquitetura e implantação por meio da utilização de containers Docker. Adotou-
+deste sistema para o modelo de microsserviços pode ser vista como se uma arquitetura de comunicação coreografada onde um serviço
+interessante, tanto do ponto de vista de melhoria do processo de fornece a sincronização de dados e uma interface para sistemas de
+desenvolvimento, como para a qualidade do produto em si. No en- front-end. Os demais serviços possuem cada um seu próprio banco
+tanto, realizar a migração de um sistema pronto e em produção não de dados, característica ressaltada pelo autor como desejável de
+é uma tarefa simples, considerando ainda que a literatura da área aplicações baseadas em microsserviços.
+sobre qual estratégia seguir e quais os impactos causados mediante No trabalho [2], Balalaie et al. propôs a migração da aplicação
+diversas métricas é ainda incipiente. SSaaS (Server Side as a Service) para a arquitetura demicrosserviços.
+
+Nesse contexto, este trabalho possui como objetivo descrever o Sua motivação era alcançar um nível de escalabilidade superior
+processo de migração de um sistema de apoio à participação em aquele já encontrado no sistema legado. Já em [13], DDD e DevOps
+eventos que possui arquitetura monolítica, para uma versão de mi- foram utilizados para identificação de serviços e automatização
+crosserviços. Dessa maneira, esse processo apresenta os benefícios de processos mecânicos, respectivamente. Destaca-se a adoção de
+e impactos da migração em termos de qualidade de software, como containers Docker orquestrados por Kubernetes, o orquestrador
+também permite a análise específica de vantagens e desvantagens de containers open-source desenvolvido e mantido pela Google,
+para o caso do sistema em questão. juntamente à framework Spring Cloud com alguns componentes
+
+O restante deste artigo está dividido da seguinte forma: a Se- do projeto Netflix OSS [26].
+ção 2 apresenta os principais trabalhos relacionados encontrados
+
+Referência Estratégia Tecnologias Métricas QAa
+DevOps DDD Persistência Coordenação Orquestrador de containers Netflix OSS Docker
+
+[11] - - - - - - - Sim
+[10] Não Não Segregada Coreografia Não Não Não Não
+[2] Sim Sim Segregada Orquestração Kubernetes Sim Sim Não
+[13] Sim Sim Segregada Coreografia Não Não Sim Não
+[23] Não Não Monolítica Orquestração Não Sim Não Não
+
+Este trabalho Sim Sim Segregadab Coreografia Dockerc Não Sim Sim
+aMétricas de qualidade de software.
+
+bSegregada e Poliglota.
+cDocker Engine (swarm mode) [12].
+
+Tabela 1: Comparativo dos trabalhos relacionados
+
+
+
+Migrating a System for Event Participation Assistance to the Microservices Architecture SBSI ’19, May 20–24, 2019, Aracaju, Sergipe
+
+Ao longo da migração para a arquitetura de microsserviços, es-
+tratégias podem ser adotadas para tornar o processo gradual mais
+fluido. Autores como Medeiros et al. e Balalaie et al. em [23] e [2],
+utilizaram um componente externo para redirecionar as requisições
+realizadas a uma funcionalidade do sistema monolítico em migra-
+ção. Outra abordagem é apresentada por Fan and Ma em [13], que
+consiste em criar e manter interfaces da linguagem de programação
+adotada para, somente quando desejável, alterá-las para o protocolo
+de comunicação por rede. Figura 1: Visão geral do processo SPReaD
+
+Em [11], cinco trabalhos de migração foram analisados quanto a Fonte: Retirado de [19]
+sua conformidade a dez princípios da arquitetura de microsserviço.
+Estes princípios, em seguida, são correlacionados a um conjunto de
+seis métricas, de forma que torna-se possível alcançar conclusões como CI/CDE/CD2 e monitoramento de serviços, para automatizar
+objetivas quanto a qualidade da implementação dos microsserviços. o processo de empacotamento da aplicação e geração de logs.
+As métricas selecionadas são aplicáveis a softwares, cujos modelos
+arquiteturais são baseados em serviços, e portanto não são aplicá- 3.2 Visão geral da migração
+veis a sistemas monolíticos. Ao fazer o estudo dirigido à métricas 3.2.1 A arquitetura monolítica. O sistema de origem é composto
+da qualidade da migração do Sistema de Apoio à Participação em por três entidades arquitetônicas e um banco de dadosMySQL, como
+Eventos, a título de comparação elegeu-se métricas compatíveis pode ser visto na Figura 2. A comunicação entre esses módulos con-
+com ambos modelos arquiteturais [3]. siste na manipulação de dados persistidos de forma centralizada,
+
+Com base nos valores descritos na Tabela 1, é possível identificar o que não só prejudica a escalabilidade do sistema, mas também
+as características de cada trabalho relacionado. Nota-se que a estra- contribui para o aumento da complexidade de manutenção desse.
+tégia de persistência adotada neste trabalho pode ser identificada O WebService, desenvolvido na linguagem PHP, atua como uma
+não apenas como segregada, mas também como poliglota1. Além interface de acesso ao banco para o aplicativo móvel. Esse, que é
+disso, o novo orquestrador de containers da Docker Engine[12] desenvolvido utilizando a framework Ionic, propicia ao usuário o
+proveu ferramentas alternativas a algumas daquelas encontradas favoritar e avaliar as atividades, receber notícias, responder questi-
+no projeto Netflix OSS [26] ou no orquestrador de containers Ku- onários e publicar comentários sobre o evento. A plataforma web
+bernetes, como Load Balancer e Service Discovery. para administradores de eventos, desenvolvida de forma monolítica
+
+em Python com a framework Django, gerencia eventos e manipula
+3 ESTRATÉGIA DE MIGRAÇÃO: DE o acesso aos feedbacks dos participantes.
+
+MONOLÍTICO A MICROSSERVIÇOS
+3.1 O processo de migração arquitetural
+
+SPReaD
+O processo SPReaD (Service-oriented process for Reengineering and
+Devops) foi proposto por Justino em [19] ao migrar um sistema mo-
+nolítico para a arquitetura de microsserviços. Na Figura 1 é possível
+visualizar as etapas e fases do processo, divido entre as etapas de
+Comunicação, Planejamento, Modelagem, Construção e Implantação.
+A etapa de Comunicação consiste em identificar a dívida técnica e
+os requisitos gerais do sistema legado. Na etapa de Planejamento,
+uma instância do processo é criada, sendo definidas milestones para Figura 2: Diagrama de implantação da arquitetura monolí-
+realização dos cálculos dos riscos e recursos necessários durante tica.
+o processo de migração. A etapa de Modelagem é subdividida nas
+fases de análise a qual utiliza o DDD para identificar os serviços
+e criar documentos de análise; e de design – responsável pela ela- 3.2.2 Migrando o Sistema de Apoio à Participação em Eventos. Na
+boração dos diagramas da arquitetura alvo e estabelecimento dos etapa de Comunicação, identificou-se a demanda por segurança de
+contratos de cada serviço. Na etapa seguinte, de acesso a informação do usuário da aplicação móvel, dado que os
+
+Construção, são
+elaborados os documentos para implementação de APIs de comu- métodos de autenticação e autorização são adotados apenas na pla-
+nicação e de componentes do negócio, sendo responsável também taforma web para administradores de eventos. Assim, evidenciou-se
+pela implementação dos testes automatizados que serão executados a necessidade de refatoração da arquitetura e adoção de um modelo
+e analisados na etapa seguinte. Por fim, a etapa de de comunicação que favoreça a extensão da aplicação.
+
+Implantação
+consiste na utilização de técnicas e ferramentas da cultura DevOps, Na etapa de Planejamento, a primeira versão do processo de
+
+migração foi elaborada e metas foram definidas juntamente à equipe
+responsável pelo sistema.
+
+1Termo utilizado em [21] para se referir a utilização de tecnologias distintas de persis- 2Continuous Integration/Continuous Delivery/Continuous Deployment – ou Integra-
+tência para cada serviço ção Contínua/Entrega Contínua/Implantação Contínua
+
+
+
+SBSI ’19, May 20–24, 2019, Aracaju, Sergipe Victor G. Veloso
+
+Na subetapa de análise, a documentação do sistema monolítico
+foi readequada para o contexto de implantação de microsserviços.
+Elaborou-se o diagrama de casos de uso, o diagrama de implantação,
+conforme apresenta a Figura 2, e o diagrama de classes, gerado pela
+ferramenta Pylint Pyreverse [5]. Ainda, nesta subetapa, refatorou-se
+o Diagrama Entidade-Relacionamento, depreciando relações carac-
+terizadas como redundantes e pouco coesas, possibilitando assim, a
+identificação de contextos delimitados, como descrito na Figura 3.
+Considerando a dimensão e o acoplamento dos dados dentro de
+
+Figura 4: Diagrama de componentes da arquitetura pro-
+posta.
+
+práticas do Pipeline DevOps à medida que commits eram subme-
+tidos ao sistema de controle de versão. Ao invés de monitorar os
+serviços, como previsto pelo processo SPReaD, foi nesta etapa que
+as métricas de qualidade de software foram calculadas e os gráficos
+plotados para estudo e comparação da arquitetura resultante da
+migração. Autenticação Usuário Evento Feedback
+
+Linguagem Node.Js Python Python Python
+Banco de dados Cassandra MongoDB MySQL MySQL
+Frameworks Loopback Flask Flask Flask
+
+Tabela 2: Tecnologias aplicadas no processo de migração.
+
+4 MEDIÇÃO DA QUALIDADE DA MIGRAÇÃO
+Figura 3: Diagrama Entidade Relacionamento indicando se- ARQUITETURAL
+paração de serviços. Após executar a estratégia de migração descrita na seção anterior,
+
+foram realizadas medições de qualidade de software nas versões
+um contexto delimitado, na subetapa de design foram mapeados arquiteturais monolítica e de microsserviço do Sistema de Apoio
+quatro microsserviços, como apresentado na Figura 4. Os serviços à Participação em Eventos, a fim de verificar se a nova versão
+propostos são: apresenta as características de qualidade desejável. Dessa maneira,
+
+(1) Evento: serviço que agrupa todas as funcionalidades do inte- foram selecionadas as métricas linhas de código [3], taxa de co-
+resse do administrador, como gerência de eventos, atividades mentários [24], abrangência de testes [22], tempo de conclusão de
+e dados associados a patrocinadores, localização e notícias; features [18] e taxa de retrabalho [6].
+
+(2) Feedback: responsável pelos casos de uso associados aos par- Os resultados obtidos, bem como a comparação entre ambas as
+ticipantes no que tange a gerência de feedback sobre ati- versões são apresentadas nas próximas seções, destacando-se assim
+vidades e eventos, ou seja, gerencia opiniões, avaliações e as vantagens e compromissos assumidos com a migração realizada.
+questionários;
+
+(3) Usuário: representa o envolvimento de um usuário como par-
+ticipante e/ou administrador em um evento, como também 4.1 Linhas de código
+as atividades favoritas daquele respectivo usuário; Uma métrica simples, comumente utilizada como indicador de com-
+
+(4) Autenticação: responsável por cadastro e login de usuários, plexidade de software. Seu cálculo consistiu na contagem de quebras
+como autenticação e autorização para as operações dos de- de linha no código-fonte de cada serviço implementado e do sistema
+mais serviços. monolítico base. Seu resultado pode ser apurado desconsiderando
+
+A etapa de Construção consistiu na migração dos componentes de as linhas com comentários, conforme apresentado na Seção 4.2.
+negócio já descritos na linguagem Python, para adequá-los ao pa- Segundo o gráfico da Figura 5, nota-se uma considerável dife-
+drão ORM (Object-Relational Mapping) definido no microframework rença entre a extensão do código da arquitetura monolítica e o
+Flask[7] adotado neste trabalho. A implementação da API e testes resultado da migração. Isso é justificado pela remodelagem com-
+de cada microsserviço se deram mediante a seleção das tecnolo- pleta feita na estrutura do código, seleção de tecnologias adequadas
+gias a serem adotadas (demonstradas na Tabela 2). A última etapa, para cada contexto delimitado e a maturidade do planejamento
+Implantação, consistiu na execução automática das ferramentas e prévio à reimplementação.
+
+
+
+Migrating a System for Event Participation Assistance to the Microservices Architecture SBSI ’19, May 20–24, 2019, Aracaju, Sergipe
+
+Os resultados mostram que ambas implementações subutiliza-
+ram esse recurso. Isso pode acentuar a curva de aprendizado de
+novos contribuintes do projeto, principalmente se a documentação
+for pouco expressiva ou se ela estiver desatualizada, como era a
+realidade do sistema na arquitetura monolítica.
+
+Ademais, é válido ressaltar que há no serviço de autenticação,
+uma considerável utilização de arquivos de configuração (corres-
+pondendo a 71,5% dos arquivos), no qual não foram considerados
+devido o padrão JSON não possuir suporte a comentários.
+
+4.3 Abrangência de testes
+Testes automatizados foram escritos para os microsserviços dos
+quais outros dependiam, com exceção do microsserviço de auten-
+ticação, uma vez que o seu código foi inteiramente gerado pela
+ferramenta Loopback CLI [17]. O cálculo da abrangência de tes-
+tes consistiu na utilização da CLI do framework Pytest, uma suíte
+de execução de testes compatível com as principais bibliotecas de
+
+Figura 5: Gráfico de barras do número de linhas. testes da linguagem Python.
+Os resultados indicam que há 63% de abrangência de testes no
+
+microsserviço de eventos e 80% no microsserviço de usuário. Já na
+A arquitetura de microsserviços tem como um de seus pilares o arquitetura monolítica testes não eram utilizados.
+
+aumento da manutenibilidade ao promover a quebra de um grande As principais consequência da utilização de testes no projeto
+sistema em microsserviços. Uma equipe que vá realizar a manu- foi o aumento da confiança no código e a facilidade no rastreio da
+tenção a um destes serviços não precisará conhecer o código dos origem de falhas, uma vez que a utilização de mocking possibilitou
+demais serviços, logo evidencia-se a importância de se conhecer a execução dos testes em um serviço de maneira isolada e integrada
+o número de linhas de código de cada microsserviço, presente na aos demais serviços.
+Figura 5.
+
+4.2 Taxa de comentários 4.4 Duração de desenvolvimento de features
+O intuito de calcular o tempo para se desenvolver uma feature
+
+Foi realizada a análise de linhas de código comentadas nos arquivos é compreender a produtividade do processo de desenvolvimento
+de código-fonte, descritos em sua totalidade nas linguagens Python e identificar qualquer degradação da produtividade ao longo do
+e JavaScript. Para isso foi desenvolvido um parser para identificar os projeto. Para calcular essa métrica foi considerado tarefas presentes
+padrões de comentários de ambas as linguagens. Como resultados, no software de gestão Trello[32], onde equipes estão associadas à
+na versão monolítica, o parser identificou uma taxa de comentários quadros compostos por listas de cards. Devido a utilização desta
+de apenas 5% (103 linhas de código comentadas, dentre as 2193 ferramenta estruturada de forma semelhante ao quadro Kanban[1],
+linhas). Já na versão com a arquitetura de microsserviços, foi re- bastou medir o tempo decorrido desde a criação de um card até o
+portada uma taxa de 8% de comentários (413 linhas comentadas momento que este foi movido para lista de finalizados.
+dentre as 5461 referentes aos quatro serviços implementados). A O gráfico utilizado para representar os resultados dessa métrica
+Figura 6 apresenta a relação da porcentagem de comentários dos foi o diagrama de caixa ou “boxplot”, como pode ser visto na Figura 7.
+microsserviços implementados. Como pode ser observado, o serviço Essa escolha foi devido a disparidade entre os desvios padrões dos
+Evento possui a maior proporção de linhas comentadas e o serviço valores capturados (166,12 da arquitetura monolítica e 22 da arqui-
+Usuário a menor. tetura de microsserviços), o que combinou bem com a capacidade
+
+desse gráfico em representar a variação dos valores, ressaltando
+a maior produtividade no desenvolvimento da arquitetura de mi-
+crosserviços e a estabilidade do tempo de desenvolvimento de cada
+feature em comparação à arquitetura monolítica.
+
+4.5 Taxa de retrabalho
+Existem várias formas de calcular o retrabalho, mas a validade de
+cada método depende da forma com que a equipe de desenvolvi-
+mento trabalhou com bugs, features incompletas ou refatoração de
+código. No caso do sistema tratado neste trabalho, todo retrabalho
+era identificado pela utilização de um prefixo-chave na mensagem
+
+Figura 6: Gráfico da taxa de comentários detalhado. do commit e bastou contabilizar a frequência destes commits. Por
+
+
+
+SBSI ’19, May 20–24, 2019, Aracaju, Sergipe Victor G. Veloso
+
+núcleo de pesquisa de uma instituição pública de ensino superior
+por professores e alunos de iniciação científica, possui demandas
+restritas quanto a utilização dos servidores locais. Demandas como
+essa que acarretaram na utilização do novo orquestrador de contai-
+ners acoplado ao Docker Engine, o swarm-mode [12].
+
+Com base em diversos estudos e reuniões com a equipe respon-
+sável pelo sistema, foram identificadas oportunidades de divisão
+do mesmo em quatro serviços, compreendendo os serviços de au-
+tenticação, eventos, usuário e feedback. Nessa nova arquitetura há
+a possibilidade de desenvolvimento utilizando tecnologias distin-
+
+Figura 7: Boxplot do tempo de desenvolvimento de features. tas, visando a utilização daquela que for mais adequada para cada
+subdomínio (contexto delimitado) abrangido por um serviço. Neste
+projeto esta característica permitiu a adoção da linguagem Python
+
+outro lado, no processo de migração foi utilizado integração con- e Javascript e bancos de dados MySQL, MongoDB e Cassandra.
+tínua, sendo o retrabalho identificado com base na frequência de A partir de metologias de DevOps ganhou-se agilidade no tempo
+commits recusados. de implantação e confiabilidade graças a execução de testes. Como
+
+Diante dos valores demonstrados na Figura 8, é identificado que maneira de verificar a nova arquitetura proposta, foram realizadas
+houve mais retrabalho durante a migração do que a implementação medições de qualidade de software aplicadas nas versões mono-
+na arquitetura monolítica. Isso, contudo, pode ser justificado pela líticas e de microsserviços para o sistema de apoio à eventos. As
+diferença entre as políticas de submissão de commits adotadas: métricas selecionadas foram linhas de código, taxa de comentários,
+durante o desenvolvimento do sistema monolítico, testes manuais abrangência de testes, tempo médio de desenvolvimento de features
+eram praticados localmente concomitantemente à implementação e taxa de retrabalho. Conclui-se que a nova versão vai auxiliar os
+e só depois disso um commit era feito; já no caso da migração para novos alunos desenvolvedores da aplicação a entender melhor o
+a arquitetura de microsserviços, testes automatizados eram escritos código e a escalar os serviços mais requisitados durante as diversas
+juntamente à implementação, mas eram executados em contêineres etapas em que a aplicação é utilizada.
+por servidores remotos como parte da integração contínua, ou seja Como trabalho futuro pode-se promover a utilização de novas
+após o commit a uma branch separada. métricas de qualidade de software, como duplicação de código, me-
+
+dida do acoplamento entre os componentes de software e métricas
+relacionadas ao desempenho da aplicação. Além disso, também será
+interessante comparar a atual estratégia de comunicação, síncrona
+e por meio de HTTP, a uma estratégia orientada à eventos por meio
+da utilização de brokers Publish-Subscribe e filas de mensagens.
+
+REFERÊNCIAS
+[1] D.J. Anderson. 2010. Kanban: Successful Evolutionary Change for Your Tech-
+
+nology Business. Blue Hole Press. https://books.google.com.br/books?id=
+RJ0VUkfUWZkC
+
+[2] Armin Balalaie, Abbas Heydarnoori, and Pooyan Jamshidi. 2016. Migrating
+to Cloud-Native Architectures Using Microservices: An Experience Report. In
+Advances in Service-Oriented and Cloud Computing, Antonio Celesti and Philipp
+Leitner (Eds.). Springer International Publishing, Cham, 201–215.
+
+[3] CARLOS FREUD ALVES BATISTA. 2007. Métricas de Segurança de Software. Ph.D.
+Dissertation. PUC-Rio.
+
+[4] Jonathan Lincoln Brilhante, Rostand Costa, and Tiago Maritan. 2019. Projecting
+Microservices: A Study over Asynchronous Queues to Achieve Reactive Design.
+iSys-Revista Brasileira de Sistemas de Informação 12, 2 (2019), 117–153.
+
+Figura 8: Gráfico da taxa de retrabalho. [5] Nicolas Chauvat, Stephen Medina, jcristau, and Shlomi Fish. 2018. Pylint - star
+your python code. Retrieved October 10, 2019 from https://www.pylint.org/
+
+[6] T. Cheng, S. Jansen, and M. Remmers. 2009. Controlling and monitoring agile
+software development in three dutch product software companies. In 2009 ICSE
+
+5 CONCLUSÃO E TRABALHOS FUTUROS Workshop on Software Development Governance. 29–35. https://doi.org/10.1109/
+SDG.2009.5071334
+
+Tradicionalmente, os sistemas, em geral, eram desenvolvidos com [7] Davidism, Mitsuhiko, Adamchainz, and Etothemanders. 2019. Flask - a flexible
+arquiteturas monolítica. Porém, devido às novas necessidades de and popular web development framework. Retrieved October 10, 2019 from
+escalabilidade das aplicações, estilos de arquitetura baseados em https://palletsprojects.com/p/flask/
+
+[8] Eduardo Santana de Almeida, Alexandre Alvaro, Daniel Lucrédio, Vinicius Car-
+serviços foram propostos, sendo a mais recente a arquitetura de doso Garcia, and Silvio Romero de Lemos Meira. 2004. Rise project: Towards a
+microsserviços. robust framework for software reuse. In 6th International Conference on Informa-
+
+tion Reuse and Integration (IRI). 48–53.
+Como em diversos trabalhos, este propõe a migração para a arqui- [9] Mianxiong Dong, Kaoru Ota, and Anfeng Liu. 2015. Preserving source-location
+
+tetura de microsserviços objetivando melhorar a manutenibilidade privacy through redundant fog loop for wireless sensor networks. In 14th Interna-
+
+e a escalabilidade de um sistema originalmente monolítico. Contudo tional Conference on Computer and Information Technology; Ubiquitous Computing
+and Communications; Dependable, Autonomic and Secure Computing; Pervasive
+
+o Sistema de Apoio à Participação em Eventos, desenvolvido em um Intelligence and Computing (IUCC). 1835–1842.
+
+
+
+Migrating a System for Event Participation Assistance to the Microservices Architecture SBSI ’19, May 20–24, 2019, Aracaju, Sergipe
+
+[10] Luiz Chiaradia e Douglas Macedo e Moisés Dutra. 2018. Uma proposta de ar- In 2017 IEEE 17th International Conference on Communication Technology (ICCT).
+quitetura de microsserviços aplicada em um sistema de CRM social. Encontros IEEE, 1827–1831.
+Bibli: revista eletrônica de biblioteconomia e ciência da informação 23, 53 (2018),
+147–159. https://doi.org/10.5007/1518-2924.2018v23n53p147
+
+[11] Thomas Engel, Melanie Langermeier, Bernhard Bauer, and Alexander Hofmann.
+2018. Evaluation of Microservice Architectures: A Metric and Tool-Based Appro-
+ach. In Information Systems in the Big Data Era, Jan Mendling and Haralambos
+Mouratidis (Eds.). Springer International Publishing, Cham, 74–89.
+
+[12] Docker Core Engineering. 2016. Run Docker Engine in swarm mode. Retrieved
+October 10, 2019 from https://docs.docker.com/engine/swarm/swarm-mode/
+
+[13] C. Fan and S. Ma. 2017. Migrating Monolithic Mobile Application to Microservice
+Architecture: An Experiment Report. In 2017 IEEE International Conference on AI
+Mobile Services (AIMS). 109–112. https://doi.org/10.1109/AIMS.2017.23
+
+[14] Martin Fowler. 2015. MonolithFirst. Retrieved September 28, 2019 from https:
+//www.martinfowler.com/bliki/MonolithFirst.html
+
+[15] Martin Fowler and James Lewis. 2014. Microservices: a definition of this new
+architectural term. Retrieved September 28, 2019 from https://martinfowler.
+com/articles/microservices.html.
+
+[16] Paolo Di Francesco. 2017. Architecting Microservices. In 1th International Confe-
+rence on Software Architecture Workshops (ICSAW). 224–229.
+
+[17] IBM. 2019. LoopBack 3.x. Retrieved September 28, 2019 from https://loopback.
+io/doc/en/lb3/index.html
+
+[18] C. R. Jakobsen and T. Poppendieck. 2011. Lean as a Scrum Troubleshooter. In
+2011 Agile Conference. 168–174. https://doi.org/10.1109/AGILE.2011.11
+
+[19] Yan de Lima Justino. 2018. Do monolito aos microsserviços: um relato de migração
+de sistemas legados da Secretaria de Estado da Tributação do Rio Grande do Norte.
+Master’s thesis. Brasil.
+
+[20] Welder Luz, Everton Agilar, Marcos César de Oliveira, Carlos Eduardo R. de
+Melo, Gustavo Pinto, and Rodrigo Bonifácio. 2018. An Experience Report on
+the Adoption of Microservices in Three Brazilian Government Institutions. In
+Proceedings of the XXXII Brazilian Symposium on Software Engineering (SBES ’18).
+ACM, New York, NY, USA, 32–41. https://doi.org/10.1145/3266237.3266262
+
+[21] Leonardo Guerreiro Azevedo Luís Henrique Neves Villaça, Antônio Francisco
+Pimenta Jr. 2018. Construindo Aplicações Distribuídas com Microsserviços. In
+SBSI’18: Proceedings of the XIV Brazilian Symposium on Information Systems. ACM,
+Caxias do Sul, Brazil.
+
+[22] Y. K. Malaiya, M. N. Li, J. M. Bieman, and R. Karcich. 2002. Software reliability
+growth with test coverage. IEEE Transactions on Reliability 51, 4 (Dec 2002),
+420–426. https://doi.org/10.1109/TR.2002.804489
+
+[23] Otávio Medeiros, Américo Sampaio, and Augusto Arraes. 2018. Uso de AOP na
+Migração deAplicaçõesMonolíticas paraMicroservices. InAnais do XVIWorkshop
+em Clouds e Aplicações (WCGA - SBRC 2018), Vol. 16. SBC, Porto Alegre, RS, Brasil.
+https://portaldeconteudo.sbc.org.br/index.php/wcga/article/view/2382
+
+[24] Karine Mordal, Nicolas Anquetil, Jannik Laval, Alexander Serebrenik, Bog-
+dan Vasilescu, and Stéphane Ducasse. 2013. Software quality me-
+trics aggregation in industry. Journal of Software: Evolution and Pro-
+cess 25, 10 (2013), 1117–1135. https://doi.org/10.1002/smr.1558 ar-
+Xiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/smr.1558
+
+[25] Ola Mustafa, Jorge Marx Gómez, Mohamad Hamed, and Hergen Pargmann. 2018.
+GranMicro: A black-box based approach for optimizing microservices based
+applications. In From Science to Society. Springer, 283–294.
+
+[26] Netflix. [n. d.]. Netflix Open Source Software Center. Retrieved October 10, 2019
+from https://netflix.github.io/
+
+[27] Sam Newman. 2015. Building microservices: designing fine-grained systems.
+"O’Reilly Media".
+
+[28] Joyce Aline Oliveira and Jose J.L.D. Junior. 2016. A Three-dimensional View
+of Reuse in Service Oriented Architecture. In Proceedings of the XII Brazilian
+Symposium on Information Systems on Brazilian Symposium on Information Sys-
+tems: Information Systems in the Cloud Computing Era - Volume 1 (SBSI 2016).
+Brazilian Computer Society, Porto Alegre, Brazil, Brazil, Article 54, 8 pages.
+http://dl.acm.org/citation.cfm?id=3021955.3022024
+
+[29] Dmitry I. Savchenko, Gleb I. Radchenko, and Ossi Taipale. 2015. Microservices
+validation: Mjolnirr platform case study. In 38th International Convention on Infor-
+mation and Communication Technology, Electronics and Microelectronics (MIPRO).
+235–240.
+
+[30] Alan Sill. 2016. The design and architecture of microservices. IEEE Cloud Com-
+puting 3, 5 (2016), 76–80.
+
+[31] D. Taibi, V. Lenarduzzi, and C. Pahl. 2017. Processes, Motivations, and Issues for
+Migrating to Microservices Architectures: An Empirical Investigation. IEEE Cloud
+Computing 4, 5 (Sep. 2017), 22–32. https://doi.org/10.1109/MCC.2017.4250931
+
+[32] Trello. [n. d.]. Simples à primeira vista, mas com muitas surpresas. Retrieved
+October 10, 2019 from https://trello.com/tour
+
+[33] Mario Villamizar, Oscar Garcés, Harold Castro, Mauricio Verano, Lorena Sala-
+manca, Rubby Casallas, and Santiago Gil. 2015. Evaluating the monolithic and
+the microservice architecture pattern to deploy web applications in the cloud. In
+10th Computing Colombian Conference (10CCC). 583–590.
+
+[34] Pujianto Yugopuspito, Frans Panduwinata, and Sutrisno Sutrisno. 2017. Micro-
+services architecture: case on the migration of reservation-based parking system.

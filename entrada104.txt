@@ -1,0 +1,2877 @@
+﻿UNIVERSIDADE FEDERAL DE VIÇOSA
+CAMPUS FLORESTAL
+
+JOÃO TEIXEIRA ARAÚJO
+
+DESENVOLVIMENTO DE UM AMBIENTE COLABORATIVO PARA
+GERENCIAMENTO DE PROJETOS ACADÊMICOS
+
+FLORESTAL - MINAS GERAIS
+2016
+
+
+
+JOÃO TEIXEIRA ARAÚJO
+
+DESENVOLVIMENTO DE UM AMBIENTE COLABORATIVO PARA
+GERENCIAMENTO DE PROJETOS ACADÊMICOS
+
+Monografia apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Orientadora: Gláucia Braga e Silva
+
+FLORESTAL - MINAS GERAIS
+2016
+
+
+
+JOÃO TEIXEIRA ARAÚJO
+
+DESENVOLVIMENTO DE UM AMBIENTE COLABORATIVO PARA
+GERENCIAMENTO DE PROJETOS ACADÊMICOS
+
+Monografia apresentada ao Curso de Ciência da
+Computação da Universidade Federal de Viçosa como
+requisito para obtenção do tı́tulo de bacharel em
+Ciência da Computação.
+
+Gláucia Braga e Silva
+
+Antônio Carlos Fava de Barros
+
+Ronan Dutra Mendonça
+
+FLORESTAL - MINAS GERAIS,
+
+
+
+RESUMO
+
+Este trabalho propõe um ambiente colaborativo de apoio ao desenvolvimento de projetos acadêmicos
+
+baseado no Modelo 3C de colaboração. Esse ambiente, denominado Colab-UFV, oferece su-
+
+porte ao trabalho de equipes multidisciplinares, no que compete à coordenação das atividades e
+
+tarefas desenvolvidas, à produção cooperativa de artefatos e à comunicação entre os membros
+
+de um projeto. O ambiente consiste em uma ferramenta computacional para apoio ao traba-
+
+lho em grupo e ao aprendizado colaborativo, construı́do com base nos princı́pios de CSCW
+
+e CSCL. Enquanto ferramenta de apoio à educação, o Colab-UFV favorece o aprendizado por
+
+experimentação, estimulando o trabalho em equipe e a comunicação entre os envolvidos. O am-
+
+biente também abrange a análise do desempenho dos membros das equipes através de medições
+
+quantitativas sobre dados colaborativos.
+
+Palavras-chave: Colaboração, CSCW, CSCL.
+
+
+
+ABSTRACT
+
+This work proposes a collaborative environment to support the development of academic pro-
+
+jects based on the 3C model. This environment is called Colab-UFV and supports the work of
+
+multidisciplinary teams, the coordination in activities development and assignment, cooperative
+
+production of artifacts and communication between members of a project. The environment is
+
+a computational tool to support group work and collaborative learning, built on the principles of
+
+CSCW and CSCL, respectively. As a tool to support education, Colab-UFV favors learning th-
+
+rough experimentation, stimulating teamwork and communication among those involved. The
+
+environment also covers an analysis of the performance of team members through quantitative
+
+measurements on collaborative data.
+
+Key-words: Colaboration, CSCW, CSCL .
+
+
+
+LISTA DE ILUSTRAÇÕES
+
+FIGURA 1 – Modelo 3C adaptado por Gerosa (2006) . . . . . . . . . . . . . . . . . . 15
+
+FIGURA 2 – Visão geral do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . . . 20
+
+FIGURA 3 – Diagrama UML de Casos de Uso do Colab-UFV . . . . . . . . . . . . . . 21
+
+FIGURA 4 – Diagrama UML de Classes de Entidade do Colab-UFV . . . . . . . . . . 23
+
+FIGURA 5 – Modelo relacional da base de dados do Colab-UFV . . . . . . . . . . . . 24
+
+FIGURA 6 – Arquitetura MVC para o Colab-UFV . . . . . . . . . . . . . . . . . . . . 25
+
+FIGURA 7 – Interface inicial de um projeto - visão Aluno . . . . . . . . . . . . . . . . 26
+
+FIGURA 8 – Interface inicial de um projeto - visão Professor . . . . . . . . . . . . . . 27
+
+FIGURA 9 – Interface das informações de uma atividade de um projeto no Colab-UFV 28
+
+FIGURA 10 –Interface do relatório geral do Colab-UFV . . . . . . . . . . . . . . . . . 29
+
+FIGURA 11 –Informações do KeySoft . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+
+FIGURA 12 –Informações do cronograma do KeySoft . . . . . . . . . . . . . . . . . . 33
+
+FIGURA 13 –Informações das atividades/tarefas do KeySoft . . . . . . . . . . . . . . . 34
+
+FIGURA 14 –Tela de atribuição de um envolvido em uma atividade ou tarefa . . . . . . 34
+
+FIGURA 15 –Atividades do desenvolvedor2 . . . . . . . . . . . . . . . . . . . . . . . . 35
+
+FIGURA 16 –Envio de alerta . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+
+FIGURA 17 –Envio de e-mail . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+
+FIGURA 18 –Relatório geral durante o desenvolvimento do KeySoft . . . . . . . . . . . 37
+
+
+
+SUMÁRIO
+
+1 INTRODUÇÃO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+1.1 Objetivo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.1.1 Objetivos especı́ficos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.2 Justificativa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+1.3 Metodologia da pesquisa . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+1.3.1 Materiais e Métodos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+1.4 Organização do texto . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+
+2 AMBIENTES COLABORATIVOS APLICADOS À EDUCAÇÃO . . . . . . . . 13
+2.1 Ambientes Virtuais de Aprendizagem . . . . . . . . . . . . . . . . . . . . . . . 13
+2.2 CSCW (Computer Supported Cooperative Work) . . . . . . . . . . . . . . . . . . 13
+2.2.1 Modelo 3c . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+2.3 CSCL (Computer Supported Collaborative Learning) . . . . . . . . . . . . . . . 16
+2.4 Aprendizado baseado em projetos . . . . . . . . . . . . . . . . . . . . . . . . . 17
+2.5 Análise de desempenho em Ambientes Colaborativos de Aprendizagem . . . . 18
+2.6 Trabalhos Relacionados . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+
+3 O AMBIENTE COLAB-UFV . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+3.1 Especificação do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+3.2 Modelagem do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+3.3 Design do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+3.3.1 Design da Arquitetura do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . 25
+3.3.2 Interfaces do Colab-UFV . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+3.4 Implementação . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+
+4 APLICAÇÃO SIMULADA DO COLAB-UFV . . . . . . . . . . . . . . . . . . . 31
+4.1 Equipe do Projeto KeySoft . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+4.2 Coordenação das atividades . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+4.3 Cooperação e comunicação entre equipes . . . . . . . . . . . . . . . . . . . . . 34
+4.4 Análise de Desempenho dos Estudantes . . . . . . . . . . . . . . . . . . . . . . 36
+4.5 Considerações finais . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+
+5 CONCLUSÃO E TRABALHOS FUTUROS . . . . . . . . . . . . . . . . . . . . 39
+5.1 Conclusão . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+5.1.1 Publicação . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+
+REFERÊNCIAS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+
+Apêndice A - Documentação dos casos de uso do Colab-UFV . . . . . . . . . . . . . 43
+
+
+
+8
+
+1 INTRODUÇÃO
+
+As Tecnologias da Informação e Comunicação (TICs) vêm se mostrando como um dos
+
+recursos que podem promover inovação no aprendizado. Pessoa, Netto e Menezes (2002) intro-
+
+duzem a ideia de que ambientes telemáticos de suporte à aprendizagem colaborativa constituem-
+
+se em uma das mais proeminentes inovações decorrentes da moderna tecnologia da informação
+
+e comunicação.
+
+Conforme destacado por Lehtinen et al. (1999), citados em Azevedo e Tavares (2001),
+
+na sala de aula a colaboração ainda não é muito observada, pois, em geral, o que se observa é um
+
+alto ı́ndice de competição entre os alunos, seja por melhores notas ou por posições de destaque
+
+em oportunidades acadêmicas. Ambientes virtuais ou colaborativos que apoiam a aprendizagem
+
+(Computer Supported Collaborative Learning - CSCL) podem estimular a interação entre os
+
+alunos e melhorar o desempenho dos estudantes durante a realização de atividades acadêmicas
+
+em grupo. Tais ambientes reforçam a importância dos processos sociais como um elemento de
+
+aprendizagem (LONCHAMP, 2007).
+
+Em ambientes virtuais de aprendizagem, o trabalho em equipe é ressaltado. Salvador
+
+(1994) e Colaço (2004), citados em Damiani (2008), a partir de uma análise ampla sobre os
+
+efeitos de atividades em grupo, descrevem três benefı́cios que a atividade colaborativa pode
+
+propiciar:
+
+• Socialização (o que inclui aprendizagem de modalidades comunicacionais e de con-
+
+vivência), controle dos impulsos agressivos, adaptação às normas estabelecidas (incluindo
+
+a aprendizagem relativa ao desempenho de papéis sociais) e superação do egocentrismo
+
+(por meio da relativização progressiva do ponto de vista próprio);
+
+• Aquisição de aptidões e habilidades (incluindo melhoras no rendimento escolar);
+
+• Aumento do nı́vel de aspiração escolar.
+
+A aplicação de trabalhos em grupo no contexto escolar influencia positivamente no
+
+aprendizado do aluno. Ferramentas tecnológicas, como ambientes virtuais de aprendizagem,
+
+geralmente dão apoio à execução deste tipo de trabalho, o que torna os ambientes virtuais de
+
+aprendizagem muito promissores no contexto pedagógico.
+
+
+
+9
+
+1.1 Objetivo
+
+Este trabalho propõe o desenvolvimento de um ambiente virtual de aprendizagem, base-
+
+ado no Modelo 3C de colaboração (ELLIS; GIBBS; REIN, 1991), para dar apoio à colaboração em
+
+projetos acadêmicos, no âmbito do ensino, da pesquisa e da extensão universitária. O Colab-
+
+UFV objetiva fornecer suporte ao trabalho em equipe, com o intuito de melhorar a coordenação,
+
+a cooperação e a comunicação entre os envolvidos, reduzindo os problemas comumente en-
+
+contrados no universo dos trabalhos em grupo. O ambiente também fornece uma ferramenta
+
+para o professor analisar o desempenho dos alunos durante o desenvolvimento de um projeto
+
+acadêmico.
+
+1.1.1 Objetivos especı́ficos
+
+Para atingir o objetivo geral do trabalho, destacam-se os seguintes objetivos especı́ficos:
+
+• Levantamento bibliográfico sobre ambientes colaborativos de apoio à educação e à colaboração
+
+em projetos;
+
+• Especificação e modelagem UML do ambiente Colab-UFV;
+
+• Design das interfaces web do Colab-UFV;
+
+• Implementação do protótipo de um sistema web para o Colab-UFV; e
+
+• Aplicação simulada do Colab-UFV em um estudo de caso.
+
+1.2 Justificativa
+
+Ambientes virtuais de aprendizagem exploram os processos sociais e favorecem a interação
+
+entre os estudantes (ALMEIDA, 1999), além de proporcionar um aprendizado por experimentação,
+
+visto que os estudantes aprendem enquanto participam de um projeto, interagindo entre si. Um
+
+dos benefı́cios gerados a partir de ambientes de aprendizagem, assim como o Colab-UFV, é
+
+desenvolver a autonomia do aluno em áreas distintas do saber, instigando o aluno a buscar
+
+
+
+10
+
+informações para compreensão, representação e resolução de uma tarefa proposta (ALMEIDA,
+
+1999).
+
+Além disso, o Colab-UFV estende as funcionalidades de um Ambiente Virtual de Apren-
+
+dizagem (AVA), no que compete ao acompanhamento e à avaliação do desempenho dos estu-
+
+dantes, fornecendo suporte ao docente coordenador de um projeto, a partir da aplicação de
+
+métricas de análise do trabalho colaborativo realizado. Embora os AVAs estimulem o aprendi-
+
+zado colaborativo, em geral, suas principais funcionalidades abrangem a gerência, distribuição
+
+e o compartilhamento de informações e o suporte à comunicação entre seus usuários (ROMERO;
+
+VENTURA; GARCı́A, 2008).
+
+Santana et al. (2014) destacam que os AVAs possuem diversas ferramentas que facilitam
+
+o processo de ensino e aprendizagem, mas muitas delas são subutilizadas e ainda apresentam
+
+pouca influência em relação ao desempenho dos estudantes. Segundo Cruz, Araújo e Oliveira
+
+(2014), a avaliação de desempenho é importante porque ela permite aos colaboradores, obser-
+
+var pontos negativos e positivos de cada membro e, a partir destes dados, tomar atitudes que os
+
+farão desenvolver em conjunto. Silva et al. (2014) comprovam a importância da colaboração
+
+em um AVA, a partir de medições que explicitam um melhor desempenho entre equipes que
+
+interagiram mais. Collazos et al. (2007) destacam a importância de se avaliar a colaboração não
+
+somente pela qualidade dos resultados, mas também por meio de uma análise mais detalhada
+
+das interações do grupo, o que permite um maior entendimento dos processos de aprendiza-
+
+gem colaborativa, em que o sucesso de um estudante ajuda outro estudante a obter sucesso
+
+(AZEVEDO; TAVARES, 2001).
+
+1.3 Metodologia da pesquisa
+
+Com relação às atividades de pesquisa, este trabalho abrange 6 etapas, sendo elas:
+
+a. Levantamento bibliográfico sobre ambientes colaborativos de apoio à educação e à colaboração
+
+em projetos.;
+
+b. Especificação e modelagem UML do ambiente Colab-UFV;
+
+c. Design das interfaces web do Colab-UFV;
+
+d. Implementação do protótipo de um sistema web para o Colab-UFV;
+
+
+
+11
+
+e. Aplicação simulada do Colab-UFV em um estudo de caso;
+
+f. Redação da monografia.
+
+1.3.1 Materiais e Métodos
+
+Em relação aos materiais utilizados, a primeira etapa de desenvolvimento do Colab-UFV
+
+se baseia no levantamento bibliográfico de trabalhos em anais de conferências, em livros e re-
+
+vistas com publicações que abordam sobre o tema de colaboração, tanto na área computacional,
+
+quanto na área de interação entre equipes.
+
+A etapa de especificação e modelagem do Colab-UFV se caracteriza pela criação dos
+
+diagramas em UML (Unified Modeling Language), que serão elaborados na ferramenta Astah,
+
+versão Community1.
+
+Como a equipe de desenvolvedores do Colab-UFV é formada por apenas uma pessoa,
+
+o modelo Cascata (PRESSMAN; MAXIM, 2016) foi adotado para guiar as etapas de desenvolvi-
+
+mento do Colab-UFV. Esse modelo compreende as atividades de comunicação, planejamento,
+
+modelagem, construção e entrega de tudo o que foi produzido.
+
+Neste trabalho, serão executadas as atividades de: comunicação, através do levanta-
+
+mento e análise de requisitos do Colab-UFV; planejamento, que é a atividade de organização
+
+em um cronograma de todas as tarefas que serão desenvolvidas ao longo do projeto; a modela-
+
+gem do Colab-UFV, que engloba a criação de diagramas que irão dar apoio à implementação;
+
+a construção, que se baseia na implementação do código do Colab-UFV, e a aplicação de tes-
+
+tes que se dá durante a aplicação simulada do Colab-UFV. Por fim, a atividade de entrega do
+
+software produzido se caracteriza pela entrega do ambiente e sua respectiva documentação.
+
+1.4 Organização do texto
+
+O Capı́tulo 2 irá abordar sobre ambientes virtuais de aprendizagem, alguns termos re-
+
+lacionados na literatura, análise de desempenho em ambientes virtuais e alguns trabalhos re-
+
+lacionados. No Capı́tulo 3, serão apresentadas as atividades de especificação, modelagem e
+1Astah - http://astah.net/editions/community
+
+
+
+12
+
+implementação do ambiente Colab-UFV. O Capı́tulo 4 descreve uma aplicação simulada do
+
+Colab-UFV em um projeto acadêmico. Por fim, as conclusões obtidas e os trabalhos futuros
+
+são descritos no Capı́tulo 5.
+
+
+
+13
+
+2 AMBIENTES COLABORATIVOS APLICADOS À EDUCAÇÃO
+
+Este capı́tulo descreve a fundamentação teórica acerca dos ambientes virtuais de aprendizagem
+
+colaborativa, abordando temas relacionados ao trabalho em equipe, à aprendizagem em con-
+
+junto e à medição do desempenho dos usuários nestes sistemas. Por fim, o capı́tulo apresenta
+
+uma seção de trabalhos relacionados.
+
+2.1 Ambientes Virtuais de Aprendizagem
+
+No universo da educação, a área de Ambientes Virtuais de Aprendizagem (AVAs) tem
+
+avançado consideravelmente nos últimos anos em relação aos benefı́cios que ela tem sido capaz
+
+de propiciar aos seus usuários, tais como o auxı́lio no desenvolvimento de trabalhos, a troca
+
+de informações entre professores e alunos, atribuições de atividades com controle de prazo,
+
+acesso à bibliotecas virtuais, além de prover a aprendizagem colaborativa (ROMERO; VENTURA;
+
+GARCı́A, 2008).
+
+Segundo Nobre et al. (2011), os AVAs podem favorecer o aprendizado “tornando o pro-
+
+cesso de ensinar e aprender mais agradável, ágil e útil para o mundo atual”. Segundo os autores,
+
+tais ambientes constituem recursos didáticos poderosos, visto que professores buscam continu-
+
+amente por novas formas de ensinar conteúdos acadêmicos para os alunos.
+
+Sarmento et al. (2011) destacam que em geral, AVAs incorporam uma ferramenta web
+
+com suporte a chats, salas de discussão, fóruns, correio eletrônico, ferramentas para gerência
+
+de arquivos e participações dos integrantes por meio de relatórios e gerenciamentos.
+
+2.2 CSCW (Computer Supported Cooperative Work)
+
+No universo do trabalho colaborativo, o desenvolvimento de uma atividade ou tarefa
+
+nem sempre é realizado por apenas um envolvido, e sim por um grupo de envolvidos, sendo
+
+que cada um possui habilidades e competências distintas que, quando combinadas, resultam no
+
+aumento da qualidade do trabalho realizado. Quando indivı́duos atuam em conjunto para rea-
+
+lizar uma atividade especı́fica, os resultados obtidos podem ser melhores do que os resultados
+
+
+
+14
+
+de atividades desenvolvidas por apenas um indivı́duo. Visto que ao trabalhar em equipe, os co-
+
+nhecimentos dos envolvidos tendem a ser complementados, já que cada um possui habilidades
+
+e diferentes pontos de vista sobre um determinado assunto relativo à atividade.
+
+Ao trabalhar em equipe, os indivı́duos devem se comunicar continuamente para que a
+
+colaboração ocorra de maneira harmônica. Este tipo de comunicação, hoje em dia, ocorre não
+
+somente quando dois ou mais indivı́duos estão geograficamente perto um do outro, mas também
+
+à distância, o computador tem sido usado como ferramenta para apoiar a comunicação entre in-
+
+divı́duos, favorecendo a interação e a cooperação entre eles à distância (CAVALCANTI; CAMPOS;
+
+BORGES, 1995). As pessoas tem interagido cada vez mais com sistemas computacionais para
+
+facilitar diversas funções, que se fossem realizadas por um indivı́duo manualmente, levariam
+
+mais tempo para serem concluı́das e seriam mais suscetı́veis a erros. Estas interações entre pes-
+
+soas e sistemas computacionais voltados para o trabalho em conjunto deram origem ao termo
+
+CSCW (Computer Supported Cooperative Work).
+
+O CSCW pode ser definido como um sistema computacional que dá apoio ao trabalho
+
+em grupo no desenvolvimento de uma tarefa, além de fornecer interfaces para a realização delas
+
+(ELLIS; GIBBS; REIN, 1991). Em relação aos ambientes computacionais de colaboração, que
+
+envolvem grupos de usuários, criou-se um termo chamado Groupware, que pode ser definido
+
+como um “sistema baseado em computador que suporta grupos de pessoas engajadas em uma
+
+tarefa comum e que fornece uma interface para um ambiente compartilhado” (ELLIS; GIBBS;
+
+REIN, 1991).
+
+Schneiderman (1992) descreve alguns requisitos referentes às atividades exercidas com
+
+CSCW, que são considerados básicos não só para ambientes de Groupware mas também para
+
+quaisquer interações humano-computador:
+
+• Identidade individual dos membros: saber quem está logado;
+
+• Posição do usuário: nomes e/ou ı́cones visı́veis na tela;
+
+• Conhecimento: outros integrantes saibam da presença de um usuário no grupo;
+
+• Visão pessoal ou padrão: visão especificada por cada usuário para um problema;
+
+• Visões particular e pública: partes podem ser vistas por grupos de usuários especı́ficos;
+
+• Controle da palavra: algumas situações necessitam de somente um usuário manipulando
+
+um aplicativo ou emitindo opiniões;
+
+
+
+15
+
+• Controle de acesso: direitos de acesso para cada usuário;
+
+• Atualização e sincronismo: para não haver divergências na edição e/ou entrada e saı́da de
+
+dados;
+
+• Coordenação da informação: coordenação de atividade ou grupo de atividades, aumen-
+
+tando a eficiência.
+
+2.2.1 Modelo 3c
+
+Assim como o Colab-UFV, ambientes CSCW fornecem apoio para o trabalho colabo-
+
+rativo, dando suporte para a interação entre grupos de usuários. A colaboração no Colab-UFV
+
+será analisada sob o ponto de vista do Modelo 3C (ELLIS; GIBBS; REIN, 1991), ilustrado na
+
+Figura 1.
+
+Figura 1 – Modelo 3C adaptado por Gerosa (2006)
+
+Este modelo se baseia na colaboração, que segundo Pimentel e Fuks (2011), pode ser
+
+analisada sob três dimensões:
+
+• Comunicação, que é caracterizada pela troca de informações entre pessoas, gerando com-
+
+promissos que serão gerenciados pela coordenação e serão realizados através da cooperação;
+
+• Coordenação, que se caracteriza pelo gerenciamento de pessoas, atividades e recursos
+
+produzidos durante a comunicação; e
+
+
+
+16
+
+• Cooperação, que se refere à atuação conjunta num espaço compartilhado, gerando de-
+
+mandas que serão organizadas através da comunicação entre os envolvidos, completando
+
+assim, o ciclo colaborativo descrito.
+
+Cada uma dessas dimensões pode ser facilmente mapeada em um ambiente colaborativo
+
+como o Colab-UFV. No que diz respeito à comunicação, o ambiente pode oferecer ferramentas
+
+como envio de e-mails, fóruns, sistemas de conferência e de mensagens. Sobre a coordenação,
+
+existem ferramentas para gerência de workflow 1 , como a gerência de atividades e tarefas de
+
+acordo com o tempo de entrega. Por fim, no que diz respeito à cooperação, o ambiente pode
+
+prover ferramentas como editores de grupos, salas de reunião eletrônica e gerência de artefatos
+
+que podem ser anexados em atividades ou tarefas.
+
+Nota-se ainda que, para que a colaboração entre os envolvidos ocorra, é necessário que
+
+haja percepção entre todos, visto que a percepção fornece apoio aos indivı́duos para que eles
+
+cooperem, coordenem e comuniquem entre si.
+
+2.3 CSCL (Computer Supported Collaborative Learning)
+
+Segundo Chamillard e Braun (2000) e Nosek (1998) citados por Santos et al. (2008),
+
+ambientes colaborativos de aprendizagem se mostram benéficos nos aspectos cognitivos sociais
+
+porque eles não focam na interação entre o aluno e professor, e sim no estudo de como os alunos
+
+podem interagir entre si e ensinar uns aos outros. Surge então o termo CSCL que abrange
+
+o estudo de como a aprendizagem se dá em ambientes virtuais ou colaborativos, já que eles
+
+trabalham com usuários que possuem habilidades, ideias e formas de trabalho diferentes, e
+
+consequentemente, realizam diferentes interações entre si.
+
+Stahl, Koschmann e Suthers (2006) ressaltam que o CSCL se baseia na aplicação de
+
+softwares que são capazes de proporcionar a aprendizagem em grupo, oferecendo atividades
+
+criativas de exploração intelectual e social. Alguns ambientes de CSCL englobam também,
+
+análises sobre as interações ocorridas, como e por quem as equipes são formadas, quais re-
+
+cursos utilizados, quais problemas encontrados durante a comunicação entre os membros, e
+
+principalmente, quais são os resultados obtidos por cada indivı́duo em relação à aprendizagem.
+
+Pessoa e Menezes (2003) descrevem as funcionalidades fornecidas por ambientes CSCL
+1workflow - sequência de passos necessários para automatizar processos
+
+
+
+17
+
+em relação às principais atividades da aprendizagem colaborativa como: diálogos; compartilha-
+
+mento de ideias e documentos; observações e sugestões; coordenação e controle; planejamento
+
+e execução de tarefas; iniciativa e supervisão. O Colab-UFV se caracteriza como um ambiente
+
+CSCL por disponibilizar ferramentas para apoio à comunicação, coordenação e cooperação en-
+
+tre os usuários.
+
+2.4 Aprendizado baseado em projetos
+
+Moraes (1997), citado por Almeida (1999), afirma que o desenvolvimento de um projeto
+
+envolve um processo de construção, participação, cooperação e articulação entre os envolvidos.
+
+Estes processos acabam englobando noções de valor humano, solidariedade, respeito mútuo,
+
+tolerância e formação da cidadania, que caracteriza o paradigma educacional emergente.
+
+Durante o desenvolvimento de projetos, a aprendizagem dos envolvidos ocorre por meio
+
+da interação entre seus respectivos conhecimentos de áreas distintas, que se estabelecem a partir
+
+dos conhecimentos cotidianos dos alunos, englobando expectativas, desejos e interesses que
+
+são mobilizados na construção de conhecimentos cientı́ficos (ALMEIDA, 1999). Não é apenas o
+
+professor quem planeja como as atividades devem ser executadas e exercidas, tanto o professor
+
+quanto os alunos, são parceiros e sujeitos de aprendizagem, atuando segundo o seu papel e nı́vel
+
+de desenvolvimento.
+
+O trabalho em grupo é uma oportunidade de construir coletivamente o conhecimento,
+
+visto que cada envolvido possui diferentes habilidades e pontos de vista, complementares entre
+
+si, em prol do aprendizado de todos durante o desenvolvimento de um projeto. Essas funções
+
+auxiliam na produtividade do grupo, e podem ser classificadas como: inovadores, que são par-
+
+ticipantes que sugerem novas ideias; os estimuladores que entusiasmam o grupo à realização
+
+das tarefas; os coletores de informações; os avaliadores crı́ticos, que analisam o desempenho do
+
+grupo; os coordenadores e os relatores (BORDENAVE; PEREIRA, 2000).
+
+Em geral, o processo de desenvolvimento de um projeto é um fator positivo para o apren-
+
+dizado e para treinar a capacidade que cada indivı́duo tem de ouvir e respeitar opiniões diferen-
+
+tes, além de aprender a argumentar e dividir tarefas, o que reforça a importância do Colab-UFV
+
+enquanto ambiente de apoio ao trabalho colaborativo envolvido em projetos acadêmicos.
+
+
+
+18
+
+2.5 Análise de desempenho em Ambientes Colaborativos de Aprendizagem
+
+A medição de desempenho dos usuários em ambientes colaborativos ou virtuais de
+
+aprendizagem é uma funcionalidade importante, pois ela propicia formas inovadoras de co-
+
+nhecimento e possibilidades de documentação e análise para a avaliação.
+
+Gibson (2003), citado por Laguardia, Portela e Vasconcellos (2007), caracteriza a análise
+
+de desempenho nestes ambientes como avaliações das habilidades metacognitivas, das estratégias
+
+de aprendizagem e do histórico das mudanças ocorridas no desempenho dos estudantes ao longo
+
+do curso, trazendo informações coletadas durante os processos envolvidos nas atividades edu-
+
+cativas nestes ambientes.
+
+De acordo com Santana et al. (2014), muitas das ferramentas que os ambientes virtuais
+
+de aprendizagem disponibilizam, não possuem muita influência sobre avaliar o desempenho de
+
+seus usuários. E essa avaliação é um fator muito importante, pelo fato de permitir a observação
+
+dos pontos negativos e positivos de cada membro, possibilitando aos envolvidos, tomar atitudes
+
+que os farão desenvolver em conjunto (CRUZ; ARAúJO; OLIVEIRA, 2014). A avaliação deve ser
+
+analisada não somente pelos dados quantitativos, mas também por meio de uma análise mais
+
+detalhada das interações do grupo (COLLAZOS et al., 2007).
+
+Segundo Preece e Rogers Y. e Sharp (2005) e Schlemmer e Fagundes (2001), citados por
+
+Behar et al. (2007), a avaliação pode ocorrer não apenas no final do ciclo de vida do projeto, mas
+
+também durante o seu uso, reorientando o processo e ampliando as possibilidades de fazer os
+
+ajustamentos pertinentes. Por isso, no Colab-UFV, o professor consegue gerar relatórios gerais
+
+ou especı́ficos a qualquer momento do projeto. Esses relatórios possuem também um sistema
+
+de ranqueamento de usuários de acordo com o grupo que mais produziu certo tipo de trabalho,
+
+como atividades ou tarefas, por exemplo. Estes dados demonstram ao professor, informações
+
+relevantes quanto ao comportamento dos alunos durante um projeto
+
+2.6 Trabalhos Relacionados
+
+Esta seção aborda alguns trabalhos encontrados na literatura que serviram como apoio
+
+para o desenvolvimento do Colab-UFV.
+
+Como principal trabalho relacionado ao Colab-UFV, encontra-se o AulaNet (FUKS, 2000),
+
+
+
+19
+
+que também é um ambiente virtual de aprendizagem baseado no conceito de groupware e no
+
+Modelo 3c, onde suas ferramentas se organizam entre ferramentas de comunicação, cooperação
+
+e coordenação. O AulaNet fornece apoio para a criação, participação e administração de cursos
+
+baseados na Web. Como ferramentas de comunicação, o AulaNet possui fórum, chat e grupos
+
+de discussão. Sobre as ferramentas de coordenação, ele permite a gerência de tarefas, avisos e
+
+planejamento de aulas, além da auto-avaliação do usuário. Por fim, em relação à cooperação, o
+
+AulaNet fornece um repositório para referências bibliográficas, arquivos e documentos relacio-
+
+nados aos cursos. Já o Colab-UFV possibilita a coordenação, por parte do professor, por meio
+
+da gerência tanto de grupos quanto de papéis, além da geração de relatórios contendo os dados
+
+do que foi produzido durante um projeto.
+
+Silva et al. (2007) descrevem o ambiente virtual de aprendizagem SOCRATES, que
+
+dispõe de ferramentas web para elaboração e desenvolvimento de projetos colaborativos no con-
+
+texto escolar e criação de comunidades de aprendizagem, objetivando favorecer a colaboração
+
+entre os alunos. O ambiente, especificamente em relação à comunicação, fornece ferramentas
+
+como chat e fórum, possibilitando a gerência de atividades e a criação de discussões que facili-
+
+tam a troca de conhecimentos e experiências, além da publicação dos produtos finais do projeto
+
+desenvolvido. O Colab-UFV se assemelha ao SOCRATES por possuir a gerência de ativida-
+
+des e ferramentas para favorecer a comunicação. Porém o ambiente não possui um sistema de
+
+avaliação de seus usuários, além de não possuir a organização de seus usuários em grupos.
+
+Monteiro et al. (2015) propuseram o ambiente Youubi, um ambiente de aprendizagem
+
+ubı́qua 2 , que permite um acompanhamento mais detalhado sobre o aluno e consequentemente
+
+uma variação positiva no engajamento deles. A avaliação que eles fazem sobre o Youubi se
+
+resulta na ideia de que ”a adoção do ambiente de u-learning promoveu diferença positiva na
+
+motivação e no engajamento dos aprendizes”. O Youubi é basicamente um ambiente cola-
+
+borativo em que usuários gerenciam grupos, eventos e posts, que são funcionalidades que o
+
+Colab-UFV também possui.
+
+2Aprendizagem ubı́qua - pedagogia construtivista, focada no aprendizado e não no professor
+
+
+
+20
+
+3 O AMBIENTE COLAB-UFV
+
+Este capı́tulo descreve o ambiente Colab-UFV, detalhando as fases de seu desenvolvimento,
+
+desde a especificação até a codificação.
+
+A Figura 2 apresenta uma visão geral do ambiente Colab-UFV, destacando sua arquite-
+
+tura em camadas e as conexões do servidor web com os clientes e com o banco de dados.
+
+Figura 2 – Visão geral do Colab-UFV
+
+A camada de apresentação é responsável pela apresentação do sistema ao usuário, englo-
+
+bando as interfaces do sistema. Já a camada de aplicação, abrange: ferramentas colaborativas
+
+do sistema, que implementam as funcionalidades de comunicação, cooperação e coordenação;
+
+medidor de desempenho, que é responsável pelas análises quantitativas e o domı́nio de negócio,
+
+que se baseia na representação das entidades e das regras de negócio no sistema.
+
+As próximas seções apresentam os resultados obtidos com a especificação, modelagem
+
+e desenvolvimento do Colab-UFV.
+
+
+
+21
+
+3.1 Especificação do Colab-UFV
+
+Inicialmente, foi criado o diagrama em UML de Casos de Uso, que serviu para especi-
+
+ficar as funcionalidades do Colab-UFV, quem são seus atores (usuários) e quais serão suas res-
+
+pectivas funcionalidades. No Colab-UFV existem dois tipos de atores: o Professor e o Aluno.
+
+O Professor possui as mesmas funcionalidades que o Aluno, porém ele pode realizar algumas
+
+funções a mais, como funções cadastrais e de gerar relatórios (Figura 3).
+
+Figura 3 – Diagrama UML de Casos de Uso do Colab-UFV
+
+No que diz respeito às funcionalidades de cadastro, é permitido ao aluno apenas a fun-
+
+
+
+22
+
+cionalidade de cadastrar tarefa e consequentemente a de atribuir tarefa a um indivı́duo. Para
+
+as funcionalidades de visualização, o Aluno tem acesso às suas atividades, tarefas e ao crono-
+
+grama geral do projeto. Por parte da comunicação, o Aluno tem acesso às ferramentas como
+
+chat, fórum, envio de alertas e e-mails. Por fim, em relação à cooperação, o Aluno consegue
+
+adicionar artefatos às atividades/tarefas.
+
+O Professor possui as mesmas funcionalidades do Aluno, além de possuir acesso a to-
+
+dos os cadastros do sistema, inclusive o cadastro de projetos. Ele pode também visualizar o
+
+cronograma geral do projeto, se informando sobre o estado atual, através dos status de todas as
+
+atividades e tarefas. Por fim, é permitido ao professor, gerar relatórios tanto individuais quanto
+
+gerais. Estes relatórios descrevem dados quantitativos sobre o que foi produzido no projeto,
+
+separando os dados em informações gerais ou por aluno, estes relatórios serão ilustrados na
+
+subseção de 3.3.2.
+
+Com o diagrama de Casos de Uso elaborado, cada caso de uso foi documentado, sendo
+
+que a documentação pode ser visualizada no Apêndice A.
+
+3.2 Modelagem do Colab-UFV
+
+Logo após a elaboração dos casos de uso, foi desenvolvido o diagrama de classes de
+
+entidade, também em UML, que serviu para documentar todas as entidades do sistema, como
+
+os usuários, projetos, grupos, atividades e tarefas, por exemplo (Figura 4). Entidades são
+
+classes que representam os objetos persistentes do sistema, usadas para representar a lógica do
+
+negócio.
+
+Vale ressaltar que nesse diagrama, a classe Projeto é a classe principal, visto que o
+
+sistema funciona a partir de cada projeto e é nesta classe que estão armazenados todos os dados
+
+colaborativos de cada projeto. Para controle de acesso, o atributo tipoUsuario da classe Usuário,
+
+ele pode receber dois valores, o de aluno ou de professor. Este atributo é usado para o sistema
+
+identificar qual tipo de usuário está logado. A classe Conteudo é referente aos arquivos que são
+
+arquivados na biblioteca virtual do sistema, por parte dos usuários.
+
+Sobre os atributos: status, prioridade e complexidade das classes Atividade e Tarefa,
+
+eles podem receber os seguintes valores:
+
+• Status - Uma atividade ou tarefa pode estar como uma nova atividade/tarefa,
+
+
+
+23
+
+Figura 4 – Diagrama UML de Classes de Entidade do Colab-UFV
+
+em andamento, concluı́da, cancelada, reaberta ou atrasada;
+
+• Complexidade - uma atividade ou tarefa pode ser simples, mediana ou complexa;
+
+• Prioridade - uma atividade ou tarefa pode ter prioridade de 1 a 5, sendo quanto maior o
+
+número, maior a prioridade.
+
+
+
+24
+
+O diagrama de classes sofreu diversas modificações durante o desenvolvimento do tra-
+
+balho e serviu para documentar quem são as classes de entidade, quais são seus respectivos
+
+atributos e quais são as relações entre elas. De acordo com a definição das classes de entidade,
+
+o modelo lógico do banco de dados foi elaborado ( Figura 5).
+
+Figura 5 – Modelo relacional da base de dados do Colab-UFV
+
+
+
+25
+
+3.3 Design do Colab-UFV
+
+Esta seção demonstra o design do Colab-UFV para a arquitetura e interfaces gráficas
+
+com os usuários.
+
+3.3.1 Design da Arquitetura do Colab-UFV
+
+A arquitetura do Colab-UFV foi desenvolvida sobre o padrão de arquitetura de software
+
+MVC (Model-View-Controller), que se baseia em três componentes: Model, que representa
+
+as entidades do sistema; View, que pode ser qualquer saı́da para mostrar dados ao usuário e
+
+Controller, que faz a mediação da entrada, convertendo-a em comandos para Model ou View
+
+(Figura 6).
+
+Figura 6 – Arquitetura MVC para o Colab-UFV
+
+O usuário interage com o sistema por meio do componente View, que representa as
+
+páginas JSP (Java Server Pages) do sistema. A partir da View, o usuário solicita requisições
+
+de serviços (chamada de uma nova página ou de uma funcionalidade, de acordo com uma
+
+entrada fornecida) que serão tratadas pelo componente Controller, que representa os Servlets
+
+implementados. Servlets são classes Java, que tratam requisições recebidas de clientes Web,
+
+como por exemplo os Browsers (Internet Explorer e Mozilla Firefox). São os servlets que
+
+fazem as chamadas de novas páginas e também manipulam os dados das entidades, que segundo
+
+o padrão MVC, fazem parte do componente Model. Esse, por sua vez, lança eventos com seus
+
+
+
+26
+
+dados modificados, para que o Servlet carregue-o novamente e o apresente através da camada
+
+View. No Colab-UFV, as entidades são implementadas pelos JavaBeans, que são classes Java
+
+que representam as entidades do ambiente.
+
+3.3.2 Interfaces do Colab-UFV
+
+O Colab-UFV apresenta inicialmente uma tela de login ao usuário. Ao logar, o usuário
+
+escolhe um projeto em que ele está envolvido e terá acesso a uma visão segundo seu tipo de
+
+usuário (aluno/professor).
+
+A página inicial do projeto escolhido por um aluno apresenta a interface do sistema,
+
+destacando, na parte central, todas as atividades atribuı́das a ele (Figura 7).
+
+Figura 7 – Interface inicial de um projeto - visão Aluno
+
+
+
+27
+
+Na interface do aluno, as atividades são apresentadas com as respectivas datas de inı́cio
+
+e término, status e tarefas relacionadas a cada uma das atividades, utilizando diferentes cores
+
+para o status de cada uma. Na parte inferior da tela, são apresentados os alertas recebidos e,
+
+graficamente, suas atividades atrasadas em relação a todas as suas atividades. O menu principal,
+
+no canto superior, fornece acesso às funcionalidades como às atividades/tarefas, fórum, alertas
+
+e biblioteca virtual. Por fim, no lado esquerdo da tela estão atalhos para algumas ferramentas
+
+de comunicação (chat, fórum, envio de e-mails e alertas), atalho para visualizar perguntas fre-
+
+quentes e informações do projeto e um componente de ranqueamento para exibir o aluno que
+
+possui mais atividades concluı́das no projeto.
+
+Como o professor tem mais privilégios, o sistema apresenta uma interface com funcio-
+
+nalidades gerenciais, destacando, na parte central, o cronograma geral do projeto (Figura 8).
+
+Figura 8 – Interface inicial de um projeto - visão Professor
+
+
+
+28
+
+Em relação ao lado esquerdo e ao menu principal, no canto superior da tela, é possı́vel
+
+visualizar, gerar relatórios e cadastrar grupos, alunos, perguntas frequentes, atividades e tarefas.
+
+Já na parte central da tela, o sistema apresenta ao professor, o cronograma do projeto contendo
+
+todas as atividades com as respectivas tarefas. Por fim, no canto inferior da tela, existem dois
+
+gráficos para informar a relação da quantidade de atividades atrasadas e concluı́das em relação
+
+a todas atividades existentes no projeto.
+
+Durante o desenvolvimento de um projeto, para gerenciar atividades, na visão do pro-
+
+fessor, o Colab-UFV disponibiliza a interface referente à Figura 9.
+
+Figura 9 – Interface das informações de uma atividade de um projeto no Colab-UFV
+
+
+
+29
+
+Em relação à gerência de atividades, o professor consegue editar, visualizar e excluir
+
+os envolvidos, as tarefas e os artefatos relacionados àquela atividade. Além de visualizar as
+
+informações básicas da mesma, como o nome e descrição, por exemplo.
+
+O suporte do Colab-UFV em relação à análise de desempenho dos estudantes e grupos,
+
+se caracteriza pela geração de relatórios individuais e gerais. Sobre os relatórios gerais, o Colab-
+
+UFV apresenta ao professor uma interface com dados gráficos do projeto (Figura 10).
+
+Figura 10 – Interface do relatório geral do Colab-UFV
+
+Os relatórios gerais gerados pelo Colab-UFV contém os dados quantitativos de um pro-
+
+
+
+30
+
+jeto em relação à quantidade de tudo o que foi produzido nele, ou seja, a quantidade de ativida-
+
+des e tarefas criadas, e-mails enviados, comentários feitos em tópicos, entre outros. O sistema
+
+também fornece um ranqueamento por grupo, em relação a quanto cada grupo produziu ao todo
+
+e quanto cada aluno produziu em seu grupo.
+
+3.4 Implementação
+
+A implementação do Colab-UFV foi desenvolvida a partir dos resultados das fases de
+
+especificação, modelagem e design.
+
+O Colab-UFV foi implementado em linguagem Java, contendo alguns recursos na lin-
+
+guagem Javascript e páginas web em HTML. Especificamente, para o desenvolvimento das
+
+páginas web, utilizou-se a tecnologia JSP (Java Server Pages). A codificação foi realizada na
+
+IDE NetBeans, versão 8.0.2, com o Tomcat, na versão 8.0.15.0, como servidor de aplicação.
+
+Para persistência de dados, utilizou-se o SGBD Mysql 5.7.16.
+
+Para a aplicação de testes no Colab-UFV, foi realizada uma simulação de um projeto
+
+acadêmico chamado KeySoft, que será apresentada no Capı́tulo 4.
+
+
+
+31
+
+4 APLICAÇÃO SIMULADA DO COLAB-UFV
+
+Este capı́tulo aborda a aplicação simulada do Colab-UFV em um projeto acadêmico, para fins
+
+de avaliação. Os dados utilizados são fictı́cios, mas baseados em um projeto acadêmico real
+
+realizado em 2015, como trabalho prático no contexto da disciplina Engenharia de Software
+
+II, oferecida no curso de Ciência da Computação da Universidade Federal de Viçosa - Campus
+
+Florestal. O trabalho envolveu o desenvolvimento de um protótipo de software para um sistema
+
+de controle de chaves da UFV - Campus Florestal, durante o segundo semestre de 2015. A
+
+equipe era formada por 9 membros, sendo 8 alunos e a professora da disciplina.
+
+4.1 Equipe do Projeto KeySoft
+
+Foram definidos os seguintes nomes para os envolvidos no projeto, com seus respecti-
+
+vos papéis: gerente1, como gerente de projeto; administrador1, como Administrador do banco
+
+de dados; gerente2, como gerente de configuração de software (GCS); analista1, como ana-
+
+lista; projetista1, como projetista; desenvolvedor1 e desenvolvedor2, como desenvolvedores, e
+
+testador1 e testador2, como testadores do KeySoft (Figura 11).
+
+4.2 Coordenação das atividades
+
+As atividades referentes a cada papel foram cadastradas no Colab-UFV da seguinte ma-
+
+neira (Figura 12):
+
+• Gerente de projeto - coordenar o desenvolvimento do projeto (GEP001);
+
+• Administrador da base de dados - instalar e configurar o SGBD MySQL, juntamente com
+
+a ferramenta MySQL Workbench (DBA001); e modelar, implementar e manter a base de
+
+dados do projeto (DBA002);
+
+• Gerente de configuração de software (GCS) - Avaliar o uso das ferramentas para GCS:
+
+GIT, GITHUB e MantisHub (GCS001); cadastrar e configurar o KeySoft nas ferramentas
+
+e orientar a equipe quanto ao seu uso (GCS002);
+
+
+
+32
+
+Figura 11 – Informações do KeySoft
+
+• Analista - modelar as classes do KeySoft, nos nı́veis domı́nio e especificação (MOD001);
+
+e auxiliar na elaboração do modelo de dados do KeySoft, em especial no mapeamento a
+
+partir das classes modeladas (MOD002);
+
+• Projetista - construir protótipos de interfaces gráficas com o usuário e outras interfaces do
+
+sistema (DES001); e projetar a arquitetura em 3 camadas do sistema (DES002);
+
+• Desenvolvedores - implementar o KeySoft, segundo o paradigma da orientação a objetos
+
+e com base no padrão MVC (Model-View-Controller), com utilização da IDE NetBeans
+
+(COD001). Interagir com a equipe de testes para utilização da abordagem de desenvolvi-
+
+mento dirigida a testes, com uso do framework JUnit (COD002); e integrar com o SGBD
+
+MySQL para persistência dos dados do sistema (COD003);
+
+• Testadores - realizar testes estruturais e funcionais no sistema proposto, selecionando
+
+técnicas e ferramentas aplicáveis (TES001); interagir com a equipe de desenvolvedores
+
+fornecendo a eles um feedback sobre a fase de testes (TES002); e registrar os resultados
+
+
+
+33
+
+Figura 12 – Informações do cronograma do KeySoft
+
+obtidos com a atividade (TES003).
+
+No que diz respeito ao relacionamento entre atividades, o Colab-UFV permite cadastrar
+
+para cada atividade, sua antecessora, quando for o caso. A Figura 12 exemplifica como as
+
+atividades do administrador1.
+
+Quando uma atividade é complexa, ela pode se dividir em tarefas. O Colab-UFV per-
+
+mite o cadastro de atividades deste tipo, possibilitando ao usuário, o cadastro de tarefas para
+
+atividades. Vale ressaltar que o cronograma mostrado na Figura 12 apresenta as atividades ao
+
+envolvido em abas, que ao clicar, apresentam as tarefas referentes àquela atividade. A Figura
+
+13 apresenta um exemplo das tarefas relativas à atividade de modelagem de classes (MOD001).
+
+Para atribuir uma atividade ou tarefa, basta acessar a aba dos envolvidos. O Colab-
+
+
+
+34
+
+Figura 13 – Informações das atividades/tarefas do KeySoft
+
+UFV disponibiliza uma lista de usuários contendo todos os participantes do projeto que não
+
+estão envolvidos naquela atividade ou tarefa, ou seja, uma lista de usuários que estão aptos para
+
+participar daquela atividade ou tarefa (Figura 14).
+
+Figura 14 – Tela de atribuição de um envolvido em uma atividade ou tarefa
+
+No que diz respeito à coordenação das atividades do aluno, o Colab-UFV apresenta ao
+
+aluno, ao escolher um projeto, suas atividades e seus respectivos status destacados (Figura 15).
+
+4.3 Cooperação e comunicação entre equipes
+
+Quanto à produção de artefatos, o Colab-UFV ainda não oferece o suporte adequado.
+
+Em virtude disso, no projeto KeySoft, a equipe teria que utilizar ferramentas terceirizadas de
+
+suporte ao controle de versão, como o GitHub.
+
+A falta de integração entre as ferramentas utilizadas, causaria um impacto muito grande
+
+em termos de cooperação na produção de artefatos. Também há impactos em termos de comunicação
+
+
+
+35
+
+Figura 15 – Atividades do desenvolvedor2
+
+porque um desenvolvedor pode trabalhar em versões desatualizadas do sistema, acarretando re-
+
+trabalho.
+
+O Colab-UFV possui diversas ferramentas para comunicação que facilitam a coordenação
+
+e a cooperação entre os envolvidos. Quando ocorrem falhas durante um projeto, surgem neces-
+
+sidades ainda maiores de comunicação entre os envolvidos, visto que eles precisam se organizar
+
+para resolver o problema. Além de ferramentas de chat, fórum e e-mail, o ambiente oferece as
+
+ferramentas de envio de alertas (Figura 16), que são mostrados ao usuário quando ele entra no
+
+sistema. A interface de e-mail pode ser vista na figura 17.
+
+Figura 16 – Envio de alerta
+
+
+
+36
+
+Figura 17 – Envio de e-mail
+
+4.4 Análise de Desempenho dos Estudantes
+
+No que compete à análise de desempenho dos alunos, o Colab-UFV oferece a funciona-
+
+lidade de geração de relatórios com medições quantitativas sobre as colaborações ocorridas. A
+
+Figura 18 apresenta o relatório gerado, com os dados quantitativos de tudo o que foi produzido
+
+durante o KeySoft, além de mostrar um ranqueamento por grupo, de quantas atividades cada
+
+um desenvolveu.
+
+Nota-se, a partir do relatório gerado, que os alunos enviaram uma quantidade relevante
+
+de alertas entre si, o que favoreceu a coordenação e a comunicação entre eles. A troca de
+
+mensagens no Chat foi pequena durante o desenvolvimento do projeto, assim como a quantidade
+
+de comentários em tópicos, visto que a quantidade de tópicos criados é a mesma que a de
+
+comentários postados.
+
+Na parte inferior da Figura 18, existem dois gráficos que representam a quantidade de
+
+atividades atrasadas e concluı́das em relação à todas atividades do projeto. É possı́vel identificar,
+
+de acordo com esta simulação, que o KeySoft não possui atividades atrasadas e que a maioria
+
+de suas atividades já estão concluı́das.
+
+Vale ressaltar que o relatório possui um ranqueamento por grupos, em relação à quanti-
+
+dade de atividades que cada grupo fez. Para o exemplo, os programadores se destacaram devido
+
+ao número de atividades atribuı́das a eles, visto que o papel de desenvolvedor, especificamente,
+
+
+
+37
+
+é o papel que possui mais atividades atribuı́das, porém de complexidades menores. Atividades
+
+Figura 18 – Relatório geral durante o desenvolvimento do KeySoft
+
+complexas como a do grupo de testes, ainda não haviam sido concluı́das. Por esse motivo, o
+
+grupo de testadores ficou entre os últimos grupos no ranqueamento. Como o KeySoft é um
+
+trabalho acadêmico, do ponto de vista do professor com os relatórios gerados, seria possı́vel
+
+se avaliar o andamento do projeto e se verificar quais grupos e/ou alunos se destacaram no
+
+cumprimento de suas atividades/tarefas.
+
+
+
+38
+
+4.5 Considerações finais
+
+A partir dessa aplicação simulada, foi possı́vel observar o suporte à colaboração ofere-
+
+cido pelo Colab-UFV no contexto do trabalho em equipe. O ambiente auxiliaria bastante os alu-
+
+nos durante o desenvolvimento do KeySoft, fornecendo ferramentas para eles se comunicarem,
+
+enviarem alertas, e-mails, trocarem mensagens no chat e publicarem tópicos de discussão. Do
+
+ponto de vista da coordenação, o ambiente forneceria suporte a atividades e tarefas atribuı́das
+
+de acordo com os prazos estipulados, além de cooperar anexando nelas, artefatos que foram
+
+produzidos durante o seu desenvolvimento.
+
+Durante o desenvolvimento do KeySoft, o aprendizado dos alunos seria adquirido por
+
+experimentação, visto que os alunos trabalham em equipe e que no decorrer do projeto, eles
+
+aprenderiam através das interações entre eles durante o projeto. Como o KeySoft seria desen-
+
+volvido com o uso do Colab-UFV, todos os dados seriam guardados, e ao fim do projeto, seria
+
+possı́vel ao aluno verificar todos seus erros e acertos cometidos, possibilitando a ele, tomar
+
+atitudes em prol do seu desenvolvimento como aluno.
+
+Já pelo ponto de vista do professor, o uso do Colab-UFV para o desenvolvimento do
+
+KeySoft possibilitaria a ele um melhor acompanhamento dos alunos durante o projeto, caso
+
+ele fosse desenvolvido sem o uso do Colab-UFV. Além disso, no ponto de vista acadêmico, o
+
+professor ao final do projeto poderia avaliar o desempenho de cada aluno, verificando quanto
+
+cada aluno produziu a partir dos relatórios especı́ficos.
+
+
+
+39
+
+5 CONCLUSÃO E TRABALHOS FUTUROS
+
+5.1 Conclusão
+
+Este trabalho apresentou os resultados de um ambiente colaborativo para apoio à realização
+
+de projetos acadêmicos, chamado Colab-UFV. O Colab-UFV se destaca por fornecer suporte:
+
+à comunicação entre os envolvidos, visto que o ambiente fornece várias ferramentas de apoio e
+
+possibilita que os envolvidos acompanhem o andamento do projeto; à coordenação do workflow
+
+do projeto, a partir das funcionalidades de atribuição de atividades/tarefas e controle de pra-
+
+zos; ao controle dos artefatos produzidos de forma cooperativa; e à avaliação de desempenho
+
+individual e coletivo, a partir de medições sobre as colaborações ocorridas.
+
+Ressalta-se a relevância do Colab-UFV no apoio ao processo de ensino e aprendiza-
+
+gem, uma vez que o ambiente proporciona o aprendizado por experimentação, onde os alunos
+
+aprendem a trabalhar em grupo e aprendem uns com os outros. O ambiente também merece
+
+destaque, pelo seu potencial para melhorar a colaboração entre os membros de equipes, favore-
+
+cendo a aproximação e a comunicação entre os envolvidos, bem como o compartilhamento de
+
+informações e experiências.
+
+Como trabalhos futuros, destacam-se possı́veis melhorias nas métricas de análise de de-
+
+sempenho, com suporte para análises qualitativas, como a análise de sentimento, por exemplo,
+
+e o desenvolvimento de uma versão mobile do Colab-UFV.
+
+5.1.1 Publicação
+
+Como resultado parcial deste trabalho, foi realizada a submissão de artigo cientı́fico para
+
+o SBIE (Simpósio Brasileiro de Informática na Educação), em 2016. Como o ambiente ainda
+
+estava em desenvolvimento no momento da submissão, o artigo foi enviado na forma de resumo.
+
+Após o artigo ser aceito, ele foi apresentado no CBIE (Congresso Brasileiro de Informática na
+
+Educação), também em 2016. A apresentação do artigo influenciou positivamente no desenvol-
+
+vimento do Colab-UFV, visto que no seu decorrer, foram apontados alguns pontos de possı́veis
+
+melhorias, como o ranqueamento de usuários, que foi implementado após a ap
+
+
+
+40
+
+REFERÊNCIAS
+
+ALMEIDA, E. A. Projeto: uma nova cultura de aprendizagem. 1999.
+
+AZEVEDO, B.; TAVARES, O. Um ambiente inteligente para aprendizagem colaborativa. In:
+Proceedings... [S.l.]: XII Simpósio Brasileiro de Informática na Educação (SBIE), 2001. p.
+331 – 339.
+
+BEHAR, A. P. et al. Avaliação de ambientes virtuais de aprendizagem: O caso do ROODA na
+ufrgs. Revista Avances en Sistemas e Informática, v. 4, 2007. ISSN 1657-7663.
+
+BORDENAVE, J. D.; PEREIRA, A. M. Estratégias de ensino-aprendizagem. Petrópolis:
+Vozes, 2000.
+
+CAVALCANTI, M. C. R.; CAMPOS, M. L. M.; BORGES, M. R. S. Suporte por computador
+ao trabalho cooperativo. XIV Jornada de Atualização em Informática, 1995.
+
+CHAMILLARD, A. T.; BRAUN, K. A. Evaluating programming ability in a introductory
+computer science course. XXXI Special Interest Group on Computer Science Education, 2000.
+
+COLAçO, V. F. R. Processos interacionais e a construção de conhecimento e subjetividade de
+crianças. Psicologia: Reflexão e Crı́tica, v. 17, n. 3, p. 333–340, 2004.
+
+COLLAZOS, A. C. et al. Evaluating collaborative learning processes using system-based
+measurement. Educational Technology & Society, v. 10, n. 3, p. 257–274, 2007. ISSN
+1436-4522.
+
+CRUZ, C.; ARAúJO, A.; OLIVEIRA, I. Avaliação de desempenho como ferramenta de apoio
+ao desenvolvimento profissional dos colaboradores nas organizações. Revista Cientı́fica do
+ITPAC, 2014. ISSN 1983-6708.
+
+DAMIANI, M. F. Entendendo o trabalho colaborativo em educação e revelando seus benefı́cios.
+Editora UFPR, n. 31, p. 213–230, 2008.
+
+ELLIS, C. A.; GIBBS, S. J.; REIN, G. L. Groupware: Some issues and experiences.
+Communications of the ACM, v. 34, n. 1, p. 39–58, 1991.
+
+FUKS, H. Aprendizagem e trabalho cooperativo no ambiente aulanet. Revista Brasileira de
+Informática na Educação, n. 6, 2000.
+
+GEROSA, M. A. Desenvolvimento de groupware componentizado com base no modelo 3c de
+colaboração. Pontifı́cia Universidade Católica do Rio de Janeiro (PUCRio), p. 276, 2006.
+
+GIBSON, D. Network-based assessment in education. In: . [S.l.: s.n.], 2003. v. 3, p. 310–323.
+
+LAGUARDIA, J.; PORTELA, M. C.; VASCONCELLOS, M. M. Avaliação em ambientes
+virtuais de aprendizagem. In: . [S.l.: s.n.], 2007. v. 33, p. 513–530.
+
+
+
+41
+
+LEHTINEN, E. et al. Computer Supported Collaborative Learning. [S.l.]: CL-NET project,
+1999. Acessado em: 2016-05-22.
+
+LONCHAMP, J. Towards a web platform for collaborative learning practice, evaluation and
+dissemination. Journal of Computers & Education, 2007. ISSN 1991-1599.
+
+MONTEIRO, B. et al. Youubi: Ambiente de aprendizagem ubı́qua. XXVI Simpósio Brasileiro
+de Informática na Educação (SBIE), p. 111 – 120, 2015.
+
+MORAES, M. C. O Paradigma Educacional Emergente. [S.l.]: Papirus editora, 1997.
+
+NOBRE, A. M. et al. Informática na educação: um caminho de possibilidades e desafios.
+[S.l.]: Instituto Federal de Educação, Ciência e Tecnologia, 2011. 256 p.
+
+NOSEK, J. T. The case for collaborative programming. Communications of the ACM, v. 41,
+1998.
+
+PESSOA, J. M.; MENEZES, C. S. Framework baseado em padrões abertos para construção de
+ambientes cscw/cscl na web. Proceedings of the First Latin American Web Congress, 2003.
+
+PESSOA, J. M.; NETTO, H. V.; MENEZES, C. S. de. Famcora: um framework para a
+construção de ambientes cooperativos inteligentes de apoio a aprendizagem na internet baseado
+em web services e agentes. In: Proceedings... [S.l.]: XIII Simpósio Brasileiro de Informática
+na Educação (SBIE), 2002. p. 94 – 104.
+
+PIMENTEL, M.; FUKS, H. Sistemas Colaborativos, 2011. [S.l.]: Editora Campus, 2011.
+416 p. ISBN 978-8535246698.
+
+PREECE, J.; ROGERS Y. E SHARP, H. Design de Interação:além da interação homem
+computador. [S.l.: s.n.], 2005.
+
+PRESSMAN, R.; MAXIM, B. Engenharia de Software-8a Edição. [S.l.]: McGraw Hill Brasil,
+2016.
+
+ROMERO, C.; VENTURA, S.; GARCı́A, E. Data mining in course management systems:
+Moodle case study and tutorial. Computers & Education, v. 51, n. 1, p. 368 – 384, 2008. ISSN
+0360-1315.
+
+SALVADOR, C. C. Aprendizagem escolar e construção do conhecimento. Porto Alegre: Artes
+Médicas, 1994.
+
+SANTANA, M. et al. Avaliando o uso das ferramentas educacionais no ambiente virtual de
+aprendizagem moodle. In: Proceedings... [S.l.]: XXV Simpósio Brasileiro de Informática na
+Educação (SBIE), 2014. p. 278 – 288.
+
+SANTOS, P. R. et al. Uma proposta de cenário para ensino de algoritmos e programação com
+contribuições de cooperação, colaboração e coordenação. Anais do XXVIII Congresso da SBC,
+v. 28, 2008.
+
+
+
+42
+
+SARMENTO, W. F. et al. Avaliação de usabilidade no processo de desenvolvimento contı́nuo
+em ambientes virtuais de aprendizagem. In: Proceedings... [S.l.]: XXII Simpósio Brasileiro de
+Informática na Educação (SBIE), 2011. p. 781 – 791.
+
+SCHLEMMER, L.; FAGUNDES, L. Uma proposta de avaliaçãodeambientes virtuais de
+aprendizagem na sociedade em rede. Revista Informática na Educação, v. 4, p. 25 – 36, 2001.
+
+SCHNEIDERMAN, B. Designing the user interface: Strategies for effective human-computer
+interaction;. Addison-Weslwy, 1992.
+
+SILVA, A. M. et al. Criação e acompanhamento de projetos colaborativos no ambiente socrates.
+Anais do XXVII congresso da SBC, p. 305–313, 2007.
+
+SILVA, J. et al. Análise das interações dos alunos com conteúdos e atividades em ambientes
+colaborativos virtuais de aprendizagem. In: Proceedings... [S.l.]: XXV Simpósio Brasileiro de
+Informática na Educação (SBIE), 2014. p. 129 – 133.
+
+STAHL, G.; KOSCHMANN, T.; SUTHERS, D. Computer-Supported Collaborative Learning:
+an historical perspective. [S.l.]: Cambridge: R. K. Sawyer (Ed.), 2006. 409-426 p.
+
+
+
+Apêndice A – Documentação dos casos de uso do Colab-UFV 
+
+ 
+
+Esta documentação se refere aos casos de uso do Colab-UFV. Ela descreve todas as 
+funcionalidades do Colab-UFV, com seus respectivos fluxos de execução, descrevendo as 
+interações necessárias do usuário com o sistema. 
+
+ Os casos de uso foram desenvolvidos segundo o template do Bezerra (2014). 
+
+ 
+
+CSU01 – Cadastrar aluno 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um aluno 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar aluno” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para o nome, 
+matrícula, e-mail, login e senha do aluno, como campos obrigatórios, e o botão “Cadastrar 
+aluno”. 
+
+3. O professor preenche os campos obrigatórios e clica no botão Cadastrar aluno. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo aluno. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o aluno  
+
+a.  O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir.  
+
+c. O professor clica em envolvidos e seleciona o aluno que deseja visualizar. 
+
+d. O sistema mostra ao professor o nome, matrícula, e-mail e login do aluno. 
+
+
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o aluno  
+
+a. O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir. 
+
+c. O professor clica em envolvidos e seleciona o ícone de excluir o aluno que deseja. 
+
+d. O sistema exclui o aluno do sistema e volta para a tela de informações do projeto. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um aluno 
+
+a.  O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir.  
+
+c. O professor clica em envolvidos e seleciona o ícone de excluir o aluno que deseja. 
+
+d. O sistema mostra ao professor o nome, matrícula, e-mail, login e senha do aluno em campos 
+editáveis. 
+
+e. O professor edita o aluno e clica em salvar. 
+
+f. O sistema grava as novas informações do aluno. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU02 – Cadastrar atividade 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar uma atividade 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar atividade” na aba de cadastros. 
+
+
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para o nome, data de 
+início e término, responsável, prioridade e descrição da atividade, como campos obrigatórios, 
+e o botão “Cadastrar atividade”. 
+
+3. O professor preenche os campos obrigatórios e clica no botão Cadastrar atividade. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações da 
+atividade nova. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar a atividade 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c.  O professor clica na atividade que deseja ver. 
+
+d. O sistema mostra ao professor uma tela com o nome, data de início e término, responsável, 
+prioridade e descrição da atividade, e seus respectivos envolvidos e suas tarefas, além dos 
+botões de editar e excluir.  
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir a atividade 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c.  O professor clica na atividade que deseja ver. 
+
+d. O sistema mostra ao professor uma tela com o nome, data de início e término, responsável, 
+prioridade e descrição da atividade, e seus respectivos envolvidos e suas tarefas, e os botões 
+de editar e excluir.  
+
+e. O professor clica em excluir. 
+
+f. O sistema exclui a atividade do sistema e volta para a tela de atividades. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar uma atividade 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c. O professor clica em editar. 
+
+d. O sistema mostra ao professor o nome, data de início e término, responsável, prioridade e 
+descrição da atividade em campos editáveis. 
+
+e. O professor edita a atividade e clica em salvar. 
+
+f. O sistema grava as novas informações da atividade. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU03 – Cadastrar envolvido em atividade 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um envolvido em uma atividade 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema, já escolheu um projeto e  selecionou a 
+atividade 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao professor uma tela, com as informações da atividade e na aba de 
+envolvidos, um select box com todos os alunos do projeto que não estão envolvidos naquela 
+atividade, além de uma lista com os envolvidos da atividade. 
+
+2 O professor seleciona o aluno no select box apresentado na aba de envolvidos da atividade e 
+clica em adicionar envolvido 
+
+3. O sistema adiciona o envolvido na atividade. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU04 – Cadastrar envolvido em grupo 
+
+
+
+Sumário: O professor usa o sistema para cadastrar um envolvido em um grupo 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema, já escolheu um projeto e selecionou o 
+grupo 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao professor uma tela, com as informações do grupo e na aba de 
+envolvidos, um select box com todos os alunos do projeto que não possuem grupos, além de 
+uma lista com os envolvidos do grupo. 
+
+2 O professor seleciona o aluno no select box apresentado na aba de envolvidos do grupo e 
+clica em adicionar envolvido 
+
+3. O sistema adiciona o envolvido no grupo. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU05 – Cadastrar envolvido em papel 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um envolvido em um papel 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema, já escolheu um projeto e já selecionou o 
+papel 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao professor uma tela, com as informações do papel e na aba de 
+envolvidos, um select box com todos os alunos do sistema que ainda não possuem papéis em 
+um projeto, além de uma lista com os envolvidos do papel. 
+
+2 O professor seleciona o aluno no select box apresentado na aba de envolvidos do papel e 
+clica em adicionar envolvido 
+
+3. O sistema adiciona o envolvido no papel. 
+
+ 
+
+
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU06 – Cadastrar envolvido em tarefa 
+
+Sumário: O aluno/professor usa o sistema para cadastrar um envolvido em uma tarefa 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado, já escolheu um projeto no sistema e selecionou 
+a tarefa 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao aluno/professor uma tela, com as informações da tarefa e na aba de 
+envolvidos, um select box com todos os alunos do projeto que não estão envolvidos naquela 
+tarefa, além de uma lista com os envolvidos da tarefa. 
+
+2 O aluno/professor seleciona o aluno no select box apresentado na aba de envolvidos da 
+tarefa e clica em adicionar envolvido 
+
+3. O sistema adiciona o envolvido na tarefa. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU07 – Cadastrar grupo 
+
+Sumário: O professor usa o sistema para cadastrar um grupo 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar grupo” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para o nome e 
+descrição do grupo, como campos obrigatórios, e o botão “Cadastrar grupo”. 
+
+
+
+3. O professor preenche os campos obrigatórios e seleciona a opção desejada. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo grupo. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o grupo 
+
+a. O professor clica no link de “Grupos”. 
+
+b. O sistema mostra ao professor os grupos do projeto com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor seleciona o grupo que deseja visualizar. 
+
+d. O sistema mostra ao professor uma tela com o nome, descrição e os envolvidos do grupo. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o grupo  
+
+a. O professor clica no link de “Grupos”. 
+
+b. O sistema mostra ao professor os grupos do projeto com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor clica em excluir. 
+
+d. O sistema exclui o grupo escolhido pelo professor. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um grupo 
+
+a. O professor clica no link de “Grupos”. 
+
+b. O sistema mostra ao professor os grupos do projeto com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor seleciona a opção de editar. 
+
+d. O sistema mostra ao professor uma tela com o nome e descrição do grupo em campos 
+editáveis. 
+
+e. O professor preenche os campos editáveis e clica em editar. 
+
+f. O sistema salva as novas alterações no grupo. 
+
+ 
+
+
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU08 – Cadastrar papel 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um papel 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar papel” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para a função e a 
+descrição do papel, como campos obrigatórios, e o botão “Cadastrar papel”. 
+
+3. O professor preenche os campos obrigatórios e seleciona a opção desejada. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo papel. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o papel 
+
+a. O professor clica nas informações do projeto. 
+
+b. O sistema mostra ao professor as informações do projeto, além dos papéis com seus 
+respectivos botões de excluir e editar. 
+
+c. O professor seleciona o papel que deseja visualizar. 
+
+d. O sistema mostra ao professor uma tela com o nome, descrição e os envolvidos do papel. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o papel  
+
+a. O professor clica nas informações do projeto. 
+
+b. O sistema mostra ao professor as informações do projeto, além dos papéis com seus 
+respectivos botões de excluir e editar. 
+
+
+
+c. O professor clica em excluir. 
+
+d. O sistema exclui o papel escolhido pelo professor. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um papel 
+
+a. O professor clica nas informações do projeto. 
+
+b. O sistema mostra ao professor as informações do projeto, além dos papéis com seus 
+respectivos botões de excluir e editar. 
+
+c. O professor seleciona a opção de editar. 
+
+d. O sistema mostra ao professor uma tela com o nome e descrição do papel em campos 
+editáveis. 
+
+e. O professor preenche os campos editáveis e clica em editar. 
+
+f. O sistema salva as novas alterações no papel. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU09 – Cadastrar pergunta frequente 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar uma pergunta frequente 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar pergunta frequente” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para a pergunta e a 
+resposta, como campos obrigatórios, e o botão “Cadastrar pergunta frequente”. 
+
+3. O professor preenche os campos obrigatórios e seleciona a opção desejada. 
+
+3. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações da 
+nova pergunta frequente. 
+
+
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar a pergunta frequente 
+
+a. O professor clica em “Perguntas frequentes”. 
+
+b. O sistema mostra ao professor todas as perguntas frequentes, com seus respectivos botões 
+de editar e excluir. 
+
+c. O professor seleciona a pergunta frequente que deseja visualizar. 
+
+d. O sistema mostra ao professor uma tela com a pergunta e a resposta desejada. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir a pergunta frequente 
+
+a. O professor clica em “Perguntas frequentes”. 
+
+b. O sistema mostra ao professor todas as perguntas frequentes, com seus respectivos botões 
+de editar e excluir. 
+
+c. O professor clica em excluir. 
+
+d. O sistema exclui a pergunta frequente escolhida pelo professor. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar uma pergunta frequente 
+
+a. O professor clica em “Perguntas frequentes”. 
+
+b. O sistema mostra ao professor todas as perguntas frequentes, com seus respectivos botões 
+de editar e excluir. 
+
+c. O professor seleciona a opção de editar. 
+
+d. O sistema mostra ao professor uma tela com a pergunta e a resposta da pergunta frequente 
+em campos editáveis. 
+
+e. O professor preenche os campos editáveis e clica em editar. 
+
+f. O sistema salva as novas alterações da nova pergunta frequente. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+
+
+CSU10 – Cadastrar professor 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um professor 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar professor” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para o nome, 
+matrícula, e-mail, login e senha do professor, como campos obrigatórios, e o botão “Cadastrar 
+professor”. 
+
+3. O professor preenche os campos obrigatórios e clica no botão Cadastrar professor. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo professor. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o professor 
+
+a.  O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir.  
+
+c. O professor clica em envolvidos e seleciona o professor que deseja visualizar. 
+
+d. O sistema mostra ao professor o nome, matrícula, e-mail e login do professor. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o professor 
+
+a. O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir. 
+
+c. O professor clica em envolvidos e seleciona o ícone de excluir o professor que deseja. 
+
+d. O sistema exclui o professor do sistema e volta para a tela de informações do projeto. 
+
+
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um professor 
+
+a.  O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir.  
+
+c. O professor clica em envolvidos e seleciona o ícone de excluir o professor que deseja. 
+
+d. O sistema mostra ao professor o nome, matrícula, e-mail, login e senha do professor em 
+campos editáveis. 
+
+e. O professor edita o aluno e clica em salvar. 
+
+f. O sistema grava as novas informações do professor. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU11 – Cadastrar projeto 
+
+ 
+
+Sumário: O professor usa o sistema para cadastrar um projeto 
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor seleciona “cadastrar projeto” na aba de cadastros. 
+
+2 O sistema apresenta ao professor uma tela, contendo campos de texto para o nome do 
+projeto, descrição, data de início e data de término, como campos obrigatórios, e o botão 
+“Cadastrar projeto”. 
+
+3. O professor seleciona a opção desejada. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo projeto. 
+
+5. O sistema volta para a tela de cadastros. 
+
+
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o projeto  
+
+a.  O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir.  
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o projeto  
+
+a. O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir. 
+
+c. O professor clica em excluir. 
+
+d. O sistema excluir o projeto e o professor volta para a tela de login. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um projeto 
+
+a. O professor clica na opção de visualizar as informações do projeto. 
+
+b. O sistema mostra ao professor uma tela com o nome, data de início e termino, autor, 
+papéis, grupos e envolvidos do projeto e os botões de editar e excluir. 
+
+c. O professor clica em editar. 
+
+d. O sistema mostra ao professor o nome, data de início e termino e autor em campos 
+editáveis. 
+
+e. O professor edita os campos e clica em salvar. 
+
+f. O sistema salva os dados do projeto e volta para a tela de informações dele. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU12 – Cadastrar tarefa 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para cadastrar uma tarefa 
+
+
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O aluno/professor seleciona “cadastrar tarefa” na aba de cadastros. 
+
+2 O sistema apresenta ao aluno/professor uma tela, contendo campos de texto para o nome, 
+data de início e término, responsável, prioridade e descrição da tarefa, como campos 
+obrigatórios, e o botão “Cadastrar tarefa”. 
+
+3. O aluno/professor preenche os campos obrigatórios e clica no botão Cadastrar tarefa. 
+
+4. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações da 
+nova tarefa. 
+
+5. O sistema volta para a tela de cadastros. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar a tarefa 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c.  O professor clica na atividade relativa à tarefa que deseja ver. 
+
+d. O sistema mostra ao professor uma tela com o nome, data de início e término, responsável, 
+prioridade e descrição da atividade, e seus respectivos envolvidos e suas tarefas, além dos 
+botões de editar e excluir. 
+
+e. O professor seleciona a tarefa que deseja ver. 
+
+f. O sistema mostra ao professor uma tela com o nome, data de início e término, responsável, 
+prioridade e descrição da tarefa, e seus respectivos envolvidos. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir a tarefa 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c.  O professor clica na atividade relativa à tarefa que deseja ver. 
+
+
+
+d. O sistema mostra ao professor uma tela com as informações da atividade, além das tarefas 
+com seus respectivos botões de editar e excluir.  
+
+e. O professor clica em excluir. 
+
+f. O sistema exclui a atividade do sistema e volta para a tela da atividade daquela tarefa. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar uma tarefa 
+
+a.  O professor clica na aba “Atividades/Tarefas”. 
+
+b. O sistema mostra ao professor uma tela com as atividades do projeto com seus respectivos 
+botões de excluir e editar. 
+
+c.  O professor clica na atividade relativa à tarefa que deseja ver. 
+
+d. O sistema mostra ao professor uma tela com as informações da atividade, além das tarefas 
+com seus respectivos botões de editar e excluir.  
+
+e. O professor clica em editar. 
+
+f. O sistema mostra ao professor o nome, data de início e término, responsável, prioridade e 
+descrição da tarefa em campos editáveis. 
+
+e. O professor edita a tarefa e clica em salvar. 
+
+f. O sistema grava as novas informações da tarefa. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU13 – Cadastrar tópico 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para cadastrar um tópico no fórum 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O aluno/professor clica em “Fórum” 
+
+
+
+2. O sistema apresenta ao aluno/professor os tópicos criados e um botão “Novo tópico”. 
+
+3. O aluno/professor clica no botão “Novo tópico”. 
+
+3. O sistema apresenta ao aluno/professor uma tela, contendo campos de texto para o título e 
+descrição do tópico, como campos obrigatórios, e o botão “Cadastrar tópico”. 
+
+4. O aluno/professor preenche os campos obrigatórios e seleciona a opção desejada. 
+
+5. O sistema verifica se os campos obrigatórios foram preenchidos e salva as informações do 
+novo tópico. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja visualizar o tópico 
+
+a. O professor clica no link “Fórum”. 
+
+b. O sistema mostra ao professor os tópicos do fórum com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor seleciona o tópico que deseja visualizar. 
+
+d. O sistema mostra ao professor uma tela com o título, descrição e os comentários do tópico. 
+
+ 
+
+Fluxo alternativo (1): O professor deseja excluir o tópico  
+
+a. O professor clica no link “Fórum”. 
+
+b. O sistema mostra ao professor os tópicos do fórum com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor clica em excluir. 
+
+d. O sistema exclui o tópico escolhido pelo professor. 
+
+ 
+
+Fluxo alternativo (1): O professor decide editar um tópico 
+
+a. O professor clica no link “Fórum”. 
+
+b. O sistema mostra ao professor os tópicos do fórum com seus respectivos botões de editar e 
+excluir. 
+
+c. O professor seleciona a opção de editar. 
+
+d. O sistema mostra ao professor uma tela com o título e descrição do tópico em campos 
+editáveis. 
+
+e. O professor preenche os campos editáveis e clica em editar. 
+
+
+
+f. O sistema salva as novas alterações no tópico. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU14 – Visualizar alertas 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para visualizar seus alertas 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+1. O aluno/professor clica em “Alertas”. 
+
+2 O sistema mostra ao aluno/professor todos os seus alertas recebidos e os enviados. 
+
+3. O aluno/professor clica no alerta desejado. 
+
+4. O sistema mostra ao aluno/professor as informações do alerta selecionado. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU15 – Enviar alerta 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para enviar um alerta 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema e já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+
+
+1. O aluno/professor clica em “Enviar alerta”. 
+
+2 O sistema mostra ao aluno/professor um campo de texto para descrição do alerta e uma lista 
+de envolvidos do projeto, além do botão de “Enviar”. 
+
+3. O aluno/professor escreve a descrição do alerta, seleciona os destinatários e clica em enviar. 
+
+4. O sistema envia o alerta para os destinatários. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU16 – Escolher projeto 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para escolher um projeto 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor acaba de logar no sistema 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao aluno/professor uma lista com os seus respectivos projetos. 
+
+2 O aluno/professor seleciona o projeto e clica em “Escolher projeto”. 
+
+3. O sistema apresenta a página inicial daquele projeto ao aluno/professor. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU17 – Entrar no sistema 
+
+ 
+
+Sumário: O aluno/professor loga no sistema 
+
+Ator primário: aluno/professor  
+
+
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema apresenta ao aluno/professor uma página com os campos para login e senha além 
+do botão “Logar”. 
+
+2 O aluno/professor preenche os campos e clica em “Logar”. 
+
+3. O sistema loga o usuário. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU18 – Comentar um tópico 
+
+ 
+
+Sumário: O aluno/professor usa o sistema para comentar um tópico no fórum 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto e um tópico 
+
+ 
+
+Fluxo Principal:  
+
+1. O sistema mostra ao aluno/professor uma tela com as informações do tópico e no canto 
+inferior, um campo de texto para descrição do comentário e o botão “Enviar”. 
+
+2. O aluno/professor preenche o comentário e clica em “Enviar”. 
+
+3. O sistema apresenta ao aluno/professor as informações atualizadas do tópico. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU19 – Gerar relatório 
+
+ 
+
+Sumário: O professor usa o sistema para gerar um relatório 
+
+
+
+Ator primário: professor  
+
+Pré-condições: O professor está logado no sistema, já escolheu um projeto e um tópico 
+
+ 
+
+Fluxo Principal:  
+
+1. O professor clica em “Relatórios”. 
+
+2. O sistema mostra ao professor uma lista com os alunos para gerar relatórios individuais e 
+um botão “Relatório Geral”. 
+
+3. O professor clica em “Relatório Geral”. 
+
+4. O sistema apresenta ao professor os dados quantitativos do relatório. 
+
+ 
+
+Fluxo alternativo (2): O professor decide gerar um relatório individual 
+
+a. O professor clica no aluno desejado. 
+
+b. O sistema mostra ao professor o relatório individual, contendo dados quantitativos do 
+aluno. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU20 – Enviar um e-mail 
+
+Sumário: O aluno/professor usa o sistema para enviar um e-mail 
+
+Ator primário: aluno/professor  
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto e um tópico 
+
+ 
+
+Fluxo Principal:  
+
+1. O aluno/professor clica em “Enviar e-mail”. 
+
+2. O sistema apresenta ao aluno/professor campos para o destinatário, assunto e descrição do 
+e-mail, além do botão “Enviar”. 
+
+3. O aluno/professor preenche os campos e clica no botão “Enviar”. 
+
+
+
+4. O sistema envia um e-mail para o destinatário desejado. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU21 – Adicionar artefato 
+
+Sumário: O aluno/professor usa o sistema para adicionar um artefato na atividade 
+
+ 
+
+Ator primário: aluno/professor  
+
+ 
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto e a atividade 
+
+ 
+
+Fluxo Principal:  
+
+ 
+
+1. O sistema mostra ao aluno/professor uma tela com as informações da atividade e seus 
+respectivos artefatos, além de um botão “Adicionar artefato”. 
+
+2 O aluno/professor clica em “Adicionar artefato”. 
+
+3. O sistema mostra ao aluno/professor uma janela contendo os arquivos de seu respectivo 
+computador. 
+
+4. O aluno/professor seleciona o arquivo desejado e clica em “salvar”. 
+
+5. O sistema adiciona o artefato à atividade e atualiza as informações da atividade. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU22 – Adicionar conteúdo na biblioteca virtual 
+
+Sumário: O aluno/professor usa o sistema para adicionar um conteúdo na biblioteca virtual 
+
+ 
+
+
+
+Ator primário: aluno/professor  
+
+ 
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+ 
+
+1. O aluno/professor clica em “Biblioteca virtual”. 
+
+2. O sistema apresenta ao aluno/professor todos os arquivos relacionados ao conteúdo da 
+biblioteca virtual, além do botão “Adicionar conteúdo”. 
+
+3. O aluno/professor clica no botão “Adicionar conteúdo”. 
+
+4. O sistema mostra ao aluno/professor uma janela contendo os arquivos de seu respectivo 
+computador. 
+
+5. O aluno/professor seleciona o arquivo desejado e clica em “salvar”. 
+
+6. O sistema adiciona o conteúdo na biblioteca virtual e atualiza suas informações. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+CSU23 – Visualizar cronograma 
+
+Sumário: O professor usa o sistema para visualizar o cronograma do projeto 
+
+ 
+
+Ator primário: professor  
+
+ 
+
+Pré-condições: O professor está logado no sistema, já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+ 
+
+1. O aluno/professor clica em “Visualizar cronograma”. 
+
+
+
+2. O sistema apresenta ao aluno/professor todos as atividades do projeto escolhido e suas 
+respectivas tarefas, informando as datas de início e de término, seus status e suas respectivas 
+tarefas ou atividades antecessoras. 
+
+3. O aluno/professor clica no botão “Adicionar conteúdo”. 
+
+4. O sistema mostra ao aluno/professor uma janela contendo os arquivos de seu respectivo 
+computador. 
+
+5. O aluno/professor seleciona o arquivo desejado e clica em “salvar”. 
+
+6. O sistema adiciona o conteúdo na biblioteca virtual e atualiza suas informações. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+CSU24 – Entrar no chat 
+
+Sumário: O aluno/professor usa o sistema para entrar no chat 
+
+ 
+
+Ator primário: aluno/professor  
+
+ 
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto 
+
+ 
+
+Fluxo Principal:  
+
+ 
+
+1. O sistema apresenta ao aluno/professor a tela inicial do projeto escolhido com as 
+informações do projeto e o botão “Chat online”. 
+
+2. O aluno/professor clica no botão “Chat online”. 
+
+3. O sistema adiciona o aluno/professor na lista de usuários online do chat do sistema e o caso 
+de uso se encerra. 
+
+ 
+
+Regras de negócio: N/A 
+
+ 
+
+ 
+
+
+
+CSU25 – Enviar mensagem 
+
+Sumário: O aluno/professor usa o sistema enviar uma mensagem no chat 
+
+ 
+
+Ator primário: aluno/professor  
+
+ 
+
+Pré-condições: O aluno/professor está logado no sistema, já escolheu um projeto e já entrou 
+no chat 
+
+ 
+
+Fluxo Principal:  
+
+ 
+
+1. O sistema mostra ao aluno/professor o chat online contendo as mensagens enviadas, 
+usuários online, uma componente para texto e o botão “Enviar”. 
+
+2. O aluno/professor preenche o componente de texto referente à mensagem que deseja 
+enviar e clica no botão “Enviar”. 
+
+3. O sistema envia a mensagem solicitada, atualiza as mensagens enviadas do chat e o caso de 
+uso se encerra. 
+
+ 
+
+Regras de negócio: N/A

@@ -1,0 +1,481 @@
+﻿Novel Three-Input Gates for Silicon Quantum Dot
+Maria D. Vieira1, Ícaro G. S. Moreira1, Pedro A. R. L. Silva3, Laysson O. Luz3
+
+Ricardo S. Ferreira2, Omar P. V. Neto3, José A. M. Nacif1
+1Science and Technology Institute, Universidade Federal de Viçosa, Florestal, Minas Gerais, Brasil
+
+2Informatics Departament, Universidade Federal de Viçosa, Viçosa, Minas Gerais, Brasil
+3Department of Computer Science, Universidade Federal de Minas Gerais, Belo Horizonte, Brazil
+
+{maria.dalila, ricardo, jnacif}@ufv.br, {omar}@dcc.ufmg.br
+
+Abstract—Atomic Silicon Quantum Dot (SQD) is a prominent pair of DBs stores a bit of information depending on the
+alternative to the current Complementary Metal Oxide Semicon- location of a negative charge within. This pair, which is
+ductor (CMOS) transistor due to the low energy consumption nearly 1 nm in size, can be considered the minimum unit that
+and high integration potential. This emerging technology applies
+Silicon Dangling Bonds (DBs) that behave similarly to quantum- interacts with other closed pairs. As a comparison, the QCA
+dots. Moreover, it does not require cryogenic temperatures, and NML minimum unit measures about dozens and hundreds
+unlike other quantum-dot-based approaches. This paper proposes of nanometers, respectively. Unfortunately, complex structures
+two novel 3-input gates, ORAND(x, y, z) := x ∧ (y ∨ z) and require precise control of desorption, which can be challenging
+ANDOR(x, y, z) := x∧ y ∨ z. Hence, we compare these 3-input to achieve yet [10].
+designs with the equivalent circuits composed of 2-input gates.
+We use the state-of-the-art simulator, named SiQAD, to design
+and validate our experiments. Our main contribution is the novel Gate design constitutes a basic challenge in any technology.
+3-input gate designs that provide area and energy reductions. We As an example, Kawai et al. [11] propose four logical SQD
+achieve an average of 53% energy savings for all 3-input gates gates (OR, NOR, AND, and NAND) over the Si(100)-(2 ×
+compared to the equivalent circuit built with 2-input gates. 1)-H surface and connected by metallic nano-pads. Previous
+
+I. I work introduce design rules which are directives for the
+NTRODUCTION
+
+implementation of 2-input SQD gates: Y-shape [12] and T-
+Novel technologies emerge as a response to the well-known shape [5]. Bahar et al. [12] proposes a 3-input SQD majority
+
+Complementary Metal Oxide Semiconductor (CMOS), which gate, wire crossing structures, and one full-adder. Furthermore,
+are close to reaching its physical limitations [1]. In this there is a great possibility of integration between SQD and
+scenario, the Field Coupled Nanocomputing (FCN) has be- CMOS [13].
+come a spare solution. This prospective alternative allows for
+the continuous development of high-performance computing Considering the influence that geometry (distances and
+devices with ultra-lower energy dissipation and high-density angles between DBs) has on gate behavior [8], we use an
+integration, pushing the boundaries of atomic limitations [2]. empirical approach to explore the development of new 3-input
+
+There are three main FCN alternatives: Nanomagnetic Logic gates. Regarding circuit design in general, the power efficiency
+(NML), Quantum-dot Cellular Automata (QCA), and the and area are notable features to be minimized. Although prior
+emerging Atomic Silicon Quantum Dot (SQD). The NML works have shown that 3-input gates could have area and
+consists of a non-volatile architecture that applies magneto- energy costs slightly higher than 2-input gates for other FCN
+static interactions between single-domain devices to propa- technologies [14], [15], here we explored together two new
+gate and process signals, working at room temperature [3]. promising alternatives, SQD and newly defined three inputs
+Otherwise, QCA and SQD rely on Coulombic interactions gates. Then, we also compare these results with the costs for
+between electrons [4], [5] with no electric current flows [6]. QCA and NML. We will show that there is a potential to save
+Although the QCA is the pioneering FCN, it does not have a energy and area.
+well-established and reliable physical implementation process.
+The main challenge is to achieve the quantum dots stability at We organize this paper as follows. In Section II we review
+room temperature, avoiding the cryogenic levels required by the Atomic Silicon Quantum dot technology, focusing on its
+the metallic dot QCA structure [7]. essential elements and signal propagation methodology. This
+
+On the other hand, the SQD technology presents a robust Section also compares the 2-input XOR design with the XOR3
+physical synthesis implementation, working at room tempera- for the FCN, as mentioned earlier. In the Section IV, we
+ture [8]. This synthesis consists of Si Dangling Bonds (DBs) present the literature SQD building blocks, our new design
+created by the desorption of specific single hydrogen atoms rules for DB-based circuits, and our novel 3-input gates.
+from a hydrogen-terminated silicon crystal surface. In more We show the quality and physical validity of our designs in
+details, the interaction between the electronic charges in the Section V, highlighting the reduction of both area and energy
+DBs enables logic representation [9]. Any SQD circuit is costs for ANDOR and ORAND. Then, in Section VI, we
+constructed by arranges of Dangling Bonds (DBs), where a conclude by summarizing our results and main contributions.
+
+
+
+II. BACKGROUND ￼ input X input Y
+
+In this section, we present the basics of silicon quantum dot 1 1
+computing. Also, we review 3-input gate classes. ut Y
+
+1 inp
+1
+
+A. Silicon Quantum Dots
+1
+
+The state-of-the-art methodology to create individual silicon
+1
+
+DBs is to use a scanning tunneling microscope (STM) probe
+to apply a voltage pulse at a hydrogen location, breaking the
+Si-H bond and creating a valence orbital. The individual DB          (a)                                               (b)
+can be in one of three possible states: the doubly occupied
+negative state (DB−), singly occupied neutral state (DB0), Fig. 3. 2-input gate AND: (a) T-shape design. (b) Y-shape-design.
+and unoccupied positive state (DB+) [16]. Each DB pair can
+hold one negative charge and, depending on the position of
+this charge, can represent binary 0 or binary 1. The desired B. 3-input Gate Classes
+logic state can be achieved by the presence of a perturber, The use of 3-input gates is a well-known alternative to re-
+a neighbor DB configured to remain always in the DB− duce area costs in real FCN-based circuits [14], [15]. Recently,
+state. Figure 1(a) and Figure 1(b) present binary 0 and 1, Marakkalageet et al. [17] present a detailed analysis of 3-
+respectively. The two closest circles represent a DB pair, while input gate classes for logic synthesis, where the logic gate
+the further is the perturber. The colored ones contain the Dot(x, y, z) = x⊕ (z ∨x∧ y) achieves the highest trade-offs.
+negative charge. For 3-input gates, there are 22
+
+3
+= 256 Boolean functions.
+
+However, many of these gates are equivalent due to Negation-
+Permutation-Negation (NPN) zero-cost transformations (input
+permutations or addition of inverters). Therefore, these 256
+functions are equivalent to 14 NPN classes, where 4 of them
+
+Fig. 1. Basic logic configurations. (a) Binary 0. (b) Binary 1. only use 2 variables. Table I presents the remaining ten 3-input
+gates.
+
+More complex structures (wire, gate, and circuits) are
+composed of sets of well-distributed DBs. Huff et al. [16]
+
+TABLE I
+define a wire as a sequence of DB pairs (Figure 2). Such as NPN CLASSES FOR 3-INPUT GATES
+a single DB, the wires also need one perturber (or input) to
+determine the signal flow. Figure 2(a) and Figure 2(b) present Gate Logical Expression
+
+And3 x ∧ y ∧ z
+two wires carrying binary information 0 and 1, respectively. XorAnd x ∧ (y ⊕ z)
+Lastly, a self-polarized configuration establishes a bidirectional OrAnd x ∧ (y ∨ z)
+
+propagation of opposed signals in the same wire. Figure 2(c) Onehot x¬y¬z ⊕ ¬xy¬z ⊕ ¬x¬yz
+Majority < xyz >
+
+illustrates this example, where the signals propagate in op- Gamble x ∧ y ∧ z ⊕ ¬x ∧ ¬y ∧ ¬z
+posed directions. Dot x⊕ (z ∨ x ∧ y)
+
+Mux x?y : z
+AndXor x⊕ y ∧ z
+
+Xor3 x⊕ y ⊕ z
+
+III. RELATED WORK
+
+In this section, we present recent work on the impact of
+using 3-input gates in FCN technologies. For NML-based
+circuits, there is a massive challenge in shrinking circuits by
+using 3-input gates. Das et al. [14] propose an NML-based
+circuit equivalent to the logical XOR3. This design is com-
+
+Fig. 2. A wire of DBs. (a) Propagation of signal 0. (b) Propagation of signal
+1. (c) Bidirectional propagation of 0 and 1 posed of two XOR gates. It is smaller than the conventional
+
+solution with two XOR gates and one XNOR. On the other
+There are two main design rules for gate development, Y- hand, there are prominent QCA-based 3-input gates for some
+
+shape [5] and T-shape [12]. Both rules provide similar areas specific logical expressions. Bahar et al. [15] propose a XOR3
+and energy efficiency. Figure 3(a) and Figure 3(b) present the gate that uses barely the same area that the XOR2 does.
+2-input AND gate designed in T-shape and Y-shape, respec- To the best of our knowledge, there is no work comparing
+tively. Both circuit figures show the (1, 1) input combination. DB-based 3-input gates with the correspondent design built
+Red squares highlight input perturbers while blue squares with 2-input gates yet, or even similar area ratios for the
+contrast output perturbers, which are important to maintain QCA circuits. Nevertheless, regarding the 2-input designs, the
+circuit logic and stability. SQD implementation of some logical expressions can have
+
+output
+
+inp
+ut X
+
+output
+
+
+
+slight area increases [12]. For instance, a prior XOR3 design distance from 10 to 9 (green arrow). Also, we have shifted
+has an area ratio of 2.53 over the XOR2 [12]. Amongst both the leftmost and rightmost DBs pairs to the left, resulting
+all nanotechnologies, the SQD is the one that needs the in a distance from the center of 6 and 3, respectively. For this
+most extended wires to avoid undue Coulombic interactions configuration, the angles of the individual DBs did not change,
+between too close DB pairs. Thus, reducing the number of but we have increased their distance by 26.66% (red box).
+logic gates in a circuit could eliminate unnecessary wires and
+get even area reduction higher than the QCA. In this context, B. Tuning T-shape 2-input gates
+we propose novel 3-input gates with lower area and energy We compare our novel 3-input gates with the equivalent
+costs as an alternative implementation in comparison to 2- circuits composed of 2-input gates AND and OR. In this
+input gate design due to the saving of wire length. scenario, we must tune the T-shape gates [12] to use them
+
+IV. METHODOLOGY in circuits with more than one gate. Starting from 2-input
+gate basic blocks, a simple wire to connect gates is the
+
+In this section, we depict our approach to derive other first challenge, where we must ensure that there is no in-
+Silicon-DB gates starting from a known gate. We evaluate our terference between the DB pairs. Otherwise, the circuit can
+designs using the SiQAD [5] simulation tool, which allows us have unexpected behavior. For this reason, our AND&OR and
+to exploit three main well-known possibilities for logic gate OR&AND implementations incorporate T-shape 2-input gates
+design: moving input-output perturber, changing the distance with some adjustments as shown in Fig. 5. Connecting SQD
+between DBs, and varying the distance between dots from the gates has three main challenges: (1) ensure that the inputs do
+same DB. Section IV-A presents our novel 3-input layouts. not influence each other; (2) the inputs cannot do undue shifts
+Section IV-B shows the design challenges to build circuits by at the output charge; (3) finally, the distances between DB
+using 2-input gates and T-shape rules [12]. We compare these pairs in a wire must be suitable to avoid unwanted Coulombic
+circuits with our 3-input gates. We use a notation to contrast repulsion. Therefore, we must adjust prior 2-input gates to
+the 3-input with the 2-input gates. For the first case, we use design circuits using them.
+the suffix 3 (e.g., ANDOR3), and for the 2-input designs, we Fig. 5 shows our proposal to avoid interference in 2-input
+use the separator ’&’ (e.g., AND&OR). gate circuit design. We modify the T-shape 2-input gates OR
+A. Novel 3-input Gates and AND from related work [12]. The visual marks mean
+
+We have designed two novel 3-input gates: ORAND3 and as follows: (1) the red arrows highlight the input distances,
+ANDOR3. We choose these gates as they represent one NPN and how to increase it to avoid input-to-input interference; (2)
+3-input gate class [17]. Moreover, AOI (And-Or-Invert) and the green arrows show the increase in the gap that separates
+OAI (Or-And-Invert) gates are well-know gates present in the two DB pairs from the gate output to avoid unexpected
+standard cell CMOS libraries and supported by EDA mapping Coulombic repulsion; (3) the blue arrows shows the reduction
+tools. Formally, the logic equations are: in the space between the input line and the first output DB
+
+in order to avoid undue pop effect; and 4) finally, the blue
+squares indicate augmentation of the internal distance of dots
+
+ORAND3(x, y, z) = x ∧ (y ∨ z) (1)
+from the same DB, avoiding desorption.
+
+ANDOR3(x, y, z) = x ∧ y ∨ z (2) V. RESULTS
+
+Figure 4 presents ORAND3 and ANDOR3 gates and also We organize this section as follows. Section V-A presents
+the process of varying angles and distances to derive those the comparison between our 3-input gates and the equivalent
+gates starting from the MAJ3 gate proposed by Bahar et circuits composed of 2-input gates. Section V-B compares the
+al. [12]. To find those new gates, we have explored the solution reduction rates in terms of area and energy costs between
+space by randomly varying 3 parameters of the original MAJ3 the SQD designs and the correspondent circuits for QCA and
+port: (1) the vertical distance between the center DB-pairs NML.
+(blue arrows); (2) the horizontal distance between the leftmost
+and rightmost DB-pairs (green arrows); and (3) the angle and A. 2 versus 3-input SQD Gates
+distance between each individual DB (red arrows). Figure 6(a) presents the design of 2-input AND gates
+
+First, we describe how to achieve the ORAND3 gate starting followed by 2-input OR gates. On the other hand, Figure 6(b)
+from the original MAJ3 gate, depicted in Figure 4(b). We shows the logical equivalent 3-input ANDOR gate. Both
+have increased the vertical dimension of the two centered DB- circuits are presented with two different sets of inputs (0, 0, 0)
+pairs from 10 to 13 and also modified the angles between the and (0, 1, 1). Figure 7(a) and Figure 7(b) show the equivalent
+leftmost and rights most individual DBs. Figure 4(a) illustrates designs for the two inputs and three inputs ORAND gates,
+these modifications with the blue and red arrows, respectively. respectively. The blue-colored value bits indicate inputs, and
+
+Similarly, Figure 4(c) shows how to derive the ANDOR3 the red-colored bits refer to outputs. One can observe that the
+from the MAJ3 gate. We have increased the vertical distance 3-input gates are visually more compact than those designed
+from 10 to 11 (blue arrow) and decreased the horizontal with 2-input gates.
+
+
+
+         ORAND                          Majority                                  ANDOR
+
+13 11
+10
+
+10 6 3
+
+OUTPUT
+
+    (a)                                     (b)                                            (c)
+
+Fig. 4. Majority gate [12]. (a) Our 3-input ORAND. (b) 3-input Majority [12]. (c) Our 3-input ANDOR.
+
+(a) equivalent circuit composed by 2-input gates            (b) 3-input gate  
+
+0
+0 0
+
+0 0
+0 AND
+
+0
+0
+
+0 OR
+
+1
+Fig. 5. Ajusting the T-shape 2-input gates: (a) original T-shape AND [12]. 0 0
+(b) our T-shape AND version for circuits. (c) original T-shape OR [12]. (d) 0 1 1
+
+AND
+our T-shape OR version for circuits.
+
+1
+1
+
+1
+OR
+
+We designed and simulated all circuits using the the SiQAD  
+
+tool [5] with default simulation settings (µ = -0.25 eV, λTF = Fig. 6. Logic designs equivalent to ANDOR expression. (a) circuit composed
+5nm, and εr = 5.6) of the SimAnneal engine. All designs were by 2-input gates. (b) 3-input gate.
+validated by the simulator and were considered physically
+valid. In other words, they can be implemented in practice. TABLE II
+
+Table II and Table III present a comparison analysis between CONFIGURATION OCCURRENCE
+
+the the two and tree inputs designs. We also included the 3- input set ORAND3 OR&AND ANDOR3 AND&OR Majority [12] XOR3 [12]
+000 100 100 100 100 100 75
+
+input gates proposed by Bahar et al. [12]. Table II presents 001 87,5 81,25 82,25 93,75 93,74 56,25
+010 100 81,25 75 87,50 100 81,25
+
+the occurrence probability for each input combination. This 011 93,33 68,75 62,5 56,2 81,25 43,75
+
+value means the probability of the logic gate presenting the 100 81,25 86,95 91,37 87,5 93,49 50
+101 87,5 75 100 56,5 81,25 37,5
+
+correct logical result. We can observe that this probability is 110 65,13 81,25 87,5 68,75 81,25 62,5
+111 75 76,66 75 68,75 62,5 68,75
+
+higher for the proposed three inputs gates and equivalent to the Average 86,21 81,39 84,20 77,37 86,69 59,38
+
+probability of the majority gate proposed by Bahar et al. [12].
+Table III shows the energy cost for the same gates. The 3- B. Comparing the DB-based circuits with other FCNs
+
+input gates proposed in this work present the lowest energy
+cost. These gates achieve an energy reduction rate of almost We compare the reduction rate of three FCN technologies:
+53% when compared with their 2-input gates equivalent logical NML, QCA, and SQD. In more detail, we evaluate the ratio
+design. of reduction of area and energy costs that we could achieve
+
+
+
+(a) equivalent circuit composed by 2-input gates             (b) 3-input gate  
+
+0  
+
+0 0 AND
+0
+
+OR
+0 0
+
+OR
+
+0 0
+
+0 AND
+
+   (a)                                                                             (b)                           
+1
+
+1 0 Fig. 8. QCA-based logic designs: (a) AND&OR. (b) ANDOR3.
+0
+
+OR
+1 1
+
+1
+1 OR
+
+1
+AND AND
+
+Fig. 7. Logic designs equivalent to ORAND expression. (a) circuit composed
+by 2-input gates. (b) 3-input gate.
+
+TABLE III                          (a)                                                          (b)                           
+ENERGY COSTS
+
+Fig. 9. QCA-based logic designs: (a) OR&AND. (b) ORAND3.
+input set ORAND3 OR&AND ANDOR3 AND&OR Majority [12] XOR3 [12]
+
+000 020 0,66 0,22 0,67 0,22 0,69
+001 0,33 0,81 0,36 0,82 0,37 0,81
+010 0,33 0,81 0,35 0,81 0,36 0,84
+011 0,48 0,97 0,52 0,99 0,53 0,94
+100 0,34 0,79 0,34 0,82 0,37 0,97
+101 0,48 0,94 0,49 0,97 0,53 0,98
+110 0,49 0,94 0,49 0,96 0,54 0,93
+111 0,64 1,10 0,67 1,14 0,72 0,95
+
+Average 0,41 0,88 0,43 0,90 0,45 0,89 AND OR (a)
+Reduction 0,53 0,52
+
+when we switch the circuits AND&OR and OR&AND to the
+correspondent ANDOR3 and ORAND3. It not necessary to
+compare the three technologies since they present different
+sizes, as explained in the Introduction section. OR AND (b)
+
+Figure 8 shows the QCA-based AND&OR and ANDOR3.
+Similarly, Figure 9 presents the QCA logical implementa-
+tion of OR&AND and ANDOR3. These circuits are based
+on the Majority gate proposed by Kassa et al. [18]. We Fig. 10. NML-based logical gate for both expressions AND&OR and
+designed these 3-input gates and the 2-input configurations OR&AND.
+
+for QCA using the QCADesigner simulation tool. We applied
+the method proposed by Torres et al.[4] to calculate the energy when compared to the AND&OR gate and the ORAND3 when
+dissipation for the QCA-based circuits . Notice that we only compared to OR&AND for the three technologies. In both
+need to permute the inputs to turn the logical ANDOR3 to cases, the SQD presents the best energy improvement. The
+the ORAND3. Thus, the physical gate design could be the NML does not present any improvement since the designs
+same for both expressions if we consider the QCA-based are the same. Finally, Figure 12 presents the area reduction
+implementation. improvement. Once again, the SQD presents the best values.
+
+The NML technology does not enable the design of AN-
+DOR3 and ORAND3 directly due to magnetization interfer- VI. CONCLUSIONS AND FUTURE WORK
+
+ence. Thus, the logic can only be achieved when we implement This work presented two novel 3-input DB designs: AN-
+the 2-input gates connected. To do so, we designed the smaller DOR and ORAND. These gates are equivalent to one NPN
+possible circuit to implement the logic. The OR&AND and the class [17]. This class could be powerful in the SQD context,
+AND&OR circuits have a similar design. The only difference achieving a 53% energy decrease when we switch 2-input
+is in the cuts of two nanomagnets in the junctions. The designs for 3-input gates. We have verified all circuits using the
+were simulated using the NMLSim 2.0 simulation tool [19]. well-established simulation tool named SiQAD. Further, we
+
+Figure 11 shows the energy improvement of the ANDOR3 compare our circuits with other FCNs, such as NML and QCA,
+
+
+
+REFERENCES
+
+[1] R. K. Cavin, P. Lugli, and V. V. Zhirnov, “Science and engineering
+beyond moore’s law,” Proceedings of the IEEE, vol. 100, no. Special
+Centennial Issue, pp. 1720–1749, 2012.
+
+[2] N. G. Anderson and S. Bhanja, Field-Coupled Nanocomputing, 1st ed.
+Springer-Verlag Berlin Heidelberg, 2014.
+
+[3] E. Varga, A. Orlov, M. T. Niemier, X. S. Hu, G. H. Bernstein, and
+W. Porod, “Experimental demonstration of fanout for nanomagnetic
+logic,” IEEE Transactions on Nanotechnology, vol. 9, no. 6, pp. 668–
+670, 2010.
+
+[4] F. Sill Torres, R. Wille, P. Niemann, and R. Drechsler, “An energy-
+aware model for the logic synthesis of quantum-dot cellular automata,”
+IEEE Transactions on Computer-Aided Design of Integrated Circuits
+and Systems, vol. 37, no. 12, pp. 3031–3041, 2018.
+
+[5] S. S. H. Ng, J. Retallick, H. N. Chiu, R. Lupoiu, L. Livadaru, T. Huff,
+M. Rashidi, W. Vine, T. Dienel, R. A. Wolkow et al., “Siqad: A design
+and simulation tool for atomic silicon quantum dot circuits,” IEEE
+Transactions on Nanotechnology, vol. 19, pp. 137–146, 2020.
+
+[6] C. S. Lent and P. D. Tougaw, “A device architecture for computing with
+quantum dots,” Proceedings of the IEEE, vol. 85, no. 4, pp. 541–557,
+1997.
+
+[7] R. Chakraborty, D. De, A. Khan, C. Mukherjee, and S. Pramanik,
+“Effect of temperature and kink energy in multilevel digital circuit using
+quantum dot cellular automata,” in 2012 5th International Conference on
+Computers and Devices for Communication (CODEC), 2012, pp. 1–4.
+
+Fig. 11. Energy reduction improvement for FCNs: NML, SQD, and QCA. [8] M. B. Haider, J. L. Pitters, G. A. DiLabio, L. Livadaru, J. Y.
+Mutus, and R. A. Wolkow, “Controlled coupling and occupation
+of silicon atomic quantum dots at room temperature,” Phys.
+Rev. Lett., vol. 102, p. 046805, Jan 2009. [Online]. Available:
+https://link.aps.org/doi/10.1103/PhysRevLett.102.046805
+
+[9] H. Labidi, M. Taucer, M. Rashidi, M. Koleini, L. Livadaru, J. Pitters,
+M. Cloutier, M. Salomons, and R. Wolkow, “Scanning tunneling spec-
+troscopy reveals a silicon dangling bond charge state transition,” New
+Journal of Physics, vol. 17, 07 2015.
+
+[10] T. Huff, H. Labidi, M. Rashidi, M. Koleini, R. Achal, M. Salomons,
+and R. Wolkow, “Atomic white-out: Enabling atomic circuitry through
+mechanically induced bonding of single h atoms to a silicon surface,”
+ACS Nano, vol. 11, 06 2017.
+
+[11] H. Kawai, F. Ample, Q. Wang, Y. K. Yeo, M. Saeys, and C. Joachim,
+“Dangling-bond logic gates on a si(100)-(2 × 1)–h surface,” Journal
+of Physics: Condensed Matter, vol. 24, no. 9, p. 095011, feb 2012.
+[Online]. Available: https://doi.org/10.1088/0953-8984/24/9/095011
+
+[12] A. N. Bahar, K. A. Wahid, S. S. Ahmadpour, and M. Mosleh, “Atomic
+silicon quantum dot: A new designing paradigm of an atomic logic
+circuit,” IEEE Transactions on Nanotechnology, vol. 19, pp. 807–810,
+2020.
+
+[13] R. Wolkow, L. Livadaru, J. Pitters, M. Taucer, P. Piva, M. Salomons,
+M. Cloutier, and B. Martins, “Silicon atomic quantum dots enable
+beyond-cmos electronics,” vol. 8280, 10 2013.
+
+[14] J. Das, S. M. Alam, and S. Bhanja, “Addressing the layout constraint
+problem when cascading logic gates in nanomagnetic logic,” in 2012
+12th IEEE International Conference on Nanotechnology (IEEE-NANO),
+2012, pp. 1–4.
+
+[15] A. N. Bahar, S. Waheed, N. Hossain, and M. Asaduzzaman, “A novel 3-
+Fig. 12. Area reduction improvement for FCNs: NML, SQD, and QCA. input xor function implementation in quantum dot-cellular automata with
+
+energy dissipation analysis,” Alexandria Engineering Journal, vol. 57,
+no. 2, pp. 729–738, 2018.
+
+[16] T. Huff, H. Labidi, M. Rashidi, L. Livadaru, T. Dienel, R. Achal,
+achieving competitive energy and area costs. When comparing W. Vine, J. Pitters, and R. Wolkow, “Binary atomic silicon logic,” Nature
+power consumption and area in native 3-input gates with 3- Electronics, vol. 1, p. 636, 12 2018.
+input gates built with two 2-input gates in these technologies, [17] D. S. Marakkalage, E. Testa, H. Riener, A. Mishchenko, M. Soeken,
+
+and G. De Micheli, “Three-input gates for logic synthesis,” IEEE
+NML presents no advantage since both configurations are the Transactions on Computer-Aided Design of Integrated Circuits and
+same circuit. On the other hand, QCA and SQD present a Systems, pp. 1–1, 2020.
+significant reduction in power consumption and area, where [18] S. R. Kassa, R. Nagaria, and R. Karthik, “Energy efficient
+
+neoteric design of a 3-input majority gate with its implementation
+SQD reaches around 55% and 77%, respectively. and physical proof in quantum dot cellular automata,” Nano
+
+For future work, we will develop other 3-input DB gates that Communication Networks, vol. 15, pp. 28–40, 2018. [Online]. Available:
+https://www.sciencedirect.com/science/article/pii/S1878778917301400
+
+could reduce the area costs of some well-known circuits. We [19] L. A. Lascasas Freitas, J. G. Nizer Rahmeier, and O. P. Vilela Neto,
+also aim to propose strategies to establish minimum distances “Shape engineering for custom nanomagnetic logic circuits in nmlsim
+between the inputs, ensuring that the gate will have the same 2.0,” IEEE Design Test, pp. 1–1, 2020.
+
+behavior acting as an isolated system or as part of a circuit.

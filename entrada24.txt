@@ -1,0 +1,541 @@
+﻿Observer e Concrete Factory aplicados na arquitetura de um
+laboratório virtual de aprendizagem desenvolvido em Unit 3D
+
+Caio A. M. Campos Gláucia Braga e Silva
+caio.a.campos@ufv.br glaucia@ufv.br
+
+Universidade Federal de Viçosa Universidade Federal de Viçosa
+Florestal, MG, BR Florestal, MG, BR
+
+RESUMO presença de DNA em amostras biológicas, extração e purificação
+A utilização de padrões de projeto no desenvolvimento de jogos tem de DNA, amplificação de fragmentos de DNA pela técnica da PCR
+espaço na indústria e tem sido discutida na literatura, em especial, (Reação em Cadeia de Polimerase) e análise genômica de sequências
+pelos ganhos obtidos em termos de um desenvolvimento rápido, de DNA. As práticas permitem a imersão do estudante no universo
+mais modular e reutilizável. Este trabalho propõe a aplicação dos de um laboratório real de análises moleculares, incluindo o ma-
+padrões Observer e Concrete Factory, com o intuito de se avaliar os nuseio de equipamentos, vidrarias e reagentes. laboratório virtual
+impactos nos atributos de qualidade desempenho, modularidade supervisionado para práticas simuladas de genética e biologia mo-
+e manutenibilidade em um fragmento da arquitetura padrão do lecular. Atualmente, o UFV Virtual Labs simula 10 práticas na área
+UFV Virtual Labs. O UFV Virtual Labs é um laboratório virtual que da biologia molecular, mas vislumbra-se além do aumento do nú-
+simula diversas práticas laboratoriais desenvolvido utilizando tec- mero de práticas, extensões futuras para atender outras áreas do
+nologias de jogos na engine gráfica Unity3D. Esses padrões foram conhecimento, como computação, matemática, quimica e física.
+inseridos em um fragmento isolado da arquitetura do laboratório, Considerando-se o desenvolvimento com a tecnologia de jogos, o
+com o intuito de se melhorar, respectivamente, a gestão dos objetos UFV Virtual Labs foi desenvolvido utilizando a engine gráfica Unity
+gráficos manipulados e o controle dos gatilhos disparados pelas 3D e a linguagem orientada a objetos C# para programação da lógica
+ações do usuário. Para se avaliar o impacto da aplicação dos referi- das práticas simuladas. Do ponto de vista da arquitetura, alguns
+dos padrões, foram utilizadas métricas para se avaliar os atributos problemas de desempenho e alto acoplamento das classes devem ser
+de qualidade selecionados, comparando os resultados antes e depois investigados, em especial avaliando-se o potencial de escalabilidade
+da inserção dos padrões. do ambiente em relação ao número de usuários (estudantes), outras
+
+práticas e até mesmo outras áreas do conhecimento.
+ACM Reference Format: No que diz respeito ao desempenho, devido ao número excessivo
+Caio A. M. Campos and Gláucia Braga e Silva. 2022. Observer e Concrete
+Factory aplicados na arquitetura de um laboratório virtual de aprendizagem de instâncias à objetos gráficos, tem-se um baixo FPS, o que im-
+desenvolvido em Unit 3D. In SBCARS ’22:.ACM, New York, NY, USA, 8 pages. pacta negativamente na experiência do usuário. Outro desafio está
+https://doi.org/10.1145/nnnnnnn.nnnnnnn na gerência das ações realizadas pelo usuário durante a execução
+
+de uma prática sendo custoso o processo de incluir os possíveis
+1 INTRODUÇÃO gatilhos e erros que o estudante pode cometer. Como o usuário é
+
+livre para realizar o que deseja no ambiente de simulação, o con-
+Ferramentas computacionais de apoio à educação têm sido uti- trole dos gatilhos realizados pelas ações do usuário precisam estar
+lizadas como um recurso importante no auxílio ao processo de constantemente sendo observados. Essa é uma tarefa complicada
+aprendizagem. Em especial, ganham destaque aquelas que oferecem visto que, para adicionar uma nova ação ou um novo gatilho de
+recursos lúdicos e interativos combinados com uma metodologia evento, a arquitetura do sistema deve ser adaptada para validar a
+de aprendizagem ativa, como os Laboratórios Virtuais de Apren- alteração.
+dizagem (LVAs). O LVAs podem ser desenvolvidos com base na Do ponto de vista da melhoria da qualidade em termos das ques-
+tecnologia de jogos digitais, aumentando-se o engajamento e a mo- tões arquiteturais mencionadas, observou-se que o uso de padrões
+tivação do estudante, e tornando-o protagonista do processo de de projeto tem sido uma solução praticada e reportada na literatura
+ensino e aprendizagem. [12]. Nesse contexto, diversos padrões de design têm sido utili-
+
+Desde 2018, vem sendo desenvolvido na UFV-campus Florestal, zados, com ou sem adaptações, na arquitetura dos jogos, no que
+um LVA dessa natureza. O UFV Virtual Labs trata-se de um labo- compete à melhoria de atributos de qualidade. O uso de padrões
+ratório virual de aprendizagem que simula práticas laboratoriais criacionais no contexto de jogos tem sido discutido na literatura,
+que trabalham temas associados à biologia molecular, tais como a uma vez que simplificam a manipulação de objetos gráficos. [6]
+Permission to make digital or hard copies of all or part of this work for personal or utilizou de um padrão criacional adaptado para a Unity, o Concrete
+classroom use is granted without fee provided that copies are not made or distributed Factory, e observou ganhos em termos de reutilização do código
+for profit or commercial advantage and that copies bear this notice and the full citation em outros contextos similares. Padrões comportamentais da familia
+on the first page. Copyrights for components of this work owned by others than ACM
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, GoF, como o Observer, também ganham destaque, uma vez que
+to post on servers or to redistribute to lists, requires prior specific permission and/or a jogos envolvem objetos sendo observados por observadores devido
+fee. Request permissions from permissions@acm.org. às interações com missões ou diversos agentes de gatilhos(Wu Ren,
+SBCARS, 2022, Uberlândia, MG
+© 2022 Association for Computing Machinery. 2012).
+ACM ISBN 978-x-xxxx-xxxx-x/YY/MM. . . $15.00
+https://doi.org/10.1145/nnnnnnn.nnnnnnn
+
+
+
+SBCARS, 2022, Uberlândia, MG Caio A. M. Campos and Gláucia Braga e Silva
+
+Este trabalho objetiva aplicar os padrões Concrete Factory e Ob- (3) Narrativa, responsável pela história aderente ao jogo que fará
+server à arquitetura do UFV Virtual Labs, com o intuito de avaliar com que o usuário fique entretido, tendo importante papel na
+o impacto em termos de desempenho, modularidade e manutenibi- retenção dos estudantes. Nela, serão apresentados o enredo
+liadde do código. O Concrete Factory será aplicado como o intuito e o roteiro da simulação. O enredo contém os personagens
+de se melhorar o desempenho da aplicação e o Observer para atuar envolvidos, integrando as falas e histórias dos Non-players
+numa melhor gerência de ações realizadas pelo usuário. Characters (NPCs) e do próprio jogador, a motivação, os
+
+Na seção 2, serão apresentados os padrões de design bem como a desafios que o jogador será exposto e quais caminhos ele
+importância deles nos atributos de qualiadde no contexto de jogos. poderá seguir para cumprir estes desafios. Já o roteiro, está
+Na seção 3 será feito o levantamento teórico de trabalhos correlatos ligado às etapas que o jogador deverá realizar para comprir
+que impulcionaram o desenvolvimento deste trabalho. Na seção 4, a simulação.
+será abordada a metodologia da pesquisa juntamente com os objetos (4) Tecnologia, que trata dos recursos tecnológicos requeridos,
+de estudo. Em seguida, na seção 5 será relatado a implementação com destaque para os motores gráficos e frameworks que
+dos padrões bem como a discussão dos resultados obtidos. Por fim, sustentam a construção desses ambientes. A escolha de uma
+será sintetizado os resultados obtidos com esse trabalho bem como tecnologia específica depende do tipo de plataforma que será
+o levantamento de trabalhos futuros. aplicada, da complexidade do LVA e do nível dos recursos
+
+exigidos.
+2 LABORATÓRIOS VIRTUAIS DE
+
+APRENDIZAGEM 3 PADRÕES DE DESIGN E ATRIBUTOS DE
+Laboratórios Virtuais de Aprendizagem (LVAs) oferecem simula- QUALIDADE NO CONTEXTO DE JOGOS
+ções virtuais de experimentos, até então realizados presencialmente,
+em um ambiente controlado que favorece o armazenamento, recu- Os padrões de design são aplicáveis aos diversoos tipos de sistemas
+peração e troca de informações [18]. Estes funcionam muito bem orientados a objetos com o intuito de contribuir com a melhoria de
+como um complemento às aulas teóricas e práticas compensando a um ou mais atributos de qualidade. Esta seção visa contextualizar o
+falta de recursos. De acordo com Amaral et al. [1], os LVAs possuem uso de padrões de design no contexto de jogos, frente aos atributos
+um importante papel na educação promovendo acessibilidade aos de qualidade que serão o foco de estudo deste trabalho.
+estudantes ou organizações que não possuem recursos necessá-
+rios para os experimentos. Os LVAs constituem ainda importantes 3.1 Padrões de design aplicáveis ao contexto de
+ferramentas de apoio ao ensino a distância, em situações de isola-
+mento social, pandemias e outras que impeçam a continuidade das jogos
+atividades escolares de forma presencial. Os padrões GoF (Gang of Four) são um conjunto de 23 padrões de
+
+projetos organizados em 3 categorias: criacionais, comportamentais
+2.1 LVAs como jogos e estruturais [13]. A implementação de um padrão específico, ou
+
+conjunto de padrões, visa impactar positivamente nos atributos
+Para tornar o processo de ensino e aprendizagem ainda mais ino- de qualidade [12]. De acordo com [2], os padrões de projetos são
+vador e criativo, aumentando o engajamento e a motivação do aplicaveis em dois cenários no contexto de jogos: na mecânica e
+estudante, os jogos podem ser utilizados como uma ferramenta na programação dos jogos. A mecânica diz respeito ao conteúdo
+de ensino [4]. Desse modo, pode-se integrar tecnologias de jogos gráfico e estético do jogo, atrelado à usabilidade, ou seja, como
+a LVAs tornando a aprendizagem mais eficiente. Os jogos educa- e o que o usuário pode fazer na aplicação. Já a programação, diz
+cionais promovem a aprendizagem ativa por meio de atividades respeito à lógica do jogo e em como o sistema se comportará frente
+motivadoras, prazerosas e desafiadoras. Cox e Bittencourt [10] afir- aos gatilhos do usuário.
+mam que os jogos educacionais possuem uma grande importância Apesar dos benefícios, o uso de padrões pode ter impactos di-
+cognitiva por desenvolverem atributos importantes durante o pro- ferentes com base no nível de conhecimento dos desenvolvedores.
+cesso de aprendizagem, tais como atenção, resolução de problemas, Isto é, as métricas de modularidade manutenibiliadde ou legibili-
+tomada de decisões, colaboração, senso crítico e criatividade. dade podem ser comprometidas pelo maior número de clases e
+
+Segundo Schell [24], citado por Machado et al. [17], para a con- complexidade de código ao utilizar um padrão de projeto [16].
+cepção de um jogo deve-se considerar 4 elementos principais: As categorias dos padrões GoF dizem respeito ao impacto do pa-
+
+(1) Estética, referindo-se à aparência e à interface gráfica, com drão no sistema em termos da manipulação dos objetos (gráficos ou
+impacto direto na retenção do usuário, na forma com que ele não), da interação entre eles e da estrutura usada para representá-
+se interessa pelo jogo e em como as informações educacionais los. Este trabalho aborda o uso de padrões criacionais, chamados
+estão dispostas no mesmo. Factory, responsáveis pela criação e controle de objetos, e compar-
+
+(2) Mecânica, referindo-se à forma com a qual o usuário interage tamentais, como o Observer, responsável pela interação de objetos
+com os elementos do jogo para cumprir os objetivos. Segundo com o comportamento de observadores e sujeitos observáveis.
+Cox e Bittencourt [10], os jogos com foco na aprendizagem
+devem voltar a sua atenção em como relacionar a interface 3.1.1 Concrete Factory. O Concrete Factory, família dos Factories
+e a mecânica do jogo de forma a potencializar a estrutura dos padrões GoF, é um padrão criacional cujo objetivo é realizar a
+cognitiva do jogador. manipulação de objetos, criando-os e gerenciando suas instâncias
+
+
+
+Observer e Concrete Factory aplicados na arquitetura de um laboratório virtual de aprendizagem desenvolvido em Unit 3D SBCARS, 2022, Uberlândia, MG
+
+[6]. As classes responsáveis por este padrão fornecem às demais a re- 3.2 Atributos de Qualidade e Arquitetura da
+ferência única dos objetos criados. A Figura 1 mostra a modelagem aplicação
+padrão do Concrete Factory. Para se garantir a qualidade de um sistema, são definidas métricas
+
+que possam mensurar os atributos de qualidade da aplicação. As
+métricas de software permitem quantificar atributos de qualidade
+em processos, produtos e projetos de software [25], segundo os
+requisitos não funcionais previamente estabelecidos [7].
+
+Dentre os atributos de qualidade relevantes para o contexto do
+desenvolvimento de jogos, este trabalho destaca: o desempenho,
+uma vez que demanda-se por execuções cada vez mais rápidas,
+do ponto de vista gráfico, mas também logicamente eficientes; a
+modularidade, permitindo o desacoplamento e a reusabilidade do
+código; e a manutenibilidade, de forma a garantir maior facilidade
+nas mudanças, extensões e adições de novas funcionalidades ao
+
+Figura 1: Modelagem padrão do Concrete Factory.[8] jogo.
+
+No contexto da Unity3D, este padrão é aplicado na gerência de 3.2.1 Métricas de Software. A modularidade de um software pode
+instâncias dos objetos gráficos, que são fisicamente manipulados ser mensurada na facilidade de se replicar um modelo a situações
+no UFV Virtual Labs. Dessa forma, os factories criados impactam parecidas sem a necessidade de grandes mudanças no código [16].
+diretamente na memória alocada desses objetos, resolvendo pro- A manutenibilidade, se verifica pela facilidade em se dar suporte
+blemas de instâncias duplicadas e gerência de memória de objetos a um sistema. Esses dois atributos contribuem, também, para a
+ociosos. inserção de novas funcionalidades sem a necessidade de realizar
+
+O Concrete Factory pode ser estendido ao controle de objetos grandes alterações. De acordo com [3], esses atributos são extraídos
+ociosos. Nesse caso, ele assume, também, a responsabilidade de analizando a combinação de acoplamento, herança, polimorfismo,
+destruir ou construir objetos sob-demanda e, a partir do momento coesão e tamanho de código.
+que determinado objeto não está sendo mais utilizado ou terá pouca Para analisar a modularidade e a manutenibilidade de código, o
+utilização futura, ele é destruído melhorando ainda mais o desem- acoplamento entre as classes é um ponto importante a ser mensu-
+penho em memória. rado. A métrica Couplng Between Classes (CBO) foi desenvolvida
+
+para mensurar o relacionamento direto entre as classes [16]. Desse
+3.1.2 Observer. O Observer é um padrão de projeto comportamen- modo, quanto menor o acoplamento, melhor a modularização dos
+tal, dentre os 23 padrões GoF, que objetiva a reutilização de código objetos e a facilidade de manutenibilidade [11]. A CBO conta o
+e a simplificação das interações entre os objetos [21]. O padrão número de outras classes acopladas a uma classe específica.
+permite que se defina um mecanismo de assinatura para notificar Outra forma de mensurar o acoplamento entre as classes é por
+múltiplos objetos (observadores) sobre quaisquer eventos que acon- meio das métricas Fan-In e o Fan-Out, métricas estruturais cujo
+teçam com o objeto que eles estão observando (sujeito) [16]. Ou objetivo é medir a relação entre as classes. Essas métricas conta-
+seja, as classes de sujeito precisam notificar aos observadores de al- bilizam a quantidade de acessos a uma função específica, sendo o
+guma alteração interna, sendo esta a relação destaque do padrão. As Fan-In determinado pelo número de chamadas feitas a uma função
+classes de sujeito neste padrão são responsáveis por criar e remover (chamadas recebidas), e o Fan-Out, o número de chamadas feitas por
+observadores bem como os notificar das alterações internas, quando uma função (chamadas realizadas) [19]. De forma similar ao CBO,
+ocorrem. Já as classes observadoras são passívas na comunicação valores altos de Fan-In ou Fan-Out indicam maior acoplamento,
+recebendo as informações notificadas e atualizando os respectivos logo menor possibilidade de reuso entre as classes.
+atributos internos [21]. Por fim, uma métrica muito utilizada para mensurar a manute-
+
+A Figura 1 mostra a implementação padrão do Observer. nibilidade de um sistema é a profundidade da árvore de herança
+(Depth of Inheritance Tree, DIT) de uma classe. Quanto maior seu
+valor, maior a profundidade e, por consequência, maior o acopla-
+mento do sistema aumentando sua complexidade [11].
+
+Para se mensurar o desempenho de um jogo, utiliza-se, comu-
+mente, o custo da taxa de quadros, apresentado ao usuário na forma
+de frames per second (FPS). Essa métrica diz respeito à quantidade
+de quadros, ou imagens, que são exibidas por segundo [22]. Para
+se determinar o custo, vários fatores são levados em consideração
+como o hardware que o jogo será executado e a complexidade lógica
+bem como os artifícios lógicos de otimização que foram empregados.
+Desta forma, o desempenho de um jogo é afetado pela quantidade
+
+Figura 2: Modelagem padrão do Observer.[9] de recursos como memória ou processamento que ele exige em
+diferentes qualidades de execução. Quanto maior a taxa de quadros
+(FPS), melhor é a exibição para o usuário. Em contrapartida, quanto
+
+
+
+SBCARS, 2022, Uberlândia, MG Caio A. M. Campos and Gláucia Braga e Silva
+
+menor a taxa de quadros, maior será a percepção das imagens, Tabela 1: Tabela de padrões de projetos e os impactos nos
+dando a impressão de que o sistema está travando. atributos de qualidade.
+
+Tabela dos Padrões
+4 TRABALHOS RELACIONADOS Padrão Man. Des. Mod.
+No contexto de avaliação de padrões de projeto em jogos digitais, o Abstract Fac- P[20] - P[2]
+trabalho de [12] apresenta os 23 padrões do GOF exemplificando tory
+cada padrão aplicado em um contexto de jogos. O trabalho apresenta Composite - - P[20]
+a modelagem comparativa, antes e após a utilização, bem como o Decorator N[2] - P[20]
+foco de melhoria mediante aplicação de cada padrão. O estudo Facade - P[23] -
+comparou um jogo específico desenvolvido com e sem padrões Chain of Res- N[15] -
+de projetos concluindo que a utilização dos padrões auxiliou na ponsability
+modularidade e teve impactos positivos na taxa de erros e depuração Command - N[23] -
+de código. Observer P[20][2] - P[2]
+
+A pesquisa de [2] apresenta um estudo em cima de jogos open Satate Strategy - - N[15]
+source desenvolvidos em Java mensurando o número de defeitos, Visitor P[20] - -
+taxa de depuração e o desempenho com base nos padrões de proje-
+tos utilizados. Os padrões Abstract Factory, Singleton, Composite,
+Adapter, Observer, State, Strategy, Template Method, Decorator,
+Prototype e Proxy foram escolhidos para serem observados e com- escolha também foi guiada pela análise de algumas questões arqui-
+parados. Ao final, o estudo relatou a relação positiva na utiliza- teturais da aplicação relacionadas a dois cenários: gestão de objetos
+ção dos padrões Abstract Factory, Singleton, Composite, Observer, ociosos (criação e destruição); e captura de diversos gatilhos acio-
+State, Strategy, Prototype e Proxy com o número de defeitos em nados pelas ações do usuário. No que compete à gestão dos objetos
+jogos. Contudo, houve uma relação negativa com o uso dos pa- ociosos, foram analisados os padrões Abstract Factory e Factory
+drões Adapter e Template Method. O trabalho relatou, por outro Method, dentre os 23 padrões GoF [14]. Ao explorar a aplicação
+lado, o aumento na dependência entre as classes do Observer fa- desses padrões criacionais no contexto do desenvolvimento de jo-
+zendo o desenvolvedor analisar com cautela quanto à utilização do gos, identificou-se o Concrete Factory, uma adaptação da família
+padrão. Além disso, concluiu que o padrão Factory mostrou-se be- Factory para o contexto da Unity. Já no que diz respeito à captura
+néfico no que compete à reusabildiade. Já [5] apresentam um estudo de gatilhos acionados pelas ações do usuário, a partir do estudo
+apontando o impacto da aplicação dos padrões de projeto na manu- dos trabalhos relacionados, selecionou-se o Observer como padrão
+tenibilidade de jogos, sendo que 11 desses padrões se mostraram compartamental aplicável.
+mais impactantes. De forma complementar, [20] aponta os padrões Os padrões selecionados foram então aplicados a cada um dos
+Abstract Factory, Observer, Decorator, Composite e Visitor como cenários identificados, de forma isolada, para que o impacto da
+os que mais auxiliam na manutenibilidade e, por consequência, na aplicação pudesse ser medido de forma independente.
+extensibilidade do sistema. Dentre as práticas simuladas do UFV Virtual Labs, foi feito um re-
+
+A proposição de padrões de projetos específicos para uma tec- corte para uma prática específica de extração de DNA que abrangia
+nologia são frequentes no desenvolvimento de jogos visto que as passos específicos de manipulação de objetos que evidenciassem o
+arquiteturas de frameworks e engines gráficas geram dependências uso do Concrete Factory. Para a aplicação do Observer, foi feito in-
+particulares. [6] propõe a utilização de 3 padrões no desenvolvi- troduzido momentos que engatilhassem a interação do NPC com o
+mento de jogos utilizando a ferramenta Unity: Game Scene Con- personagem provocado por passos errados, além do próprio sistema
+troller (GSC), Concrete Factory e padrões de interação. O trabalho de interfaces que apresentem na tela os passos atuais ao usuário.
+introduz os padrões no contexto da própria Unity, referenciando e Para observar o impacto de forma indepentende dos padrões,
+adequando-os às dependências da ferramenta. Apesar de [6] analisar dado um mesmo contexto que consiga contemplar ambos os proble-
+o Concrete Factory em termos de modularidade e extensibilidade, mas, os padrões foram modelados individualmente e, em seguida,
+este trabalho irá propor uma análise de desempenho. implementados no sistema. Desta forma eles poderiam ser anali-
+
+A Tabela 1 apresenta um resumo dos trabalhos relacionados, sados em individual, sem que um padrão interfira no resultado de
+os padrões de projetos aplicados e o impacto, positivo(P) ou ne- outro.
+gativo(N), nos atributos de qualidade abordados neste trabalho: Tendo em vista o contexto da aplicação, o Observer foi utilizado
+Modularidade(Mod), Desempenho(Des) e Manutenibilidade(Man). para analisar os ganhos em termos dos atributos de modularidade e
+
+manutenibilidade. Já o Concrete Factory, foi aplicado para se anali-
+sar possíveis ganhos em termos de desempenho. Para se analisar os
+
+5 METODOLOGIA DA PESQUISA resultados, foram aplicadas as métricas DIT, CBO e Fan-In/Fan-Out,
+A partir da revisão da literatura acerca de padrões de design aplicá- para se avaliar a aplicação do padrão Observer; e FPS e gastos de
+veis ao desenvolvimento de jogos em Unity3D, foram selecionados memória, tanto para a lógica quanto para o sistema no geral, para
+os padrões Concrete Factory e Oserver para serem aplicados à se avaliar o uso do Concrete Factory. Para fins de comparações, as
+arquitetura do UFV Virtual Labs, com o intuito de melhorar a qua- métricas foram aplicadas em dois cenários, antes e após o uso dos
+lidade em termos dos atributos de qualidade deste trabalho. Essa padrões.
+
+
+
+Observer e Concrete Factory aplicados na arquitetura de um laboratório virtual de aprendizagem desenvolvido em Unit 3D SBCARS, 2022, Uberlândia, MG
+
+6 APLICAÇÃO DOS PADRÕES OBSERVER E
+CONCRETE FACTORY NA ARQUITETURA
+DO UFV VIRTUAL LABS
+
+Esta seção apresenta a aplicação dos padrões Concrete Factory e
+Oserver à arquitetura do UFV Virtual Labs, bem como o resultado
+da aplicação das métricas para se avaliar os possíveis ganhos em
+termos dos atributos de qualidade.
+
+6.1 O UFV Virtual Labs
+O UFV Virtual Labs é um simulador de práticas laboratoriais que
+consiste no agrupamento de diversas práticas em um contexto
+fechado e protocolado. Nele, os estudantes devem realizar um con-
+junto de passos mapeados para chegar a um resultado esperado.
+Contudo, possibilitando o desenvolvimento crítico e construtivo
+dos estudantes, as ações dos usuários dentro do ambiente virtual, Figura 3: Interfaces dos passos e NPC do UFV Virtual Labs.
+apesar de roteirizadas, podem fugir ao esperado. Assim, ao final da
+execução da prática, a aplicação gera um relatório de desempenho
+apontando ao estudante seu progresso em uma determinada prática.
+
+Assim, dois termos importantes foram modelados no domínio
+da aplicação: a Prática Esperada e a Prática Realizada. A Prática
+Esperada abrange um roteiro sequencial de atividades divididas
+em passos, que devem ser cumpridos para se atingir o resultado
+correto. Já a Prática Realizada abrange as atividades e os passos
+correspondentes executados pelo estudante durante a execução
+da prática simulada. Cada passo consiste num par de ação, verbo
+que designa um gatilho do sistema (pegar, andar, soltar...), e um
+objeto afetado pela ação, previamente modelado (pipeta, microtubo,
+solução...). A captura das ações realizadas é feita pelas entidades
+de controle e atreladas a um passo, dentro de uma ação. Após são Figura 4: Recorte da arquitetura do UFV Virtual Labs para as
+comparadas com as ações esperadas e, caso não estejam compativeis, classes responsáveis pelas ações realizadas pelo estudante
+um erro é apontado e é verificado se a ação errada é suficiente
+para cumprir o passo esperado ou não. Caso seja suficiente, ele
+prosseguirá na simulação, mesmo com o erro, caso não, ele deverá Essa controladora é responsável por recuperar e informar todos os
+continuar tentando. passos realizados além de notificar ao NPC caso algum evento, cujo
+
+Para auxiliar o estudante a cumprir corretamente a prática, um gatilho está mapeado, aconteça para que possa ser feita alguma
+roteiro é disponibilizado na forma de missões. Estas são apresen- intervenção.
+tadas na tela, passo a passo, além de contar com a ajuda de um O Observer foi inserido nesse contexto entregando a respon-
+personagem fictício (non-player character, NPC), que explica algum sabilidade de notificar frente à alterações dos passos à classe Prá-
+passo novo ou auxilía quanto aos erros cometidos. A Figura 3 mos- ticaRealizada eximindo de sua controladora tal responsabilidade.
+tra a interface lateral com o passo atual que o usuário deve fazer, e Além disso, as ações realizadas pelo usuário, abstraídas pela classe
+a intervenções do NPC ao ver um novo gatilho de ação. Personagem, são notificadas, com o padrão, pela mesma e não mais
+
+Para este trabalho, a prática a ser simulada é um recorte da pela controladora da prática. Desta forma, tanto o ControladorDeUI,
+prática de extração de DNA, que conta com passos simples para responsável por alterar as informações dos passos, quanto o NPC,
+evidenciar os padrões aplicados. Nesse recorte, serão exploradas as que interfere em algumas ações engatilhadas pelo usuário, são ditos
+capturas de ações pelo usuário, interferência dos NPCs frente aos observadores dos sujeitos, controlador de prática e personagem.. A
+erros e a gestão de instâncias de objetos gráficos. Figura 5 ilustra o diagrama de classes após a inserção do padrão
+
+Observer.
+6.2 Aplicação do Observer 6.2.1 Avaliação do uso do padrão Observer. Após a aplicação do
+Para se aplicar o Observer, um recorte da arquitetura do UFV Virtual padrão, foram aplicadas as métricas CBO e DIT. A Tabela 2 mostra
+Labs foi extraído no contexto de verificar as interações de gatilho os resultados obtidos para as métricas antes e depois do padrão.
+do usuário dentro da prática abordada neste trabalho. A Figura 4 Como pode-se observar, a distribuição de responsabilidades con-
+mostra as classes envolvidas na extração e utilização das interações tribuiu para a diminuição do valor do CBO na classe Controla-
+do usuário, tanto para atualizar os passos realizados quanto para dorPraticaRealizada que, antes do padrão estava sobrecarregada.
+validar possível intervenção do NPC. Desta forma foi atribuída à classe Personagem, a responsabilidade
+
+A classe PraticaRealizada armazena todas as interações realizadas de notificar aos observadores qualquer interação engatilhada pelo
+pelo estudante, capturadas pela classe ControladoPraticaRealizada. usuário.
+
+
+
+SBCARS, 2022, Uberlândia, MG Caio A. M. Campos and Gláucia Braga e Silva
+
+Tabela 2: CBO e DIT antes e após a implementação do Observer
+
+Classe CBO(Antes) DIT(Antes) CBO(Após) DIT(Após)
+ControladorPraticaRealizada 5 0 3 0
+
+NPC 0 0 0 1
+ControladorDeUI 0 0 0 1
+PraticaRealizada 2 1 2 2
+
+Personagem 0 0 1 1
+
+Figura 5: Inserção do padrão Observer no recorte da arquite-
+tura padrão do UFV Virtual Lab.
+
+Figura 6: Recorte da arquitetura do UFV Virtual Labs para as
+classes responsáveis pela abstração dos objetos gráficos.
+
+Contudo, a aplicação do padrão implica em aumentar a profun- informar as alterações realizadas nestes objetos pelas interações do
+didade da árvore de herança dessas classes que, por sua vez, devem usuário.
+acatar às especificações do padrão. Por este motivo, houve aumento O padrão Concrete Factory foi aplicado neste recorte intermedi-
+do valor de DIT, o que poderia teroricamente causar uma piora na ando a criação dos objetos entre as classes de entidade e as controla-
+manutenibilidade. No entanto, destaca-se que, apesar do aumento, doras. Dessa forma, foi possível desenvolver a criação e a destruição
+caso novos observadores e observados precisem ser usados, basta de instâncias e objetos gráficos sobre demanda, beneficiando a quan-
+acrescentá-los ao modelo sem grandes esforços, como especializa- tidade de objetos instanciados. A Figura 7 mostra a modelagem do
+ções das Classes Observer e Sujeito, respectivamente. padrão Concrete Factory no contexto apresentado.
+
+Outras métricas aplicadas para se avaliar a aplicação do Observer
+foram o Fan-In e o Fan-Out, conforme ilustrado na Tabela 3. Nela,
+são apresentados os resultados antes e após a aplicação do padrão.
+Ressalta-se que os valores representam o somatório dos valores
+parciais de Fan-In e Fan-Out nas funções explicitadas, visto que os
+métodos tabelados possuem tanto valores só para uma das métricas
+quanto para as duas e, o interesse é em mensurar o conjunto delas..
+
+No geral, os valores totais dessas funções apresentaram signifi-
+cativa melhora após a distribuição das responsabilidades com o uso
+do padrão Observer. A melhora nesses valores tem relação com os
+valores obtidos com a CBO, em virtude dos ganhos em termos de
+desacoplamento das classes.
+
+6.3 Aplicação do Concrete Factory
+O diagrama de classe da Figura 6, apresenta as classes responsáveis
+pelos objetos gráficos implementados e que foram utilizados na Figura 7: Modelagem do padrão Concrete Factory no con-
+pratica simulada, de extração de DNA. A classe ControladorPra- texto de criação de objetos.
+ticaRealizada se relaciona com as entidades ControladorExtracao
+e ControladorDeUI,presentes no diagrama da Figura 4, a fim de Quando um objeto é requisitado por qualquer controladora, a
+capturar as interações realizadas nestes objetos pelo usuário. fábricaConcreteFactory entrega a única instância do objeto, evitando
+
+As classes de entidade representadas na Figura ?? são respon- múltiplas instâncias de um mesmo objeto. Além disso, se um objeto
+sáveis por abstrair os objetos gráficos e as classes de controle, res- não se faz mais necessário, a classe ConcreteFactory o destrói e
+ponsáveis por instanciá-los e controlar suas referências, além de mantém apenas os não ociosos.
+
+
+
+Observer e Concrete Factory aplicados na arquitetura de um laboratório virtual de aprendizagem desenvolvido em Unit 3D SBCARS, 2022, Uberlândia, MG
+
+Tabela 3: Fan-In/Fan-Out antes e após a implementação do Observer
+
+Métodos Sem Observer Com Observer
+ControladorPratica.validarPasso() 5 3
+
+PraticaRealizada.notificarObservador() - 1
+Personagem.Equipar() 2 1
+
+NPC.falar() 3 1
+ControladorDeUI.ativarInterface(obj) 3 1
+ControladorPratica.notificarNPC() 1 -
+
+6.3.1 Avaliação do uso do padrão Concrete Factory. Após a imple- escalabilidade do sistema para novas práticas, com mais objetos em
+mentação do padrão Concrete Factory, foram avaliadas as métricas cena sendo manipulados por múltiplos usuários.
+de FPS e uso de memória. A análise de memória foi dividida entre:
+memória destinada à lógica do sistema e memória geral, que leva em 7 CONSIDERAÇÕES FINAIS
+consideração a renderização dos objetos gráficos. Os testes foram
+feitos com 5 repetições da prática, realizadas passo a passo pelo Este trabalho apresentou a aplicação dos padrões Observer e Con-
+próprio sistema e os resultados correspondem à média dos valores crete Factory à arquitetura do UFV Virtual Lab, um laboratório
+de cada repetição. Para a análise de memória, foram considerados virtual de aprendizagem, com o intúito de se avaliar o impacto
+os 20 segundos iniciais de simulação, visto que é o período onde em termos de desempenho, modularidade e manutenibilidade. Os
+se observou a maior variedade de ações que engatilham o uso do padrões foram selecionados com base nos principais problemas ob-
+Concrete Facotry. Já para a análise do FPS, foram observados os servados na aplicação. O Concrete Factory foi aplicado no contexto
+primeiros 10 segundos pelo mesmo motivo. de criação de classes modelo, bem como a gerência dos objetos
+
+A Figura 8(a) confirma um ganho de memória com a implemen- gráficos. Já o Observer foi inserido para controlar as capturas de
+tação do padrão do Concrete Factory. Os ganhos estão relacionados, gatilhos para as interfaces gráficas e para as interferências do NPC.
+principalmente, pelo papel de facilitador na disponibilização de ins- OObserver apresentou ganhos em termos de desacoplamento das
+tâncias únicas. Pode-se observar também que no geral, o custo para classes, observadas pelas métricas CBO, Fan-In e Fan-Out. Contudo,
+a inicialização do sistema aumenta com o uso do padrão. Isso se dá verificou-se que a profundidade da árvore de heranças, medida pela
+pelo número adicional de classes usadas/requeridas pelo próprio métrica DIT, foi comprometida apresentando maiores valores para
+padrão. No entanto, quando se pensa em escalar o sistema, esse quase todas as classes envolvidas. Observa-se que esse aumento
+custo adicional pode ser compensado. era esperado uma vez que a maioria dos padrões de projeto são
+
+A relação entre tempo e memoria utilizada pela lógica do sistema modelados com relações polimórficas e/ou aquelas que envolvem
+pode ser visualizada na Figura 8(b). Durante a maior parte da generalizações e/ou uso de interfaces.
+execução, o custo com o padrão é superior ao custo, em memória, O Concrete Factory apresentou melhora no desempenho geral,
+sem o padrão, o que é justificável. O uso do padrão torna o sistema apresentando um ganho médio superior à versão sem uso do pa-
+mais complexo pelo número adicional de classes e métodos para drão, consumindo menos memória total por justamente realizar a
+realizar o controle. Podemos observar também uma queda brusca gerência das intâncias dos objetos. Por outro lado, a memória desti-
+de consumo de memória ao final da execução, no segundo 19. Este nada à logica do sistema foi maior do que na versão sem o padrão.
+fato se dá pela destruição dos objetos não utilizáveis que acontece Isso se justifica pela maior complexidade gerada com a utilização
+neste momento. Apesar do consumo de memória para a lógica, no do Concrete, em termos das classes próprias do padrão. Por fim,
+geral, sernsuperior com o uso do padrão, podemos observar que os ganhos no FPS se mostraram mais evidentes na inicialização
+este custo é atrelado a um ganho em memória quando se observa o do sistema se mostrando mais consistente e estável no decorrer
+gasto total deste recurso. do tempo. Apesar dos ganhos obtidos serem pouco significativos
+
+A Figura 9 mostra os resultados obtidos analizando o valor do em termos práticos, ressalta-se que os padrões foram aplicados a
+FPS durante o tempo de simulação. Um ponto importante a se des- apenas um pequeno fragmento do UFV Virtual Labs. Se escalarmos
+tacar é o ganho de FPS no início da simulação. Sem o padrão, todas a aplicação para outras simulações maiores e mais completas, tendo
+as instâncias são criadas ao inicializar o sistema, sendo ou não ne- em vista o número de usuários simultâneos e a somatória do custo
+cessárias naquele momento. Desta forma, o custo de inicialização atrelado, possivelmente os ganhos seriam mais evidentes.
+é maior afetando a taxa de quadros. Contudo, ao longo da utiliza- Tendo em vista a escalabilidade do UFV Virtual Labs para atender
+ção do sistema observa-se que o ganho é ínfimo e no segundo 7, à diversos usuários e ao aumento significativo do número de práti-
+justamente quando ocorre a destruição e instanciação de objetos, a cas, em trabalhos futuros sugere-se a quantificação dos resultados
+taxa de FPS cai. Contudo, observa-se que, no geral, o uso de padrão do Concrete Factory verificando o impacto no sistema geral. Além
+torna o FPS mais consistente e estável. disso, propõe-se a aplicação de outros padrões já reconhecidos na
+
+Apesar dos ganhos estarem em escalas pequenas, deve-se desta- literatura como relevantes para o desenvolimento de jogos e que se
+car que este é apenas um recorte do sistema e que, provavelmente, aplicariam ao contexto do UFV Virtual Labs, como State/Strategy,
+os ganhos possam ser mais significativos quando se considera a para controlar a mudança de estados dos objetos, em acordo ao
+
+Observer, e o Prototype, para melhorar a prototipação de objetos
+
+
+
+SBCARS, 2022, Uberlândia, MG Caio A. M. Campos and Gláucia Braga e Silva
+
+(a) Resultados de Tempo(s)XMemória Alocada(MB) para o sistema, sem (b) Resultados de Tempo(s)XMemória Alocada(MB) para a lógica, sem e
+e com padrão. com padrão.
+
+Figura 8: Análise de gastos de Memória(MB) em relação ao tempo(s) de execução, sem e com o uso do Concrete Factory
+
+[8] Kayun Chantarasathaporn and Chonawat Srisa-an. 2006. Energy conscious
+factory method design pattern for mobile devices with C# and intermediate
+language. In Proceedings of the 3rd international conference on Mobile technology,
+applications & systems. 29–es.
+
+[9] W. Commons. [n. d.]. .
+[10] Kenia Kodel Cox and Roberto Almeida Bittencourt. 2017. Estudo Bibliográfico
+
+sobre o Processo de Construção de Jogos Digitais: A necessidade de sinergia
+entre o educar e o divertir. Revista Brasileira de Informática na Educação 25, 01
+(2017), 16.
+
+[11] CURSO DE CIÊNCIAS DA COMPUTAÇÃO—BACHARELADO. [n. d.]. TÍTULO:
+FERRAMENTA DE APOIO À COLETA DE MÉTRICAS EM SOFTWARE ORIEN-
+TADO A OBJETOS ÁREA: Engenharia de Software. Palavras-chave: Métricas de
+software orientado a objetos. Modelo CMMI. Ph. D. Dissertation. UNIVERSIDADE
+REGIONAL DE BLUMENAU.
+
+[12] Roberto Tenorio Figueiredo. 2014. Padrões de Projeto GOF aplicados ao Desenvolvi-
+mento de Jogos Eletrônicos. Master’s thesis. Universidade Federal de Pernambuco.
+
+[13] E Gamma, R Helm, et al. 2000. Design Patterns Ele m ent of Reusab le Object-O
+riented Softare.
+
+[14] Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, and Design Patterns.
+1995. Elements of reusable object-oriented software. Vol. 99. Addison-Wesley
+Reading, Massachusetts.
+
+[15] Javier Garzás, Félix García, and Mario Piattini. 2009. Do rules and patterns affect
+Figura 9: Análise do FPS antes e após a utilização doConcrete design maintainability? Journal of Computer Science and Technology 24, 2 (2009),
+Factory. 262–272.
+
+[16] Tova Linder. [n. d.]. How Does the Implementation of the Observer Pattern in
+Freecol Affect Reusability, Extendibility and Flexibility of the Application as
+measured by CBO? ([n. d.]).
+
+[17] Liliane S Machado, Thaise Kelly de Lima Costa, and Ronei Marcos De Moraes.
+gráficos com comportamento semelhantes, mas características par- 2018. Multidisciplinaridade e o desenvolvimento de serious games e simuladores
+ticulares, sem a necessidade de se remodelá-los. para educação em saúde. Revista Observatório 4, 4 (2018), 149–172.
+
+[18] Roberto Correia de Melo and João Alberto Osso Jr. 2008. Laboratórios virtuais
+e ambientes colaborativos virtuais de ensino e de aprendizagem: conceitos e
+
+REFERÊNCIAS exemplos. Revista de Informática Aplicada 4, 2 (2008).
+[19] Luís Felipe Garlet Millani. 2013. Análise de correlação entre métricas de qualidade
+
+[1] Érico Amaral, Bárbara Ávila, Herik Zednik, and Liane Tarouco. 2011. Laboratório de software e métricas físicas. (2013).
+virtual de aprendizagem: uma proposta taxonômica. RENOTE-Revista Novas [20] Lutz Prechelt, Barbara Unger, Walter F. Tichy, Peter Brossler, and Lawrence G.
+Tecnologias na Educação 9, 2 (2011). Votta. 2001. A controlled experiment in maintenance: comparing design patterns
+
+[2] Apostolos Ampatzoglou, Apostolos Kritikos, George Kakarontzas, and Ioannis to simpler solutions. IEEE transactions on Software Engineering 27, 12 (2001),
+Stamelos. 2011. An empirical investigation on the reusability of design patterns 1134–1144.
+and software packages. Journal of Systems and Software 84, 12 (2011), 2265–2283. [21] Wu Ren and Wenyun Zhao. 2012. An observer design-pattern detection tech-
+
+[3] Jagdish Bansiya and Carl G. Davis. 2002. A hierarchical model for object-oriented nique. In 2012 IEEE international conference on computer science and automation
+design quality assessment. IEEE Transactions on software engineering 28, 1 (2002), engineering (CSAE), Vol. 3. IEEE, 544–547.
+4–17. [22] Adriano Pereira REZENDE. 2013. Otimização de jogos para dispositivos móveis
+
+[4] Pebertli Nils Alho Barata. 2015. Framework para criação de laboratórios virtuais: di- com Unity3D. (2013).
+minuindo a lacuna entre teoria e prática em engenharia elétrica. Ph. D. Dissertation. [23] Jakub Rudzki. 2004. How design patterns affect application performance–a case of
+Universidade Federal do Pará. a multi-tier J2EE application. In International Workshop on Scientific Engineering
+
+[5] Staffan Björk and Jussi Holopainen. 2006. Games and design patterns. The game of Distributed Java Applications. Springer, 12–23.
+design reader (2006), 410–437. [24] Jesse Schell. 2008. The Art of Game Design: A book of lenses. 2008. Burlington,
+
+[6] Nick Bucher. 2017. Introducing Design Patterns and Best Practices in Unity. In MA: Elsevier (2008).
+Proceedings of the SouthEast Conference. 243–247. [25] Ian Sommerville. 2011. Software engineering 9th Edition. ISBN-10 137035152
+
+[7] Vera Lúcia Xavier de Sales Calçado. 2007. Influência da utilização de processo (2011), 18.
+unificado, testes e métricas na qualidade de produtos de software. (2007).

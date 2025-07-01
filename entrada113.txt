@@ -1,0 +1,682 @@
+﻿A Genetic Algorithm for Multi-Component Optimization
+Problems: the Case of the Travelling Thief Problem
+
+Daniel K. S. Vieira Marcus H. S. Mendes
+Federal University of Viçosa, Brazil Federal University of Viçosa, Brazil
+
+daniel.sa@ufv.br marcus.mendes@ufv.br
+
+ABSTRACT Classic problems in computer science have been proposed
+Real-world problems many times are characterized by be- and these days are studied to define strategies that obtain
+ing composed by multiple interdependent components. In a good solution efficiently on real-world problems. Many of
+this case, benchmark problems that do not represent that these problems belong to NP-hard class, which means that
+interdependency are not a good choice to assess algorithms they are combinatorial problems that you cannot find the
+performance. Recently in the literature a benchmark prob- best solution in a polynomial time, implying that in large
+lem called Travelling Thief Problem was proposed to bet- instances it is not possible to get the best solution due to the
+ter represent real-world multi-component problems. TTP is necessary time to process each possible solution. Because of
+a combination of two well-known problems: 0-1 Knapsack that heuristics are developed to obtain a satisfactory solu-
+Problem (KP) and the Travelling Salesman Problem (TSP). tion in an acceptable time.
+
+This paper presents a genetic algorithm-based optimization According to Bonyadi et al. [2] real-world problems often
+approach called Multi-Component Genetic Algorithm (MCGA) have interdependent components and these should not be
+for solving TTP. The ideia is solve the overall problem in- solved separately. This correlation should be considered to
+stead of each sub-component separately. Starting from so- get better solutions to the overall problem.
+lution for the TSP component, obtained by the Chained
+Lin-Kernighan heuristic, the MCGA applies the evolution- In order to cover the complexity of a real-world problem, a
+ary process (evaluation, selection, crossover, and mutation) new problem called Travelling Thief Problem (TTP) [2] was
+iteratively using different operators for KP and TSP com- proposed. It is a combination of two well-known problems
+ponents. The MCGA was tested on some representative that are the Knapsack Problem (KP) and the Travelling
+instances of TTP available in the literature. The compar- Salesman Problem (TSP).
+isons show that MCGA obtains competitive solutions for
+TTP instances with a number of cities between 51 and 783. Some strategies have been proposed with the aim to solve
+
+TTP. Faulkner et al. [4] presents algorithms that focus on
+
+Categories and Subject Descriptors manipulating the KP component with the TSP component
+being obtained by the Chained Lin-Kernighan algorithm
+
+G.1.6 [Optimization]: Constrained optimization (CLK) [1]. Bonyadi et al. [3] uses a co-evolutionary ap-
+; I.2.8 [Problem Solving, Control Methods, and Search]: proach called CoSolver where different module are responsi-
+Multi-component combinatorial problem ble for each component of the TTP and these communicate
+
+with each other combining solutions to get a overall solu-
+General Terms tion to the problem. In this way the CoSolver attempts to
+Algorithms solve the TTP manipulating both components at the same
+
+time instead of get a solution for one component given the
+
+Keywords solution of other component. Mei et al. [5] seeks large-
+scale TTP instances proposing complexity reduction strate-
+
+Travelling Thief Problem; Genetic Algorithm; Combinato- gies for TTP with fitness approximation schemes and apply
+rial problem optimization this techniques in a Memetic Algorithm which outperforms
+
+the Random Local Search and Evolutionary Algorithm pro-
+
+1. INTRODUCTION posed by Polyakovskiy et al. [7]. Oliveira et al. [6] developed
+a Tabu Search (TS) approach with a 2-OPT local search that
+shows competitive performance for very small instances of
+TTP.
+
+This paper proposes a new algorithm based on Genetic Al-
+gorithm (GA) concept called Multi-component Genetic Al-
+gorithm (MCGA) to solve small and medium sizes of TTP
+instances which has four basic steps in each iteration: evalu-
+ation of the solution (individual) to know how good this solu-
+
+
+
+tion is; selection of solutions based on their performance (fit- from the city 1 goes to the city 2, and then goes to the city
+ness); crossover the solutions to create new solutions (chil- 3, and finally returns to the city 1. This solution results in
+dren) based on the features (chromosome) of existing solu- Z(Π, P ) ≈ −28.053.
+tions (parents); disturb the solutions applying some muta-
+tion operator that change their features (change some alle- I (15,2)
+les of the genes of their chromosome). After some iterations 31 3
+(generations) the algorithm tends to achieve good solutions I (10,1)
+
+32
+to the problem. 8            4
+The article is organized as follows. The Section 2 describes
+the TTP and its specifications. In Section 3 the Multi- 1 2 I (30,5)
+
+21
+2
+
+component Genetic Algorithm (MCGA) is defined. The I (65,9)
+22
+
+Section 4 shows the methodology. Finally, we present the Start
+conclusion in Section 5 as well as the possibilities for future
+work. Figure 1: TTP example.
+
+2. TRAVELLING THIEF PROBLEM Note that in this example if only the TSP component of the
+
+According to Polyakovskiy et al. [7], TTP is defined as problem is considered, all the possible solutions have the
+
+having a set of cities N = {1, . . . , n} where the distance d same cost since all connections between the cities will be
+ij
+
+between each pair of cities i and j is known, with i, j ∈ N . used anyway. But considering the overall problem, it can
+
+Every city i but the first has a set of items M be seen that the order of the tour makes influence in the
+i = {1, . . . ,mi}.
+
+Each item k in a city i is described by its value (profit) p solution cost due to the variation of the time that an item is
+ik
+
+and weight w kept into the knapsack. In other words, a heavy item picked
+ik. The candidate solution must visit each city
+
+only once and return to the starting city. at the start of the tour influences the travelling speed for a
+longer time compared to the same item picked at the end
+
+Additionally, items can be collected in cities while the sum of of the tour, making the solution slower and increasing the
+
+the weight of the collected items does not exceed the knap- cost.
+
+sack maximum capacity W . A rent rate R must be paid by
+each time unit that is used to finish the tour. υmax and υmin 3. MULTI-COMPONENT GENETIC ALGO-
+describes the maximum and minimum speed allowed along RITHM
+the way, respectively.
+
+The proposed MCGA1 has a different encoding type for each
+component of the TTP. The TSP component is encoded enu-
+
+yik ∈ 0, 1 is a binary variable equals to 1 if the item k is
+merating the city indices in order starting from the city 1
+
+collected in the city i. Wi specifies the total weight of the
+and ending the tour at the same city. The KP component is
+
+collected items when the city i is left. Hence, the objective
+encoded using a binary array with the size of existing items,
+
+function for a tour Π = (x1, . . . , xn), xi ∈ N and a picking
+the items are ordered according to the city that the items
+
+plan P = (y21, . . . , ynmi) is defined as:
+belong to. If the problem has 5 items per city the first five
+genes make reference to the items of the city two (since the
+
+∑ first city, by definition, does not have items). The Figure 2
+n ∑mi shows a graphical representation of the chromosomes that
+
+Z(Π, P ) = composes the individual.
+=( pikyik
+i 1 k=1
+
+(1)
+n∑− )
+
+1 The initial population is obtained using the Chained Lin-
+− dx x dx
+R n 1 + ixi+1
+
+υ kernighan [1] (CLK) for the TSP component and all items
+max − νWxn υmax − νWx
+
+i=1 i unpacked (KP component). After generating the initial pop-
+ulation an iterative process starts with the selection the
+individuals who will pass through a evolutionary process
+
+where ν = υmax−υmin . The aim is to maximize Z(Π, P ).
+W based on their fitness. In this step was used the tourna-
+
+The equation is summarized in penalize the profit gains from
+ment method, that consists of given a tournament size n,
+
+collected items with a value that represents the total travel
+n individuals are selected to be compared with each other
+
+time multiplied by the renting rate R.
+and the best individual is selected to the next step. This
+procedure repeats until the size of the selected population
+
+The figure 1 shows an example of TTP where there is the
+reaches the size of the original population (in this case). The
+
+same number of items for each city as the test instances
+Algorithm 1 shows a k-tournament where s∗ individuals are
+
+provided by Polyakovskiy et al. [7]. This case has 2 items
+selected from population H.
+
+to each city (except the first city, that does not have items)
+and 3 cities in total. Each item Iij(pij , wij) is described as
+
+The crossover step performs the creation of new individ-
+being the item j of the city i that has a value pij and a
+
+uals (children) based on the chromosomes of the existing
+weight wij . Assuming the knapsack capacity W = 10, the
+
+individuals (parents). Due to the multi-component charac-
+renting rate R = 1, υmax = 1 e υmin = 0.1. A feasible
+
+teristic of the TTP a different crossover method was used
+solution for this problem is P = (0, 1, 0, 1) and Π = (1, 2, 3),
+describing that the items I 1
+
+22, I32 which are in the cities 2 The source code can be found at https://github.com/
+and 3, respectively, will be collected, making a tour starting DanielKneipp/GeneticAlgorithmTravelingThiefProblem
+
+
+
+generating invalid tours. It uses a random-generated binary
+Individual mask and fill the genes of the children 1 and 2 with the
+
+genes of the parents 1 and 2, respectively, when the value
+TSP component chromosome
+
+mask is equal to 1. The remaining genes in parent 1 (that
+
+x have the mask value equal to 0) are sorted in same order as
+1 ... xn x1 they appear in parent 2 and the alleles of those sorted genes
+
+are used to fill in the genes in child 1 that are still empty.
+The same happens to child 2 but in this case the genes of
+the parent 2 are sorted according to parent 1 order. This
+
+KP component chromosome operator is detailed in Algorithm 3.
+
+y Algorithm 3 Order-based crossover (Πp1 , Πp2)
+21 ... ynmi 1: s← size of the chromosome.
+
+2: Mask ← random array of bits with size s
+3: for i := 0 to s− 1 do
+4: if Mask[i] = 1 then
+5: Πc1 [i]← Πp1 [i]
+
+Figure 2: Graphical representation of the MCGA
+6: Π
+
+individual encoding. c2 [i]← Πp2 [i]
+7: end if
+8: end for
+
+Algorithm 1 Tournament (H, s∗, k) 9: L1 ← list of genes in Πp1 that are in a position i that
+1: for i := 0 to s∗ − 1 do the Mask[i]= 0
+2: H subset← k random individuals from H 10: L2 ← list of genes in Πp2 that are in a position i that
+3: add to H∗ the best individual of H subset the Mask[i]= 0
+4: end for 11: Sort L1 so that the genes appear in same order as in
+5: return H∗ Πp2
+
+12: Sort L2 so that the genes appear in same order as in
+Πp1
+
+on each component of the problem. For the KP component 13: Fill in the still empty genes of Πc1 with the L1
+
+a crossover operator with N-points was used (the number 14: Fill in the still empty genes of Πc2 with the L2
+
+of points changes for each configuration tested and will be 15: return Πc1 , Πc2
+
+defined in Section 4). This operator combine the picking
+plan of two parents in two children in a way that one child After the crossover operators are applied the population size
+receives the alleles of one parent until a point is reached, doubles due to the creation of two children for each two par-
+after that receives the alleles from the other parent. In the ents. Hence, a selection procedure is applied to decrease the
+crossover while the child c1 receives the alleles from a par- population back to its original value. This second selection
+ent pi, the child c2 receives the alleles from a parent pj , step also uses the Tournament method as shown in Algo-
+where ∀ i, j ∈ {1, 2, . . . , s} : i 6= j, with s being the number rithm 1 using as population size the number of individuals
+of parents. The Algorithm 2 shows the N-points crossover before the crossover step.
+operator.
+
+As well as the crossover step, the mutation step has a dif-
+Algorithm 2 N-points crossover (Pp1 , Pp ferent operator for each component of the problem. To mu-
+
+2)
+1: s← size of the chromosome. tate the KP component a simple Bit-flip operator was used,
+
+2: Points← n different loci (positions) in the chromosome which given an item i and a random value ri ∈ [1, 0], i := 0 if
+
+sorted in increasing order i = 1 and r > p, p being the probability of item be removed
+
+3: j ← 0 from oo added to the knapsack. Of course for each item a
+
+4: for i := 0 to s− 1 do different ri is generated.
+
+5: if j < n, i = Points[j] then
+6: j ← j + 1 2-OPT was used to mutate the TSP component. This muta-
+
+7: end if tion operator swap a pair of edges in the tour. A way to do
+
+8: if j is an even number then that is to given two vertexes v1 and v2 (not being the first
+
+9: P or the last vertex, which reference the same city), it made a
+c1 [i]← Pp1 [i]
+
+10: P copy of the tour until v1, than the sub-tour [v1, v2] is copied
+c2 [i]← Pp2 [i]
+
+11: else in reverse order, than the rest of the tour is copied. It can
+
+12: P be seen in the Algorithm 4 assuming that the index range
+c2 [i]← Pp1 [i]
+
+13: P of the chromosome starts from 0.
+c1 [i]← Pp2 [i]
+
+14: end if
+15: end for In the TSP the order of the tour does not impact the solu-
+
+16: return Pc1 , P
+tion cost since the distance from a city c1 to another city c2
+
+c2
+is the same of c2 to c1. However, in TTP this change affect
+the time that an item will be carried, consequently affecting
+
+For the TSP component a crossover operator called Order- the cost. Therefore, the 2-OPT operator can cause a huge
+based is used to combine the tours of two parents without change on the individual. For this reason the mutation oper-
+
+
+
+Algorithm 4 2-OPT mutation (Πp) A subset of 9720 TTP benchmark instances, proposed by
+1: s← size of the chromosome. Polyakovskiy et al. [7], was used in the experiments. These
+2: v1 ← random integer number ∈ [1, s− 3] instances have the number of cities ranging from 51 to 85,900
+3: v2 ← random integer number ∈ [v1 + 1, s− 2] (81 different sizes); the number of items per city F ∈ {1, 3, 5, 10}
+4: for i := 0 to v1 − 1 do (called item factor); ten capacity categories (varying the
+5: Πc[i]← Πp[i] knapsack capacity); three KP types: uncorrelated (the val-
+6: end for ues of the items are not correlated with their weights), un-
+7: for i := v1 to v2 do correlated with similar weights (same as the uncorrelated but
+8: Πc[i]← Πp[v2 − (i− v1)] the items has similar weights) and bounded strongly corre-
+9: end for lated (items with values strongly correlated with its weights
+
+10: for i := v2 + 1 to s− 1 do and it is possible to exist multiple items with the same char-
+11: Πc[i]← Πp[i] acteristics).
+12: end for
+13: return Πc Different configurations for the MCGA was defined due to
+
+the variety of the problem sizes. They are:
+
+ators are not applied always for all individuals. The Bit-flip C1: 150 individuals, Tournament size of both selection pro-
+has 65% chance to be applied, 2-OPT has 17, 5% and it has cedures equal to 2, number of elites of both selection
+17, 5% chance of both operators to be applied. steps and the mutation step equal to 15, number of
+
+points for the N-point crossover operator equal to 1,
+We use elitism to maintain a set of the best individuals (also and the probability p for the Bit-flip mutation opera-
+called elites) in each generation to the next generation. In tor equal to 0.5%. The stop conditions are 10 minutes
+the mutation step the best individuals are not included in of runtime or 10000 generations without improvement.
+the procedure. In the crossover steps before the procedure The CLK heuristic has no runtime limit;
+starts the set of best individuals are ensured to be part of
+H∗, note that this best individuals are included in the tour- C2: 200 individuals, Tournament size of both selection pro-
+nament. cedures equal to 2, number of elites of both selection
+
+steps and the mutation step equal to 12, number of
+The Equation 1 is used to evaluate the individuals. If an points for the N-point crossover operator equal to 3,
+individual is invalid (sum of the weight of picked items ex- and the probability p for the Bit-flip mutation opera-
+ceed the knapsack capacity) a correction procedure is ap- tor equal to 0.2%. The stop condition is 10 minutes of
+plied which removes the worst items of the individual until runtime. The CLK heuristic has no runtime limit;
+he becomes valid. The worst items are characterized as hav-
+ing the lowest values of pi , where p
+
+w i is the value of the item C3: 80 individuals, Tournament size of both selection pro-
+i cedures equal to 2, number of elites of both selection
+
+i and wi its weight.
+steps and the mutation step equal to 6, number of
+points for the N-point crossover operator equal to 3,
+
+The MCGA combine all these operator as shown in the Al-
+and the probability p for the Bit-flip mutation operator
+
+gorithm 5 where K and Q stores the MCGA configuration
+equal to 0.2%. The stop conditions are 50 minutes of
+
+and the stop conditions, respectively. Inside K is specified
+runtime. The CLK heuristic has limit of the runtime
+
+the population size s; two different tournament sizes ts, tc, t
+for the selection step and the tournament after the crossover, CLK = 0.6×tMCGA , where tMCGA is the total runtime
+
+s
+(50 minutes in this case) and s is the population size
+
+respectively; three number of elite solutions es, ec, em, for
+(80 in this case).
+
+the selection step, tournament procedure after the crossover
+and the mutation step, respectively; a number of points nc
+for the N-points crossover operator; the probability p for Note that the MCGA runtime includes the generation of the
+Bit-flip mutation operator. initial population procedure. Therefore, the time spent by
+
+the CLK is taken into account.
+Algorithm 5 Multi-component Genetic Algorithm (K, Q)
+1: O ← GenerateInitialPopulation(K.s) In order to compare the MCGA results with the TS based
+2: EvaluateIndividuals(O) heuristic presented by Oliveira et al. [6] we ran the experi-
+3: while ¬Q do ments using a computer with CPU Intel Core i7 4810MQ, 8
+4: O ← Select(O, K.s, K.ts, K.es) GB of RAM and Windows 8.1 OS. The MCGA was imple-
+5: Θ ← Crossover(O, K.nc) mented using the C++ programming language.
+6: EvaluateIndividuals(Θ)
+7: O ← {O,Θ} The Table 1 shows the mean of the objective function values
+8: O ← Select(O, K.s, K.tc, K.ec) considering 30 runs of the algorithms: (1 + 1) Evolutionary
+9: O ← Mutate(O, K.p, K.e Algorithm (EA) approach presented by Polyakovskiy et al.
+
+m)
+10: EvaluateIndividuals(O) [7]; MCGA with C1 configuration; a TS heuristic [6] that
+11: end while according to the authors it has a deterministic characteris-
+12: return BestIndividual(O) tic, in other words, the results of different runs in the same
+
+conditions are always the same. The instances used have
+relative small sizes, with the number of cities (n) varying
+
+4. METHODOLOGY AND RESULTS from 50 to 100, a item factor of 1, 3, 5 and 10, all KP types
+
+
+
+t and with the knapsack capacity always being of category
+10 totaling 60 instances. Table 1: MCGA performance compared to the Tabu
+
+Search approach [6] and EA [7]. The instances with
+
+The results show that MCGA outperforms the TS in 40% 100 cities refers to the kroA100 instances.
+n m t MCGA EA TS
+
+and EA in 98.3% of the tested instances. TS had a notable
+bsc 11396.3 9604.35 11180.05
+
+performance in instances with 53 cities However, it showed
+unc 6999.51 6130.09 7167.77
+
+a strange behavior in some instances of 99 cities. In the
+usw 5926.52 5418.48 5959.69
+
+instances with 98 items TS had significantly better results
+bsc 27481.2 24121.29 26997.77
+
+(mean of 7.477 times compared to MCGA) while it had a
+unc 21949.6 18780.23 21522.96
+
+very poor performance in instances with 490 and 980 items
+usw 18362.2 14843.1 17927.85
+
+(MCGA achieved results 5.092 times higher on average).
+bsc 44628.4 33708.71 49781.12
+unc 33452.7 29508.08 34000.52
+
+A coefficient c, for each algorithm, was calculated for com-
+usw 32826.8 26483.19 31747.54
+
+paring their performance on the 60 instances presented in
+bsc 14641.9 7874.7 15331.3
+
+Table 1. The calculation of these coefficients was made to
+unc 8355.08 7979.65 9151.72
+
+avoid the influence of the magnitude variations among dif-
+usw 7863.13 7231.54 8655.27
+
+ferent TTP instances in the overall comparison results. The
+coefficient c is defined by c = v , where v is the objective bsc 41971.7 31767.99 49373.15
+
+z
+value obtained by the algorithm to a given instance and z is unc 22171.9 20754.83 23589.93
+
+the best (highest) objective value to that instance. It makes usw 24238.2 23208.87 26940.18
+
+c ∈ [a, 1], where a is the coefficient of the worst (smallest) bsc 82137.8 55942.48 87235.28
+
+objective value comparing the three algorithms. c will be unc 39862.4 39386.03 42608.34
+
+negative if v < 0. usw 41719.6 40536.51 47572.81
+bsc 160041 117278.61 179376.75
+
+Table 1 shows the mean of the coefficients c (considering all unc 87094 86049.77 94354.89
+
+60 instances) for each algorithm. We can note that MCGA usw 81237.9 79072.25 93972
+
+has a more consistent performance in the experiments (mean bsc 99301.2 75874.84 103220.98
+
+value of c for MGCA is more close to 1). unc 72161.9 62588.19 72825.86
+usw 63153.4 52793.76 64960.24
+
+To compare MCGA with some heuristics proposed by Faulkner bsc 12132.6 10212.02 12048.55
+
+et al. [4] changes on the experiment conditions were made. unc 13712.9 12234.81 14356.49
+
+The computer used has two Intel Xeon E5-2630 v3 totaling usw 10677.5 9077.16 10626.42
+
+32 cores, 128 GB of RAM and Ubuntu 14.04 LTS OS. The bsc 52973.9 42385.48 49422.32
+
+GA configuration used is the C2. The tests conducted by unc 35069.6 30231.71 34612.74
+
+Faulkner et al. [4] show results of the mean of 30 indepen- usw 32349 28591.82 29398.59
+
+dent runs, different of the tests made using the MCGA and bsc 89053.1 69353.76 89075.65
+
+presented in the Table 3 that are the mean of 10 indepen- unc 54735.7 48568.99 49533.55
+
+dent runs. A subset of the instances selected by Faulkner et usw 51838.3 44832.2 51504.4
+
+al. [4] was used which consists 3 different numbers of cities n bsc 181097 142550.43 159478.11
+
+between 195 and 3038, two item factors F ∈ 3, 10, all three unc 110046 94962.56 96015.28
+
+types of knapsacks t and two capacity categories C being usw 103793 89263.78 103315.15
+
+equal to 3 or 7. bsc 22637 19910.91 159018.64
+unc 15287.2 13975.62 119652.97
+
+The results presented in the Table 3 compares MCGA to a usw 13942.3 12527.14 105671.57
+
+local search algorithm called S5 (showed be highly compet- bsc 66754.1 57418.5 82861.53
+
+itive in many tested instances) that run CLK and then an unc 43824.9 39675.44 69423.99
+
+iterative greedy method heuristic PackIterative until time is usw 41874.2 37202.45 58207.53
+
+up and a mixed integer programming (MIP) based approach. bsc 117066 93366.59 17335.31
+unc 77495.2 70168.3 12365.18
+
+It can be seen that MCGA outperforms the other algorithms usw 67510 60821.47 12972.58
+
+in almost every instance derived from the TSP problem com- bsc 232309 196269.46 51109.27
+
+ponent rat with 783 and 195 cities. On the other hand for unc 149729 138636.78 34560.47
+
+the problem with 3038 cities it has clearly underperform- usw 137806 126800.27 39954.74
+
+ing making explicit that the MCGA performance is visible bsc 19747.5 14749.02 20353.12
+linked with the TSP component characteristics, which can unc 14773.2 14149.22 15432.37
+be the distances pattern or the problem size or maybe both. usw 13958.9 13879.76 14133.86
+The overall result shows that MCGA obtained better aver- bsc 54174.1 39072.07 58010.61
+ages in 52.78% of the presented instances, the S5 outper- unc 42989.5 41997.23 44628.82
+forms the other algorithms in 36.11% (due to its results in usw 40913.1 39463 43294.08
+the instances with 3038 cities) and the MIP based approach bsc 93475.2 73185.28 79311.13
+was the best in 11.11% of the benchmark problems. unc 74733.2 73997.67 77778.99
+
+usw 66709.8 66751 71705.39
+An analyses of the algorithm evolution was performed to bsc 176962 167126.14 171872.05
+
+unc 150619 148490.64 143345.51
+usw 135309 133913.51 141737.38
+
+100 99 70 52 51
+
+990 495 297 99 980 490 294 98 690 345 207 69 510 255 153 51 500 250 150 50
+
+
+
+ 0
+-500000
+
+-1x106
+-1.5x106
+
+-2x106
+Table 2: Mean of the coefficients calculated from the -2.5x106
+results presented in Table 1. -3x106
+
+MCGA EA TS -3.5x106
+Mean coef. 0.913212685 0.795308198 0.906058209 -4x106
+
+-4.5x106
+-5x106 MCGA - C2
+
+-5.5x106
+ 0  50  100  150  200  250  300  350  400  450
+
+No. of generations
+
+Figure 3: MCGA with C2 configuration in the in-
+stance pcb3038_n30370_uncorr_07.
+
+Table 3: MCGA performance compared to the S5  2x106
+heuristic and MIP approach on a subset of the 72  1x106
+instances used by Faulkner et al. [4].  0
+
+n m t C MCGA S5 MIP
+3 84385.5 86516.9 86550.9 -1x106
+
+7 117426 110107 110555 -2x106
+
+3 60017.3 56510.6 56518 -3x106
+7 75303.3 70583.8 70728 -4x106
+3 30871.8 28024.7 28061.5
+7 54357 48023 48332 -5x106 MCGA - C3
+3 229432 227063 227965 -6x106
+
+7 384304 359614 359527  0  2000  4000  6000  8000  10000  12000  14000
+
+3 174002 157297 157532 No. of generations
+7 249938 227502 227637
+3 115337 102568 103417 Figure 4: MCGA with C3 configuration in the in-
+7 191539 168931 169168 stance pcb3038_n30370_uncorr_07.
+3 284904 263725 263691
+7 481395 435157 433814
+3 206739 189949 189671 further investigate the MCGA behavior on instances with
+7 286227 263367 263258 3038 cities. We discovered that for many instances like
+3 139672 130409 130901 the pcb3038_n30370_uncorr_07 (3038 cities, 10 items per
+7 232023 213893 213943 city, uncorrelated type and capacity category 7) the per-
+3 939702 940002 940141 formance was limited by the time restriction. It can be
+7 1483880 1425821 1424650 seen in Figure 3 that MCGA convergence was not attained.
+3 577930 637793 637487 Probably, better solution can be found with more time.
+7 900138 910032 909343 In face of this, a configuration with more time (C3) was
+3 393142 434180 435368 used to analyze the MCGA behavior solving the instance
+7 702622 698730 699101 (pcb3038_n30370_uncorr_07). We limited the CLK heuris-
+3 816356 1217786 1214427 tic runtime (set to 37.5 seconds to generate each individ-
+7 1360530 1864413 1858773 ual) in order to guarantee considerable runtime to MCGA.
+3 58605 782652 780574 Moreover, we used the same 32 cores computer that ran the
+7 404174 1093259 1090977 previous experiment.
+3 121877 568509 567102
+7 375058 873670 869420 The Figure 4 shows that MGCA achieves significantly higher
+3 1113600 4023124 4006061 fitness value if more time is available. However, this value
+7 2362480 5895031 5859413 still remains below the S5 and MIP results. Therefore, the
+3 -1531310 2595328 2589287 amount of time is not the only MCGA feature that has to
+7 -717599 3603613 3600092 be improved.
+3 -748034 1800448 1801927
+7 -434909 2863437 2856140
+
+5. CONCLUSION
+The existing interdependence in a multi-component problem
+proves challenging due to the optimal solution for a compo-
+nent do not imply in a good solution for the overall problem.
+
+3038 783 195
+
+30370 9111 7820 2346 1940 582
+
+usw unc bsc usw unc bsc usw unc bsc usw unc bsc usw unc bsc usw unc bsc
+
+Fitness Fitness
+
+
+
+In this paper a Genetic Algorithm approach called Multi-
+component Genetic Algorithm (MCGA) was proposed at-
+tempting to solve a new multi-component combinatorial prob-
+lem called Travelling Thief Problem (TTP). It applies mu-
+tation and crossover operators for each component of the
+problem.
+
+The experiments showed that MCGA can obtain compet-
+itive solution for TTP instances with a number of cities
+varying between 51 and 783 cities compared to other algo-
+rithms in the literature. Further investigation is required to
+improve its performance on larger instances. A possible im-
+provement is reduce the time consumption using new strate-
+gies to evaluate the individuals or new operators of mutation
+and crossover specific developed for TTP that consider the
+interaction between the components. Tuning the MCGA
+parameters may lead to significantly higher objective values
+in instances with specific size range or type.
+
+6. REFERENCES
+[1] D. Applegate, W. Cook, and A. Rohe. Chained
+
+lin-kernighan for large traveling salesman problems.
+INFORMS Journal on Computing, 15(1):82–92, 2003.
+
+[2] M. Bonyadi, Z. Michalewicz, and L. Barone. The
+travelling thief problem: The first step in the transition
+from theoretical problems to realistic problems. In
+Evolutionary Computation (CEC), 2013 IEEE
+Congress on, pages 1037–1044, June 2013.
+
+[3] M. R. Bonyadi, Z. Michalewicz, M. Roman Przybyŏek,
+and A. Wierzbicki. Socially inspired algorithms for the
+travelling thief problem. In Proceedings of the 2014
+conference on Genetic and evolutionary computation,
+pages 421–428. ACM, 2014.
+
+[4] H. Faulkner, S. Polyakovskiy, T. Schultz, and
+M. Wagner. Approximate approaches to the traveling
+thief problem. In Proceedings of the 2015 on Genetic
+and Evolutionary Computation Conference, pages
+385–392. ACM, 2015.
+
+[5] Y. Mei, X. Li, and X. Yao. Improving efficiency of
+heuristics for the large scale traveling thief problem. In
+Simulated Evolution and Learning, pages 631–643.
+Springer, 2014.
+
+[6] M. R. Oliveira, A. G. dos Santos, and
+M. de Freitas Araujo. Uma heuŕıstica busca tabu para
+o problema do mochileiro viajante. In Simpósio
+Brasileiro de Pesquisa Operacional, SBPO ’15, 2015.
+
+[7] S. Polyakovskiy, M. R. Bonyadi, M. Wagner,
+Z. Michalewicz, and F. Neumann. A comprehensive
+benchmark set and heuristics for the traveling thief
+problem. In Proceedings of the 2014 Conference on
+Genetic and Evolutionary Computation, GECCO ’14,
+pages 477–484, New York, NY, USA, 2014. ACM.

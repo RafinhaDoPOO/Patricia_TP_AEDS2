@@ -1,0 +1,856 @@
+﻿Uma Solução de Localização e Navegação indoor para o
+sistema MyMobiConf
+
+Pedro H. S. Oliveira1, Thais R. M. B. Silva2
+
+1Instituto de Ciências Exatas e Tecnológicas
+Universidade Federal de Viçosa - Campus UFV-Florestal (UFV)
+
+Caixa Postal 15.064 – 91.501-970 – Florestal – MG – Brazil
+
+{pedro.oliveira3,thais.braga}@ufv.br
+
+Resumo. Atualmente várias tecnologias que utilizam o GPS (Global Position-
+ing System) como solução de localização estão disponı́veis para diferentes cam-
+pos de aplicação. Entretanto a precisão dessas tecnologias podem variar bas-
+tante, especialmente no interior de construções onde podem existir inúmeros
+bloqueios de sinal dos satélites. Abordagens alternativas para esses cenários
+que possuem bons resultados costumam utilizar infraestrutura adicional para
+melhorar a precisão. A abordagem do presente trabalho, por sua vez, usa
+apenas os componentes integrados em smartphones para prover um sistema
+de navegação viável para um aplicativo de apoio à participação em eventos,
+o myMobiConf. A proposta implementada se mostrou eficiente para uma vasta
+gama de edifı́cios e, portanto, vários tipos de evento. Além de utilizar fusão de
+sensores para compensar os erros inerentes aos sistemas de navegação inercial.
+
+1. Introdução
+Com o rápido desenvolvimento da indústria de dispositivos móveis, inúmeros sensores
+usados para aferir posicionamento, como receptores GPS, acelerômetros, giroscópios,
+bússolas, câmeras, Wi-fi e Bluetooth já são equipados nos smartphones atuais para dar
+suporte a variados serviços baseados em localização [Hu 2013].
+
+O GPS (Global Positioning System) é a principal tecnologia utilizada neste con-
+texto e fornece uma posição aproximada do dispositivo, onde a acurácia depende de vários
+fatores: ambiente, condições atmosféricas, sinal do satélite, entre outros. A acurácia co-
+mum desses dispositivos é aceitável para algumas aplicações como navegação utilizando
+um veı́culo ou para reconhecer lugares próximos [Simões 2013] como o Waze1 ou o
+Google Maps2. Mas quando essa problemática é trazida para a navegação de um pedestre,
+a tarefa se torna mais difı́cil.
+
+O myMobiConf é um sistema de gerenciamento e apoio a eventos para o criador
+quanto para os participantes do mesmo. A versão do organizador é disponibilizada em
+uma plataforma WEB e permite que o criador do evento gerencie questionários, ativi-
+dades, estratégias de gamificação, dentre outros. Já a versão do participante é disponibi-
+lizada como um aplicativo que permite ao usuário cadastrar-se em um evento, visualizar
+as atividades, avaliá-las, participar da gamificação, emitir opiniões, etc3.
+
+1https://www.waze.com/about/
+2https://www.google.com/intl/pt-br/maps/about/#!/
+3http://www.mymobiconf.caf.ufv.br/informacoes/sobre.html
+
+
+
+Normalmente, eventos ocorrem em ambientes fechados, dentro de salas ou labo-
+ratórios que podem ser difı́ceis de encontrar dependendo das caracterı́sticas do edifı́cio. A
+fim de melhorar ainda mais a experiência do participante, especialmente quando o mesmo
+desconhece o local da realização do evento, foi implementada uma solução de localização
+e navegação para ambientes internos (indoor), que permite o participante se localizar no
+mapa onde o evento é realizado, visualizar dinamicamente a rota de sua presente posição
+até o destino de sua próxima atividade e, por fim, ser guiado através de um sistema de
+navegação até o local.
+
+A utilização de outras soluções em ambientes fechados é limitada pela sua de-
+pendência do uso do GPS, o qual por sua vez, neste contexto, entrega um resultado com
+nı́veis inaceitáveis de imprecisão. As soluções alternativas, na sua maioria, necessitam
+da instalação de equipamentos distribuı́dos pelo ambiente, o que muitas vezes inviabi-
+liza o seu desenvolvimento [Arantes 2018]. Especialmente no myMobiConf, significaria
+que cada evento que desejasse utilizar a funcionalidade de localização do aplicativo teria
+que dispor desses equipamentos espalhados por, muitas vezes, mais de um edifı́cio e seus
+andares, além de demandarem manutenção constante, inviabilizando essa abordagem.
+
+Portanto, uma alternativa mais viável a ser implementada junto ao myMobiConf
+seria utilizar navegação estimada com o auxı́lio dos sensores disponı́veis nos smartphones
+para corrigir a trajetória do usuário, ao invés de utilizar apenas o GPS. Dessa forma, a
+funcionalidade pode ser genérica o suficiente para abranger diferentes eventos e ainda
+entregar resultados com precisão satisfatória para a visualização de pontos, rotas e tra-
+jetórias em locais internos, desde que seja criado previamente um mapa do edifı́cio em
+que o evento ocorrerá.
+
+O restante do trabalho está organizado em seis partes. A seção 2 introduzirá os
+principais conceitos que serão utilizados no trabalho. Na seção 3 são descritos alguns
+trabalhos relacionados e pertinentes ao projeto. A seção 4 detalha e explica a solução
+proposta, os resultados são apresentados na seção 5 e a última parte (seção 6) irá abranger
+a conclusão e sugestões de trabalhos futuros.
+
+2. Referencial Teórico
+2.1. Sensores
+Sensores podem ser definidos como dispositivos sensı́veis à alguma forma de energia
+do ambiente, a qual pode ser luminosa, térmica, cinética, dentre outras, relacionando
+informações sobre uma grandeza que precisa ser mensurada como, por exemplo, temper-
+atura, pressão, velocidade, corrente, aceleração e posição [Wendling 2010].
+
+• GPS (Sistema de Posicionamento Global): É um sistema de navegação por rádio
+satélite desenvolvido pelo Departamento de Defesa dos EUA. O sistema faz uso
+da transmissão de sinais de microondas produzidos pelos satélites de órbita ter-
+restre, permitindo que um receptor determine a sua posição, velocidade e tempo
+[Eissfeller et al. 2007]. Este sistema é especificado para fornecer as coordenadas
+bi ou tridimensionais de pontos no terreno, bem como a velocidade e direção do
+deslocamento entre pontos [Albuquerque 2003]. O GPS pode apresentar falhas
+devido a degradação do sinal do satélite em relação a posição do usuário por di-
+versos fatores [Arantes 2018].
+
+
+
+• Acelerômetro: É um instrumento responsável por aferir a taxa de variação de ve-
+locidade de um objeto em movimento e é amplamente utilizado em smartphones.
+Essa aceleração, por sua vez, não pode ser aferida diretamente. Para isso, ele irá
+aferir a força exercida em uma referência de massa com posição fixa equipada
+no dispositivo quando ele se move. A aceleração, por fim, é calculada usando a
+relação entre a força de restrição e a aceleração dada pela segunda lei de Newton:
+força = massa × aceleração4.
+
+• Magnetômetro: É um sensor que afere a força e direção de campos magnéticos5.
+Os que são comumente utilizados nos dispositivos móveis são particularmente
+úteis para esse projeto pois funcionam bem dentro de edifı́cios, consomem pouca
+energia em comparação com outros sensores e não precisam de nenhuma in-
+fraestrutura adicional além, claro, de estar disponı́vel na maioria dos modelos de
+smartphones [Jeong et al. 2019].
+
+• Giroscópio: Um giroscópio mede a velocidade de rotação de um objeto em torno
+do centro de rotação [Forhan and Senna 2010] e, através dele, é possı́vel saber a
+direção para qual o usuário está caminhando.
+
+• Fusão de sensores: É chamada fusão de sensores quando a combinação de mais
+de um sensor ou derivados produz melhores resultados do que se utilizados in-
+dividualmente [Elmenreich 2002]. Quando usados de forma isolada, os sensores
+sofrem interferências que podem gerar erros no valor apresentado, além de prob-
+lemas de arredondamento que se acumulam e fazem o erro aumentar. Para mini-
+mizar esse efeito, utiliza-se a fusão de sensores [Souza 2017].
+
+2.2. Sistemas de Navegação
+Navegação é o processo de calcular as alterações na posição, velocidade, atitude e/ou
+taxas de rotação de um objeto em movimento necessárias para seguir uma determinada
+trajetória e/ou perfil de atitude com base em informações sobre o estado de movimento do
+objeto [Grewal 2013]. Sendo esse resultado alcançácel através de tecnologias e métodos
+para estimar posição.
+
+Existem alguns tipos sistemas de navegação que são encontrados comumente na
+literatura:
+
+• Sistema de navegação por satélite: Trata-se de um sistema estruturado a partir de
+um conjunto de satélites que, ao aferir a distância entre o receptor e o satélite em
+órbita, e o tempo que o sinal gasta para chegar até o dipositivo, é possı́vel estimar a
+posição do receptor [Grewal 2013]. Esse é o sistema mais utilizado em aplicativos
+convencionais do mercado.
+
+• Sistema de navegação baseado em redes: São sistemas que utilizam tecnologias
+de transmissão sem fio e seus parâmetros para a estimação da posição absoluta do
+usuário [Castro 2018].
+
+• Sistema de navegação inercial (INS): São os sistemas onde a atualização da tra-
+jetória de um ponto de partida não depende de sinais externos e a trajetória e
+direção são conhecidas utilizando um arranjo de acelerômetros, giroscópio ou
+bússola [Groves 2013]. Em outras palavras, dada uma aceleração, é possı́vel de-
+terminar velocidade e posição através de sucessivos cálculos matemáticos. Além
+
+4https://www.britannica.com/technology/accelerometer
+5https://www.britannica.com/technology/magnetometer
+
+
+
+disso, a rotação pode ser obtida através da velocidade de rotação em torno dos
+eixos através do magnetômetro e/ou giroscópio [Groves 2013].
+
+• Navegação estimada para pedestres: O PDR (Pedestrian Dead Reckoning) é, de
+maneira simples, estimar a distância percorrida e a direção em que a pessoa cam-
+inhou. Essa técnica utiliza uma navegação baseada no posicionamento relativo
+e, partindo de uma posição conhecida, sucessivos deslocamentos são adicionados
+a ela [Beauregard and Haas 2006]. Uma solução para o desenvolvimento de um
+sistema de navegação estimada para pedestre é o uso de sensores inerciais para a
+contagem dos passos realizados pelo usuário, substituindo assim, os cálculos de
+posição e velocidade realizados nos sistemas de navegação inercial (INS) tradi-
+cionais, resultando em uma melhora significativa do resultado [Groves 2013].
+
+2.3. Posicionamento
+• Posicionamento absoluto: Nesse tipo de posicionamento a localização do usuário
+
+é aferida através de informações obtidas de equipamentos (beacons) fixados no
+ambiente, os pontos de referência. Os principais métodos usados para determi-
+nar a posição de um dispositivo móvel envolvem medir a diferença do tempo
+de chegada, o ângulo de chegada ou a potência do sinal [Arantes 2018] e, dessa
+forma, conseguem alcançar resultados com boa precisão. Devido a popularidade
+desse produto no mercado, normalmente são encontrados trabalhos baseados em
+redes com tecnologia WiFi. Mas também existem os que utilizam uma rede de
+beacons Bluetooth 4.0 espalhados por um edifı́cio para utilizar esses métodos
+[Castro 2018].
+
+• Posicionamento Relativo: No Posicionamento Relativo a posição atual é baseada
+na última posição conhecida. A navegação inercial pode ser usada na criação
+de sistemas de Posicionamento Relativo e o principal método utilizado é o Dead
+Reckoning [Arantes 2018].
+
+3. Trabalhos Relacionados
+Sistemas de localização e navegação já são amplamente utilizados em várias aplicações do
+mercado. Entretanto, estimar a posição do usuário em ambientes indoor é uma tarefa com-
+plexa, capaz de envolver diversas abordagens, sensores e tecnologias de comunicações
+[Makki et al. 2015]. Logo a presente seção apresentará alguns sistemas e metodologias
+encontrados na literatura sobre a problemática de localização e navegação para ambientes
+fechados.
+
+Em [Mecking 2015] é proposto um sistema de navegação por satélite que analisa
+os pontos de interesse em volta do usuário e, dessa forma, permite que o mesmo se localize
+em um campus universitário. [Simões 2015] apresenta uma solução de um sistema de
+localização indoor com base em rede WiFi para o campus da Universidade de Lisboa,
+combinando técnicas de triangulação em um servidor e desenvolvendo uma aplicação
+móvel para a plataforma Android.
+
+Em [Bekkelien et al. 2012], por outro lado, desenvolveram uma solução que uti-
+liza beacons Bluetooth: espalham-se várias antenas em um edifı́cio e a posição exata de
+cada uma deve ser registrada para que o sistema a utilize como referência. A força do sinal
+é usada para calcular a distância do dispositivo para a antena Bluetooth, inferindo assim
+
+
+
+a posição do usuário. Essas possibilidades, como já mencionado na seção 2, incorrem em
+um custo extra para a aplicação.
+
+Já [Arantes 2018] propõe um modelo que utiliza navegação inercial com contagem
+de passos e auxı́lio de realidade aumentada para produzir um sistema de navegação intu-
+itivo para o usuário. [Stockx et al. 2014] também utiliza técnicas de navegação inercial
+para estimar posição através do acelerômetro e do giroscópio uma vez que o usuário insere
+os pontos de inı́cio e destino. Um outro exemplo é descrito no trabalho [Silva et al. 2017],
+que segue essa metodologia e utiliza o magnetômetro e o acelerômetro para alimentar uma
+API que será responsável por calcular a posição do usuário baseado em um mapa previ-
+amente concebido. [Hu 2013] cria um protótipo que exibe a posição do usuário baseado
+na contagem de passos, entretanto utiliza diferentes classificações do movimento para
+melhorar a acurácia da contagem.
+
+Este trabalho apresenta uma solução e implementação de um sistema de
+localização e navegação indoor que não depende de nenhuma infraestrutura adicional,
+não é dependente do GPS, pode ser usado para diversos edifı́cios independente do número
+de andares e utiliza a abordagem PDR para corrigir a trajetória do usuário.
+
+4. Projeto e Implementação da Solução
+4.1. Recursos Utilizados
+Para o desenvolvimento da proposta deste trabalho e a posterior realização de testes
+foi utilizado o smartphone Redmi Note 10S6, que é equipado com os sensores GPS,
+acelerômetro e magnetômetro. Em termos de software, as tecnologias listadas abaixo
+foram utilizadas na implementação:
+
+• Ionic Framework: O myMobiConf foi desenvolvido utilizando o Ionic Framework
+que, segundo sua documentação oficial, é um kit de ferramentas de interface do
+usuário de código aberto para criar aplicativos multiplataforma modernos e de
+alto desempenho a partir de uma única base de código7. Além de funcionar em
+múltiplas plataformas, utiliza Javascript e Typescript, o que permite ao aplicativo
+utilizar inúmeros pacotes NPM (Node Package Manager).
+
+• Capacitor: O Capacitor é um framework utilizado no Ionic para rodar código na-
+tivo em todas as plataformas, facilitando a criação de aplicativos móveis de alto
+desempenho executados nativamente em iOS ou Android. Adicionar funcionali-
+dade nativa, como monitoramento dos sensores do dispositivo, é simples com uma
+API de plug-in para Swift no iOS, Java no Android e JavaScript para a Web8. Os
+plug-ins Motion e Geolocation foram utilizados neste projeto para monitorar o
+GPS, o acelerômetro e o magnetômetro.
+
+• Google My Maps: O Google My Maps (Meus Mapas) é um software gratuito de-
+senvolvido pela empresa Google que tem como principal função a criação colab-
+orativa de mapas digitais personalizados, sendo possı́vel localizar lugares, traçar
+rotas, importar e/ou exportar informações geográficas nos formatos de arquivo
+KML e KMZ, adicionar propriedades para os componentes, dentre outras fun-
+cionalidades9.
+
+6https://www.mi.com/global/product/redmi-note-10s/specs
+7https://ionic.io/framework
+8https://capacitorjs.com/docs/
+9https://www.google.com/intl/pt-BR/maps/about/mymaps/
+
+
+
+• Google Maps API: Com a API Maps JavaScript, é possı́vel personalizar mapas
+com seu próprio conteúdo e imagens para exibir em páginas da Web e dispositivos
+móveis. O mapa pode ser alterado usando camadas e estilos, controles e eventos,
+além de vários serviços e bibliotecas. É uma ferramenta Javascript (compatı́vel
+com o Ionic) amplamente utilizada e que permite utilizar mapas dinâmicos, inter-
+ativos e altamente personalizados10.
+
+• Pacotes javascript auxiliares: Foram usados alguns pacotes Javascript para auxiliar
+neste trabalho, o pacote graphology11 permite o aplicativo comportar grafos com-
+plexos e otimizados em tempo de execução, além de fornecer algoritmos otimiza-
+dos de menor caminho para grafos ponderados ou não ponderados, com arestas
+ou sem arestas, rotulados ou não, dentre outras possibilidades. O pacote geolib12,
+por outro lado, oferece algoritmos para cálculos otimizados de geolocalização,
+utilizando coordenadas do mapa (latitude e longitude). Para o cálculo da posição
+do usuário utilizando a distância deslocada e a direção do deslocamento, por ex-
+emplo, o pacote geolib já possui uma função integrada para esse fim.
+
+4.2. Metodologia
+4.2.1. Visão Geral
+
+A solução desenvolvida neste trabalho consiste em permitir aos usuários do myMobiConf
+localizarem os lugares dentro do edifı́cio em que um evento ocorrerá, mostrando a rota
+mais curta até o destino, a distância, informações a respeito dos possı́veis destinos, dentre
+outras. A ideia é prover uma funcionalidade que, independente do edifı́cio, permita criar
+um mapa e traçar rotas entre a posição do usuário e os possı́veis destinos, sendo assim
+genérica o suficiente para ser usada por qualquer evento, independente do seu tipo ou
+qualquer de suas caracterı́sticas. A proposta também atende ao requisito de minimizar
+os efeitos dos desafios da localização indoor utilizando os sensores equipados no smart-
+phone. Assim, desde que seja criado previamente um mapa do edifı́cio, como será descrito
+nesta seção, o evento contará com auxı́lio de localização em sua tela de atividades.
+
+As seções 4.2.2 e 4.2.3 explicam a função das telas do sistema e recursos gerais
+implementados. As seções posteriores detalham cada parte da metodologia implementada
+do trabalho.
+
+4.2.2. Tela para Escolha de Destino
+
+A tela para escolha de destino (Figura 1) é a responsável por exibir e definir a rota que
+pode ser percorrida. A posição inicial do marcador é aferida através do GPS e monitorada
+a cada perı́odo de tempo. Portanto, a posição se mantém atualizada mesmo que o usuário
+se desloque. É possı́vel também selecionar manualmente a própria posição caso considere
+que as interferências no GPS não permitem ao sistema obter a localização de maneira
+adequada.
+
+É possı́vel visualizar todos os andares cadastrados no mapa através da opção “An-
+dar sendo visualizado no mapa”. Ao alterar o andar através dessa opção, os pontos de
+
+10https://developers.google.com/maps/documentation/javascript
+11https://graphology.github.io/
+12https://github.com/manuelbieh/geolib
+
+
+
+destino que correspondem ao andar selecionado serão exibidos e os outros removidos.
+É possı́vel alterar também o andar do edifı́cio em que a pessoa se encontra através da
+opção de seleção “Usuário está no andar” e, dessa forma, definir rotas do primeiro para o
+segundo andar, do terceiro para o primeiro, e assim sucessivamente.
+
+Figure 1. Tela para escolha de destino do myMobiConf.
+
+Ao selecionar algum dos destinos dispostos no mapa, a rota é traçada da posição
+atual do usuário até o ponto selecionado. Para que o marcador da posição atual do usuário
+apareça no mapa, ele deve estar visualizando exatamente o andar em que ele está, ou
+seja, se o andar selecionado para o mapa for o primeiro e a pessoa marcou que está no
+segundo andar, seu marcador não irá aparecer. Além disso, mesmo que a rota da posição
+do usuário até o destino envolva mais de um andar, só serão exibidos os pontos da rota
+que pertencem ao andar que estiver sendo visualizado no mapa pelo usuário.
+
+O mapa permite que sejam alteradas a posição, inclinação e rotação para melhorar
+a usabilidade. Além disso, visando comodidade, foi adicionado um botão lateral que
+retorna para o local onde o usuário está no mapa, imediatamente abaixo da seleção manual
+de posição. Permitindo, dessa forma, que o utilizador navegue em qualquer lugar do mapa
+e ainda assim não perca a referência rápida de onde se encontra. Por fim, ao selecionar
+um ponto de destino é possı́vel iniciar o trajeto até ele através do sistema de navegação
+clicando em “Iniciar”.
+
+4.2.3. Tela de Navegação
+
+Na tela de navegação (Figura 2) foi implementado um sistema de navegação inercial que
+utiliza o GPS (quando possı́vel) e o PDR para guiar a pessoa até o ponto escolhido uti-
+lizando os sensores presentes no dispositivo.
+
+A página recebe a rota escolhida pelo usuário e assume que o primeiro item da
+rota é a posição inicial e o último item, o destino. Então, se o smartphone que estiver
+executando o aplicativo possuir o magnetômetro, o mapa apontará na direção pra onde o
+celular está apontando automaticamente e em tempo real, melhorando a usabilidade.
+
+
+
+Figure 2. Tela de navegação da feature de localização do myMobiConf.
+
+A posição do usuário é atualizada a medida em que ele se locomove na direção do
+destino enquanto trás informações na tela para auxiliá-lo no trajeto. Ao chegar a fim da
+rota, é possı́vel retornar à página de escolha de destino e realizar uma nova navegação.
+
+4.2.4. Construção do Mapa
+
+Para que a aplicação funcione no edifı́cio do evento, deve ser construı́do anteriormente
+um mapa que corresponde a planta do local e suas possı́veis rotas utilizando o Google My
+Maps. Três tipos de pontos podem ser utilizados neste mapa: os pontos de destino, de
+navegação (utilizados para as rotas) e de acesso (que dão acesso a um outro andar). Um
+exemplo de mapa é mostrado na Figura 3.
+
+Figure 3. Exemplo de um mapa produzido com o Google My Maps.
+
+
+
+4.2.5. Definição de Atributos para Pontos do Mapa
+
+Cada ponto inserido no mapa deve conter informações que o sistema de localização pre-
+cisa saber para funcionar como o esperado. Abaixo, na Figura 4 estão listados os atributos
+para um ponto:
+
+Figure 4. Exemplo do preenchimento de atributos para um ponto inserido no
+mapa.
+
+• name: Atributo obrigatório de texto do mapa responsável por inserir um
+nome/rótulo ao ponto. É importante que cada ponto tenha um nome diferente
+pois será sua chave única. Como será definida uma rota, é necessário saber para
+qual ponto o usuário irá em sequência e não é possı́vel realizar isso sem um iden-
+tificador.
+
+• description: Atributo opcional de texto que traz uma descrição breve sobre o
+ponto. Só é necessário inserir valor se for um ponto de destino.
+
+• isDestination: Atributo obrigatório “Verdadeiro/Falso” do mapa que informa se
+um ponto será considerado como um possı́vel destino para o usuário ser guiado
+até ele. Se o valor for verdadeiro, é um ponto de destino, caso contrário, é um
+ponto de navegação que será utilizado para traçar as rotas do mapa.
+
+• isAccessNode: Atributo obrigatório “Verdadeiro/Falso” que informa se o ponto é
+um ponto que dá acesso a um andar (superior ou inferior). Verdadeiro se for um
+ponto que provê acesso.
+
+• floor: Atributo numérico obrigatório que informa qual andar do edifı́cio o ponto
+está presente. Essa aplicação suporta mapas que possuem mais de um andar então
+é importante registrar o andar de cada ponto. A contagem começa a partir do valor
+1, ou seja, se o valor for 1 significa que o ponto está no primeiro andar.
+
+• image: Atributo opcional de texto que carrega um link para uma imagem do ponto
+criado. Só importa para os marcadores de destino.
+
+4.2.6. Inserção de Arestas no Mapa
+
+As arestas ligam necessariamente dois pontos e devem ser colocadas uma de cada vez
+para cada dois pontos do mapa. As arestas não precisam ser preenchidas com nenhuma
+propriedade. Porém, para melhor leitura do mapa ao editá-lo no My Maps é recomendável
+que pelo menos o atributo nome seja preenchido.
+
+
+
+4.2.7. Extração dos Dados do Mapa
+
+Construı́do o mapa, exporta-se o arquivo do edifı́cio para o formato .kml utilizando o My
+Maps e, como esse arquivo possui muitos detalhes e não mantém um padrão amigável, a
+extração de dados em linha de código se torna mais difı́cil. Logo, o mapa é convertido
+para o tipo .geojson que, por sua vez, é um formato mais familiar pois se trata de um array
+de componentes do mapa criado (Figura 5).
+
+Arquivos do tipo GeoJSON são, basicamente um formato JSON para codificação
+de várias estruturas de dados como pontos e arestas13. Existem inúmeras ferramentas
+online gratuitas para esse fim como Aspose Converter14 e GroupDocs Converter15.
+
+Figure 5. Um ponto arbitrário ”P9” convertido de KML para GeoJSON.
+
+O arquivo .geojson gerado serve de entrada para a montagem do grafo que será
+utilizado pelo aplicativo do myMobiConf. O grafo será ponderado pela distância entre
+dois pontos e cada rótulo de cada vértice será o nome dado a ele na montagem do mapa.
+Portanto, como supracitado, é extremamente importante que cada ponto possua um nome
+diferente. Uma vez com o grafo montado, será possı́vel calcular as rotas de maneira
+eficiente utilizando abordagem de Dijkstra [Javaid 2013], que já está presente no pacote
+Graphology.
+
+4.2.8. Escolha da Rota
+
+Na tela de escolha do destino, a posição atual do usuário é monitorada através do GPS e
+aproximada de um dos pontos (navegação ou destino) que estiverem realmente próximos
+
+13https://geojson.org/
+14https://products.aspose.app/gis/conversion/kml-to-geojson
+15https://products.groupdocs.app/conversion/kml-to-geojson
+
+
+
+da posição atual. Caso contrário, significaria que o usuário está fora do edifı́cio e, por-
+tanto, não poderia utilizar a navegação indoor desenvolvida. Entretanto ele ainda poderá
+visualizar sua posição atual no mapa, os pontos de interesse e demais informações, além
+do mapa do próprio Google Maps.
+
+É possı́vel também selecionar manualmente a própria posição caso o usuário con-
+sidere que o GPS está muito impreciso. Como é difı́cil para um usuário que desconhece
+o local saber necessariamente onde está, o ponto de entrada do edifı́cio deve serve, nova-
+mente, como referência de lugar conhecido para a seleção manual. Ao ser selecionado um
+ponto de destino, a rota entre a presente posição do usuário e o ponto escolhido é traçada
+imediatamente utilizando o grafo, sendo exibidas as informações relevantes a respeito do
+mesmo. Uma vez que o usuário deseja ser guiado até o destino selecionado, a rota traçada
+é enviada para a tela de navegação e o sistema de navegação é iniciado.
+
+4.2.9. Navegação
+
+Como explicado anteriormente (Seção 2), um requisito essencial é que a navegação in-
+ercial tenha um ponto de partida. Portanto, assume-se que o primeiro item da rota é a
+posição inicial e o último item, o destino.
+
+Caso o smartphone que esteja executando o aplicativo possua o magnetômetro,
+o mapa apontará na direção pra onde o celular está direcionado automaticamente e em
+tempo real, melhorando a usabilidade.
+
+4.2.10. Contagem de Passos
+
+Para as novas versões do Ionic que usam o Capacitor não existe um contador de passos já
+implementado que possa ser usado. Ao invés disso, se o acelerômetro estiver disponı́vel
+no smartphone, é possı́vel monitorar os picos de aceleração do dispositivo através do
+plug-in Motion e, dessa forma, realizar uma contagem de passos [Simões 2013]. O plug-
+in utilizado retorna as variações da aceleração em m/s2 na direção dos eixos x, y e z16.
+O eixo x mede aceleração para a direita e para a esquerda do dispositivo, o eixo y para
+frente e para trás do dispositivo e o eixo z para cima e para baixo do chão (Figura 6).
+
+Figure 6. Eixos analisados [Arantes 2018].
+
+16https://capacitorjs.com/docs/apis/motion#pluginlistenerhandle
+
+
+
+A princı́pio foi considerado utilizar abordagens da média de valores obtidos do
+acelerômetro como em [Simões 2013], entretanto muitos cálculos em tempo real incor-
+reram em perda de desempenho do sistema. [Arantes 2018] também utiliza cálculos em
+grandes recortes de dados detectados pelo acelerômetro e só considera o eixo z para a
+contagem de passos, isso não se sustentou empiricamente pois o caminhar do usuário não
+necessariamente tem que seguir um mesmo padrão de subida e descida do dispositivo ao
+caminhar. Uma maneira viável foi considerar o tempo gasto para um passo ser realizado.
+Segundo [Jin et al. 2011], o tempo de ocorrência de um passo humano está entre 150 ms e
+400 ms. Foi utilizada, portanto, a média desse valor (275 ms) para estabelecer uma janela
+de tempo em que um passo pudesse acontecer.
+
+Uma constante STEP THRESHOLD, cujo valor é a aceleração mı́nima para ser
+contado um passo em qualquer um dos três eixos, foi definida de maneira empı́rica com
+valor 1, 3m/s2. A cada conjunto de dados retornado pelo acelerômetro, mesmo que a
+aceleração mı́nima seja ultrapassada em mais de um eixo, só pode ser contado um passo
+por vez para evitar repetição.
+
+Então as condições para que seja calculado um passo no sistema são:
+
+• Ultrapassar a aceleração mı́nima para um passo em qualquer um dos eixos.
+• Respeitar o limite de um passo a cada janela de tempo de 275 ms.
+
+4.2.11. Estimando a Posição do Usuário
+
+Para corrigir a trajetória ao longo de sua navegação é preciso analisar as possı́veis posições
+em que o usuário pode ir a cada momento. Em ambientes fechados o GPS apresenta
+imprecisões, mas em alguns momentos conseguem performar adequadamente e é possı́vel
+utilizá-lo para estimar a posição do usuário. A abordagem PDR implementada é utilizada
+para compensar as falhas do GPS durante a navegação.
+
+Em intervalos de 1 segundo a posição atual do GPS no aplicativo é monitorada
+e, se essa posição for considerada válida, a posição também será utilizada para prever a
+nova localização do usuário.
+
+Figure 7. Pedestrian Dead Reckoning [Simões 2013].
+
+
+
+O ponto retornado pelo GPS é válido se o atributo ”accuracy” (acurácia do GPS
+em metros), que é retornado pelo plug-in Geolocation, for menor que 8 metros. Além
+disso, se a distância do GPS para o último ponto calculado do usuário for maior que 8
+metros, o ponto é inválido. Essa condição também é utilizada para o ponto da fusão de
+sensores (magnetômetro e acelerômetro).
+
+Nesse instante de tempo, além da posição do GPS, o cálculo da
+quantidadeDePassos ∗ tamanhoDoPasso é realizado para descobrir a distância deslo-
+cada e, levando em conta a direção para onde o mapa está apontando através do mag-
+netômetro, é possı́vel obter a posição aproximada do usuário, como mostrado na Figura
+7.
+
+O tamanho do passo usado nesse trabalho foi de 70 cm e leva em consideração
+a média do tamanho do passo de um homem (75 cm) e de uma mulher (67 cm)
+[Castro 2018]. Em seguida, caso o ponto resultante da fusão de sensores e o ponto do
+GPS sejam válidos, é realizado um cálculo para encontrar a posição média entre eles e,
+com esse ponto, é feita uma aproximação dessa nova posição para o ponto da rota mais
+próximo, corrigindo os possı́veis erros de trajetória (Fig 8).
+
+Figure 8. Ponto médio entre possı́veis posições da fusão de sensores e GPS
+calculados.
+
+Caso um dos pontos, fusão de sensores ou GPS, seja inválido, apenas o ponto
+válido é considerado para a aproximação. Caso ambos sejam inválidos, a posição é
+descartada e, neste caso, o estado atual exibido na tela é mantido. Se sucessivas posições
+forem descartadas, o sistema de navegação é encerrado e o usuário é redirecionado para a
+tela de escolha de destino.
+
+Se o ponto mais próximo desse novo ponto for o mesmo em que o usuário es-
+tava, o marcador não se move. Porém, o usuário provavelmente já se deslocou uma certa
+distância, logo a posição anterior obtida através dos sensores é armazenada e, quando for
+novamente o momento de avaliar a posição do usuário, não será considerada a posição do
+marcador do usuário e sim o último ponto calculado através da fusão de sensores como
+ponto inicial. Se a aproximação resultou em um ponto diferente do ponto do marcador do
+usuário, o marcador se move e a nova posição inicial a ser avaliada será a posição do mar-
+cador. A contagem de passos é reiniciada a cada instante de tempo em que essas posições
+são atualizadas até que o usuário chegue em seu destino ou retorne a tela anterior. Se o
+
+
+
+smartphone não for equipado com magnetômetro, o usuário terá que rotacionar manual-
+mente o mapa na direção em que ele deseja se deslocar a cada momento ou o ponto criado
+através da contagem de passos será inútil ao longo da navegação, reduzindo a acurácia do
+sistema.
+
+5. Avaliação
+Para avaliar a possibilidade de utilizar a solução em qualquer edifı́cio independente de
+suas caracterı́sticas, foram construı́dos quatro mapas. Três deles são pavilhões de aulas
+da UFV - Campus Florestal (PVE, PVB e LEN) e o outro, o mapa de uma residência.
+
+Confeccionar um bom mapa para o evento envolve muito esforço e é a parte mais
+trabalhosa da solução, pois é preciso criar rotas com ”boa aparência” e que correspondam
+a planta do ambiente, seguindo uma série de regras. O autor do mapa precisa conhecer
+os caminhos e os acessos a andar que podem ser percorridos dentro do edifı́cio e, por
+isso, deve se dirigir até o local e avaliar precisamente o ambiente. Quanto maior e mais
+complexa a estrutura, mais difı́cil se torna criar um mapa válido com boas condições de
+uso. Fortuitamente, para todos os mapas criados foi possı́vel alcançar mapas com boa
+aparência e o aplicativo traçou rotas válidas para todos os pontos.
+
+Para ter um referencial de cada sala e lugar, foi utilizado o aplicativo Google
+Maps17, já que a ferramenta de criação do mapa do presente trabalho é baseado no mapa
+do Google maps, facilitando que o mapa seja confeccionado com posições mais precisas
+de seus componentes.
+
+5.1. Mapas Criados
+5.1.1. PVE - Pavilhão de Aulas E (UFV-CAF)
+
+Figure 9. Mapa confeccionado do PVE e seu respectivo mapa mostrado ao
+usuário no myMobiConf.
+
+17https://play.google.com/store/apps/details?id=com.google.android.apps.maps
+
+
+
+Esse pavilhão tem um andar e possui oito salas de estudo, as demais são para
+outros fins. O lado de fora das salas é um ambiente semi-aberto, com um extenso corredor
+que interliga todas as salas e banheiros. Além desses pontos, foi inserido um ponto de
+entrada do pavilhão fora do edifı́cio.
+
+O sinal GPS nesse edifı́cio pareceu sofrer menos com a degradação do sinal já
+que o Google Maps apontou uma boa precisão (menor do que 5 metros). Dessa forma, se
+tornou mais fácil identificar os pontos se posicionando em cima de cada um e observando
+a respectiva posição no Google Maps. O mapa foi criado utilizando a metodologia detal-
+hada na seção 4 e a confecção durou cerca de uma hora. A Figura 9 mostra o mapa e seu
+funcionamento no myMobiConf.
+
+5.1.2. PVB - Pavilhão de Aulas B (UFV-CAF)
+
+O PVB também tem um andar e possui cinco salas para uso, três laboratórios com com-
+putadores e duas salas de estudo convencionais. O lado de fora das salas é um ambiente
+semi-aberto, com um corredor que interliga todas as salas e banheiros. Além desses pon-
+tos, foi inserido um ponto de entrada antes das escadas que dão acesso ao corredor que
+interliga as salas, do lado de fora do edifı́cio. O sinal GPS nesse edifı́cio também se com-
+portou de maneira funcional. Dessa forma, utilizando o Google Maps foram definidos os
+pontos. A confecção durou cerca de quarenta minutos e a Figura 10 mostra o mapa e seu
+funcionamento no myMobiConf.
+
+Figure 10. Mapa confeccionado do PVB e seu respectivo mapa mostrado ao
+usuário no myMobiConf.
+
+
+
+5.1.3. LEN - Laboratório de Ensino (UFV-CAF)
+
+Especialmente nesse edifı́cio o GPS não apresentou bons resultados, só foi possı́vel
+localizar-se com precisão utilizando o Google Maps do lado de fora, na entrada. Logo
+o mapa foi construı́do baseando-se no reconhecimento visual do local e avaliando sua
+devida relação com o mapa do Google Maps. O LEN possui cerca de 18 salas de estudo
+convencionais possı́veis de serem utilizadas para eventos e são distribuı́das entre dois an-
+dares, as demais salas são destinadas para outros fins. Percebendo esse cenário, não foi
+necessário mapear o pavilhão inteiro visto que serão lugares inacessı́veis a quem irá par-
+ticipar do evento. Os pontos, portanto, foram inseridos apenas na ”área de evento” do
+LEN (Figura 11).
+
+Figure 11. Região mapeada do LEN.
+
+Corredores em ambos os andares interligam a primeira parte do edifı́cio até as
+salas. Esses andares são ligados através de escadas, cada uma em um ponto diferente.
+Portanto existirão 2 pontos de acesso diferentes para cada andar. O mapa foi criado uti-
+lizando a metodologia detalhada na seção 4 e a confecção durou cerca de oito horas. A
+Figura 12 mostra o mapa e seu funcionamento no myMobiConf.
+
+5.1.4. Residência
+
+Esse ambiente também foi mapeado para teste e uso pois, dessa forma, mesmo que seja
+um ambiente bem diferente dos edifı́cios anteriores, é possı́vel mostrar que a solução
+funciona para quaisquer lugares. A residência é muito menor em comparação com os
+demais edifı́cios mapeados e é composto por cozinha, dois quartos e um escritório. Nesse
+caso foi possı́vel utilizar o GPS e o Google Maps para inserir os pontos. A confecção do
+mapa durou cerca de 40 minutos e o resultado é exibido na Figura 13.
+
+
+
+Figure 12. Mapa confeccionado do LEN e seu respectivo mapa mostrado ao
+usuário no myMobiConf.
+
+Figure 13. Mapa confeccionado da residência e seu respectivo mapa mostrado
+ao usuário no myMobiConf.
+
+
+
+5.2. Utilização do sistema de localização do myMobiConf
+É esperado do sistema de localização do myMobiConf que seja possı́vel para o usuário
+definir facilmente a rota para o destino que ele deseja ir através dos mapas criados ante-
+riormente. Além disso, o usuário deve ser guiado com sucesso até o seu destino, inde-
+pendente do edifı́cio e das condições do GPS, pois é esperado que sejam superados os
+desafios inerentes a sistemas de navegação indoor.
+
+Foram criadas, portanto, diferentes versões do sistema, cada uma contendo um
+dos mapas confeccionados na UFV-Campus Florestal. Esses arquivos foram distribuı́dos
+para cinco usuários distintos que deveriam escolher uma dessas versões e detalhar suas
+considerações através de um questionário. Um dos usuários respondeu o questionário
+para mais de um pavilhão e registrou duas vezes suas considerações.
+
+As perguntas foram elaboradas para aferir a dificuldade do usuário com relação
+ao uso do aplicativo: Se o mapa corresponde ao ambiente, sobre o uso do magnetômetro
+e se o sistema de navegação performou de maneira adequada.
+
+Os usuários utilizaram diferentes smartphones nos testes, as marcas e modelos
+registradas seguem a seguinte distribuição:
+
+• Dois usuários utilizaram o Redmi Note 1118 da Xiaomi.
+• Um usuário utilizou o Moto G8 Power19 da Motorola.
+• Um usuário utilizou o Galaxy A3120 da Samsung.
+• E o usuário que respondeu em duas oportunidade utilizou o Galaxy M3121 da
+
+Samsung.
+Todos os usuários utilizaram o LEN. Esta situação é interessante pois nesse
+
+edifı́cio em especı́fico o GPS apresentou muita imprecisão durante a confecção dos ma-
+pas. Portanto, se o sistema do myMobiConf performar bem nesse pavilhão, é um grande
+indı́cio de que o sistema de navegação funciona como o esperado. Além do LEN, um dos
+usuários também testou o sistema no PVE.
+
+Os usuários não demonstraram nenhuma dificuldade em usar a funcionalidade de
+seleção de rotas, mesmo os que utilizaram os controles de andar dispostos na tela. Logo os
+mapas criados parecem corresponder de maneira adequada as caracterı́sticas do edifı́cio.
+
+Um outro ponto a ser avaliado era a direção em que o magnetômetro apontava. O
+sistema possui uma dependência desse sensor pois é a partir dele que se tem a direção do
+deslocamento na abordagem de PDR utilizada. Portanto o bom desempenho do sistema
+depende do bom desempenho do magnetômetro. Os gráficos da figura 14 mostram as
+informações coletadas a respeito do uso desse sensor no aplicativo.
+
+Felizmente, Apenas um usuário respondeu que seu dispositivo não possuia mag-
+netômetro e foi obrigado a girar manualmente o mapa.
+
+No sistema de navegação, os usuários relataram que algumas vezes o mag-
+netômetro apontou a direção incorreta. E, quando essa situação ocorre, impacta nega-
+tivamente na utilização. O motivo para isso pode ser a influência de ruı́dos no ambiente,
+
+18https://www.mi.com/br/product/redmi-note-11/specs/
+19https://www.motorola.com/we/smartphones-moto-g-power-gen-8/p?skuId=114
+20https://www.samsung.com/my/smartphones/galaxy-a/galaxy-a31-white-128gb-sm-a315gzwwxme/
+21https://www.samsung.com/levant/smartphones/galaxy-m/galaxy-m31-blue-128gb-sm-m315fzbvmid/
+
+
+
+Figure 14. Gráfico das respostas a respeito do magnetômetro.
+
+Figure 15. Gráfico de usuários que concluı́ram com sucesso o trajeto sele-
+cionado.
+
+principalmente os magnéticos. Neste caso, os dados providos por sensores podem con-
+ter imprecisões, o que acaba gerando erros nos resultados dos cálculos que os utilizam
+[Arantes 2018]. Assim, é possı́vel que seja necessário utilizar novas abordagens para a
+calibragem dos equipamentos antes de iniciar a funcionalidade para que a performance
+alcance seu máximo.
+
+Por fim, para avaliar se a navegação implementada corresponde a sua finalidade, é
+essencial que o usuário tenha conseguido chegar ao destino selecionado. Os usuários que
+testaram em sua totalidade afirmaram que conseguiram chegar ao seu destino (Fig 15).
+
+Então mesmo que a posição do GPS seja imprecisa no edifı́cio do LEN, o myMo-
+biConf conseguiu guiar até o destino escolhido com sucesso.
+
+6. Conclusão e Trabalhos Futuros
+A fim de melhorar ainda mais a experiência do usuário durante um evento, especial-
+mente quando a pessoa desconhece o lugar em que o mesmo ocorrerá, foi proposto nestre
+trabalho uma nova solução de implementação de um sistema de localização indoor no
+
+
+
+aplicativo myMobiConf.
+Essa solução deve ser capaz de minimizar os efeitos da degradação do sinal do
+
+GPS e funcionar para qualquer edifı́cio, independente de suas caracterı́sticas. Sendo
+viável, portanto, para qualquer tipo de evento.
+
+Através dos resultados foi analisado que a implementação alcançou um resultado
+desejável para o que foi proposto a priori, visto que o sistema, segundo os usuários que
+testaram, conseguiu localizá-los de maneira simples e todos conseguiram chegar a seus
+respectivos destinos.
+
+Um ponto de atenção levantado nos resultados foi o desempenho do magnetômetro
+pois, em alguns momentos, apresentava imprecisão na direção do mapa. Portanto a cali-
+bragem desses sensores antes do uso pode ser tema de trabalhos futuros. Por outro lado,
+a solução também deveria ser compatı́vel com a maioria dos smartphones do mercado e,
+fortuitamente, apenas um dos dispositivos utilizados nos testes não era equipado com este
+sensor.
+
+Um ponto fraco observado é o tempo para a confecção dos mapas, principalmente
+em edifı́cios com plantas mais complexas, como o caso do LEN. Pode ser tema de trabal-
+hos futuros, então, abordagens de automatização para a construção desse mapa que visam
+reduzir o tempo de para confeccionar o mesmo.
+
+O sistema de contagem de passos, por outro lado, apresentou resultados favoráveis
+já que a detecção do movimento para os usuários não foi um problema.
+
+A abordagem implementada foca unicamente na problemática da localização em
+ambientes fechados. Logo uma futura abordagem que utilize um método hı́brido de
+localização indoor e outdoor (Ambientes abertos) pode também complementar o trabalho
+e extendê-lo para eventos que cobrem inúmeros edifı́cios de uma vez.
+
+References
+Albuquerque, Paulo César Gurgel, C. C. d. S. (2003). Gps para iniciantes. In XI Simpósio
+
+brasileiro de sensoriamento remoto. Instituto Nacional de Pesquisas Espaciais (INPE).
+Arantes, W. V. (2018). Uma Arquitetura para o uso de Sistemas de Localização Outdoor
+
+e Indoor por meio de Dispositivos Móveis. PhD thesis, Universidade Federal de
+Uberlândia.
+
+Beauregard, S. and Haas, H. (2006). Pedestrian dead reckoning: A basis for personal
+positioning. In Proceedings of the 3rd Workshop on Positioning, Navigation and
+Communication, pages 27–35.
+
+Bekkelien, A., Deriaz, M., and Marchand Maillet, S. (2012). Bluetooth indoor position-
+ing. Master’s thesis, University of Geneva.
+
+Castro, H. J. S. (2018). Uma metodologia de localização indoor hı́brida para sistemas
+móveis. Master’s thesis, Universidade Federal do Rio Grande do Norte.
+
+Eissfeller, B., Ameres, G., Kropp, V., and Sanroma, D. (2007). Performance of gps,
+glonass and galileo. In Photogrammetric Week, volume 7, pages 185–199.
+
+Elmenreich, W. (2002). An introduction to sensor fusion. Vienna University of
+Technology, Austria.
+
+
+
+Forhan, N. A. E. and Senna, J. R. S. (2010). Giroscópios mems. urlib. net/sid. inpe.
+br/mtc-m19, 80:01–25.
+
+Grewal, Mohinder, A. P. A. (2013). Global Navigation Satellite Systems, Inertial
+Navigation, and Integration. John Wiley & Sons, 3rd edition edition.
+
+Groves, P. (2013). Principles of GNSS, Inertial, and Multisensor Integrated Navigation
+Systems, Second Edition. Artech House.
+
+Hu, B. (2013). Wi-Fi based indoor positioning system using smartphone. PhD thesis,
+RMIT University.
+
+Javaid, A. (2013). Understanding dijkstra’s algorithm. Available at SSRN 2340905.
+Jeong, S., Kuk, S., and Kim, H. (2019). A smartphone magnetometer-based diagnostic
+
+test for automatic contact tracing in infectious disease epidemics. IEEE Access, 7.
+Jin, Y., Toh, H.-S., Soh, W.-S., and Wong, W.-C. (2011). A robust dead-reckoning pedes-
+
+trian tracking system with low cost sensors. In 2011 IEEE International Conference
+on Pervasive Computing and Communications (PerCom), pages 222–230.
+
+Makki, A., Siddig, A., Saad, M., and Bleakley, C. (2015). Survey of wifi positioning
+using time-based techniques. Computer Networks, 88:218–233.
+
+Mecking, F. S. (2015). Incampus: sistema móvel para localização em ambientes outdoor
+e indoor aplicado a um campus universitário.
+
+Silva, C. D., Komati, K. S., and Trindade, D. R. (2017). Sistema mobile para localização
+indoor usando tratamento de posição e correção de rota. In Anais do IX Simpósio
+Brasileiro de Computação Ubı́qua e Pervasiva, Porto Alegre, RS, Brasil. SBC, SBC.
+
+Simões, C. F. C. S. d. (2013). Andreck: positioning estimation using pedestrian dead
+reckoning on smartphones. Master’s thesis.
+
+Simões, D. M. (2015). Navegação indoor baseada na rede WIFI como suporte a serviços
+baseados na localização: estudo de caso no campus da UL. PhD thesis.
+
+Souza, G. M. (2017). Cilocalize: um aplicativo de localização indoor para o centro de
+informática.
+
+Stockx, T., Hecht, B., and Schoning, J. (2014). Subwayps: Towards smartphone position-
+ing in underground public transportation systems. New York, NY, USA. Association
+for Computing Machinery.
+
+Wendling, M. (2010). Sensores. Universidade Estadual Paulista. São Paulo, 2010:20.

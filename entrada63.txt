@@ -1,0 +1,434 @@
+﻿Toward Nanometric Scale Integration: An
+Automatic Routing Approach for NML Circuits
+
+Pedro Arthur R. L. Silva∗, José Augusto M. Nacif∗
+E-mail:{pedro.arthur, jnacif}@ufv.br
+
+∗Universidade Federal de Viçosa, Florestal, MG, Brazil
+
+Abstract—In the recent years, many technologies have been
+studied in order to take place as a replacement or complement
+to CMOS. These emerging technologies, known as Field Coupled
+Nanotechnologies, seek to operate at nanometric scales and over-
+come the problems that are hard or impossible to be addressed by
+CMOS technology. However, these new technologies introduce the
+need of developing tools to perform circuit mapping, placement,
+and routing. NanoMagnetic Logic Circuit (NML) is one of Fig. 1. Polarized NML cells.
+these emergent technologies. It relies on the polarization of
+nanomagnets to perform operations through majority logic. In
+this work we propose an approach to automatically map a gate-
+level circuit to a NML layout. We use the Breadth First Search as the size of an array of nanomagnets increases, it is most
+to perform the placement and the A* algorithm to transverse likely that the circuit will present more errors as well [7]. A
+the circuit and build the routes for each node. To evaluate clock scheme controls the flow of information in the circuit,
+the effectiveness of our approach, we use a series of ISCAS’85 enabling the design of more complex NML circuits. As the
+benchmarks. Our results show an area reduction varying from integration levels of NML circuits increase, the design of the
+20% to 60%. circuits becomes a complex process, being unfeasable to be
+
+I. INTRODUCTION performed manually.
+For many years and still now, the CMOS (Complemen- Since the CMOS has been the leading technology to build
+
+tary Oxide Semiconductor) has been considered the standard digital electronic devices, the literature presents a well estab-
+technology in the manufacturing of digital devices. However, lished set of papers that address the problem of automatically
+as the density of integrated circuits increases, problems with generating a physical circuit layout with CMOS. Although
+reliability and power dissipation are rising at an alarming pace. NML can overcome many of the challenges that emerge at
+Therefore, new alternative technologies such as Field Coupled nanometric scale, the technology is not fully mature yet, and
+Nanotechnologies (FCN) have recently attracted researchers there is a lack of tools and techniques to aid the process
+attention [1], [2]. Quantum-Dot Cellular Automata (QCA) [3] of physical design of NML circuits. Due to the differences
+and Nanomagnetic Logic (NML) [4] are two of these emerging between CMOS and NML technologies, and the several con-
+technologies. NML is a non-volatile FCN and operates based straints presented by the latter, the current tools and techniques
+on field interactions between nanomagnets. NML technology are not suitable to generate an efficient NML circuit physical
+operates at room temperature with ultra-low power dissipa- layout. Furthermore, the synchronization constraint added by
+tion [5]. Also, in NML circuits the computation is conducted the use of a clock scheme impacts directly in the circuit area
+based on majority logic, that can be used to implement any and delay.
+logic function [6]. Synchronized circuits all have a throughput of 1, meaning
+
+The NML basic cell is a bistable nanomagnet whose po- that at every clock cycle a result arrives at the outputs. A
+larization is likely to lie alongside its long axis, in order to throughput of 0.5, for example, means that the results arrive
+minimize the shape energy. The two possible configurations at the outputs at every 2 clock cycles.
+for the polarization of a NML cell are up and down, as depicted In this paper, we propose the utilization of an alterna-
+in Fig. 1, respectively seen as the logic states 1 and 0. A tive algorithm to route wires in NML circuits exploring
+nanomaget interacts with its neighbor through magnoestatic the synchronization constraint. We apply the A* search [8]
+dipolar coupling. Relying on these interactions the information to interconnect the components of the circuit. We compare
+can be propagated in the circuit as ferromagnetic or antifer- the total area occupied when the circuit doesn’t respect the
+romagnetic coupling. The behavior of how NML transmits synchronization constraint and when it does.
+information is possible due to how magnetic interaction works. This work is organized as follows: Section II reviews the
+
+As the NML circuits become more complex, the need of a basics of NML technology. Section III discusses previous
+clocking scheme turns out to be more relevant. A NML circuit approaches for automatic design of QCA and NML circuits.
+with few magnets reproduces the coupling correctly. However, Section IV presents an algorithm for automatic layout gener-
+
+
+
+ation of NML circuits. In Section V, we use the ISCAS’85 III. RELATED WORK
+[9] benchmarks to perform the routing of circuits and an Considering that QCA and NML are not the leading
+analysis on the performance of our algorithm and the trade technologies for integrated circuits manufacturing, there are
+between area and throughput of the circuit. Finally, Section few works that investigate automatic methods to generate
+VI concludes this work. physical layout of circuits in these two technologies. There
+
+are three works that mainly contributed to this paper, in two
+II. BACKGROUND of them algorithms for placement and routing of QCA circuits
+
+In this Section, we present an overview on Nanomagnetic are proposed [10], [11], and the last one describe the design
+Logic (NML), explaining the basic devices of the technology, of a CAD (Computer Aided Design) tool for NML [12].
+how they can be used to implement complex circuits, and how NML and QCA present some similarities, but there are
+a clock scheme controls the flow of information in the circuit. differences as well. One of the main differences is in the clock
+
+scheme, while QCA has four clock zones, NML only counts
+Although a nanomagnet can present several geometries, in with three. Also, there are some layout rules unique to NML,
+
+this work we assume the rectangular-shape nanomagnet, as such as wires with an even number of nanomagnets acting as
+shown in Fig. 1. As explained before, an NML cell is basically inverters. The approach presented in [10] also allows multi-
+a bi-stable nanomagnet whose magnetic polarization is likely layer layouts. A multi-layer solution for NML technology
+to lie alongside the longer axis, in order to minimize the shape has not yet been proposed, all NML circuits are single-layer.
+energy. The two possible configurations for the polarization of Therefore, if one desires a NML physical design, the approach
+an NML cell are up and down, respectively. When we apply a presented in [10] must be adjusted to meet this requirement.
+magnetic field to the shorter axis of a nanomagnet, it changes Recently, another work that investigates the automatic de-
+to a meta-stable state, mapping to a null logic state [7]. sign of QCA circuits has been proposed [11]. The work
+
+Wires are the basic element to propagate information in proposed an exact method to build circuits, respecting some
+circuits. In order to transmit signals through the circuit, design objectives and physical constraints. In order to generate
+such elements can be arranged in two configurations due to a QCA layout for a given circuit the authors relax some of
+the coupling interactions between the nanomagnets. The two the constraints, as the maximum area of the circuit or whether
+configurations in which the propagation may occur are anti- wirecrossing are allowed or not. In QCA, one of the ways
+ferromagnetic and ferromagnetic. Antiferromagnetic, presents to implement wirecrossing is by relying on the multilayer
+antiparallel direction of the magnetization vectors, while the resource. In [11], the authors compare designs of the same
+latter, ferromagnetic, presents a parallel orientation. An in- circuit generated with and without wirecrossing, and evaluate
+verter in NML can be formed exploiting the wire structure. the overall impact on the final area of the circuit. But in
+
+Wires with an odd number of cells just propagates the NML, since we cannot rely on the multilayer resource, we
+information through the wire, but if the wire is composed of must address this issue as well.
+an even number of particles it yields to an inverter. Another In [12], the authors present a CAD tool able of design, test
+important element of NML is the majority voter gate. The 3- and simulate NML circuits. The authors explore a series of
+input majority gate replicates on the output the logic level of optimizations in order to achieve an efficient design in terms of
+majority of the inputs of the gate. We can reduce the majority area and delay. To perform the desired optimizations, heuristics
+voter gate to an AND or OR gates by fixing one of the inputs and metaheuristics such as the BaryCenter [13] and Simulated
+in 0 or 1 logic levels. Therefore, by relying on the majority Annealing [14] were implemented. Although [12] presents an
+and inverter gates, it is possible to implement any kind of logic important step in the automatic design of NML circuits, the
+function. investigation of more methods to automatically perform this
+
+Seeking to guarantee the correct functionality of NML, a task is still a work in progress. Our mainly focus on this work
+clocking system is extremely important. Without a clocking is to investigate an alternative approach that can be used to
+scheme, the circuit is most likely to present meta-stable states, route interconnections in order to generate an physical design
+leading to incorrect functionality. The clocking system in of NML circuits. Another important objective of this work
+NML is composed of three clock zones. Each clock zone is to explore the synchronization constraint of NML circuits.
+is controlled by a periodic clock signal composed of three In [15], this analysis has already been made for general QCA
+phases called Hold, Reset, and Switch. In the Hold phase, circuits, but since NML presents its own unique characteristics,
+the magnetization of the nanomagnets remain unchanged. In this analysis can lead to different results.
+the Reset phase, the magnetic field is applied, inducing the
+nanomagnets into a null magnetization state. In the Switch IV. METHODOLOGY
+
+phase, the magnetic field is gradually removed, allowing the Routing is one of the many phases that compose modern
+nanomagnets to polarize according to their neighbors. When integrated circuit design flow. Even though our goal is to
+a circuit is split into clock zones, the magnetic fields act upon explore an algorithm for Routing of NML circuits, we have to
+each zone independently, thus eliminating errors. A clock cycle pass through all the phases that precedes the one we are fo-
+in NML is the time a clock zone needs to pass through all these cusing on. Subsections IV-A and IV-B give more details about
+three phases. the Graph Elaboration and the Placement phase, respectively.
+
+
+
+Subsection IV-C explain about our approach to route NML graph balancing in order to guarantee the synchronization of
+circuits. the circuit.
+
+1) Fan-Out Management: In a DAG that represents a digital
+A. Graph Elaboration circuit, each edge between two nodes indicates that in the final
+
+Our first task is to read a Verilog circuit description and NML circuit design there is a wire connecting those two logic
+transform it in a graph, that is easier to manipulate. Before we elements. The number of inputs a logic gate can drive is called
+take the Verilog description as input to the parser, we guarantee fan-out. In both CMOS and NML, a gate has a limit to how
+that all the gates in the description of the circuit have at most much others gates it can fed. Generally, digital circuits do not
+two inputs, as shown in Fig. 2. We have to do this because in respect these limits. Therefore, we must perform a search in
+NML, there are few proposed gates yet, and the wide range of the graph for the nodes that violate this constraint and then
+them are 3-input, being one of the inputs a fixed cell. Some map them to nodes that are in compliance with this constraint.
+works have given attention to majority logic synthesis, such This can be done by adding children to a node and then
+as [16], [17], but yet, most part of the circuit benchmarks redistributing its old children as children of the new nodes. In
+work with gates that have a high fan-in, that is, high quantity Fig. 4, we depict the result of the fan-out control operation.
+of inputs to manipulate. In Fig. 4a we depict a graph that doesn’t respect the fan-out
+
+constraint. Fig. 4b shows the same graph but with a constraint
+of a fan-out of two outputs. Before, node A was input to four
+other nodes, to solve this, we introduce the nodes A1 e A2 as
+its new children and then split the four old children among
+the nodes we have just created.
+
+Fig. 2. Fan-in management
+
+In order to do this, we use ABC [18], a well known tool
+for logic synthesis. Given a file with a Verilog description
+of the circuit we execute the script depicted in Fig. 3. First (a) Graph before Fan-Out Control (b) Graph after Fan-Out Control
+
+we read the Verilog file with the description of the circuit, Fig. 4. FanOut management of circuit.
+then we transform it in And-Inverter Graph(AIG), a type of
+representation of digital circuits that use graphs in which each 2) Reconvergent Paths - Graph Balancing: The synchro-
+node is a AND gate. Then, we use the strash command to nization of NML circuits are extremely related with the length
+perform a transformation in the structure of the circuit and of the paths in the circuit. The distance between a logic
+return a logical network composed of only two-input AND element and each one of its inputs must be the same. This
+gates and inverters. The last step is to write the structure to a phenomenon is know as the layout=timing problem [19],
+new Verilog file with the output circuit that will be given as inherent to QCA and NML. All the paths leading to the same
+an input to our parser. logic element must have the same delay in terms of clock
+
+cycles. If an input signal arrives at its output before any of
+read_verilog the others, an unexpected computation is performed. These
+aig paths are named reconvergent paths.
+strash Two paths are called reconvergents if they diverge from
+write_verilog  and then reconverge to the same logic element or block [20].
+
+In [10], the authors take advantage of the reconvergent paths
+Fig. 3. ABC script to generate circuits with 2-input gates. in order to elaborate their approach. In this work, as in [12],
+
+we choose to balance the reconvergent paths before generating
+Our implementation of the parser read the Verilog generated a physical layout of the circuit. In order to balance the recon-
+
+by following the script described in Fig.3 and then returns a vergent paths, we introduce wire nodes in all the unbalanced
+Directed Acyclic Graph(DAG) in which each node is a logical paths. This step is essential to eliminate asynchronicity from
+element of the circuit and an edge going from a node u to a the circuit. However, this leads to an inevitable increase in the
+node v means that the former node is an input of the latter. area of the circuit. Fig. 5a depicts an unbalanced graph. One
+Before we can go forward to the next phases, we perform can see that are two paths that start in S and end in T, however,
+the Fan-out management as proposed in [12], to control the the size of these two paths aren’t the same. So, we introduce
+number of inputs that a determined gate can fed, that is, to how a wire node W1, yielding the graph in Fig. 5b.
+many other gates its inputs are connected. We also perform the In Section V we investigate more about the impact of circuit
+
+
+
+To build paths, the A* search relies on an evaluation
+function to estimate the total cost of the path through a node
+N to the goal. This function is depicted in Equation 1. In the
+evaluation function, g(N) is the cost so far to move from the
+source point to N. The factor h(N) is the estimated cost from N
+to goal. One has to pick the best heuristic in order to estimate
+
+(a) Unbalanced Graph (b) Balanced Graph the cost h(N) according to the nature of problem.
+Fig. 5. Reconvergent Paths.
+
+f(N) = g(N) + h(N) (1)
+balancing in the final area.
+
+When transversing the solution space, the algorithm will
+B. Placement look for the candidate that has the lowest cost of f(N). The
+
+After the graph elaboration is complete, the next step heuristic we choose to the apply to the routing problem is the
+is generate a mapping the circuit to a grid in which the Euclidean Distance between two points. Considering a node N
+componets can be allocated and then interconnected. This task and a goal, Equation 2 depicts the calculation of this heuristic.
+can be split into two major subtasks: Placement and Routing.
+
+The Placement of a circuit is the stage in which we dx = abs(N.x− goal.x)
+
+define the physical position of each logical element in the dy = abs(N√.y − goal.y) (2)
+circuit. In this phase of the project, one of the main concerns h(N) = dx2 + dy2
+is to guarantee that we have enough area left, so we can
+interconnect the elements in the Routing stage. As the number In Fig. 6 we depict how A* makes intelligent choices at each
+of elements in the circuit increases, the Placement becomes step. The red block is the starting point, the gray blocks are
+more complex. We have to avoid the congestion of regions, not available, so the search has to go around them and arrive
+because this leads to a poor Routing of the circuit, since more in the target, the green block. One can see that the algorithm
+wires are necessary to work around a congested area, what goes from the position (4,2) to (5,3) instead of (4,3). Similarly,
+leads to a bigger solution space, therefore impacting in the the algorithm goes from (5,3) to (6,2) instead of (6,3).
+execution time of the algorithm and the final area of the circuit.
+
+In this work, we seek to find a better placement by topo-
+logically ordering the graph of the circuit. What we try to do
+is to put a parent right above its children, this way, we can
+reduce the total wire length of the circuit, since the adjacent
+nodes will be physically near to each other. In order to achieve
+our goal, we utilize the Breadth-First Search (BFS) algorithm
+[21]. This algorithm starts the search from a given initial node,
+discovering others nodes from the neighbors. This is done with
+all the nodes until there are no more nodes left in the graph.
+Our BFS search starts from the inputs of the circuit, assigning
+a position for each node as soon as they are discovered in the
+search. If a node is visited more than once, the first position
+assigned for it prevails. We do not perform further optimization
+in the placement phase, since in this work our focus in the
+routing phase.
+
+C. Routing
+Once the position of each element is defined, we can finally
+
+perform the Routing of the circuit. This stage is responsible
+for connecting the inputs and outputs of the components in
+the circuit, that is, finding routes between the connected logic
+elements. We use the A* search algorithm [22] to perform the Fig. 6. A* algorithm pathfinding.
+routing. This approach is widely used in problems in which
+one needs to find a path while avoiding obstacles. In our case, Our algorithm transverse the graph that represents the circuit
+the obstacles are the congested areas, that is, areas in the circuit from the inputs to the outputs layer by layer. In each layer,
+in which we cannot route wires anymore.Since in NML the we apply the A* search to the nodes, connecting it to all
+wire crossing is only possible when it involves only two wires, its children in the next layer. At the end of the traversing
+we define an area as congested when we have more than two we accomplish to build all the interconnections of the circuit,
+wires crossing at the same point. completing the Routing phase.
+
+
+
+Each time a position is chosen to be part of a route, that TABLE II
+is, an interconnection between two elements, that position TABLE OF COMPARISON OF EXECUTION TIMES FOR THE BALANCED AND
+
+is marked, so we can control how much wires are passing UNBALANCED GRAPHS.
+
+through a location. When a position has two wires passing Running Time (seconds)
+through it, then we map it to a Crossover element. Once a Benchmark Synchronized Unsynchronized
+
+position is mapped to a Crossover, we mark it as a blocked c17 0.126713 0.73023
+t 0.148908 0.084475
+
+position, because it is impossible to implement a Crossover newtag 0.136516 0.084625
+with more than two wires in NML. FA-AOIG 9.44082 0.100597
+
+b1 r2 0.163079 9.66193
+In NML, we do not have problems with diagonal paths as xor5 r 18.6761 0.183467
+
+the one depicted in Fig. 6. In fact, in some situations this kind xor5 r1 0.268849 0.19861
+
+of paths are quite helpful, since it acts as a ferromagnetic wire.
+One can notice that, generally speaking, the A* search takes
+
+more time to perform the routing of synchronized circuits. This
+makes sense since this set of circuits has a high number of
+
+V. RESULTS nodes than the second one. However this is not a absolute
+rule. The unsychronized b1 r2 takes more time to be fully
+routed than its synchronized version. This can occur when
+
+In this section we focus on analysis and comparison of the we face circuits with higher number of blocked cells, that is,
+proposed algorithm for circuit routing and also the impact of crossover along the algorithm. In general, one can notice that
+path balancing in NML circuits. the algorithm has shown a relatively small time to interconnect
+
+To this end, our algorithm has been implemented using the all the elements in the circuit. This suggests that A* is a good
+C++ programming language and all evaluations have been choice for routing NML circuits. To the best of our knowledge
+conducted on an Intel Core i5-7200U machine with 2.50 GHz we are the first to apply the A* search to solve the Routing
+(up to 3.10 GHz boost) and 8 GB of RAM memory. phase of NML circuits.
+
+C. Graph elaboration impact
+In [10], [11], the authors do not perform a preprocessing
+
+A. Benchmarks in the circuit graph in order to manage the maximum fan-out
+allowed. Once we choose to add this step to our approach
+
+To perform our analysis, we selected some benchmark we increase the number of nodes. Also, the synchronization
+circuits [9], [23], [24], and also included some circuits gener- effect inherent to NML circuits may lead to a huge increase
+ated using the ABC synthesis tool [18]. Our benchmarks are in the number of nodes in the circuit, which lead to circuits
+presented in Table I. that consume more area. In [15], the authors show that by
+
+relaxing the synchronization constraint, we can achieve less
+area circuits. Table III shows the new areas for the set of
+
+TABLE I
+INFORMATION OF THE BENCHMARKS. benchmarks we are working. The table depicts information
+
+regarding the graph before and after we perform the operation
+Benchmark Gates Inputs Outputs cited in Section IV-A.
+
+c17 12 7 5 The latency column indicates how long, int terms of clock
+t 15 10 5 zones, is the largest path in the graph, that is, the critical
+
+newtag 20 12 8 path. One can notice that the latency for both graphs are the
+FA-AOIG 12 9 3
+
+B1 r2 16 13 3 same, this occurs because after we apply the operations of
+XOR5 r 37 32 5 fanout management and path balancing, the critical path of
+
+XOR5 r1 31 26 5 the original circuit remains intact. Hence, the latency of the
+synchronized circuit is equal to the original one. It is worth
+to mention that this only occurs because we are performing a
+
+B. Circuits routing comparison high level evaluation of only the nodes in the graph instead of
+the actual circuit.
+
+Since previous works do not focus on the routing phase In Table III, we calculate the fourth column for the un-
+of circuit project, we do not have a fair way to compare the synchronized circuits according to the method described in
+results of our work. Hence, we have to find a way to evaluate [15]. Just by looking to the number of nodes, one can notice
+the performance of our algorithm. So, we work with the graphs that, generally speaking, unsynchronized circuits consumes
+before and after the balancement explained in Section IV-A. less area than synchronized ones. When we look to the grid
+Table II depicts the comparison of execution times for each area, then we see that this really applies in the practice, we
+graph. We executed the algorithm 30 times for each circuit have reductions in the grid area varying from 20% to nearly
+and then take the mean time of the executions. 60%.
+
+
+
+TABLE III
+SYNCHRONIZATION COMPARISON
+
+Synchronized Not synchronized
+Benchmark Gates Inputs Outputs Grid area Number of
+
+nodes Latency Grid area Number of
+nodes Latency Throughput
+
+c17 12 7 5 40 23 6 32 12 6 0.5
+t 15 10 5 40 25 5 32 15 5 0.5
+newtag 20 12 8 70 27 10 70 20 10 0.333
+FA-AOIG 12 9 3 56 26 10 24 12 10 0.2
+B1 r2 16 13 3 50 23 6 16 16 6 0.5
+XOR5 r 37 32 5 216 64 28 88 37 28 0.1
+XOR5 r1 31 26 5 216 58 28 88 31 28 0.1
+
+VI. CONCLUSION [8] P. E. Hart, N. J. Nilsson, and B. Raphael, “A formal basis for the heuristic
+determination of minimum cost paths,” IEEE transactions on Systems
+
+NML is a novel technology that has shown promising Science and Cybernetics, vol. 4, no. 2, pp. 100–107, 1968.
+results, but that are few tools to aid the design of circuits [9] F. Brglez and H. Fujiwara, “A Neutral Netlist of 10 Combinational
+in this nanotechnology. The work in [12] is one of the few Benchmark Circuits and a Target Translator in Fortran,” in Proceedings
+
+of IEEE Int’l Symposium Circuits and Systems (ISCAS 85). IEEE Press,
+works in the literature regarding NML assisted by CAD tools. Piscataway, N.J., 1985, pp. 677–692.
+
+In this work, we propose a way to perform the routing [10] G. Fontes, P. A. R. Silva, J. A. M. Nacif, O. P. V. Neto, and R. Ferreira,
+of NML circuits and, to the best of our knowledge, we are “Placement and routing by overlapping and merging qca gates,” in
+
+Circuits and Systems (ISCAS), 2018 IEEE International Symposium on.
+the first to utilize the A* algorithm in order to perform the IEEE, 2018, pp. 1–5.
+interconnection of components. The chosen algorithm has [11] M. Walter, R. Wille, D. Große, F. S. Torres, and R. Drechsler, “An exact
+presented a promising performance in terms of speed, and also method for design exploration of quantum-dot cellular automata,” in
+
+Design, Automation & Test in Europe Conference & Exhibition (DATE),
+it show some characteristics that are very suitable to design 2018. IEEE, 2018, pp. 503–508.
+NML circuits. We also studied the impact of synchronization [12] F. Riente, G. Turvani, M. Vacca, M. R. Roch, M. Zamboni, and
+constraint on NML circuits, showing that is possible to make M. Graziano, “Topolinano: a cad tool for nano magnetic logic,” IEEE
+
+Transactions on Computer-Aided Design of Integrated Circuits and
+a trade between area and delay, providing the designer of the Systems, vol. 36, no. 7, pp. 1061–1074, 2017.
+circuit more flexibility when building NML circuits. [13] K. Sugiyama, S. Tagawa, and M. Toda, “Methods for visual understand-
+
+As future work, we plan to investigate more about the ing of hierarchical system structures,” IEEE Transactions on Systems,
+Man, and Cybernetics, vol. 11, no. 2, pp. 109–125, 1981.
+
+routing phase, applying other algorithms, and also explore the [14] S. Kirkpatrick, C. D. Gelatt, and M. P. Vecchi, “Optimization by
+placement. simulated annealing,” science, vol. 220, no. 4598, pp. 671–680, 1983.
+
+[15] F. S. Torres, P. A. Silva, G. Fontes, J. A. Nacif, R. S. Ferreira, O. P. V.
+ACKNOWLEDGMENTS Neto, J. Chaves, and R. Drechsler, “Exploration of the synchronization
+
+constraint in quantum-dot cellular automata,” in 2018 21st Euromicro
+We would like to thank CAPES, CNPq, and FAPEMIG for Conference on Digital System Design (DSD). IEEE, 2018, pp. 642–648.
+
+the financial support. [16] L. Amarú, P.-E. Gaillardon, and G. De Micheli, “Majority-inverter graph:
+A novel data-structure and algorithms for efficient logic optimization,” in
+
+REFERENCES Proceedings of the 51st Annual Design Automation Conference. ACM,
+2014, pp. 1–6.
+
+[1] R. K. Cavin, P. Lugli, and V. V. Zhirnov, “Science and engineering [17] L. Amarù, E. Testa, M. Couceiro, O. Zografos, G. De Micheli, and
+beyond moore’s law,” Proceedings of the IEEE, vol. 100, no. Special M. Soeken, “Majority logic synthesis,” in Proceedings of the Interna-
+Centennial Issue, pp. 1720–1749, 2012. tional Conference on Computer-Aided Design. ACM, 2018, p. 79.
+
+[2] T.-J. K. Liu and K. Kuhn, CMOS and beyond: logic switches for [18] A. Mishchenko et al., “Abc: A system for sequential synthesis and
+terascale integrated circuits. Cambridge University Press, 2015. verification,” URL http://www. eecs. berkeley. edu/alanmi/abc, p. 17,
+
+[3] C. S. Lent and P. D. Tougaw, “A device architecture for computing with 2007.
+quantum dots,” Proceedings of the IEEE, vol. 85, no. 4, pp. 541–557, [19] M. T. Niemier and P. M. Kogge, “Problems in designing with qcas: Lay-
+1997. out= timing,” International Journal of Circuit Theory and Applications,
+
+[4] M. Niemier, G. H. Bernstein, G. Csaba, A. Dingler, X. Hu, S. Kurtz, vol. 29, no. 1, pp. 49–62, 2001.
+S. Liu, J. Nahas, W. Porod, M. Siddiq et al., “Nanomagnet logic: [20] S. K. Lim, R. Ravichandran, and M. Niemier, “Partitioning and place-
+progress toward system-level integration,” Journal of Physics: Con- ment for buildable qca circuits,” ACM Journal on Emerging Technologies
+densed Matter, vol. 23, no. 49, p. 493202, 2011. in Computing Systems (JETC), vol. 1, no. 1, pp. 50–72, 2005.
+
+[5] R. Cowburn and M. Welland, “Room temperature magnetic quantum [21] A. Bundy and L. Wallen, “Breadth-first search,” in Catalogue of Artifi-
+cellular automata,” Science, vol. 287, no. 5457, pp. 1466–1468, 2000. cial Intelligence Tools. Springer, 1984, pp. 13–13.
+
+[6] A. Imre, G. Csaba, L. Ji, A. Orlov, G. Bernstein, and W. Porod, “Majority [22] P. E. Hart, N. J. Nilsson, and B. Raphael, “A formal basis for the heuristic
+logic gate for magnetic quantum-dot cellular automata,” Science, vol. determination of minimum cost paths,” IEEE transactions on Systems
+311, no. 5758, pp. 205–208, 2006. Science and Cybernetics, vol. 4, no. 2, pp. 100–107, 1968.
+
+[7] T. R. Soares, J. G. N. Rahmeier, V. C. De Lima, L. Lascasas, L. G. C. [23] S. Yang, “Logic synthesis and optimization benchmarks,” Tech. Rep.,
+Melo, and O. P. V. Neto, “Nmlsim: a nanomagnetic logic (nml) circuit Dec. 1989.
+designer and simulation tool,” Journal of Computational Electronics, [24] F. Brglez, D. Bryan, and K. Kozminski, “Combinational profiles of
+vol. 17, no. 3, pp. 1370–1381, 2018. sequential benchmark circuits,” in Circuits and Systems, 1989., IEEE
+
+International Symposium on, May 1989, pp. 1929–1934 vol.3.

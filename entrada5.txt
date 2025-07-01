@@ -1,0 +1,601 @@
+﻿SAAPD: Implementação e avaliação de um sistema para dar
+suporte às autoavaliações institucionais
+
+Cássio Henrique Santos Bernardes Daniel Mendes Barbosa
+Universidade Federal de Viçosa - Campus UFV-Florestal Universidade Federal de Viçosa - Campus UFV-Florestal
+
+Florestal, Brasil Florestal, Brasil
+cassio.bernardes@ufv.br danielmendes@ufv.br
+
+ABSTRACT positivas para cumprir com seu objetivo e suprir a necessidade das
+Higher education in a country has a direct impact on its develop- IES de se manter no Sistema Federal de Ensino.
+ment. Whether public or private, it is responsible for the nation’s
+scientific and academic production. Therefore, having a broad and KEYWORDS
+quality higher education is important for a country that wants self-evaluation, quality, web system
+to maintain a competitive landscape. Just as a country demands
+quality higher education, its population also pursues a professional PALAVRAS-CHAVE
+career of excellence. Faced with some challenges, such as the need autoavaliação, qualidade, sistema web
+to offer quality education, stand out in the market and suitable for
+the Federal Education System, Higher Education Institutions (HEI) ACM Reference Format:
+
+CássioHenrique Santos Bernardes andDanielMendes Barbosa. 2019. SAAPD:
+lack of tools to maintain continuous quality of the institution and Implementação e avaliação de um sistema para dar suporte às autoavaliações
+teaching in their undergraduate courses. In order to meet this needs, institucionais. In Proceedings of ACM Conference (Conference’17). ACM, New
+the Periodic and Distributed Self-Evaluation System (SAAPD) aims York, NY, USA, 8 pages. https://doi.org/10.1145/nnnnnnn.nnnnnnn
+to help Higher Education Institutions to ensure and maintain the
+quality standard of the institution and teaching in its undergradu- 1 INTRODUÇÃO
+ate courses through self-evaluations managed by the system itself. De acordo com o Censo de Educação Superior de 2017 [7] e 2018 [6]
+The SAAPD was considered a tool with positive qualities after its realizado anualmente pelo Instituto Nacional de Estudos e Pesquisas
+evaluation to fulfill its objective and supply the need of HEIs to Educacionais Anísio Teixeira (INEP), o Sistema Federal de Ensino,
+maintain the Federal Education System. órgão que compreende as instituições de ensino no geral, se encon-
+
+tra em um processo de constante expansão.
+RESUMO No período de 2015 a 2018, o número de Instituições de Ensino
+A educação superior de um país tem impacto direto no seu desen- Superior (IES) registradas no país cresceu de 2.364 para 2.537, en-
+volvimento. Seja pública ou privada, a educação é responsável pela quanto os cursos ofertados passaram de 33.501 para 37.962. Com
+produção científica e acadêmica da nação. Portanto, dispor de uma o aumento das IES e os cursos oferecidos por elas, o número de
+educação superior ampla e de qualidade é importante para um país vagas disponibilizadas e profissionais consequentemente também
+se manter no cenário competitivo. Da mesma forma que um país aumentaram.
+necessita de ensino superior de qualidade, sua população também A educação está diretamente relacionada com o desenvolvimento
+busca uma carreira profissional de excelência. Diante de alguns econômico e social de um país, portanto, investir na educação
+desafios como a necessidade de oferecer ensino de qualidade, se aparenta ser uma forma eficiente de proporcionar um crescimento
+destacar no mercado e adequar ao Sistema Federal de Ensino, as econômico estável e contínuo a uma nação [4]. Além disso, a ed-
+Instituições de Ensino Superior (IES) carecem de ferramentas para ucação superior se revela importante no crescimento profissional
+manter a qualidade contínua da instituição e do ensino em seus contribuindo para uma sociedade competitiva que relaciona e sele-
+cursos de graduação. Visando suprir essa necessidade, o Sistema ciona o indivíduo a chegar a níveis mais altos de seu conhecimento
+de Autoavaliação Periódica e Distribuída (SAAPD) tem como obje- criando oportunidades de obter uma renda e qualidade de vida
+tivo auxiliar as IES a garantir e manter o padrão de qualidade da melhor [14]. Sendo assim, é necessário que existam políticas e fer-
+instituição e do ensino em seus cursos de graduação por meio de ramentas de melhoria na qualidade de ensino e na qualificação das
+autoavaliações gerenciadas pelo próprio sistema. Após sua avali- próprias instituições.
+ação, o SAAPD demonstrou ser uma ferramenta com qualidades Diante de sua importância, as IES vêm enfrentando alguns de-
+
+safios para manter a sua qualidade e a de seus cursos de graduação.
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or distributed O principal deles é se adequar e se manter no Sistema Federal de
+for profit or commercial advantage and that copies bear this notice and the full citation Ensino, pois é dentro do sistema que a instituição tem a aprovação
+on the first page. Copyrights for components of this work owned by others than ACM para exercer as suas atividades contribuindo com a formação de
+must be honored. Abstracting with credit is permitted. To copy otherwise, or republish,
+to post on servers or to redistribute to lists, requires prior specific permission and/or a profissionais. Outros desafios são a necessidade de se destacar no
+fee. Request permissions from permissions@acm.org. mercado, conquistar e fidelizar novos alunos além de evitar a evasão
+Conference’17, July 2017, Washington, DC, USA dos atuais [9]. De acordo com o Mapa do Ensino Superior no Brasil
+© 2019 Association for Computing Machinery.
+ACM ISBN 978-x-xxxx-xxxx-x/YY/MM. . . $15.00 de 2019 realizado pelo Semesp, a taxa de evasão dos cursos superi-
+https://doi.org/10.1145/nnnnnnn.nnnnnnn ores presenciais no país atingiu o índice de 18,6% na rede pública e
+
+
+
+Conference’17, July 2017, Washington, DC, USA Cássio Henrique Santos Bernardes and Daniel Mendes Barbosa
+
+28,5% na privada em 2017, enquanto que os cursos a distância no estudante; aumento do envolvimento e autonomia do estudante na
+mesmo ano, o índice chegou a 27,9% na rede pública e 34,9% na pri- busca de sua formação.
+vada [15]. Perante essas estatísticas, as IES precisam se preocupar Tabajara Lucas de Almeida, Suzi Samá Pinto e Humberto Ca-
+em criar políticas de qualidade para conter a evasão desses alunos. margo Piccoli (2007) [5] propõem a utilização da Análise de Com-
+
+No Brasil, o sistema responsável por avaliar a qualidade da ed- ponentes Principais como metodologia quantitativa para auxiliar o
+ucação é o Sistema Nacional de Avaliação da Educação Superior processo de autoavaliação das IES. Esta metodologia foi aplicada
+(SINAES). As avaliações realizadas pelo SINAES são oficiais e de- na autoavaliação da Fundação Universidade Federal do Rio Grande
+finem o Conceito Institucional (CI) e o Conceito de Curso (CC). (FURG), em 2005, utilizando como instrumento de coleta de da-
+Portanto, após a avaliação, os conceitos são finais até a realização dos dois questionários de 39 questões, aplicados a estudantes e
+da próxima. Isto leva a um problema em que itens que deman- professores de graduação. De acordo com os resultados obtidos os
+dam melhorias na instituição só poderão ser avaliados na próxima cursos de graduação apresentam sete dimensões de satisfação. As
+avaliação, desta forma as IES têm de se contentar com a nota até a sete dimensões por ordem de importância são: aspecto humano
+próxima avaliação oficial. dos professores, qualidade das disciplinas, infra-estrutura das disci-
+
+Diante destes desafios e problemas, este trabalho visa a imple- plinas, estudantes, infra-estrutura de biblioteca, aspecto ético dos
+mentação e avaliação de um sistema web que tem como objetivo professores e infraestrutura de apoio. Na análise dos questionários
+auxiliar as IES a adquirir e manter a qualidade na instituição e em aplicados aos professores foram selecionadas quatro componentes
+seus cursos de graduação por meio de autoavaliações gerenciadas principais. As dimensões por ordem de importância são: estudantes,
+pelo mesmo. Para tal, o Sistema de Autoavaliação Periódica e Dis- curso, infra-estrutura e prática docente.
+tribuída (SAAPD) utiliza dos mesmos instrumentos de avaliação do O presente trabalho tem como diferencial em relação aos cita-
+Ministério da Educação (MEC). O sistema permite o cadastro de tais dos a implementação de um sistema que se baseia nas mesmas
+instrumentos, e oferece também a interface para que os avaliadores ferramentas de avaliação de cursos de graduação e instituições
+façam a autoavaliação de acordo com o que foi cadastrado. que o Ministério da Educação (MEC) para avaliação dos mesmos,
+
+Por fim, ele produzirá os resultados das autoavaliações e os além de oferecer funcionalidades de análise dos dados coletados
+disponibilizará de forma analítica, oferecendo insights que per- periodicamente.
+mitem informar a evolução do(s) curso(s) e da instituição, além
+de indicar áreas que demandam possíveis melhorias. 3 METODOLOGIA
+
+De início, o trabalho consistiu em pesquisas e estudos sobre os in-
+strumentos de avaliação utilizados pelo MEC para posteriormente
+
+2 TRABALHOS RELACIONADOS desenvolver o banco de dados da aplicação produzindo o diagrama
+entidade-relacionamento através da ferramenta Microsoft MySQL
+
+Barbosa, D. M. (2016) [2] definiu o embasamento teórico do SAAPD Workbench 8.0 CE1. O MySQL Community Server 8.02 foi o Sistema
+juntamente com seus protótipos de telas. De acordo com Barbosa, de Gerenciamento de Banco de Dados (SGBD) utilizado para ar-
+D. M. (2016), "A educação superior no Brasil vem sendo regula- mazenar todos os dados do sistema.
+mentada de forma cada vez mais rígida, com fortes mecanismos de Para sua implementação, no back-end, foi utilizada a linguagem
+controle.". Ainda acrescenta que "O grande desafio para as institu- de programação Java 123 juntamente com o Spring Framework 54
+ições é, portanto, conseguir notas mais altas em tais avaliações." que é composto pela junção de projetos do ecossistema Spring5 que
+levantando a seguinte questão: "como melhorar as avaliações dos simplificam o desenvolvimento de código de infraestrutura aten-
+cursos superiores de uma IES através da gestão da informação e dendo desde a arquitetura da aplicação até sua implantação. Dos
+do conhecimento?" Como solução, Barbosa, D. M. (2016) propõe projetos compreendidos pelo Spring Framework3 foram utilizados o
+um modelo de Gestão da Informação e do Conhecimento específico Spring MVC, responsável por todas as funcionalidades para atender
+e inédito para o contexto, juntamente com os sistemas de infor- as requisições HTTP (Hypertext Transfer Protocol), delegar respons-
+mação (SAAPD e SAC) que lhe dão suporte. Concluiu-se que o abilidades de processamento de dados para outros componentes e
+modelo proposto se mostrou capaz de melhorar as avaliações de preparar a resposta que precisa ser dada. Tudo isso implementando
+maneira significativa além de cumprir com seu objetivo de melhorar o padrãoModel-View-Controller (MVC) . O Spring Data6 que unifica
+as avaliações dos cursos superiores de uma IES. diferentes projetos com o objetivo de facilitar o acesso a fontes de
+
+Lane Primo (2008) [13] relata a experiência da utilização da au- dados, como bancos de dados relacionais e não relacionais. Hiber-
+toavaliação no processo de aprendizagem em três cursos de pós- nate7 e JPA8 foram utilizados nesta etapa para mapear o banco de
+graduação à distância pela Internet. Para realização de tal tarefa, dados relacional na aplicação. O Spring Boot9 para gerenciamento
+Lane Primo (2008) utilizou como apoio tecnológico a ferramenta de dependências do projeto a partir do princípio da Convenção
+Questionário do Ambiente Virtual de Aprendizagem Moodle. As
+observações realizadas abrem discussões para os seguintes assun- 1www.mysql.com/products/workbench/
+
+2
+tos: avaliação formativa, comunicação tutor x estudante, apren- www.dev.mysql.com/downloads/mysql/
+
+3www.java.com/pt_BR/
+dizagem significativa, autonomia e formação de tutores. O uso da 4www.spring.io/projects/spring-framework
+autoavaliação nos cursos da pós-graduação mostrou-se válida e 5www.spring.io/
+viável, pois permitiu constatar vários pontos positivos, entre alguns 6www.spring.io/projects/spring-data
+
+7
+deles: ajustes por parte da tutoria no sentido de sensibilizar e/ou www.hibernate.org/
+
+8www.docs.oracle.com/javaee/7/tutorial/persistence-intro.htm
+potencializar a aprendizagem; a melhoria na comunicação tutor x 9www.spring.io/projects/spring-boot
+
+
+
+SAAPD: Implementação e avaliação de um sistema para dar suporte às autoavaliações institucionais Conference’17, July 2017, Washington, DC, USA
+
+sobre Configuração, que busca reduzir o número de decisões a para verificar se foi cumprido o projeto apresentado para
+serem tomadas pelo programador no momento de configurar as autorização.
+diferentes áreas da aplicação. Por fim, o Spring Security10 fornece • Renovação de Reconhecimento: Realizada de acordo com o
+um mecanismo customizável para autenticação e autorização, de ciclo do SINAES, ou seja, a cada três anos para continuidade
+forma a controlar o acesso aos dados gerenciados pelo sistema. da oferta do curso. Contudo, a realização desta avaliação
+
+No front-end, a linguagem de programação Javascript e marcação depende da nota obtida pelo curso através do ENADE.
+HTML (Hypertext Markup Language) foram empregadas em con- Instrumentos de Avaliação de IES:
+junto com o Thymeleaf 11 que é um motor de templates responsável
+
+• Credenciamento: Para ofertar educação superior, as facul-
+pelo gerenciamento de páginas HTML. A biblioteca de CSS disponi-
+bilizada pelo Bootstrap12
+
+dades públicas e privadas devem solicitar ao MEC o seu
+também foi aplicada para melhorias de credenciamento, ou seja, entrada da IES no Sistema Federal
+
+interface. de Ensino.
+Para a avaliação do sistema foram realizados testes com alunos
+
+• Recredenciamento: De acordo com a legislação pertinente,
+discentes e egressos, além de professores/avaliadores MEC do curso as instituições se submetem a processo avaliativo para obter
+de Ciência da Computação da Universidade Federal de Viçosa - o recredenciamento, necessário para a continuidade da oferta
+Campus UFV-Florestal, onde os mesmos foram submetidos a dois de educação superior.
+questionários criados no Google Forms13, um de pré-teste e outro
+
+• Transformação de Organização Acadêmica: As institui-
+de pós-teste sendo este último baseado no Questionnaire for User In- ções podem, ainda, solicitar a transformação de organização
+terface Satisfaction (QUIS). Também foram apresentados aos alunos, acadêmica, para tornar-se Centro Universitário ou Universi-
+ex-alunos e avaliadores um roteiro com orientações sobre o pro- dade.
+cesso de teste.
+
+4 DESENVOLVIMENTO 4.3 Dimensões e Eixos
+Cada instrumento é caracterizado por um tipo, mencionado anteri-
+
+4.1 Avaliações in loco ormente, e subdivididos por dimensões, caso seja um instrumento
+Os instrumentos que subsidiam a produção de indicadores de quali- de avaliação de curso, ou eixos, caso instrumento de avaliação de
+dade e os processos de avaliação de cursos desenvolvidos pelo INEP instituição. Uma dimensão ou eixo é uma categoria relacionada ao
+são o Exame Nacional de Desempenho de Estudantes (ENADE) e curso ou instituição. Os instrumentos de avaliação de cursos de gra-
+as avaliações in loco realizadas pelas comissões de especialistas. duação possuem três dimensões constantes no Projeto Pedagógico
+
+As avaliações in loco serão o foco deste trabalho. Elas caracterizam- do Curso (PPC):
+se pela visita in loco aos cursos e instituições públicas e privadas e • Organização Didático-Pedagógica;
+se destinam a verificar as condições de ensino e outros fatores de • Corpo Docente e Tutorial;
+acordo com o instrumento específico. • Infraestrutura.
+
+4.2 Instrumentos Já os instrumentos de avaliação de instituições possuem cinco
+eixos que contemplam as dez dimensões do SINAES. São eles:
+
+No âmbito do SINAES e da regulação dos cursos de graduação no
+• Planejamento e Avaliação Institucional;
+
+País, prevê-se que os cursos e as instituições sejam avaliados pe-
+• Desenvolvimento institucional;
+
+riodicamente. Assim, os cursos de educação superior passam por
+• Políticas acadêmicas;
+
+três tipos de avaliação: para autorização, para reconhecimento e
+• Políticas de gestão;
+
+para renovação de reconhecimento. Da mesma forma, as institui-
+• Infraestrutura.
+
+ções também passam por três tipos de avaliação: credenciamento,
+recredenciamento e transformação de organização acadêmica. Cada dimensão e eixo possuem seu peso que auxiliará no cálculo
+
+Os instrumentos de avaliação são documentos elaborados pelo do Conceito de Curso (CC) e o Conceito Institucional (CI). Os pesos
+INEP para o monitoramento da qualidade dos cursos de graduação podem variar dependendo do tipo de instrumento. Desta forma é
+presenciais e a distância, assim como das instituições. possível dar mais importância a dimensões ou eixos de acordo com
+
+Instrumentos de Avaliação de Cursos de Graduação: o tipo de avaliação.
+• Autorização: Essa avaliação é feita quando uma instituição 4.4 Indicadores
+pede autorização ao MEC para abrir um curso. São avaliadas
+as três dimensões do curso quanto à adequação ao projeto É por meio dos indicadores que os avaliadores irão julgar deter-
+proposto: a organização didático-pedagógica; o corpo do- minada questão referente ao curso ou instituição. Cada eixo e di-
+cente e técnico-administrativo e as instalações físicas. mensão dentro do instrumento possui seu conjunto de indicadores.
+
+• Reconhecimento: Quando a primeira turma do curso novo Cada indicador dispõe de individualidades, são elas, uma numera-
+entra na segunda metade do curso, a instituição deve solicitar ção que refere a dimensão ou eixo que ele pertence, a sua própria
+seu reconhecimento. É feita, então, uma segunda avaliação numeração, seu nome e critérios de análise que correspondem a um
+
+conceito que varia de 1 a 5. O exemplo a seguir, Tabela 114, refere-
+10www.spring.io/projects/spring-security se ao segundo indicador pertencente a dimensão 1 - Organização
+11www.thymeleaf.org
+12www.getbootstrap.com 14Fonte Tabela 1: http://download.inep.gov.br/educacao_superior/avaliacao_cursos_
+13www.google.com/forms/about/ graduacao/instrumentos/2017/curso_autorizacao.pdf
+
+
+
+Conference’17, July 2017, Washington, DC, USA Cássio Henrique Santos Bernardes and Daniel Mendes Barbosa
+
+Didático-Pedagógica do Instrumento de Autorização publicado em avaliar a autoavaliação, e posteriormente, de acordo com as res-
+Outubro de 2017. postas dos autoavaliadores, essas informações sejam exibidas de
+
+forma analítica por meio de estatísticas e gráficos demonstrando a
+Tabela 1: INDICADOR 1.2 Objetivos do curso evolução da instituição e de seus cursos de graduação.
+
+Para que os usuários obtenham acesso às funcionalidades do sis-
+CONCEITO CRITÉRIO DE ANÁLISE tema eles primeiramente deverão ser cadastrados pelo profissional
+
+de TI, que é a pessoa que deverá fazer o gerenciamento do banco
+1 Os objetivos do curso não estão previstos no PPC, de dados da aplicação. O profissional de TI deverá também definir
+
+considerando o perfil profissional do egresso, a es- o tipo de cada usuário do sistema, ou seja, as suas permissões.
+trutura curricular e o contexto educacional. Os administradores serão os responsáveis pelo cadastro dos cur-
+
+2 Os objetivos do curso estão previstos no PPC de sos que serão submetidos às autoavaliações. Os instrumentos junta-
+maneira limitada, considerando o perfil profissio- mente com suas dimensões ou eixos e o conjunto de indicadores
+nal do egresso, a estrutura curricular e o contexto também deverão ser cadastrados pelos administradores, só então
+educacional. será possível cadastrar as autoavaliações que de acordo com as datas
+
+definidas em sua criação (prazos de início e fim), estarão disponíveis
+3 Os objetivos do curso estão previstos no PPC, consi- para que os autoavaliadores possam avaliá-las. Também é tarefa
+
+derando o perfil profissional do egresso, a estrutura dos administradores definir quais usuários serão autoavaliadores e
+curricular e o contexto educacional. analisadores de instituição e/ ou curso, bem como quais cursos os
+
+4 Os objetivos do curso estão previstos no PPC, consi- mesmos avaliarão e/ou analisarão.
+derando o perfil profissional do egresso, a estrutura Os autoavaliadores são unicamente responsáveis por realizar as
+curricular, o contexto educacional e características autoavaliações disponíveis dentro do tempo definido em sua criação.
+locais e regionais. Eles podem ser autoavaliadores de curso e/ou de instituição.
+
+5 Os objetivos do curso estão previstos no PPC, consi- Após as autoavaliações terem sido realizadas, elas ficam dispo-
+derando o perfil profissional do egresso, a estrutura níveis para serem analisadas pelos analisadores. Os analisadores
+curricular, o contexto educacional, características podem visualizar as respostas de cada indicador da autoavaliação e
+locais e regionais e novas práticas emergentes no a sua média. É possível realizar uma análise gráfica das autoavalia-
+campo do conhecimento relacionado ao curso. ções podendo configurar parâmetros que permitem analisá-las com
+
+mais detalhes.
+Todos os usuários terão acesso ao SAAPD por meio de um e-mail
+
+institucional e uma senha. O sistema é acessado por um navegador,
+4.5 O Banco de Dados onde os usuários podem inserir seu e-mail e senha para terem acesso
+
+às funcionalidades.
+Com relação à persistência dos dados, foi criado o diagrama 15 Ao entrar no sistema é exibido ao usuário a página inicial, onde
+entidade-relacionamento para armazenar os dados pertinentes ao é possível acessar apenas as funcionalidades do SAAPD disponíveis
+sistema. O diagrama é composto por 10 tabelas que caracterizam as de acordo com o tipo de usuário.
+entidades da aplicação. Na Área do Profissional de TI é possível cadastrar e editar novos
+
+As tabelas são: "usuario" que representa os usuários que acessa- usuários, além de listar os existentes. As funcionalidades da Área do
+rão as funcionalidades do sistema. A mesma possui relacionamento Administrador resumem a cadastrar, editar, excluir e listar cursos,
+(1:1) com as tabelas "autoavaliador" e "analisador" que definem se instrumentos, dimensões, eixos, indicadores e autoavaliações. Na
+o usuário é um autoavaliador e/ou analisador de curso e/ou insti- Área do Autoavaliador é onde os autoavaliadores poderão avaliar
+tuição; "autoavaliacao" corresponde às autoavaliações de cursos e as autoavaliações disponíveis, seja de curso ou instituição. Na Área
+instituição disponíveis para avaliação num período específico e aná- do Analisador, o usuário é capaz de analisar as autoavaliações de
+lise estatística e gráfica. Possui relacionamento (1:N) com "resposta" curso ou institucionais já avaliadas por todos os autoavaliadores
+que diz respeito a todas as respostas dos indicadores efetuadas responsáveis.
+pelos autoavaliadores; a tabela "curso" são todos os cursos da IES No que diz respeito a Área do Autoavaliador, existem duas op-
+que passarão por avaliações gerenciadas pelo SAAPD e detém de ções: "Avaliar Curso"e "Avaliar Instituição". Caso o usuário escolha
+um relacionamento (1:N) com "autoavaliação" e (N:M) com "auto- "Avaliar Curso", o próximo passo é selecionar o curso que o mesmo
+avaliador" e "analisador"; por fim, as tabelas "instrumento", "eixo", deseja avaliar.
+"dimensão" e "indicador" descrevem as entidades que representam Após selecionar o curso, uma tela como a da Figura 1 é exibida.
+os componentes das ferramentas de avaliação do MEC e possuem Nesta tela é apresentada uma lista de indicadores obrigatórios a
+relacionamentos entre si. serem avaliados juntamente com a nota atribuída e a média da au-
+
+toavaliação anterior para o mesmo indicador. Caso escolha "Avaliar
+4.6 O Sistema Instituição", uma tela como da Figura 1 é exibida, contudo com
+O SAAPD foi projetado para que o mesmo forneça as interfaces indicadores obrigatórios relacionados à instituição.
+necessárias para cadastro dos dados que serão necessários para Para avaliar um indicador específico basta clicar em seu nome.
+
+Após o redirecionamento do sistema, o autoavaliador deverá sele-
+15https://ibb.co/w74nxV4 cionar um conceito de 1 a 5 baseado nos critérios de análise. Uma
+
+
+
+SAAPD: Implementação e avaliação de um sistema para dar suporte às autoavaliações institucionais Conference’17, July 2017, Washington, DC, USA
+
+Figura 1: Tela de seleção de indicador para avaliação.
+Figura 2: Tela de análise de curso por semestre.
+
+justificativa ao conceito escolhido também é requerida. Desta ma-
+neira outros autoavaliadores e analisadores poderão entender o Se desejar, o analisador poderá ainda examinar as notas e justifi-
+porquê da nota atribuída ao indicador. cativas pertencentes ao indicador ao clicar sobre seu nome.
+
+Antes de salvar a avaliação do indicador o usuário pode optar Se o usuário optar por "Analisar Instituição", uma tela com to-
+por consultar as notas atribuídas pelos autoavaliadores da autoava- das as autoavaliações de instituição já avaliadas e ordenadas por
+liação anterior para o indicador em questão clicando sobre o botão semestre assim como na análise de curso é exibida ao usuário. Da
+"Autoavaliação anterior". mesma forma, o analisador pode optar por verificar uma autoava-
+
+Na tela da autoavaliação anterior, o usuário poderá consultar a liação clicando sobre o semestre desejado. Para detalhar cada um
+origem da média (exibida na Figura 1) da autoavaliação anterior jun- dos indicadores, ou seja, quais foram as notas individuais de cada
+tamente com as respostas, ou seja, conceitos, justificativas e o nome autoavaliador, com suas respectivas justificativas, o usuário pode
+dos autoavaliadores que produziram as avaliações para o indicador então clicar sobre o nome do indicador.
+corrente. O acesso a estes dados têm o objetivo de servir como base Assim como é importante que um sistema de avaliação e análise
+de comparação para a tomada de decisão do autoavaliador, além igual ao SAAPD forneça maneiras de exibir as informações das
+de ser possível ler críticas através das justificativas e verificar se o autoavaliações detalhadamente, como analisar cada justificativa e
+problema em questão foi solucionado. conceito dos indicadores, é igualmente importante que o sistema
+
+Após serem avaliadas, as autoavaliações ficam à disposição para ofereça medidas de análise mais gerais e sintéticas.
+análise, seja estatisticamente ou graficamente. O analisador poderá Deste modo, o SAAPD permite ao usuário analisar as autoavalia-
+acessar as autoavaliações de curso e instituição desde que possua ções graficamente, proporcionando uma visão geral da situação do
+permissão para tal. Ao entrar na Área do Analisador o usuário curso ou da instituição ao longo do tempo. Para isso, basta clicar
+poderá escolher se deseja analisar algum curso de graduação ou no botão "Gerar gráficos" existente na tela da Figura 2. Assim, o
+a IES. Ao escolher "Analisar Curso" uma tela semelhante à parte SAAPD redireciona o analisador para a tela de seleção de parâme-
+de avaliação é apresentada ao usuário para que o mesmo possa tros, com opções de seleção das autoavaliações a serem analisadas,
+escolher qual curso deseja analisar. Depois de selecionar o curso, o nível de análise e tipo de nota.
+uma lista com as autoavaliações ordenadas por semestre em ordem Caso o analisador selecione analisar as autoavaliações no nível de
+crescente é exibida juntamente com a nota exata e a nota do curso curso, o sistema exibe uma tabela com as autoavaliações ordenadas
+(baseada na mesma regra de arredondamento do MEC) de cada por semestre juntamente com sua nota, Figura 3. As notas podem
+autoavaliação, Figura 2. ser apresentadas pelo tipo Nota Exata, ou seja, calculada utilizando
+
+A partir da Figura 2, o analisador poderá clicar sobre o semestre média ponderada sem arredondamento, ou o tipo Nota MEC, que é
+para obter mais detalhes da autoavaliação a nível de indicador, a média ponderada dos indicadores arredondada para o teto caso a
+ou seja, ele será capaz de analisar cada indicador individualmente parte decimal seja igual ou superior a 0,5 e para o piso caso contrário,
+junto com a média das notas para o indicador concedidas pelos mesmo método utilizado pelo MEC para atribuição do Conceito de
+autoavaliadores da autoavaliação selecionada. Curso e Instituição.
+
+
+
+Conference’17, July 2017, Washington, DC, USA Cássio Henrique Santos Bernardes and Daniel Mendes Barbosa
+
+Na Figura 3, estão as mesmas informações da tabela da Figura 2 5.1.1 Heurísticas de Nielsen. Um dos métodos escolhidos para ava-
+exibidas graficamente por meio de um gráfico de linha. Os gráficos liação do SAAPD foi a avaliação heurística de usabilidade baseada
+de linha são indicados para controlar alterações ao longo do tempo nas dez heurísticas de Nielsen. Destacamos a usabilidade, como a
+e facilitar a identificação de tendências ou de anomalias, isto é, se o área que está relacionada a "capacidade de um produto ser facil-
+curso evoluiu ou regrediu em determinado semestre. mente usado" (ABNT, 2002, p. 19). A usabilidade, então, envolve o
+
+estudo da "capacidade, em termos funcionais, humanos, de um sis-
+tema ser usado facilmente e com eficiência pelo usuário" (SANTOS,
+2000, p. 21) [1].
+
+Já a avaliação heurística, segundo Nielsen e Molich, 1990; Nielsen
+1994, "é um método de engenharia de usabilidade para encontrar os
+problemas de usabilidade em um design de interface com o usuário,
+para que possam ser atendidos como parte de um processo de design
+iterativo. A avaliação heurística envolve que um pequeno conjunto
+de avaliadores examine a interface e julgue sua conformidade com
+os princípios de usabilidade (as "heurísticas")"[12].
+
+Destacando as 10 heurísticas de Nielsen [11], temos:
+(1) Visibilidade do status do sistema: determina que o sis-
+
+tema sempre deve manter os usuários informados sobre o
+que está acontecendo, através de um feedback.
+
+(2) Correspondência entre o sistema e o mundo real: o sis-
+tema deve falar o idioma do usuário, com palavras, frases e
+conceitos familiares.
+
+(3) Controle e liberdade do usuário: define que o sistema
+tenha suporte para desfazer ou refazer alguma ação.
+
+(4) Consistência e padrões: os usuários não devem se pergun-
+tar se palavras, situações ou ações diferentes significam a
+mesma coisa. Toda mesma ação que o usuário realizar o
+levará ao mesmo caminho dentro do sistema.
+
+(5) Prevenção de erros: eliminar condições propensas a erros
+ou verificar e apresentar aos usuários uma opção de confir-
+
+Figura 3: Tela de análise gráfica das autoavaliações do curso mação antes que eles se comprometam com a ação.
+Ciência da Computação. (6) Reconhecimento ao invés de memorização: o usuário
+
+não deve ter que lembrar informações de uma parte do diá-
+logo para outra.
+
+Os parâmetros podem ser ajustados para se criar gráficos mais (7) Flexibilidade e eficiência de uso: é importante que exis-
+apropriados a análises mais profundas das autoavaliações. Por exem- tam alguns atalhos para acelerar a interação dele com a
+plo, é possível analisar as autoavaliações no nível de dimensão e ferramenta, de modo que o sistema possa atender a usuários
+indicador bastando o usuário selecionar a opção desejada na tela de inexperientes e experientes.
+seleção de parâmetros. Após selecionar qualquer uma das opções (8) Design estético e minimalista: os diálogos não devem
+mencionadas e avançar, o próximo passo é escolher a dimensão ou conter informações irrelevantes ou raramente necessárias.
+indicador de cada autoavaliação selecionada e então a tabela e o (9) Ajude os usuários a reconhecer, diagnosticar e recupe-
+gráfico referente ao que foi escolhido é apresentado ao usuário. rar erros: as mensagens de erro devem ser expressas em
+
+A análise gráfica da instituição segue a mesma ideia da análise linguagem simples, indicar com precisão o problema e suge-
+de curso, contudo, na seleção de parâmetros de instituição os níveis rir uma solução.
+à disposição são: instituição, eixo e indicador. (10) Ajuda e documentação: fornecer ajuda e documentação.
+
+5 AVALIAÇÃO E RESULTADOS 5.1.2 Questionários. O outro método de avaliação do sistema cons-
+tituiu da aplicação de dois questionários, um de pré-teste e outro
+
+5.1 Avaliação de pós-teste. O questionário de pré-teste tem como objetivo obter
+Falar em avaliar um sistema web de avaliação educacional exige que um feedback do perfil e formação do usuário, já o de pós-teste tem
+de imediato se defina um padrão de qualidade para o mesmo. Antes o objetivo de obter os sentimentos e impressões do usuário em
+da adoção de um software é imprescindível a sua avaliação. Com relação ao uso do sistema.
+a variedade de abordagens de avaliação disponíveis, é comum o O questionário pré-teste, referente ao perfil do participante, cons-
+surgimento de dúvidas sobre a escolha dos métodos mais adequados. tituiu de dois tipos de questões: questões fechadas, onde o partici-
+Cada um deles propõe critérios e formas de exploração diferentes, o pante pôde selecionar uma resposta dentre uma escolha de alterna-
+que dificulta a identificação do mais abrangente, para que aspectos tivas. Foram abordadas questões sobre o sexo, faixa de idade, grau
+técnicos, pedagógicos e de qualidade de uso sejam contemplados. de instrução e experiência em informática. E uma questão aberta,
+
+
+
+SAAPD: Implementação e avaliação de um sistema para dar suporte às autoavaliações institucionais Conference’17, July 2017, Washington, DC, USA
+
+onde o participante ficou livre para prover sua própria resposta. Florestal do curso de Ciência da Computação de diversos períodos
+Foi elaborada apenas uma questão referente à expectativa do par- além de professores que também são avaliadores do MEC 22 totali-
+ticipante sobre o uso de um sistema que auxilia as IES a realizar zando 19 pessoas (17 discentes e egressos e 2 docentes e avaliadores
+autoavaliações institucionais e de cursos de graduação. do MEC), sendo 6 (31,6%) do sexo feminino e 13 (68,4%) masculino.
+
+O questionário pós-teste, objetivou mensurar a satisfação do Dos 19, 14 tem idade entre 18 e 24 anos, enquanto 5 estão na faixa de
+usuário em relação ao uso do sistema. Esse tipo de avaliação é con- 25 a 44 anos. Onze dos testadores já são formados enquanto 8 estão
+siderado um componente importante nas avaliações de usabilidade. cursando a graduação. A respeito da experiência em informática,
+
+Na literatura, existem alguns questionários de usabilidade dis- a maioria utilizam sistemas avaliativos eventualmente, enquanto
+poníveis. Os que mais se destacam são: SUMI16 (Software Usability diariamente utilizam correio eletrônico (e-mail) e internet. Já edito-
+Measurement Inventory); WAMMI17 (Website Analysis and Measure- res de texto comoWord e planilhas eletrônicas (Excel) variam entre
+Ment Inventory); SUS 18 (System Usability Scale) e QUIS 19 (Questi- diariamente e semanalmente.
+onnaire for User Interaction Satisfaction) [3]. Como resultado da avaliação obtido no QUIS, os participantes se
+
+O QUIS é uma ferramenta desenvolvida para avaliar a satisfa- mostraram bastante familiarizados com a interface. Os resultados
+ção subjetiva dos usuários com aspectos específicos da interface resumidos foram os seguintes:
+homem-computador. Foi desenvolvida por uma equipe multidisci-
+
+• Reações ao sistema: a impressão geral que os discentes e
+plinar de pesquisadores do HumanComputer Interaction Laboratory egressos apontaram foi um sistema razoavelmente fácil de
+(HCIL) da University of Maryland. Objetiva orientar no projeto ou utilizar e que na maioria das vezes cumpre com os objetivos.
+reprojeto de sistemas, fornecer aos gerentes uma ferramenta para Já os avaliadores do MEC indicaram que o SAAPD é um sis-
+avaliar possíveis áreas de melhoria do sistema, fornecer aos pesqui- tema satisfatório, estimulante e que cumpre com os objetivos,
+sadores um instrumento validado para a realização de avaliações além de dispor da mesma opinião que os participantes sobre
+comparativas, e servir como instrumento de teste em laboratórios a facilidade de uso.
+de usabilidade [10].
+
+• Tela: os participantes consideraram a forma e tamanho da
+Cada sessão especifica alguns pontos de interesse da interface. letra fácil de ler. Da mesma forma, consideraram que as cores
+
+Foi projetado para medir a satisfação global do sistema, abordando e negrito nas telas são suficientes. As cores e componentes
+fatores específicos de interface como: reações, fatores da tela, ter- foram agradáveis e adequados, respectivamente, além do
+minologia e feedback do sistema, fatores de aprendizagem e capaci- sistema possuir uma interface padronizada. Já os discentes
+dades do sistema. e egressos tiveram mais dificuldade com a organização das
+
+O QUIS tem demonstrado alta eficácia e confiabilidade, sendo um informações, sequência de telas e a facilidade de encontrar
+dos questionários de usabilidade mais amplamente empregados na os itens na tela do que os avaliadores do MEC.
+avaliação de interfaces. Tem como vantagem ter passado por vários
+
+• Terminologia e informação do sistema: para os alunos e
+ciclos de qualificação e versionamento, além de ter sido utilizado ex-alunos, o uso de termos utilizados no sistema não demons-
+por centenas de estudos de avaliação. Trata-se, portanto, de um trou ser tão claro, já que os mesmos não estão familiarizados
+instrumento bem experimentado e testado [8]. com nomenclaturas utilizadas pelo MEC em seus métodos
+
+Sendo assim, o QUIS foi a ferramenta adotada para compor o de avaliação. Os docentes não demonstraram muitos pro-
+questionário de pós-teste. O próprio permite modificações caso blemas com esse item. Todos os participantes consideraram
+necessário. Originalmente, é composto por afirmações utilizando as mensagens e sua localização claras. De acordo com os
+escalas de 0 a 9 e N/A (não se aplica). As escalas foram ajustadas discentes e egressos, o SAAPD pecou em instruir o usuário
+para 0 (menor grau) a 5 (maior grau) e o N/A foi retirado na versão sobre seu uso correto. Apesar do sistema manter o usuário
+utilizada. Perguntas pertinentes ao sistema em questão também informado quase sempre sobre o que o mesmo está fazendo.
+foram acrescentadas e outras modificadas de acordo com a necessi- Os docentes não tiveram muitos problemas com as instru-
+dade. ções do sistema. Por fim, constatou-se que as mensagens de
+
+Para realização dos testes sobre o SAAPD, um roteiro foi dispo- erro se demonstraram úteis, apesar de a sua exibição não
+nibilizado aos testadores. O roteiro contém as instruções de acesso estar padronizada.
+ao sistema, as etapas e passos de utilização para cadastro dos cursos
+
+• Aprendizado: Ainda que um roteiro tenha sido disponibi-
+e instrumentos, além do cadastro, avaliação e análise das autoavali- lizado e uma documentação estar acessível aos discentes e
+ações. egressos, a facilidade no aprendizado ao operar o sistema
+5.2 Resultados divergiu opiniões. Alguns participantes consideraram fácil
+
+aprender operar o SAAPD enquanto outros nem tanto. O
+Os questionários de pré 20 e pós-teste 21 foram aplicados com alunos mesmo ao explorar erros no sistema. Os avaliadores do MEC
+egressos e discentes da Universidade Federal de Viçosa - Campus novamente não tiveram muita dificuldade. Para os partici-
+16www.sumi.uxp.ie/ pantes foi fácil lembrar termos e uso de comandos e tarefas
+17www.wammi.com/ puderam ser executadas de uma maneira rápida e/ou lógica.
+18www.mindd.com
+19 Na maior parte dos casos as tarefas puderam ser concluídas.
+www.cs.umd.edu/hcl/quis/
+
+20Questionário: https://forms.gle/HXGs5cuzk6dCqHb49
+Resultados: http://abre.ai/aykS
+21Questionário: https://forms.gle/TwWosgTN2smZGj6f8 22Questionário: https://forms.gle/gKMqergJzoaUJbGa7
+Resultados: http://abre.ai/aykT Resultados: http://abre.ai/aykT
+
+
+
+Conference’17, July 2017, Washington, DC, USA Cássio Henrique Santos Bernardes and Daniel Mendes Barbosa
+
+Para os alunos e ex-alunos as mensagens de ajuda quase sem- usabilidade aceitável, interface agradável e padronizada atendendo
+pre foram claras, enquanto para os docentes, nem sempre. às expectativas da maioria dos testadores, além de possuir requisitos
+
+• Capacidades do sistema: os participantes apontaram que e funcionalidades suficientes para cumprir seus objetivos, isto é,
+o SAAPD é veloz e quase sempre apresentaram respostas permitir que as IES possam se auto avaliar através dos mesmos
+confiáveis além de ser seguro. Contudo, não apresentou fa- instrumentos de avaliação do órgão encarregado do estudo e decisão
+cilidade na correção dos erros do usuário. Para os discentes de todos os assuntos relativos ao ensino e se autoanalisar para
+e egressos, o sistema não foi projeto para todos os níveis identificar áreas que necessitam melhorias garantindo um ensino
+de usuários (iniciantes e experientes), já para os docentes, de excelência a seus alunos e condições de trabalho de qualidade a
+o mesmo poderia ser usado tanto por usuários experientes seus profissionais.
+quanto iniciantes. É importante destacar que alguns resultados não satisfatórios
+
+No questionário de pré-teste, foi indagado aos participantes o que como a não padronização de mensagens e partes da documentação
+eles esperavam de um sistema com a especialização do SAAPD, além que estavam confusas foram corrigidas, além de ter sido implemen-
+disso, ao final do questionário de pós-teste verificou-se se o sistema tado a sinalização de campos obrigatórios e o menu de opções dos
+atendeu as expectativas do usuário em relação ao que foi respondido tipos de usuários remodelado para melhor organização.
+no questionário de pré-teste. Do total de 19 respostas, 84%, ou Como trabalhos futuros, pretende-se continuar desenvolvendo
+seja, 16 participantes responderam que sim, o sistema atendeu as melhorias no sistema visando aumentar a sua usabilidade, promo-
+expectativas, enquanto 16% (3 participantes) informaram que o ver a sua compatibilidade com outros dispositivos móveis como
+sistema não atendeu as expectativas. smartphones e tablets e disponibilizar outros dados estatísticos. Por
+
+No que diz respeito às questões qualitativas, os participantes fim, aplicar de fato o SAAPD em IES para avaliar seu desempenho
+foram solicitados a deixar sugestões, comentários e críticas sobre em contribuir para melhorias reais no sistema federal de ensino
+o sistema. Algumas sugestões foram implementadas objetivando superior.
+melhorar a usabilidade do sistema web.
+
+Os testes também foram importantes para identificação de REFERÊNCIAS
+bugs, [1] A. Andrade. [n.d.]. Usabilidade de interfaces web: Avaliação heurística no jornalismo
+
+erros e não-conformidades não detectados nos testes de desen- on-line. E-PAPERS. https://books.google.com.br/books?id=wiF1jPaV8_IC
+volvimento. Sendo assim, as falhas de sistema encontradas foram [2] D. M. Barbosa. 2016. Um modelo de gestão da informação e do conhecimento
+corrigidas. para o contexto da avaliação de cursos de graduação. 6 (out 2016), 163. http:
+
+//hdl.handle.net/1843/BUOS-AWCNP9
+Por fim, através das respostas obtidas pelos questionários, o SA- [3] John Chin, Virginia Diehl, and Kent Norman. 1988. Development of an Instrument
+
+APD atende plenamente 8 das heurísticas de Nielsen, sendo elas, Measuring User Satisfaction of the Human-Computer Interface. ACM CHIi’ (01
+visibilidade do status do sistema (mantém o usuário informado so- 1988), 18–19.
+
+[4] Samy Dana. [n.d.]. A importância da educação para o crescimento econômico.
+bre o que está fazendo), controle e liberdade do usuário (é possível Retrieved November 7, 2011 from http://g1.globo.com/economia/blog/samy-
+editar e remover dados em caso de erro), consistência e padrões dana/post/importancia-da-educacao-para-o-crescimento-economico.html
+
+[5] Suzi Samá Piccoli Humberto Camargo de Almeida, Tabajara Lucas Pinto. 2007.
+(todas as ações no sistema leva o usuário ao mesmo caminho), pre- Auto-avaliação na Fundação Universidade Federal do Rio Grande: Metodologia
+venção de erros (componentes adequados e verificações de erros de Avaliação. Avaliação: Revista da Avaliação da Educação Superior (2007). https:
+no front-end), flexibilidade e eficiência de uso (provém o usuário de //www.redalyc.org/articulo.oa?id=219114879008
+
+[6] Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep).
+funções e atalhos que agiliza o seu uso), design estético e minima- [n.d.]. Censo da Educação Superior 2018: Notas Estatísticas. Retrieved November
+lista (interface padronizada, simples e agradável), ajude os usuários 7, 2011 from http://download.inep.gov.br/educacao_superior/censo_superior/
+a reconhecer, diagnosticar e recuperar erros (mensagens de erro documentos/2019/censo_da_educacao_superior_2018-notas_estatisticas.pdf
+
+[7] Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep).
+úteis e com soluções) e ajuda e documentação (documentação com [n.d.]. Resumo Técnico do Censo da Educação Superior 2017. Retrieved November
+instruções de uso e definições). As demais heurísticas, como cor- 7, 2011 from http://download.inep.gov.br/educacao_superior/censo_superior/
+
+resumo_tecnico/resumo_tecnico_censo_da_educacao_superior_2017.pdf
+respondência entre o sistema e o mundo real e reconhecimento ao [8] Ana Lúcia Filardi e Agma Juci Machado Traina. 2008. Montando questionários
+invés de memorização não são plenamente atendidas pelo fato do para medir a satisfação do usuário: Avaliação de interface de um sistema que
+sistema possuir terminologias difíceis para usuários que desconhe- utiliza técnicas de recuperação de imagens por conteúdo. (10 2008).
+
+[9] Redação Resultado Enade. [n.d.]. Alguns desafios da educação superior brasi-
+cem os conceitos de avaliação do MEC e ser inicialmente complexo leira. Retrieved November 7, 2011 from http://www.resultadoenade.com/alguns-
+de utilizar algumas funcionalidades corretas sequencialmente. desafios-da-educacao-superior-brasileira/
+
+[10] Ben Shneiderman e Ben Harper Kent Norman. [n.d.]. QUIS: The Questionnaire
+for User Interaction Satisfaction. Retrieved November 7, 2011 from http://www.
+
+6 CONCLUSÃO cs.umd.edu/hcil/quis/
+[11] Jakob Nielsen. 1994. 10 Usability Heuristics for User Interface Design. (04 1994).
+
+Este trabalho adotou técnicas de questionamento e avaliação heu- [12] Jakob Nielsen. 1994. How to Conduct a Heuristic Evaluation. (11 1994).
+rística para analisar a interação do usuário em um sistema web [13] Lane Primo. 2008. Auto-Avaliação na Educação a Distância uma alternativa viável.
+
+Anais do Workshop de Informática na Escola 1, 1 (2008). https://doi.org/10.5753/
+avaliativo e qualificar suas funcionalidades e usabilidade. O obje- cbie.wie.2008.%p
+tivo principal deste trabalho foi implementar e avaliar um sistema [14] Katsumi Letra Sanada. 2015. A Importância da Educação Superior para o Cresci-
+web que gerencia autoavaliações permitindo que IES possam obter mento Profissional. (2015), 01.
+
+[15] Semesp. [n.d.]. Mapa do Ensino Superior no Brasil | 2019. Retrieved November
+e manter a qualidade geral da própria instituição e de seus cursos 7, 2011 from https://www.semesp.org.br/wp-content/uploads/2019/06/Semesp_
+de graduação além de auxiliar na detecção e resolução de desafios Mapa_2019_Web.pdf
+que as IES enfrentam diariamente para se destacar no mercado.
+
+Com base nos resultados obtidos dos questionários e da avaliação
+heurística de Nielsen, o SAAPD mostrou ser uma ferramenta com

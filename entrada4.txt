@@ -1,0 +1,387 @@
+﻿Estudo de Técnicas de Deep Learning na Classificação de Amostras de
+Áudio de Instrumentos Musicais
+
+Ranieri W. Moura Gusmão 1, José Augusto M. Nacif 1, Alex Borges Vieira 2
+
+Abstract— Nos tempos modernos, diante da implacável proposta pode favorecer o estudo de outras áreas relacionadas
+evolução da tecnologia, o ser humano tende a estabelecer uma ao assunto, já que manipular com eficiência dados de áudio
+relação mais próxima das máquinas. Os promissores estudos para treinar redes neurais é um grande desafio.
+voltados ao Machine Learning demonstram que a relação
+humano-máquina evoluiu significativamente. Neste trabalho, Em [2], compara-se o desempenho de um método de
+será abordado Deep Learning, que é um dos ramos especı́ficos classificação de áudio que emprega técnicas de Deep Le-
+do Machine Learning, para classificação de amostras de áudio arning, com dois métodos mais simples, o SVM (Support
+de instrumentos musicais. O objetivo é determinar a precisão do Vector Machine) e o GMM (Gaussian Mixture Models).
+desempenho entre Redes Neurais Recorrentes e Convolucionais,
+realizando um comparativo e identificando fatores significativos Os trabalhos [3] e [4], avaliam o desempenho de Redes
+que possam interferir no resultado final. Após o treinamento Neurais Convolucionais em grandes conjuntos de amostras
+das Redes Neurais Recorrentes e Convolucionais, obteve-se, de imagens. Em [5], é tratado algoritmos aplicados em
+respectivamente, taxas de precisão de 88% e 96,5%. Percebe-se Redes Neurais Convolucionais na classificação de áudios
+então, que para classificação de amostras de áudio, as técnicas especı́ficos.
+de convolução empregadas nas Redes Neurais Convolucionais
+são mais eficientes. Este artigo está organizado em 6 seções: (I) introdução;
+
+(II) referencial teórico; (III) metodologia; (IV) resultados;
+Palavras-chave: deep learning, áudio, pré-processamento, redes (V) trabalhos relacionados e (VI) conclusões e trabalhos
+neurais, recorrência, convolução futuros. Ao final, as referências.
+
+I. INTRODUÇÃO II. REFERENCIAL TEÓRICO
+
+Nos tempos modernos, diante da implacável evolução da A. Transformada de Fourier
+tecnologia, o ser humano tende a estabelecer uma relação
+mais próxima das máquinas. Não apenas aprimorando suas O princı́pio dessa técnica é uma transformada integral que
+caracterı́sticas fı́sicas e lógicas, mas criando uma identidade expressa determinada função em termos de bases de senoide
+humana em seus complexos cérebros artificiais. Os promis- (onda seno), consistindo em oscilações repetitivas e suaves.
+sores estudos voltados ao Machine Learning demonstram O que ocorre basicamente é uma decomposição de uma
+que a relação humano-máquina evoluiu tão rapidamente que função temporal, na form∫a de sinal ou som, em frequências.
+os novos objetivos não almejam apenas facilitar a vida do ∞
+ser humano em seu meio, mas ensinar a máquina a pensar F (k) = f(x)e−2πikxdx (1)
+praticamente como ele. O que pode ser intrigante e nocivo −∞
+para alguns, mas uma descomunal evolução para outros. De • i =
+qualquer maneira, algo é certo, nunca se está satisfeito com • k = Frequência
+o que se tem. • x = Tempo
+
+Neste trabalho, será abordado Deep Learning, que é um
+dos ramos especı́ficos do Machine Learning. Como pode-
+mos inferir do próprio nome, Deep Learning estabelece o
+aprendizado mais aprofundado de uma rede neural, através
+de algoritmos minuciosamente estruturados, embasados em
+um viés hierárquico que se apoia na teoria de grafos lineares
+e não lineares. O cenário baseia-se em sons de instrumentos
+musicais e é composto por 10 classes de amostras de áudio
+obtidas em [1]. Em uma visão geral, são 300 amostras que
+serão submetidas a etapas de pré-processamento e aplicadas
+em diferentes estruturas de redes neurais.
+
+O objetivo é determinar a precisão do desempenho dessas Fig. 1: Transformada de Fourier.
+redes, realizando um comparativo e identificando fatores
+significativos que possam interferir no resultado final. Tal
+
+Com base nas próximas figuras, é possı́vel visualizar o
+1 Universidade Federal de Viçosa – Florestal, MG, Brasil comportamento de uma amostra de áudio antes (Figura 2) e
+2 Universidade Federal de Juiz de Fora – MG, Brasil depois da aplicação da Transformada de Fourier (Figura 3).
+
+
+
+3) Determinar os bancos de filtros de Mel através da
+definição de um conjunto (padrão) de 26 filtros triangu-
+lares (Figura 4). Estipula-se um limite inferior e superior
+de frequência, que será respectivamente 0 Hz e 4410 Hz.
+O próximo passo é aplicar a Equação 3 que converterá
+frequência (Hz) em Mel. Os resultados são somados
+a 40 pontos adicionais espaçados linearmente entre os
+limites definidos no inı́cio dessa etapa. Esse número é
+determinado avaliando um espaço de 1s dividido por
+25 ms (1 quadro). Enfim, aplica-se a Equação 4, que
+realiza a operação inversa da Equação 3.
+
+Fig. 2: Comportamento de uma amostra de áudio antes de
+ser submetida a uma Transformada de Fourier.
+
+Fig. 4: Bancos de Filtros de Mel.
+
+M(f) = 1125 ln(1 + f
+700 ) (3)
+
+M−1(f) = 700 (exp( m
+1125 )− 1) (4)
+
+Fig. 3: Comportamento de uma amostra de áudio após ser
+• f = Frequência
+
+submetida a uma Transformada de Fourier.
+• m = Escala de Mel
+
+4) Calcular o logaritmo de todas as 26 energias do banco
+B. Coeficientes Cepstrais de Frequência de Mel (MFCC) de filtros no passo 3. Essa etapa amplifica o som de
+
+Elaborado e divulgado em [6], é um recurso amplamente maneira que possa ser factı́vel para a audição humana.
+utilizado até os dias de hoje na identificação e classificação O uso do logaritmo, ao invés de outra operação ma-
+de sons. Para determiná-los com êxito, é essencial seguir temática, viabiliza a manipulação de coeficientes ceps-
+algumas etapas. trais que obtém-se na etapa final, o que caracteriza uma
+
+1) Dividir o sinal em pequenos quadros. Considerando técnica de normalização de canal.
+amostras de 16 KHz e cada quadro em 25 ms (padrão), 5) Aplicar a Transformada Discreta de Cosseno (DCT)
+temos como resultado 400 quadros (16000 × 0.025). em cada um dos 26 resultados obtidos no passo 4,
+Configura-se também uma tolerância, ou frame step, de para obter os 26 coeficientes cepstrais. Essa etapa
+10 ms (padrão) entre cada conjunto de 400 quadros, correlaciona as energias, possibilitando que matrizes de
+evitando assim a sobreposição dos valores; covariância diagonal sejam utilizadas para modelar os
+
+2) Para cada quadro no passo 1, calcular uma estimativa recursos. Consideraremos os 13 menores valores que
+da densidade espectral do sinal, um periodograma, no serão os Coeficientes Cepstrais de Frequência de Mel
+espectro de potência. Para isso, aplicamos a Transfor- (MFCC).
+mada de Fourier, na Equação 1, usando o valor resul-
+tante como parâmetro para a Fórmula de Estimativa C. Redes Neurais Abordadas
+do Periodograma, na Equação 2, onde N é o valor de A escolha das redes neurais utilizadas tem como intuito,
+um Quadro de Análise de Amostra, configurado em 512 demonstrar a diferença do comportamento entre elas me-
+pontos; diante a manipulação do conjunto de dados proposto para
+
+estudo. Neste artigo, aborda-se os seguintes tipos, os quais
+1
+
+P serão definidos de acordo com suas caracterı́sticas peculiares:
+i(k) = |F (k)|2 (2)
+
+N 1) Redes Neurais Recorrentes: como o próprio nome
+• F (k) = Transformada de Fourier indica, são redes que, através de recorrência, manipu-
+• N = Quadro de Análise de Amostra lam os dados fornecidos a elas. Consideram tempo e
+
+sequência, apresentando uma dimensão temporal.
+
+
+
+Se comportam de maneira que analisam como entrada
+tanto as novas informações, quanto tudo que foi perce-
+bido anteriormente no tempo.
+
+Fig. 6: Redes Neurais Convolucionais.
+
+Fig. 5: Redes Neurais Recorrentes. Frequência de Mel (MFCC);
+C) Aplicação em Redes Neurais: é realizado o treina-
+
+Na ilustração da Figura 5, os nós em amarelo repre- mento de Redes Neurais Recorrentes e Convolucionais.
+sentam as entradas, enquanto os nós em laranja são as
+saı́das. Os nós em azul denotam recorrência, ou seja,
+tomam como parâmetros de aprendizado informações
+atuais e antigas, aprimorando o resultado.
+
+2) Redes Neurais Convolucionais: nesses tipos de re-
+des, o foco está na convolução. O desenvolvimento
+desse algoritmo teve como princı́pio, o córtex visual
+de animais. São milhões de agrupamentos celulares
+complexos, sensı́veis a pequenas sub-regiões do campo Fig. 7: Etapas do projeto.
+visual, denominados campos receptı́veis.
+De acordo com [7], pode-se dividir a estrutura dessas
+redes em três objetivos principais: A. Detecção de Nı́vel de Ruı́do
+• Extração de caracterı́sticas: cada neurônio recebe Para a otimização dos resultados, realiza-se previamente a
+
+sinais de entrada de um campo receptı́vel da camada eliminação de dados redundantes ou irrelevantes. Tal proce-
+anterior, viabilizando a extração de caracterı́sticas dimento pode ser denotado como Noise Floor Detection ou
+locais; Detecção de Nı́vel de Ruı́do.
+
+• Mapeamento de caracterı́sticas: cada camada O algoritmo que será utilizado nesse tópico, parte de
+da rede é composta por diversos mapas de ca- um princı́pio bem simples: identificar amplitudes baixas ou
+racterı́sticas, que consistem em regiões onde os nulas e eliminar da amostra de aúdio. Esse procedimento, se
+neurônios compartilham os mesmos pesos (filtros) e efetuado de maneira correta, reduz o tamanho do conjunto
+dão robustez ao modelo; de dados e pode aumentar o desempenho das redes neurais.
+
+• Subamostragem: após cada camada de convolução, Por mais simples que seja o princı́pio do algoritmo,
+aplica-se uma camada de subamostragem, que é a implementá-lo pode ser uma tarefa desafiadora. No caso, de-
+coleta de amostras de cada mapa de caracterı́stica. terminamos um limite (threshold) desprezı́vel da amplitude
+
+Na Figura 6, semelhante à Figura 5, os nós em ama- para implementar uma cobertura de sinal (signal envelope).
+relo representam as entradas e os nós em laranja as No contexto de Fı́sica e Engenharia, a cobertura de sinal
+saı́das. Já os nós em rosa (e rosa com circunferência é uma onda regular delineando seus extremos que permite
+de borda preta) são, respectivamente, os filtros e as estimar uma amplitude constante.
+convoluções. Os nós em verde representam as camadas Estipula-se uma taxa de 0.0005s como limite e, na Figura
+de convolução. 8, pode ser visto o resultado de uma amostra (Figura 2) após
+
+III. METODOLOGIA ser submetida a esse algoritmo.
+
+Com base no referencial teórico, foi implementado um B. Pré-processamento de Dados
+algoritmo para atender cada etapa do projeto, disposta no É a etapa principal, onde os dados são preparados para
+diagrama da Figura 8: se adequarem aos procedimentos aplicados durante o trei-
+A) Detecção de Nı́vel de Ruı́do: é eliminado dados re- namento das redes neurais. Um dado no formato de áudio
+
+dundantes ou irrelevantes das amostras de áudio; manifesta-se através de ondas, caracterı́stica a qual não
+B) Pré-processamento de Dados: aplica-se as técnicas de viabiliza a fácil identificação individual de um determinado
+
+Transformada de Fourier e Coeficientes Cepstrais de som sem processamento prévio.
+
+
+
+os tipos de redes neurais abordados foram:
+• Redes Neurais Recorrentes;
+• Redes Neurais Convolucionais.
+Outro fator relevante é que ambas são pioneiras de outros
+
+tipos de redes neurais, que geralmente são variações emba-
+sadas em algum objetivo especı́fico.
+
+Esta é a última etapa, onde as amostras já estão aptas para
+serem submetidas aos algoritmos de treinamento.
+
+IV. RESULTADOS
+
+A máquina disponibilizada para o projeto é um computa-
+dor pessoal com as seguintes especificações:
+
+Fig. 8: Amostra de áudio (Figura 2) após a Detecção de • Memória: DDR3 6 GB 667 MHz
+Nı́vel de Ruı́do. Perceba que a parte final foi eliminada. • GPU: NVidia GeForce GTX 1030 2 GB
+
+• Sistema Operacional: Windows 10 Professional
+Para o desenvolvimento do código que gerou os resulta-
+
+A frequência de uma classe de áudio é determinada através dos deste estudo foi utilizada a linguagem de programação
+do total de duração de suas amostras. É importante salientar Python. Esta tem sido muito reconhecida no âmbito de
+que nem sempre a frequência que uma suposta amostra Machine Learning e aplicada em inúmeros projetos. É impor-
+aparece em um conjunto, determina a eficácia em classificá- tante citar que para facilitar a implementação, modificação
+la. A qualidade do áudio, por exemplo, é uma caracterı́stica e extensibilidade do código, o projeto foi criado na IDE
+essencial para definir o quão fácil será a sua classificação. Spyder, obtida em um framework denominado Anaconda.
+
+Na Figura 9 é ilustrada a distribuição das classes de áudio Mais precisamente com relação ao desenvolvimento do
+antes e depois da execução do algoritmo de Detecção de código desse projeto, as bibliotecas Keras e TensorFlow
+Nı́vel de Ruı́do. foram instaladas. Sendo a última, muito útil na manipulação
+
+de amostras de áudio para treinamento de redes neurais.
+Distribuição das Classes de Amostras
+
+Em ambos treinamentos, os parâmetros gerados pelos
+Original
+
+16 Algoritmo modelos foram armazenados previamente na memória, fa-
+14 vorecendo assim o processamento. Em caso de redes neurais
+
+mais robustas e complexas, isso se tornará inviável, podendo
+12 causar overflow. Para propósitos de validação, a proporção
+10 empregada de amostras foi 75% e 25%.
+
+As Redes Neurais Recorrentes demandaram durante cada
+8
+
+perı́odo, em média, 15 segundos para concluir o treinamento.
+6 A partir do quarto perı́odo, as classificações começaram a se
+
+tornar gradativamente mais precisas. No final, obteve-se uma
+4
+
+taxa de precisão de aproximadamente 88%. Veja Figura 10.
+2
+
+0 Vi V C
+o i a S P
+l o
+ã l i a
+
+x x r Fl C C V B Redes Neurais Recorrentes
+a au o la i
+
+t n r o u
+o in o t
+
+o a f o a tra in lo m
+o s b e n b
+n  
+e ( a t o
+
+B e ce
+a l 100
+t i o
+e x
+r o
+ia)
+
+90
+
+Fig. 9: Distribuição das classes de áudio antes (preto) e
+depois (branco) da execução do algoritmo de Detecção de 80
+
+Nı́vel de Ruı́do. 70
+
+Na literatura, duas técnicas de pré-processamento geral- 60
+
+mente são aplicadas: a Transformada de Fourier e os 50
+
+Coeficientes Cepstrais de Frequência de Mel (MFCC).
+Preza-se também a eficácia do algoritmo do tópico anterior. 40
+
+Loss
+Uma implementação equivocada causaria instabilidade na Accuracy
+
+30
+amplitude das amostras e poderia reduzir significativamente 1 2 3 4 5 6 7 8 9 10
+
+o desempenho das redes neurais do próximo tópico. Período (epoch)
+
+Fig. 10: Desempenho das Redes Neurais Recorrentes.
+C. Aplicação em Redes Neurais
+
+Devido ao grande reconhecimento no cenário, serem in- No que se refere às Redes Neurais Convolucionais, foram
+tuitivamente simples de descrever, explicar e implementar, aplicadas 4 camadas de convolução. Para cada perı́odo,
+
+Percentual (%)
+
+
+
+despendeu-se cerca de 20 segundos. A partir do segundo, o VI. CONCLUSÕES E TRABALHOS FUTUROS
+desempenho evoluiu significativamente, alcançando no final As Redes Neurais Recorrentes não são tão viáveis para
+do treinamento, uma taxa de precisão de aproximadamente a classificação de amostras de áudio. Isso não significa que
+96,5%. Veja Figura 11. são inaplicáveis a esse âmbito, pois podem ser válidas em
+
+questões especı́ficas, como reconstrução ou geração de partes
+Redes Neurais Convolucionais de áudio. De qualquer forma, no quesito classificação de
+
+100 amostras de áudio, as Redes Neurais Convolucionais são
+90 mais eficientes.
+
+Em novos estudos, serão investigadas novas técnicas mais
+80 confiáveis de pré-processamento de aúdio para a eliminação
+70 de partes de áudios redundantes ou irrelevantes. O uso de
+60 um conjunto de dados mais robusto e a comparação de
+50 outros tipos de redes neurais também são futuras propostas
+
+para o andamento do projeto. Além disso, pode-se avaliar
+40 o desempenho das redes neurais para cada instrumento
+30 individualmente.
+20 Loss
+
+Accuracy REFERENCES
+10
+
+1 2 3 4 5 6 7 8 9 10 [1] Eduardo Fonseca, Manoj Plakal, Frederic Font, Daniel P. W. Ellis,
+Período (epoch) Xavier Favory, Jordi Pons, Xavier Serra. ”General-purpose Tagging of
+
+Freesound Audio with AudioSet Labels: Task Description, Dataset, and
+Fig. 11: Desempenho das Redes Neurais Convolucionais. Baseline”. Proceedings of the DCASE 2018 Workshop (2018)
+
+[2] Kons, Zvi & Toledo-Ronen, Orith. (2013). Audio event classification
+using deep neural networks. Proceedings of the Annual Conference of
+
+As métricas de loss estão relacionadas aos falsos positivos the International Speech Communication Association, INTERSPEECH.
+e falsos negativos que causam inconsistência na classificação 1482-1486.
+das classes. Por outro lado, as métricas de accuracy tratam [3] Krizhevsky, Alex & Sutskever, Ilya & Hinton, Geoffrey. (2012). Ima-
+
+geNet Classification with Deep Convolutional Neural Networks. Neural
+os acertos obtidos pelas redes neurais durante o treinamento. Information Processing Systems. 25. 10.1145/3065386.
+
+[4] krishna, M & Neelima, M & Mane, Harshali & Matcha, Venu. (2018).
+V. TRABALHOS RELACIONADOS Image classification using Deep learning. International Journal of En-
+
+gineering & Technology. 7. 614. 10.14419/ijet.v7i2.7.10892.
+No decorrer da evolução dos estudos embasados em Deep [5] Lee, Honglak & Pham, Peter & Largman, Yan & Ng, Andrew. (2009).
+
+Unsupervised feature learning for audio classification using convoluti-
+Learning, pode-se considerar e destacar os objetivos de onal deep belief networks. NIPS. 1096-1104.
+alguns trabalhos. Estes que abordam assuntos com algumas [6] Davis, Stan and Paul Mermelstein. “Comparison of Parametric Repre-
+semelhanças, mas também diferenças em determinados pon- sentations for Monosyllabic Word Recognition in Continuously Spoken
+
+Se.” (1980).
+tos de vista. Tudo isso é muito válido para desenvolver novas [7] Haykin, S. S. (2009). Neural networks and learning machines. Upper
+ideias ou obter conclusões de situações controversas. Saddle River, NJ: Pearson Education.
+
+Em [2], é utilizado um conjunto de dados de eventos
+comuns, composto por 84 arquivos (228 minutos) divididos
+em 4 classes. O principal objetivo é comparar o desempenho
+de um método de classificação que emprega técnicas de Deep
+Learning, com dois métodos mais simples, o SVM (Support
+Vector Machine) e o GMM (Gaussian Mixture Models),
+métodos vetoriais e probabilı́sticos, respectivamente.
+
+Abordando como cenário grandes conjuntos de dados no
+formato de imagens, em [3] e [4], são realizados experimen-
+tos que avaliam o desempenho de Redes Neurais Convoluci-
+onais em diferentes GPUs, visando obter o comportamento e
+a eficácia diante das inúmeras classes de imagens envolvidas.
+
+Em um estudo de algoritmos aplicados em Redes Neurais
+Convolucionais, o [5] trata inúmeros conjuntos de dados
+visando a identificação do locutor de uma mensagem e
+seu gênero sexual durante chamadas telefônicas. Em outra
+abordagem, há também a classificação de gêneros musicais
+e seus respectivos artistas.
+
+Diante dos trabalhos citados, nosso projeto trata ambos
+tipos de redes neurais abordadas em sua forma nativa,
+levando em consideração prioritariamente a manipulação das
+amostras de aúdio antes de sua aplicação nas redes neurais.
+
+Percentual (%)

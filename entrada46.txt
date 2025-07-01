@@ -1,0 +1,592 @@
+﻿Comunicação Óptica Sem Fio Subaquática: Caracterização de
+Desempenho da Luz Vermelha
+
+Gabriel M. Reis1, Luiz F. M. Vieira 2, Alex B. Vieira3 e José A. M. Nacif1
+
+1Instituto de Ciências Exatas e Tecnológicas – Universidade Federal de Viçosa (UFV)
+2Departamento de Ciência da Computação – Universidade Federal de Minas Gerais (UFMG)
+3Departamento de Ciência da Computação – Universidade Federal de Juiz de Fora (UFJF)
+
+{gabriel.m.reis,jnacif}@ufv.br, lfvieira@dcc.ufmg.com, alex.borges@ufjf.br
+
+Abstract. Underwater wireless information transfer is of great interest to the
+military, industry, and the scientific community, as it plays an important role,
+for example, in tactical surveillance, aquatic pollution monitoring, and offshore
+oilfield control and maintenance. Underwater wireless communications can be
+carried out through acoustic, radio frequency (RF), and optical waves. Un-
+derwater optical wireless communications (UOWCs) can support higher data
+rates with low latency than their bandwidth-limited acoustic and RF counter-
+parts. However, aquatic channel conditions (e.g., absorption, scattering, tur-
+bulence, etc.) pose significant challenges for UOWCs and significantly reduce
+the attainable communication ranges, which demands efficient networking so-
+lutions. In this sense, this article investigates the performance of underwater
+visible light communication (UVLC), a subgroup of UOWC, using a transmitter
+in the red light spectrum in shallow and clear water. We evaluated the impact
+on transmission performance caused by light emitting diodes (LEDs) and laser
+diodes (LDs) at this wavelength. The results show the impact on communica-
+tion caused by the environment, the distance between nodes, and the type of
+transmitter used.
+
+Resumo. A transferência de informações sem fio em ambientes subaquáticos é
+de grande interesse para aplicações militares e industriais e, também, para a
+comunidade cientı́fica, pois desempenha um papel importante, por exemplo, na
+vigilância tática, monitoramento de poluição aquática e controle e manutenção
+de campos petrolı́feros offshore. A comunicação sem fio subaquática pode ser
+realizada por meio de ondas acústicas, de radiofrequência (RF) e ópticas. Em
+contrapartida com as ondas acústicas e de RF, que possuem largura de banda
+limitada, a comunicação óptica sem fio subaquática (UOWC) pode suportar
+taxas de transferência de dados mais altas com baixos nı́veis de latência. No
+entanto, as propriedades do canal aquático (por exemplo, absorção, dispersão,
+turbulência, etc.) representam grandes desafios para a UOWC e reduzem signi-
+ficativamente os alcances possı́veis de comunicação, o que gera demanda por
+soluções eficientes para as redes. Nesse sentido, investiga-se neste artigo o
+desempenho de comunicação por luz visı́vel sem fio subaquática (UVLC), um
+subgrupo de UOWC, com um transmissor no espectro de luz vermelho em meio
+aquático raso e lı́mpido. Foram conduzidas avaliações sobre a repercussão
+no desempenho da transmissão causado por diodos emissores de luz (LEDs) e
+
+
+
+lasers diodo (LDs) nesse comprimento de onda. Os resultados apresentados evi-
+denciam o impacto na comunicação provocado pelo meio, distância entre nós e
+tipo de transmissor utilizado.
+
+1. Introdução
+Dois terços da superfı́cie terrestre são cobertos por água. Nos últimos milhares de anos,
+os humanos nunca deixaram de explorar o oceano e, mais recentemente, com a crescente
+mudança climática global e o esgotamento de recursos, tem havido um aumento no inte-
+resse na pesquisa de sistemas de exploração oceânica, como monitoramento ambiental,
+coleta de dados cientı́ficos subaquáticos, arqueologia marı́tima, exploração de campos
+petrolı́feros offshore, segurança portuária e vigilância tática [Gussen et al. 2016]. O au-
+mento no interesse em sistemas subaquáticos, por sua vez, incrementa a necessidade por
+sistemas de comunicação subaquática. Sistemas de comunicação com fio (particularmente
+fibra óptica) podem ser usados para fornecer comunicação em tempo real em aplicações
+submarinas, mas seu alto custo, falta de flexibilidade e desvantagens operacionais tornam-
+se restritivos para a maioria dos casos práticos [Elamassie et al. 2018]. Isso desencadeia
+a amplificação da demanda por comunicação sem fio subaquática (underwater wireless
+communication - UWC).
+
+Os estudos mais recentes incentivam a exploração do ambiente oceânico por
+meio da implantação de tecnologias UWC, ou seja, a transmissão de dados em
+um ambiente aquático não guiado através do uso de carregadores de sinal sem fio,
+como ondas de radiofrequência (RF), ondas acústicas e ondas ópticas [Zhu et al. 2020,
+Kaushal and Kaddoum 2016, Sun et al. 2020]. Os sistemas de ondas acústicas, mais fre-
+quentemente vistos para UWC, tiveram grande sucesso devido à sua capacidade de se
+comunicar por muitos quilômetros [Chitre et al. 2008]. Contudo, o desempenho desse
+tipo de comunicação é limitada pela baixa largura de banda, altas perdas de transmissão,
+propagação de multicaminhos variável no tempo, alta latência e propagação Doppler. To-
+dos esses fatores levam à variação temporal e espacial do canal acústico, o que limita a
+largura de banda disponı́vel no sistema [Kaushal and Kaddoum 2016]. Além disso, sinais
+acústicos gerados por sistemas de comunicação e dispositivos de navegação e alcance so-
+noro de alta potência (SONAR) têm impacto negativo sobre os mamı́feros subaquáticos e
+peixes [Saeed et al. 2019].
+
+As ondas de RF foram inicialmente usadas como faixas de baixa frequência para
+transmitir sinais na comunicação terrestre, a fim de atingir uma comunicação confiável e
+para alcançar altas velocidades. No entanto, em um ambiente subaquático, as ondas de
+RF se propagam de maneira diferente em comparação com o ambiente terrestre e depen-
+dem totalmente do meio aquático em que se encontram [Kaushal and Kaddoum 2016].
+As ondas de RF em meio subaquático sofrem com desvanecimento de sinal e atenuam
+facilmente em distâncias muito curtas debaixo d’água, o que torna um desafio transmitir
+sinais através de ondas de RF em um meio de água altamente turvo [Ali et al. 2022].
+
+Considerando a largura de banda limitada de RF e de métodos acústicos em am-
+bientes subaquáticos e a crescente necessidade de transmissão de dados em alta veloci-
+dade, a comunicação óptica sem fio subaquática (underwater optical wireless communi-
+cation - UOWC) tornou-se uma alternativa atraente e viável para comunicações de baixo e
+médio alcance, por apresentar ampla largura de banda, alta confiabilidade, baixa latência,
+
+
+
+ter baixo impacto e baixo custo [Chowdhury et al. 2018]. Devido a isso, a utilização
+de ondas ópticas para UWC vem sendo amplamente estudadas. Essas pesquisas abran-
+gem temas como a modelagem do canal, tratativa de problemas em diferentes camadas
+do modelo OSI, aumento do alcance de transmissão e da taxa de transferência de da-
+dos [Elamassie et al. 2018, Saeed et al. 2019]. No entanto, o maior desafio para UOWC
+se origina das caracterı́sticas fundamentais da água de oceanos, mares e rios. A luz na
+água desses locais não apenas sofre maior atenuação do canal em comparação com o ar,
+mas também as propriedades ópticas do próprio meio variam significativamente e existem
+mais fontes de interrupção do link. Os oceanos são ricos em matéria dissolvida e particu-
+lada, criando várias circunstâncias com as quais um sistema de comunicação subaquática
+deve lidar [Kaushal and Kaddoum 2016].
+
+A propagação subaquática de ondas ópticas exibe caracterı́sticas distintas para di-
+ferentes comprimentos de onda. É notável que a água oferece maior transparência no
+espectro de luz azul-verde (450 nm-532 nm) quando comparado a outros comprimen-
+tos de onda do espectro eletromagnético [Saeed et al. 2019]. Portanto, UWOC em ter-
+mos de luz visı́vel é principalmente realizada no espectro azul-verde de comprimento
+de onda [Ali et al. 2022]. No entanto, em ambientes ricos em matéria orgânica colo-
+rida dissolvida (color dissolved organic material - CDOM), a utilização de transmis-
+sores em outras partes do espectro de luz visı́vel pode apresentar resultados superio-
+res [Kaushal and Kaddoum 2016]. O “subtipo” de UWOC que usa o espectro de luz
+visı́vel recebe o nome de comunicação por luz visı́vel sem fio subaquática (underwater
+visible light communication - UVLC).
+
+Neste trabalho, é apresentado um sistema UVLC em água doce rasa e lı́mpida
+baseado em OpenVLC [Wang et al. 2014] utilizando diodos laser (laser diodes - LDs) e
+diodos emissores de luz (light-emitting diodes - LEDs) em diferentes faixas do espectro de
+luz visı́vel, além de um foto-diodo (photodiode - PD). Foram analisadas as comunicações
+LED-a-LED e LD-PD. Para a comunicação LED-a-LED utilizaram-se combinações de
+diferentes cores, por exemplo azul com azul e vermelho com azul. Na comunicação LD-
+PD, considerou-se um LD vermelho e outro azul. A proposta foi avaliada sob uma ampla
+gama de condições, estudando os efeitos na comunicação causados pelo comprimento de
+onda das cores considerando o espectro eletromagnético e a distância fı́sica entre os nós.
+
+As principais contribuições desse trabalho são: (i) a avaliação experimental da
+emissão/resposta espectral entre diferentes cores de LEDs, (ii) a comparação sobre o uso
+de LEDs e LDs na qualidade da rede em sistemas UVLC, (iii) a discussão de novos resul-
+tados sobre o impacto causado pela emissão espectral de luz vermelha na comunicação
+subaquática, (iv) a comparação entre a performance da comunicação em ambiente su-
+baquático e em ambiente terrestre para o comprimento de luz vermelha (v) medição do
+impacto gerado por variação da distância entre nós da rede subaquática para o compri-
+mento de luz vermelha.
+
+O restante deste artigo está organizado em 4 seções. Uma visão geral sobre
+comunicação óptica sem fio subaquática é apresentada na Seção 2. A metodologia utili-
+zada e o cenário configurado para os experimentos são discutidos na Seção 3. Os resulta-
+dos obtidos são discutidos na Seção 4. Na Seção 5, por fim, o artigo é concluı́do.
+
+
+
+2. Comunicação por Luz Visı́vel Sem Fio Subaquática
+A implementação de redes UWC é algo desafiador, porém altamente relevante para a
+exploração de setores inacessı́veis do oceano, já que UWC cria uma oportunidade para
+coleta e análise de dados oceanográficos como, por exemplo, dados de poluição da água,
+monitoramento ambiental subaquático, mudanças nas correntes, alertas antecipados sobre
+inundações e tsunamis e observação dos fenômenos de derretimento da camada de gelo
+devido ao aquecimento global [Ali et al. 2020]. Hoje em dia, as tecnologias mais utiliza-
+das para transmissão de sinais para UWC são baseadas em ondas ópticas, acústicas ou de
+RF. A Tabela 1 apresenta as principais diferenças entre as implementações de UWC para
+cada um desses tipos de onda.
+
+Tabela 1. Comparação das Tecnologias de Comunicação Sem Fio Subaquáticas
+[Saeed et al. 2019] - Adaptado
+
+Parâmetro RF Acústica Óptica
+Alcance < 10 m < 20 Km < 200 m
+Fatores de Frequência e Condutividade Distância e
+atenuação condutividade propriedades
+
+ópticas inerentes
+Velocidade 2,25 x 108 m/s 1500 m/s 2,25 x 108 m/s
+Potência do ≈ 100W ≈ 10W ≈ 1 W
+transmissor
+Custo Alto Alto Baixo
+Taxa de < 0.1 Gbps < 10 Kbps < 10Gbps
+transferência de
+dados
+Latência Moderada Alta Baixa
+
+A UOWC apresenta claras vantagens quando comparado à redes sem fio su-
+baquáticas operando com ondas acústicas e RF. Em confronto com os sistemas acústicos
+e de RF, a UOWC pode atingir taxas de transferência de dados mais altas em distâncias
+de até algumas dezenas de metros, conseguindo chegar até vários Gbps em águas claras
+com pouca ou nenhuma dispersão [Saeed et al. 2019]. Além disso, os sistemas UOWC
+fornecem um desempenho com baixa latência em razão da alta velocidade de propagação
+da luz no meio aquático [Haltrin 2002]. A UOWC é mais eficiente em termos de energia
+e também é mais financeiramente econômica do que seus equivalentes acústicos e de RF
+[Che et al. 2010]. A segurança da comunicação na UOWC é maior do que em métodos
+acústicos e de RF, já que maioria dos sistemas UOWC são implementados na configuração
+linha de visão ponto a ponto, ao invés do cenário de transmissão difusa utilizado em ondas
+acústicas e de RF, dificultando as tentativas de eavesdropping [Zeng et al. 2016].
+
+O espectro eletromagnético é formado por várias faixas de frequência, como mos-
+trado na Figura 1. O termo Optical Wireless Communication refere-se à transmissão
+óptica na qual o espectro de luz visı́vel (visible light - VL) guiada, infravermelho (infra-
+red - IR) ou ultravioleta (UV) são usados como meio de propagação [IEEE 2019]. Os
+sistemas OWC que operam exclusivamente na banda VL são normalmente categorizados
+como comunicação por luz visı́vel (visible light communication - VLC).
+
+
+
+Figura 1. Espectro eletromagnético [Pathak et al. 2015]
+
+A propagação de ondas ópticas em ambiente subaquáticos exibe caracterı́sticas
+diferentes para comprimentos de onda distintos, conforme mostrado na Figura 2. É
+notável que a água oferece transparência no espectro de luz azul-verde quando compa-
+rado a outros comprimentos de onda do espectro óptico [Saeed et al. 2019]. Portanto, a
+comunicação óptica sem fio subaquática é majoritariamente realizada em termos de luz
+visı́vel (UVLC), mais especificamente no espectro do comprimento de onda azul-verde
+(450-532) nm [Al-Kinani et al. 2018].
+
+Em ambiente subaquáticos, existe a presença de tecidos vegetais mortos e matéria
+orgânica em decomposição. Esse tipo de matéria é classificada como matéria orgânica
+colorida dissolvida e pode aumentar a turbidez da água e, assim, diminuir a distância de
+propagação da luz. Além disso, CDOMs produzem ácidos húmicos e fúlvicos que apre-
+sentam, assim como a clorofila de fitoplânctons, alto pico de absorção em torno da região
+azul-verde do espectro eletromagnético e, consequentemente, a aplicação de emissores
+de luz na banda amarelo-vermelho se destaca para ambientes ricos nesse tipo de matéria
+[Kaushal and Kaddoum 2016].
+
+Figura 2. Atenuação das ondas ópticas na água [Saeed et al. 2019]
+
+
+
+O design de um link UVLC pode ser classificado em quatro categorias
+[Zeng et al. 2016]: i) linha de visão ponto a ponto, ii) linha de visão difusa, iii) linha
+de visão baseada em retrorrefletor e iv) sem linha de visão.
+
+• Linha de visão ponto a ponto: neste cenário, os transceptores utilizados de-
+vem estar alinhados e diretamente ligados uns aos outros na direção da linha de
+propagação do sinal. É o cenário mais utilizado em UOWC;
+
+• Linha de visão difusa: utiliza fontes de luz difusa, como LEDs de alta potência,
+com grande ângulo de abertura para realizar a transmissão UOWC de um nó para
+vários nós;
+
+• Linha de visão baseada em retrorrefletor: baseia-se no fenômeno de retroespalha-
+mento, que consiste em uma fonte de luz com um refletor óptico. Consequente-
+mente, a fonte de propagação do feixe óptico emite continuamente um feixe de
+luz durante a propagação do sinal de luz modulado que é refletido por um refletor
+local e, então, recebido pelo destino;
+
+• Sem linha de visão: nesta configuração, o transmissor emite o feixe de luz em
+direção a superfı́cie do mar com um ângulo de incidência maior que o ângulo
+crı́tico para que o feixe de luz sofra uma reflexão interna total. O receptor deve
+ficar voltado para a superfı́cie do mar em uma direção aproximadamente paralela
+à luz refletida para garantir a recepção adequada do sinal.
+
+A utilização de UVLC encontra algumas dificuldades em ambientes reais. Pri-
+meiramente, um desalinhamento dos transmissores/receptores ópticos pode causar des-
+conexões de curto prazo que geralmente são resultado de movimentos aleatórios da su-
+perfı́cie da água, variações dependentes da profundidade, correntes e turbulência aquática
+[Zhang and Dong 2015, Yi et al. 2015]. Além disso, mesmo se o comprimento de onda
+do feixe de luz for escolhido para ser azul ou verde, a propagação do feixe óptico de-
+baixo d’água é impactada pelas propriedades ópticas inerentes e propriedades ópticas
+aparentes [Mobley 1995], que são bastante distintas para cada tipo de corpo d’água
+(variando de águas rasas a oceanos profundos), variam de acordo com a profundidade
+e requerem uma compreensão completa do ambiente bio-fı́sico-quı́mico subaquático
+[Kaushal and Kaddoum 2016]. Essas propriedades fazem com que o feixe de luz so-
+fra absorção, dispersão, turbulência e, portanto, desvanecimento de multipercurso de-
+vido às interações das moléculas de água e partı́culas com os fótons [Gussen et al. 2016,
+Zeng et al. 2016, Kaushal and Kaddoum 2016, Zhu et al. 2020, Ali et al. 2022].
+
+O UVLC tornou-se uma tecnologia promissora na nova era da comunicação
+sem fio subaquática, que chamou a atenção como uma alternativa para
+propagação de sinal em alta velocidade em pequenas distâncias no hostil meio
+subaquático. Diversas aplicações pode se beneficiar com o uso de UVLC
+[Ali et al. 2022, Ali et al. 2020, Gussen et al. 2016, Saeed et al. 2019, Saeed et al. 2019,
+Dickey et al. 2006, Kaushal and Kaddoum 2016, Zhu et al. 2020]. Dada a velocidade
+de transferência de dados, ambiente e plataforma necessários, é possı́vel identificar
+qual tecnologia UVLC se adequa melhor à aplicação. Logo, redes baseadas em UVLC
+podem ser utilizadas para variadas áreas como monitoramento ambiental, navegação,
+plataformas petrolı́feras, segurança e aplicações militares [Ali et al. 2022].
+
+
+
+3. Metodologia de Avaliação e Cenário
+A implementação do sistema UVLC investigado neste artigo se deu com base na plata-
+forma OpenVLC 1.0. A OpenVLC é uma plataforma aberta definida por software criada
+para pesquisas relacionadas a comunicação por luz visı́vel. Ela consiste em uma placa
+de expansão, montada sobre o Beagle Bone Black, contendo os elementos ópticos, como
+LEDs, LDs e PDs, necessários para realizar a comunicação. Além disso, a OpenVLC
+também possui um driver próprio, responsável pela comunicação com camadas superio-
+res e implementação da camada de enlace/fı́sica. Na camada fı́sica estão implementados
+On-off keying para modulação e Manchester para codificação. Para a correção de erros, é
+utilizado Reed Solomom. Na camada de enlace são utilizados CSMA/CD e CSMA/CD-
+HA para controle de acesso ao meio [Matheus et al. 2017].
+
+Com o objetivo de garantir que os componentes utilizados na comunicação (LEDs,
+LDs e PD) não apresentassem funcionamento comprometido embaixo d’água foi ne-
+cessário envolvê-los, de forma a não permitir contato entre as parte elétricas expostas
+e a água. A fim de proteger os LEDs, seus terminais foram envolvidos com uma camada
+de fita veda rosca e, posteriormente, inseridos em tubos termo retráteis. A Figura 3 mostra
+um LED isolado. Já para proteger os LDs e o PD, empregou-se uma caixa impressa em
+3D com abertura na parte de baixo e de cima. Essa caixa foi preenchida com silicone,
+ou poliuretano, e os componentes introduzidos no centro da mesma, em seguida, a parte
+superior dela é fechada com um pedaço de vidro, como mostra a Figura 4.
+
+Figura 3. Led Isolado Figura 4. Laser isolado
+
+As avaliações foram realizadas através da topologia com linha de visão ponto a
+ponto, a mais comum em redes UVLC. Para isso, fixaram-se os LEDs, LDs e o PD em
+um suporte deslizante conectado a um perfil de alumı́nio, assim, conseguiu-se alinhar os
+transmissores e receptores de maneira eficiente mesmo subaquaticamente. A Figura 5
+mostra o ambiente experimental, já com os componentes submergidos. Empregou-se
+água encanada. A profundidade utilizada em todas as medições foi de 8 cm. O perfil
+de alumı́nio associado ao suporte deslizante permitiu a variação da distância d entre os
+nós de comunicação sem risco de alteração no alinhamento, garantindo que o único fator
+de impacto na qualidade do link causado por essa alteração fosse, de fato, o gerado pela
+distância. Os testes foram conduzidos sob luz ambiente em ambiente aberto com baixa
+intensidade de ventos.
+
+
+
+Figura 5. Ambiente experimental
+
+O software da OpenVLC ser implementado como um driver Linux permite a fácil
+modificação de parâmetros de sistema, como frequência e tamanho dos pacotes enviados.
+Com o intuito de garantir a paridade de configuração na rede para todos os cenários ex-
+perimentados, os parâmetros foram fixados conforme o apresentado na Tabela 2 e estão
+de acordo com a avaliação e recomendações de outros estudos sobre o OpenVLC 1.0
+[Heydariaan et al. 2016]. Para medir a performance das redes, foram consideradas as se-
+guintes métricas: vazão de dados e taxa de recepção de pacotes (PRR). Esses dados foram
+obtidos por meio da execução da ferramenta Iperf transmitindo pacotes UDP durante 60
+segundos. Especificações ótimas foram adotadas e firmadas para todos os experimentos
+na configuração do Iperf sendo elas: pacote com tamanho de 0.8 KB e vazão de dados de
+16 KBps, que são parâmetros estado-da-arte para o Iperf quando usado para avaliações
+em OpenVLC [Heydariaan et al. 2016].
+
+Tabela 2. Parâmetros de Avaliação
+Parâmetro Valor
+Transmissor Múltiplos LEDs e LDs
+Receptor Múltiplos LEDs e PD
+Frequência 50 kHz
+Tamanho do payload 0.8 KB
+Modulação On-Off Keying (OOK) com
+
+codificação Manchester
+Protocolo de acesso ao meio CSMA/CA
+
+Na primeira etapa da análise, observa-se a comunicação LED a LED, na qual um
+LED age como transmissor, enquanto outro age como receptor. Com o propósito de re-
+alizar uma avaliação abrangente e completa das propriedades do LED como transceptor
+subaquático, consideram-se vários LEDs, desde frequências mais baixas (vermelho) até
+frequências mais altas (azul e uv-a). Foram avaliadas a vazão de dados e PRR para todas
+as combinações de LED (vermelho-vermelho, azul-vermelho, vermelho-azul, etc) ado-
+tando distância d de 10 cm. Para os casos em que não houve sucesso de comunicação à
+
+
+
+10 cm, foi estudada a possibilidade de comunicação considerando distâncias menores.
+Em um segundo momento, foi estudada a comunicação com um LD atuando na
+
+qualidade de transmissor e um PD agindo como receptor. Tendo o objetivo de analisar a
+viabilidade do uso de transmissores vermelhos, desejou-se aferir o impacto causado pela
+resposta espectral na comunicação subaquática, porém com um sistema otimizado para
+comunicações em baixo d’água sem turbulência, haja visto que a utilização de um LD
+no lugar de um LED, nessas condições, soluciona grande parte do problema de dispersão
+do feixe de luz [Zeng et al. 2016], permitindo o alcance de maiores distâncias. Dois LDs
+foram utilizados nesse estágio: um vermelho com comprimento de onda de 650 nm e um
+azul com comprimento de onda de 405 nm. Essa escolha se deu devido a transparência
+que a água oferece no espectro de luz azul-verde [Saeed et al. 2019], portanto é esperada
+melhor perfomance para transmissores nessa faixa e desejava-se estabelecer uma linha de
+base para a qualidade da comunicação. Já o LD vermelho, além de apresentar os melho-
+res resultados de vazão e PRR em ambientes terrestres [Matheus et al. 2019], também é
+vantajoso para ambientes com alta concentração de CDOM. Para o foto-diodo, utilizou-
+se o OPT101. As mesmas métricas medidas na etapa 1 (vazão de dados e PRR) foram
+observadas aqui, contudo, a distância d foi variada, assumindo os valores 5 cm, 10 cm,
+20 cm e 40 cm.
+
+Para as duas etapas, os experimentos foram repetidos 5 vezes em cada cenário,
+com a finalidade de amenizar os possı́veis erros. Cada execução do Iperf gerou o envio
+de 126 pacotes, ao final das 5 execuções, portanto, foram enviados 630 pacotes. Os resul-
+tados apresentados são médias e intervalo de confiança para todas as amostras relativas a
+um dado cenário, contando com um nı́vel de confiança de 90%.
+
+Por fim, o último estágio da análise compara os resultados obtidos na se-
+gunda fase dos experimentos para os LD vermelho com a avaliação realizada por
+[Matheus et al. 2019]. Dentre o que é apresentado em [Matheus et al. 2019], utlizou-se na
+comparação os valores de PRR e vazão de dados na comunicação LED-a-LED: vermelho-
+vermelho. Esse cotejo é possı́vel, pois os parâmetros de configuração da OpenVLC e para
+o Iperf são os mesmos nos dois estudos e, embora o PD seja um melhor receptor que o
+LED, optamos pela configuração com melhor performance para transmissor vermelho
+mostrada no artigo referência.
+
+4. Resultados das Avaliações
+Não foi possı́vel mensurar a vazão de dados e a taxa de recepção de pacotes em todos os
+cenários experimentados. Na fase inicial dos experimentos, a comunicação LED-a-LED
+não foi bem sucedida para nenhuma combinação de cor à 10 cm e, mesmo ao reduzir a
+distância para 5 cm ou 2 cm, a transferência de dados de uma OpenVLC para outra não
+ocorreu. Na segunda etapa, a comunicação com o LD azul na função de transmissor fun-
+cionou de forma aleatória: dada a distância d, mesmo sem qualquer variação no ambiente,
+era bem sucedida de forma intermitente e sem um intervalo de tempo fixo. A Tabela 3
+apresenta as possibilidades de comunicação.
+
+A interferência de multipercurso ocorre no canal óptico subaquático quando um
+sinal óptico atinge o detector após encontrar objetos que causam dispersão ou reflexões
+geradas por outros corpos subaquáticos [Kaushal and Kaddoum 2016]. Em ambientes
+de águas rasas, o desvanecimento de multipercurso é mais significativo, por conta das
+
+
+
+Tabela 3. Possibilidade de comunicação nas combinações de transmissores e
+receptores (células com ✓ representam combinações nas quais a comunicação
+foi possı́vel, células com X representam onde a comunicação não foi possı́vel e
+células com - representam cenários onde não houve tentativa de comunicação).
+
+Receptor LED Vermelho LED Azul LED UV-A PD
+
+Trasmissor
+
+LED Vermelho X X X -
+
+LED Azul X X X -
+
+LED UV-A X X X -
+
+LD Vermelho - - - ✓
+
+LD Azul - - - X
+
+reflexões causadas pela superfı́cie d’água e pelo solo do corpo d’água. Na primeira etapa
+de avaliações, levando em consideração a distância de 8 cm entre a superfı́cie da água
+e os LEDs, a distância de 2 cm entre o fundo do recipiente e os LEDs e, por fim, os
+LEDs pertencerem a categoria de fontes de luz de feixe largo, que são mais suscetı́veis
+a interferência de multipercurso [Saeed et al. 2019], a falha na comunicação pode ser
+explicada.
+
+A comunicação aleatória encontrada nos cenários do LD azul se deu por uma
+combinação de dois fatores:
+
+• O LD azul fornecia 20 mW de potência, 4x o fornecido pelo LD vermelho. O
+OPT101 é um foto-diodo facilmente saturado, sendo a luz ambiente suficiente
+para saturá-lo por vezes, logo, a alta potência do laser azul saturou o PD.
+
+• O LD azul possui ângulo de divergência de feixe paralelo de 9◦ e perpendicular
+de 20◦ o que o torna levemente difuso, desse modo, sofre do mesmo problema de
+interferência de multipercurso que os LEDs, embora com menor intensidade.
+As Figuras 6 e 7 apresentam os resultados experimentais obtidos para média e
+
+intervalo de confiança dos valores de PRR e vazão de dados no contexto da segunda etapa
+de avaliação, com o LD vermelho atuando como transmissor. Nossos resultados mostram
+que a taxa de recepção de pacotes tem comportamento semelhante à vazão de dados. A
+maior vazão de dados média alcançada nesse cenário foi de 5.08 Kbps na distância de
+5 cm, a qual decai em 31.16% até a distância de 20 cm, onde se estabiliza em 3.49 Kbps e
+permanece igual até 40 cm. A PRR, como citado anteriormente, acompanha a tendência
+da vazão de dados e também atinge seu pico, de 84.86%, na distância de 5 cm e estabiliza
+em 46.28% entre 20 cm e 40 cm.
+
+A comparação dos resultados do LD vermelho com os obtidos por
+[Matheus et al. 2019] no link LED vermelho a LED vermelho demonstra o impacto da
+
+
+
+Figura 6. Taxa de recepção de
+pacotes para o LD vermelho em Figura 7. Vazão de dados para o LD
+várias distâncias. vermelho em várias distâncias.
+
+água na performance da comunicação. Em [Matheus et al. 2019] a PRR tem baixı́ssima
+variação (linha relativa a legenda Red da Figura 8), permanecendo próxima a 85% para to-
+das as distâncias, algo atingido no ambiente subaquático apenas para a distância de 5 cm.
+Para a vazão (linha relativa a legenda Red da Figura 9), mesmo o pior valor no ambiente
+terrestre, próximo a 9 Kbps em 80 cm, é superior ao melhor valor subaquático. Levando
+em consideração o fato de no presente estudo utilizarmos um foto-diodo como receptor,
+essa piora nos resultados se torna ainda mais significativa.
+
+Figura 8. Taxa de recepção
+de pacotes para LEDs Figura 9. Vazão de dados para
+de diferentes cores como LEDs de diferentes cores como
+receptores.[Matheus et al. 2019] transmissores.[Matheus et al. 2019]
+
+5. Conclusão
+Neste trabalho, foi explorada a performance da comunicação de um LD no comprimentos
+de onda de luz vermelha atuando como transmissor em conjunto com um PD, aplicado
+como receptor, para múltiplas distâncias. O emprego e impacto causado por LEDs de
+diferentes cores no desempenho de sistemas de Comunicação por Luz Visı́vel Subaquática
+em águas rasas e lı́mpidas também foram avaliados. Para isso, diferentes combinações de
+LEDs atuando como transmissor e receptor foram analisadas à uma distância fixa. Por
+fim, comparou-se o resultado obtido com a utilização do laser vermelho com a avaliação
+realizada por [Matheus et al. 2019].
+
+
+
+Os resultados obtidos demonstram as limitações do uso de fontes de luz difusas
+para redes UVLC em águas rasas e lı́mpidas e como essas limitações são solucionadas
+com a utilização de LDs com baixo ângulo de divergência de feixe. Ademais, é factı́vel
+confirmar que valer-se de emissores de luz operando no espectro de luz vermelha é uma
+alternativa viável para UVLC em curtas distâncias. Além disso, as limitações de sistemas
+UVLC frente a sistemas VLC terrestres são exemplificadas.
+
+Como trabalhos futuros, propõe-se uma avalição semelhante à realizada neste tra-
+balho, porém para águas com diferentes profundidades e turbidezes. Também pretende-se
+explorar o impacto causado por emissores de luz em comprimentos de ondas distintos aos
+considerados nesse estudo.
+
+Referências
+Al-Kinani, A., Wang, C.-X., Zhou, L., and Zhang, W. (2018). Optical wireless communi-
+
+cation channel measurements and models. IEEE Communications Surveys & Tutorials,
+20(3):1939–1962.
+
+Ali, M. F., Jayakody, D. N. K., Chursin, Y. A., Affes, S., and Dmitry, S. (2020). Recent
+advances and future directions on underwater wireless communications. Archives of
+Computational Methods in Engineering, 27(5):1379–1412.
+
+Ali, M. F., Jayakody, D. N. K., and Li, Y. (2022). Recent trends in underwater visible
+light communication (uvlc) systems. IEEE Access, 10:22169–22225.
+
+Che, X., Wells, I., Dickers, G., Kear, P., and Gong, X. (2010). Re-evaluation of rf elec-
+tromagnetic communication in underwater sensor networks. IEEE Communications
+Magazine, 48(12):143–151.
+
+Chitre, M., Shahabudeen, S., and Stojanovic, M. (2008). Underwater acoustic commu-
+nications and networking: Recent advances and future challenges. Marine technology
+society journal, 42(1):103.
+
+Chowdhury, M. Z., Hossan, M. T., Islam, A., and Jang, Y. M. (2018). A comparative
+survey of optical wireless technologies: Architectures and applications. ieee Access,
+6:9819–9840.
+
+Dickey, T., Lewis, M., and Chang, G. (2006). Optical oceanography: recent advances
+and future directions using global remote sensing and in situ observations. Reviews of
+geophysics, 44(1).
+
+Elamassie, M., Miramirkhani, F., and Uysal, M. (2018). Performance characterization
+of underwater visible light communication. IEEE Transactions on Communications,
+67(1):543–552.
+
+Gussen, C. M., Diniz, P. S., Campos, M. L., Martins, W. A., Costa, F. M., and Gois, J. N.
+(2016). A survey of underwater wireless communication technologies. J. Commun.
+Inf. Sys, 31(1):242–255.
+
+Haltrin, V. I. (2002). One-parameter two-term henyey-greenstein phase function for light
+scattering in seawater. Applied Optics, 41(6):1022–1028.
+
+Heydariaan, M., Yin, S., Gnawali, O., Puccinelli, D., Giustiniano, D., et al. (2016). Em-
+bedded visible light communication: Link measurements and interpretation. In Mad-
+
+
+
+Com: New Wireless Communication Paradigms for the Internet of Things, in con-
+junction with the 13th International Conference on Embedded Wireless Systems and
+Networks (EWSN 2016).
+
+IEEE (2019). Ieee standard for local and metropolitan area networks–part 15.7: Short-
+range optical wireless communications. IEEE Std 802.15.7-2018 (Revision of IEEE
+Std 802.15.7-2011), pages 1–407.
+
+Kaushal, H. and Kaddoum, G. (2016). Underwater optical wireless communication. IEEE
+access, 4:1518–1547.
+
+Matheus, L., Pires, L., Vieira, A., Vieira, L. F., Vieira, M. A., and Nacif, J. A. (2019). The
+internet of light: Impact of colors in led-to-led visible light communication systems.
+Internet Technology Letters, 2(1):e78.
+
+Matheus, L., Vieira, A. B., Vieira, L., Vieira, M., Freire, J., and Gnawali, O. (2017).
+Comunicação por luz visı́vel: conceito, aplicações e desafios.
+
+Mobley, C. D. (1995). The optical properties of water. Handbook of optics, 1:43–3.
+Pathak, P. H., Feng, X., Hu, P., and Mohapatra, P. (2015). Visible light communication,
+
+networking, and sensing: A survey, potential and challenges. IEEE communications
+surveys & tutorials, 17(4):2047–2077.
+
+Saeed, N., Celik, A., Al-Naffouri, T. Y., and Alouini, M.-S. (2019). Underwater optical
+wireless communications, networking, and localization: A survey. Ad Hoc Networks,
+94:101935.
+
+Sun, X., Kang, C. H., Kong, M., Alkhazragi, O., Guo, Y., Ouhssain, M., Weng, Y., Jones,
+B. H., Ng, T. K., and Ooi, B. S. (2020). A review on practical considerations and solu-
+tions in underwater wireless optical communication. Journal of Lightwave Technology,
+38(2):421–431.
+
+Wang, Q., Giustiniano, D., and Puccinelli, D. (2014). Openvlc: Software-defined visible
+light embedded networks. In Proceedings of the 1st ACM MobiCom workshop on
+Visible light communication systems, pages 15–20.
+
+Yi, X., Li, Z., and Liu, Z. (2015). Underwater optical communication performance for
+laser beam propagation through weak oceanic turbulence. Applied Optics, 54(6):1273–
+1278.
+
+Zeng, Z., Fu, S., Zhang, H., Dong, Y., and Cheng, J. (2016). A survey of underwater op-
+tical wireless communications. IEEE communications surveys & tutorials, 19(1):204–
+238.
+
+Zhang, H. and Dong, Y. (2015). Link misalignment for underwater wireless optical com-
+munications. In 2015 Advances in Wireless and Optical Communications (RTUWO),
+pages 215–218. IEEE.
+
+Zhu, S., Chen, X., Liu, X., Zhang, G., and Tian, P. (2020). Recent progress in and perspec-
+tives of underwater wireless optical communication. Progress in Quantum Electronics,
+73:100274.

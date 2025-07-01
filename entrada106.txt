@@ -1,0 +1,544 @@
+﻿ALGORITMO GENÉTICO APLICADO AO PROBLEMA DE ALOCAÇÃO
+DE SALAS DE AULA: ESTUDO DE CASO NA UFV - CAMPUS
+
+FLORESTAL
+
+Lucas Burahem Martins
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+lucas.burahem@ufv.br
+
+Marcus Henrique Soares Mendes
+Universidade Federal de Viçosa - Campus Florestal
+
+Rodovia LMG 818, km 6, 35690-000 - Florestal - MG
+marcus.mendes@ufv.br
+
+RESUMO
+O Problema de Alocação de Salas (PAS) é um obstáculo recorrente nas instituições de
+
+ensino superior de todo o Brasil. O PAS consiste em alocar turmas de disciplinas em salas de
+aula pré-definidas buscando atender o máximo de restrições do modelo. Este trabalho tem por
+objetivo apresentar um algoritmo genético capaz de gerar alocações viáveis e de qualidade para o
+PAS baseado na estrutura fı́sica da Universidade Federal de Viçosa - Campus Florestal. Os dados
+utilizados para gerar os experimentos computacionais foram coletados por meio de alocações reais
+existentes no Campus. O uso do algoritmo genético para resolver o PAS gerou soluções em tempo
+viável e otimizadas, assim, mostrou-se eficiente para ser aplicado na alocação de salas da UFV -
+Campus Florestal.
+
+PALAVRAS CHAVE. PROBLEMA DE ALOCAÇÃO DE SALAS, ALGORITMO GENÉTICO,
+META-HEURÍSTICAS.
+
+Área Principal: MH - Meta-heurı́sticas
+
+ABSTRACT
+The Classroom Assignment Problem is an obstacle recurrent in the institution of degree
+
+level on Brazil. The Classroom Assignment Problem consists in allocate classes of subjects in
+predefined classrooms searching attend the max of restrictions of the model. This paper has by
+objetive present a genetic algorithm able to create viable and quality allocations for the Classroom
+Assignment Problem based in the physical structure of the Universidade Feral de Viçosa - Campus
+Florestal. The data used for generate the computational experiments were collected by means of real
+allocations existents on the Campus. The use of the genetic algorithm for resolve the Classroom
+Assignment Problem has generated solutions of quick form and with high quality, then showed
+efficient for being applied on UFV - Campus Florestal.
+
+KEYWORDS. CLASSROOM ASSIGNMENT PROBLEM, GENETIC ALGORITHM, UNI-
+VERSIDADE FEDERAL DE VIÇOSA.
+
+Main Area: MH - Metaheuristics
+
+
+
+1. Introdução
+A Universidade Federal de Viçosa – Campus Florestal está localizada na cidade de Flo-
+
+restal, em Minas Gerais, há cerca de 60 quilômetros de Belo Horizonte. Sua estrutura fı́sica conta
+com 5 prédios de salas de aula (Pavilhões de Salas A, B, C, D e E), prédios administrativos, salas de
+professores, biblioteca, ginásio, alojamento, entre outros. O campus Florestal é relativamente novo
+e possui uma estrutura ainda limitada, apesar de estar em fase de expansão.
+
+O Problema de Alocação de Salas (PAS) é uma realidade que as instituições acadêmicas
+enfrentam no inı́cio de cada semestre letivo. Entretanto, esse problema até então simples de designação,
+passa aumentar sua complexidade a partir do incremento do tamanho das instituições de ensino
+quanto aos cursos e turmas disponı́veis [dos Santos Sales et al., 2014]. Boa parte das instituições
+ainda resolvem tal problema manualmente, o que torna o processo árduo e demorado, podendo levar
+vários dias para ser concluı́do e não geram soluções satisfatórias. Alocações de salas de aulas mal
+feitas e que não atendam aos requisitos desejados podem gerar insatisfação de alunos e professores,
+culminando em diversos problemas na instituição.
+
+Ressalta-se ainda a importância do PAS quando se trabalha num contexto onde há escassez
+de salas de aula, ou seja, demandas elevadas, que surgem naturalmente com o crescimento do
+número de cursos e alunos da instituição [Subramanian et al., 2006].
+
+Segundo [Carter e Tovey, 1992] o PAS é um problema clássico de otimização combi-
+natória pertencente à classe NP-difı́cil para a qual a obtenção da solução ótima do problema, em um
+perı́odo de tempo aceitável, não é uma tarefa simples [Subramanian et al., 2006]. Problemas desse
+tipo apresentam dificuldade de serem resolvidos por meio de métodos matemáticos, dessa forma, a
+utilização de heurı́sticas tem sido predominante para a resolução dos problemas pertencentes a essa
+classe.
+
+Diversas abordagens têm sido adotadas para a resolução do PAS. Alguns exemplos são
+Busca Tabu [Subramanian et al., 2011], Simulated Annealing [Beyrouthy et al., 2009] e a combinação
+de grafo bipartido com algoritmo húngaro (Politano, 2006) citados por [Prado e Souza, 2014]. No
+presente artigo, será abordado o uso do Algorı́tmo Genético para a resolução do PAS po ser uma
+heurı́stica com relativo sucesso em trabalhos correlatos e por estar no grupo das heurı́sticas mais
+bem sucedidas em outros problemas de otimização combinatória [Oliveira, 2006].
+
+O trabalho está organizado como segue: Na Seção 2 serão expostos alguns dados sobre
+a Universidade Federal de Viçosa - Campus Florestal. Na Seção 3 serão abordados os requisitos
+obrigatórios e qualitativos utilizados para resolver o PAS. A Seção 4 apresenta a modelagem ma-
+temática utilizada. A Seção 5 traz algumas informações sobre Algorı́tmos Genéticos. Na Seção
+6 será abordada a metodologia utilizada para o desenvolvimento do algorı́tmo. Na Seção 7 serão
+expostos os testes e resultados computacionais obtidos. Por fim, apresentam-se as conclusões na
+Seção 8.
+2. Sobre a UFV – Campus Florestal
+
+A área que abriga a UFV - Campus Florestal possui 77 anos, porém, se tornou um Campus
+universitário somente no ano de 2006, quando passou a funcionar como um campus da Universidade
+Federal de Viçosa.
+
+O Campus Florestal abriga atualmente 2 programas de mestrado, 1 programa de pós-
+graduação lato sensu, 10 cursos de graduação, 6 cursos técnicos e o ensino médio. Com mais de
+1500 hectares registrados, sua estrutura fı́sica conta com 5 prédios de salas de aula. Estes prédios
+são identificados como:
+
+• Pavilhão de salas A (PVA): O pavilhão de salas A é formado por duas salas de aula, cada uma
+com capacidade para 60 alunos. Conta também com 2 laboratórios, sendo 1 de informática e
+um de eletrônica.
+
+• Pavilhão de salas B (PVB): O pavilhão de salas B é formado por 3 salas de aula, cada uma
+com capacidade para 60 alunos. Conta também com uma sala de topografia.
+
+
+
+• Pavilhão de salas C (PVC): O pavilhão de salas C é formado por 6 salas de aula, duas com
+capacidade para 60 alunos e o restante com capacidade para 35 alunos.
+
+• Pavilhão de salas D (PVD): O pavilhão de salas D é formado por 8 salas de aula, duas com
+capacidade para 50 alunos e o restante com capacidade para 45 alunos.
+
+• Pavilhão de salas E (PVE): O pavilhão de salas E é formado por 8 salas de aula, duas com
+capacidade para 50 alunos e o restante com capacidade para 45 alunos.
+
+É importante salientar que para o problema em questão, laboratórios de qualquer tipo e salas para
+outros fins (diferentes de aula) não serão levados em consideração, pois não apresentam tanta dis-
+puta. Também não serão diferenciados os cursos a que as turmas pertencem.
+3. Requisitos do PAS
+
+Para classificar se uma determinada alocação de salas de aula é válida ou não, a mesma
+deverá respeitar uma série de requisitos obrigatórios. Além disso, existem requisitos qualitativos
+que, caso sejam respeitados, são capazes de influenciar a qualidade de uma alocação. Cada requisito
+não respeitado aplicará uma penalidade ao prédio no qual foi feita a alocação.
+
+As restrições às quais as alocações de salas de aula serão sujeitas foram divididas em 2
+grupos:
+
+• Requisitos obrigatórios: Inviabilizam a alocação das turmas caso não sejam satisfeitos.
+
+– RO1) Em um mesmo horário, dia e sala não podem haver mais de uma turma alocada;
+– RO2) Cada sala deve comportar turmas que possuem uma quantidade de alunos igual
+
+ou menor que sua capacidade;
+– RO3) Cada disciplina deve ser alocada no horário e dia em que foram requisitados; e
+– RO4) Todas disciplinas devem ser alocadas.
+
+• Requisitos qualitativos: São requisitos cujo atendimento é desejável para melhorar a quali-
+dade da alocação. Caso não sejam satisfeitos, não gerarão alocações inviáveis, porém, as
+mesmas serão penalizadas.
+
+– RQ1) Buscar utilizar os espaços das salas de forma eficiente, isto é, evitar alocar turmas
+pequenas em salas de maior capacidade (evitar uma quantidade de 20 ou mais carteiras
+ociosas);
+
+– RQ2) Buscar alocar turmas de uma mesma disciplina na mesma sala de aula;
+– RQ3) Buscar alocar salas com quadros grandes para professores que desejam utilizar o
+
+mesmo. O mesmo acontece para salas com quadros pequenos; e
+– RQ4) Buscar respeitar o prédio demandado por cada uma das turmas.
+
+4. Modelagem Matemática
+A função objetivo do problema deve ser modelada de acordo com a quantidade de requi-
+
+sitos obrigatórios e de requisitos qualitativos presentes no problema. Dessa forma, sendo S uma
+determinada alocação de salas de aula, a função objetivo a ser minimizada pode ser descrita como:
+
+minimizarP (S) = RO(S) +RQ(S) (1)
+
+sendo,
+
+RO(S) = αRO1(S) + δRO2(S) + λRO3(S) + ζRO4(S) (2)
+
+
+
+e
+
+RQ(S) = βRQ1(S) + γRQ2(S) + ωRQ3(S) + εRQ4(S) (3)
+
+Os termos RO1, RO2, RO3 e RO4 da equação (2) correspondem aos requisitos obri-
+gatórios (1), (2), (3) e (4) e os valores de α, δ, λ, ζ correspondem ao valor definido para penalizar
+cada um dos requisitos obrigatórios que não sejam atendidos pela alocação.
+
+Os termos RQ1, RQ2, RQ3 e RQ4 da equação (3) correspondem aos requisitos de qua-
+lidade (1), (2), (3) e (4) e os valores de β, γ, ω e ε correspondem ao valor definido para penalizar
+cada um dos requisitos qualitativos que não sejam atendidos pela alocação.
+
+As restrições do problema, definidas com base nos requisitos obrigatórios e qualitativos
+são:
+
+• 1) As penalidades δ e λ aplicadas ao não atendimento dos requisitos obrigatórios devem ser
+valores elevados. Com isso, a ocorrência de um evento que não atenda a esses requisitos
+gerará uma solução inviável.
+
+• 2) O valor final de RO(S) deve ser nulo (somatório igual a 0). Isso devido ao fato de que a
+quebra de um requisito obrigatório inviabiliza a solução.
+
+5. Algoritmo Genético (AG)
+
+Em 1858 o cientista Charles Darwin, por meio de diversas observações a experimentos,
+apresentou a teoria da evolução por meio da seleção natural. A combinação dessa teoria com a
+genética resultaram nos princı́pios da variabilidade entre os indivı́duos. Nas décadas seguintes,
+diversos cientistas procuraram simular computacionalmente a variabilidade genética. Durante as
+décadas de 60 e 70, John Holland junto com seus alunos e colegas da Universidade de Michigan
+desenvolveram os Algoritmos Genéticos (AGs) [Mitchell, 1998].
+
+Um algoritmo genético é um método de pesquisa e otimização de base populacional que
+imita o processo de evolução natural. Baseia-se nos dois principais conceitos de evolução natural,
+que são a seleção natural e a combinação [El-Mihoub et al., 2006].
+
+De acordo com [Goldberg, 1989] a principal abordagem da pesquisa sobre algoritmo
+genético tem sido a robustez, o equilı́brio entre eficiência e eficácia necessária para a sobrevivência
+em muitos ambientes diferentes.
+
+Com os AGs sendo estabelecidos como uma abordagem válida para os problemas que
+exigem eficiência e eficácia, os algoritmos genéticos são agora utilizados para otimizar aplicações
+mais generalizadas em empresas, nos cı́rculos cientı́ficos e de engenharia [Goldberg, 1989].
+
+Segundo [Martins e Mendes, 2016] a ideia principal é criar uma população inicial de
+indivı́duos, onde cada indivı́duo representa uma solução para o problema. Essa população é al-
+terada com as iterações (gerações) do algoritmo a partir da seleção dos indivı́duos mais aptos e
+dos operadores genéticos: cruzamento e mutação. Esses operadores combinam soluções, afim de
+melhorá-las. Assim com o passar das gerações, há uma tendência de convergência para soluções
+ótimas. No entanto, não há garantias de que o problema seja resolvido e nem que a melhor resposta
+seja obtida [Linden, 2006].
+
+6. Implementação
+
+O Algoritmo (1) mostra como foi feita a implementação do AG para a solucação do PAS.
+
+
+
+Algoritmo 1: Algoritmo genético implementado
+1 Gerar população inicial;
+2 Calcular fitness;
+3 while i != critério de parada do
+4 Gerar pares aleatorios de indivı́duos;
+5 Aplicar cruzamento sobre os pares;
+6 Aplicar mutação sobre os indivı́duos gerados;
+7 Calcular fitness;
+8 Junção dos individuos pais e filhos;
+9 Ordenar todos os indivı́duos;
+
+10 Escolher 5% dos melhores indivı́duos que farão parte da próxima iteração
+(Elitismo);
+
+11 Gerar pares aleatórios com os indivı́duos restantes;
+12 Aplicar torneio entre os pares gerados;
+13 Incrementar i;
+14 end
+
+Para a obtenção da população inicial, foi utilizado um procedimento capaz de gerar uma
+solução aleatória. Primeiramente, todas turmas foram listadas, destacando-se 6 dados importantes
+de cada uma. Estes dados são (Figura( 1)):
+
+• Identificador da turma;
+
+• Quantidade de alunos matriculados;
+
+• Dia da semana em que a aula será ministrada;
+
+• Horário do dia em que a aula será ministrada (Horários geminados);
+
+• Prédio em que se pretende ministrar a aula;
+
+• Tamanho do quadro que será utilizado (Quadro pequeno ou grande);
+
+Figura 1: Representação das turmas.
+
+A Figura (2) apresenta a representação desses dados no sistema.
+
+
+
+Figura 2: Representação das turmas.
+
+Os dias da semana foram representados por meio de códigos. Os códigos utilizados são
+expostos na Tabela (1).
+
+Código Dia da semana
+1 Segunda - Feira
+2 Terça - Feira
+3 Quarta - Feira
+4 Quinta - Feira
+5 Sexta - Feira
+
+Tabela 1: Códigos representativos dos dias semanais.
+
+Os horários escolhidos para a alocação das aulas foram representados como horários ge-
+minados, ou seja, 1 horário representa uma aula com duração de 1 hora e 40 minutos. Para tanto,
+receberão os códigos exibidos na Tabela (2).
+
+Código Horário
+1 7h50 – 9h30
+2 9h50 – 11h30
+3 13h – 14h40
+4 15h – 16h40
+5 18h30 – 20h10
+6 20h30 – 22h10
+
+Tabela 2: Códigos representativos dos horários diários.
+
+A geração da população inicial consiste em escolher aleatoriamente um horário e um dia
+para que uma turma seja alocada. O par horário e dia escolhidos serão consultados para verificar
+se não há nenhuma turma já alocada. Caso não haja, a turma pode ser alocada naquela sala. Do
+contrário, novos horários e dias serão escolhidos.
+
+Após a geração aleatória da população inicial, o Algoritmo Genético foi aplicado ao PAS
+com o objetivo de minimizar as penalidades aplicadas a cada um dos prédios, buscando uma solução
+ótima. Para tanto, as alocações passaram pelos seguintes processos:
+
+
+
+• Cruzamento: O cruzamento consiste em misturar as caracterı́sticas de indivı́duos “pais”, ge-
+rando assim o dobro de indivı́duos “filho”. A Figura ( 3) mostra um exemplo do processo de
+cruzamento.
+
+O cruzamento proposto é aplicado sobre casais aleatórios de indivı́duos x e y integrantes
+de uma população. Uma turma também é escolhida de forma aleatório para que o processo
+de cruzamento possa ser efetivado. Essa turma tem sua posição trocada entre os indivı́duos
+de forma que no indivı́duo x a turma escolhida passará a ocupar a posição que a mesma
+ocupava no indivı́duo y e vice-versa. É importante ressaltar que o cruzamento é executado
+entre turmas de uma mesma disciplina pertencentes a indivı́duos diferentes. Além disso, o
+cruzamento sempre acontece entre turmas de um mesmo prédio.
+
+Figura 3: Cruzamento
+
+• Mutação: Consiste em alterar as caracterı́sticas de um indivı́duo a partir de modificações
+processadas no mesmo. A mutação melhora a diversidade dos indivı́duos na população, no
+entanto por outro lado, destrói informações contidas no mesmo, logo, deve ser utilizada uma
+taxa de mutação pequena (normalmente entre 0,1% a 5%), mas suficiente para assegurar a
+diversidade [de Lacerda e de Carvalho, 1999]. A Figura ( 4) mostra um exemplo do processo
+de mutação.
+
+O operador genético de mutação proposto ocorre dentro de um mesmo indivı́duo integrante
+de uma determinada população. Um par de turmas a e b são escolhidas aleatoriamente. As
+turmas trocam de posição de forma que a turma a passe a ocupar a posição que a turma b
+ocupava. A turma b ocupará a antiga posição em que a turma a estava alocada.Vale ressaltar
+que as turmas a e b não são necessariamente da mesma disciplina, porém, precisam estar
+alocadas em um mesmo prédio.
+
+
+
+Figura 4: Mutação.
+
+• Junção de pais e filhos: A junção é o processo de unir os indivı́duos iniciais (indivı́duos pais)
+com os indivı́duos gerados após os processos de cruzamento e mutação (indivı́duos filhos).
+
+• Ordenação: Todos os indivı́duos são ordenados em ordem crescente de acordo com suas
+penalidades. A função de ordenação utilizada foi o Quicksort devido ao fato de que a mesma
+reduz o tempo de processamento do sistema.
+
+• Torneio: São escolhidos aleatoriamente (com probabilidades iguais) n indivı́duos da população
+e o melhor dentre estes indivı́duos é selecionado (indivı́duo com menor penalidade) . O valor
+n = 2 é o usual. A seleção por torneio não precisa de escalonamento da aptidão e nem de or-
+denamento [de Lacerda e de Carvalho, 1999]. São escolhidos 5 % dos melhores indı́viduos
+para que estes integrem a próxima iteração. O processo de torneio é capaz de evitar que o
+algoritmo gere soluções precoces.
+
+7. Resultados
+O algoritmo construı́do para a resolução do PAS foi implementado em linguagem C com
+
+o uso da IDE CodeBlocks 16.01. Além disso, foi desenvolvido uma interface gráfica na linguagem
+JAVA utilizando a API Swing. Para a execução dos testes foi utilizado um Notebook Intel Core i5
+2.53 Ghz com 500 MB de RAM e 128 GB de SSD. A Seção (7.1) apresenta os parâmetros utilizados
+para a realização dos teste. A Seção (7.2) expõe os dados obtidos.
+7.1. Parâmetros aplicados
+
+As penalidades de cada Requisito Qualitativo não respeitados foram aplicadas de acordo
+com a importância de cada um dos requisitos nas alocações. Os requisitos com maior importância
+(capazes de gerar alocações com maior qualidade) foram associados a penalidades mais altas. As
+penalidades aplicadas a cada um dos Requisitos Qualitativos foram expostos na Tabela ( 3).
+
+Requisitos qualitativos Penalidade
+β 1000
+γ 10000
+ω 1000
+ε 1000000
+
+Tabela 3: Penalidades aplicadas aos requisitos qualitativos.
+
+
+
+Apenas dois Requisitos Obrigatórios tiveram a necessidade da aplicação de penalidades.
+O requisito obrigatório RO2 (Cada sala deve comportar turmas que possuem uma quantidade de
+alunos igual ou menor que sua capacidade) recebeu uma penalidade de 3000000 caso não seja
+respeitados e o Requisito Obrigatório RO3 recebeu uma penalidade de 100000000. Esses valores
+de penalidade devem ser valores altos, como foi explicado na Seção 3, para garatir a viabilidade das
+soluções geradas.
+
+Os Requisitos ObrigatóriosRO1 eRO4 não tiveram de ser penalizados, pois na implementação
+da função responsável por gerar as alocações iniciais há uma verificação de que todas as discipli-
+nas foram alocadas. Essa implementação garante que todas as disciplinas foram alocadas em salas
+diferentes.
+
+A Tabela ( 4) expõe as penalidades aplicadas aos requisitos obrigatórios não atendidos.
+
+Requisitos obrigatórios Penalidades
+α 10000000
+δ 3000000
+λ 1
+ζ 1
+
+Tabela 4: Penalidades aplicadas aos requisitos obrigatórios
+
+7.2. Experimentos Computacionais
+
+O algoritmo foi executado 30 vezes devido ao caráter estocástico do mesmo [Prado e
+Souza, 2014]. Os parâmetros utilizados para o AG são expostos na Tabela ( 5).
+
+Parâmetros Valor
+Execuções 30
+
+Critério de parada 1400 gerações
+População 100 indivı́duos
+
+Taxa de Cruzamento 100%
+Taxa de Mutação 10%
+Taxa de elitismo 5%
+
+Tabela 5: Parâmetros para o algorı́tmo.
+
+Foram utilizadas um total de 100 turmas (pertencentes a 54 disciplinas) para a realização
+do teste. Todos os prédios foram requisitados, ou seja, todos os prédios foram utilizados para se
+alocar turmas durante e execução do teste.
+
+O critério de parada utilizado foi de 1400 gerações. A idéia é escolher um número de
+gerações relativamente próximo ao ponto onde o algoritmo é capaz de gerar alocações viáveis para
+todos os prédios. Isso foi feito por meio das observações às penalidades finais calculadas para cada
+uma das alocações obtidas.
+
+Os valores de cada uma das 30 execuções foram utilizados para a observação dos resulta-
+dos por meio de estatı́sticas (média e desvio padrão). Os resultados das estatı́sticas geradas para as
+penalidades encontradas para a população inicial gerada aleatoriamente foram expostos na Tabela
+( 6).
+
+
+
+Estatı́stica PVA PVB PVC PVD PVE
+Menor penalidade 170121000 140076000 132051000 159099000 196120000
+Maior Penalidade 200079000 170086000 162074000 196096000 239140000
+
+Média 187409100 153741300 144398766,77 176414533,33 220264066,77
+Desvio Padrão 8527060,26 7520974,33 7236383,96 9536152,23 10070848,85
+
+Tabela 6: Estatı́sticas para a população inicial obtidas para 30 execuções do algorı́tmo.
+
+Os resultados encontrados após as 30 execuções do algoritmo foram consolidados e são
+apresentados na Tabela ( 7). Estes resultados se referem a melhor alocação obtida em cada uma das
+30 execuções do algoritmo.
+
+Estatı́stica PVA PVB PVC PVD PVE
+Menor penalidade 8000 10000 8000 3000 24000
+Maior penalidade 26000 18000 3023000 3035000 3060000
+
+Média 15800 13066,66 412400 915200 1043466,66
+Desvio padrão 5935,20 2048,3 1022788,20 1380701,40 1416190,87
+
+Tabela 7: Estatı́sticas para a melhor alocação obtida em cada uma das 30 execuções
+
+A representação das melhores alocações obtidas é feita para o usuário conforme mostrado
+na Figura (5).
+
+Figura 5: Representação da alocação para o PVA sala 1.
+
+Durante as 1400 iterações do algorı́tmo genético, os dados referentes as penalidades apli-
+cadas a cada prédio durante a iteração foram utilizados para a construção de um gráfico capaz de
+demonstrar a evolução dos resultados ao longo da execução do algorı́tmo.
+
+A Figura (6) mostra o valor das penalidades obtidas para os prédios durante cada uma das
+1400 iterações do AG. Esses resultados são referentes à trigésima execução do algorı́tmo.
+
+
+
+Figura 6: Gráfico Penalidades x Iteração.
+
+O gráfico representado na Figura ( 6) mostra as penalidades calculadas em algumas gerações.
+As curvas que representam as penalidades mostram um comportamento de convergência, porém,
+limitando-se a um ponto indefinido. A aplicação do AG para o Problema de Alocação de Salas é
+eficaz e foi capaz de reduzir as penalidades, gerando assim uma alocação final viável e atendendo a
+grande parte dos requisitos qualitativos.
+8. Conclusão
+
+O presente artigo apresentou um algorı́tmo capaz de resolver o Problema de Alocação
+de Salas na Universidade Federal de Viçosa – Campus Florestal (UFV - CAF). Para otimizar os
+espaços alocados, foi utilizado uma implementação do Algorı́tmo Genético
+
+O Algorı́tmo Genético utilizado passa por 3 processos importantes: Cruzamento, mutação
+e o torneio. Esses processos são de extrema importância para o algoritmo pois garantem a variabi-
+lidade genética do mesmo e a convergência do fitness para as soluções geradas.
+
+Os resultados obtidos mostram que o uso do Algorı́tmo Genético foi capaz de gerar
+alocações otimizadas em um perı́odo de tempo viável. Além disso, os resultados foram obtidos
+de forma menos trabalhosa do que as alocações manuais geradas atualmente no campus Florestal.
+
+A solução final do Algoritmo Genético implementado mostrou bons resultados. todos os
+requisitos obrigatórios foram atendidos para os prédios trabalhados. Grande parte dos requisitos
+qualitativos também foram atendidos, otimizando ainda mais a solução encontrada e comprovando
+a eficácia do algoritmo.
+9. Agradecimentos
+
+Os autores agradecem ao CNPQ, PIBIQ e a UFV – CAF, pelo apoio ao desenvolvimento
+deste trabalho.
+Referências
+Beyrouthy, C., Burke, E. K., Landa-Silva, D., McCollum, B., McMullan, P., e Parkes, A. J. (2009).
+
+Towards improving the utilization of university teaching space. Journal of the Operational Re-
+search Society, 60(1):130–143.
+
+Carter, M. W. e Tovey, C. A. (1992). When is the classroom assignment problem hard? Operations
+Research, 40(1-supplement-1):S28–S39.
+
+de Lacerda, E. G. e de Carvalho, A. (1999). Introdução aos algoritmos genéticos. Sistemas inteli-
+gentes: aplicaçoes a recursos hıdricos e ciências ambientais, 1:99–148.
+
+dos Santos Sales, E., Müller, F. M., e de Oliveira Simonetto, E. (2014). Solução do problema de
+alocação de salas utilizando um modelo matemático multi-ı́ndice.
+
+
+
+El-Mihoub, T. A., Hopgood, A. A., Nolle, L., e Battersby, A. (2006). Hybrid genetic algorithms: A
+review. Engineering Letters, 13(2):124–137.
+
+Goldberg, D. E. (1989). Genetic Algorithms in search, optimization, and Machine Learning. Addi-
+son Wesley Longman, Boston.
+
+Linden, R. (2006). Algoritmos genéticos: uma importante ferramenta da inteligência computacio-
+nal. Brasport, 2a edition.
+
+Martins, R. N. e Mendes, M. H. S. (2016). Algoritmo genético para o problema do despacho
+econômico de energia elétrica com incertezas.
+
+Mitchell, M. (1998). An introduction to genetic algorithms. MIT press.
+
+Oliveira, A. (2006). Uso do algoritmo genético e recozimento simulado para o problema de alocação
+de salas. Monografia.
+
+Prado, A. S. e Souza, S. (2014). Problema de alocação de salas em cursos universitários: um estudo
+de caso. Anais do XLVI Simpósio Brasileiro de Pesquisa Operacional, p. 2054–2065.
+
+Subramanian, A., Medeiros, J. M. F., Cabral, L. d. A. F., e Souza, M. J. F. (2006). Aplicação da
+metaheurı́stica busca tabu na resolução do problema de alocação de salas do centro de tecnologia
+da ufpb. Anais do XXVI Encontro Nacional de Engenharia de Produção, p. 1.
+
+Subramanian, A., Medeiros, J. M. F., Formiga, L. d. A., e Souza, M. J. F. (2011). Aplicação da me-
+taheurı́stica busca tabu ao problema de alocação de aulas a salas em uma instituição universitária.
